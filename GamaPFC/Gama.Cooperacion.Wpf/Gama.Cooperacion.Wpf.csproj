@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\NuevaActividadViewModel.cs" />
     <Compile Include="Views\NuevaActividadView.xaml.cs">
       <DependentUpon>NuevaActividadView.xaml</DependentUpon>
     </Compile>
@@ -102,8 +103,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="ViewModels\" />
+    <ProjectReference Include="..\Gama.Cooperacion.Business\Gama.Cooperacion.Business.csproj">
+      <Project>{e54a71cf-f5e1-45d4-9ed2-cdbf2b08c317}</Project>
+      <Name>Gama.Cooperacion.Business</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
