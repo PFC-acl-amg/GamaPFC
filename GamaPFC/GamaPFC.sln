@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gama.Cooperacion.Business",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gama.Cooperacion.Wpf", "Gama.Cooperacion.Wpf\Gama.Cooperacion.Wpf.csproj", "{0D5F2D35-032B-4F23-8794-F49F31870ED7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cooperación", "Cooperación", "{40A2AEA2-D7CB-4325-98A1-433600F259E6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{7E2BF0C1-9EF0-478A-A9F9-DC2797AFAC22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{61C764BB-5692-463A-BC70-55B6AD46B1A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +27,17 @@ Global
 		{0D5F2D35-032B-4F23-8794-F49F31870ED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D5F2D35-032B-4F23-8794-F49F31870ED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D5F2D35-032B-4F23-8794-F49F31870ED7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61C764BB-5692-463A-BC70-55B6AD46B1A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61C764BB-5692-463A-BC70-55B6AD46B1A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61C764BB-5692-463A-BC70-55B6AD46B1A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61C764BB-5692-463A-BC70-55B6AD46B1A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E54A71CF-F5E1-45D4-9ED2-CDBF2B08C317} = {40A2AEA2-D7CB-4325-98A1-433600F259E6}
+		{0D5F2D35-032B-4F23-8794-F49F31870ED7} = {40A2AEA2-D7CB-4325-98A1-433600F259E6}
+		{61C764BB-5692-463A-BC70-55B6AD46B1A3} = {7E2BF0C1-9EF0-478A-A9F9-DC2797AFAC22}
 	EndGlobalSection
 EndGlobal

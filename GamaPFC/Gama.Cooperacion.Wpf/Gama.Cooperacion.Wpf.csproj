@@ -105,6 +105,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{61c764bb-5692-463a-bc70-55b6ad46b1a3}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Gama.Cooperacion.Business\Gama.Cooperacion.Business.csproj">
       <Project>{e54a71cf-f5e1-45d4-9ed2-cdbf2b08c317}</Project>
       <Name>Gama.Cooperacion.Business</Name>
