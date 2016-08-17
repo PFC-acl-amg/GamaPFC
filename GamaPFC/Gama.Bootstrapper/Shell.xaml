@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gama.Bootstrapper"
+        xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
   <Grid>
@@ -19,15 +20,15 @@
     </Grid.ColumnDefinitions>
 
     <!-- Panel Switcher -->
-    <ContentControl Grid.Row="0" Grid.Column="0" />
+    <ContentControl Grid.Row="0" Grid.Column="0" prism:RegionManager.RegionName="PanelSwitcherRegion" />
 
     <!-- Cuadro de búsqueda -->
-    <ContentControl Grid.Row="0" Grid.Column="1" />
+    <ContentControl Grid.Row="0" Grid.Column="1" prism:RegionManager.RegionName="SearchBoxRegion"  />
 
     <!-- Toolbar -->
-    <ContentControl Grid.Row="0" Grid.Column="2" />
+    <ContentControl Grid.Row="0" Grid.Column="2" prism:RegionManager.RegionName="ToolbarRegion"  />
 
     <!-- Región de contenido -->
-    <ContentControl Grid.Row="1" Grid.ColumnSpan="3"/>
+    <ContentControl Grid.Row="1" Grid.ColumnSpan="3" prism:RegionManager.RegionName="ContentRegion" />
   </Grid>
 </Window>
