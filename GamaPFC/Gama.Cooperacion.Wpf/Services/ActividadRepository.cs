@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.Wpf.Services
 {
-    public class ActividadRepository : NHibernateRepository<Actividad, int>
+    public class ActividadRepository : NHibernateRepository<Actividad, int>, IActividadRepository
     {
         public ActividadRepository(ISessionHelper sessionHelper) : base(sessionHelper)
         {
