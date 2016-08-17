@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{7E2BF0C1-9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{61C764BB-5692-463A-BC70-55B6AD46B1A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gama.Bootstrapper", "Gama.Bootstrapper\Gama.Bootstrapper.csproj", "{4A43C5E1-7059-4281-8AAF-C3E37B613174}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{61C764BB-5692-463A-BC70-55B6AD46B1A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61C764BB-5692-463A-BC70-55B6AD46B1A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61C764BB-5692-463A-BC70-55B6AD46B1A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A43C5E1-7059-4281-8AAF-C3E37B613174}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A43C5E1-7059-4281-8AAF-C3E37B613174}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A43C5E1-7059-4281-8AAF-C3E37B613174}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A43C5E1-7059-4281-8AAF-C3E37B613174}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
