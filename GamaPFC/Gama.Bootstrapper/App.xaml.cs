@@ -47,7 +47,7 @@ namespace Gama.Bootstrapper
                     return _container.Resolve(type);
                 });
 
-            var bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
+            var bootstrapper = new Bootstrapper(Modulos.Cooperacion);
             bootstrapper.Run();
         }
     }

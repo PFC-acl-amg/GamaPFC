@@ -134,6 +134,10 @@
       <Project>{46a268c7-c157-4a93-931d-951a908e149f}</Project>
       <Name>Gama.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Gama.Cooperacion.Wpf\Gama.Cooperacion.Wpf.csproj">
+      <Project>{0d5f2d35-032b-4f23-8794-f49f31870ed7}</Project>
+      <Name>Gama.Cooperacion.Wpf</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

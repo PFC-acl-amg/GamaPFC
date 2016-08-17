@@ -1,11 +1,8 @@
 ﻿using Prism.Unity;
 using System;
 using Microsoft.Practices.Unity;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using Prism.Modularity;
 
 namespace Gama.Bootstrapper
 {
@@ -52,13 +49,13 @@ namespace Gama.Bootstrapper
                     break;
             }
 
-            //Type cooperacionModuleType = typeof(Gama.Cooperacion.Wpf.CooperacionModule);
-            //ModuleCatalog.AddModule(new ModuleInfo()
-            //{
-            //    ModuleName = cooperacionModuleType.Name,
-            //    ModuleType = cooperacionModuleType.AssemblyQualifiedName,
-            //    InitializationMode = InitializationMode.WhenAvailable
-            //});
+            Type cooperacionModuleType = typeof(Gama.Cooperacion.Wpf.CooperacionModule);
+            ModuleCatalog.AddModule(new ModuleInfo()
+            {
+                ModuleName = cooperacionModuleType.Name,
+                ModuleType = cooperacionModuleType.AssemblyQualifiedName,
+                InitializationMode = InitializationMode.WhenAvailable
+            });
         }
     }
 }
