@@ -16,14 +16,14 @@ namespace Gama.Cooperacion.Business
     public class Actividad
     {
         // Son propiedades porque tienen accesores (getters y setter)
-        public Cooperante Coordinador { get; set; }
-        public string Descripcion { get; set; }
-        public Estado Estado { get; set; }
-        public DateTime FechaDeInicio { get; set; }
-        public DateTime FechaDeFin { get; set; }
-        public int Id { get; private set; }
-        public string Titulo { get; set; }
+        public virtual Cooperante Coordinador { get; set; }
+        public virtual string Descripcion { get; set; }
+        public virtual Estado Estado { get; set; }
+        public virtual DateTime FechaDeInicio { get; set; }
+        public virtual DateTime FechaDeFin { get; set; }
+        public virtual int Id { get; protected set; }
+        public virtual string Titulo { get; set; }
 
-        public List<Cooperante> Cooperantes { get; private set; }
+        public virtual IList<Cooperante> Cooperantes { get; protected set; }
     }
 }

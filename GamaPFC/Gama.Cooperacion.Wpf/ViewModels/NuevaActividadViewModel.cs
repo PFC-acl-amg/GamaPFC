@@ -1,5 +1,6 @@
 ﻿using Core;
 using Gama.Cooperacion.Business;
+using Gama.Cooperacion.Wpf.Services;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,13 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 {
     public class NuevaActividadViewModel : ObservableObject
     {
+        private IActividadRepository _actividadRepository;
         public Actividad Actividad { get; set; }
 
-        public NuevaActividadViewModel()
+        public NuevaActividadViewModel(IActividadRepository actividadRepository)
         {
+            _actividadRepository = actividadRepository;
+
             Actividad = new Actividad();
             Actividad.Titulo = "Nombre del proyecto...";
             Actividad.Descripcion = "Descripción del proyecto...";
@@ -27,7 +31,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnAceptar()
         {
-            throw new NotImplementedException();
+            _actividadRepository.Create(Actividad);
         }
 
         private bool OnAceptar_CanExecute()

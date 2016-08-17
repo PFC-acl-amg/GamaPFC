@@ -1,5 +1,8 @@
 ﻿using Core;
+using Core.DataAccess;
 using Gama.Common;
+using Gama.Cooperacion.Wpf.DataAccess;
+using Gama.Cooperacion.Wpf.Services;
 using Gama.Cooperacion.Wpf.Views;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
@@ -21,6 +24,12 @@ namespace Gama.Cooperacion.Wpf
 
         public override void Initialize()
         {
+            Container.RegisterInstance(typeof(INHibernateHelper), new NHibernateHelper());
+            Container.RegisterInstance(typeof(ISessionHelper), 
+                new SessionHelper(Container.Resolve<INHibernateHelper>()));
+            Container.RegisterInstance(typeof(IActividadRepository),
+                new ActividadRepository(Container.Resolve<ISessionHelper>()));
+
             Container.RegisterType<DashboardView>();
             Container.RegisterType<ToolbarView>();
 
