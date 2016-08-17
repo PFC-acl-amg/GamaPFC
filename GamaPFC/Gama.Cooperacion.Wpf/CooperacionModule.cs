@@ -22,8 +22,10 @@ namespace Gama.Cooperacion.Wpf
         public override void Initialize()
         {
             Container.RegisterType<DashboardView>();
+            Container.RegisterType<ToolbarView>();
 
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(DashboardView));
+            RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
         }
     }
 }
