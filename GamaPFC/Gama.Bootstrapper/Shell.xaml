@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gama.Bootstrapper"
         xmlns:prism="http://prismlibrary.com/"
+        xmlns:common="clr-namespace:Gama.Common;assembly=Gama.Common"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
   <Grid>
@@ -20,15 +21,18 @@
     </Grid.ColumnDefinitions>
 
     <!-- Panel Switcher -->
-    <ContentControl Grid.Row="0" Grid.Column="0" prism:RegionManager.RegionName="PanelSwitcherRegion" />
+    <ContentControl Grid.Row="0" Grid.Column="0" prism:RegionManager.RegionName="{x:Static common:RegionNames.PanelSwitcherRegion}" />
 
     <!-- Cuadro de búsqueda -->
-    <ContentControl Grid.Row="0" Grid.Column="1" prism:RegionManager.RegionName="SearchBoxRegion"  />
+    <ContentControl Grid.Row="0" Grid.Column="1" prism:RegionManager.RegionName="{x:Static common:RegionNames.SearchBoxRegion}"  />
 
     <!-- Toolbar -->
-    <ContentControl Grid.Row="0" Grid.Column="2" prism:RegionManager.RegionName="ToolbarRegion"  />
+    <ContentControl Grid.Row="0" Grid.Column="2" prism:RegionManager.RegionName="{x:Static common:RegionNames.ToolbarRegion}"  />
 
     <!-- Región de contenido -->
-    <ContentControl Grid.Row="1" Grid.ColumnSpan="3" prism:RegionManager.RegionName="ContentRegion" />
+    <ContentControl Grid.Row="1" Grid.ColumnSpan="3" prism:RegionManager.RegionName="{x:Static common:RegionNames.ContentRegion}" />
+    
+    <!-- Status Bar -->
+    <ContentControl Grid.Row="2" Grid.ColumnSpan="3" prism:RegionManager.RegionName="{x:Static common:RegionNames.StatusBarRegion}"/>
   </Grid>
 </Window>

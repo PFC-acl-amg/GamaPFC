@@ -1,7 +1,8 @@
-﻿<Application x:Class="Gama.Bootstrapper.App"
+﻿<Application x:Class="Gama.Common.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Gama.Bootstrapper">
+             xmlns:local="clr-namespace:Gama.Common"
+             StartupUri="MainWindow.xaml">
     <Application.Resources>
          
     </Application.Resources>
