@@ -5,72 +5,89 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
         xmlns:vm="clr-namespace:Gama.Cooperacion.Wpf.ViewModels"
+        xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         Title="Nueva Actividad" d:DesignWidth="441.288" d:DesignHeight="376.781">
-    <Window.DataContext>
-        <vm:NuevaActividadViewModel/>
-    </Window.DataContext>
-    <Window.Resources>
-        <DataTemplate x:Key="nuevoCooperanteDataTemplate">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+  <Window.DataContext>
+    <vm:NuevaActividadViewModel/>
+  </Window.DataContext>
+  <Window.Resources>
+    <DataTemplate x:Key="nuevoCooperanteDataTemplate">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0"
+        <TextBlock Grid.Column="0"
                                    Text="Introduce el nombre aquí..."/>
 
-                <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <Button Content="B"/>
-                    <Button Content="X"/>
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
-    </Window.Resources>
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="1" Orientation="Horizontal">
+          <Button Content="B"/>
+          <Button Content="X"/>
+        </StackPanel>
+      </Grid>
+    </DataTemplate>
+  </Window.Resources>
 
-        <TextBox Grid.Row="0" BorderThickness="1"
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <TextBox Grid.Row="0" BorderThickness="1"
                  Text="{Binding Actividad.Titulo}"/>
-        <TextBox Grid.Row="1" Text="{Binding Actividad.Descripcion}"
+    <TextBox Grid.Row="1" Text="{Binding Actividad.Descripcion}"
                  MinLines="4"
                  AcceptsReturn="True"/>
-        <Label Grid.Row="2">Coordinador</Label>
+    <Label Grid.Row="2">Coordinador</Label>
 
-        <Grid Grid.Row="3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+    <Grid Grid.Row="3">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0"
+      <TextBlock Grid.Column="0"
                        Text="{Binding NombreBusquedaCoordinador}"/>
 
-            <StackPanel Orientation="Horizontal" Grid.Column="1">
-                <Button Content="B"/>
-                <Button Content="X"/>
-            </StackPanel>
-        </Grid>
+      <StackPanel Orientation="Horizontal" Grid.Column="1">
+        <Button Content="B"/>
+        <Button Content="X"/>
+      </StackPanel>
+    </Grid>
 
-        <Label Grid.Row="4">Cooperantes</Label>
-        <ListBox Grid.Row="5"
+    <Label Grid.Row="4">Cooperantes</Label>
+    <ListBox Grid.Row="5"
                  ItemTemplate="{StaticResource nuevoCooperanteDataTemplate}"
                  ItemsSource="{Binding Cooperantes}"/>
+    <Grid Grid.Row="6">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="6" Orientation="Horizontal"
-                    HorizontalAlignment="Right">
-            <Button Content="Aceptar"/>
-            <Button Content="Cancelar"/>
-        </StackPanel>
+      <TextBlock Grid.Column="0"
+                       Text="{Binding NombreBusquedaCooperante}"/>
+
+      <StackPanel Orientation="Horizontal" Grid.Column="1">
+        <Button Content="B"/>
+        <Button Content="X"/>
+      </StackPanel>
     </Grid>
+
+    <StackPanel Grid.Row="7" Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+      <Button Content="Aceptar" Command="{Binding AceptarCommand}"/>
+      <Button Content="Cancelar"/>
+    </StackPanel>
+  </Grid>
 </Window>
