@@ -4,12 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
-             xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="454.754">
   <Grid>
-    <ListBox ItemsSource="{Binding UltimasActividades}"
-             DisplayMemberPath="Titulo"/>
+    <TextBlock FontSize="42">MÓDULO DE COOPERACIÓN</TextBlock>
   </Grid>
 </UserControl>
