@@ -105,9 +105,11 @@
     </ApplicationDefinition>
     <Compile Include="CooperacionModule.cs" />
     <Compile Include="DataAccess\NHibernateHelper.cs" />
+    <Compile Include="Eventos\NuevaActividadEvent.cs" />
     <Compile Include="Mappings\ActividadMap.cs" />
     <Compile Include="Services\ActividadRepository.cs" />
     <Compile Include="Services\IActividadRepository.cs" />
+    <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\NuevaActividadViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="Views\DashboardView.xaml.cs">
