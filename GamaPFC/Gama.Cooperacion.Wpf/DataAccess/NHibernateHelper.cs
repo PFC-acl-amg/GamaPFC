@@ -43,27 +43,21 @@ namespace Gama.Cooperacion.Wpf.DataAccess
 
         private static NHibernate.Cfg.Configuration Configure()
         {
-            try {
-                return Fluently.Configure()
-                   .Database(MySQLConfiguration.Standard.ConnectionString(ConnectionString))
-                   .Mappings(m => m.FluentMappings
-                                    .Add<ActividadMap>()
-                                    .Conventions.Add(DefaultCascade.All()))
-                   .ExposeConfiguration(
-                        c => {
-                            var schema = new SchemaExport(c);
-                            c.SetProperty("current_session_context_class", "thread_static");
-                            schema.Execute(
-                                useStdOut: true,
-                                execute: false,
-                                justDrop: false);
-                        })
-                   .BuildConfiguration();
-            }
-            catch (FluentConfigurationException ex)
-            {
-                return null;
-            }
+            return Fluently.Configure()
+                .Database(MySQLConfiguration.Standard.ConnectionString(ConnectionString))
+                .Mappings(m => m.FluentMappings
+                                .Add<ActividadMap>()
+                                .Conventions.Add(DefaultCascade.All()))
+                .ExposeConfiguration(
+                    c => {
+                        var schema = new SchemaExport(c);
+                        c.SetProperty("current_session_context_class", "thread_static");
+                        schema.Execute(
+                            useStdOut: true,
+                            execute: false,
+                            justDrop: false);
+                    })
+                .BuildConfiguration();
         }
 
         public ISession OpenSession()
