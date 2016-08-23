@@ -13,4 +13,8 @@
   <Style BasedOn="{StaticResource MetroButton}" TargetType="Button">
     <Setter Property="Margin" Value="{StaticResource Margin}"/>
   </Style>
+
+  <Style BasedOn="{StaticResource MetroLabel}" TargetType="Label">
+    <Setter Property="Margin" Value="{StaticResource Margin}"/>
+  </Style>
 </ResourceDictionary>
