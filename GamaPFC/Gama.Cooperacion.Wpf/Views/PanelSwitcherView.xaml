@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="Gama.Cooperacion.Wpf.Views.PanelSwitcherView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="61.644" d:DesignWidth="300">
+  <Grid>
+    <StackPanel Orientation="Horizontal">
+      <Button Margin="{DynamicResource GlobalMargin}"
+              Padding="0"
+              Content="D"
+              FontSize="24"
+              Command="{Binding NavigateCommand}" CommandParameter="DashboardView"/>
+      <Button Margin="{DynamicResource GlobalMargin}"
+              Padding="0"
+              Content="A"
+              FontSize="24"
+              Command="{Binding NavigateCommand}" CommandParameter="ActividadesContentView"/>
+    </StackPanel>
+  </Grid>
+</UserControl>

@@ -115,12 +115,19 @@
     <Compile Include="Services\IActividadRepository.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\NuevaActividadViewModel.cs" />
+    <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
+    <Compile Include="Views\ActividadesContentView.xaml.cs">
+      <DependentUpon>ActividadesContentView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NuevaActividadView.xaml.cs">
       <DependentUpon>NuevaActividadView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PanelSwitcherView.xaml.cs">
+      <DependentUpon>PanelSwitcherView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ToolbarView.xaml.cs">
       <DependentUpon>ToolbarView.xaml</DependentUpon>
@@ -137,11 +144,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\ActividadesContentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DashboardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NuevaActividadView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PanelSwitcherView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

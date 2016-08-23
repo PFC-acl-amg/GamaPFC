@@ -31,8 +31,10 @@ namespace Gama.Cooperacion.Wpf
                 new ActividadRepository(Container.Resolve<ISessionHelper>()));
 
             Container.RegisterType<DashboardView>();
+            Container.RegisterType<object, ActividadesContentView>("ActividadesContentView");
             Container.RegisterType<ToolbarView>();
 
+            RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(DashboardView));
             RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
         }
