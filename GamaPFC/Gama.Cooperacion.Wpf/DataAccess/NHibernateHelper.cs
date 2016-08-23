@@ -6,17 +6,13 @@ using Gama.Cooperacion.Wpf.Mappings;
 using NHibernate;
 using NHibernate.Context;
 using NHibernate.Tool.hbm2ddl;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
 
 namespace Gama.Cooperacion.Wpf.DataAccess
 {
     public class NHibernateHelper : INHibernateHelper
     {
-        private const string ConnectionString = "Server=localhost; Port=3306; Database=gama;Uid=gama; Pwd=secret;";
+        private static string _connectionString = ConfigurationManager.ConnectionStrings["GamaMySql"].ConnectionString;
 
         private ISessionFactory _sessionFactory = null;
         public ISessionFactory SessionFactory
@@ -44,7 +40,7 @@ namespace Gama.Cooperacion.Wpf.DataAccess
         private static NHibernate.Cfg.Configuration Configure()
         {
             return Fluently.Configure()
-                .Database(MySQLConfiguration.Standard.ConnectionString(ConnectionString))
+                .Database(MySQLConfiguration.Standard.ConnectionString(_connectionString))
                 .Mappings(m => m.FluentMappings
                                 .Add<ActividadMap>()
                                 .Conventions.Add(DefaultCascade.All()))

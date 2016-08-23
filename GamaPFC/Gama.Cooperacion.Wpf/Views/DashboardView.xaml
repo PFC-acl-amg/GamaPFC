@@ -19,7 +19,7 @@
       <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
 
-    <Label Grid.Row="0" FontSize="28">Inicio</Label>
+    <Button Grid.Row="0" FontSize="28" Style="{StaticResource EstiloBotonPredeterminado}">Inicio</Button>
     
     <GroupBox Header="Últimas Actividades" Grid.Row="1">
       <ListBox ItemsSource="{Binding UltimasActividades}"

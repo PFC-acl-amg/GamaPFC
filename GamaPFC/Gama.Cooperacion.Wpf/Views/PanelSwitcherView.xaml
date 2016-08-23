@@ -10,12 +10,11 @@
              d:DesignHeight="61.644" d:DesignWidth="300">
   <Grid>
     <StackPanel Orientation="Horizontal">
-      <Button Margin="{DynamicResource GlobalMargin}"
-              Padding="0"
+      <Button Style="{StaticResource EstiloBotonPredeterminado}"
               Content="D"
               FontSize="24"
               Command="{Binding NavigateCommand}" CommandParameter="DashboardView"/>
-      <Button Margin="{DynamicResource GlobalMargin}"
+      <Button Style="{StaticResource EstiloBotonPredeterminado}"
               Padding="0"
               Content="A"
               FontSize="24"
