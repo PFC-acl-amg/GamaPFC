@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Thickness x:Key="Margin">4,4,4,4</Thickness>
+    <Thickness x:Key="MarginNoLeft">0,4,4,4</Thickness>
+    <Thickness x:Key="MarginNoTop">4,0,4,4</Thickness>
+    <Thickness x:Key="MarginNoRight">4,4,0,4</Thickness>
+    <Thickness x:Key="MarginNoBottom">4,4,4,0</Thickness>
+    <Thickness x:Key="MarginNoHorizontal">0,4,0,4</Thickness>
+    <Thickness x:Key="MarginNoVertical">4,0,4,0</Thickness>
+    <Thickness x:Key="MarginBulletList">12,0,4,0</Thickness>
+  <Thickness x:Key="MarginWithDoubleTop">4,8,4,4</Thickness>
+
+  <Style BasedOn="{StaticResource MetroButton}" TargetType="Button">
+    <Setter Property="Margin" Value="{StaticResource Margin}"/>
+  </Style>
+</ResourceDictionary>
