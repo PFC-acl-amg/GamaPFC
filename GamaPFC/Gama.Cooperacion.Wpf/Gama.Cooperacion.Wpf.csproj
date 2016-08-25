@@ -110,6 +110,7 @@
     </ApplicationDefinition>
     <Compile Include="CooperacionModule.cs" />
     <Compile Include="DataAccess\NHibernateHelper.cs" />
+    <Compile Include="DesignTimeData\DesignTimeDataViewModel.cs" />
     <Compile Include="Eventos\NuevaActividadEvent.cs" />
     <Compile Include="Mappings\ActividadMap.cs" />
     <Compile Include="Services\ActividadRepository.cs" />
@@ -137,6 +138,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ActividadesContentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

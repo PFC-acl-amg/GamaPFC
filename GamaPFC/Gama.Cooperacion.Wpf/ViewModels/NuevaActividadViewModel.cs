@@ -6,6 +6,7 @@ using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private IEventAggregator _eventAggregator;
 
         public Actividad Actividad { get; set; }
+        public ObservableCollection<Cooperante> Cooperantes { get; private set; }
 
         public NuevaActividadViewModel(IActividadRepository actividadRepository,
             IEventAggregator eventAggregator)
@@ -30,10 +32,15 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             Actividad.Titulo = "Nombre del proyecto...";
             Actividad.Descripcion = "Descripción del proyecto...";
 
+            Cooperantes = new ObservableCollection<Cooperante>();
+            Cooperantes.Add(new Cooperante());
+
             AceptarCommand = new DelegateCommand(OnAceptar, OnAceptar_CanExecute);
+            NuevoCooperanteCommand = new DelegateCommand(OnNuevoCooperante);
         }
 
         public ICommand AceptarCommand { get; set; }
+        public ICommand NuevoCooperanteCommand { get; set; }
 
         private void OnAceptar()
         {
@@ -44,7 +51,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private bool OnAceptar_CanExecute()
         {
             return true;  //(String.IsNullOrEmpty(Actividad.Titulo) &&
-                //String.IsNullOrEmpty(Actividad.Descripcion));
+                          //String.IsNullOrEmpty(Actividad.Descripcion));
+        }
+
+        private void OnNuevoCooperante()
+        {
+            Cooperantes.Add(new Cooperante());
         }
     }
 }

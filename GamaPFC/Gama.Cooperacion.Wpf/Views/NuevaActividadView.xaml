@@ -6,9 +6,14 @@
         xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:designData="clr-namespace:Gama.Cooperacion.Wpf.DesignTimeData"
+        xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         Title="Nueva Actividad" d:DesignWidth="441.288" d:DesignHeight="376.781">
+  <d:DataContext>
+    <designData:DesignTimeDataViewModel/>
+  </d:DataContext>
   <Window.Resources>
     <DataTemplate x:Key="nuevoCooperanteDataTemplate">
       <Grid>
@@ -63,27 +68,50 @@
       <StackPanel Orientation="Horizontal" Grid.Column="1">
         <Button Content="B"/>
         <Button Content="X"/>
+        <Rectangle 
+              Stretch="Fill"
+              Width="18"
+              Height="24"
+              Margin="{StaticResource Margin}"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center">
+          <Rectangle.Fill>
+            <VisualBrush Visual="{StaticResource appbar_page_search}" />
+          </Rectangle.Fill>
+        </Rectangle>
       </StackPanel>
     </Grid>
 
     <Label Grid.Row="4">Cooperantes</Label>
     <ListBox Grid.Row="5"
-                 ItemTemplate="{StaticResource nuevoCooperanteDataTemplate}"
-                 ItemsSource="{Binding Cooperantes}"/>
-    <Grid Grid.Row="6">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition />
-        <ColumnDefinition Width="Auto"/>
-      </Grid.ColumnDefinitions>
+                 ItemsSource="{Binding Cooperantes}">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition />
+              <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-      <TextBlock Grid.Column="0"
-                       Text="{Binding NombreBusquedaCooperante}"/>
+            <cc:SearchBox Grid.Column="0"
+                  Text="Introduce el nombre aquí..."
+                  Margin="{StaticResource Margin}"/>
 
-      <StackPanel Orientation="Horizontal" Grid.Column="1">
-        <Button Content="B"/>
-        <Button Content="X"/>
-      </StackPanel>
-    </Grid>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+              <Button Content="B"
+                  Margin="{StaticResource Margin}"/>
+              <Button Content="X"
+                  Margin="{StaticResource Margin}"/>
+            </StackPanel>
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
+    <Button Grid.Row="6" HorizontalAlignment="Right" 
+            Style="{StaticResource EstiloBotonPredeterminado}"
+            Command="{Binding NuevoCooperanteCommand}"
+            Content="Nuevo"/>
 
     <StackPanel Grid.Row="7" Orientation="Horizontal"
                     HorizontalAlignment="Right">

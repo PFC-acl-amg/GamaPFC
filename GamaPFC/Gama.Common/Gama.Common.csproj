@@ -63,6 +63,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomControls\LimitedCollectionView.cs" />
+    <Compile Include="CustomControls\LimitedListCollectionView.cs" />
+    <Compile Include="CustomControls\ListBoxItemBehaviour.cs" />
+    <Compile Include="CustomControls\LookupItem.cs" />
+    <Compile Include="CustomControls\SearchBox.cs" />
     <Compile Include="RegionNames.cs" />
     <Page Include="Resources\GamaStyles.xaml">
       <SubType>Designer</SubType>
@@ -91,6 +96,10 @@
     <Page Include="Resources\IconsNonShared.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Templates\SearchBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -126,7 +135,6 @@
     <Folder Include="Resources\Behaviours\" />
     <Folder Include="Resources\Converters\" />
     <Folder Include="Resources\Images\" />
-    <Folder Include="Resources\Templates\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\WindowsIcons-license.txt" />

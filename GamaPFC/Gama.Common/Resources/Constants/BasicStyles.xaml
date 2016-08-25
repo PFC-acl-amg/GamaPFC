@@ -3,6 +3,7 @@
                     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml" />
+    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Label.xaml" />
   </ResourceDictionary.MergedDictionaries>
   
   <Thickness x:Key="Margin">4,4,4,4</Thickness>
@@ -21,7 +22,7 @@
     <Setter Property="Controls:ControlsHelper.ContentCharacterCasing" Value="Upper" />
   </Style>
 
-  <Style BasedOn="{StaticResource MetroLabel}" TargetType="Label">
+  <Style x:Key="EstiloLabelPredeterminado" BasedOn="{StaticResource MetroLabel}" TargetType="Label">
     <Setter Property="Margin" Value="{StaticResource Margin}"/>
   </Style>
 </ResourceDictionary>
