@@ -30,13 +30,20 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterInstance(typeof(IActividadRepository),
                 new ActividadRepository(Container.Resolve<ISessionHelper>()));
 
-            Container.RegisterType<DashboardView>();
+            Container.RegisterType<object, DashboardView>("DashboardView");
+            Container.RegisterType<object, ToolbarView>("ToolbarView");
+
             Container.RegisterType<object, ActividadesContentView>("ActividadesContentView");
-            Container.RegisterType<ToolbarView>();
+            Container.RegisterType<object, ActividadDetailView>("ActividadDetailView");
+            Container.RegisterType<object, ListadoDeActividadesView>("ListadoDeActividadesView");
 
             RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
-            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(DashboardView));
             RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
+
+            RegionManager.RequestNavigate(RegionNames.ContentRegion, "ActividadesContentView");
+            RegionManager.RequestNavigate(RegionNames.ActividadesTabContentRegion, "ListadoDeActividadesView");
+            RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
+
         }
     }
 }

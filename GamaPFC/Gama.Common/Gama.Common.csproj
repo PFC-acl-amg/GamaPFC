@@ -69,6 +69,7 @@
     <Compile Include="CustomControls\LookupItem.cs" />
     <Compile Include="CustomControls\SearchBox.cs" />
     <Compile Include="RegionNames.cs" />
+    <Compile Include="Resources\Converters\ViewToViewModelConverter.cs" />
     <Page Include="Resources\GamaStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -133,7 +134,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\Behaviours\" />
-    <Folder Include="Resources\Converters\" />
     <Folder Include="Resources\Images\" />
   </ItemGroup>
   <ItemGroup>

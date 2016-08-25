@@ -45,7 +45,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private void OnAceptar()
         {
             _actividadRepository.Create(Actividad);
-            _eventAggregator.GetEvent<NuevaActividadEvent>().Publish(Actividad);
+            _eventAggregator.GetEvent<NuevaActividadEvent>().Publish(Actividad.Id);
         }
 
         private bool OnAceptar_CanExecute()

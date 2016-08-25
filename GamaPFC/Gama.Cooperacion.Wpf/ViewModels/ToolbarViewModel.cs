@@ -1,6 +1,8 @@
 ﻿using Core;
+using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Views;
 using Prism.Commands;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +14,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 {
     public class ToolbarViewModel : ViewModelBase
     {
-        public ToolbarViewModel()
+        private IEventAggregator _eventAggregator;
+
+        public ToolbarViewModel(IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
+
             NuevaActividadCommand = new DelegateCommand(OnNuevaActividad);
         }
 
@@ -23,6 +29,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             var o = new NuevaActividadView();
             o.Show();
+
+            //var vm = o.DataContext as NuevaActividadViewModel;
+
+            //_eventAggregator.GetEvent<NuevaActividadEvent>().Publish(vm.Actividad.Id);
         }
     }
 }

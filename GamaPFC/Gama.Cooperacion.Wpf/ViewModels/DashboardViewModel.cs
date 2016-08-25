@@ -35,9 +35,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
         }
 
-        private void OnNuevaActividadEvent(Actividad actividad)
+        private void OnNuevaActividadEvent(int id)
         {
-            UltimasActividades.Add(actividad);
+            UltimasActividades.Add(_actividadRepository.GetById(id));
         }
     }
 }
