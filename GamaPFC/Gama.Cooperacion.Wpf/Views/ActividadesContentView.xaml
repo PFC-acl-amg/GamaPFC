@@ -9,6 +9,7 @@
              xmlns:common="clr-namespace:Gama.Common;assembly=Gama.Common"
              xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:actions="clr-namespace:Gama.Cooperacion.Wpf.Actions"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -42,11 +43,11 @@
                     </Style.Triggers>
                   </Style>
                 </Button.Style>
-                <!--<i:Interaction.Triggers>
+                <i:Interaction.Triggers>
                   <i:EventTrigger EventName="Click">
-                    <local:CloseTabAction/>
+                    <actions:CloseTabAction/>
                   </i:EventTrigger>
-                </i:Interaction.Triggers>-->
+                </i:Interaction.Triggers>
               </Button>
             </StackPanel>
           </DataTemplate>
