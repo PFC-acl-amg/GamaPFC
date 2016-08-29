@@ -8,9 +8,12 @@
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:designData="clr-namespace:Gama.Cooperacion.Wpf.DesignTimeData"
         xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:actions="clr-namespace:Gama.Cooperacion.Wpf.Actions"
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
-        Title="Nueva Actividad" d:DesignWidth="441.288" d:DesignHeight="376.781">
+        Title="Nueva Actividad" d:DesignWidth="441.288" d:DesignHeight="376.781"
+        actions:DialogCloser.DialogResult="{Binding Cerrar}">
   <d:DataContext>
     <designData:DesignTimeDataViewModel/>
   </d:DataContext>
@@ -116,7 +119,7 @@
     <StackPanel Grid.Row="7" Orientation="Horizontal"
                     HorizontalAlignment="Right">
       <Button Content="Aceptar" Command="{Binding AceptarCommand}"/>
-      <Button Content="Cancelar"/>
+      <Button Content="Cancelar" Command="{Binding CancelarCommand}"/>
     </StackPanel>
   </Grid>
 </metro:MetroWindow>

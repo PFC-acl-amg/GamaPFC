@@ -28,7 +28,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private void OnNuevaActividad()
         {
             var o = new NuevaActividadView();
-            o.Show();
+            o.ShowDialog();
 
             //var vm = o.DataContext as NuevaActividadViewModel;
 

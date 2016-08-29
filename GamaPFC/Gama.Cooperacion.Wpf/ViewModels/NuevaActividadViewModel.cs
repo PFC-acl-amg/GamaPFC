@@ -20,6 +20,18 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private IEventAggregator _eventAggregator;
 
         public Actividad Actividad { get; set; }
+
+        private bool? _cerrar;
+        public bool? Cerrar
+        {
+            get { return _cerrar; }
+            set
+            {
+                _cerrar = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<Cooperante> Cooperantes { get; private set; }
 
         public NuevaActividadViewModel(IActividadRepository actividadRepository,
@@ -37,15 +49,18 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             AceptarCommand = new DelegateCommand(OnAceptar, OnAceptar_CanExecute);
             NuevoCooperanteCommand = new DelegateCommand(OnNuevoCooperante);
+            CancelarCommand = new DelegateCommand(OnCancelar);
         }
 
         public ICommand AceptarCommand { get; set; }
         public ICommand NuevoCooperanteCommand { get; set; }
+        public ICommand CancelarCommand { get; private set; }
 
         private void OnAceptar()
         {
             _actividadRepository.Create(Actividad);
             _eventAggregator.GetEvent<NuevaActividadEvent>().Publish(Actividad.Id);
+            Cerrar = true;
         }
 
         private bool OnAceptar_CanExecute()
@@ -57,6 +72,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private void OnNuevoCooperante()
         {
             Cooperantes.Add(new Cooperante());
+        }
+
+        private void OnCancelar()
+        {
+            Cerrar = true;
         }
     }
 }
