@@ -121,6 +121,7 @@
     <Compile Include="ViewModels\ActividadDetailViewModel.cs" />
     <Compile Include="ViewModels\ActividadesContentViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\ListadoDeActividadesViewModel.cs" />
     <Compile Include="ViewModels\NuevaActividadViewModel.cs" />
     <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />

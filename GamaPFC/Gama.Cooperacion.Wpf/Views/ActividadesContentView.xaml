@@ -16,7 +16,7 @@
   <UserControl.Resources>
     <converters:ActividadViewToViewModelConverter x:Key="ActividadViewToViewModelConverter"/>
     <Style TargetType="metro:MetroTabItem">
-      <Setter Property="Header" Value="{Binding DataContext.Titulo, UpdateSourceTrigger=PropertyChanged}"/>
+      <Setter Property="Header" Value="{Binding DataContext.Title, UpdateSourceTrigger=PropertyChanged}"/>
       <Setter Property="metro:ControlsHelper.HeaderFontSize" Value="14"/>
       <Setter Property="HeaderTemplate">
         <Setter.Value>

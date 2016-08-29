@@ -36,6 +36,7 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterType<ActividadDetailViewModel>();
             Container.RegisterType<ActividadesContentViewModel>();
             Container.RegisterType<DashboardViewModel>();
+            Container.RegisterType<ListadoDeActividadesViewModel>();
             Container.RegisterType<NuevaActividadViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
             Container.RegisterType<ToolbarViewModel>();
