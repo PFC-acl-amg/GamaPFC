@@ -15,7 +15,7 @@
   <UserControl.Resources>
     <converters:ActividadViewToViewModelConverter x:Key="ActividadViewToViewModelConverter"/>
     <Style TargetType="metro:MetroTabItem">
-      <Setter Property="Header" Value="{Binding DataContext.Actividad.Titulo, UpdateSourceTrigger=PropertyChanged}"/>
+      <Setter Property="Header" Value="{Binding DataContext.Titulo, UpdateSourceTrigger=PropertyChanged}"/>
       <Setter Property="metro:ControlsHelper.HeaderFontSize" Value="14"/>
       <Setter Property="HeaderTemplate">
         <Setter.Value>
@@ -32,7 +32,7 @@
                     <Setter Property="FontWeight" Value="Bold"/>
                     <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="Padding" Value="0"/>
-                    <Setter Property="Margin" Value="{DynamicResource GlobalMargin}"/>
+                    <Setter Property="Margin" Value="{StaticResource Margin}"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                     <Setter Property="VerticalContentAlignment" Value="Center"/>
                     <Style.Triggers>
@@ -55,13 +55,11 @@
     </Style>
   </UserControl.Resources>
   <StackPanel>
-    <Label>titulo</Label>
-  <metro:MetroAnimatedSingleRowTabControl
+    <metro:MetroAnimatedSingleRowTabControl
     prism:RegionManager.RegionName="{x:Static common:RegionNames.ActividadesTabContentRegion}"
     SelectedItem="{Binding SelectedViewModel, 
                   Mode=OneWayToSource, 
                   Converter={StaticResource ActividadViewToViewModelConverter}}">
-    
-  </metro:MetroAnimatedSingleRowTabControl>
+    </metro:MetroAnimatedSingleRowTabControl>
   </StackPanel>
 </UserControl>

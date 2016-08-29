@@ -61,7 +61,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             navigationParameters.Add("Id", id);
 
             // Primero cambiamos de panel
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, "ActividadsContentView");
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, "ActividadesContentView");
 
             // Segundamente navegamos al detalle de la Actividad a abrir
             _regionManager.RequestNavigate(RegionNames.ActividadesTabContentRegion,
