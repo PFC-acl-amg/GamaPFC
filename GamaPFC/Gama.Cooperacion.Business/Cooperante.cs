@@ -15,14 +15,12 @@ namespace Gama.Cooperacion.Business
         public int Id { get; private set; }
         public string Nombre { get; set; }
         public string Observaciones { get; set; }
-        public IList<Tarea> TareasEnQueParticipa { get; protected set; }
         public IList<string> Telefonos { get; private set; }
 
         public Cooperante()
         {
             ActividadesEnQueParticipa = new List<Actividad>();
             Emails = new List<string>();
-            TareasEnQueParticipa = new List<Tarea>();
             Telefonos = new List<string>();
         }
     }
