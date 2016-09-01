@@ -24,7 +24,15 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             Actividad = _actividadRepository.GetById((int)navigationContext.Parameters["Id"]);
-            Title = Actividad.Titulo.Substring(0, 20);
+
+            if (Actividad.Titulo.Length > 20)
+            {
+                Title = Actividad.Titulo.Substring(0, 20);
+            } 
+            else
+            {
+                Title = Actividad.Titulo;
+            }
         }
     }
 }

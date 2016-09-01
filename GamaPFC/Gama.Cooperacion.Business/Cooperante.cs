@@ -25,6 +25,5 @@ namespace Gama.Cooperacion.Business
             TareasEnQueParticipa = new List<Tarea>();
             Telefonos = new List<string>();
         }
-
     }
 }
