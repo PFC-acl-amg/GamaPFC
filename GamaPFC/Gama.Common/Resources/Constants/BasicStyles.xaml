@@ -5,17 +5,22 @@
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml" />
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Label.xaml" />
   </ResourceDictionary.MergedDictionaries>
-  
+
   <Thickness x:Key="Margin">4,4,4,4</Thickness>
-    <Thickness x:Key="MarginNoLeft">0,4,4,4</Thickness>
-    <Thickness x:Key="MarginNoTop">4,0,4,4</Thickness>
-    <Thickness x:Key="MarginNoRight">4,4,0,4</Thickness>
-    <Thickness x:Key="MarginNoBottom">4,4,4,0</Thickness>
-    <Thickness x:Key="MarginNoHorizontal">0,4,0,4</Thickness>
-    <Thickness x:Key="MarginNoVertical">4,0,4,0</Thickness>
-    <Thickness x:Key="MarginBulletList">12,0,4,0</Thickness>
+  <Thickness x:Key="MarginNoLeft">0,4,4,4</Thickness>
+  <Thickness x:Key="MarginNoTop">4,0,4,4</Thickness>
+  <Thickness x:Key="MarginNoRight">4,4,0,4</Thickness>
+  <Thickness x:Key="MarginNoBottom">4,4,4,0</Thickness>
+  <Thickness x:Key="MarginNoHorizontal">0,4,0,4</Thickness>
+  <Thickness x:Key="MarginHalfNoHorizontal">0,2,0,2</Thickness>
+  <Thickness x:Key="MarginNoVertical">4,0,4,0</Thickness>
+  <Thickness x:Key="MarginBulletList">12,0,4,0</Thickness>
   <Thickness x:Key="MarginWithDoubleTop">4,8,4,4</Thickness>
 
+  <Thickness x:Key="MarginNegative">-4,-4,-4,-4</Thickness>
+  <Thickness x:Key="MarginNegativeOnlyRight">0,0,-4,0</Thickness>
+  <Thickness x:Key="MarginNegativeOnlyLeft">-4,4,4,0</Thickness>
+  
   <Style x:Key="EstiloBotonPredeterminado" BasedOn="{StaticResource SquareButtonStyle}" TargetType="Button">
     <Setter Property="Margin" Value="{StaticResource Margin}"/>
     <Setter Property="MinWidth" Value="50"/>

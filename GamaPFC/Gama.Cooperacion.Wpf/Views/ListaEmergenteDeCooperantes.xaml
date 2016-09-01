@@ -6,44 +6,67 @@
              xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
              xmlns:designData="clr-namespace:Gama.Cooperacion.Wpf.DesignTimeData"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="254">
+             MinWidth="250"
+             MaxWidth="300"
+             MinHeight="300"
+             Opacity="1"
+             MaxHeight="350" d:DesignWidth="289" d:DesignHeight="348">
+  <UserControl.Resources>
+    <SolidColorBrush x:Key="AccentColor" Color="{StaticResource AccentColor}"/>
+  </UserControl.Resources>
   <d:DataContext>
     <designData:DesignTimeDataViewModel/>
   </d:DataContext>
-        <GroupBox Header="Listado de Cooperantes">
-  <ListBox ItemsSource="{Binding Cooperantes}">
-    <ListBox.ItemTemplate>
-      <DataTemplate>
-          <Border BorderBrush="DarkGray" BorderThickness="1" CornerRadius="5"
-                Margin="{StaticResource Margin}">
-            <Grid>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="42" />
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
-              </Grid.ColumnDefinitions>
-              <Grid.RowDefinitions>
-                <RowDefinition/>
-              </Grid.RowDefinitions>
-              <Rectangle  Margin="{StaticResource Margin}">
-                <Rectangle.Fill>
-                  <VisualBrush Visual="{StaticResource appbar_chromakey}" />
-                </Rectangle.Fill>
-              </Rectangle>
-              <StackPanel Grid.Column="1">
-                <TextBlock Margin="{StaticResource Margin}">
-                <Run Text="{Binding Nombre}"/>
-                <Run Text=" "/>
-                <Run Text="{Binding Apellido}"/>
-                </TextBlock>
-                <TextBlock Margin="{StaticResource Margin}"
-                Text="{Binding Dni}"/>
-              </StackPanel>
-            </Grid>
-          </Border>
-      </DataTemplate>
-    </ListBox.ItemTemplate>
-  </ListBox>
-
-  </GroupBox>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+      <ColumnDefinition Width="15" />
+    </Grid.ColumnDefinitions>
+    <Rectangle Height="45"  Grid.Column="1"
+               VerticalAlignment="Top" 
+               HorizontalAlignment="Stretch"
+               Margin="{StaticResource MarginNegativeOnlyLeft}">
+      <Rectangle.Fill>
+        <VisualBrush Visual="{StaticResource icon_right_arrow_popup}" />
+      </Rectangle.Fill>
+    </Rectangle>
+    <GroupBox Header="Listado de Cooperantes" Grid.Column="0">
+      <GroupBox.HeaderTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding}" FontWeight="Normal" HorizontalAlignment="Center"/>
+        </DataTemplate>
+      </GroupBox.HeaderTemplate>
+      <ListBox ItemsSource="{Binding Cooperantes}">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <Border BorderBrush="{StaticResource AccentColor}" BorderThickness="1.5" CornerRadius="3"
+                    Margin="{StaticResource MarginHalfNoHorizontal}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="46"/>
+                  <ColumnDefinition Width="Auto"/>
+                  <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                  <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Rectangle  Margin="{StaticResource Margin}">
+                  <Rectangle.Fill>
+                    <VisualBrush Visual="{StaticResource appbar_chromakey}" />
+                  </Rectangle.Fill>
+                </Rectangle>
+                <StackPanel Grid.Column="1">
+                  <TextBlock Margin="{StaticResource Margin}">
+                    <Run Text="{Binding Nombre}"/>
+                    <Run Text="{Binding Apellido}"/>
+                  </TextBlock>
+                  <TextBlock Margin="{StaticResource Margin}" Text="{Binding Dni}"/>
+                </StackPanel>
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </GroupBox>
+  </Grid>
 </UserControl>

@@ -13,6 +13,8 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         Title="Nueva Actividad" d:DesignWidth="441.288" d:DesignHeight="376.781"
+        WindowStartupLocation="CenterScreen"
+        BorderThickness="1"
         actions:DialogCloser.DialogResult="{Binding Cerrar}">
   <d:DataContext>
     <designData:DesignTimeDataViewModel/>
@@ -69,7 +71,14 @@
                        Text="{Binding NombreBusquedaCoordinador}"/>
 
       <StackPanel Orientation="Horizontal" Grid.Column="1">
-        <Button Content="B"/>
+        <Button x:Name="BuscarButton" Content="B"/>
+        <Popup IsOpen="True" 
+               StaysOpen="False"
+               Placement="Left" 
+               PlacementTarget="{Binding BuscarButton}"
+               AllowsTransparency="True">
+          <local:ListaEmergenteDeCooperantes Opacity="1"/>
+        </Popup>
         <Button Content="X"/>
         <Rectangle 
               Stretch="Fill"

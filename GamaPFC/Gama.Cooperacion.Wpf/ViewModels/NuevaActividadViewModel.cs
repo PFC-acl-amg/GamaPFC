@@ -45,7 +45,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             Actividad.Descripcion = "Descripción del proyecto...";
 
             Cooperantes = new ObservableCollection<Cooperante>();
-            Cooperantes.Add(new Cooperante());
+            Cooperantes.Add(new Cooperante { Nombre = "Alberto", Apellido = "Cardona López" });
+            Cooperantes.Add(new Cooperante { Nombre = "Josué", Apellido = "Cabrera Díaz" });
+            Cooperantes.Add(new Cooperante { Nombre = "Antonio", Apellido = "Hernández Rodriguez" });
 
             AceptarCommand = new DelegateCommand(OnAceptar, OnAceptar_CanExecute);
             NuevoCooperanteCommand = new DelegateCommand(OnNuevoCooperante);

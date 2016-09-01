@@ -16,7 +16,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private IEventAggregator _eventAggregator;
         private IRegionManager _regionManager;
         private ActividadDetailViewModel _selectedViewModel;
-        private bool _cerrar = false;
+        //private bool _cerrar = false;
 
         public ActividadesContentViewModel(IEventAggregator eventAggregator,
             IRegionManager regionManager)
