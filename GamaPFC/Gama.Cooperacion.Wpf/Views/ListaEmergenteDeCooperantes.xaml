@@ -6,41 +6,44 @@
              xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
              xmlns:designData="clr-namespace:Gama.Cooperacion.Wpf.DesignTimeData"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="200">
+             d:DesignHeight="300" d:DesignWidth="254">
   <d:DataContext>
     <designData:DesignTimeDataViewModel/>
   </d:DataContext>
+        <GroupBox Header="Listado de Cooperantes">
   <ListBox ItemsSource="{Binding Cooperantes}">
     <ListBox.ItemTemplate>
       <DataTemplate>
-        <Border BorderBrush="DarkGray" BorderThickness="1" CornerRadius="5"
+          <Border BorderBrush="DarkGray" BorderThickness="1" CornerRadius="5"
                 Margin="{StaticResource Margin}">
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="42" />
-              <ColumnDefinition Width="Auto"/>
-              <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-              <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Rectangle  Margin="{StaticResource Margin}">
-              <Rectangle.Fill>
-                <VisualBrush Visual="{StaticResource appbar_chromakey}" />
-              </Rectangle.Fill>
-            </Rectangle>
-            <StackPanel Grid.Column="1">
-              <TextBlock Margin="{StaticResource Margin}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition/>
+              </Grid.RowDefinitions>
+              <Rectangle  Margin="{StaticResource Margin}">
+                <Rectangle.Fill>
+                  <VisualBrush Visual="{StaticResource appbar_chromakey}" />
+                </Rectangle.Fill>
+              </Rectangle>
+              <StackPanel Grid.Column="1">
+                <TextBlock Margin="{StaticResource Margin}">
                 <Run Text="{Binding Nombre}"/>
                 <Run Text=" "/>
                 <Run Text="{Binding Apellido}"/>
-              </TextBlock>
-              <TextBlock Margin="{StaticResource Margin}"
+                </TextBlock>
+                <TextBlock Margin="{StaticResource Margin}"
                 Text="{Binding Dni}"/>
-            </StackPanel>
-          </Grid>
-        </Border>
+              </StackPanel>
+            </Grid>
+          </Border>
       </DataTemplate>
     </ListBox.ItemTemplate>
   </ListBox>
+
+  </GroupBox>
 </UserControl>
