@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Faker, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Faker.1.2\lib\Faker.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FluentNHibernate, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
       <Private>True</Private>
@@ -140,6 +144,9 @@
     <Compile Include="Views\ListadoDeActividadesView.xaml.cs">
       <DependentUpon>ListadoDeActividadesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ListaEmergenteDeCooperantes.xaml.cs">
+      <DependentUpon>ListaEmergenteDeCooperantes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NuevaActividadView.xaml.cs">
       <DependentUpon>NuevaActividadView.xaml</DependentUpon>
     </Compile>
@@ -170,6 +177,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ListadoDeActividadesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ListaEmergenteDeCooperantes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

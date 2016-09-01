@@ -17,7 +17,17 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
         {
             Cooperantes = new ObservableCollection<Cooperante>();
 
-            Cooperantes.Add(new Cooperante());
+            for (int i = 0; i < 30; i++)
+            {
+                Cooperante c = new Cooperante
+                {
+                    Apellido = Faker.NameFaker.LastName(),
+                    Dni = Faker.StringFaker.AlphaNumeric(9),
+                    Nombre = Faker.NameFaker.FirstName(),
+                };
+
+                Cooperantes.Add(c);
+            }
         }
     }
 }
