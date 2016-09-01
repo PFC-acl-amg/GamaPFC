@@ -13,12 +13,5 @@ namespace Gama.Cooperacion.Business
         public virtual bool HaFinalizado { get; set; }
         public virtual DateTime Plazo { get; set; }
         public virtual Cooperante Responsable { get; set; }
-        public virtual string ResponsableNoRegistrado { get; set; }
-        public virtual IList<Cooperante> Participantes { get; protected set; }
-
-        public Tarea()
-        {
-            Participantes = new List<Cooperante>();
-        }
     }
 }
