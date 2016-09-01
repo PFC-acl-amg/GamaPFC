@@ -30,5 +30,17 @@ namespace Gama.Cooperacion.Business
             Cooperantes = new List<Cooperante>();
             Tareas = new List<Tarea>();
         }
+
+        public virtual void AddCooperante(Cooperante cooperante)
+        {
+            Cooperantes.Add(cooperante);
+            cooperante.ActividadesEnQueParticipa.Add(this);
+        }
+
+        public virtual void AddTarea(Tarea tarea)
+        {
+            Tareas.Add(tarea);
+            tarea.Actividad = this;
+        }
     }
 }

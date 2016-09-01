@@ -13,5 +13,11 @@ namespace Gama.Cooperacion.Wpf.Services
         public ActividadRepository(ISessionHelper sessionHelper) : base(sessionHelper)
         {
         }
+
+        //public override Actividad GetById(int id)
+        //{
+        //    Actividad a = base.GetById(id);
+        //    a.Coordinador = Session.CreateCriteri
+        //}
     }
 }

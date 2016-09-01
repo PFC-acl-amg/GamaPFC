@@ -43,6 +43,7 @@ namespace Gama.Cooperacion.Wpf.DataAccess
                 .Database(MySQLConfiguration.Standard.ConnectionString(_connectionString))
                 .Mappings(m => m.FluentMappings
                                 .Add<ActividadMap>()
+                                .Add<CooperanteMap>()
                                 .Conventions.Add(DefaultCascade.All()))
                 .ExposeConfiguration(
                     c => {
@@ -50,7 +51,7 @@ namespace Gama.Cooperacion.Wpf.DataAccess
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: true,
-                            execute: false,
+                            execute: true,
                             justDrop: false);
                     })
                 .BuildConfiguration();

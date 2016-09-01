@@ -18,7 +18,7 @@ namespace Core.DataAccess
 
         protected ISession Session { get { return _session; } }
 
-        public TEntity GetById(int id)
+        public virtual TEntity GetById(int id)
         {
             return _session.Get<TEntity>((object)id);
         }

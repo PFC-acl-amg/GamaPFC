@@ -8,6 +8,7 @@ namespace Gama.Cooperacion.Business
 {
     public class Tarea
     {
+        public virtual Actividad Actividad { get; set; }
         public virtual int Id { get; protected set; }
         public virtual string Descripcion { get; set;  }
         public virtual bool HaFinalizado { get; set; }

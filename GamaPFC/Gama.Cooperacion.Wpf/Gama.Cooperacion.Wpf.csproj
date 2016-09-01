@@ -118,6 +118,7 @@
     <Compile Include="Eventos\ActividadSeleccionadaChangedEvent.cs" />
     <Compile Include="Eventos\NuevaActividadEvent.cs" />
     <Compile Include="Mappings\ActividadMap.cs" />
+    <Compile Include="Mappings\CooperanteMap.cs" />
     <Compile Include="Services\ActividadRepository.cs" />
     <Compile Include="Services\IActividadRepository.cs" />
     <Compile Include="ViewModels\ActividadDetailViewModel.cs" />

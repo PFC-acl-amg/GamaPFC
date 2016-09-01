@@ -15,8 +15,16 @@ namespace Gama.Cooperacion.Wpf.Mappings
             Table("Actividades");
             Id(x => x.Id).GeneratedBy.Identity();
 
-            Map(x => x.Descripcion);
+            Map(x => x.Descripcion).CustomSqlType("TEXT");
+            Map(x => x.Estado);
+            Map(x => x.FechaDeInicio);
+            Map(x => x.FechaDeFin);
             Map(x => x.Titulo);
+
+            References(x => x.Coordinador).Not.Nullable();
+
+            HasManyToMany(x => x.Cooperantes)
+                .Table("CooperanteParticipaEnActividad");
         }
     }
 }
