@@ -20,9 +20,20 @@ namespace Gama.Cooperacion.Wpf.Views
     /// </summary>
     public partial class NuevaActividadView : MetroWindow
     {
+        double? offset;
         public NuevaActividadView()
         {
             InitializeComponent();
+        }
+
+        private void Popup_Opened(object sender, EventArgs e)
+        {
+            Point mousePosition = Mouse.GetPosition(this);
+
+            if (offset == null)
+                offset = popup.HorizontalOffset;
+
+            popup.HorizontalOffset = offset.Value - popup.Child.RenderSize.Width;
         }
     }
 }

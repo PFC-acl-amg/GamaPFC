@@ -160,6 +160,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Wrappers\ActividadWrapper.cs" />
+    <Compile Include="Wrappers\CooperanteWrapper.cs" />
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,5 +1,23 @@
 ﻿<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <Viewbox x:Key="icon_user_wf">
+    <Grid>
+      <Grid Width="48" Height="48" Visibility="Visible">
+        <Rectangle Fill="#FF000000" Name="Rect" Visibility="Visible" />
+      </Grid>
+      <Path Data="M12.202026,17C6.5759277,17 2,21.487 2,27.002014 2,28.654999 3.3769531,30 5.0699463,30L24.929932,30C26.622925,30 28,28.654999 28,27.002014 28,24.212006 26.855957,21.622009 24.780029,19.709015 22.881958,17.962006 20.401978,17 17.797974,17L15,17z M15,2C11.340984,2 8.3629713,4.9160004 8.3629713,8.5 8.3629713,11.391 10.34298,13.962 13.177992,14.752 14.356997,15.081 15.642003,15.082 16.825008,14.751 19.65802,13.96 21.637028,11.389 21.637028,8.5 21.637028,4.9160004 18.659016,2 15,2z M15,0C19.76302,0 23.637037,3.8129997 23.637037,8.5 23.637037,11.100812 22.41758,13.503109 20.455042,15.085909L20.250933,15.243913 20.372736,15.268183C22.515827,15.72107 24.504135,16.737247 26.13501,18.238007 28.591919,20.501007 30,23.695007 30,27.002014 30,29.757996 27.724976,32 24.929932,32L5.0699463,32C2.2739258,32 0,29.757996 0,27.002014 0,21.211254 4.1902828,16.365282 9.74576,15.24427L9.7486429,15.243725 9.5467005,15.087523C7.5828938,13.504914 6.3629627,11.102188 6.3629627,8.5 6.3629627,3.8129997 10.236979,0 15,0z" Stretch="Uniform" Fill="#FFFFFFFF" Width="26" Height="26" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+        <Path.RenderTransform>
+          <TransformGroup>
+            <TransformGroup.Children>
+              <RotateTransform Angle="180" />
+              <ScaleTransform ScaleX="-1" ScaleY="-1" />
+            </TransformGroup.Children>
+          </TransformGroup>
+        </Path.RenderTransform>
+      </Path>
+    </Grid>
+  </Viewbox>
+  
   <Viewbox x:Key="icon_left_arrow_popup">
     <Grid>
       <Grid Width="48" Height="48" Visibility="Collapsed" />

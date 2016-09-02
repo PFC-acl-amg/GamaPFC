@@ -27,6 +27,7 @@ namespace Gama.Cooperacion.Business
 
         public Actividad()
         {
+            Coordinador = new Cooperante();
             Cooperantes = new List<Cooperante>();
             Tareas = new List<Tarea>();
         }
@@ -41,6 +42,13 @@ namespace Gama.Cooperacion.Business
         {
             Tareas.Add(tarea);
             tarea.Actividad = this;
+        }
+
+        public virtual void EstablecerCoordinador(Cooperante coordinador)
+        {
+            Coordinador = coordinador;
+            coordinador.ActividadesDeQueEsCoordinador.Add(this);
+            coordinador.ActividadesEnQueParticipa.Add(this);
         }
     }
 }

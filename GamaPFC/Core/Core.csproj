@@ -89,6 +89,7 @@
     <Compile Include="DataAccess\ISessionHelper.cs" />
     <Compile Include="DataAccess\NHibernateRepository.cs" />
     <Compile Include="DataAccess\SessionHelper.cs" />
+    <Compile Include="ModelWrapper.cs" />
     <Compile Include="ModuleBase.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

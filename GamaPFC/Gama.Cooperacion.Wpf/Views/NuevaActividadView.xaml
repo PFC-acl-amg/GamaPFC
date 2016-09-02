@@ -12,7 +12,7 @@
         xmlns:actions="clr-namespace:Gama.Cooperacion.Wpf.Actions"
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
-        Title="Nueva Actividad" d:DesignWidth="441.288" d:DesignHeight="376.781"
+        Title="Nueva Actividad" d:DesignWidth="477.288" d:DesignHeight="376.781"
         WindowStartupLocation="CenterScreen"
         BorderThickness="1"
         actions:DialogCloser.DialogResult="{Binding Cerrar}">
@@ -52,16 +52,28 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
+    <Popup x:Name="popup"
+      IsOpen="{Binding PopupEstaAbierto}" 
+      StaysOpen="False"
+      Placement="MousePoint"
+      AllowsTransparency="True" 
+      Opened="Popup_Opened">
+      <local:ListaEmergenteDeCooperantes Opacity="1"/>
+    </Popup>
+    
+    <TextBox 
+      Grid.Row="0" BorderThickness="1"
+      Text="{Binding Actividad.Titulo}"
+      metro:TextBoxHelper.Watermark="Introduce el título..."
+      Margin="{StaticResource Margin}"/>
+    <TextBox Grid.Row="1" 
+             Text="{Binding Actividad.Descripcion}"
+             metro:TextBoxHelper.Watermark="Introduce la descripción..."
+             MinLines="4"
+             AcceptsReturn="True"/>
+    <Label Grid.Row="2" Margin="{StaticResource Margin}">Coordinador</Label>
 
-    <TextBox Grid.Row="0" BorderThickness="1"
-                 Text="{Binding Actividad.Titulo}"
-                  Margin="{StaticResource Margin}"/>
-    <TextBox Grid.Row="1" Text="{Binding Actividad.Descripcion}"
-                 MinLines="4"
-                 AcceptsReturn="True"/>
-    <Label Grid.Row="2">Coordinador</Label>
-
-    <Grid Grid.Row="3">
+    <Grid Grid.Row="3" >
       <Grid.ColumnDefinitions>
         <ColumnDefinition />
         <ColumnDefinition Width="Auto"/>
@@ -71,15 +83,9 @@
                        Text="{Binding NombreBusquedaCoordinador}"/>
 
       <StackPanel Orientation="Horizontal" Grid.Column="1">
-        <Button x:Name="BuscarButton" Content="B"/>
-        <Popup IsOpen="True" 
-               StaysOpen="False"
-               Placement="Left" 
-               PlacementTarget="{Binding BuscarButton}"
-               AllowsTransparency="True">
-          <local:ListaEmergenteDeCooperantes Opacity="1"/>
-        </Popup>
-        <Button Content="X"/>
+        <Button Content="Buscar" Margin="{StaticResource Margin}"
+                Command="{Binding AbrirPopupCoordinadorCommand}"/>
+        <Button Content="X" Margin="{StaticResource Margin}"/>
         <Rectangle 
               Stretch="Fill"
               Width="18"
@@ -94,9 +100,10 @@
       </StackPanel>
     </Grid>
 
-    <Label Grid.Row="4">Cooperantes</Label>
-    <ListBox Grid.Row="5"
-                 ItemsSource="{Binding Cooperantes}">
+    <Label Grid.Row="4"  Margin="{StaticResource Margin}">Cooperantes</Label>
+    <ListBox x:Name="cooperantesListBox"
+        Grid.Row="5"
+        ItemsSource="{Binding Actividad.Cooperantes}">
       <ListBox.ItemTemplate>
         <DataTemplate>
           <Grid>
@@ -110,10 +117,11 @@
                   Margin="{StaticResource Margin}"/>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal">
-              <Button Content="B"
-                  Margin="{StaticResource Margin}"/>
-              <Button Content="X"
-                  Margin="{StaticResource Margin}"/>
+              <Button Content="Buscar" Margin="{StaticResource Margin}"
+                Command="{Binding DataContext.AbrirPopupCooperanteCommand, 
+                  RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                  CommandParameter="{Binding}"/>
+              <Button Content="X" Margin="{StaticResource Margin}"/>
             </StackPanel>
           </Grid>
         </DataTemplate>

@@ -22,6 +22,10 @@
       <ColumnDefinition />
       <ColumnDefinition Width="15" />
     </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
     <Rectangle Height="45"  Grid.Column="1"
                VerticalAlignment="Top" 
                HorizontalAlignment="Stretch"
@@ -36,7 +40,10 @@
           <TextBlock Text="{Binding}" FontWeight="Normal" HorizontalAlignment="Center"/>
         </DataTemplate>
       </GroupBox.HeaderTemplate>
-      <ListBox ItemsSource="{Binding Cooperantes}">
+      <ListBox ItemsSource="{Binding CooperantesDisponibles}"
+               SelectionMode="Single"
+               SelectedIndex="0"
+               SelectedItem="{Binding CooperanteSeleccionado}">
         <ListBox.ItemTemplate>
           <DataTemplate>
             <Border BorderBrush="{StaticResource AccentColor}" BorderThickness="1.5" CornerRadius="3"
@@ -52,7 +59,7 @@
                 </Grid.RowDefinitions>
                 <Rectangle  Margin="{StaticResource Margin}">
                   <Rectangle.Fill>
-                    <VisualBrush Visual="{StaticResource appbar_chromakey}" />
+                    <VisualBrush Visual="{StaticResource icon_user_wf}" />
                   </Rectangle.Fill>
                 </Rectangle>
                 <StackPanel Grid.Column="1">
@@ -68,5 +75,10 @@
         </ListBox.ItemTemplate>
       </ListBox>
     </GroupBox>
+    <StackPanel Grid.Row="1" Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+      <Button Content="Añadir" Command="{Binding AceptarNuevoCooperanteCommand}"
+              Margin="{StaticResource Margin}"/>
+    </StackPanel>
   </Grid>
 </UserControl>
