@@ -38,6 +38,14 @@ namespace Gama.Cooperacion.Business
             cooperante.ActividadesEnQueParticipa.Add(this);
         }
 
+        public virtual void AddCooperantes(IEnumerable<Cooperante> cooperantes)
+        {
+            foreach (var cooperante in cooperantes)
+            {
+                AddCooperante(cooperante);
+            }
+        }
+
         public virtual void AddTarea(Tarea tarea)
         {
             Tareas.Add(tarea);

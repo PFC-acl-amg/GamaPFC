@@ -40,40 +40,56 @@
           <TextBlock Text="{Binding}" FontWeight="Normal" HorizontalAlignment="Center"/>
         </DataTemplate>
       </GroupBox.HeaderTemplate>
-      <ListBox ItemsSource="{Binding CooperantesDisponibles}"
-               SelectionMode="Single"
-               SelectedIndex="0"
-               SelectedItem="{Binding CooperanteSeleccionado}">
-        <ListBox.ItemTemplate>
-          <DataTemplate>
-            <Border BorderBrush="{StaticResource AccentColor}" BorderThickness="1.5" CornerRadius="3"
+      <Grid>
+        <Border BorderThickness="1" BorderBrush="Black" Padding="10" Margin="{StaticResource Margin}"
+                Panel.ZIndex="999">
+          <Border.Style>
+            <Style TargetType="{x:Type Border}">
+              <Setter Property="Visibility" Value="Collapsed" />
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=cooperantesListBox, Path=Items.Count}" Value="0">
+                  <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </Border.Style>
+          <TextBlock HorizontalAlignment="Center">No hay más cooperantes para añadir</TextBlock>
+        </Border>
+        <ListBox x:Name="cooperantesListBox"
+              ItemsSource="{Binding CooperantesDisponibles}"
+              SelectionMode="Single"
+              SelectedIndex="0"
+              SelectedItem="{Binding CooperanteSeleccionado}">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Border BorderBrush="{StaticResource AccentColor}" 
+                    BorderThickness="1.5" 
+                    CornerRadius="3"
                     Margin="{StaticResource MarginHalfNoHorizontal}">
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="46"/>
-                  <ColumnDefinition Width="Auto"/>
-                  <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                  <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Rectangle  Margin="{StaticResource Margin}">
-                  <Rectangle.Fill>
-                    <VisualBrush Visual="{StaticResource icon_user_wf}" />
-                  </Rectangle.Fill>
-                </Rectangle>
-                <StackPanel Grid.Column="1">
-                  <TextBlock Margin="{StaticResource Margin}">
-                    <Run Text="{Binding Nombre}"/>
-                    <Run Text="{Binding Apellido}"/>
-                  </TextBlock>
-                  <TextBlock Margin="{StaticResource Margin}" Text="{Binding Dni}"/>
-                </StackPanel>
-              </Grid>
-            </Border>
-          </DataTemplate>
-        </ListBox.ItemTemplate>
-      </ListBox>
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="46"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <Rectangle  Margin="{StaticResource Margin}">
+                    <Rectangle.Fill>
+                      <VisualBrush Visual="{StaticResource icon_user_wf}" />
+                    </Rectangle.Fill>
+                  </Rectangle>
+                  <StackPanel Grid.Column="1">
+                    <TextBlock Margin="{StaticResource Margin}" Text="{Binding NombreCompleto}"/>
+                    <TextBlock Margin="{StaticResource Margin}" Text="{Binding Dni}"/>
+                  </StackPanel>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </Grid>
     </GroupBox>
     <StackPanel Grid.Row="1" Orientation="Horizontal"
                     HorizontalAlignment="Right">

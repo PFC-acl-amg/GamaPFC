@@ -113,7 +113,7 @@
             </Grid.ColumnDefinitions>
 
             <cc:SearchBox Grid.Column="0"
-                  Text="Introduce el nombre aquí..."
+                  Text="{Binding NombreCompleto, Mode=OneWay}"
                   Margin="{StaticResource Margin}"/>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal">
@@ -128,10 +128,10 @@
       </ListBox.ItemTemplate>
     </ListBox>
 
-    <Button Grid.Row="6" HorizontalAlignment="Right" 
+    <!--<Button Grid.Row="6" HorizontalAlignment="Right" 
             Style="{StaticResource EstiloBotonPredeterminado}"
             Command="{Binding NuevoCooperanteCommand}"
-            Content="Nuevo"/>
+            Content="Nuevo"/>-->
 
     <StackPanel Grid.Row="7" Orientation="Horizontal"
                     HorizontalAlignment="Right">

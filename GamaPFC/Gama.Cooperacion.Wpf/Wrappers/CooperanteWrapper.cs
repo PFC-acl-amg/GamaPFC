@@ -15,16 +15,25 @@ namespace Gama.Cooperacion.Wpf.Wrappers
 
         }
 
+        public string Apellido
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string Dni
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
         public string Nombre
         {
             get { return GetValue<string>(); }
             set { SetValue(value); }
         }
 
-        public string Apellido
-        {
-            get { return GetValue<string>(); }
-            set { SetValue(value); }
-        }
+        // Propiedad del Wrapper únicamente
+        public string NombreCompleto => string.Format("{0} {1}", Nombre, Apellido);
     }
 }

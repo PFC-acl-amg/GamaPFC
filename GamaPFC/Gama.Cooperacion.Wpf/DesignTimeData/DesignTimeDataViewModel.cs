@@ -1,5 +1,6 @@
 ﻿using Core;
 using Gama.Cooperacion.Business;
+using Gama.Cooperacion.Wpf.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,13 +12,16 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
 {
     public class DesignTimeDataViewModel : ViewModelBase
     {
-        public ObservableCollection<Cooperante> Cooperantes { get; private set; }
+        public ActividadWrapper Actividad { get; set; }
+        public List<CooperanteWrapper> CooperantesDisponibles { get; set; }
+
+        private ObservableCollection<Cooperante> _cooperantes { get; set; }
 
         public DesignTimeDataViewModel()
         {
-            Cooperantes = new ObservableCollection<Cooperante>();
+            _cooperantes = new ObservableCollection<Cooperante>();
 
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 0; i++)
             {
                 Cooperante c = new Cooperante
                 {
@@ -26,8 +30,23 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
                     Nombre = Faker.NameFaker.FirstName(),
                 };
 
-                Cooperantes.Add(c);
+                _cooperantes.Add(c);
             }
+
+            var actividad = new Actividad
+            {
+                Titulo = "Taller de actividades multitudinarias de carácter general",
+                Descripcion = "Descripción corta sobre el multitudinario taller de general carácter" +
+                    " de actividades de interés mayoritariamente general salvo en casos en los que es" +
+                    " de carácter individualista. No se está considera si de posición liberal o comunista" +
+                    " en cuanto al libre mercado se refiere. Tampoco se aportan detalles."
+            };
+
+            actividad.AddCooperantes(_cooperantes);
+
+            Actividad = new ActividadWrapper(actividad);
+
+            CooperantesDisponibles = new List<CooperanteWrapper>(_cooperantes.Select(c => new CooperanteWrapper(c)));
         }
     }
 }
