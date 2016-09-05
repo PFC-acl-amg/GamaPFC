@@ -52,7 +52,7 @@ namespace Gama.Cooperacion.Business
             tarea.Actividad = this;
         }
 
-        public virtual void EstablecerCoordinador(Cooperante coordinador)
+        public virtual void SetCoordinador(Cooperante coordinador)
         {
             Coordinador = coordinador;
             coordinador.ActividadesDeQueEsCoordinador.Add(this);

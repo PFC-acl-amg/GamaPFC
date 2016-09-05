@@ -109,7 +109,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 }
 
                 Actividad.Coordinador = CooperanteSeleccionado;
-                Actividad.Model.EstablecerCoordinador(CooperanteSeleccionado.Model);
+                Actividad.Model.SetCoordinador(CooperanteSeleccionado.Model);
                 // TODO --> Meterlo en el SearchBox
                 CooperantesDisponibles.Remove(CooperanteSeleccionado);
             }
