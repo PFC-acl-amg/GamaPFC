@@ -12,9 +12,10 @@
         xmlns:actions="clr-namespace:Gama.Cooperacion.Wpf.Actions"
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
-        Title="Nueva Actividad" d:DesignWidth="477.288" d:DesignHeight="376.781"
+        Title="Nueva Actividad" d:DesignWidth="477.288" d:DesignHeight="448.781"
         WindowStartupLocation="CenterScreen"
         BorderThickness="1"
+        BorderBrush="{StaticResource AccentColorBrush}"
         actions:DialogCloser.DialogResult="{Binding Cerrar}">
   <d:DataContext>
     <designData:DesignTimeDataViewModel/>
@@ -60,7 +61,7 @@
       Opened="Popup_Opened">
       <local:ListaEmergenteDeCooperantes Opacity="1"/>
     </Popup>
-    
+
     <TextBox 
       Grid.Row="0" BorderThickness="1"
       Text="{Binding Actividad.Titulo}"
@@ -69,6 +70,7 @@
     <TextBox Grid.Row="1" 
              Text="{Binding Actividad.Descripcion}"
              metro:TextBoxHelper.Watermark="Introduce la descripción..."
+             Margin="{StaticResource Margin}"
              MinLines="4"
              AcceptsReturn="True"/>
     <Label Grid.Row="2" Margin="{StaticResource Margin}">Coordinador</Label>
@@ -80,12 +82,14 @@
       </Grid.ColumnDefinitions>
 
       <TextBlock Grid.Column="0"
-                       Text="{Binding NombreBusquedaCoordinador}"/>
+                 Margin="{StaticResource Margin}"
+                 Text="{Binding Actividad.Coordinador.Nombre}"/>
 
       <StackPanel Orientation="Horizontal" Grid.Column="1">
         <Button Content="Buscar" Margin="{StaticResource Margin}"
                 Command="{Binding AbrirPopupCoordinadorCommand}"/>
-        <Button Content="X" Margin="{StaticResource Margin}"/>
+        <Button Content="X" Margin="{StaticResource Margin}"
+                Command="{Binding QuitarCoordinadorCommand}"/>
         <Rectangle 
               Stretch="Fill"
               Width="18"
@@ -121,7 +125,10 @@
                 Command="{Binding DataContext.AbrirPopupCooperanteCommand, 
                   RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
                   CommandParameter="{Binding}"/>
-              <Button Content="X" Margin="{StaticResource Margin}"/>
+              <Button Content="X" Margin="{StaticResource Margin}"
+                  Command="{Binding DataContext.QuitarCooperanteCommand,
+                  RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                  CommandParameter="{Binding}"/>
             </StackPanel>
           </Grid>
         </DataTemplate>
@@ -135,8 +142,8 @@
 
     <StackPanel Grid.Row="7" Orientation="Horizontal"
                     HorizontalAlignment="Right">
-      <Button Content="Aceptar" Command="{Binding AceptarCommand}"/>
-      <Button Content="Cancelar" Command="{Binding CancelarCommand}"/>
+      <Button Content="Aceptar" Command="{Binding AceptarCommand}"  Margin="{StaticResource Margin}"/>
+      <Button Content="Cancelar" Command="{Binding CancelarCommand}"  Margin="{StaticResource Margin}"/>
     </StackPanel>
   </Grid>
 </metro:MetroWindow>

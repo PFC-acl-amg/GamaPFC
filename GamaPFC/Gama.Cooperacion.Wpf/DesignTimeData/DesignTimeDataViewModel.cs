@@ -21,7 +21,7 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
         {
             _cooperantes = new ObservableCollection<Cooperante>();
 
-            for (int i = 0; i < 0; i++)
+            for (int i = 0; i < 4; i++)
             {
                 Cooperante c = new Cooperante
                 {
@@ -45,6 +45,7 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
             actividad.AddCooperantes(_cooperantes);
 
             Actividad = new ActividadWrapper(actividad);
+            Actividad.Coordinador = new CooperanteWrapper(_cooperantes[0]);
 
             CooperantesDisponibles = new List<CooperanteWrapper>(_cooperantes.Select(c => new CooperanteWrapper(c)));
         }

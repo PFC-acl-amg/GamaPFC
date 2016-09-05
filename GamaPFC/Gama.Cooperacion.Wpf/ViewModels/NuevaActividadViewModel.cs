@@ -67,10 +67,16 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             AbrirPopupCoordinadorCommand = new DelegateCommand<CooperanteWrapper>(OnAbrirPopupCoordinador);
             AbrirPopupCooperanteCommand = new DelegateCommand<CooperanteWrapper>(OnAbrirPopupCooperante);
             AceptarNuevoCooperanteCommand = 
-                new DelegateCommand(OnNuevoCooperanteCommand, OnNuevoCooperanteCommand_CanExecute);
+                new DelegateCommand(OnNuevoCooperanteCommand, 
+                                    OnNuevoCooperanteCommand_CanExecute);
+            QuitarCoordinadorCommand = 
+                new DelegateCommand(OnQuitarCoordinadorCommand,                                                       OnQuitarCoordinadorCommand_CanExecute);
+            QuitarCooperanteCommand = 
+                new DelegateCommand<CooperanteWrapper>(OnQuitarCooperanteCommand, OnQuitarCooperanteCommand_CanExecute);
         }
 
         public ActividadWrapper Actividad { get; set; }
+
         public CooperanteWrapper CooperanteSeleccionado { get; set; }
         public CooperanteWrapper CooperantePreviamenteSeleccionado { get; set; }
         public ObservableCollection<CooperanteWrapper> CooperantesDisponibles { get; private set; }
@@ -81,6 +87,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand AbrirPopupCoordinadorCommand { get; private set; }
         public ICommand AbrirPopupCooperanteCommand { get; private set; }
         public ICommand AceptarNuevoCooperanteCommand { get; private set; }
+        public ICommand QuitarCoordinadorCommand { get; private set; }
+        public ICommand QuitarCooperanteCommand { get; private set; }
 
         private void OnAbrirPopupCoordinador(CooperanteWrapper cooperantePreviamenteSeleccionado)
         {
@@ -103,7 +111,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             if (_modo == "Coordinador")
             {
-                if (Actividad.Coordinador != null)
+                if (Actividad.Coordinador.Nombre != null)
                 {
                     CooperantesDisponibles.Add(Actividad.Coordinador);
                 }
@@ -112,6 +120,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 Actividad.Model.SetCoordinador(CooperanteSeleccionado.Model);
                 // TODO --> Meterlo en el SearchBox
                 CooperantesDisponibles.Remove(CooperanteSeleccionado);
+                ((DelegateCommand)QuitarCoordinadorCommand).RaiseCanExecuteChanged();
             }
             else if (_modo == "Cooperante")
             {
@@ -137,10 +146,45 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 {
                     Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == null).First());
                 }
+
+                ((DelegateCommand<CooperanteWrapper>)QuitarCooperanteCommand).RaiseCanExecuteChanged();
             }
 
             CooperantePreviamenteSeleccionado = null;
             PopupEstaAbierto = false;
+        }
+
+        private void OnQuitarCoordinadorCommand()
+        {
+            if (CooperantesDisponibles.Count == 0)
+            {
+                Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
+            }
+
+            CooperantesDisponibles.Add(Actividad.Coordinador);
+            Actividad.Coordinador = new CooperanteWrapper(new Cooperante());
+            ((DelegateCommand)QuitarCoordinadorCommand).RaiseCanExecuteChanged();
+        }
+
+        private bool OnQuitarCoordinadorCommand_CanExecute()
+        {
+            return (Actividad.Coordinador.Nombre != null);
+        }
+
+        private void OnQuitarCooperanteCommand(CooperanteWrapper cooperante)
+        {
+            if (CooperantesDisponibles.Count == 0)
+            {
+                Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
+            }
+
+            Actividad.Cooperantes.Remove(cooperante);
+            CooperantesDisponibles.Add(cooperante);
+        }
+
+        private bool OnQuitarCooperanteCommand_CanExecute(CooperanteWrapper cooperante)
+        {
+            return (cooperante.Nombre != null);
         }
 
         private void OnAceptar()

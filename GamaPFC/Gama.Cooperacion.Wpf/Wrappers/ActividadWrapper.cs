@@ -88,7 +88,13 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         public virtual IList<Tarea> Tareas { get; protected set; }
         */
 
-        public CooperanteWrapper Coordinador { get; set; }
+        private CooperanteWrapper _coordinador;
+        public CooperanteWrapper Coordinador
+        {
+            get { return _coordinador; }
+            set { _coordinador = value; OnPropertyChanged(); }
+        }
+
         public ChangeTrackingCollection<CooperanteWrapper> Cooperantes { get; private set; }
     }
 }
