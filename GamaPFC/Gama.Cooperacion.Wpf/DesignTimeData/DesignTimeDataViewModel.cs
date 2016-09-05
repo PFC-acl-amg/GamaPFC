@@ -45,7 +45,7 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
             actividad.AddCooperantes(_cooperantes);
 
             Actividad = new ActividadWrapper(actividad);
-            Actividad.Coordinador = new CooperanteWrapper(_cooperantes[0]);
+            Actividad.SetCoordinador(new CooperanteWrapper(_cooperantes[0]));
 
             CooperantesDisponibles = new List<CooperanteWrapper>(_cooperantes.Select(c => new CooperanteWrapper(c)));
         }

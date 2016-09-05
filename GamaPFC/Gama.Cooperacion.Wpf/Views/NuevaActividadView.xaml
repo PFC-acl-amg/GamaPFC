@@ -12,9 +12,10 @@
         xmlns:actions="clr-namespace:Gama.Cooperacion.Wpf.Actions"
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
-        Title="Nueva Actividad" d:DesignWidth="477.288" d:DesignHeight="448.781"
+        Title="Nueva Actividad" d:DesignWidth="550" d:DesignHeight="470.781"
         WindowStartupLocation="CenterScreen"
         BorderThickness="1"
+        MaxWidth="550"
         BorderBrush="{StaticResource AccentColorBrush}"
         actions:DialogCloser.DialogResult="{Binding Cerrar}">
   <d:DataContext>
@@ -50,9 +51,12 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
+      <RowDefinition />
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
     <Popup x:Name="popup"
       IsOpen="{Binding PopupEstaAbierto}" 
       StaysOpen="False"
@@ -62,83 +66,73 @@
       <local:ListaEmergenteDeCooperantes Opacity="1"/>
     </Popup>
 
-    <TextBox 
-      Grid.Row="0" BorderThickness="1"
-      Text="{Binding Actividad.Titulo}"
-      metro:TextBoxHelper.Watermark="Introduce el título..."
-      Margin="{StaticResource Margin}"/>
-    <TextBox Grid.Row="1" 
-             Text="{Binding Actividad.Descripcion}"
-             metro:TextBoxHelper.Watermark="Introduce la descripción..."
-             Margin="{StaticResource Margin}"
-             MinLines="4"
-             AcceptsReturn="True"/>
-    <Label Grid.Row="2" Margin="{StaticResource Margin}">Coordinador</Label>
+    <GroupBox Grid.Row="0" Header="Información Básica">
+      <StackPanel>
+        <TextBox  BorderThickness="1"
+          Text="{Binding Actividad.Titulo}"
+          metro:TextBoxHelper.Watermark="Introduce el título..."
+          Margin="{StaticResource Margin}"/>
+        <TextBox  
+            Text="{Binding Actividad.Descripcion}"
+            metro:TextBoxHelper.Watermark="Introduce la descripción..."
+            Margin="{StaticResource Margin}"
+            MinLines="4"
+            AcceptsReturn="True"/>
+      </StackPanel>
+    </GroupBox>
 
-    <Grid Grid.Row="3" >
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition />
-        <ColumnDefinition Width="Auto"/>
-      </Grid.ColumnDefinitions>
+    <GroupBox Grid.Row="2" Header="Coordinador">
+      <Grid >
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
-      <TextBlock Grid.Column="0"
+        <cc:SearchBox Grid.Column="0"
                  Margin="{StaticResource Margin}"
                  Text="{Binding Actividad.Coordinador.Nombre}"/>
 
-      <StackPanel Orientation="Horizontal" Grid.Column="1">
-        <Button Content="Buscar" Margin="{StaticResource Margin}"
+        <StackPanel Orientation="Horizontal" Grid.Column="1">
+          <Button Content="Buscar" Margin="{StaticResource Margin}"
                 Command="{Binding AbrirPopupCoordinadorCommand}"/>
-        <Button Content="X" Margin="{StaticResource Margin}"
+          <Button Content="X" Margin="{StaticResource Margin}"
                 Command="{Binding QuitarCoordinadorCommand}"/>
-        <Rectangle 
-              Stretch="Fill"
-              Width="18"
-              Height="24"
-              Margin="{StaticResource Margin}"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Center">
-          <Rectangle.Fill>
-            <VisualBrush Visual="{StaticResource appbar_page_search}" />
-          </Rectangle.Fill>
-        </Rectangle>
-      </StackPanel>
-    </Grid>
+        </StackPanel>
+      </Grid>
+    </GroupBox>
 
-    <Label Grid.Row="4"  Margin="{StaticResource Margin}">Cooperantes</Label>
-    <ListBox x:Name="cooperantesListBox"
-        Grid.Row="5"
+    <GroupBox Grid.Row="4" Header="Cooperantes">
+      <ListBox x:Name="cooperantesListBox"
         ItemsSource="{Binding Actividad.Cooperantes}">
-      <ListBox.ItemTemplate>
-        <DataTemplate>
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition />
-              <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+              </Grid.ColumnDefinitions>
 
-            <cc:SearchBox Grid.Column="0"
+              <cc:SearchBox Grid.Column="0"
                   Text="{Binding NombreCompleto, Mode=OneWay}"
                   Margin="{StaticResource Margin}"/>
 
-            <StackPanel Grid.Column="1" Orientation="Horizontal">
-              <Button Content="Buscar" Margin="{StaticResource Margin}"
-                Command="{Binding DataContext.AbrirPopupCooperanteCommand, 
-                  RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
-                  CommandParameter="{Binding}"/>
-              <Button Content="X" Margin="{StaticResource Margin}"
-                  Command="{Binding DataContext.QuitarCooperanteCommand,
-                  RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
-                  CommandParameter="{Binding}"/>
-            </StackPanel>
-          </Grid>
-        </DataTemplate>
-      </ListBox.ItemTemplate>
-    </ListBox>
-
-    <!--<Button Grid.Row="6" HorizontalAlignment="Right" 
-            Style="{StaticResource EstiloBotonPredeterminado}"
-            Command="{Binding NuevoCooperanteCommand}"
-            Content="Nuevo"/>-->
+              <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button Content="Buscar" 
+                        Margin="{StaticResource Margin}"
+                        Command="{Binding DataContext.AbrirPopupCooperanteCommand, 
+                          RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                        CommandParameter="{Binding}"/>
+                <Button Content="X" 
+                        Margin="{StaticResource Margin}"
+                        Command="{Binding DataContext.QuitarCooperanteCommand,
+                          RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                        CommandParameter="{Binding}"/>
+              </StackPanel>
+            </Grid>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </GroupBox>
 
     <StackPanel Grid.Row="7" Orientation="Horizontal"
                     HorizontalAlignment="Right">
