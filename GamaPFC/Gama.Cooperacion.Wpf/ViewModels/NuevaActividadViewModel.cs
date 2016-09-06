@@ -18,6 +18,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
     public class NuevaActividadViewModel : ObservableObject
     {
         private IActividadRepository _actividadRepository;
+        private ICooperanteRepository _cooperanteRepository;
         private IEventAggregator _eventAggregator;
 
         private bool? _cerrar;
@@ -45,17 +46,17 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
 
         public NuevaActividadViewModel(IActividadRepository actividadRepository,
+            ICooperanteRepository cooperanteRepository,
             IEventAggregator eventAggregator)
         {
             _actividadRepository = actividadRepository;
+            _cooperanteRepository = cooperanteRepository;
             _eventAggregator = eventAggregator;
 
             Actividad = new ActividadWrapper(new Actividad());
 
-            CooperantesDisponibles = new ObservableCollection<CooperanteWrapper>();
-            CooperantesDisponibles.Add(new CooperanteWrapper(new Cooperante { Nombre = "A", Apellido = "A1 A2" }));
-            CooperantesDisponibles.Add(new CooperanteWrapper(new Cooperante { Nombre = "B", Apellido = "B1 B2" }));
-            CooperantesDisponibles.Add(new CooperanteWrapper(new Cooperante { Nombre = "C", Apellido = "C1 C2" }));
+            CooperantesDisponibles = new ObservableCollection<CooperanteWrapper>(
+                _cooperanteRepository.GetAll().Select(c => new CooperanteWrapper(c)));
 
             // Añadimos 'Cooperante Dummy' para que siempre se muestre al menos
             // una fila del formulario para añadir uno más
@@ -76,7 +77,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
 
         public ActividadWrapper Actividad { get; set; }
-
         public CooperanteWrapper CooperanteSeleccionado { get; set; }
         public CooperanteWrapper CooperantePreviamenteSeleccionado { get; set; }
         public ObservableCollection<CooperanteWrapper> CooperantesDisponibles { get; private set; }

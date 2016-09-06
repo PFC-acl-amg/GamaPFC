@@ -112,7 +112,15 @@
                 <ColumnDefinition Width="Auto"/>
               </Grid.ColumnDefinitions>
 
-              <cc:SearchBox Grid.Column="0"
+              <cc:SearchBox 
+                Grid.Column="0"
+                VerticalContentAlignment="Center"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                HorizontalContentAlignment="Left"
+                MinWidth="250"
+                SearchMode="Delayed"
+                            
                   Text="{Binding NombreCompleto, Mode=OneWay}"
                   Margin="{StaticResource Margin}"/>
 

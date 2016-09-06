@@ -41,11 +41,14 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterType<PanelSwitcherViewModel>();
             Container.RegisterType<ToolbarViewModel>();
 
-            Container.RegisterInstance(typeof(INHibernateHelper), new NHibernateHelper());
-            Container.RegisterInstance(typeof(ISessionHelper),
-                new SessionHelper(Container.Resolve<INHibernateHelper>()));
-            Container.RegisterInstance(typeof(IActividadRepository),
-                new ActividadRepository(Container.Resolve<ISessionHelper>()));
+            //Container.RegisterInstance(typeof(INHibernateHelper), new NHibernateHelper());
+            //Container.RegisterInstance(typeof(ISessionHelper),
+            //    new SessionHelper(Container.Resolve<INHibernateHelper>()));
+            //Container.RegisterInstance(typeof(IActividadRepository),
+            //    new ActividadRepository(Container.Resolve<ISessionHelper>()));
+
+            Container.RegisterInstance(typeof(IActividadRepository), new FakeActividadRepository());
+            Container.RegisterInstance(typeof(ICooperanteRepository), new FakeCooperanteRepository());
 
             RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
             RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
