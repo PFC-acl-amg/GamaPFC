@@ -25,5 +25,11 @@ namespace Gama.Cooperacion.Business
             Emails = new List<string>();
             Telefonos = new List<string>();
         }
+
+        // For Debug reasons (para los FakeRepositories poder ponerle un Id)
+        public void SetId(int value)
+        {
+            Id = value;
+        }
     }
 }

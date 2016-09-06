@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -269,6 +271,7 @@ namespace Gama.Common.CustomControls
         void listBox_MouseUp(object sender, MouseButtonEventArgs e)
         {
             SetTextValueBySelection((LookupItem)_listBox.SelectedItem, moveFocus: false);
+            SelectedItem = (LookupItem)_listBox.SelectedItem;
             RaiseSelectResultEvent();
         }
 
@@ -277,11 +280,13 @@ namespace Gama.Common.CustomControls
             if (e.Key == Key.Enter || e.Key == Key.Return)
             {
                 SetTextValueBySelection((LookupItem)_listBox.SelectedItem, moveFocus: false);
+                SelectedItem = (LookupItem)_listBox.SelectedItem;
                 RaiseSelectResultEvent();
             }
             else if (e.Key == Key.Tab)
             {
                 SetTextValueBySelection((LookupItem)_listBox.SelectedItem, moveFocus: true);
+                SelectedItem = (LookupItem)_listBox.SelectedItem;
                 RaiseSelectResultEvent();
             }
         }
@@ -398,7 +403,8 @@ namespace Gama.Common.CustomControls
             DependencyProperty.Register("SelectedItem",
                 typeof(LookupItem),
                 typeof(SearchBox),
-                new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+                new FrameworkPropertyMetadata(null, 
+                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public DataTemplate ItemTemplate
         {

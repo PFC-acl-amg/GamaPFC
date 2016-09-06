@@ -3,7 +3,32 @@
                     xmlns:cc="clr-namespace:Gama.Common.CustomControls">
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Icons.xaml"/>
+    <ResourceDictionary>
+      <DataTemplate x:Key="ResultadoDataTemplate" DataType="{x:Type cc:LookupItem}">
+        <Border BorderBrush="DarkGray" BorderThickness="1" CornerRadius="5">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="26" />
+              <ColumnDefinition Width="Auto"/>
+              <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!--<Image Source="/Assets/avatar2.PNG"/>-->
+            <StackPanel Grid.Column="1">
+              <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center" Padding="4"/>
+              <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" Padding="4"/>
+            </StackPanel>
+          </Grid>
+        </Border>
+      </DataTemplate>
+      <DataTemplate x:Key="EsperarResultadoDataTemplate">
+        <TextBlock Text="{Binding}" Background="SlateBlue" Margin="0" Padding="4"  Height="35" MinWidth="95"/>
+      </DataTemplate>
+    </ResourceDictionary>
   </ResourceDictionary.MergedDictionaries>
+
   <SolidColorBrush x:Key="SearchTextBox_Background" Color="White" />
   <SolidColorBrush x:Key="SearchTextBox_Foreground" Color="Black" />
   <LinearGradientBrush x:Key="SearchTextBox_Border" StartPoint="0,0" EndPoint="0,1">
@@ -113,9 +138,8 @@
               </Border>
               <Popup x:Name="PART_Popup" StaysOpen="False" IsOpen="False">
                 <ListBox x:Name="PART_ListBox" 
-                                         HorizontalContentAlignment="Stretch"
-                                         SelectedItem="{Binding RelativeSource={RelativeSource TemplatedParent},
-                                            Path=SelectedItem}"/>
+                  HorizontalContentAlignment="Stretch"
+                  SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}}"/>
               </Popup>
             </Grid>
           </Border>

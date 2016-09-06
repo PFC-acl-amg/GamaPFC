@@ -9,6 +9,8 @@ namespace Gama.Cooperacion.Wpf.Services
 {
     public class FakeCooperanteRepository : ICooperanteRepository
     {
+        List<Cooperante> _cooperantes;
+
         public void Create(Cooperante entity)
         {
             throw new NotImplementedException();
@@ -21,21 +23,29 @@ namespace Gama.Cooperacion.Wpf.Services
 
         public List<Cooperante> GetAll()
         {
-            var cooperantes = new List<Cooperante>();
 
-            for (int i = 0; i < 10; i++)
+            if (_cooperantes != null)
+                return _cooperantes;
+            else
             {
-                Cooperante c = new Cooperante
+                _cooperantes = new List<Cooperante>();
+
+                for (int i = 0; i < 10; i++)
                 {
-                    Apellido = Faker.NameFaker.LastName(),
-                    Dni = Faker.StringFaker.AlphaNumeric(9),
-                    Nombre = Faker.NameFaker.FirstName(),
-                };
+                    Cooperante c = new Cooperante
+                    {
+                        Apellido = Faker.NameFaker.LastName(),
+                        Dni = Faker.StringFaker.AlphaNumeric(9),
+                        Nombre = Faker.NameFaker.FirstName(),
+                    };
 
-                cooperantes.Add(c);
+                    c.SetId(i);
+
+                    _cooperantes.Add(c);
+                }
+
+                return _cooperantes;
             }
-
-            return cooperantes;
         }
 
         public Cooperante GetById(int id)

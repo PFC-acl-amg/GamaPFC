@@ -70,6 +70,7 @@
     <Compile Include="CustomControls\SearchBox.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="Resources\Converters\ViewToViewModelConverter.cs" />
+    <Compile Include="Resources\DataTemplateSelectors\BuscadorDataTemplateSelector.cs" />
     <Page Include="Resources\GamaStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
