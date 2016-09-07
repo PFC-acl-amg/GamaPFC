@@ -27,6 +27,12 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             set { SetValue(value); }
         }
 
+        public int Id
+        {
+            get { return GetValue<int>(); }
+            set { SetValue(value); }
+        }
+
         public string Nombre
         {
             get { return GetValue<string>(); }

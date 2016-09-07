@@ -90,7 +90,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 new DelegateCommand<CooperanteWrapper>(OnQuitarCooperanteCommand, OnQuitarCooperanteCommand_CanExecute);
 
             SearchCommand = new DelegateCommand<string>(OnSearch);
-            SelectResultCommand = new DelegateCommand<object>(OnSelectResult);
+            SelectResultCommand = new DelegateCommand<CooperanteWrapper>(OnSelectResult);
             SelectionChangedCommand = new DelegateCommand<object[]>(OnSelectionChanged);
 
         }
@@ -140,32 +140,31 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                          c.Apellido.ToLower().Contains(textoDeBusqueda.Trim().ToLower()))
                 .Select(c => new LookupItem
                     {
+                        Id = c.Id,
                         DisplayMember1 = c.NombreCompleto,
                         DisplayMember2 = c.Dni
                     });
             OnPropertyChanged("ResultadoDeBusqueda");
         }
 
-        private void OnSelectResult(object cooperante)
+        private void OnSelectResult(CooperanteWrapper cooperanteAnterior)
         {
-            // cooperante previamente seleccionado = selectedCooperante;
-            var copi = SelectedCooperante;
-            int i = 2;
+            var cooperanteNuevo = CooperantesDisponibles.Where(c => c.Id == SelectedCooperante.Id).First();
+            InsertarCooperante(cooperanteAnterior, cooperanteNuevo);
         }
 
-        private void OnAbrirPopupCoordinador(CooperanteWrapper cooperantePreviamenteSeleccionado)
+        private void OnAbrirPopupCoordinador(CooperanteWrapper cooperanteAnterior)
         {
             PopupEstaAbierto = true;
             _modo = "Coordinador";
-            CooperantePreviamenteSeleccionado = cooperantePreviamenteSeleccionado;
+            CooperantePreviamenteSeleccionado = cooperanteAnterior;
         }
 
-        private void OnAbrirPopupCooperante(CooperanteWrapper cooperantePreviamenteSeleccionado)
+        private void OnAbrirPopupCooperante(CooperanteWrapper cooperanteAnterior)
         {
             PopupEstaAbierto = true;
             _modo = "Cooperante";
-
-            CooperantePreviamenteSeleccionado = cooperantePreviamenteSeleccionado;
+            CooperantePreviamenteSeleccionado = cooperanteAnterior;
         }
 
         private bool OnNuevoCooperanteCommand_CanExecute() => CooperantesDisponibles.Count > 0;
@@ -174,6 +173,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             if (_modo == "Coordinador")
             {
+                // Es nulo cuando es el cooperante Dummy
                 if (Actividad.Coordinador.Nombre != null)
                 {
                     CooperantesDisponibles.Add(Actividad.Coordinador);
@@ -185,34 +185,37 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             }
             else if (_modo == "Cooperante")
             {
-                Actividad.Cooperantes.Insert(
-                    Actividad.Cooperantes.IndexOf(CooperantePreviamenteSeleccionado),
-                    CooperanteSeleccionado);
-
-                // El nombre será nulo sólo en el caso del Cooperante Dummy
-                if (CooperantePreviamenteSeleccionado.Nombre != null)
-                {
-                    CooperantesDisponibles.Add(CooperantePreviamenteSeleccionado);
-                    Actividad.Cooperantes.Remove(CooperantePreviamenteSeleccionado);
-                }
-
-                Actividad.Model.AddCooperante(CooperanteSeleccionado.Model);
-                //Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
-                // TODO --> Meterlo en el SearchBox
-                CooperantesDisponibles.Remove(CooperanteSeleccionado);
-
-                // Si no quedan cooperantes disponibles, no se debe ver otra fila de 
-                // inserción de cooperantes
-                if (CooperantesDisponibles.Count == 0)
-                {
-                    Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == null).First());
-                }
-
-                ((DelegateCommand<CooperanteWrapper>)QuitarCooperanteCommand).RaiseCanExecuteChanged();
+                InsertarCooperante(CooperantePreviamenteSeleccionado, CooperanteSeleccionado);
             }
 
-            CooperantePreviamenteSeleccionado = null;
+            //CooperantePreviamenteSeleccionado = null;
             PopupEstaAbierto = false;
+        }
+
+        private void InsertarCooperante(
+            CooperanteWrapper cooperanteAnterior, 
+            CooperanteWrapper cooperanteNuevo)
+        {
+            Actividad.Cooperantes[Actividad.Cooperantes.IndexOf(cooperanteAnterior)]
+                = cooperanteNuevo;
+            
+            // El nombre será nulo sólo en el caso del Cooperante Dummy
+            if (cooperanteAnterior.Nombre != null)
+            {
+                CooperantesDisponibles.Add(cooperanteAnterior);
+            }
+
+            Actividad.Model.AddCooperante(cooperanteNuevo.Model);
+            CooperantesDisponibles.Remove(cooperanteNuevo);
+
+            // Si quedan cooperantes disponibles, hay que mostrar otra fila
+            // para añadir más cooperantes
+            if (CooperantesDisponibles.Count > 0)
+            {
+                Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
+            }
+
+            ((DelegateCommand<CooperanteWrapper>)QuitarCooperanteCommand).RaiseCanExecuteChanged();
         }
 
         private void OnQuitarCoordinadorCommand()

@@ -120,6 +120,7 @@
                 ItemsSource="{Binding Source={StaticResource CooperantesBuscables}}"
                 SelectedItem="{Binding DataContext.SelectedCooperante, Mode=TwoWay, ElementName=cooperantesListBox}"
                 ItemTemplateSelector="{StaticResource BuscadorTemplateSelector}"
+                Text="{Binding NombreCompleto, Mode=OneWay}"
                 Margin="{StaticResource Margin}">
                 <i:Interaction.Triggers>
                   <i:EventTrigger EventName="Search">

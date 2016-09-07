@@ -191,9 +191,9 @@ namespace Gama.Common.CustomControls
         {
             base.OnTextChanged(e);
 
-            HasText = Text.Length != 0;
+            HasText = Text.Trim().Length != 0;
 
-            if (SearchMode == SearchMode.Delayed && !_suppressEvent)
+            if (SearchMode == SearchMode.Delayed && !_suppressEvent && HasText)
             {
                 _searchEventDelayTimer.Stop();
                 _searchEventDelayTimer.Start();
