@@ -58,9 +58,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             // Añadimos 'Cooperante Dummy' para que se muestre una fila del formulario para añadir el primero
             Actividad.Cooperantes.Add(_cooperanteDummy);
-
-            AbrirPopupCoordinadorCommand = new DelegateCommand<CooperanteWrapper>(OnAbrirPopupCoordinadorCommand);
-            AbrirPopupCooperanteCommand = new DelegateCommand<CooperanteWrapper>(OnAbrirPopupCooperanteCommand);
+            
+            AbrirPopupCommand = new DelegateCommand<CooperanteWrapper>(OnAbrirPopupCommand);
             AceptarCommand = new DelegateCommand(OnAceptarCommand, OnAceptarCommand_CanExecute);
             AceptarNuevoCooperanteCommand = new DelegateCommand(OnNuevoCooperanteCommand, OnNuevoCooperanteCommand_CanExecute);
             CancelarCommand = new DelegateCommand(OnCancelarCommand);
@@ -95,8 +94,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public IEnumerable MensajeDeEspera => _mensajeDeEspera;
         public IEnumerable ResultadoDeBusqueda => _resultadoDeBusqueda;
 
-        public ICommand AbrirPopupCoordinadorCommand { get; private set; }
-        public ICommand AbrirPopupCooperanteCommand { get; private set; }
+        public ICommand AbrirPopupCommand { get; private set; }
         public ICommand AceptarCommand { get; set; }
         public ICommand AceptarNuevoCooperanteCommand { get; private set; }
         public ICommand CancelarCommand { get; private set; }
@@ -105,17 +103,15 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand SearchCommand { get; private set; }
         public ICommand SelectResultCommand { get; private set; }
 
-        private void OnAbrirPopupCoordinadorCommand(CooperanteWrapper cooperanteAnterior)
+        private void OnAbrirPopupCommand(CooperanteWrapper cooperanteAnterior)
         {
             PopupEstaAbierto = true;
-            _modo = "Coordinador";
-            CooperantePreviamenteSeleccionado = cooperanteAnterior;
-        }
-
-        private void OnAbrirPopupCooperanteCommand(CooperanteWrapper cooperanteAnterior)
-        {
-            PopupEstaAbierto = true;
-            _modo = "Cooperante";
+            // Para el coordinador no hace falta que nos indiquen el anteriormente seleccionado
+            // porque ya lo obtenemos de Actividad.Coordinador; Esto nos ahorra hace comprobaciones
+            // para saber qué modo establecemos ya que el parámetro vendrá nulo. Esto se puede
+            // ver desde la vista en Xaml. El comando para el botón de coordinador no 
+            // indica ningún parámetro
+            _modo = cooperanteAnterior == null ? "Coordinador" : "Cooperante";
             CooperantePreviamenteSeleccionado = cooperanteAnterior;
         }
 
@@ -145,7 +141,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             if (_modo == "Coordinador")
             {
-                // Es nulo cuando es el cooperante Dummy
+                // Es nulo cuando es el cooperante Dummy. Si no lo es,
+                // añadimos el que ya estaba en la lista de los disponibles, ya
+                // que se va a quitar
                 if (Actividad.Coordinador.Nombre != null)
                 {
                     CooperantesDisponibles.Add(Actividad.Coordinador);
@@ -182,7 +180,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 CooperantesDisponibles.Add(cooperanteAnterior);
             }
 
-            Actividad.Model.AddCooperante(cooperanteNuevo.Model);
+            Actividad.AddCooperante(cooperanteNuevo);
             CooperantesDisponibles.Remove(cooperanteNuevo);
 
             // Si quedan cooperantes disponibles y estamos añadiendo uno sin sustituir otro, 

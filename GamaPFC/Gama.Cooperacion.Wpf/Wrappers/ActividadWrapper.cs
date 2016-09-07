@@ -98,6 +98,11 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         public CooperanteWrapper Coordinador { get; private set; }
 
         public ChangeTrackingCollection<CooperanteWrapper> Cooperantes { get; private set; }
+
+        internal void AddCooperante(CooperanteWrapper cooperanteNuevo)
+        {
+            Model.AddCooperante(cooperanteNuevo.Model);
+        }
     }
 }
  
