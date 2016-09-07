@@ -22,14 +22,14 @@ namespace Gama.Cooperacion.Wpf.ViewModels
     public class NuevaActividadViewModel : ViewModelBase
     {
         private IActividadRepository _actividadRepository;
-        private bool? _cerrar;
+        private bool? _Cerrar;
         private ICooperanteRepository _cooperanteRepository;
         private IEventAggregator _eventAggregator;
         private IEnumerable _mensajeDeEspera;
-        private string _modo;
-        private bool _popupCoordinadorEstaAbierto;
-        private IEnumerable _resultadoDeBusqueda;
-        private LookupItem _selectedCooperante;
+        private string _Modo;
+        private bool _PopupEstaAbierto;
+        private IEnumerable _ResultadoDeBusqueda;
+        private LookupItem _SelectedCooperante;
         private CooperanteWrapper _cooperanteDummy;
 
         public NuevaActividadViewModel(IActividadRepository actividadRepository,
@@ -47,7 +47,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             CooperantesDisponibles = new ObservableCollection<CooperanteWrapper>(
                 _cooperanteRepository.GetAll().Select(c => new CooperanteWrapper(c)));
 
-            _resultadoDeBusqueda = new ObservableCollection<LookupItem>(
+            _ResultadoDeBusqueda = new ObservableCollection<LookupItem>(
                 CooperantesDisponibles.Select(c => new LookupItem
                 {
                     Id = c.Id,
@@ -70,20 +70,20 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         public bool? Cerrar
         {
-            get { return _cerrar; }
-            set { SetProperty(ref _cerrar, value); }
+            get { return _Cerrar; }
+            set { SetProperty(ref _Cerrar, value); }
         }
 
         public bool PopupEstaAbierto
         {
-            get { return _popupCoordinadorEstaAbierto; }
-            set { SetProperty(ref _popupCoordinadorEstaAbierto, value); }
+            get { return _PopupEstaAbierto; }
+            set { SetProperty(ref _PopupEstaAbierto, value); }
         }
 
         public LookupItem SelectedCooperante
         {
-            get { return _selectedCooperante; }
-            set { SetProperty(ref _selectedCooperante, value); }
+            get { return _SelectedCooperante; }
+            set { SetProperty(ref _SelectedCooperante, value); }
         }
 
         public ActividadWrapper Actividad { get; set; }
@@ -91,7 +91,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public CooperanteWrapper CooperantePreviamenteSeleccionado { get; set; }
         public CooperanteWrapper CooperanteSeleccionado { get; set; }
         public IEnumerable MensajeDeEspera => _mensajeDeEspera;
-        public IEnumerable ResultadoDeBusqueda => _resultadoDeBusqueda;
+        public IEnumerable ResultadoDeBusqueda => _ResultadoDeBusqueda;
 
         public ICommand AbrirPopupCommand { get; private set; }
         public ICommand AceptarCommand { get; set; }
@@ -110,13 +110,13 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             // para saber qué modo establecemos ya que el parámetro vendrá nulo. Esto se puede
             // ver desde la vista en Xaml. El comando para el botón de coordinador no 
             // indica ningún parámetro
-            _modo = cooperanteAnterior == null ? "Coordinador" : "Cooperante";
+            _Modo = cooperanteAnterior == null ? "Coordinador" : "Cooperante";
             CooperantePreviamenteSeleccionado = cooperanteAnterior;
         }
 
         private void OnSearchEventCommand(string textoDeBusqueda)
         {
-            _resultadoDeBusqueda = CooperantesDisponibles
+            _ResultadoDeBusqueda = CooperantesDisponibles
                 .Where(
                     c => c.Nombre.ToLower().Contains(textoDeBusqueda.Trim().ToLower()) ||
                          c.Apellido.ToLower().Contains(textoDeBusqueda.Trim().ToLower()))
@@ -138,7 +138,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnNuevoCooperanteCommand()
         {
-            if (_modo == "Coordinador")
+            if (_Modo == "Coordinador")
             {
                 // Es nulo cuando es el cooperante Dummy. Si no lo es,
                 // añadimos el que ya estaba en la lista de los disponibles, ya
@@ -152,7 +152,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 CooperantesDisponibles.Remove(CooperanteSeleccionado);
                 ((DelegateCommand)QuitarCoordinadorCommand).RaiseCanExecuteChanged();
             }
-            else if (_modo == "Cooperante")
+            else if (_Modo == "Cooperante")
             {
                 InsertarCooperante(CooperantePreviamenteSeleccionado, CooperanteSeleccionado);
             }
