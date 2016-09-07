@@ -30,7 +30,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private bool _popupCoordinadorEstaAbierto;
         private IEnumerable _resultadoDeBusqueda;
         private LookupItem _selectedCooperante;
-        private string _textoDeBusqueda;
         private CooperanteWrapper _cooperanteDummy;
 
         public NuevaActividadViewModel(IActividadRepository actividadRepository,

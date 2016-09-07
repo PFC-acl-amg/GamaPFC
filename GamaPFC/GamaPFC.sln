@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gama.Bootstrapper", "Gama.B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gama.Common", "Gama.Common\Gama.Common.csproj", "{46A268C7-C157-4A93-931D-951A908E149F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gama.Cooperacion.WpfTests", "Gama.Cooperacion.WpfTests\Gama.Cooperacion.WpfTests.csproj", "{F1F57199-8DE2-4A56-AEE9-E453923B8970}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{46A268C7-C157-4A93-931D-951A908E149F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46A268C7-C157-4A93-931D-951A908E149F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46A268C7-C157-4A93-931D-951A908E149F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1F57199-8DE2-4A56-AEE9-E453923B8970}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1F57199-8DE2-4A56-AEE9-E453923B8970}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1F57199-8DE2-4A56-AEE9-E453923B8970}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1F57199-8DE2-4A56-AEE9-E453923B8970}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,5 +58,6 @@ Global
 		{0D5F2D35-032B-4F23-8794-F49F31870ED7} = {40A2AEA2-D7CB-4325-98A1-433600F259E6}
 		{61C764BB-5692-463A-BC70-55B6AD46B1A3} = {7E2BF0C1-9EF0-478A-A9F9-DC2797AFAC22}
 		{46A268C7-C157-4A93-931D-951A908E149F} = {7E2BF0C1-9EF0-478A-A9F9-DC2797AFAC22}
+		{F1F57199-8DE2-4A56-AEE9-E453923B8970} = {40A2AEA2-D7CB-4325-98A1-433600F259E6}
 	EndGlobalSection
 EndGlobal
