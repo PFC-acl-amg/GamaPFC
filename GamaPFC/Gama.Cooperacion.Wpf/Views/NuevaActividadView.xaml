@@ -86,7 +86,7 @@
 
         <cc:SearchBox Grid.Column="0"
                  Margin="{StaticResource Margin}"
-                 Text="{Binding Actividad.Coordinador.Nombre}"/>
+                 Text="{Binding Actividad.Coordinador.NombreCompleto, Mode=OneWay}"/>
 
         <StackPanel Orientation="Horizontal" Grid.Column="1">
           <Button Content="Buscar" Margin="{StaticResource Margin}"
