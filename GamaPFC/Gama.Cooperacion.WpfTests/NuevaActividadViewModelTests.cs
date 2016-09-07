@@ -58,9 +58,10 @@ namespace Gama.Cooperacion.WpfTests
             Assert.Null(_vm.CooperantePreviamenteSeleccionado);
             Assert.Equal(((List<string>)_vm.MensajeDeEspera)[0], "Espera por favor...");
             Assert.Equal(_vm.Actividad.Cooperantes.Count, 1);
-            Assert.Null(_vm.Actividad.Cooperantes.First().Id);
+            Assert.Equal(_vm.Actividad.Cooperantes.First().Id, 0);
             Assert.Null(_vm.Actividad.Cooperantes.First().Nombre);
-            Assert.Null(_vm.Actividad.Coordinador);
+            Assert.Equal(_vm.Actividad.Coordinador.Id, 0);
+            Assert.Null(_vm.Actividad.Coordinador.Nombre);
         }
     }
 }

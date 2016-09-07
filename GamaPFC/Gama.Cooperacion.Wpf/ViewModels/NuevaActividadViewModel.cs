@@ -21,31 +21,31 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 {
     public class NuevaActividadViewModel : ViewModelBase
     {
-        private IActividadRepository _actividadRepository;
-        private bool? _Cerrar;
-        private ICooperanteRepository _cooperanteRepository;
-        private IEventAggregator _eventAggregator;
-        private IEnumerable _mensajeDeEspera;
+        private IActividadRepository _ActividadRepository;
+        private bool? _Cerrar = false;
+        private ICooperanteRepository _CooperanteRepository;
+        private IEventAggregator _EventAggregator;
+        private IEnumerable _MensajeDeEspera;
         private string _Modo;
-        private bool _PopupEstaAbierto;
+        private bool _PopupEstaAbierto = false;
         private IEnumerable _ResultadoDeBusqueda;
         private LookupItem _SelectedCooperante;
-        private CooperanteWrapper _cooperanteDummy;
+        private CooperanteWrapper _CooperanteDummy;
 
         public NuevaActividadViewModel(IActividadRepository actividadRepository,
             ICooperanteRepository cooperanteRepository,
             IEventAggregator eventAggregator)
         {
-            _actividadRepository = actividadRepository;
-            _cooperanteRepository = cooperanteRepository;
-            _eventAggregator = eventAggregator;
-            _mensajeDeEspera = new List<string>() { "Espera por favor..." };
-            _cooperanteDummy = new CooperanteWrapper(new Cooperante());
+            _ActividadRepository = actividadRepository;
+            _CooperanteRepository = cooperanteRepository;
+            _EventAggregator = eventAggregator;
+            _MensajeDeEspera = new List<string>() { "Espera por favor..." };
+            _CooperanteDummy = new CooperanteWrapper(new Cooperante());
 
             Actividad = new ActividadWrapper(new Actividad());
 
             CooperantesDisponibles = new ObservableCollection<CooperanteWrapper>(
-                _cooperanteRepository.GetAll().Select(c => new CooperanteWrapper(c)));
+                _CooperanteRepository.GetAll().Select(c => new CooperanteWrapper(c)));
 
             _ResultadoDeBusqueda = new ObservableCollection<LookupItem>(
                 CooperantesDisponibles.Select(c => new LookupItem
@@ -56,7 +56,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 }));
 
             // Añadimos 'Cooperante Dummy' para que se muestre una fila del formulario para añadir el primero
-            Actividad.Cooperantes.Add(_cooperanteDummy);
+            Actividad.Cooperantes.Add(_CooperanteDummy);
             
             AbrirPopupCommand = new DelegateCommand<CooperanteWrapper>(OnAbrirPopupCommand);
             AceptarCommand = new DelegateCommand(OnAceptarCommand, OnAceptarCommand_CanExecute);
@@ -90,7 +90,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ObservableCollection<CooperanteWrapper> CooperantesDisponibles { get; private set; }
         public CooperanteWrapper CooperantePreviamenteSeleccionado { get; set; }
         public CooperanteWrapper CooperanteSeleccionado { get; set; }
-        public IEnumerable MensajeDeEspera => _mensajeDeEspera;
+        public IEnumerable MensajeDeEspera => _MensajeDeEspera;
         public IEnumerable ResultadoDeBusqueda => _ResultadoDeBusqueda;
 
         public ICommand AbrirPopupCommand { get; private set; }
@@ -184,9 +184,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             // Si quedan cooperantes disponibles y estamos añadiendo uno sin sustituir otro, 
             // hay que mostrar otra fila para añadir más cooperantes
-            if (CooperantesDisponibles.Count > 0 && !Actividad.Cooperantes.Contains(_cooperanteDummy))
+            if (CooperantesDisponibles.Count > 0 && !Actividad.Cooperantes.Contains(_CooperanteDummy))
             {
-                Actividad.Cooperantes.Add(_cooperanteDummy);
+                Actividad.Cooperantes.Add(_CooperanteDummy);
             }
 
             ((DelegateCommand<CooperanteWrapper>)QuitarCooperanteCommand).RaiseCanExecuteChanged();
@@ -196,11 +196,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             if (CooperantesDisponibles.Count == 0)
             {
-                Actividad.Cooperantes.Add(_cooperanteDummy);
+                Actividad.Cooperantes.Add(_CooperanteDummy);
             }
 
             CooperantesDisponibles.Add(Actividad.Coordinador);
-            Actividad.SetCoordinador(_cooperanteDummy);
+            Actividad.SetCoordinador(_CooperanteDummy);
             ((DelegateCommand)QuitarCoordinadorCommand).RaiseCanExecuteChanged();
         }
 
@@ -215,7 +215,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             // sí lo habrá así que incluímos el Dummy para poder añadirlo
             if (CooperantesDisponibles.Count == 0)
             {
-                Actividad.Cooperantes.Add(_cooperanteDummy);
+                Actividad.Cooperantes.Add(_CooperanteDummy);
             }
 
             Actividad.Cooperantes.Remove(cooperante);
@@ -229,9 +229,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnAceptarCommand()
         {
-            Actividad.Cooperantes.Remove(_cooperanteDummy);
-            _actividadRepository.Create(Actividad.Model);
-            _eventAggregator.GetEvent<NuevaActividadEvent>().Publish(Actividad.Id);
+            Actividad.Cooperantes.Remove(_CooperanteDummy);
+            _ActividadRepository.Create(Actividad.Model);
+            _EventAggregator.GetEvent<NuevaActividadEvent>().Publish(Actividad.Id);
             Cerrar = true;
         }
 
