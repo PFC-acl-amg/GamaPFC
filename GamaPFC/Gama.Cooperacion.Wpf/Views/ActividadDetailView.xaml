@@ -5,10 +5,37 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:designData="clr-namespace:Gama.Cooperacion.Wpf.DesignTimeData"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-    <TextBlock FontSize="28">Hola</TextBlock>
+             d:DesignHeight="509.467" d:DesignWidth="537.87">
+  <d:DataContext>
+    <designData:DesignTimeDataViewModel/>
+  </d:DataContext>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition MaxWidth="450"/>
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+
+    <Grid Grid.Column="0" Grid.Row="0">
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <ScrollViewer>
+        <local:ActividadInformacionBasicaView  ScrollViewer.VerticalScrollBarVisibility="Hidden" />
+      </ScrollViewer>
+      <StackPanel Orientation="Vertical" Grid.Row="1">
+        <Label HorizontalAlignment="Right" >
+          <Hyperlink 
+            Command="{Binding HabilitarEdicionCommand}"
+            CommandParameter="{Binding Actual}">
+            Editar
+          </Hyperlink>
+        </Label>
+      </StackPanel>
     </Grid>
+    <local:ActividadTareasView Grid.Column="1"/>
+  </Grid>
 </UserControl>

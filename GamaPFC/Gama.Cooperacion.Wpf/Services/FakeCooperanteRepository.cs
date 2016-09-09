@@ -13,12 +13,12 @@ namespace Gama.Cooperacion.Wpf.Services
 
         public void Create(Cooperante entity)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Delete(Cooperante entity)
         {
-            throw new NotImplementedException();
+
         }
 
         public List<Cooperante> GetAll()
@@ -50,12 +50,12 @@ namespace Gama.Cooperacion.Wpf.Services
 
         public Cooperante GetById(int id)
         {
-            throw new NotImplementedException();
+            return _cooperantes.Where(c => c.Id == id).First();
         }
 
         public bool Update(Cooperante entity)
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }

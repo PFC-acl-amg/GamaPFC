@@ -9,19 +9,24 @@ namespace Gama.Cooperacion.Wpf.Services
 {
     public class FakeActividadRepository : IActividadRepository
     {
+        private List<Actividad> _actividades;
+
         public void Create(Actividad entity)
         {
-            throw new NotImplementedException();
+            _actividades.Add(entity);
         }
 
         public void Delete(Actividad entity)
         {
-            throw new NotImplementedException();
+
         }
 
         public List<Actividad> GetAll()
         {
-            var actividades = new List<Actividad>();
+            if (_actividades != null)
+                return _actividades;
+
+            _actividades = new List<Actividad>();
 
             for (int i = 0; i < 30; i++)
             {
@@ -31,15 +36,15 @@ namespace Gama.Cooperacion.Wpf.Services
                     Descripcion = Faker.TextFaker.Sentences(4),
                 };
 
-                actividades.Add(actividad);
+                _actividades.Add(actividad);
             }
 
-            return actividades;
+            return _actividades;
         }
 
         public Actividad GetById(int id)
         {
-            throw new NotImplementedException();
+            return _actividades.Where(a => a.Id == id).First();
         }
 
         public bool Update(Actividad entity)

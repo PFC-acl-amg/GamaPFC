@@ -124,6 +124,7 @@
     <Compile Include="Mappings\ActividadMap.cs" />
     <Compile Include="Mappings\CooperanteMap.cs" />
     <Compile Include="Services\ActividadRepository.cs" />
+    <Compile Include="Services\CooperanteRepository.cs" />
     <Compile Include="Services\FakeCooperanteRepository.cs" />
     <Compile Include="Services\FakeActividadRepository.cs" />
     <Compile Include="Services\IActividadRepository.cs" />
@@ -140,6 +141,12 @@
     </Compile>
     <Compile Include="Views\ActividadesContentView.xaml.cs">
       <DependentUpon>ActividadesContentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ActividadInformacionBasicaView.xaml.cs">
+      <DependentUpon>ActividadInformacionBasicaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ActividadTareasView.xaml.cs">
+      <DependentUpon>ActividadTareasView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
@@ -174,6 +181,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ActividadesContentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ActividadInformacionBasicaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ActividadTareasView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,0 +1,146 @@
+﻿<UserControl 
+  x:Class="Gama.Cooperacion.Wpf.Views.ActividadInformacionBasicaView"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+  xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
+  xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+  xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
+  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:prism="http://prismlibrary.com/"
+  xmlns:selector="clr-namespace:Gama.Common.Resources.DataTemplateSelectors;assembly=Gama.Common"
+  prism:ViewModelLocator.AutoWireViewModel="True"
+  mc:Ignorable="d" 
+  d:DesignHeight="349.5" d:DesignWidth="422.26">
+  <UserControl.Resources>
+    <!-- Colleción de personas buscables. Se corresponde al total
+             de personas activas en la base de datos. -->
+    <CollectionViewSource x:Key="CooperantesBuscables">
+      <CollectionViewSource.Source>
+        <PriorityBinding>
+          <Binding Path="ResultadoDeBusqueda" IsAsync="True"/>
+          <Binding Path="MensajeDeEspera"/>
+        </PriorityBinding>
+      </CollectionViewSource.Source>
+    </CollectionViewSource>
+
+    <!-- Selector para mostrar estado de espera mientras se realiza la búsqueda. -->
+    <selector:BuscadorDataTemplateSelector x:Key="BuscadorTemplateSelector"/>
+  </UserControl.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition />
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+    <Popup x:Name="popup"
+      IsOpen="{Binding PopupEstaAbierto}" 
+      StaysOpen="False"
+      Placement="MousePoint"
+      AllowsTransparency="True" 
+      Opened="Popup_Opened">
+      <local:ListaEmergenteDeCooperantes Opacity="1"/>
+    </Popup>
+
+    <GroupBox Grid.Row="0" Header="Información Básica">
+      <StackPanel>
+        <TextBox  BorderThickness="1"
+          Text="{Binding Actividad.Titulo}"
+          metro:TextBoxHelper.Watermark="Introduce el título..."
+          Margin="{StaticResource Margin}"/>
+        <TextBox  
+            Text="{Binding Actividad.Descripcion}"
+            metro:TextBoxHelper.Watermark="Introduce la descripción..."
+            Margin="{StaticResource Margin}"
+            MinLines="4"
+            AcceptsReturn="True"/>
+      </StackPanel>
+    </GroupBox>
+
+    <GroupBox Grid.Row="2" Header="Coordinador">
+      <Grid >
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <cc:SearchBox Grid.Column="0"
+                 Margin="{StaticResource Margin}"
+                 Text="{Binding Actividad.Coordinador.NombreCompleto, Mode=OneWay}"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Column="1">
+          <Button Content="Buscar" Margin="{StaticResource Margin}"
+                Command="{Binding AbrirPopupCommand}"/>
+          <Button Content="X" Margin="{StaticResource Margin}"
+                Command="{Binding QuitarCoordinadorCommand}"/>
+        </StackPanel>
+      </Grid>
+    </GroupBox>
+
+    <GroupBox Grid.Row="4" Header="Cooperantes">
+      <ListBox x:Name="cooperantesListBox"
+        ItemsSource="{Binding Actividad.Cooperantes}">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <Grid x:Name="grid">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+              </Grid.ColumnDefinitions>
+
+              <cc:SearchBox 
+                x:Name="searchBox"
+                Grid.Column="0"
+                VerticalContentAlignment="Center"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                MinWidth="250"
+                SearchMode="Delayed"
+                ItemsSource="{Binding Source={StaticResource CooperantesBuscables}}"
+                SelectedItem="{Binding DataContext.SelectedCooperante, Mode=TwoWay, ElementName=cooperantesListBox}"
+                ItemTemplateSelector="{StaticResource BuscadorTemplateSelector}"
+                Text="{Binding NombreCompleto, Mode=OneWay}"
+                Margin="{StaticResource Margin}">
+                <i:Interaction.Triggers>
+                  <i:EventTrigger EventName="Search">
+                    <prism:InvokeCommandAction 
+                      Command="{Binding DataContext.SearchCommand, ElementName=cooperantesListBox}"
+                      CommandParameter="{Binding ElementName=searchBox, Path=Text}"/>
+                  </i:EventTrigger>
+                  <i:EventTrigger EventName="SelectResult">
+                    <prism:InvokeCommandAction 
+                      Command="{Binding DataContext.SelectResultCommand, ElementName=cooperantesListBox}"
+                      CommandParameter="{Binding}"/>
+                  </i:EventTrigger>
+                </i:Interaction.Triggers>
+              </cc:SearchBox>
+
+              <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button Content="Buscar" 
+                        Margin="{StaticResource Margin}"
+                        Command="{Binding DataContext.AbrirPopupCommand, 
+                          RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                        CommandParameter="{Binding}"/>
+                <Button Content="X" 
+                        Margin="{StaticResource Margin}"
+                        Command="{Binding DataContext.QuitarCooperanteCommand,
+                          RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                        CommandParameter="{Binding}"/>
+              </StackPanel>
+            </Grid>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </GroupBox>
+  </Grid>
+</UserControl>

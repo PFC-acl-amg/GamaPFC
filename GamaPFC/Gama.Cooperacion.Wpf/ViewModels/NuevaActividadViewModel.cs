@@ -22,7 +22,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
     public class NuevaActividadViewModel : ViewModelBase
     {
         private IActividadRepository _ActividadRepository;
-        private bool? _Cerrar = false;
+        private bool? _Cerrar; // Debe ser nulo al inicializarse el VM, o hay excepción con Dialogcloser
         private ICooperanteRepository _CooperanteRepository;
         private IEventAggregator _EventAggregator;
         private IEnumerable _MensajeDeEspera;
