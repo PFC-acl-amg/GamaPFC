@@ -51,6 +51,7 @@ namespace Core.DataAccess
             }
             catch (NHibernate.Exceptions.GenericADOException e)
             {
+                var message = e.Message;
                 return false;
             }
         }

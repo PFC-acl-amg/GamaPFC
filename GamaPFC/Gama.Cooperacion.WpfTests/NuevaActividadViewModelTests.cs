@@ -52,7 +52,7 @@ namespace Gama.Cooperacion.WpfTests
                 ((ObservableCollection<LookupItem>)_vm.ResultadoDeBusqueda).All
                 (lookupItem => _vm.CooperantesDisponibles.Any(cw => lookupItem.Id == cw.Id)));
             Assert.False(_vm.PopupEstaAbierto);
-            Assert.False(_vm.Cerrar);
+            Assert.Null(_vm.Cerrar);
             Assert.Null(_vm.SelectedCooperante);
             Assert.Null(_vm.CooperanteSeleccionado);
             Assert.Null(_vm.CooperantePreviamenteSeleccionado);

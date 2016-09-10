@@ -172,6 +172,9 @@
     </Compile>
     <Compile Include="Wrappers\ActividadWrapper.cs" />
     <Compile Include="Wrappers\CooperanteWrapper.cs" />
+    <Compile Include="Wrappers\EmailWrapper.cs" />
+    <Compile Include="Wrappers\TareaWrapper.cs" />
+    <Compile Include="Wrappers\TelefonoWrapper.cs" />
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

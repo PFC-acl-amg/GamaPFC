@@ -148,7 +148,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     CooperantesDisponibles.Add(Actividad.Coordinador);
                 }
 
-                Actividad.SetCoordinador(CooperanteSeleccionado);
+                Actividad.Coordinador = CooperanteSeleccionado;
                 CooperantesDisponibles.Remove(CooperanteSeleccionado);
                 ((DelegateCommand)QuitarCoordinadorCommand).RaiseCanExecuteChanged();
             }
@@ -179,7 +179,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 CooperantesDisponibles.Add(cooperanteAnterior);
             }
 
-            Actividad.AddCooperante(cooperanteNuevo);
+            //Actividad.AddCooperante(cooperanteNuevo);
             CooperantesDisponibles.Remove(cooperanteNuevo);
 
             // Si quedan cooperantes disponibles y estamos añadiendo uno sin sustituir otro, 
@@ -200,7 +200,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             }
 
             CooperantesDisponibles.Add(Actividad.Coordinador);
-            Actividad.SetCoordinador(_CooperanteDummy);
+            Actividad.Coordinador = _CooperanteDummy;
             ((DelegateCommand)QuitarCoordinadorCommand).RaiseCanExecuteChanged();
         }
 

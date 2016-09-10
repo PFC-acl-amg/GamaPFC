@@ -12,7 +12,17 @@ namespace Gama.Cooperacion.Wpf.Wrappers
     {
         public CooperanteWrapper(Cooperante model) : base (model)
         {
+            InitializeCollectionProperties(model);
+        }
 
+        private void InitializeCollectionProperties(Cooperante model)
+        {
+            if (model.Emails == null)
+                throw new ArgumentNullException("Emails");
+
+            this.Emails = new ChangeTrackingCollection<EmailWrapper>
+                (model.Emails.Select(e => new EmailWrapper(e)));
+            this.RegisterCollection(this.Emails, model.Emails.ToList());
         }
 
         public string Apellido
@@ -39,7 +49,16 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             set { SetValue(value); }
         }
 
+        public string Observaciones
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
         // Propiedad del Wrapper únicamente
         public string NombreCompleto => string.Format("{0} {1}", Nombre, Apellido);
+
+        public ChangeTrackingCollection<EmailWrapper> Emails { get; private set; }
+        public ChangeTrackingCollection<TelefonoWrapper> Telefonos { get; private set; }
     }
 }

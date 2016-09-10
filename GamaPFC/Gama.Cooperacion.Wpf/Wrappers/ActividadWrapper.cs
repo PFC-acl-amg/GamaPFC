@@ -20,19 +20,28 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         {
             if (model.Cooperantes == null)
             {
-                throw new ArgumentException("La lista de cooperantes no puede ser nula");
+                throw new ArgumentNullException("Cooperantes");
             }
 
             this.Cooperantes = new ChangeTrackingCollection<CooperanteWrapper>
                 (model.Cooperantes.Select(c => new CooperanteWrapper(c)));
             this.RegisterCollection(this.Cooperantes, model.Cooperantes.ToList());
+
+            if (model.Tareas == null)
+            {
+                throw new ArgumentNullException("Tareas");
+            }
+
+            this.Tareas = new ChangeTrackingCollection<TareaWrapper>
+                (model.Tareas.Select(t => new TareaWrapper(t)));
+            this.RegisterCollection(this.Tareas, model.Tareas.ToList());
         }
 
         private void InitializeComplexProperties(Actividad model)
         {
             if (model.Coordinador == null)
             {
-                throw new ArgumentException("'Coordinador' no puede ser nulo");
+                throw new ArgumentNullException("Coordinador");
             }
 
             this.Coordinador = new CooperanteWrapper(model.Coordinador);
@@ -75,33 +84,14 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             set { SetValue(value); }
         }
 
-
-        /*
-        public virtual IList<Cooperante> Cooperantes { get; protected set; }
-        public virtual Cooperante Coordinador { get; set; }
-        public virtual string Descripcion { get; set; }
-        public virtual Estado Estado { get; set; }
-        public virtual DateTime FechaDeInicio { get; set; }
-        public virtual DateTime FechaDeFin { get; set; }
-        public virtual int Id { get; protected set; }
-        public virtual string Titulo { get; set; }
-        public virtual IList<Tarea> Tareas { get; protected set; }
-        */
-
-        public void SetCoordinador(CooperanteWrapper coordinador)
-        {
-            Model.SetCoordinador(coordinador.Model);
-            Coordinador = coordinador;
-            OnPropertyChanged("Coordinador");
-        }
-
-        public CooperanteWrapper Coordinador { get; private set; }
+        public CooperanteWrapper Coordinador { get; set; }
 
         public ChangeTrackingCollection<CooperanteWrapper> Cooperantes { get; private set; }
+        public ChangeTrackingCollection<TareaWrapper> Tareas { get; private set; }
 
-        internal void AddCooperante(CooperanteWrapper cooperanteNuevo)
+        public void AddCooperante(CooperanteWrapper cooperanteNuevo)
         {
-            Model.AddCooperante(cooperanteNuevo.Model);
+            Cooperantes.Add(cooperanteNuevo);
         }
     }
 }

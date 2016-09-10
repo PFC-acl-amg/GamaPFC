@@ -8,13 +8,13 @@
              xmlns:designData="clr-namespace:Gama.Cooperacion.Wpf.DesignTimeData"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="509.467" d:DesignWidth="537.87">
+             d:DesignHeight="509.467" d:DesignWidth="994.332">
   <d:DataContext>
     <designData:DesignTimeDataViewModel/>
   </d:DataContext>
   <Grid>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition MaxWidth="450"/>
+      <ColumnDefinition MaxWidth="400"/>
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
 
@@ -24,7 +24,7 @@
         <RowDefinition Height="Auto"/>
       </Grid.RowDefinitions>
       <ScrollViewer>
-        <local:ActividadInformacionBasicaView  ScrollViewer.VerticalScrollBarVisibility="Hidden" />
+        <local:ActividadInformacionBasicaView  ScrollViewer.VerticalScrollBarVisibility="Auto" />
       </ScrollViewer>
       <StackPanel Orientation="Vertical" Grid.Row="1">
         <Label HorizontalAlignment="Right" >
@@ -36,6 +36,6 @@
         </Label>
       </StackPanel>
     </Grid>
-    <local:ActividadTareasView Grid.Column="1"/>
+    <local:ActividadTareasView Grid.Column="1" Margin="10,-13,-10,13"/>
   </Grid>
 </UserControl>
