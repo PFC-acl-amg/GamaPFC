@@ -26,6 +26,10 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             set { SetValue(value); }
         }
 
+        public string NumeroOriginalValue => GetOriginalValue<string>(nameof(Numero));
+
+        public bool NumeroIsChanged => GetIsChanged(nameof(Numero));
+
         public override string ToString()
         {
             return Numero;

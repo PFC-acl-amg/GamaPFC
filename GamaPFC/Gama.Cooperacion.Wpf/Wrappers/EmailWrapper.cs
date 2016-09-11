@@ -26,6 +26,10 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             set { SetValue(value); }
         }
 
+        public string DireccionOriginalValue => GetOriginalValue<string>(nameof(Direccion));
+
+        public bool DireccionIsChanged => GetIsChanged(nameof(Direccion));
+
         public override string ToString()
         {
             return Direccion;

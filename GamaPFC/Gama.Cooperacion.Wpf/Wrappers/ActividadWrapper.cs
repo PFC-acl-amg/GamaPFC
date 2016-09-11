@@ -53,11 +53,19 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             set { SetValue(value); }
         }
 
+        public string DescripcionOriginalValue => GetOriginalValue<string>(nameof(Descripcion));
+
+        public bool DescripcionIsChanged => GetIsChanged(nameof(Descripcion));
+
         public Estado Estado
         {
             get { return GetValue<Estado>(); }
             set { SetValue(value); }
         }
+
+        public Estado EstadoOriginalValue => GetOriginalValue<Estado>(nameof(Estado));
+
+        public bool EstadoIsChanged => GetIsChanged(nameof(Estado));
 
         public DateTime FechaDeInicio
         {
@@ -65,11 +73,19 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             set { SetValue(value); }
         }
 
+        public DateTime FechaDeInicioOriginalValue => GetOriginalValue<DateTime>(nameof(FechaDeInicio));
+
+        public bool FechaDeInicioIsChanged => GetIsChanged(nameof(FechaDeInicio));
+
         public DateTime FechaDeFin
         {
             get { return GetValue<DateTime>(); }
             set { SetValue(value); }
         }
+
+        public DateTime FechaDeFinOriginalValue => GetOriginalValue<DateTime>(nameof(FechaDeFin));
+
+        public bool FechaDeFinIsChanged => GetIsChanged(nameof(FechaDeFin));
 
         public int Id
         {
@@ -82,6 +98,10 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             get { return GetValue<string>(); }
             set { SetValue(value); }
         }
+
+        public string TituloOriginalValue => GetOriginalValue<string>(nameof(Titulo));
+
+        public bool TituloIsChanged => GetIsChanged(nameof(Titulo));
 
         public CooperanteWrapper Coordinador { get; set; }
 

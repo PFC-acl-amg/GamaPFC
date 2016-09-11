@@ -38,11 +38,19 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             set { SetValue(value); }
         }
 
+        public string ApellidoOriginalValue => GetOriginalValue<string>(nameof(Apellido));
+
+        public bool ApellidoIsChanged => GetIsChanged(nameof(Apellido));
+
         public string Dni
         {
             get { return GetValue<string>(); }
             set { SetValue(value); }
         }
+
+        public string DniOriginalValue => GetOriginalValue<string>(nameof(Dni));
+
+        public bool DniIsChanged => GetIsChanged(nameof(Dni));
 
         public int Id
         {
@@ -56,11 +64,19 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             set { SetValue(value); }
         }
 
+        public string NombreOriginalValue => GetOriginalValue<string>(nameof(Nombre));
+
+        public bool NombreIsChanged => GetIsChanged(nameof(Nombre));
+
         public string Observaciones
         {
             get { return GetValue<string>(); }
             set { SetValue(value); }
         }
+
+        public string ObservacionesOriginalValue => GetOriginalValue<string>(nameof(Observaciones));
+
+        public bool ObservacionesIsChanged => GetIsChanged(nameof(Observaciones));
 
         // Propiedad del Wrapper únicamente
         public string NombreCompleto => string.Format("{0} {1}", Nombre, Apellido);

@@ -22,10 +22,10 @@ namespace Gama.CommonTests.Wrapper
         }
 
         [Fact]
-        public void ShouldInitializeEstadoProperty()
+        public void ShouldInitializeCoordinadorProperty()
         {
             var wrapper = new ActividadWrapper(_Actividad);
-            Assert.NotNull(wrapper.Estado);
+            Assert.NotNull(wrapper.Coordinador);
             Assert.Equal(_Actividad.Coordinador, wrapper.Coordinador.Model);
         }
     }
