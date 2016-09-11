@@ -14,7 +14,7 @@
         Title="Módulo de Cooperación" Height="350" Width="525">
   <Grid>
       <Grid.RowDefinitions>
-        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto" MaxHeight="100"/>
         <RowDefinition />
         <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>

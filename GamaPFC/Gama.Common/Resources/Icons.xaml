@@ -17,7 +17,7 @@
       </Path>
     </Grid>
   </Viewbox>
-  
+
   <Viewbox x:Key="icon_left_arrow_popup">
     <Grid>
       <Grid Width="48" Height="48" Visibility="Collapsed" />
@@ -52,6 +52,16 @@
             </TransformGroup.Children>
           </TransformGroup>
         </Path.RenderTransform>
+      </Path>
+    </Grid>
+  </Viewbox>
+
+  <Viewbox x:Key="icon_document_add_01">
+    <Grid>
+      <Grid Name="backgroundGrid" Width="48" Height="48" Visibility="Visible">
+        <Rectangle Fill="#FF000000" Visibility="Visible" />
+      </Grid>
+      <Path Data="M10.830011,12.05L13.334007,12.05 13.334007,16.535997 17.819998,16.535997 17.819998,19.03902 13.334007,19.03902 13.334007,23.525016 10.830988,23.525016 10.830988,19.03902 6.3460046,19.03902 6.3449975,16.53499 10.830988,16.535997z M2.2799975,2.4149805L2.2799975,29.580015 22.121998,29.580015 22.121998,8.500008 15.83599,8.500008 15.83599,2.4149805z M0,0L15.83599,0 17.125998,0 22.681996,5.439977 24.407,7.125007 24.407,32.000001 0,32.000001z" Stretch="Uniform" Fill="#FFFFFFFF" Width="26" Height="26" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
       </Path>
     </Grid>
   </Viewbox>

@@ -6,6 +6,7 @@ using Gama.Cooperacion.Wpf.Services;
 using Gama.Cooperacion.Wpf.ViewModels;
 using Gama.Cooperacion.Wpf.Views;
 using Microsoft.Practices.Unity;
+using Prism.Logging;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
@@ -20,10 +21,33 @@ namespace Gama.Cooperacion.Wpf
         public CooperacionModule(IUnityContainer container, IRegionManager regionManager)
            : base(container, regionManager)
         {
-
+            this.Entorno = Entorno.Desarrollo;
+            this.UseFaker = true;
         }
 
         public override void Initialize()
+        {
+            RegisterViews();
+            RegisterViewModels();
+            RegisterServices();
+            InitializeNavigation();
+
+            ILoggerFacade log = Container.Resolve<ILoggerFacade>();
+            log.Log("ok", Category.Exception, Priority.None);
+
+            if (this.UseFaker)
+            {
+                var cooperanteRepository = Container.Resolve<ICooperanteRepository>();
+                var cooperantesDummy = new FakeCooperanteRepository().GetAll();
+
+                foreach (var cooperante in cooperantesDummy)
+                {
+                    cooperanteRepository.Create(cooperante);
+                }
+            }
+        }
+
+        private void RegisterViews()
         {
             Container.RegisterType<object, ActividadDetailView>("ActividadDetailView");
             Container.RegisterType<object, ActividadesContentView>("ActividadesContentView");
@@ -32,7 +56,10 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterType<object, NuevaActividadView>("NuevaActividadView");
             Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
             Container.RegisterType<object, ToolbarView>("ToolbarView");
+        }
 
+        private void RegisterViewModels()
+        {
             Container.RegisterType<ActividadDetailViewModel>();
             Container.RegisterType<ActividadesContentViewModel>();
             Container.RegisterType<DashboardViewModel>();
@@ -40,22 +67,30 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterType<NuevaActividadViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
             Container.RegisterType<ToolbarViewModel>();
+        }
 
-            //Container.RegisterInstance(typeof(INHibernateHelper), new NHibernateHelper());
-            //Container.RegisterInstance(typeof(ISessionHelper),
-            //    new SessionHelper(Container.Resolve<INHibernateHelper>()));
-            //Container.RegisterInstance(typeof(IActividadRepository),
-            //    new ActividadRepository(Container.Resolve<ISessionHelper>()));
+        private void RegisterServices()
+        {
+            Container.RegisterInstance(typeof(INHibernateHelper), new NHibernateHelper());
+            Container.RegisterInstance(typeof(ISessionHelper),
+                new SessionHelper(Container.Resolve<INHibernateHelper>()));
 
-            Container.RegisterInstance(typeof(IActividadRepository), new FakeActividadRepository());
-            Container.RegisterInstance(typeof(ICooperanteRepository), new FakeCooperanteRepository());
+            Container.RegisterInstance(typeof(IActividadRepository),
+                new ActividadRepository(Container.Resolve<ISessionHelper>()));
+            Container.RegisterInstance(typeof(ICooperanteRepository),
+                new CooperanteRepository(Container.Resolve<ISessionHelper>()));
 
+            //Container.RegisterInstance(typeof(IActividadRepository), new FakeActividadRepository());
+            //Container.RegisterInstance(typeof(ICooperanteRepository), new FakeCooperanteRepository());
+        }
+
+        private void InitializeNavigation()
+        {
             RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
             RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "ActividadesContentView");
             RegionManager.RequestNavigate(RegionNames.ActividadesTabContentRegion, "ListadoDeActividadesView");
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
-
         }
     }
 }

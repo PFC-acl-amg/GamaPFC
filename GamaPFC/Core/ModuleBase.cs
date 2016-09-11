@@ -9,16 +9,26 @@ using System.Threading.Tasks;
 
 namespace Core
 {
+    public enum Entorno
+    {
+        Desarrollo,
+        Produccion
+    }
+
     public abstract class ModuleBase : IModule
     {
         protected IUnityContainer Container { get; set; }
         protected IRegionManager RegionManager { get; private set; }
         public bool Debug { get; set; }
+        public Entorno Entorno { get; set; }
+        public bool UseFaker { get; set; }
 
         public ModuleBase(IUnityContainer container, IRegionManager regionManager)
         {
             this.Container = container;
             this.RegionManager = regionManager;
+            this.Entorno = Entorno.Desarrollo;
+            this.UseFaker = false;
         }
 
         public abstract void Initialize();

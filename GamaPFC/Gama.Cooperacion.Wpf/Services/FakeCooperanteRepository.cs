@@ -39,8 +39,6 @@ namespace Gama.Cooperacion.Wpf.Services
                         Nombre = Faker.NameFaker.FirstName(),
                     };
 
-                    c.SetId(i);
-
                     _cooperantes.Add(c);
                 }
 

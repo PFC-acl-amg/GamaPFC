@@ -30,10 +30,17 @@ namespace Core.DataAccess
 
         public void Create(TEntity entity)
         {
-            using (var tx = _session.BeginTransaction())
+            try
             {
-                _session.SaveOrUpdate(entity);
-                tx.Commit();
+                using (var tx = _session.BeginTransaction())
+                {
+                    _session.SaveOrUpdate(entity);
+                    tx.Commit();
+                }
+            }
+            catch (Exception ex)
+            {
+                
             }
         }
 
