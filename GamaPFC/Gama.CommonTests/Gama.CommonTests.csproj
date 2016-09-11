@@ -64,6 +64,8 @@
     <Compile Include="Wrapper\ChangeNotificationCollectionProperty.cs" />
     <Compile Include="Wrapper\ChangeNotificationComplexProperty.cs" />
     <Compile Include="Wrapper\ChangeNotificationSimpleProperty.cs" />
+    <Compile Include="Wrapper\ChangeTrackingCollectionProperty.cs" />
+    <Compile Include="Wrapper\ChangeTrackingComplexProperty.cs" />
     <Compile Include="Wrapper\ChangeTrackingSimpleProperty.cs" />
   </ItemGroup>
   <ItemGroup>
