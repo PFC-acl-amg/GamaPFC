@@ -23,6 +23,13 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             this.Emails = new ChangeTrackingCollection<EmailWrapper>
                 (model.Emails.Select(e => new EmailWrapper(e)));
             this.RegisterCollection(this.Emails, model.Emails.ToList());
+
+            if (model.Telefonos == null)
+                throw new ArgumentNullException("Telefonos");
+
+            this.Telefonos = new ChangeTrackingCollection<TelefonoWrapper>
+                (model.Telefonos.Select(t => new TelefonoWrapper(t)));
+            this.RegisterCollection(this.Telefonos, model.Telefonos.ToList());
         }
 
         public string Apellido

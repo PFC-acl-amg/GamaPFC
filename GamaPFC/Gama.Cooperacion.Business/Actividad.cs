@@ -15,7 +15,7 @@ namespace Gama.Cooperacion.Business
     
     public class Actividad
     {
-        public virtual IList<Cooperante> Cooperantes { get; protected set; }
+        public virtual IList<Cooperante> Cooperantes { get; set; }
         public virtual Cooperante Coordinador { get; set; }
         public virtual string Descripcion { get; set; }
         public virtual Estado Estado { get; set; }
@@ -23,7 +23,7 @@ namespace Gama.Cooperacion.Business
         public virtual DateTime FechaDeFin { get; set; }
         public virtual int Id { get; protected set; }
         public virtual string Titulo { get; set; }
-        public virtual IList<Tarea> Tareas { get; protected set; }
+        public virtual IList<Tarea> Tareas { get; set; }
 
         public Actividad()
         {

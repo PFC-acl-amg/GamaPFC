@@ -12,8 +12,8 @@ namespace Gama.Cooperacion.Wpf.Wrappers
     {
         public ActividadWrapper(Actividad model) : base(model)
         {
-            InitializeCollectionProperties(model);
             InitializeComplexProperties(model);
+            InitializeCollectionProperties(model);
         }
 
         private void InitializeCollectionProperties(Actividad model)
@@ -22,19 +22,18 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             {
                 throw new ArgumentNullException("Cooperantes");
             }
-
-            this.Cooperantes = new ChangeTrackingCollection<CooperanteWrapper>
-                (model.Cooperantes.Select(c => new CooperanteWrapper(c)));
-            this.RegisterCollection(this.Cooperantes, model.Cooperantes.ToList());
-
-            if (model.Tareas == null)
+            else if (model.Tareas == null)
             {
                 throw new ArgumentNullException("Tareas");
             }
 
+            this.Cooperantes = new ChangeTrackingCollection<CooperanteWrapper>
+                (model.Cooperantes.Select(c => new CooperanteWrapper(c)));
+            this.RegisterCollection(this.Cooperantes, model.Cooperantes);
+
             this.Tareas = new ChangeTrackingCollection<TareaWrapper>
                 (model.Tareas.Select(t => new TareaWrapper(t)));
-            this.RegisterCollection(this.Tareas, model.Tareas.ToList());
+            this.RegisterCollection(this.Tareas, model.Tareas);
         }
 
         private void InitializeComplexProperties(Actividad model)

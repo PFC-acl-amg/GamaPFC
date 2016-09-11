@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Core.Tests.Wrapper
+namespace Gama.CommonTests
 {
     public class BasicTests
     {

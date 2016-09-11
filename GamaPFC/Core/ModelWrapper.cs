@@ -106,11 +106,11 @@ namespace Core
 
         protected void RegisterCollection<TWrapper, TModel>(
             ChangeTrackingCollection<TWrapper> wrapperCollection,
-            List<TModel> modelCollection) where TWrapper : ModelWrapper<TModel>
+            IList<TModel> modelCollection) where TWrapper : ModelWrapper<TModel>
         {
             wrapperCollection.CollectionChanged += (s, e) => {
                 modelCollection.Clear();
-                modelCollection.AddRange(wrapperCollection.Select(w => w.Model));
+                ((List<TModel>)modelCollection).AddRange(wrapperCollection.Select(w => w.Model));
             };
             RegisterTrackingObject(wrapperCollection);
         }
