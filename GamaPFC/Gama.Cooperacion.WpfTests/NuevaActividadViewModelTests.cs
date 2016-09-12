@@ -54,7 +54,7 @@ namespace Gama.Cooperacion.WpfTests
             Assert.False(_vm.PopupEstaAbierto);
             Assert.Null(_vm.Cerrar);
             Assert.Null(_vm.SelectedCooperante);
-            Assert.Null(_vm.CooperanteSeleccionado);
+            Assert.Null(_vm.CooperanteEmergenteSeleccionado);
             Assert.Null(_vm.CooperantePreviamenteSeleccionado);
             Assert.Equal(((List<string>)_vm.MensajeDeEspera)[0], "Espera por favor...");
             Assert.Equal(_vm.Actividad.Cooperantes.Count, 1);
@@ -62,6 +62,48 @@ namespace Gama.Cooperacion.WpfTests
             Assert.Null(_vm.Actividad.Cooperantes.First().Nombre);
             Assert.Equal(_vm.Actividad.Coordinador.Id, 0);
             Assert.Null(_vm.Actividad.Coordinador.Nombre);
+        }
+
+        [Fact]
+        private void ShouldAddCoordinador()
+        {
+            _vm.CoordinadorSeleccionado = new LookupItem()
+            {
+                DisplayMember1 = string.Format("{0} {1}", _cooperantes[0].Nombre, _cooperantes[0].Apellido),
+                DisplayMember2 = _cooperantes[0].Dni,
+                Id = _cooperantes[0].Id
+            };
+
+            _vm.SelectCoordinadorCommand.Execute(null);
+            Assert.Equal(_vm.CoordinadorSeleccionado.Id, _vm.Actividad.Coordinador.Id);
+
+        }
+
+        [Fact]
+        private void ShouldAddCoordinadoresEnOrdenAleatorio()
+        {
+            _vm.CooperanteEmergenteSeleccionado = 
+                _vm.CooperantesDisponibles.Where(cd => cd.Id == _cooperantes[0].Id).First();
+            _vm.AbrirPopupCommand.Execute(null);
+            _vm.NuevoCooperanteCommand.Execute(null);
+            Assert.Equal(_cooperantes[0].Id, _vm.Actividad.Coordinador.Id);
+
+
+            _vm.CoordinadorSeleccionado = new LookupItem()
+            {
+                DisplayMember1 = string.Format("{0} {1}", _cooperantes[1].Nombre, _cooperantes[1].Apellido),
+                DisplayMember2 = _cooperantes[1].Dni,
+                Id = _cooperantes[1].Id
+            };
+            _vm.SelectCoordinadorCommand.Execute(null);
+            Assert.Equal(_vm.CoordinadorSeleccionado.Id, _vm.Actividad.Coordinador.Id);
+
+
+            _vm.CooperanteEmergenteSeleccionado =
+                _vm.CooperantesDisponibles.Where(cd => cd.Id == _cooperantes[2].Id).First();
+            _vm.AbrirPopupCommand.Execute(null);
+            _vm.NuevoCooperanteCommand.Execute(null);
+            Assert.Equal(_cooperantes[2].Id, _vm.Actividad.Coordinador.Id);
         }
     }
 }

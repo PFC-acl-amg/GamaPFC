@@ -59,7 +59,7 @@
               ItemsSource="{Binding CooperantesDisponibles}"
               SelectionMode="Single"
               SelectedIndex="0"
-              SelectedItem="{Binding CooperanteSeleccionado}">
+              SelectedItem="{Binding CooperanteEmergenteSeleccionado}">
           <ListBox.ItemTemplate>
             <DataTemplate>
               <Border BorderBrush="{StaticResource AccentColor}" 
@@ -93,7 +93,7 @@
     </GroupBox>
     <StackPanel Grid.Row="1" Orientation="Horizontal"
                     HorizontalAlignment="Right">
-      <Button Content="Añadir" Command="{Binding AceptarNuevoCooperanteCommand}"
+      <Button Content="Añadir" Command="{Binding NuevoCooperanteCommand}"
               Margin="{StaticResource Margin}"/>
     </StackPanel>
   </Grid>

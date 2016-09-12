@@ -72,9 +72,27 @@
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <cc:SearchBox Grid.Column="0"
-                 Margin="{StaticResource Margin}"
-                 Text="{Binding Actividad.Coordinador.NombreCompleto, Mode=OneWay}"/>
+        <cc:SearchBox 
+          x:Name="searchBoxCoordinador"
+          Grid.Column="0"
+          Margin="{StaticResource Margin}"
+          SearchMode="Delayed"
+          SelectedItem="{Binding CoordinadorSeleccionado}"
+          ItemsSource="{Binding Source={StaticResource CooperantesBuscables}}"
+          ItemTemplateSelector="{StaticResource BuscadorTemplateSelector}"
+          Text="{Binding Actividad.Coordinador.NombreCompleto, Mode=OneWay}">
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Search">
+              <prism:InvokeCommandAction 
+                  Command="{Binding SearchCommand}"
+                  CommandParameter="{Binding ElementName=searchBoxCoordinador, Path=Text}"/>
+            </i:EventTrigger>
+            <i:EventTrigger EventName="SelectResult">
+              <prism:InvokeCommandAction 
+                      Command="{Binding SelectCoordinadorCommand}"/>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </cc:SearchBox>
 
         <StackPanel Orientation="Horizontal" Grid.Column="1">
           <Button Content="Buscar" Margin="{StaticResource Margin}"

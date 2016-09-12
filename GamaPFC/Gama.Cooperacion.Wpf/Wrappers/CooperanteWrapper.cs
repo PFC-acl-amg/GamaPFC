@@ -35,7 +35,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         public string Apellido
         {
             get { return GetValue<string>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnPropertyChanged("NombreCompleto"); }
         }
 
         public string ApellidoOriginalValue => GetOriginalValue<string>(nameof(Apellido));
@@ -61,7 +61,11 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         public string Nombre
         {
             get { return GetValue<string>(); }
-            set { SetValue(value); }
+            set
+            {
+                SetValue(value);
+                OnPropertyChanged("NombreCompleto");
+            }
         }
 
         public string NombreOriginalValue => GetOriginalValue<string>(nameof(Nombre));

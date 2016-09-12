@@ -160,7 +160,7 @@ namespace Gama.Common.CustomControls
             }
 
             _suppressEvent = true;
-            Text = selectedItem.DisplayMember1;
+            //Text = selectedItem.DisplayMember1;
             SelectAll();
             _suppressEvent = false;
         }
@@ -192,6 +192,7 @@ namespace Gama.Common.CustomControls
             base.OnTextChanged(e);
 
             HasText = Text.Trim().Length != 0;
+            _searchEventDelayTimer.Stop();
 
             if (SearchMode == SearchMode.Delayed && !_suppressEvent && HasText)
             {
@@ -270,25 +271,29 @@ namespace Gama.Common.CustomControls
 
         void listBox_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            _suppressEvent = true;
             SetTextValueBySelection((LookupItem)_listBox.SelectedItem, moveFocus: false);
-            SelectedItem = (LookupItem)_listBox.SelectedItem;
+            SelectedItem = _listBox.SelectedItem as LookupItem;
             RaiseSelectResultEvent();
+            _suppressEvent = false;
         }
 
         void listBox_KeyDown(object sender, KeyEventArgs e)
         {
+            _suppressEvent = true;
             if (e.Key == Key.Enter || e.Key == Key.Return)
             {
                 SetTextValueBySelection((LookupItem)_listBox.SelectedItem, moveFocus: false);
-                SelectedItem = (LookupItem)_listBox.SelectedItem;
+                SelectedItem = _listBox.SelectedItem as LookupItem;
                 RaiseSelectResultEvent();
             }
             else if (e.Key == Key.Tab)
             {
                 SetTextValueBySelection((LookupItem)_listBox.SelectedItem, moveFocus: true);
-                SelectedItem = (LookupItem)_listBox.SelectedItem;
+                SelectedItem = _listBox.SelectedItem as LookupItem;
                 RaiseSelectResultEvent();
             }
+            _suppressEvent = false;
         }
 
         void OnSeachEventDelayTimerTick(object o, EventArgs e)

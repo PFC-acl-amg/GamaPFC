@@ -103,7 +103,21 @@ namespace Gama.Cooperacion.Wpf.Wrappers
 
         public bool TituloIsChanged => GetIsChanged(nameof(Titulo));
 
-        public CooperanteWrapper Coordinador { get; set; }
+        private CooperanteWrapper _Coordinador;
+        public CooperanteWrapper Coordinador
+        {
+            get { return _Coordinador; }
+            set
+            {
+                _Coordinador = value;
+                OnPropertyChanged("Coordinador");
+
+                if (value != null)
+                {
+                    Model.Coordinador = value.Model;
+                }
+            }
+        }
 
         public ChangeTrackingCollection<CooperanteWrapper> Cooperantes { get; private set; }
         public ChangeTrackingCollection<TareaWrapper> Tareas { get; private set; }
