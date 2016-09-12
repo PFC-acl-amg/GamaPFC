@@ -9,8 +9,7 @@
     <Grid>
     <ListBox ItemsSource="{Binding Actividad.Cooperantes}"
              DisplayMemberPath="Nombre">
-     
+
     </ListBox>
-    <TextBlock Text="La otra parte" Panel.ZIndex="999"/>
   </Grid>
 </UserControl>

@@ -110,7 +110,10 @@ namespace Core
         {
             wrapperCollection.CollectionChanged += (s, e) => {
                 modelCollection.Clear();
-                ((List<TModel>)modelCollection).AddRange(wrapperCollection.Select(w => w.Model));
+                foreach (var wrapper in wrapperCollection)
+                {
+                    modelCollection.Add(wrapper.Model);
+                }
             };
             RegisterTrackingObject(wrapperCollection);
         }

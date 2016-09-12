@@ -10,7 +10,6 @@
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:prism="http://prismlibrary.com/"
   xmlns:selector="clr-namespace:Gama.Common.Resources.DataTemplateSelectors;assembly=Gama.Common"
-  prism:ViewModelLocator.AutoWireViewModel="True"
   mc:Ignorable="d" 
   d:DesignHeight="349.5" d:DesignWidth="422.26">
   <UserControl.Resources>
@@ -105,6 +104,7 @@
 
     <GroupBox Grid.Row="4" Header="Cooperantes">
       <ListBox x:Name="cooperantesListBox"
+        
         ItemsSource="{Binding Actividad.Cooperantes}">
         <ListBox.ItemTemplate>
           <DataTemplate>

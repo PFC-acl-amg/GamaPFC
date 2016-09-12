@@ -131,6 +131,7 @@
     <Compile Include="Services\ICooperanteRepository.cs" />
     <Compile Include="ViewModels\ActividadDetailViewModel.cs" />
     <Compile Include="ViewModels\ActividadesContentViewModel.cs" />
+    <Compile Include="ViewModels\ActividadInformacionBasicaViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\ListadoDeActividadesViewModel.cs" />
     <Compile Include="ViewModels\NuevaActividadViewModel.cs" />

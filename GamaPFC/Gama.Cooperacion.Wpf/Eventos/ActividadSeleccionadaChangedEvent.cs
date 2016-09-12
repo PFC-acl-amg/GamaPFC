@@ -1,4 +1,5 @@
 ﻿using Gama.Cooperacion.Business;
+using Gama.Cooperacion.Wpf.Wrappers;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.Wpf.Eventos
 {
-    public class ActividadSeleccionadaChangedEvent : PubSubEvent<Actividad>
+    public class ActividadSeleccionadaChangedEvent : PubSubEvent<ActividadWrapper>
     {
     }
 }
