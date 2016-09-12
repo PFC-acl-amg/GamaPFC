@@ -16,12 +16,12 @@ using Xunit;
 
 namespace Gama.Cooperacion.WpfTests
 {
-    public class NuevaActividadViewModelTests
+    public class InformacionDeActividadViewModelTests
     {
-        private NuevaActividadViewModel _vm;
+        private ActividadInformacionBasicaViewModel _vm;
         private List<Cooperante> _cooperantes;
 
-        public NuevaActividadViewModelTests()
+        public InformacionDeActividadViewModelTests()
         { 
             _cooperantes = new FakeCooperanteRepository().GetAll();
 
@@ -31,7 +31,7 @@ namespace Gama.Cooperacion.WpfTests
 
             cooperanteRepositoryMock.Setup(cr => cr.GetAll()).Returns(_cooperantes);
 
-            _vm = new NuevaActividadViewModel(
+            _vm = new ActividadInformacionBasicaViewModel(
                 actividadRepositoryMock.Object,
                 cooperanteRepositoryMock.Object,
                 eventAggregatorMock.Object);

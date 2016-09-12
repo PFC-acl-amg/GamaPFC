@@ -131,7 +131,7 @@
     <Compile Include="Services\ICooperanteRepository.cs" />
     <Compile Include="ViewModels\ActividadDetailViewModel.cs" />
     <Compile Include="ViewModels\ActividadesContentViewModel.cs" />
-    <Compile Include="ViewModels\ActividadInformacionBasicaViewModel.cs" />
+    <Compile Include="ViewModels\InformacionDeActividadViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\ListadoDeActividadesViewModel.cs" />
     <Compile Include="ViewModels\NuevaActividadViewModel.cs" />
@@ -143,8 +143,8 @@
     <Compile Include="Views\ActividadesContentView.xaml.cs">
       <DependentUpon>ActividadesContentView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ActividadInformacionBasicaView.xaml.cs">
-      <DependentUpon>ActividadInformacionBasicaView.xaml</DependentUpon>
+    <Compile Include="Views\InformacionDeActividadView.xaml.cs">
+      <DependentUpon>InformacionDeActividadView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ActividadTareasView.xaml.cs">
       <DependentUpon>ActividadTareasView.xaml</DependentUpon>
@@ -188,7 +188,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ActividadInformacionBasicaView.xaml">
+    <Page Include="Views\InformacionDeActividadView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

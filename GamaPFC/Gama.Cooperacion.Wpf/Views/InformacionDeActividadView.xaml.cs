@@ -18,11 +18,11 @@ namespace Gama.Cooperacion.Wpf.Views
     /// <summary>
     /// Interaction logic for ActividadInformacionBasicaView.xaml
     /// </summary>
-    public partial class ActividadInformacionBasicaView : UserControl
+    public partial class InformacionDeActividadView : UserControl
     {
         double? offset;
 
-        public ActividadInformacionBasicaView()
+        public InformacionDeActividadView()
         {
             InitializeComponent();
         }

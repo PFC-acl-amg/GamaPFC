@@ -17,7 +17,7 @@ using System.Windows.Input;
 
 namespace Gama.Cooperacion.Wpf.ViewModels
 {
-    public class ActividadInformacionBasicaViewModel : ViewModelBase
+    public class InformacionDeActividadViewModel : ViewModelBase
     {
         private IActividadRepository _ActividadRepository;
         private bool? _Cerrar; // Debe ser nulo al inicializarse el VM, o hay excepción con Dialogcloser
@@ -30,7 +30,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private LookupItem _SelectedCooperante;
         private LookupItem _CoordinadorSeleccionado;
 
-        public ActividadInformacionBasicaViewModel(IActividadRepository actividadRepository,
+        public InformacionDeActividadViewModel(IActividadRepository actividadRepository,
             ICooperanteRepository cooperanteRepository,
             IEventAggregator eventAggregator)
         {

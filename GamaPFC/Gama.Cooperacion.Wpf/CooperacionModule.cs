@@ -62,7 +62,7 @@ namespace Gama.Cooperacion.Wpf
         {
             Container.RegisterType<ActividadDetailViewModel>();
             Container.RegisterType<ActividadesContentViewModel>();
-            Container.RegisterType<ActividadInformacionBasicaViewModel>();
+            Container.RegisterType<InformacionDeActividadViewModel>();
             Container.RegisterType<DashboardViewModel>();
             Container.RegisterType<ListadoDeActividadesViewModel>();
             Container.RegisterType<NuevaActividadViewModel>();
