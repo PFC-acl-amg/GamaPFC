@@ -25,12 +25,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private bool? _Cerrar; // Debe ser nulo al inicializarse el VM, o hay excepción con Dialogcloser
         private ICooperanteRepository _CooperanteRepository;
         private IEventAggregator _EventAggregator;
-        private ActividadInformacionBasicaViewModel _ActividadVM;
+        private InformacionDeActividadViewModel _ActividadVM;
 
         public NuevaActividadViewModel(IActividadRepository actividadRepository,
             ICooperanteRepository cooperanteRepository,
             IEventAggregator eventAggregator,
-            ActividadInformacionBasicaViewModel actividadViewModel)
+            InformacionDeActividadViewModel actividadViewModel)
         {
             _ActividadRepository = actividadRepository;
             _CooperanteRepository = cooperanteRepository;
@@ -41,7 +41,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             CancelarCommand = new DelegateCommand(OnCancelarCommand);
         }
 
-        public ActividadInformacionBasicaViewModel ActividadVM
+        public InformacionDeActividadViewModel ActividadVM
         {
             get { return _ActividadVM; }
         }

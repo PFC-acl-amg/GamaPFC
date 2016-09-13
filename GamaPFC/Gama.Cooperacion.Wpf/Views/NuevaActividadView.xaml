@@ -28,7 +28,7 @@
       <RowDefinition />
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <local:ActividadInformacionBasicaView DataContext="{Binding ActividadVM}"/>
+    <local:InformacionDeActividadView DataContext="{Binding ActividadVM}"/>
     <StackPanel Grid.Row="1" Orientation="Horizontal"
                     HorizontalAlignment="Right">
       <Button Content="Aceptar" Command="{Binding AceptarCommand}"  Margin="{StaticResource Margin}"/>

@@ -18,7 +18,7 @@ namespace Gama.Cooperacion.WpfTests
 {
     public class InformacionDeActividadViewModelTests
     {
-        private ActividadInformacionBasicaViewModel _vm;
+        private InformacionDeActividadViewModel _vm;
         private List<Cooperante> _cooperantes;
 
         public InformacionDeActividadViewModelTests()
@@ -31,7 +31,7 @@ namespace Gama.Cooperacion.WpfTests
 
             cooperanteRepositoryMock.Setup(cr => cr.GetAll()).Returns(_cooperantes);
 
-            _vm = new ActividadInformacionBasicaViewModel(
+            _vm = new InformacionDeActividadViewModel(
                 actividadRepositoryMock.Object,
                 cooperanteRepositoryMock.Object,
                 eventAggregatorMock.Object);

@@ -14,18 +14,18 @@ namespace Gama.Cooperacion.Wpf.ViewModels
     public class ActividadDetailViewModel : ViewModelBase
     {
         private IActividadRepository _actividadRepository;
-        private ActividadInformacionBasicaViewModel _ActividadVM;
+        private InformacionDeActividadViewModel _ActividadVM;
 
         public ActividadWrapper Actividad { get; set; }
 
         public ActividadDetailViewModel(IActividadRepository actividadRepository,
-            ActividadInformacionBasicaViewModel actividadVM)
+            InformacionDeActividadViewModel actividadVM)
         {
             _actividadRepository = actividadRepository;
             _ActividadVM = actividadVM;
         }
 
-        public ActividadInformacionBasicaViewModel ActividadVM
+        public InformacionDeActividadViewModel ActividadVM
         {
             get { return _ActividadVM; }
         }

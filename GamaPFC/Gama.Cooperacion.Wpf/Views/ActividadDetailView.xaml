@@ -24,7 +24,7 @@
         <RowDefinition Height="Auto"/>
       </Grid.RowDefinitions>
       <ScrollViewer>
-        <local:ActividadInformacionBasicaView  
+        <local:InformacionDeActividadView  
           DataContext="{Binding ActividadVM}"
           ScrollViewer.VerticalScrollBarVisibility="Auto" />
       </ScrollViewer>
@@ -38,6 +38,6 @@
         </Label>
       </StackPanel>
     </Grid>
-    <local:ActividadTareasView Grid.Column="1" Margin="{StaticResource Margin}"/>
+    <local:TareasDeActividad Grid.Column="1" Margin="{StaticResource Margin}"/>
   </Grid>
 </UserControl>

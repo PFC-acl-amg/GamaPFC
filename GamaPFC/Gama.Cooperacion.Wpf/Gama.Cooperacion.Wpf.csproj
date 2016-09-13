@@ -136,6 +136,7 @@
     <Compile Include="ViewModels\ListadoDeActividadesViewModel.cs" />
     <Compile Include="ViewModels\NuevaActividadViewModel.cs" />
     <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
+    <Compile Include="ViewModels\TareasDeActividadViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="Views\ActividadDetailView.xaml.cs">
       <DependentUpon>ActividadDetailView.xaml</DependentUpon>
@@ -146,8 +147,8 @@
     <Compile Include="Views\InformacionDeActividadView.xaml.cs">
       <DependentUpon>InformacionDeActividadView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ActividadTareasView.xaml.cs">
-      <DependentUpon>ActividadTareasView.xaml</DependentUpon>
+    <Compile Include="Views\TareasDeActividad.xaml.cs">
+      <DependentUpon>TareasDeActividad.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
@@ -192,7 +193,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ActividadTareasView.xaml">
+    <Page Include="Views\TareasDeActividad.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
