@@ -32,7 +32,7 @@ namespace Gama.Cooperacion.Wpf.Services
             {
                 var actividad = new Actividad()
                 {
-                    Titulo = Faker.NameFaker.FirstName(),
+                    Titulo = Faker.TextFaker.Sentence(),
                     Descripcion = Faker.TextFaker.Sentences(4),
                 };
 
