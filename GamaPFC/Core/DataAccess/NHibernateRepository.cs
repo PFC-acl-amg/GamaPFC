@@ -15,12 +15,12 @@ namespace Core.DataAccess
         public IStatelessSession _statelessSession;
         private INHibernateSessionFactory _sessionFactory;
 
-        public NHibernateRepository(IStatelessSession statelessSession, ISession session,
-            INHibernateSessionFactory sessionFactory)
+        public NHibernateRepository(INHibernateSessionFactory sessionFactory)
         {
-            _session = session;
-            _statelessSession = statelessSession;
+            //_session = session;
+            //_statelessSession = statelessSession;
             _sessionFactory = sessionFactory;
+            _session = _sessionFactory.OpenSession();
         }
 
         protected ISession Session
@@ -98,11 +98,12 @@ namespace Core.DataAccess
         {
             try
             {
-                using (var tx = _session.BeginTransaction())
+                using (var tx = Session.BeginTransaction())
                 {
-                    _session.Update(entity);
+                    Session.Update(entity);
                     tx.Commit();
                 }
+                Session.Close();
 
                 return true;
             }

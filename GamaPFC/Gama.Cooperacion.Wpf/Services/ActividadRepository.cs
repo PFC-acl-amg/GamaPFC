@@ -12,9 +12,8 @@ namespace Gama.Cooperacion.Wpf.Services
 {
     public class ActividadRepository : NHibernateRepository<Actividad, int>, IActividadRepository
     {
-        public ActividadRepository(IStatelessSession statelessSession, ISession session,
-            INHibernateSessionFactory sessionFactory) 
-            : base(statelessSession, session, sessionFactory)
+        public ActividadRepository(INHibernateSessionFactory sessionFactory) 
+            : base(sessionFactory)
         {
         }
 

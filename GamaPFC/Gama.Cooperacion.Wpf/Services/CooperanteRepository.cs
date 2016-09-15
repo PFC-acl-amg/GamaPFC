@@ -12,9 +12,8 @@ namespace Gama.Cooperacion.Wpf.Services
 {
     public class CooperanteRepository : NHibernateRepository<Cooperante, int>, ICooperanteRepository
     {
-        public CooperanteRepository( IStatelessSession statelessSession, ISession session,
-            INHibernateSessionFactory sessionFactory)
-            : base(statelessSession, session, sessionFactory)
+        public CooperanteRepository(INHibernateSessionFactory sessionFactory)
+            : base(sessionFactory)
         {
         }
     }
