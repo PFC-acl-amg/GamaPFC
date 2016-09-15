@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.Wpf.DesignTimeData
 {
-    public class ListadoDeActividadesVM_DTD : ViewModelBase
+    public class ListadoDeActividadesVM_DTD
     {
         public PaginatedCollectionView Actividades { get; private set; }
 

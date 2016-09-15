@@ -1,6 +1,7 @@
 ﻿using Core;
 using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Views;
+using NHibernate;
 using Prism.Commands;
 using Prism.Events;
 using System;

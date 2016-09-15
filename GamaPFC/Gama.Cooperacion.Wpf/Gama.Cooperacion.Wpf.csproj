@@ -117,13 +117,10 @@
     <Compile Include="Actions\DialogCloser.cs" />
     <Compile Include="Converters\ActividadViewToViewModelConverter.cs" />
     <Compile Include="CooperacionModule.cs" />
-    <Compile Include="DataAccess\NHibernateHelper.cs" />
     <Compile Include="DesignTimeData\DesignTimeDataViewModel.cs" />
     <Compile Include="DesignTimeData\ListadoDeActividadesVM_DTD.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaChangedEvent.cs" />
     <Compile Include="Eventos\NuevaActividadEvent.cs" />
-    <Compile Include="Mappings\ActividadMap.cs" />
-    <Compile Include="Mappings\CooperanteMap.cs" />
     <Compile Include="Services\ActividadRepository.cs" />
     <Compile Include="Services\CooperacionUserConfiguration.cs" />
     <Compile Include="Services\CooperanteRepository.cs" />
@@ -266,6 +263,10 @@
     <ProjectReference Include="..\Gama.Cooperacion.Business\Gama.Cooperacion.Business.csproj">
       <Project>{e54a71cf-f5e1-45d4-9ed2-cdbf2b08c317}</Project>
       <Name>Gama.Cooperacion.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Cooperacion.DataAccess\Gama.Cooperacion.DataAccess.csproj">
+      <Project>{4830f33b-e739-4baa-bf0e-f88be61b01bd}</Project>
+      <Name>Gama.Cooperacion.DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,5 +1,7 @@
 ﻿using Core.DataAccess;
 using Gama.Cooperacion.Business;
+using Gama.Cooperacion.DataAccess;
+using NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,9 @@ namespace Gama.Cooperacion.Wpf.Services
 {
     public class CooperanteRepository : NHibernateRepository<Cooperante, int>, ICooperanteRepository
     {
-        public CooperanteRepository(ISessionHelper sessionHelper) : base(sessionHelper)
+        public CooperanteRepository( IStatelessSession statelessSession, ISession session,
+            INHibernateSessionFactory sessionFactory)
+            : base(statelessSession, session, sessionFactory)
         {
         }
     }

@@ -4,6 +4,7 @@ using Gama.Cooperacion.Wpf.Services;
 using Gama.Cooperacion.Wpf.ViewModels;
 using Gama.Cooperacion.Wpf.Wrappers;
 using Moq;
+using NHibernate;
 using Prism.Events;
 using System;
 using System.Collections;
@@ -28,11 +29,11 @@ namespace Gama.Cooperacion.WpfTests
             var actividadRepositoryMock = new Mock<IActividadRepository>();
             var cooperanteRepositoryMock = new Mock<ICooperanteRepository>();
             var eventAggregatorMock = new Mock<IEventAggregator>();
+            var sessionMock = new Mock<ISession>();
 
             cooperanteRepositoryMock.Setup(cr => cr.GetAll()).Returns(_cooperantes);
 
             _vm = new InformacionDeActividadViewModel(
-                actividadRepositoryMock.Object,
                 cooperanteRepositoryMock.Object,
                 eventAggregatorMock.Object);
         }

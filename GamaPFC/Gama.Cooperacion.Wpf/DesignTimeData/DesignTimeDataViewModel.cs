@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.Wpf.DesignTimeData
 {
-    public class DesignTimeDataViewModel : ViewModelBase
+    public class DesignTimeDataViewModel 
     {
         public ActividadWrapper Actividad { get; set; }
         public List<CooperanteWrapper> CooperantesDisponibles { get; set; }

@@ -1,6 +1,7 @@
 ﻿using Core;
 using Gama.Common;
 using Gama.Cooperacion.Wpf.Eventos;
+using NHibernate;
 using Prism.Events;
 using Prism.Regions;
 using System;

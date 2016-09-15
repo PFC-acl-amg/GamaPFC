@@ -9,7 +9,7 @@ namespace Core.DataAccess
 {
     public interface ISessionHelper
     {
-        ISession Current { get; }
+        NHibernate.ISession Current { get; }
         void CreateSession();
         void ClearSession();
         void OpenSession();

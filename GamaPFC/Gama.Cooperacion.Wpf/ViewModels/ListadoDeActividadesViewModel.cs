@@ -1,6 +1,7 @@
 ﻿using Core;
 using Gama.Cooperacion.Business;
 using Gama.Cooperacion.Wpf.Services;
+using NHibernate;
 using Prism.Commands;
 using Prism.Events;
 using System;

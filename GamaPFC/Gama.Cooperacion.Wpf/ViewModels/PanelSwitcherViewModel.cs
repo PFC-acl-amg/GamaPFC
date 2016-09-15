@@ -1,5 +1,6 @@
 ﻿using Core;
 using Gama.Common;
+using NHibernate;
 using Prism.Commands;
 using Prism.Regions;
 

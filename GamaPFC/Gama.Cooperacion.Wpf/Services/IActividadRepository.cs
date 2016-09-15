@@ -1,4 +1,6 @@
-﻿using Gama.Cooperacion.Business;
+﻿using Core.DataAccess;
+using Gama.Cooperacion.Business;
+using NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,8 @@ namespace Gama.Cooperacion.Wpf.Services
 {
     public interface IActividadRepository
     {
+        //ISessionFactory _session { get; set; }
+
         Actividad GetById(int id);
 
         List<Actividad> GetAll();

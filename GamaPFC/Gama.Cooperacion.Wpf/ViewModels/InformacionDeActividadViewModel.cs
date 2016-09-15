@@ -3,6 +3,7 @@ using Gama.Common.CustomControls;
 using Gama.Cooperacion.Business;
 using Gama.Cooperacion.Wpf.Services;
 using Gama.Cooperacion.Wpf.Wrappers;
+using NHibernate;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -19,7 +20,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 {
     public class InformacionDeActividadViewModel : ViewModelBase
     {
-        private IActividadRepository _ActividadRepository;
+        public IActividadRepository _ActividadRepository { get; set; }
         private bool? _Cerrar; // Debe ser nulo al inicializarse el VM, o hay excepción con Dialogcloser
         private ICooperanteRepository _CooperanteRepository;
         private IEventAggregator _EventAggregator;
@@ -30,11 +31,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private LookupItem _SelectedCooperante;
         private LookupItem _CoordinadorSeleccionado;
 
-        public InformacionDeActividadViewModel(IActividadRepository actividadRepository,
+        public InformacionDeActividadViewModel(
             ICooperanteRepository cooperanteRepository,
             IEventAggregator eventAggregator)
         {
-            _ActividadRepository = actividadRepository;
             _CooperanteRepository = cooperanteRepository;
             _EventAggregator = eventAggregator;
             _MensajeDeEspera = new List<string>() { "Espera por favor..." };
@@ -106,9 +106,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public IEnumerable ResultadoDeBusqueda => _ResultadoDeBusqueda;
 
         public ICommand AbrirPopupCommand { get; private set; }
-        public ICommand AceptarCommand { get; set; }
         public ICommand NuevoCooperanteCommand { get; private set; }
-        public ICommand CancelarCommand { get; private set; }
         public ICommand QuitarCooperanteCommand { get; private set; }
         public ICommand QuitarCoordinadorCommand { get; private set; }
         public ICommand SearchCommand { get; private set; }
@@ -142,8 +140,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             _ResultadoDeBusqueda = CooperantesDisponibles
                 .Where(
-                    c => c.Nombre.ToLower().Contains(textoDeBusqueda.Trim().ToLower()) ||
-                         c.Apellido.ToLower().Contains(textoDeBusqueda.Trim().ToLower()))
+                    c => c.Nombre != null &&
+                         (c.Nombre.ToLower().Contains(textoDeBusqueda.Trim().ToLower()) ||
+                         c.Apellido.ToLower().Contains(textoDeBusqueda.Trim().ToLower())))
                 .Select(c => new LookupItem
                 {
                     Id = c.Id,

@@ -8,6 +8,7 @@ using Gama.Cooperacion.Business;
 using Prism.Regions;
 using Gama.Cooperacion.Wpf.Services;
 using Gama.Cooperacion.Wpf.Wrappers;
+using NHibernate;
 
 namespace Gama.Cooperacion.Wpf.ViewModels
 {
@@ -30,10 +31,25 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             get { return _ActividadVM; }
         }
 
+        public override bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            var id = (int)navigationContext.Parameters["Id"];
+
+            if (Actividad != null && Actividad.Id == id)
+                return true;
+
+            return false;
+        }
+
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            Actividad = new ActividadWrapper(
-                _actividadRepository.GetById((int)navigationContext.Parameters["Id"]));
+            try {
+                Actividad = new ActividadWrapper(
+                    _actividadRepository.GetById((int)navigationContext.Parameters["Id"]));
+            } catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
 
             _ActividadVM.Setup(Actividad);
 

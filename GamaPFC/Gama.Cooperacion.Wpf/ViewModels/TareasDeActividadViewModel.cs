@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.Wpf.ViewModels
 {
-    public class TareasDeActividadViewModel : ViewModelBase
+    public class TareasDeActividadViewModel// : ViewModelBase
     {
     }
 }

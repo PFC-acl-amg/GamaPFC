@@ -4,6 +4,7 @@ using Gama.Cooperacion.Business;
 using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Services;
 using Gama.Cooperacion.Wpf.Wrappers;
+using NHibernate;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -23,19 +24,17 @@ namespace Gama.Cooperacion.Wpf.ViewModels
     {
         private IActividadRepository _ActividadRepository;
         private bool? _Cerrar; // Debe ser nulo al inicializarse el VM, o hay excepción con Dialogcloser
-        private ICooperanteRepository _CooperanteRepository;
         private IEventAggregator _EventAggregator;
         private InformacionDeActividadViewModel _ActividadVM;
 
         public NuevaActividadViewModel(IActividadRepository actividadRepository,
-            ICooperanteRepository cooperanteRepository,
             IEventAggregator eventAggregator,
             InformacionDeActividadViewModel actividadViewModel)
         {
             _ActividadRepository = actividadRepository;
-            _CooperanteRepository = cooperanteRepository;
             _EventAggregator = eventAggregator;
             _ActividadVM = actividadViewModel;
+            _ActividadVM._ActividadRepository = actividadRepository;
            
             AceptarCommand = new DelegateCommand(OnAceptarCommand, OnAceptarCommand_CanExecute);
             CancelarCommand = new DelegateCommand(OnCancelarCommand);
@@ -58,6 +57,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private void OnAceptarCommand()
         {
             _ActividadVM.Actividad.Cooperantes.Remove(_ActividadVM.Actividad.Cooperantes.Where(c => c.Nombre == null).First());
+            foreach (var cooperante in _ActividadVM.Actividad.Cooperantes)
+                cooperante.Model.ActividadesEnQueParticipa.Add(_ActividadVM.Actividad.Model);
+
             _ActividadRepository.Create(_ActividadVM.Actividad.Model);
             _EventAggregator.GetEvent<NuevaActividadEvent>().Publish(_ActividadVM.Actividad.Id);
             Cerrar = true;
@@ -65,8 +67,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private bool OnAceptarCommand_CanExecute()
         {
-            return true;  //(String.IsNullOrEmpty(Actividad.Titulo) &&
-                          //String.IsNullOrEmpty(Actividad.Descripcion));
+            return true; // _ActividadVM.Actividad.Coordinador.Nombre != null;
         }
 
         private void OnCancelarCommand()

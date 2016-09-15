@@ -2,6 +2,7 @@
 using Gama.Cooperacion.Wpf.Services;
 using Gama.Cooperacion.Wpf.ViewModels;
 using Moq;
+using NHibernate;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,7 @@ namespace Gama.Cooperacion.WpfTests
             var eventAggregatorMock = new Mock<IEventAggregator>();
             var activdadRepositoryMock = new Mock<IActividadRepository>();
             var userConfigMock = new Mock<ICooperacionUserConfiguration>();
+            var sessionMock = new Mock<ISession>();
 
             userConfigMock.SetupProperty(uc => uc.ListadoDeActividadesItemsPerPage, _itemsPerPage);
 

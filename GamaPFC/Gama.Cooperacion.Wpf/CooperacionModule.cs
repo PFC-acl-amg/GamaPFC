@@ -1,11 +1,12 @@
 ﻿using Core;
 using Core.DataAccess;
 using Gama.Common;
-using Gama.Cooperacion.Wpf.DataAccess;
+using Gama.Cooperacion.DataAccess;
 using Gama.Cooperacion.Wpf.Services;
 using Gama.Cooperacion.Wpf.ViewModels;
 using Gama.Cooperacion.Wpf.Views;
 using Microsoft.Practices.Unity;
+using NHibernate;
 using Prism.Logging;
 using Prism.Regions;
 using System;
@@ -72,14 +73,22 @@ namespace Gama.Cooperacion.Wpf
 
         private void RegisterServices()
         {
-            Container.RegisterInstance(typeof(INHibernateHelper), new NHibernateHelper());
-            Container.RegisterInstance(typeof(ISessionHelper),
-                new SessionHelper(Container.Resolve<INHibernateHelper>()));
+            //Container.RegisterInstance(typeof(INHibernateHelper), new NHibernateHelper());
+            //Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
 
-            Container.RegisterInstance(typeof(IActividadRepository),
-                new ActividadRepository(Container.Resolve<ISessionHelper>()));
-            Container.RegisterInstance(typeof(ICooperanteRepository),
-                new CooperanteRepository(Container.Resolve<ISessionHelper>()));
+            //Container.RegisterInstance(typeof(ISessionHelper),
+            //    new SessionHelper(Container.Resolve<INHibernateHelper>()));
+            Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
+            Container.RegisterType<ISession>(
+                new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
+            Container.RegisterType<IStatelessSession>(
+                new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenStatelessSession()));
+
+            Container.RegisterType<IActividadRepository, ActividadRepository>();
+
+            //Container.RegisterInstance(typeof(IActividadRepository),
+            //    new ActividadRepository(Container.Resolve<ISessionHelper>()));
+            Container.RegisterType<ICooperanteRepository, CooperanteRepository>();
 
             //Container.RegisterInstance(typeof(IActividadRepository), new FakeActividadRepository());
             //Container.RegisterInstance(typeof(ICooperanteRepository), new FakeCooperanteRepository());

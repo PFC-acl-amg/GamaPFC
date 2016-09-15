@@ -1,16 +1,16 @@
-﻿using Core.DataAccess;
+﻿
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using FluentNHibernate.Conventions.Helpers;
-using Gama.Cooperacion.Wpf.Mappings;
+using Gama.Cooperacion.DataAccess.Mappings;
 using NHibernate;
 using NHibernate.Context;
 using NHibernate.Tool.hbm2ddl;
 using System.Configuration;
 
-namespace Gama.Cooperacion.Wpf.DataAccess
+namespace Gama.Cooperacion.DataAccess
 {
-    public class NHibernateHelper : INHibernateHelper
+    public class NHibernateSessionFactory : INHibernateSessionFactory
     {
         private static string _connectionString = ConfigurationManager.ConnectionStrings["GamaMySql"].ConnectionString;
 
@@ -37,6 +37,11 @@ namespace Gama.Cooperacion.Wpf.DataAccess
             }
         }
 
+        public ISessionFactory GetSessionFactory()
+        {
+            return SessionFactory;
+        }
+
         private static NHibernate.Cfg.Configuration Configure()
         {
             return Fluently.Configure()
@@ -44,7 +49,7 @@ namespace Gama.Cooperacion.Wpf.DataAccess
                 .Mappings(m => m.FluentMappings
                                 .Add<ActividadMap>()
                                 .Add<CooperanteMap>()
-                                .Conventions.Add(DefaultCascade.All()))
+                                .Conventions.Add(DefaultCascade.All(), DefaultLazy.Never()))
                 .ExposeConfiguration(
                     c => {
                         var schema = new SchemaExport(c);
@@ -55,6 +60,11 @@ namespace Gama.Cooperacion.Wpf.DataAccess
                             justDrop: false);
                     })
                 .BuildConfiguration();
+        }
+
+        public IStatelessSession OpenStatelessSession()
+        {
+            return SessionFactory.OpenStatelessSession();
         }
 
         public ISession OpenSession()
@@ -82,6 +92,7 @@ namespace Gama.Cooperacion.Wpf.DataAccess
                 CurrentSessionContext.Bind(SessionFactory.OpenSession());
             }
 
+            //return SessionFactory.OpenSession();
             return SessionFactory.GetCurrentSession();
         }
     }

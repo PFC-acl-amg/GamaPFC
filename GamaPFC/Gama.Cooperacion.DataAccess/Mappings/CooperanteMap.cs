@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gama.Cooperacion.Wpf.Mappings
+namespace Gama.Cooperacion.DataAccess.Mappings
 {
     public class CooperanteMap : ClassMap<Cooperante>
     {
@@ -24,7 +24,9 @@ namespace Gama.Cooperacion.Wpf.Mappings
                 .Inverse();
 
             HasManyToMany(x => x.ActividadesEnQueParticipa)
-                .Table("CooperanteParticipaEnActividad");
+                .Table("CooperanteParticipaEnActividad")
+                .Not.LazyLoad()
+                .Inverse();
         }
     }
 }

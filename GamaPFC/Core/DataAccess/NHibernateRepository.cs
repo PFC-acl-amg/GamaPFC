@@ -1,4 +1,6 @@
-﻿using NHibernate;
+﻿using Gama.Cooperacion.DataAccess;
+using NHibernate;
+using NHibernate.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,38 +11,86 @@ namespace Core.DataAccess
 {
     public class NHibernateRepository<TEntity, TKey> where TEntity : class
     {
-        ISession _session;
+        public ISession _session;
+        public IStatelessSession _statelessSession;
+        private INHibernateSessionFactory _sessionFactory;
 
-        public NHibernateRepository(ISessionHelper sessionHelper)
+        public NHibernateRepository(IStatelessSession statelessSession, ISession session,
+            INHibernateSessionFactory sessionFactory)
         {
-            _session = sessionHelper.Current;
+            _session = session;
+            _statelessSession = statelessSession;
+            _sessionFactory = sessionFactory;
         }
 
-        protected ISession Session { get { return _session; } }
+        protected ISession Session
+        {
+            get
+            {
+                if (!_session.IsOpen)
+                {
+                    _session = _sessionFactory.OpenSession();
+                }
+                return _session;
+            }
+        }
 
         public virtual TEntity GetById(int id)
         {
-            return _session.Get<TEntity>((object)id);
+            try
+            {
+                using (var tx = Session.BeginTransaction())
+                {
+                    var result = Session.Get<TEntity>((object)id);
+                    //_session.Close();
+                    tx.Commit();
+                    Session.Close();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<TEntity> GetAll()
         {
-            return _session.CreateCriteria<TEntity>().List<TEntity>().ToList();
+            try
+            {
+                using (var tx = Session.BeginTransaction())
+                {
+                    var result = Session.CreateCriteria<TEntity>().List<TEntity>().ToList();
+                    Session.Close();
+                    //tx.Commit();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void Create(TEntity entity)
         {
             try
             {
-                using (var tx = _session.BeginTransaction())
+                //using (var tx = _session.BeginTransaction())
+                //{
+                using (var tx = Session.BeginTransaction())
                 {
-                    _session.SaveOrUpdate(entity);
+                    Session.SaveOrUpdate(entity);
+                    //_session.Insert(entity);
+                    //_statelessSession.Insert(entity);
+
                     tx.Commit();
                 }
+                Session.Close();
             }
             catch (Exception ex)
             {
-                
+                throw new GenericADOException(ex.Message, ex);
             }
         }
 
@@ -50,7 +100,7 @@ namespace Core.DataAccess
             {
                 using (var tx = _session.BeginTransaction())
                 {
-                    _session.SaveOrUpdate(entity);
+                    _session.Update(entity);
                     tx.Commit();
                 }
 
@@ -66,7 +116,7 @@ namespace Core.DataAccess
         public void Delete(TEntity entity)
         {
             _session.Delete(entity);
-            _session.Flush();
+            //_session.Flush();
         }
     }
 }

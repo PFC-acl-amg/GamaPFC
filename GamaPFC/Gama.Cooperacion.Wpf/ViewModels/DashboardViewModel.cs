@@ -2,6 +2,7 @@
 using Gama.Cooperacion.Business;
 using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Services;
+using NHibernate;
 using Prism.Events;
 using System;
 using System.Collections.Generic;

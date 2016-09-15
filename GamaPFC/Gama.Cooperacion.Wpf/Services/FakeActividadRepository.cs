@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.DataAccess;
 using Gama.Cooperacion.Business;
+using NHibernate;
 
 namespace Gama.Cooperacion.Wpf.Services
 {
     public class FakeActividadRepository : IActividadRepository
     {
+        public ISessionFactory _session { get; set; }
         private List<Actividad> _actividades;
 
         public void Create(Actividad entity)

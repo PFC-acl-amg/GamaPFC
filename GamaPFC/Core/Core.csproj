@@ -72,6 +72,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -88,10 +89,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangeTrackingCollection.cs" />
-    <Compile Include="DataAccess\INHibernateHelper.cs" />
     <Compile Include="DataAccess\ISessionHelper.cs" />
     <Compile Include="DataAccess\NHibernateRepository.cs" />
     <Compile Include="DataAccess\SessionHelper.cs" />
+    <Compile Include="IViewModelBase.cs" />
     <Compile Include="ModelWrapper.cs" />
     <Compile Include="ModuleBase.cs" />
     <Compile Include="ObservableObject.cs" />
@@ -101,6 +102,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gama.Cooperacion.DataAccess\Gama.Cooperacion.DataAccess.csproj">
+      <Project>{4830f33b-e739-4baa-bf0e-f88be61b01bd}</Project>
+      <Name>Gama.Cooperacion.DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
