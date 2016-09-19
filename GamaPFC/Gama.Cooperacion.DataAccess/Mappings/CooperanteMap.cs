@@ -14,7 +14,7 @@ namespace Gama.Cooperacion.DataAccess.Mappings
         {
             Table("Cooperantes");
             Id(x => x.Id).GeneratedBy.Identity();
-
+                
             Map(x => x.Apellido);
             Map(x => x.Dni).Unique();
             Map(x => x.Nombre);

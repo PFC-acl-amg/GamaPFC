@@ -7,6 +7,8 @@ using NHibernate;
 using NHibernate.Context;
 using NHibernate.Tool.hbm2ddl;
 using System.Configuration;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Gama.Cooperacion.DataAccess
 {
@@ -23,7 +25,20 @@ namespace Gama.Cooperacion.DataAccess
                 {
                     try
                     {
-                        NHibernate.Cfg.Configuration configuration = Configure();
+                        NHibernate.Cfg.Configuration configuration;
+
+                        if (File.Exists("nh.cfg"))
+                        {
+                            var file = File.Open("nh.cfg", FileMode.Open);
+                            configuration = (NHibernate.Cfg.Configuration)new BinaryFormatter()
+                                .Deserialize(file);
+                            //file.Close();
+                        }
+                        else
+                        {
+                            configuration = Configure();
+                            new BinaryFormatter().Serialize(File.Create("nh.cfg"), configuration);
+                        }
 
                         _sessionFactory = configuration.BuildSessionFactory();
                     }

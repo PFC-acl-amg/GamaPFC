@@ -13,7 +13,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <converters:BooleanToVisivilityConverter x:Key="BooleanToVisivilityConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisivilityConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
