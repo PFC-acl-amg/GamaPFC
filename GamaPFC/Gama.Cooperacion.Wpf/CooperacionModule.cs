@@ -81,8 +81,8 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
             Container.RegisterType<ISession>(
                 new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
-            Container.RegisterType<IStatelessSession>(
-                new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenStatelessSession()));
+            //Container.RegisterType<IStatelessSession>(
+            //    new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenStatelessSession()));
 
             Container.RegisterType<IActividadRepository, ActividadRepository>();
 

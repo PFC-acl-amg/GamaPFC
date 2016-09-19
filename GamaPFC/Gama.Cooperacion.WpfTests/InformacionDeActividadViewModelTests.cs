@@ -35,7 +35,8 @@ namespace Gama.Cooperacion.WpfTests
 
             _vm = new InformacionDeActividadViewModel(
                 cooperanteRepositoryMock.Object,
-                eventAggregatorMock.Object);
+                eventAggregatorMock.Object,
+                sessionMock.Object);
         }
 
         [Fact]

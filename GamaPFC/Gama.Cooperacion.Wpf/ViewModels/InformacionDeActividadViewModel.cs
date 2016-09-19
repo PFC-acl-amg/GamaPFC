@@ -33,9 +33,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         public InformacionDeActividadViewModel(
             ICooperanteRepository cooperanteRepository,
-            IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator, ISession session)
         {
             _CooperanteRepository = cooperanteRepository;
+            _CooperanteRepository.Session = session;
             _EventAggregator = eventAggregator;
             _MensajeDeEspera = new List<string>() { "Espera por favor..." };
 

@@ -22,12 +22,14 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private ICooperacionUserConfiguration _userConfig;
 
         public ListadoDeActividadesViewModel(IEventAggregator eventAggregator,
-            IActividadRepository actividadRepository, ICooperacionUserConfiguration userConfig)
+            IActividadRepository actividadRepository, 
+            ICooperacionUserConfiguration userConfig, ISession session)
         {
             Title = "Todas";
 
             _eventAggregator = eventAggregator;
             _actividadRepository = actividadRepository;
+            _actividadRepository.Session = session;
             _userConfig = userConfig;
 
             _actividades = _actividadRepository.GetAll();

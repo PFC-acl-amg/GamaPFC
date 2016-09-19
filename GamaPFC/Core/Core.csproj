@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="ChangeTrackingCollection.cs" />
     <Compile Include="DataAccess\ISessionHelper.cs" />
+    <Compile Include="DataAccess\NHibernateOneSessionRepository.cs" />
     <Compile Include="DataAccess\NHibernateRepository.cs" />
     <Compile Include="DataAccess\SessionHelper.cs" />
     <Compile Include="IViewModelBase.cs" />

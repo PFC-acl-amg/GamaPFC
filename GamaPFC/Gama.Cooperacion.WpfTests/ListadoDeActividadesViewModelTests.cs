@@ -46,7 +46,8 @@ namespace Gama.Cooperacion.WpfTests
             _vm = new ListadoDeActividadesViewModel(
                 eventAggregatorMock.Object,
                 activdadRepositoryMock.Object,
-                userConfigMock.Object);
+                userConfigMock.Object,
+                sessionMock.Object);
         }
 
         [Fact]

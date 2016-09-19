@@ -10,10 +10,9 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.Wpf.Services
 {
-    public class ActividadRepository : NHibernateRepository<Actividad, int>, IActividadRepository
+    public class ActividadRepository : NHibernateOneSessionRepository<Actividad, int>, IActividadRepository
     {
-        public ActividadRepository(INHibernateSessionFactory sessionFactory) 
-            : base(sessionFactory)
+        public ActividadRepository()
         {
         }
 

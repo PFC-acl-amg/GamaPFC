@@ -29,12 +29,14 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         public NuevaActividadViewModel(IActividadRepository actividadRepository,
             IEventAggregator eventAggregator,
-            InformacionDeActividadViewModel actividadViewModel)
+            InformacionDeActividadViewModel actividadViewModel,
+            ISession session)
         {
             _ActividadRepository = actividadRepository;
+            _ActividadRepository.Session = session;
             _EventAggregator = eventAggregator;
             _ActividadVM = actividadViewModel;
-            _ActividadVM._ActividadRepository = actividadRepository;
+            _ActividadVM._ActividadRepository = _ActividadRepository;
            
             AceptarCommand = new DelegateCommand(OnAceptarCommand, OnAceptarCommand_CanExecute);
             CancelarCommand = new DelegateCommand(OnCancelarCommand);
@@ -60,6 +62,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             foreach (var cooperante in _ActividadVM.Actividad.Cooperantes)
                 cooperante.Model.ActividadesEnQueParticipa.Add(_ActividadVM.Actividad.Model);
 
+            _ActividadRepository.Session.Clear();
             _ActividadRepository.Create(_ActividadVM.Actividad.Model);
             _EventAggregator.GetEvent<NuevaActividadEvent>().Publish(_ActividadVM.Actividad.Id);
             Cerrar = true;

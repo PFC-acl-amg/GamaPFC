@@ -27,6 +27,7 @@ namespace Gama.Cooperacion.DataAccess
                     {
                         NHibernate.Cfg.Configuration configuration;
 
+                        File.Delete("nh.cfg");
                         if (File.Exists("nh.cfg"))
                         {
                             var file = File.Open("nh.cfg", FileMode.Open);
@@ -64,7 +65,7 @@ namespace Gama.Cooperacion.DataAccess
                 .Mappings(m => m.FluentMappings
                                 .Add<ActividadMap>()
                                 .Add<CooperanteMap>()
-                                .Conventions.Add(DefaultCascade.All(), DefaultLazy.Never()))
+                                .Conventions.Add(DefaultCascade.None(), DefaultLazy.Always()))
                 .ExposeConfiguration(
                     c => {
                         var schema = new SchemaExport(c);

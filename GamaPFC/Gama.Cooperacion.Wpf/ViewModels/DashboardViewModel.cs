@@ -22,10 +22,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ObservableCollection<Actividad> UltimasActividades { get; private set; }
 
         public DashboardViewModel(IActividadRepository actividadRepository,
-            IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator, ISession session)
         {
             _actividadRepository = actividadRepository;
+            _actividadRepository.Session = session;
             _eventAggregator = eventAggregator;
+
 
             UltimasActividades = new ObservableCollection<Actividad>(
                 _actividadRepository.GetAll()

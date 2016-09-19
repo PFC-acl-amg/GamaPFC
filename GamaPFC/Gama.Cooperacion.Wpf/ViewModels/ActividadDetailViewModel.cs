@@ -20,9 +20,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ActividadWrapper Actividad { get; set; }
 
         public ActividadDetailViewModel(IActividadRepository actividadRepository,
-            InformacionDeActividadViewModel actividadVM)
+            InformacionDeActividadViewModel actividadVM, ISession session)
         {
             _actividadRepository = actividadRepository;
+            _actividadRepository.Session = session;
             _ActividadVM = actividadVM;
         }
 

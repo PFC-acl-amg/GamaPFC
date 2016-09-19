@@ -12,6 +12,20 @@ namespace Gama.Cooperacion.Wpf.Services
     public class FakeActividadRepository : IActividadRepository
     {
         public ISessionFactory _session { get; set; }
+
+        public ISession Session
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         private List<Actividad> _actividades;
 
         public void Create(Actividad entity)

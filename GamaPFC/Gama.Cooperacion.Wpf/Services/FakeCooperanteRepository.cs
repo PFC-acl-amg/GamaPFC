@@ -4,12 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Gama.Cooperacion.Business;
+using NHibernate;
 
 namespace Gama.Cooperacion.Wpf.Services
 {
     public class FakeCooperanteRepository : ICooperanteRepository
     {
         List<Cooperante> _cooperantes;
+
+        public ISession Session
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         public void Create(Cooperante entity)
         {
