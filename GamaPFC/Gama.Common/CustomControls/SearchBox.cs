@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -194,11 +195,15 @@ namespace Gama.Common.CustomControls
             HasText = Text.Trim().Length != 0;
             _searchEventDelayTimer.Stop();
 
+            if (e.Changes.First().AddedLength == Text.Length)
+                _suppressEvent = true;
+
             if (SearchMode == SearchMode.Delayed && !_suppressEvent && HasText)
             {
                 _searchEventDelayTimer.Stop();
                 _searchEventDelayTimer.Start();
             }
+            _suppressEvent = false;
         }
 
         protected override void OnMouseDoubleClick(MouseButtonEventArgs e)

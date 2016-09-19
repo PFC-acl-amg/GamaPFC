@@ -10,6 +10,7 @@
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:prism="http://prismlibrary.com/"
   xmlns:selector="clr-namespace:Gama.Common.Resources.DataTemplateSelectors;assembly=Gama.Common"
+  xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
   mc:Ignorable="d" 
   d:DesignHeight="349.5" d:DesignWidth="422.26">
   <UserControl.Resources>
