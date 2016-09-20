@@ -120,6 +120,7 @@
     <Compile Include="DesignTimeData\DesignTimeDataViewModel.cs" />
     <Compile Include="DesignTimeData\ListadoDeActividadesVM_DTD.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaChangedEvent.cs" />
+    <Compile Include="Eventos\ActividadSeleccionadaEvent.cs" />
     <Compile Include="Eventos\NuevaActividadEvent.cs" />
     <Compile Include="Services\ActividadRepository.cs" />
     <Compile Include="Services\CooperacionUserConfiguration.cs" />

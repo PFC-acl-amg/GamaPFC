@@ -44,7 +44,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             }
 
             this.Coordinador = new CooperanteWrapper(model.Coordinador);
-            RegisterComplex(this.Coordinador);
+            //RegisterComplex(this.Coordinador);
         }
 
         public string Descripcion
@@ -106,26 +106,16 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         private CooperanteWrapper _Coordinador;
         public CooperanteWrapper Coordinador
         {
-            get { return _Coordinador; }
+            get { return _Coordinador; } 
             set
             {
                 _Coordinador = value;
-                OnPropertyChanged("Coordinador");
-
-                if (value != null)
-                {
-                    Model.Coordinador = value.Model;
-                }
+                SetValue(value.Model);
             }
         }
 
         public ChangeTrackingCollection<CooperanteWrapper> Cooperantes { get; private set; }
         public ChangeTrackingCollection<TareaWrapper> Tareas { get; private set; }
-
-        public void AddCooperante(CooperanteWrapper cooperanteNuevo)
-        {
-            Cooperantes.Add(cooperanteNuevo);
-        }
     }
 }
  

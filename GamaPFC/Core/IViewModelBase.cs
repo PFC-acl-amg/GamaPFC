@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    public interface IViewModelBase : IDisposable
+    public interface IViewModelBase 
     {
     }
 }

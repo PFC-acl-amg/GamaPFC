@@ -90,6 +90,13 @@ namespace Core
             }
         }
 
+        //protected void SetComplexValue<TValue>(TValue newValue, [CallerMemberName] string propertyName = null)
+        //    where TValue : ModelWrapper<TClass>
+        //{
+        //    var propertyInfo = this.Model.GetType().GetProperty(propertyName);
+
+        //}
+
         private void UpdateOriginalValue(object currentValue, object newValue, string propertyName)
         {
             if (!_originalValues.ContainsKey(propertyName))

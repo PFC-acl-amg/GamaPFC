@@ -1,5 +1,6 @@
 ﻿using Core;
 using Gama.Cooperacion.Business;
+using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Services;
 using NHibernate;
 using Prism.Commands;
@@ -38,15 +39,13 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             PaginaAnteriorCommand = new DelegateCommand(OnPaginaAnterior);
             PaginaSiguienteCommand = new DelegateCommand(OnPaginaSiguiente);
-            SeleccionarActividadCommand = new DelegateCommand<Actividad>(OnSelectActividad);
+            SeleccionarActividadCommand = new DelegateCommand<Actividad>(OnSeleccionarActividad);
         }
 
         public PaginatedCollectionView Actividades { get; private set; }
         public ICommand PaginaAnteriorCommand { get; private set; }
         public ICommand PaginaSiguienteCommand { get; private set; }
         public ICommand SeleccionarActividadCommand { get; private set; }
-
-
 
         public object ElementosPorPagina
         {
@@ -78,9 +77,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             Actividades.MoveToNextPage();
         }
 
-        private void OnSelectActividad(Actividad actividadSeleccionada)
+        private void OnSeleccionarActividad(Actividad actividadSeleccionada)
         {
-            throw new NotImplementedException();
+            _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish(actividadSeleccionada.Id);
         }
     }
 }

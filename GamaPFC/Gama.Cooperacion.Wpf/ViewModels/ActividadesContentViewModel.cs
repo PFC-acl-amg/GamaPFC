@@ -26,7 +26,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _regionManager = regionManager;
 
             _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnActividadNuevaEvent);
-            //_eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Subscribe(OnActividadSeleccionadaEvent);
+            _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Subscribe(OnActividadSeleccionadaEvent);
             //_eventAggregator.GetEvent<ActividadEliminadaEvent>().Subscribe(OnActividadEliminadaEvent);
         }
 
@@ -44,17 +44,18 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             }
         }
 
-        //public bool Cerrar
-        //{
-        //    get { return _cerrar; }
-        //    private set
-        //    {
-        //        if (value)
-        //        {
-        //            OnPropertyChanged();
-        //        }
-        //    }
-        //}
+        private void OnActividadNuevaEvent(int id)
+        {
+            //if (id != 0)
+            //    throw new ArgumentException("El Id en OnAddActividad no puede ser distinto a cero");
+
+            AbrirActividad(id);
+        }
+
+        private void OnActividadSeleccionadaEvent(int id)
+        {
+            AbrirActividad(id);
+        }
 
         private void AbrirActividad(int id)
         {
@@ -68,19 +69,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _regionManager.RequestNavigate(RegionNames.ActividadesTabContentRegion,
                 "ActividadDetailView", navigationParameters);
         }
-
-        private void OnActividadNuevaEvent(int id)
-        {
-            //if (id != 0)
-            //    throw new ArgumentException("El Id en OnAddActividad no puede ser distinto a cero");
-
-            AbrirActividad(id);
-        }
-
-        //private void OnActividadSeleccionadaEvent(int id)
-        //{
-        //    AbrirActividad(id);
-        //}
 
         //private void OnActividadEliminadaEvent(ActividadWrapper obj)
         //{

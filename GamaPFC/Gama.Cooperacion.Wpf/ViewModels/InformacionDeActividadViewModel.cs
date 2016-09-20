@@ -20,6 +20,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 {
     public class InformacionDeActividadViewModel : ViewModelBase
     {
+        private bool _EdicionHabilitada;
+        private ActividadWrapper _Actividad;
         public IActividadRepository _ActividadRepository { get; set; }
         private ICooperanteRepository _CooperanteRepository;
         private IEventAggregator _EventAggregator;
@@ -38,6 +40,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _CooperanteRepository.Session = session;
             _EventAggregator = eventAggregator;
             _MensajeDeEspera = new List<string>() { "Espera por favor..." };
+            _EdicionHabilitada = true;
 
             Actividad = new ActividadWrapper(new Actividad());
 
@@ -64,6 +67,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             SelectCoordinadorCommand = new DelegateCommand(OnSelectCoordinadorEventCommand);
         }
 
+        public bool EdicionHabilitada
+        {
+            get { return _EdicionHabilitada; }
+            set { SetProperty(ref _EdicionHabilitada, value); }
+        }
+
         // Se usa para abrir el Popup de la lista emergente de cooperantes
         public bool PopupEstaAbierto
         {
@@ -85,7 +94,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             set { SetProperty(ref _CoordinadorBuscado, value); }
         }
 
-        private ActividadWrapper _Actividad;
         public ActividadWrapper Actividad
         {
             get { return _Actividad; }
@@ -110,8 +118,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand SelectResultCommand { get; private set; }
         public ICommand SelectCoordinadorCommand { get; private set; }
 
-        public void Setup(ActividadWrapper wrapper)
+        public void InicializarParaVer(ActividadWrapper wrapper)
         {
+            EdicionHabilitada = false;
             Actividad = wrapper;
             foreach (var cooperante in Actividad.Cooperantes)
             {
@@ -119,6 +128,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             }
             CooperantesDisponibles.Remove(CooperantesDisponibles.Where(c => c.Id == Actividad.Coordinador.Id).First());
             Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
+            Actividad.AcceptChanges();
         }
 
         private void OnAbrirPopupCommand(CooperanteWrapper cooperanteAnterior)

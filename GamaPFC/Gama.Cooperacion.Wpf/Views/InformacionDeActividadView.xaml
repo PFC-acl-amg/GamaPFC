@@ -28,7 +28,7 @@
     <!-- Selector para mostrar estado de espera mientras se realiza la búsqueda. -->
     <selector:BuscadorDataTemplateSelector x:Key="BuscadorTemplateSelector"/>
   </UserControl.Resources>
-  <Grid>
+  <Grid IsHitTestVisible="{Binding EdicionHabilitada}">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>

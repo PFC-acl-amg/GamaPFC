@@ -7,7 +7,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:designData="clr-namespace:Gama.Cooperacion.Wpf.DesignTimeData"
-             prism:ViewModelLocator.AutoWireViewModel="False"
+             prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="666.85">
   <d:DataContext>
@@ -56,8 +56,8 @@
             <StackPanel Orientation="Vertical">
               <TextBlock Text="{Binding Titulo}" TextWrapping="Wrap" 
                          Margin="{StaticResource Margin}"/>
-              <TextBlock Text="{Binding DescripcionResumen}" TextWrapping="Wrap"
-                         Margin="{StaticResource Margin}"/>
+              <!--<TextBlock Text="{Binding DescripcionResumen}" TextWrapping="Wrap"
+                         Margin="{StaticResource Margin}"/>-->
             </StackPanel>
             <i:Interaction.Triggers>
               <i:EventTrigger EventName="MouseDoubleClick">
