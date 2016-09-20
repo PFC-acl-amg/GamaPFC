@@ -54,8 +54,7 @@ namespace Gama.Cooperacion.WpfTests
                 ((ObservableCollection<LookupItem>)_vm.ResultadoDeBusqueda).All
                 (lookupItem => _vm.CooperantesDisponibles.Any(cw => lookupItem.Id == cw.Id)));
             Assert.False(_vm.PopupEstaAbierto);
-            Assert.Null(_vm.Cerrar);
-            Assert.Null(_vm.SelectedCooperante);
+            Assert.Null(_vm.CooperanteBuscado);
             Assert.Null(_vm.CooperanteEmergenteSeleccionado);
             Assert.Null(_vm.CooperantePreviamenteSeleccionado);
             Assert.Equal(((List<string>)_vm.MensajeDeEspera)[0], "Espera por favor...");
@@ -69,7 +68,7 @@ namespace Gama.Cooperacion.WpfTests
         [Fact]
         private void ShouldAddCoordinador()
         {
-            _vm.CoordinadorSeleccionado = new LookupItem()
+            _vm.CoordinadorBuscado = new LookupItem()
             {
                 DisplayMember1 = string.Format("{0} {1}", _cooperantes[0].Nombre, _cooperantes[0].Apellido),
                 DisplayMember2 = _cooperantes[0].Dni,
@@ -77,7 +76,7 @@ namespace Gama.Cooperacion.WpfTests
             };
 
             _vm.SelectCoordinadorCommand.Execute(null);
-            Assert.Equal(_vm.CoordinadorSeleccionado.Id, _vm.Actividad.Coordinador.Id);
+            Assert.Equal(_vm.CoordinadorBuscado.Id, _vm.Actividad.Coordinador.Id);
 
         }
 
@@ -91,14 +90,14 @@ namespace Gama.Cooperacion.WpfTests
             Assert.Equal(_cooperantes[0].Id, _vm.Actividad.Coordinador.Id);
 
 
-            _vm.CoordinadorSeleccionado = new LookupItem()
+            _vm.CoordinadorBuscado = new LookupItem()
             {
                 DisplayMember1 = string.Format("{0} {1}", _cooperantes[1].Nombre, _cooperantes[1].Apellido),
                 DisplayMember2 = _cooperantes[1].Dni,
                 Id = _cooperantes[1].Id
             };
             _vm.SelectCoordinadorCommand.Execute(null);
-            Assert.Equal(_vm.CoordinadorSeleccionado.Id, _vm.Actividad.Coordinador.Id);
+            Assert.Equal(_vm.CoordinadorBuscado.Id, _vm.Actividad.Coordinador.Id);
 
 
             _vm.CooperanteEmergenteSeleccionado =

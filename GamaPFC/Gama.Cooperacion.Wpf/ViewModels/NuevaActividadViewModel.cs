@@ -32,14 +32,23 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             InformacionDeActividadViewModel actividadViewModel,
             ISession session)
         {
-            _ActividadRepository = actividadRepository;
-            _ActividadRepository.Session = session;
             _EventAggregator = eventAggregator;
             _ActividadVM = actividadViewModel;
+            _ActividadRepository = actividadRepository;
+            _ActividadRepository.Session = session;
             _ActividadVM._ActividadRepository = _ActividadRepository;
+            _ActividadVM.Actividad.PropertyChanged += Actividad_PropertyChanged;
            
             AceptarCommand = new DelegateCommand(OnAceptarCommand, OnAceptarCommand_CanExecute);
             CancelarCommand = new DelegateCommand(OnCancelarCommand);
+        }
+
+        private void Actividad_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(_ActividadVM.Actividad.Coordinador))
+            {
+                ((DelegateCommand)AceptarCommand).RaiseCanExecuteChanged();
+            }
         }
 
         public InformacionDeActividadViewModel ActividadVM
@@ -47,6 +56,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             get { return _ActividadVM; }
         }
 
+        // Para cerrar la ventana
         public bool? Cerrar
         {
             get { return _Cerrar; }
@@ -58,11 +68,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnAceptarCommand()
         {
+            // Eliminamos el cooperante dummy
             _ActividadVM.Actividad.Cooperantes.Remove(_ActividadVM.Actividad.Cooperantes.Where(c => c.Nombre == null).First());
-            foreach (var cooperante in _ActividadVM.Actividad.Cooperantes)
-                cooperante.Model.ActividadesEnQueParticipa.Add(_ActividadVM.Actividad.Model);
-
-            _ActividadRepository.Session.Clear();
             _ActividadRepository.Create(_ActividadVM.Actividad.Model);
             _EventAggregator.GetEvent<NuevaActividadEvent>().Publish(_ActividadVM.Actividad.Id);
             Cerrar = true;
@@ -70,7 +77,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private bool OnAceptarCommand_CanExecute()
         {
-            return true; // _ActividadVM.Actividad.Coordinador.Nombre != null;
+            return _ActividadVM.Actividad.Coordinador.Nombre != null;
         }
 
         private void OnCancelarCommand()

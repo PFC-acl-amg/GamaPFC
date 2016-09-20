@@ -21,15 +21,14 @@ namespace Gama.Cooperacion.Wpf.ViewModels
     public class InformacionDeActividadViewModel : ViewModelBase
     {
         public IActividadRepository _ActividadRepository { get; set; }
-        private bool? _Cerrar; // Debe ser nulo al inicializarse el VM, o hay excepción con Dialogcloser
         private ICooperanteRepository _CooperanteRepository;
         private IEventAggregator _EventAggregator;
         private IEnumerable _MensajeDeEspera;
         private string _Modo;
         private bool _PopupEstaAbierto = false;
         private IEnumerable _ResultadoDeBusqueda;
-        private LookupItem _SelectedCooperante;
-        private LookupItem _CoordinadorSeleccionado;
+        private LookupItem _CooperanteBuscado;
+        private LookupItem _CoordinadorBuscado;
 
         public InformacionDeActividadViewModel(
             ICooperanteRepository cooperanteRepository,
@@ -65,28 +64,25 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             SelectCoordinadorCommand = new DelegateCommand(OnSelectCoordinadorEventCommand);
         }
 
-        public bool? Cerrar
-        {
-            get { return _Cerrar; }
-            set { SetProperty(ref _Cerrar, value); }
-        }
-
+        // Se usa para abrir el Popup de la lista emergente de cooperantes
         public bool PopupEstaAbierto
         {
             get { return _PopupEstaAbierto; }
             set { SetProperty(ref _PopupEstaAbierto, value); }
         }
 
-        public LookupItem SelectedCooperante
+        // El que se enlaza con el elemento seleccionado del SearchBox
+        public LookupItem CooperanteBuscado
         {
-            get { return _SelectedCooperante; }
-            set { SetProperty(ref _SelectedCooperante, value); }
+            get { return _CooperanteBuscado; }
+            set { SetProperty(ref _CooperanteBuscado, value); }
         }
 
-        public LookupItem CoordinadorSeleccionado
+        // El que se enlaza con el elemento seleccionado del SearchBox
+        public LookupItem CoordinadorBuscado
         {
-            get { return _CoordinadorSeleccionado; }
-            set { SetProperty(ref _CoordinadorSeleccionado, value); }
+            get { return _CoordinadorBuscado; }
+            set { SetProperty(ref _CoordinadorBuscado, value); }
         }
 
         private ActividadWrapper _Actividad;
@@ -156,13 +152,13 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnSelectCoordinadorEventCommand()
         {
-            var coordinadorNuevo = CooperantesDisponibles.Where(c => c.Id == CoordinadorSeleccionado.Id).First();
+            var coordinadorNuevo = CooperantesDisponibles.Where(c => c.Id == CoordinadorBuscado.Id).First();
             EstablecerCoordinador(coordinadorNuevo);
         }
 
         private void OnSelectResultEventCommand(CooperanteWrapper cooperanteAnterior)
         {
-            var cooperanteNuevo = CooperantesDisponibles.Where(c => c.Id == SelectedCooperante.Id).First();
+            var cooperanteNuevo = CooperantesDisponibles.Where(c => c.Id == CooperanteBuscado.Id).First();
             InsertarCooperante(cooperanteAnterior, cooperanteNuevo);
         }
 
@@ -193,7 +189,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             Actividad.Coordinador = coordinadorSeleccionado;
 
             CooperanteEmergenteSeleccionado = null;
-            SelectedCooperante = null;
+            CooperanteBuscado = null;
             CooperantePreviamenteSeleccionado = null;
 
             CooperantesDisponibles.Remove(coordinadorSeleccionado);
