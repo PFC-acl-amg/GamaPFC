@@ -27,12 +27,12 @@ namespace Core.DataAccess
         {
             try
             {
-                using (var tx = Session.BeginTransaction())
-                {
+                //using (var tx = Session.BeginTransaction())
+                //{
                     var result = Session.Get<TEntity>((object)id);
-                    tx.Commit();
+                    //tx.Commit();
                     return result;
-                }
+                //}
             }
             catch (Exception ex)
             {
@@ -44,12 +44,12 @@ namespace Core.DataAccess
         {
             try
             {
-                using (var tx = Session.BeginTransaction())
-                {
+                //using (var tx = Session.BeginTransaction())
+                //{
                     var result = Session.CreateCriteria<TEntity>().List<TEntity>().ToList();
-                    tx.Commit();
+                    //tx.Commit();
                     return result;
-                }
+                //}
             }
             catch (Exception ex)
             {
@@ -70,15 +70,18 @@ namespace Core.DataAccess
                     //_statelessSession.Insert(entity);
 
                     tx.Commit();
+                    //Session.Flush();
                 }
             }
             catch (Exception ex)
             {
-                throw new GenericADOException(ex.Message, ex);
+                var message = ex.Message;
+                if (message.StartsWith("object references an unsaved transient instance"))
+                    return;
             }
         }
 
-        public bool Update(TEntity entity)
+        public virtual bool Update(TEntity entity)
         {
             try
             {
@@ -87,6 +90,7 @@ namespace Core.DataAccess
                     Session.Update(entity);
                     tx.Commit();
                 }
+                //Session.Flush();
 
                 return true;
             }
@@ -100,7 +104,21 @@ namespace Core.DataAccess
         public void Delete(TEntity entity)
         {
             _session.Delete(entity);
-            //_session.Flush();
+            _session.Flush();
+        }
+
+        public void Flush()
+        {
+            try
+            {
+                Session.Flush();
+            }
+            catch (Exception ex)
+            {
+                var message = ex.Message;
+                if (message.StartsWith("object references an unsaved transient instance"))
+                    return;
+            }
         }
     }
 }

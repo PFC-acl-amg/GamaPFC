@@ -100,7 +100,7 @@ namespace Core.DataAccess
             {
                 using (var tx = Session.BeginTransaction())
                 {
-                    Session.Update(entity);
+                    Session.SaveOrUpdate(entity);
                     tx.Commit();
                 }
                 Session.Close();

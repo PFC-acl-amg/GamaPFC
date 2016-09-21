@@ -25,5 +25,7 @@ namespace Gama.Cooperacion.Wpf.Services
         bool Update(Actividad entity);
 
         void Delete(Actividad entity);
+
+        void Flush();
     }
 }

@@ -20,11 +20,15 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             Map(x => x.FechaDeInicio);
             Map(x => x.FechaDeFin);
             Map(x => x.Titulo);
+            //Map(x => x.CoordinadorId).Column("Coordinador_Id");
 
-            References(x => x.Coordinador);
+            References(x => x.Coordinador)
+                .Not.LazyLoad()
+                .Fetch.Join();
 
             HasManyToMany(x => x.Cooperantes)
-                //.Not.LazyLoad()
+                .Not.LazyLoad()
+                //.Fetch.Join()
                 .Table("CooperanteParticipaEnActividad");
         }
     }

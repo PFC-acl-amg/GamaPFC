@@ -68,5 +68,10 @@ namespace Gama.Cooperacion.Wpf.Services
         {
             throw new NotImplementedException();
         }
+
+        public void Flush()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -21,11 +21,12 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             Map(x => x.Observaciones);
 
             HasMany(x => x.ActividadesDeQueEsCoordinador)
+                .LazyLoad()
                 .Inverse();
 
             HasManyToMany(x => x.ActividadesEnQueParticipa)
                 .Table("CooperanteParticipaEnActividad")
-                //.Not.LazyLoad()
+                .LazyLoad()
                 .Inverse();
         }
     }

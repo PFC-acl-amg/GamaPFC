@@ -44,7 +44,16 @@ namespace Gama.Bootstrapper
 
             ViewModelLocationProvider.SetDefaultViewModelFactory(
                 type => {
-                    return _container.Resolve(type);
+                    try
+                    {
+                        var result = _container.Resolve(type);
+                        return _container.Resolve(type);
+                    }
+                    catch (Exception ex)
+                    {
+                        var message = ex.Message;
+                        return null;
+                    }
                 });
 
             var bootstrapper = new Bootstrapper(Modulos.Cooperacion);

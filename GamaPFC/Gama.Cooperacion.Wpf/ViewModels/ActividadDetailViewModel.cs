@@ -16,16 +16,22 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 {
     public class ActividadDetailViewModel : ViewModelBase
     {
-        private IActividadRepository _actividadRepository;
+        private IActividadRepository _ActividadRepository;
         private InformacionDeActividadViewModel _ActividadVM;
+        private ICooperanteRepository _CooperanteRepository;
+        private ISession _Session;
 
         public ActividadWrapper Actividad { get; set; }
 
         public ActividadDetailViewModel(IActividadRepository actividadRepository,
+            ICooperanteRepository cooperanteRepository,
             InformacionDeActividadViewModel actividadVM, ISession session)
         {
-            _actividadRepository = actividadRepository;
-            _actividadRepository.Session = session;
+            _ActividadRepository = actividadRepository;
+            _CooperanteRepository = cooperanteRepository;
+            _ActividadRepository.Session = session;
+            _CooperanteRepository.Session = session;
+            _Session = session;
             _ActividadVM = actividadVM;
 
             HabilitarEdicionCommand = new DelegateCommand(
@@ -68,7 +74,16 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnGuardarInformacion()
         {
+            //_CooperanteRepository.Update(Actividad.Model.Coordinador);
+            //_ActividadRepository.Update(Actividad.Model);
+            var cooperanteDummy = _ActividadVM.Actividad.Cooperantes.Where(c => c.Nombre == null).First();
+            if (cooperanteDummy != null)
+            {
+                _ActividadVM.Actividad.Cooperantes.Remove(cooperanteDummy);
+            }
+            _ActividadRepository.Flush();
             _ActividadVM.Actividad.AcceptChanges();
+            _ActividadVM.Actividad.Cooperantes.Add(cooperanteDummy);
             _ActividadVM.EdicionHabilitada = false;
         }
 
@@ -85,7 +100,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             Actividad = new ActividadWrapper(
-                _actividadRepository.GetById((int)navigationContext.Parameters["Id"]));
+                _ActividadRepository.GetById((int)navigationContext.Parameters["Id"]));
+            //Actividad.Coordinador = new CooperanteWrapper(
+            //    _CooperanteRepository.GetById(Actividad.CoordinadorId));
 
             _ActividadVM.InicializarParaVer(Actividad);
 

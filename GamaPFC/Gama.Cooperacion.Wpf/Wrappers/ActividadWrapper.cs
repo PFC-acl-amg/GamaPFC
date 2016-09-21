@@ -57,6 +57,16 @@ namespace Gama.Cooperacion.Wpf.Wrappers
 
         public bool DescripcionIsChanged => GetIsChanged(nameof(Descripcion));
 
+        //public int CoordinadorId
+        //{
+        //    get { return GetValue<int>(); }
+        //    set { SetValue(value); }
+        //}
+
+        //public int CoordinadorIdOriginalValue => GetOriginalValue<int>(nameof(CoordinadorId));
+
+        //public bool CoordinadorIdIsChanged => GetIsChanged(nameof(CoordinadorId));
+
         public Estado Estado
         {
             get { return GetValue<Estado>(); }
@@ -110,7 +120,11 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             set
             {
                 _Coordinador = value;
-                SetValue(value.Model);
+                if (value != null)
+                {
+                    //CoordinadorId = value.Id;
+                    SetValue(value.Model);
+                }
             }
         }
 

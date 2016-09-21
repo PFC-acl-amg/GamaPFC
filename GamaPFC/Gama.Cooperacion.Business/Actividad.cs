@@ -12,9 +12,10 @@ namespace Gama.Cooperacion.Business
         Comenzado,
         Finalizado,
     }
-    
+
     public class Actividad
     {
+        public virtual int CoordinadorId { get; set; }
         public virtual IList<Cooperante> Cooperantes { get; set; }
         public virtual Cooperante Coordinador { get; set; }
         public virtual string Descripcion { get; set; }
