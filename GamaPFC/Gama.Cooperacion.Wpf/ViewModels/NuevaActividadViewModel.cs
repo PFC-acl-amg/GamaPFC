@@ -23,7 +23,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
     public class NuevaActividadViewModel : ViewModelBase
     {
         private IActividadRepository _ActividadRepository;
-        private bool? _Cerrar; // Debe ser nulo al inicializarse el VM, o hay excepción con Dialogcloser
+        private bool? _Cerrar; // Debe ser nulo al inicializarse el VM, o hay excepción con DialogCloser
         private IEventAggregator _EventAggregator;
         private InformacionDeActividadViewModel _ActividadVM;
 
@@ -38,7 +38,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _ActividadRepository.Session = session;
             _ActividadVM._ActividadRepository = _ActividadRepository;
             _ActividadVM.Actividad.PropertyChanged += Actividad_PropertyChanged;
-           
+
             AceptarCommand = new DelegateCommand(OnAceptarCommand, OnAceptarCommand_CanExecute);
             CancelarCommand = new DelegateCommand(OnCancelarCommand);
         }
@@ -77,7 +77,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private bool OnAceptarCommand_CanExecute()
         {
-            return _ActividadVM.Actividad.Coordinador.Nombre != null;
+            var c = _ActividadVM.Actividad;
+            var resultado = c.Titulo != null && c.Coordinador.Nombre != null;
+
+            return resultado;
         }
 
         private void OnCancelarCommand()

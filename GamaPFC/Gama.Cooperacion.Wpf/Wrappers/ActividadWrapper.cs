@@ -43,8 +43,25 @@ namespace Gama.Cooperacion.Wpf.Wrappers
                 throw new ArgumentNullException("Coordinador");
             }
 
-            this.Coordinador = new CooperanteWrapper(model.Coordinador);
-            //RegisterComplex(this.Coordinador);
+            _Coordinador = new CooperanteWrapper(model.Coordinador);
+            _CoordinadorOriginalValue = new CooperanteWrapper(model.Coordinador);
+            this.CoordinadorIsChanged = false;
+        }
+
+        public override bool IsChanged => base.IsChanged || CoordinadorIsChanged;
+
+        public override void AcceptChanges()
+        {
+            CoordinadorOriginalValue = new CooperanteWrapper(Coordinador.Model);
+
+            base.AcceptChanges();
+        }
+
+        public override void RejectChanges()
+        {
+            Coordinador = new CooperanteWrapper(CoordinadorOriginalValue.Model);
+
+            base.RejectChanges();
         }
 
         public string Descripcion
@@ -56,16 +73,6 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         public string DescripcionOriginalValue => GetOriginalValue<string>(nameof(Descripcion));
 
         public bool DescripcionIsChanged => GetIsChanged(nameof(Descripcion));
-
-        //public int CoordinadorId
-        //{
-        //    get { return GetValue<int>(); }
-        //    set { SetValue(value); }
-        //}
-
-        //public int CoordinadorIdOriginalValue => GetOriginalValue<int>(nameof(CoordinadorId));
-
-        //public bool CoordinadorIdIsChanged => GetIsChanged(nameof(CoordinadorId));
 
         public Estado Estado
         {
@@ -120,13 +127,44 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             set
             {
                 _Coordinador = value;
+
                 if (value != null)
                 {
-                    //CoordinadorId = value.Id;
+                    if (value.Id == CoordinadorOriginalValue.Id)
+                    {
+                        CoordinadorIsChanged = false;
+                        OnPropertyChanged(nameof(IsChanged));
+                    }
+                    else
+                    {
+                        CoordinadorIsChanged = true;
+                        OnPropertyChanged(nameof(IsChanged));
+                    }
+
                     SetValue(value.Model);
                 }
             }
         }
+
+        private CooperanteWrapper _CoordinadorOriginalValue;
+        public CooperanteWrapper CoordinadorOriginalValue
+        {
+            get { return _CoordinadorOriginalValue; }
+            set
+            {
+                _CoordinadorOriginalValue = value;
+                if (Coordinador.Id == CoordinadorOriginalValue.Id)
+                {
+                    CoordinadorIsChanged = false;
+                }
+                else
+                {
+                    CoordinadorIsChanged = true;
+                }
+            }
+        }
+
+        public bool CoordinadorIsChanged { get; set; }
 
         public ChangeTrackingCollection<CooperanteWrapper> Cooperantes { get; private set; }
         public ChangeTrackingCollection<TareaWrapper> Tareas { get; private set; }

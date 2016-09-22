@@ -48,7 +48,7 @@ namespace Gama.Cooperacion.Wpf.Services
                 {
                     Cooperante c = new Cooperante
                     {
-                        //Id = i + 1,
+                        Id = i + 1,
                         Apellido = Faker.NameFaker.LastName(),
                         Dni = Faker.StringFaker.AlphaNumeric(9),
                         Nombre = Faker.NameFaker.FirstName(),

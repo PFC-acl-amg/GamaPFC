@@ -9,15 +9,20 @@ using Xunit;
 
 namespace Gama.CommonTests.Wrapper
 {
-    public class ChangeTrackingComplexProperty
+    public class ChangeTrackingComplexCustomProperty
     {
         private Actividad _Actividad;
+        private Cooperante _CoordinadorInicial;
+        private Cooperante _CoordinadorNuevo;
         
-        public ChangeTrackingComplexProperty()
+        public ChangeTrackingComplexCustomProperty()
         {
+            _CoordinadorInicial = new Cooperante { Id = 1 };
+            _CoordinadorNuevo = new Cooperante { Id = 2 };
+
             _Actividad = new Actividad()
             {
-                Coordinador = new Cooperante() { Nombre = "Cooperante Name" }
+                Coordinador = _CoordinadorInicial,
             };
         }
 
@@ -25,10 +30,10 @@ namespace Gama.CommonTests.Wrapper
         public void ShouldSetIsChangedOfActividadWrapper()
         {
             var wrapper = new ActividadWrapper(_Actividad);
-            wrapper.Coordinador.Nombre = "Otro nombre";
+            wrapper.Coordinador = new CooperanteWrapper(_CoordinadorNuevo);
             Assert.True(wrapper.IsChanged);
 
-            wrapper.Coordinador.Nombre = "Cooperante Name";
+            wrapper.Coordinador = new CooperanteWrapper(_CoordinadorInicial);
             Assert.False(wrapper.IsChanged);
         }
 
@@ -44,7 +49,7 @@ namespace Gama.CommonTests.Wrapper
                 }
             };
 
-            wrapper.Coordinador.Nombre = "Otro nombre";
+            wrapper.Coordinador = new CooperanteWrapper(_CoordinadorNuevo);
             Assert.True(fired);
         }
 
@@ -52,28 +57,28 @@ namespace Gama.CommonTests.Wrapper
         public void ShouldAcceptChanges()
         {
             var wrapper = new ActividadWrapper(_Actividad);
-            wrapper.Coordinador.Nombre = "Otro nombre";
-            Assert.Equal("Cooperante Name", wrapper.Coordinador.NombreOriginalValue);
+            wrapper.Coordinador = new CooperanteWrapper(_CoordinadorNuevo);
+            Assert.Equal(_CoordinadorInicial.Id, wrapper.CoordinadorOriginalValue.Id);
 
             wrapper.AcceptChanges();
 
             Assert.False(wrapper.IsChanged);
-            Assert.Equal("Otro nombre", wrapper.Coordinador.Nombre);
-            Assert.Equal("Otro nombre", wrapper.Coordinador.NombreOriginalValue);
+            Assert.Equal(_CoordinadorNuevo.Id, wrapper.Coordinador.Id);
+            Assert.Equal(_CoordinadorNuevo.Id, wrapper.CoordinadorOriginalValue.Id);
         }
 
         [Fact]
         public void ShouldRejectChanges()
         {
             var wrapper = new ActividadWrapper(_Actividad);
-            wrapper.Coordinador.Nombre = "Otro nombre";
-            Assert.Equal("Cooperante Name", wrapper.Coordinador.NombreOriginalValue);
+            wrapper.Coordinador = new CooperanteWrapper(_CoordinadorNuevo);
+            Assert.Equal(_CoordinadorInicial.Id, wrapper.CoordinadorOriginalValue.Id);
 
             wrapper.RejectChanges();
 
             Assert.False(wrapper.IsChanged);
-            Assert.Equal("Cooperante Name", wrapper.Coordinador.Nombre);
-            Assert.Equal("Cooperante Name", wrapper.Coordinador.NombreOriginalValue);
+            Assert.Equal(_CoordinadorInicial.Id, wrapper.Coordinador.Id);
+            Assert.Equal(_CoordinadorInicial.Id, wrapper.CoordinadorOriginalValue.Id);
         }
     }
 }
