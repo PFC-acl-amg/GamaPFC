@@ -63,7 +63,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             QuitarCoordinadorCommand = new DelegateCommand(OnQuitarCoordinadorCommand, OnQuitarCoordinadorCommand_CanExecute);
             QuitarCooperanteCommand = new DelegateCommand<CooperanteWrapper>(OnQuitarCooperanteCommand, OnQuitarCooperanteCommand_CanExecute);
             SearchCommand = new DelegateCommand<string>(OnSearchEventCommand);
-            SelectResultCommand = new DelegateCommand<CooperanteWrapper>(OnSelectResultEventCommand);
+            SelectCooperanteEventCommand = new DelegateCommand<CooperanteWrapper>(OnSelectCooperanteEventCommand);
             SelectCoordinadorCommand = new DelegateCommand(OnSelectCoordinadorEventCommand);
         }
 
@@ -115,7 +115,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand QuitarCooperanteCommand { get; private set; }
         public ICommand QuitarCoordinadorCommand { get; private set; }
         public ICommand SearchCommand { get; private set; }
-        public ICommand SelectResultCommand { get; private set; }
+        public ICommand SelectCooperanteEventCommand { get; private set; }
         public ICommand SelectCoordinadorCommand { get; private set; }
 
         public void InicializarParaVer(ActividadWrapper wrapper)
@@ -166,7 +166,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             EstablecerCoordinador(coordinadorNuevo);
         }
 
-        private void OnSelectResultEventCommand(CooperanteWrapper cooperanteAnterior)
+        private void OnSelectCooperanteEventCommand(CooperanteWrapper cooperanteAnterior)
         {
             var cooperanteNuevo = CooperantesDisponibles.Where(c => c.Id == CooperanteBuscado.Id).First();
             InsertarCooperante(cooperanteAnterior, cooperanteNuevo);
@@ -215,7 +215,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             CooperanteWrapper cooperanteAnterior,
             CooperanteWrapper cooperanteNuevo)
         {
-            Actividad.Cooperantes[Actividad.Cooperantes.IndexOf(cooperanteAnterior)]
+            var cooperanteAReemplazar = Actividad.Cooperantes.Single(c => c.Id == cooperanteAnterior.Id);
+            
+            Actividad.Cooperantes[Actividad.Cooperantes.IndexOf(cooperanteAReemplazar)]
                 = cooperanteNuevo;
 
             // El nombre será nulo sólo en el caso del Cooperante Dummy
@@ -239,6 +241,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnQuitarCoordinadorCommand()
         {
+            // Al quitar al coordinador podemos ponerlo como cooperante
             if (CooperantesDisponibles.Count == 0)
             {
                 Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));

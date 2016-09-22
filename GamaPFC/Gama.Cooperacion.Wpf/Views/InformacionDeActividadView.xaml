@@ -137,7 +137,7 @@
                   </i:EventTrigger>
                   <i:EventTrigger EventName="SelectResult">
                     <prism:InvokeCommandAction 
-                      Command="{Binding DataContext.SelectResultCommand, ElementName=cooperantesListBox}"
+                      Command="{Binding DataContext.SelectCooperanteEventCommand, ElementName=cooperantesListBox}"
                       CommandParameter="{Binding}"/>
                   </i:EventTrigger>
                 </i:Interaction.Triggers>
