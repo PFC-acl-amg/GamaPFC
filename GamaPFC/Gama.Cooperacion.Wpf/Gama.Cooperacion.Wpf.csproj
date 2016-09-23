@@ -119,6 +119,7 @@
     <Compile Include="CooperacionModule.cs" />
     <Compile Include="DesignTimeData\DesignTimeDataViewModel.cs" />
     <Compile Include="DesignTimeData\ListadoDeActividadesVM_DTD.cs" />
+    <Compile Include="Eventos\ActividadActualizadaEvent.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaChangedEvent.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaEvent.cs" />
     <Compile Include="Eventos\NuevaActividadEvent.cs" />
@@ -130,7 +131,7 @@
     <Compile Include="Services\IActividadRepository.cs" />
     <Compile Include="Services\ICooperacionUserConfiguration.cs" />
     <Compile Include="Services\ICooperanteRepository.cs" />
-    <Compile Include="ViewModels\ActividadDetailViewModel.cs" />
+    <Compile Include="ViewModels\EditarActividadViewModel.cs" />
     <Compile Include="ViewModels\ActividadesContentViewModel.cs" />
     <Compile Include="ViewModels\InformacionDeActividadViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
@@ -139,8 +140,8 @@
     <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
     <Compile Include="ViewModels\TareasDeActividadViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
-    <Compile Include="Views\ActividadDetailView.xaml.cs">
-      <DependentUpon>ActividadDetailView.xaml</DependentUpon>
+    <Compile Include="Views\EditarActividadView.xaml.cs">
+      <DependentUpon>EditarActividadView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ActividadesContentView.xaml.cs">
       <DependentUpon>ActividadesContentView.xaml</DependentUpon>
@@ -182,7 +183,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ActividadDetailView.xaml">
+    <Page Include="Views\EditarActividadView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

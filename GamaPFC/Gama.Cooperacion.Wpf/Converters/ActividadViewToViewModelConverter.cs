@@ -23,7 +23,7 @@ namespace Gama.Cooperacion.Wpf.Converters
             if (view == null)
                 return null;
 
-            var viewModel = view.DataContext as ActividadDetailViewModel;
+            var viewModel = view.DataContext as EditarActividadViewModel;
             if (viewModel == null)
                 return null;
 

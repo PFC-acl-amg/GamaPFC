@@ -99,6 +99,7 @@
     <Compile Include="ObservableObject.cs" />
     <Compile Include="PaginatedCollectionView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimestampedModelWrapper.cs" />
     <Compile Include="ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>

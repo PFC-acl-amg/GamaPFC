@@ -20,7 +20,8 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             Map(x => x.FechaDeInicio);
             Map(x => x.FechaDeFin);
             Map(x => x.Titulo);
-            //Map(x => x.CoordinadorId).Column("Coordinador_Id");
+            Map(x => x.CreatedAt);
+            Map(x => x.UpdatedAt);
 
             References(x => x.Coordinador)
                 .Not.LazyLoad()

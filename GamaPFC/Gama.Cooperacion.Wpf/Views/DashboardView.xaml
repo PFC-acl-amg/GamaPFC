@@ -8,10 +8,18 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="454.754">
+  <UserControl.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </UserControl.Resources>
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
-      <RowDefinition />
+      <RowDefinition Height="Auto" MinHeight="200" />
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto"/>
@@ -19,8 +27,6 @@
       <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
 
-    <Button Grid.Row="0" FontSize="28" Style="{StaticResource EstiloBotonPredeterminado}">Inicio</Button>
-    
     <GroupBox Header="Últimas Actividades" Grid.Row="1">
       <ListBox ItemsSource="{Binding UltimasActividades}"
                DisplayMemberPath="Titulo"/>

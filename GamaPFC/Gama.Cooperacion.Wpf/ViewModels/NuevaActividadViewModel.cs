@@ -37,7 +37,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _ActividadRepository = actividadRepository;
             _ActividadRepository.Session = session;
             _ActividadVM._ActividadRepository = _ActividadRepository;
-            _ActividadVM.Actividad.PropertyChanged += Actividad_PropertyChanged;
+            Actividad.PropertyChanged += Actividad_PropertyChanged;
 
             AceptarCommand = new DelegateCommand(OnAceptarCommand, OnAceptarCommand_CanExecute);
             CancelarCommand = new DelegateCommand(OnCancelarCommand);
@@ -45,17 +45,15 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void Actividad_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-        //    if (e.PropertyName == nameof(_ActividadVM.Actividad.Coordinador)
-        //        || e.PropertyName == nameof(_ActividadVM.Actividad.Titulo))
-        //    {
-                ((DelegateCommand)AceptarCommand).RaiseCanExecuteChanged();
-            //}
+            ((DelegateCommand)AceptarCommand).RaiseCanExecuteChanged();
         }
 
         public InformacionDeActividadViewModel ActividadVM
         {
             get { return _ActividadVM; }
         }
+
+        public ActividadWrapper Actividad => _ActividadVM.Actividad;
 
         // Para cerrar la ventana
         public bool? Cerrar
@@ -70,16 +68,17 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private void OnAceptarCommand()
         {
             // Eliminamos el cooperante dummy
-            _ActividadVM.Actividad.Cooperantes.Remove(_ActividadVM.Actividad.Cooperantes.Where(c => c.Nombre == null).First());
-            _ActividadRepository.Create(_ActividadVM.Actividad.Model);
-            _EventAggregator.GetEvent<NuevaActividadEvent>().Publish(_ActividadVM.Actividad.Id);
+            Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == null).First());
+
+            Actividad.CreatedAt = DateTime.Now;
+            _ActividadRepository.Create(Actividad.Model);
+            _EventAggregator.GetEvent<NuevaActividadEvent>().Publish(Actividad.Id);
             Cerrar = true;
         }
 
         private bool OnAceptarCommand_CanExecute()
         {
-            var actividad = _ActividadVM.Actividad;
-            var resultado = actividad.Titulo != null && actividad.Coordinador.Nombre != null;
+            var resultado = Actividad.Titulo != null && Actividad.Coordinador.Nombre != null;
             return resultado;
         }
 

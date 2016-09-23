@@ -90,7 +90,6 @@ namespace Core.DataAccess
                     Session.Update(entity);
                     tx.Commit();
                 }
-                //Session.Flush();
 
                 return true;
             }

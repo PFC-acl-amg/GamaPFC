@@ -18,9 +18,9 @@ namespace Gama.Cooperacion.Wpf.Views
     /// <summary>
     /// Interaction logic for ActividadDetailView.xaml
     /// </summary>
-    public partial class ActividadDetailView : UserControl
+    public partial class EditarActividadView : UserControl
     {
-        public ActividadDetailView()
+        public EditarActividadView()
         {
             InitializeComponent();
         }

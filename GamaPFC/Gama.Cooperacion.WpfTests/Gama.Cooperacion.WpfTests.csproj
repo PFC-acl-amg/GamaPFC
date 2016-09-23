@@ -91,6 +91,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditarActividadViewModelTests.cs" />
     <Compile Include="InformacionDeActividadViewModelTests.cs" />
     <Compile Include="ListadoDeActividadesViewModelTests.cs" />
     <Compile Include="NuevaActividadViewModelTests.cs" />

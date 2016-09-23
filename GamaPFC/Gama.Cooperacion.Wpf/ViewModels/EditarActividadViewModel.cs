@@ -11,22 +11,28 @@ using Gama.Cooperacion.Wpf.Wrappers;
 using NHibernate;
 using Prism.Commands;
 using System.Windows.Input;
+using Prism.Events;
+using Gama.Cooperacion.Wpf.Eventos;
+using System.ComponentModel;
 
 namespace Gama.Cooperacion.Wpf.ViewModels
 {
-    public class ActividadDetailViewModel : ViewModelBase
+    public class EditarActividadViewModel : ViewModelBase
     {
         private IActividadRepository _ActividadRepository;
         private InformacionDeActividadViewModel _ActividadVM;
         private ICooperanteRepository _CooperanteRepository;
         private ISession _Session;
+        private IEventAggregator _eventAggregator;
 
-        public ActividadWrapper Actividad { get; set; }
-
-        public ActividadDetailViewModel(IActividadRepository actividadRepository,
+        public EditarActividadViewModel(
+            IActividadRepository actividadRepository,
             ICooperanteRepository cooperanteRepository,
-            InformacionDeActividadViewModel actividadVM, ISession session)
+            IEventAggregator eventAggregator,
+            InformacionDeActividadViewModel actividadVM, 
+            ISession session)
         {
+            _eventAggregator = eventAggregator;
             _ActividadRepository = actividadRepository;
             _CooperanteRepository = cooperanteRepository;
             _ActividadRepository.Session = session;
@@ -38,30 +44,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 () => _ActividadVM.EdicionHabilitada = true,
                 () => !_ActividadVM.EdicionHabilitada);
 
-            GuardarInformacionCommand = new DelegateCommand(OnGuardarInformacion,
+            GuardarInformacionCommand = new DelegateCommand(
+                OnGuardarInformacion,
                 () => _ActividadVM.EdicionHabilitada && _ActividadVM.Actividad.IsChanged);
 
             _ActividadVM.PropertyChanged += _ActividadVM_PropertyChanged;
-        }
-
-        private void _ActividadVM_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(_ActividadVM.EdicionHabilitada))
-            {
-                InvalidateCommands();
-            }
-            else if (e.PropertyName == nameof(_ActividadVM.Actividad))
-            {
-                _ActividadVM.Actividad.PropertyChanged += Actividad_PropertyChanged;
-            }
-        }
-
-        private void Actividad_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(_ActividadVM.Actividad.IsChanged))
-            {
-                InvalidateCommands();
-            }
         }
 
         public InformacionDeActividadViewModel ActividadVM
@@ -69,29 +56,48 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             get { return _ActividadVM; }
         }
 
+        public ActividadWrapper Actividad
+        {
+            get { return _ActividadVM.Actividad; }
+        }
+
         public ICommand HabilitarEdicionCommand { get; private set; }
         public ICommand GuardarInformacionCommand { get; private set; }
 
+        private void _ActividadVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(_ActividadVM.EdicionHabilitada))
+            {
+                InvalidateCommands();
+            }
+            else if (e.PropertyName == nameof(Actividad))
+            {
+                Actividad.PropertyChanged += (s, ea) => {
+                    InvalidateCommands();
+                };
+            }
+        }
+
         private void OnGuardarInformacion()
         {
-            //_CooperanteRepository.Update(Actividad.Model.Coordinador);
-            //_ActividadRepository.Update(Actividad.Model);
-            var cooperanteDummy = _ActividadVM.Actividad.Cooperantes.Where(c => c.Nombre == null).First();
+            var cooperanteDummy = Actividad.Cooperantes.Single(c => c.Nombre == null);
             if (cooperanteDummy != null)
             {
-                _ActividadVM.Actividad.Cooperantes.Remove(cooperanteDummy);
+                Actividad.Cooperantes.Remove(cooperanteDummy);
             }
-            _ActividadRepository.Flush();
+            Actividad.UpdatedAt = DateTime.Now;
+            _ActividadRepository.Update(Actividad.Model);
             _ActividadVM.Actividad.AcceptChanges();
             _ActividadVM.Actividad.Cooperantes.Add(cooperanteDummy);
             _ActividadVM.EdicionHabilitada = false;
+            _eventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(Actividad.Id);
         }
 
         public override bool IsNavigationTarget(NavigationContext navigationContext)
         {
             var id = (int)navigationContext.Parameters["Id"];
 
-            if (Actividad != null && Actividad.Id == id)
+            if (Actividad.Id == id)
                 return true;
 
             return false;
@@ -99,12 +105,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            Actividad = new ActividadWrapper(
+            var actividad = new ActividadWrapper(
                 _ActividadRepository.GetById((int)navigationContext.Parameters["Id"]));
-            //Actividad.Coordinador = new CooperanteWrapper(
-            //    _CooperanteRepository.GetById(Actividad.CoordinadorId));
 
-            _ActividadVM.InicializarParaVer(Actividad);
+            _ActividadVM.Load(actividad);
 
             if (Actividad.Titulo.Length > 20)
             {

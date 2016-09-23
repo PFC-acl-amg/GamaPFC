@@ -13,7 +13,7 @@ namespace Gama.Cooperacion.Business
         Finalizado,
     }
 
-    public class Actividad
+    public class Actividad : TimestampedModel
     {
         public virtual int CoordinadorId { get; set; }
         public virtual IList<Cooperante> Cooperantes { get; set; }
@@ -22,7 +22,7 @@ namespace Gama.Cooperacion.Business
         public virtual Estado Estado { get; set; }
         public virtual DateTime FechaDeInicio { get; set; }
         public virtual DateTime FechaDeFin { get; set; }
-        public virtual int Id { get; protected set; }
+        public virtual int Id { get; set; }
         public virtual string Titulo { get; set; }
         public virtual IList<Tarea> Tareas { get; set; }
 

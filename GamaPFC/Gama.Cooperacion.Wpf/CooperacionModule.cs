@@ -50,7 +50,7 @@ namespace Gama.Cooperacion.Wpf
 
         private void RegisterViews()
         {
-            Container.RegisterType<object, ActividadDetailView>("ActividadDetailView");
+            Container.RegisterType<object, EditarActividadView>("ActividadDetailView");
             Container.RegisterType<object, ActividadesContentView>("ActividadesContentView");
             Container.RegisterType<object, DashboardView>("DashboardView");
             Container.RegisterType<object, ListadoDeActividadesView>("ListadoDeActividadesView");
@@ -61,7 +61,7 @@ namespace Gama.Cooperacion.Wpf
 
         private void RegisterViewModels()
         {
-            Container.RegisterType<ActividadDetailViewModel>();
+            Container.RegisterType<EditarActividadViewModel>();
             Container.RegisterType<ActividadesContentViewModel>();
             Container.RegisterType<InformacionDeActividadViewModel>();
             Container.RegisterType<DashboardViewModel>();

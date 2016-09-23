@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.Wpf.Wrappers
 {
-    public class ActividadWrapper : ModelWrapper<Actividad>
+    public class ActividadWrapper : TimestampedModelWrapper<Actividad>
     {
         public ActividadWrapper(Actividad model) : base(model)
         {

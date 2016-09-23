@@ -18,14 +18,20 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private IActividadRepository _actividadRepository;
         private int _cantidadDeProyectosAMostrar = 5;
         private IEventAggregator _eventAggregator;
+        private ICooperanteRepository _cooperanteRepository;
+        private int _cantidadDeCooperantesAMostrar = 10;
 
         public ObservableCollection<Actividad> UltimasActividades { get; private set; }
+        public ObservableCollection<Cooperante> UltimosCooperantes { get; private set; }
 
         public DashboardViewModel(IActividadRepository actividadRepository,
+            ICooperanteRepository cooperanteRepository,
             IEventAggregator eventAggregator, ISession session)
         {
             _actividadRepository = actividadRepository;
+            _cooperanteRepository = cooperanteRepository;
             _actividadRepository.Session = session;
+            _cooperanteRepository.Session = session;
             _eventAggregator = eventAggregator;
 
 
@@ -33,6 +39,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 _actividadRepository.GetAll()
                 .OrderBy(a => a.FechaDeFin)
                 .Take(_cantidadDeProyectosAMostrar)
+                .ToArray());
+
+            UltimosCooperantes = new ObservableCollection<Cooperante>(
+                _cooperanteRepository.GetAll()
+                .OrderBy(c => c.Id)
+                .Take(_cantidadDeCooperantesAMostrar)
                 .ToArray());
 
             _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);

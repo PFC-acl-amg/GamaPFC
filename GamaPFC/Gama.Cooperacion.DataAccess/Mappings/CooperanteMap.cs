@@ -19,6 +19,8 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             Map(x => x.Dni).Unique();
             Map(x => x.Nombre);
             Map(x => x.Observaciones);
+            Map(x => x.CreatedAt);
+            Map(x => x.UpdatedAt);
 
             HasMany(x => x.ActividadesDeQueEsCoordinador)
                 .LazyLoad()

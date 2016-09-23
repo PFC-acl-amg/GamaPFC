@@ -97,11 +97,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ActividadWrapper Actividad
         {
             get { return _Actividad; }
-            set
-            {
-                _Actividad = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _Actividad, value); }
         }
 
         public ObservableCollection<CooperanteWrapper> CooperantesDisponibles { get; private set; }
@@ -118,7 +114,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand SelectCooperanteEventCommand { get; private set; }
         public ICommand SelectCoordinadorCommand { get; private set; }
 
-        public void InicializarParaVer(ActividadWrapper wrapper)
+        public void Load(ActividadWrapper wrapper)
         {
             EdicionHabilitada = false;
             Actividad = wrapper;

@@ -29,8 +29,6 @@ namespace Gama.Cooperacion.WpfTests
 
         public NuevaActividadViewModelTests()
         {
-            _cooperantes = new FakeCooperanteRepository().GetAll();
-
             _actividadRepositoryMock = new Mock<IActividadRepository>();
             _cooperanteRepositoryMock = new Mock<ICooperanteRepository>();
             _eventAggregatorMock = new Mock<IEventAggregator>();
@@ -40,6 +38,7 @@ namespace Gama.Cooperacion.WpfTests
             _eventAggregatorMock.Setup(ea => ea.GetEvent<NuevaActividadEvent>())
                 .Returns(_nuevaActividadEventMock.Object);
 
+            _cooperantes = new FakeCooperanteRepository().GetAll();
             _cooperanteRepositoryMock.Setup(cr => cr.GetAll()).Returns(_cooperantes);
 
             _informacionDeActividadViewModelMock = new InformacionDeActividadViewModel(
@@ -66,17 +65,16 @@ namespace Gama.Cooperacion.WpfTests
         [Fact]
         private void ShouldNotifyWhenCoordinadorChanges()
         {
-
             bool fired = false;
 
-            _vm.ActividadVM.Actividad.PropertyChanged += (s, e) => {
-                if (e.PropertyName == nameof(_vm.ActividadVM.Actividad.Coordinador))
+            _vm.Actividad.PropertyChanged += (s, e) => {
+                if (e.PropertyName == nameof(_vm.Actividad.Coordinador))
                 {
                     fired = true;
                 }
             };
 
-            _vm.ActividadVM.Actividad.Coordinador = new CooperanteWrapper(_cooperantes[0]);
+            _vm.Actividad.Coordinador = new CooperanteWrapper(_cooperantes[0]);
             Assert.True(fired);
         }
 
