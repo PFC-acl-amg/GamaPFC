@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using Xunit;
 using Gama.Cooperacion.Business;
 using Gama.Cooperacion.Wpf.Eventos;
+using Prism.Commands;
+using System.Threading;
 
 namespace Gama.Cooperacion.WpfTests
 {
@@ -75,6 +77,23 @@ namespace Gama.Cooperacion.WpfTests
             };
 
             _vm.ActividadVM.Actividad.Coordinador = new CooperanteWrapper(_cooperantes[0]);
+            Assert.True(fired);
+        }
+
+        [Fact]
+        private void ShouldRaiseRaiseCanExecuteChangedOnActividadCommandWhenCoordinadorChanges()
+        {
+            bool fired = false;
+            var resetEvent = new AutoResetEvent(false);
+            
+            _vm.AceptarCommand.CanExecuteChanged += (s, e) => {
+                fired = true;
+                resetEvent.Set();
+            };
+
+            _vm.ActividadVM.Actividad.Coordinador = new CooperanteWrapper(_cooperantes.First());
+            resetEvent.WaitOne(250);
+
             Assert.True(fired);
         }
         

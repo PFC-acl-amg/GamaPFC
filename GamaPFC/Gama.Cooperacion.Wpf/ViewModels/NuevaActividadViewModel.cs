@@ -45,10 +45,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void Actividad_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(_ActividadVM.Actividad.Coordinador))
-            {
+        //    if (e.PropertyName == nameof(_ActividadVM.Actividad.Coordinador)
+        //        || e.PropertyName == nameof(_ActividadVM.Actividad.Titulo))
+        //    {
                 ((DelegateCommand)AceptarCommand).RaiseCanExecuteChanged();
-            }
+            //}
         }
 
         public InformacionDeActividadViewModel ActividadVM
@@ -77,9 +78,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private bool OnAceptarCommand_CanExecute()
         {
-            var c = _ActividadVM.Actividad;
-            var resultado = c.Titulo != null && c.Coordinador.Nombre != null;
-
+            var actividad = _ActividadVM.Actividad;
+            var resultado = actividad.Titulo != null && actividad.Coordinador.Nombre != null;
             return resultado;
         }
 
