@@ -23,7 +23,9 @@ namespace Gama.Cooperacion.WpfTests
         Mock<ICooperacionSettings> _settingsMock;
         Mock<ISession> _sessionMock;
         Mock<NuevaActividadEvent> _nuevaActividadEventMock;
+        Mock<ActividadSeleccionadaEvent> _actividadSeleccionadaEventMock;
         Mock<ActividadActualizadaEvent> _actividadActualizadaEventMock;
+
         List<Actividad> _actividades;
         List<Cooperante> _cooperantes;
         DashboardViewModel _vm;
@@ -35,6 +37,16 @@ namespace Gama.Cooperacion.WpfTests
             _cooperanteRepositoryMock = new Mock<ICooperanteRepository>();
             _settingsMock = new Mock<ICooperacionSettings>();
             _sessionMock = new Mock<ISession>();
+            _nuevaActividadEventMock = new Mock<NuevaActividadEvent>();
+            _actividadSeleccionadaEventMock = new Mock<ActividadSeleccionadaEvent>();
+            _actividadActualizadaEventMock = new Mock<ActividadActualizadaEvent>();
+
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<ActividadSeleccionadaEvent>())
+                .Returns(_actividadSeleccionadaEventMock.Object);
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<NuevaActividadEvent>())
+                .Returns(_nuevaActividadEventMock.Object);
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<ActividadActualizadaEvent>())
+                .Returns(_actividadActualizadaEventMock.Object);
 
             _settingsMock.SetupGet(s => s.DashboardActividadesAMostrar).Returns(25);
             _settingsMock.SetupGet(s => s.DashboardCooperantesAMostrar).Returns(30);
@@ -56,10 +68,68 @@ namespace Gama.Cooperacion.WpfTests
         [Fact]
         private void ShouldInitializeItsProperties()
         {
+            _actividadRepositoryMock.Verify(ar => ar.GetAll(), Times.Once);
+            _cooperanteRepositoryMock.Verify(cr => cr.GetAll(), Times.Once);
             Assert.Equal(_vm.UltimasActividades.Count, _settingsMock.Object.DashboardActividadesAMostrar);
             Assert.Equal(_vm.UltimosCooperantes.Count, _settingsMock.Object.DashboardCooperantesAMostrar);
             Assert.NotNull(_vm.SelectActividadCommand);
             Assert.NotNull(_vm.SelectCooperanteCommand);
+        }
+
+        [Fact]
+        private void ShouldPublishActividadSeleccionadaEventWhenUnaActividadIsSelected()
+        {
+            _vm.SelectActividadCommand.Execute(new Actividad { Id = 1 });
+            _actividadSeleccionadaEventMock.Verify(e => e.Publish(It.IsAny<int>()), Times.Once);
+        }
+
+        [Fact]
+        private void NuevaActividadShouldSetLaActividadEnPrimeraPosicionDeLasActividadesMostradas()
+        {
+            var actividad = new Actividad() { Id = int.MaxValue };
+            _actividadRepositoryMock.Setup(ar => ar.GetById(It.IsAny<int>()))
+                .Returns(actividad);
+
+            var eventAggregator = new EventAggregator();
+
+            // Necesitamos hacer un Publish real, así que le pasamos el EventAggregator
+            // de PRISM, que se asume que está well tested
+            var vm = new DashboardViewModel(
+                _actividadRepositoryMock.Object,
+                _cooperanteRepositoryMock.Object,
+                eventAggregator,
+                _settingsMock.Object,
+                _sessionMock.Object);
+
+            eventAggregator.GetEvent<NuevaActividadEvent>().Publish(actividad.Id);
+
+            Assert.Equal(actividad.Id, vm.UltimasActividades.First().Id);
+        }
+
+        [Fact]
+        private void ShouldActualizarLaActividadEnviadaAlLanzarseElEventoDeActividadActualizada()
+        {
+
+            var actividad = _actividades[2];
+            _actividadRepositoryMock.Setup(ar => ar.GetById(It.IsAny<int>()))
+                .Returns(actividad);
+
+            var eventAggregator = new EventAggregator();
+
+            // Necesitamos hacer un Publish real, así que le pasamos el EventAggregator
+            // de PRISM, que se asume que está well tested
+            var vm = new DashboardViewModel(
+                _actividadRepositoryMock.Object,
+                _cooperanteRepositoryMock.Object,
+                eventAggregator,
+                _settingsMock.Object,
+                _sessionMock.Object);
+
+            actividad.Titulo = "Nuevo título";
+
+            eventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(actividad.Id);
+
+            Assert.Equal(actividad.Titulo, vm.UltimasActividades.Single(a => a.Id == actividad.Id).Titulo);
         }
     }
 }

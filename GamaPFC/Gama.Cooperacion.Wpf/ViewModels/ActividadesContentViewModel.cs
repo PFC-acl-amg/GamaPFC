@@ -27,7 +27,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnActividadNuevaEvent);
             _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Subscribe(OnActividadSeleccionadaEvent);
-            //_eventAggregator.GetEvent<ActividadEliminadaEvent>().Subscribe(OnActividadEliminadaEvent);
         }
 
         public EditarActividadViewModel SelectedViewModel

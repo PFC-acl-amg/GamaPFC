@@ -66,19 +66,21 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             throw new NotImplementedException();
         }
 
-        private void OnSelectActividadCommand(Actividad obj)
+        private void OnSelectActividadCommand(Actividad actividad)
         {
-            throw new NotImplementedException();
+            _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish(actividad.Id);
         }
 
         private void OnNuevaActividadEvent(int id)
         {
-            UltimasActividades.Add(_actividadRepository.GetById(id));
+            UltimasActividades.Insert(0, _actividadRepository.GetById(id));
         }
 
-        private void OnActividadActualizadaEvent(int obj)
+        private void OnActividadActualizadaEvent(int id)
         {
-            throw new NotImplementedException();
+            var actividadActualizada = _actividadRepository.GetById(id);
+            var indice = UltimasActividades.IndexOf(UltimasActividades.Single(a => a.Id == id));
+            UltimasActividades[indice] = actividadActualizada;
         }
     }
 }
