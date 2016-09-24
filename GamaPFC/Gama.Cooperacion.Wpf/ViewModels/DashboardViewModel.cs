@@ -2,6 +2,8 @@
 using Gama.Cooperacion.Business;
 using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Services;
+using LiveCharts;
+using LiveCharts.Wpf;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
@@ -21,6 +23,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private IEventAggregator _eventAggregator;
         private ICooperanteRepository _cooperanteRepository;
         private ICooperacionSettings _settings;
+        private int _mesInicial;
+        private string[] _Labels;
 
         public DashboardViewModel(
             IActividadRepository actividadRepository,
@@ -48,6 +52,39 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 .Take(_settings.DashboardCooperantesAMostrar)
                 .ToArray());
 
+            ActividadesNuevasPorMes = new SeriesCollection
+            {
+                new LineSeries
+                {
+                   Title = "Actividades nuevas por mes",
+                   Values = new ChartValues<int> { 3, 0, 7, 4, 4 },
+                }
+            };
+
+            CooperantesNuevosPorMes = new SeriesCollection
+            {
+                new LineSeries
+                {
+                   Title = "Cooperantes nuevos por mes",
+                   Values = new ChartValues<int> { 4, 2, 6, 2, 4 },
+                }
+            };
+
+            IncidenciasNuevasPorMes = new SeriesCollection
+            {
+                new LineSeries
+                {
+                   Title = "Incidencias nuevas por mes".ToUpper(),
+                   Values = new ChartValues<int> { 2, 4, 1, 2, 1 },
+                }
+            };
+
+            _mesInicial = DateTime.Today.Month - 1;
+
+            _Labels = new[] {
+                "Sep","Oct", "Nov", "Dic",
+                "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic", };
+
             _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
             _eventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
 
@@ -57,6 +94,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         public ObservableCollection<Actividad> UltimasActividades { get; private set; }
         public ObservableCollection<Cooperante> UltimosCooperantes { get; private set; }
+
+        public SeriesCollection ActividadesNuevasPorMes { get; private set; }
+        public SeriesCollection CooperantesNuevosPorMes { get; private set; }
+        public SeriesCollection IncidenciasNuevasPorMes { get; private set; }
+        public string[] Labels => _Labels.Skip(_mesInicial).Take(5).ToArray();
 
         public ICommand SelectActividadCommand { get; set; }
         public ICommand SelectCooperanteCommand { get; set; }

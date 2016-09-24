@@ -125,6 +125,7 @@
     <Compile Include="Actions\DialogCloser.cs" />
     <Compile Include="Converters\ActividadViewToViewModelConverter.cs" />
     <Compile Include="CooperacionModule.cs" />
+    <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />
     <Compile Include="DesignTimeData\DesignTimeDataViewModel.cs" />
     <Compile Include="DesignTimeData\ListadoDeActividadesVM_DTD.cs" />
     <Compile Include="Eventos\ActividadActualizadaEvent.cs" />
