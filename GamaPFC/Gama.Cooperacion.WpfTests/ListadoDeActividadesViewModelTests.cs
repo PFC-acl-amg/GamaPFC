@@ -35,7 +35,7 @@ namespace Gama.Cooperacion.WpfTests
 
             var eventAggregatorMock = new Mock<IEventAggregator>();
             var activdadRepositoryMock = new Mock<IActividadRepository>();
-            var userConfigMock = new Mock<ICooperacionUserConfiguration>();
+            var userConfigMock = new Mock<ICooperacionSettings>();
             var sessionMock = new Mock<ISession>();
 
             userConfigMock.SetupProperty(uc => uc.ListadoDeActividadesItemsPerPage, _itemsPerPage);

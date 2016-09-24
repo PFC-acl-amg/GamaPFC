@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.Wpf.Services
 {
-    public interface ICooperacionUserConfiguration
+    public interface ICooperacionSettings
     {
+        int DashboardCooperantesAMostrar { get; set; }
+        int DashboardActividadesAMostrar { get; set; }
         int ListadoDeActividadesItemsPerPage { get; set; }
     }
 }

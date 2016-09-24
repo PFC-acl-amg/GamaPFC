@@ -90,8 +90,8 @@ namespace Gama.Cooperacion.Wpf
             //    new ActividadRepository(Container.Resolve<ISessionHelper>()));
             Container.RegisterType<ICooperanteRepository, CooperanteRepository>();
 
-            Container.RegisterInstance<ICooperacionUserConfiguration>(
-                new CooperacionUserConfiguration());
+            Container.RegisterInstance<ICooperacionSettings>(
+                new CooperacionSettings());
 
             //Container.RegisterInstance(typeof(IActividadRepository), new FakeActividadRepository());
             //Container.RegisterInstance(typeof(ICooperanteRepository), new FakeCooperanteRepository());

@@ -20,11 +20,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private List<Actividad> _actividades;
         private IActividadRepository _actividadRepository;
         private IEventAggregator _eventAggregator;
-        private ICooperacionUserConfiguration _userConfig;
+        private ICooperacionSettings _userConfig;
 
         public ListadoDeActividadesViewModel(IEventAggregator eventAggregator,
             IActividadRepository actividadRepository, 
-            ICooperacionUserConfiguration userConfig, ISession session)
+            ICooperacionSettings userConfig, ISession session)
         {
             Title = "Todas";
 

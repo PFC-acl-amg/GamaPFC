@@ -8,26 +8,13 @@ using NHibernate;
 
 namespace Gama.Cooperacion.Wpf.Services
 {
-    public class FakeCooperanteRepository : ICooperanteRepository
+    public class FakeCooperanteRepository 
     {
         List<Cooperante> _cooperantes;
 
-        public ISession Session
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public void Create(Cooperante entity)
         {
-            
+
         }
 
         public void Delete(Cooperante entity)
@@ -44,7 +31,7 @@ namespace Gama.Cooperacion.Wpf.Services
             {
                 _cooperantes = new List<Cooperante>();
 
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 50; i++)
                 {
                     Cooperante c = new Cooperante
                     {
