@@ -33,18 +33,22 @@
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
 
-    <GroupBox Grid.Column="0" Grid.Row="0">
+    <!-- Últimas Actividades -->
+    <GroupBox Grid.Column="0" Grid.Row="0"
+                 Margin="{StaticResource Margin}">
       <GroupBox.Header>
         <Label HorizontalAlignment="Center" Content="ÚLTIMAS ACTIVIDADES" Foreground="White" Padding="0"></Label>
       </GroupBox.Header>
       <ScrollViewer HorizontalScrollBarVisibility="Auto">
-      <ListBox ItemsSource="{Binding UltimasActividades}"
+        <ListBox ItemsSource="{Binding UltimasActividades}"
                ScrollViewer.VerticalScrollBarVisibility="Auto"
                DisplayMemberPath="DisplayMember1"/>
       </ScrollViewer>
     </GroupBox>
+
+    <!-- Últimos Cooperantes -->
     <GroupBox  Grid.Column="1" Grid.Row="0"
-              x:Name="ultimosCooperantesGroupBox">
+                 Margin="{StaticResource Margin}">
       <GroupBox.Header>
         <Label Content="ÚLTIMOS COOPERANTES" HorizontalAlignment="Center" Padding="0"
                Foreground="White"></Label>
@@ -55,7 +59,10 @@
                DisplayMemberPath="Nombre"/>
       </ScrollViewer>
     </GroupBox>
-    <GroupBox Grid.Column="2" Grid.Row="0">
+    
+    <!-- Últimas Incidencias -->
+    <GroupBox Grid.Column="2" Grid.Row="0"
+                 Margin="{StaticResource Margin}">
       <GroupBox.Header>
         <Label HorizontalAlignment="Center" Content="ÚLTIMAS INCIDENCIAS" Foreground="White" Padding="0"></Label>
       </GroupBox.Header>
@@ -66,46 +73,67 @@
       </ScrollViewer>
     </GroupBox>
 
+    <!-- ACTIVDADES NUEVAS POR MES-->
     <!--<GroupBox Header="Actividades nuevas por mes" Grid.Column="0" Grid.Row="1">-->
-      <lvc:CartesianChart  Grid.Column="0" Grid.Row="1" Margin="{StaticResource MarginDouble}" LegendLocation="Top">
+    <lvc:CartesianChart  Grid.Column="0" Grid.Row="1" Margin="{StaticResource MarginDouble}" LegendLocation="Top">
       <lvc:CartesianChart.Series>
         <lvc:LineSeries Values="{Binding ActividadesNuevasPorMes}"
                         Title="ACTIVIDADES NUEVAS POR MES"
-                        Fill="Transparent" Stroke="{DynamicResource AccentColor}" LineSmoothness="0">
+                        Fill="Transparent" 
+                        Stroke="Green"
+                        LineSmoothness="0">
         </lvc:LineSeries>
       </lvc:CartesianChart.Series>
-        <lvc:CartesianChart.AxisY>
-          <lvc:Axis MinValue="0"></lvc:Axis>
-        </lvc:CartesianChart.AxisY>
-        <lvc:CartesianChart.AxisX>
-          <lvc:Axis Labels="{Binding Labels}">
-            <lvc:Axis.Separator>
-              <lvc:Separator Step="1"></lvc:Separator>
-            </lvc:Axis.Separator>
-          </lvc:Axis>
-        </lvc:CartesianChart.AxisX>
-      </lvc:CartesianChart>
-    <!--</GroupBox>-->
-    <lvc:CartesianChart  Grid.Column="1" Grid.Row="1" Margin="{StaticResource MarginDouble}"
-        Series="{Binding CooperantesNuevosPorMes}" LegendLocation="Top">
       <lvc:CartesianChart.AxisY>
         <lvc:Axis MinValue="0"></lvc:Axis>
       </lvc:CartesianChart.AxisY>
       <lvc:CartesianChart.AxisX>
-        <lvc:Axis Labels="{Binding Labels}">
+        <lvc:Axis Labels="{Binding ActividadesLabels}">
           <lvc:Axis.Separator>
             <lvc:Separator Step="1"></lvc:Separator>
           </lvc:Axis.Separator>
         </lvc:Axis>
       </lvc:CartesianChart.AxisX>
     </lvc:CartesianChart>
-    <lvc:CartesianChart  Grid.Column="2" Grid.Row="1" Margin="{StaticResource MarginDouble}"
-        Series="{Binding IncidenciasNuevasPorMes}" LegendLocation="Top">
+    <!--</GroupBox>-->
+
+    <!-- COOPERANTES NUEVOS POR MES-->
+    <lvc:CartesianChart  Grid.Column="1" Grid.Row="1" Margin="{StaticResource MarginDouble}" LegendLocation="Top">
+      <lvc:CartesianChart.Series>
+        <lvc:LineSeries Values="{Binding CooperantesNuevosPorMes}"
+                        Title="COOPERANTES NUEVOS POR MES"
+                        Fill="Transparent" 
+                        Stroke="Crimson"
+                        LineSmoothness="0">
+        </lvc:LineSeries>
+      </lvc:CartesianChart.Series>
       <lvc:CartesianChart.AxisY>
         <lvc:Axis MinValue="0"></lvc:Axis>
       </lvc:CartesianChart.AxisY>
       <lvc:CartesianChart.AxisX>
-        <lvc:Axis Labels="{Binding Labels}">
+        <lvc:Axis Labels="{Binding CooperantesLabels}">
+          <lvc:Axis.Separator>
+            <lvc:Separator Step="1"></lvc:Separator>
+          </lvc:Axis.Separator>
+        </lvc:Axis>
+      </lvc:CartesianChart.AxisX>
+    </lvc:CartesianChart>
+
+    <!-- INCIDENCIAS NUEVAS POR MES-->
+    <lvc:CartesianChart  Grid.Column="2" Grid.Row="1" Margin="{StaticResource MarginDouble}" LegendLocation="Top">
+      <lvc:CartesianChart.Series>
+        <lvc:LineSeries Values="{Binding CooperantesNuevosPorMes}"
+                        Title="INCIDENCIAS NUEVAS POR MES"
+                        Fill="Transparent" 
+                        Stroke="BlueViolet"
+                        LineSmoothness="0">
+        </lvc:LineSeries>
+      </lvc:CartesianChart.Series>
+      <lvc:CartesianChart.AxisY>
+        <lvc:Axis MinValue="0"></lvc:Axis>
+      </lvc:CartesianChart.AxisY>
+      <lvc:CartesianChart.AxisX>
+        <lvc:Axis Labels="{Binding CooperantesLabels}">
           <lvc:Axis.Separator>
             <lvc:Separator Step="1"></lvc:Separator>
           </lvc:Axis.Separator>

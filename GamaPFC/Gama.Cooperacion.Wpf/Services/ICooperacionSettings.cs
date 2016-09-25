@@ -13,5 +13,6 @@ namespace Gama.Cooperacion.Wpf.Services
         int DashboardActividadesAMostrar { get; set; }
         int ListadoDeActividadesItemsPerPage { get; set; }
         int DashboardMesesAMostrarDeActividadesNuevas { get; set; }
+        int DashboardMesesAMostrarDeCooperantesNuevos { get; set; }
     }
 }

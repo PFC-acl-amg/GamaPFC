@@ -52,14 +52,17 @@ namespace Gama.Cooperacion.WpfTests
             _settingsMock.SetupGet(s => s.DashboardCooperantesAMostrar).Returns(30);
             _settingsMock.SetupGet(s => s.DashboardActividadesLongitudDeTitulos).Returns(45);
             _settingsMock.SetupGet(s => s.DashboardMesesAMostrarDeActividadesNuevas).Returns(6);
+            _settingsMock.SetupGet(s => s.DashboardMesesAMostrarDeCooperantesNuevos).Returns(6);
 
             _actividades = new FakeActividadRepository().GetAll();
             _cooperantes = new FakeCooperanteRepository().GetAll();
 
             _actividadRepositoryMock.Setup(a => a.GetAll()).Returns(_actividades);
             _actividadRepositoryMock.Setup(a => a.GetActividadesNuevasPorMes(It.IsAny<int>())).
-                Returns(new List<int>(6));
+                Returns(new List<int>(_settingsMock.Object.DashboardMesesAMostrarDeActividadesNuevas));
             _cooperanteRepositoryMock.Setup(c => c.GetAll()).Returns(_cooperantes);
+            _cooperanteRepositoryMock.Setup(c => c.GetCooperantesNuevosPorMes(It.IsAny<int>())).
+                Returns(new List<int>(_settingsMock.Object.DashboardMesesAMostrarDeCooperantesNuevos));
 
             _vm = new DashboardViewModel(
                 _actividadRepositoryMock.Object,
@@ -116,7 +119,6 @@ namespace Gama.Cooperacion.WpfTests
         [Fact]
         private void ShouldActualizarLaActividadEnviadaAlLanzarseElEventoDeActividadActualizada()
         {
-
             var actividad = _actividades[2];
             _actividadRepositoryMock.Setup(ar => ar.GetById(It.IsAny<int>()))
                 .Returns(actividad);

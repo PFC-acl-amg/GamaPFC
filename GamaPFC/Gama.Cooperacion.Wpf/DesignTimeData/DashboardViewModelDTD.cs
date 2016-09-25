@@ -17,7 +17,10 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
     {
         private CooperacionSettings _settings;
         private string[] _Labels;
-        private int _mesInicial;
+        private string[] _ActividadesLabels;
+        private string[] _CooperantesLabels;
+        private int _mesInicialActividades;
+        private int _mesInicialCooperantes;
 
         public DashboardViewModelDTD()
         {
@@ -41,28 +44,15 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
 
             ActividadesNuevasPorMes = new ChartValues<int> { 3, 0, 7, 4, 4 };
 
-            CooperantesNuevosPorMes = new SeriesCollection
-            {
-                new LineSeries
-                {
-                   Title = "Cooperantes nuevos por mes".ToUpper(),
-                   Values = new ChartValues<int> { 4, 2, 6, 2, 4 },
-                }
-            };
+            CooperantesNuevosPorMes = new ChartValues<int> { 3, 0, 7, 4, 4 };
 
-            IncidenciasNuevasPorMes = new SeriesCollection
-            {
-                new LineSeries
-                {
-                   Title = "Incidencias nuevas por mes".ToUpper(),
-                   Values = new ChartValues<int> { 2, 4, 1, 2, 1 },
-                }
-            };
+            IncidenciasNuevasPorMes = new ChartValues<int> { 3, 0, 7, 4, 4 };
 
-            _mesInicial = DateTime.Today.Month - 1;
+            _mesInicialActividades = 12 + (DateTime.Now.Month - 1) - _settings.DashboardMesesAMostrarDeActividadesNuevas + 1;
+            _mesInicialCooperantes = 12 + (DateTime.Now.Month - 1) - _settings.DashboardMesesAMostrarDeCooperantesNuevos + 1;
 
             _Labels = new[] {
-                "Sep","Oct", "Nov", "Dic",
+                "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago","Sep","Oct", "Nov", "Dic",
                 "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic", };
 
         }
@@ -70,10 +60,16 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
         public ObservableCollection<LookupItem> UltimasActividades { get; private set; }
         public ObservableCollection<Cooperante> UltimosCooperantes { get; private set; }
         public ChartValues<int> ActividadesNuevasPorMes { get; private set; }
-        public SeriesCollection CooperantesNuevosPorMes { get; private set; }
-        public SeriesCollection IncidenciasNuevasPorMes { get; private set; }
+        public ChartValues<int> CooperantesNuevosPorMes { get; private set; }
+        public ChartValues<int> IncidenciasNuevasPorMes { get; private set; }
 
-        public string[] Labels => _Labels.Skip(_mesInicial).Take(5).ToArray();
+        public string[] ActividadesLabels =>
+            _Labels.Skip(_mesInicialActividades)
+                .Take(_settings.DashboardMesesAMostrarDeActividadesNuevas).ToArray();
+
+        public string[] CooperantesLabels => 
+            _Labels.Skip(_mesInicialCooperantes)
+                .Take(_settings.DashboardMesesAMostrarDeCooperantesNuevos).ToArray();
 
     }
 }
