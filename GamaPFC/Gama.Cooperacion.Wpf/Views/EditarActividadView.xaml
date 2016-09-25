@@ -38,6 +38,13 @@
             Guardar
           </Hyperlink>
         </Label>
+        <Label Margin="{StaticResource Margin}" Visibility="{Binding ActividadVM.EdicionHabilitada,
+          Converter={StaticResource BooleanToVisibilityConverter}}">
+          <Hyperlink 
+            Command="{Binding CancelarEdicionCommand}">
+            Cancelar
+          </Hyperlink>
+        </Label>
         <Label Margin="{StaticResource Margin}">
           <Hyperlink 
             Command="{Binding HabilitarEdicionCommand}">

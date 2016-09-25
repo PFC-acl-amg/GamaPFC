@@ -48,6 +48,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 OnGuardarInformacion,
                 () => _ActividadVM.EdicionHabilitada && _ActividadVM.Actividad.IsChanged);
 
+            CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand,
+                () => _ActividadVM.EdicionHabilitada);
+
             _ActividadVM.PropertyChanged += _ActividadVM_PropertyChanged;
         }
 
@@ -63,6 +66,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         public ICommand HabilitarEdicionCommand { get; private set; }
         public ICommand GuardarInformacionCommand { get; private set; }
+        public ICommand CancelarEdicionCommand { get; private set; }
 
         private void _ActividadVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -91,6 +95,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _ActividadVM.Actividad.Cooperantes.Add(cooperanteDummy);
             _ActividadVM.EdicionHabilitada = false;
             _eventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(Actividad.Id);
+        }
+
+        private void OnCancelarEdicionCommand()
+        {
+            Actividad.RejectChanges();
+            _ActividadVM.EdicionHabilitada = false;
         }
 
         public override bool IsNavigationTarget(NavigationContext navigationContext)

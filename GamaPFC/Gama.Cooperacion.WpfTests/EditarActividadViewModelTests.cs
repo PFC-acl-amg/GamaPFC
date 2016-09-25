@@ -91,6 +91,7 @@ namespace Gama.Cooperacion.WpfTests
             Assert.NotEmpty(_vm.Title);
             Assert.False(_vm.GuardarInformacionCommand.CanExecute(null));
             Assert.True(_vm.HabilitarEdicionCommand.CanExecute(null));
+            Assert.False(_vm.CancelarEdicionCommand.CanExecute(null));
         }
 
         [Fact]
