@@ -129,7 +129,11 @@ namespace Gama.Cooperacion.WpfTests
 
             eventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(actividad.Id);
 
-            Assert.Equal(actividad.Titulo, vm.UltimasActividades.Single(a => a.Id == actividad.Id).Titulo);
+            string str = vm.UltimasActividades.Single(a => a.Id == actividad.Id).DisplayMember1;
+            if (str.EndsWith("..."))
+                str = str.Substring(0, str.Length - 1 - "...".Length);
+
+            Assert.True(actividad.Titulo.StartsWith(str));
         }
     }
 }

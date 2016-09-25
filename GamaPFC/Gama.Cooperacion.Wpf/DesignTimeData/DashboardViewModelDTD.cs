@@ -1,4 +1,5 @@
-﻿using Gama.Cooperacion.Business;
+﻿using Gama.Common.CustomControls;
+using Gama.Cooperacion.Business;
 using Gama.Cooperacion.Wpf.Services;
 using Gama.Cooperacion.Wpf.ViewModels;
 using LiveCharts;
@@ -22,11 +23,15 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
         {
             _settings = new CooperacionSettings();
 
-            UltimasActividades = new ObservableCollection<Actividad>(
+            UltimasActividades = new ObservableCollection<LookupItem>(
                 new FakeActividadRepository().GetAll()
                 .OrderBy(a => a.FechaDeFin)
                 .Take(_settings.DashboardActividadesAMostrar)
-                .ToArray());
+                .Select(a => new LookupItem
+                {
+                    DisplayMember1 = LookupItem.ShortenStringForDisplay(a.Titulo,
+                        _settings.DashboardActividadesLongitudDeTitulos),
+                }));
 
             UltimosCooperantes = new ObservableCollection<Cooperante>(
                 new FakeCooperanteRepository().GetAll()
@@ -69,7 +74,7 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
 
         }
 
-        public ObservableCollection<Actividad> UltimasActividades { get; private set; }
+        public ObservableCollection<LookupItem> UltimasActividades { get; private set; }
         public ObservableCollection<Cooperante> UltimosCooperantes { get; private set; }
         public SeriesCollection ActividadesNuevasPorMes { get; private set; }
         public SeriesCollection CooperantesNuevosPorMes { get; private set; }

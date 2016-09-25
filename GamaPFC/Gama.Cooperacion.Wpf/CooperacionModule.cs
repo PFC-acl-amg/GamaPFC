@@ -38,12 +38,26 @@ namespace Gama.Cooperacion.Wpf
 
             if (this.UseFaker)
             {
-                var cooperanteRepository = Container.Resolve<ICooperanteRepository>();
-                var cooperantesDummy = new FakeCooperanteRepository().GetAll();
+                //var cooperantesDummy = new FakeCooperanteRepository().GetAll();
 
-                foreach (var cooperante in cooperantesDummy)
+                //foreach (var cooperante in cooperantesDummy)
+                //{
+                //    cooperanteRepository.Create(cooperante);
+                //}
+
+                var cooperanteRepository = Container.Resolve<ICooperanteRepository>();
+                var actividadRepository = Container.Resolve<IActividadRepository>();
+                var session = Container.Resolve<ISession>();
+                actividadRepository.Session = session;
+                cooperanteRepository.Session = session;
+
+                var coordinador = cooperanteRepository.GetById(1);
+                var actividadesFake = new FakeActividadRepository().GetAll();
+
+                foreach (var actividad in actividadesFake)
                 {
-                    cooperanteRepository.Create(cooperante);
+                    actividad.Coordinador = coordinador;
+                    actividadRepository.Create(actividad);
                 }
             }
         }

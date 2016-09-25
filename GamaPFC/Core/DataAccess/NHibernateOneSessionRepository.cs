@@ -65,7 +65,7 @@ namespace Core.DataAccess
                 //{
                 using (var tx = Session.BeginTransaction())
                 {
-                    Session.SaveOrUpdate(entity);
+                    Session.Save(entity);
                     //_session.Insert(entity);
                     //_statelessSession.Insert(entity);
 

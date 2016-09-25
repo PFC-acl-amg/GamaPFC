@@ -1,6 +1,7 @@
 ﻿using Core.DataAccess;
 using Gama.Cooperacion.Business;
 using Gama.Cooperacion.DataAccess;
+using MySql.Data.MySqlClient;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -16,39 +17,37 @@ namespace Gama.Cooperacion.Wpf.Services
         {
         }
 
-        //public override bool Update(Actividad entity)
-        //{
-        //    string query = "UPDATE actividades a SET a.Titulo = :titulo, "
-        //        + "a.Descripcion = :descripcion, "
-        //        + "a.Coordinador_Id = :coordinador_id " 
-        //        + "WHERE a.Id = :id";
-        //    try
-        //    {
-        //        using (var tx = Session.BeginTransaction())
-        //        {
-        //            //Session.Update(entity);
-        //            Session.CreateSQLQuery(query)
-        //                .SetString("titulo", entity.Titulo)
-        //                .SetString("descripcion", entity.Descripcion)
-        //                .SetInt32("coordinador_id", entity.Coordinador.Id)
-        //                .SetInt32("id", entity.Id)
-        //                .ExecuteUpdate();
-        //            tx.Commit();
-        //        }
+        /// <summary>
+        /// Número de actividades creadas por mes en los últimos meses
+        /// </summary>
+        /// <param name="numeroDeMeses">Número de meses en total a devolver, incluyendo
+        /// el mes actual.</param>
+        /// <returns></returns>
+        public List<int> GetActividadesNuevasPorMes(int numeroDeMeses)
+        {
+            List<int> resultado;
+            try
+            {
+                resultado = Session.CreateSQLQuery(@"
+                SELECT COUNT(Id)
+                FROM `actividades` 
+                GROUP BY
+                    YEAR(CreatedAt), 
+                    MONTH(CreatedAt) 
+                ORDER BY 
+                    YEAR(CreatedAt) DESC, 
+                    MONTH(CreatedAt) DESC")
+                        .SetMaxResults(numeroDeMeses)
+                        .List<object>()
+                        .Select(r => int.Parse(r.ToString()))
+                        .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-        //        return true;
-        //    }
-        //    catch (NHibernate.Exceptions.GenericADOException e)
-        //    {
-        //        var message = e.Message;
-        //        return false;
-        //    }
-        //}
-
-        //public override Actividad GetById(int id)
-        //{
-        //    Actividad a = base.GetById(id);
-        //    a.Coordinador = Session.CreateCriteri
-        //}
+            return resultado;
+        }
     }
 }

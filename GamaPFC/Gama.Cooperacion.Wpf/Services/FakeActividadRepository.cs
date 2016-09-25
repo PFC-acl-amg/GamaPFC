@@ -30,6 +30,7 @@ namespace Gama.Cooperacion.Wpf.Services
 
             _actividades = new List<Actividad>();
 
+            int createdAt = 0;
             for (int i = 0; i < 50; i++)
             {
                 var actividad = new Actividad()
@@ -37,9 +38,17 @@ namespace Gama.Cooperacion.Wpf.Services
                     Id = i + 1,
                     Titulo = Faker.TextFaker.Sentence(),
                     Descripcion = Faker.TextFaker.Sentences(4),
+                    CreatedAt = DateTime.Now.AddMonths(createdAt),
+                    Coordinador = null,
+                    Cooperantes = null,
                 };
 
                 _actividades.Add(actividad);
+
+                if (i % 5 == 0)
+                {
+                    createdAt--;
+                }
             }
 
             return _actividades;

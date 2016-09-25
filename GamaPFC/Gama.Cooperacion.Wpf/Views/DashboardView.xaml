@@ -37,9 +37,10 @@
       <GroupBox.Header>
         <Label HorizontalAlignment="Center" Content="ÚLTIMAS ACTIVIDADES" Foreground="White" Padding="0"></Label>
       </GroupBox.Header>
-      <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto">
       <ListBox ItemsSource="{Binding UltimasActividades}"
-               DisplayMemberPath="Titulo"/>
+               ScrollViewer.VerticalScrollBarVisibility="Auto"
+               DisplayMemberPath="DisplayMember1"/>
       </ScrollViewer>
     </GroupBox>
     <GroupBox  Grid.Column="1" Grid.Row="0"
@@ -48,7 +49,7 @@
         <Label Content="ÚLTIMOS COOPERANTES" HorizontalAlignment="Center" Padding="0"
                Foreground="White"></Label>
       </GroupBox.Header>
-      <ScrollViewer>
+      <ScrollViewer HorizontalScrollBarVisibility="Auto">
         <ListBox ItemsSource="{Binding UltimosCooperantes}"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                DisplayMemberPath="Nombre"/>
@@ -58,8 +59,9 @@
       <GroupBox.Header>
         <Label HorizontalAlignment="Center" Content="ÚLTIMAS INCIDENCIAS" Foreground="White" Padding="0"></Label>
       </GroupBox.Header>
-      <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden">
-      <ListBox ItemsSource="{Binding UltimasIncidencias}"
+      <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <ListBox ItemsSource="{Binding UltimasIncidencias}"
+               ScrollViewer.VerticalScrollBarVisibility="Auto"
                DisplayMemberPath="Contenido"/>
       </ScrollViewer>
     </GroupBox>

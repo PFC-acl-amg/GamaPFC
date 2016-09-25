@@ -8,8 +8,10 @@ namespace Gama.Cooperacion.Wpf.Services
 {
     public interface ICooperacionSettings
     {
+        int DashboardActividadesLongitudDeTitulos { get; set; }
         int DashboardCooperantesAMostrar { get; set; }
         int DashboardActividadesAMostrar { get; set; }
         int ListadoDeActividadesItemsPerPage { get; set; }
+        int DashboardMesesAMostrarDeActividadesNuevas { get; set; }
     }
 }

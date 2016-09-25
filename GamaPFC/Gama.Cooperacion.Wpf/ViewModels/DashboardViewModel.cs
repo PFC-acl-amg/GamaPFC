@@ -1,4 +1,5 @@
 ﻿using Core;
+using Gama.Common.CustomControls;
 using Gama.Cooperacion.Business;
 using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Services;
@@ -40,11 +41,16 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _eventAggregator = eventAggregator;
             _settings = settings;
 
-            UltimasActividades = new ObservableCollection<Actividad>(
+            UltimasActividades = new ObservableCollection<LookupItem>(
                 _actividadRepository.GetAll()
-                .OrderBy(a => a.FechaDeFin)
-                .Take(_settings.DashboardActividadesAMostrar)
-                .ToArray());
+                    .OrderBy(a => a.FechaDeFin)
+                    .Take(_settings.DashboardActividadesAMostrar)
+                .Select(a => new LookupItem
+                {
+                    Id = a.Id,
+                    DisplayMember1 = LookupItem.ShortenStringForDisplay(a.Titulo,
+                        _settings.DashboardActividadesLongitudDeTitulos),
+                }));
 
             UltimosCooperantes = new ObservableCollection<Cooperante>(
                 _cooperanteRepository.GetAll()
@@ -52,12 +58,39 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 .Take(_settings.DashboardCooperantesAMostrar)
                 .ToArray());
 
+            InicializarGraficos();
+
+            _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
+            _eventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
+
+            SelectActividadCommand = new DelegateCommand<Actividad>(OnSelectActividadCommand);
+            SelectCooperanteCommand = new DelegateCommand<Cooperante>(OnSelectCooperanteCommand);
+        }
+
+        public ObservableCollection<LookupItem> UltimasActividades { get; private set; }
+        public ObservableCollection<Cooperante> UltimosCooperantes { get; private set; }
+
+        public SeriesCollection ActividadesNuevasPorMes { get; private set; }
+        public SeriesCollection CooperantesNuevosPorMes { get; private set; }
+        public SeriesCollection IncidenciasNuevasPorMes { get; private set; }
+        public string[] Labels =>
+            _Labels.Skip(_mesInicial)
+                .Take(_settings.DashboardMesesAMostrarDeActividadesNuevas)
+                .ToArray();
+
+        public ICommand SelectActividadCommand { get; set; }
+        public ICommand SelectCooperanteCommand { get; set; }
+
+        private void InicializarGraficos()
+        {
+
             ActividadesNuevasPorMes = new SeriesCollection
             {
                 new LineSeries
                 {
                    Title = "Actividades nuevas por mes",
-                   Values = new ChartValues<int> { 3, 0, 7, 4, 4 },
+                   Values = new ChartValues<int>(_actividadRepository.GetActividadesNuevasPorMes(
+                       _settings.DashboardMesesAMostrarDeActividadesNuevas)),
                 }
             };
 
@@ -79,29 +112,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 }
             };
 
-            _mesInicial = DateTime.Today.Month - 1;
+            _mesInicial = 12 + (DateTime.Now.Month - 1) - _settings.DashboardMesesAMostrarDeActividadesNuevas + 1;
 
             _Labels = new[] {
-                "Sep","Oct", "Nov", "Dic",
+                "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago","Sep","Oct", "Nov", "Dic",
                 "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic", };
-
-            _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
-            _eventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
-
-            SelectActividadCommand = new DelegateCommand<Actividad>(OnSelectActividadCommand);
-            SelectCooperanteCommand = new DelegateCommand<Cooperante>(OnSelectCooperanteCommand);
         }
-
-        public ObservableCollection<Actividad> UltimasActividades { get; private set; }
-        public ObservableCollection<Cooperante> UltimosCooperantes { get; private set; }
-
-        public SeriesCollection ActividadesNuevasPorMes { get; private set; }
-        public SeriesCollection CooperantesNuevosPorMes { get; private set; }
-        public SeriesCollection IncidenciasNuevasPorMes { get; private set; }
-        public string[] Labels => _Labels.Skip(_mesInicial).Take(5).ToArray();
-
-        public ICommand SelectActividadCommand { get; set; }
-        public ICommand SelectCooperanteCommand { get; set; }
 
         private void OnSelectCooperanteCommand(Cooperante obj)
         {
@@ -115,14 +131,26 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnNuevaActividadEvent(int id)
         {
-            UltimasActividades.Insert(0, _actividadRepository.GetById(id));
+            var actividad = _actividadRepository.GetById(id);
+            var lookupItem = new LookupItem
+            {
+                Id = actividad.Id,
+                DisplayMember1 = LookupItem.ShortenStringForDisplay(actividad.Titulo,
+                        _settings.DashboardActividadesLongitudDeTitulos)
+            };
+            UltimasActividades.Insert(0, lookupItem);
         }
 
         private void OnActividadActualizadaEvent(int id)
         {
             var actividadActualizada = _actividadRepository.GetById(id);
             var indice = UltimasActividades.IndexOf(UltimasActividades.Single(a => a.Id == id));
-            UltimasActividades[indice] = actividadActualizada;
+            UltimasActividades[indice] = new LookupItem
+            {
+                Id = actividadActualizada.Id,
+                DisplayMember1 = LookupItem.ShortenStringForDisplay(actividadActualizada.Titulo,
+                        _settings.DashboardActividadesLongitudDeTitulos)
+            };
         }
     }
 }
