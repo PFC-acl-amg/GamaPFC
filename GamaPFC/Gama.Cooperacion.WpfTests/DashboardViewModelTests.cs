@@ -50,12 +50,15 @@ namespace Gama.Cooperacion.WpfTests
 
             _settingsMock.SetupGet(s => s.DashboardActividadesAMostrar).Returns(25);
             _settingsMock.SetupGet(s => s.DashboardCooperantesAMostrar).Returns(30);
+            _settingsMock.SetupGet(s => s.DashboardActividadesLongitudDeTitulos).Returns(45);
 
             _actividades = new FakeActividadRepository().GetAll();
             _cooperantes = new FakeCooperanteRepository().GetAll();
 
             _actividadRepositoryMock.Setup(a => a.GetAll()).Returns(_actividades);
             _cooperanteRepositoryMock.Setup(c => c.GetAll()).Returns(_cooperantes);
+
+            ViewModelBase._TEST = true;
 
             _vm = new DashboardViewModel(
                 _actividadRepositoryMock.Object,
@@ -74,6 +77,9 @@ namespace Gama.Cooperacion.WpfTests
             Assert.Equal(_vm.UltimosCooperantes.Count, _settingsMock.Object.DashboardCooperantesAMostrar);
             Assert.NotNull(_vm.SelectActividadCommand);
             Assert.NotNull(_vm.SelectCooperanteCommand);
+            Assert.True(_vm.UltimasActividades.All(
+                a => a.DisplayMember1.Length <= _settingsMock.Object.DashboardActividadesLongitudDeTitulos ^ 
+                a.DisplayMember1.EndsWith("...")));
         }
 
         [Fact]
@@ -86,7 +92,7 @@ namespace Gama.Cooperacion.WpfTests
         [Fact]
         private void NuevaActividadShouldSetLaActividadEnPrimeraPosicionDeLasActividadesMostradas()
         {
-            var actividad = new Actividad() { Id = int.MaxValue };
+            var actividad = _actividades.First();
             _actividadRepositoryMock.Setup(ar => ar.GetById(It.IsAny<int>()))
                 .Returns(actividad);
 

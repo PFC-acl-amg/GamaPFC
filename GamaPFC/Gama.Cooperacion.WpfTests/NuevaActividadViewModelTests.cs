@@ -90,7 +90,7 @@ namespace Gama.Cooperacion.WpfTests
             };
 
             _vm.ActividadVM.Actividad.Coordinador = new CooperanteWrapper(_cooperantes.First());
-            resetEvent.WaitOne(250);
+            resetEvent.WaitOne(500);
 
             Assert.True(fired);
         }

@@ -58,7 +58,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 .Take(_settings.DashboardCooperantesAMostrar)
                 .ToArray());
 
-            InicializarGraficos();
+            if (!_TEST)
+                InicializarGraficos();
 
             _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
             _eventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
@@ -83,7 +84,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void InicializarGraficos()
         {
-
             ActividadesNuevasPorMes = new SeriesCollection
             {
                 new LineSeries
