@@ -18,8 +18,6 @@ namespace Core
             set { SetProperty(ref _title, value); }
         }
 
-        public static bool _TEST { get; set; }
-
         // Virtual porque las viewmodels concretos lo sobreescribirán 
         public virtual bool IsNavigationTarget(NavigationContext navigationContext)
         {

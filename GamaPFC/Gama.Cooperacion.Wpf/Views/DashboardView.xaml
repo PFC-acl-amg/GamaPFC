@@ -67,8 +67,13 @@
     </GroupBox>
 
     <!--<GroupBox Header="Actividades nuevas por mes" Grid.Column="0" Grid.Row="1">-->
-      <lvc:CartesianChart  Grid.Column="0" Grid.Row="1" Margin="{StaticResource MarginDouble}"
-        Series="{Binding ActividadesNuevasPorMes}" LegendLocation="Top">
+      <lvc:CartesianChart  Grid.Column="0" Grid.Row="1" Margin="{StaticResource MarginDouble}" LegendLocation="Top">
+      <lvc:CartesianChart.Series>
+        <lvc:LineSeries Values="{Binding ActividadesNuevasPorMes}"
+                        Title="ACTIVIDADES NUEVAS POR MES"
+                        Fill="Transparent" Stroke="{DynamicResource AccentColor}" LineSmoothness="0">
+        </lvc:LineSeries>
+      </lvc:CartesianChart.Series>
         <lvc:CartesianChart.AxisY>
           <lvc:Axis MinValue="0"></lvc:Axis>
         </lvc:CartesianChart.AxisY>

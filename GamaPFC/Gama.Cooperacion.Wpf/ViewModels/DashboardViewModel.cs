@@ -58,8 +58,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 .Take(_settings.DashboardCooperantesAMostrar)
                 .ToArray());
 
-            if (!_TEST)
-                InicializarGraficos();
+            InicializarGraficos();
 
             _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
             _eventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
@@ -71,9 +70,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ObservableCollection<LookupItem> UltimasActividades { get; private set; }
         public ObservableCollection<Cooperante> UltimosCooperantes { get; private set; }
 
-        public SeriesCollection ActividadesNuevasPorMes { get; private set; }
-        public SeriesCollection CooperantesNuevosPorMes { get; private set; }
-        public SeriesCollection IncidenciasNuevasPorMes { get; private set; }
+        public ChartValues<int> ActividadesNuevasPorMes { get; private set; }
+        //public SeriesCollection CooperantesNuevosPorMes { get; private set; }
+        //public SeriesCollection IncidenciasNuevasPorMes { get; private set; }
         public string[] Labels =>
             _Labels.Skip(_mesInicial)
                 .Take(_settings.DashboardMesesAMostrarDeActividadesNuevas)
@@ -84,33 +83,26 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void InicializarGraficos()
         {
-            ActividadesNuevasPorMes = new SeriesCollection
-            {
-                new LineSeries
-                {
-                   Title = "Actividades nuevas por mes",
-                   Values = new ChartValues<int>(_actividadRepository.GetActividadesNuevasPorMes(
-                       _settings.DashboardMesesAMostrarDeActividadesNuevas)),
-                }
-            };
+            ActividadesNuevasPorMes = new ChartValues<int>(_actividadRepository.GetActividadesNuevasPorMes(
+                       _settings.DashboardMesesAMostrarDeActividadesNuevas));
 
-            CooperantesNuevosPorMes = new SeriesCollection
-            {
-                new LineSeries
-                {
-                   Title = "Cooperantes nuevos por mes",
-                   Values = new ChartValues<int> { 4, 2, 6, 2, 4 },
-                }
-            };
+            //CooperantesNuevosPorMes = new SeriesCollection
+            //{
+            //    new LineSeries
+            //    {
+            //       Title = "Cooperantes nuevos por mes",
+            //       Values = new ChartValues<int> { 4, 2, 6, 2, 4 },
+            //    }
+            //};
 
-            IncidenciasNuevasPorMes = new SeriesCollection
-            {
-                new LineSeries
-                {
-                   Title = "Incidencias nuevas por mes".ToUpper(),
-                   Values = new ChartValues<int> { 2, 4, 1, 2, 1 },
-                }
-            };
+            //IncidenciasNuevasPorMes = new SeriesCollection
+            //{
+            //    new LineSeries
+            //    {
+            //       Title = "Incidencias nuevas por mes".ToUpper(),
+            //       Values = new ChartValues<int> { 2, 4, 1, 2, 1 },
+            //    }
+            //};
 
             _mesInicial = 12 + (DateTime.Now.Month - 1) - _settings.DashboardMesesAMostrarDeActividadesNuevas + 1;
 

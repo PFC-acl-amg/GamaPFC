@@ -51,14 +51,15 @@ namespace Gama.Cooperacion.WpfTests
             _settingsMock.SetupGet(s => s.DashboardActividadesAMostrar).Returns(25);
             _settingsMock.SetupGet(s => s.DashboardCooperantesAMostrar).Returns(30);
             _settingsMock.SetupGet(s => s.DashboardActividadesLongitudDeTitulos).Returns(45);
+            _settingsMock.SetupGet(s => s.DashboardMesesAMostrarDeActividadesNuevas).Returns(6);
 
             _actividades = new FakeActividadRepository().GetAll();
             _cooperantes = new FakeCooperanteRepository().GetAll();
 
             _actividadRepositoryMock.Setup(a => a.GetAll()).Returns(_actividades);
+            _actividadRepositoryMock.Setup(a => a.GetActividadesNuevasPorMes(It.IsAny<int>())).
+                Returns(new List<int>(6));
             _cooperanteRepositoryMock.Setup(c => c.GetAll()).Returns(_cooperantes);
-
-            ViewModelBase._TEST = true;
 
             _vm = new DashboardViewModel(
                 _actividadRepositoryMock.Object,

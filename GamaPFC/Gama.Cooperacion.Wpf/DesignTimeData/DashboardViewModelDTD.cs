@@ -39,14 +39,7 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
                 .Take(_settings.DashboardCooperantesAMostrar)
                 .ToArray());
 
-            ActividadesNuevasPorMes = new SeriesCollection
-            {
-                new LineSeries
-                {
-                   Title = "Actividades nuevas por mes".ToUpper(),
-                   Values = new ChartValues<int> { 3, 0, 7, 4, 4 },
-                }
-            };
+            ActividadesNuevasPorMes = new ChartValues<int> { 3, 0, 7, 4, 4 };
 
             CooperantesNuevosPorMes = new SeriesCollection
             {
@@ -76,7 +69,7 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
 
         public ObservableCollection<LookupItem> UltimasActividades { get; private set; }
         public ObservableCollection<Cooperante> UltimosCooperantes { get; private set; }
-        public SeriesCollection ActividadesNuevasPorMes { get; private set; }
+        public ChartValues<int> ActividadesNuevasPorMes { get; private set; }
         public SeriesCollection CooperantesNuevosPorMes { get; private set; }
         public SeriesCollection IncidenciasNuevasPorMes { get; private set; }
 
