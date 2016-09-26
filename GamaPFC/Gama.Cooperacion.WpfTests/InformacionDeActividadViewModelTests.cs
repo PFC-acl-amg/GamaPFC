@@ -79,9 +79,9 @@ namespace Gama.Cooperacion.WpfTests
 
             _vm.Load(wrapper);
 
-            Assert.Equal(_vm.Actividad.Cooperantes.Count, 1); // Cooperante Dummy
-            Assert.Equal(_vm.Actividad.Cooperantes.First().Id, 0);
-            Assert.Null(_vm.Actividad.Cooperantes.First().Nombre);
+            Assert.Equal(_vm.Actividad.Cooperantes.Count, 0); 
+            //Assert.Equal(_vm.Actividad.Cooperantes.First().Id, 0);
+            //Assert.Null(_vm.Actividad.Cooperantes.First().Nombre);
             Assert.Equal(_vm.Actividad.Coordinador.Id, _cooperantes.First().Id);
             Assert.NotNull(_vm.Actividad.Coordinador.Nombre);
         }

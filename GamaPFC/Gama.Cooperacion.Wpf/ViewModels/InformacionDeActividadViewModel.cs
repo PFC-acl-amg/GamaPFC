@@ -123,7 +123,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 CooperantesDisponibles.Remove(CooperantesDisponibles.Where(c => c.Id == cooperante.Id).First());
             }
             CooperantesDisponibles.Remove(CooperantesDisponibles.Where(c => c.Id == Actividad.Coordinador.Id).First());
-            Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
             Actividad.AcceptChanges();
         }
 
@@ -212,9 +211,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             CooperanteWrapper cooperanteNuevo)
         {
             var cooperanteAReemplazar = Actividad.Cooperantes.Single(c => c.Id == cooperanteAnterior.Id);
+            int indiceAReemplazar = Actividad.Cooperantes.IndexOf(cooperanteAReemplazar);
             
-            Actividad.Cooperantes[Actividad.Cooperantes.IndexOf(cooperanteAReemplazar)]
-                = cooperanteNuevo;
+            Actividad.Cooperantes.Insert(indiceAReemplazar, cooperanteNuevo);
+            Actividad.Cooperantes.RemoveAt(indiceAReemplazar + 1);
 
             // El nombre será nulo sólo en el caso del Cooperante Dummy
             if (cooperanteAnterior.Nombre != null)

@@ -59,8 +59,8 @@ namespace Core
 
         public void RejectChanges()
         {
-            foreach (var addedItem in _addedItems.ToList()) this.Remove(addedItem);
             foreach (var removedItem in _removedItems.ToList()) this.Add(removedItem);
+            foreach (var addedItem in _addedItems.ToList()) this.Remove(addedItem);
             foreach (var modifiedItem in _modifiedItems.ToList()) modifiedItem.RejectChanges();
 
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsChanged)));

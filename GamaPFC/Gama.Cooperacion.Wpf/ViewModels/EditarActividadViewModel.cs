@@ -41,11 +41,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _ActividadVM = actividadVM;
 
             HabilitarEdicionCommand = new DelegateCommand(
-                () => _ActividadVM.EdicionHabilitada = true,
+                OnHabilitarEdicionCommand,
                 () => !_ActividadVM.EdicionHabilitada);
 
-            GuardarInformacionCommand = new DelegateCommand(
-                OnGuardarInformacion,
+            ActualizarCommand = new DelegateCommand(
+                OnActualizarCommand,
                 () => _ActividadVM.EdicionHabilitada && _ActividadVM.Actividad.IsChanged);
 
             CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand,
@@ -65,24 +65,21 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
 
         public ICommand HabilitarEdicionCommand { get; private set; }
-        public ICommand GuardarInformacionCommand { get; private set; }
+        public ICommand ActualizarCommand { get; private set; }
         public ICommand CancelarEdicionCommand { get; private set; }
 
-        private void _ActividadVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnHabilitarEdicionCommand()
         {
-            if (e.PropertyName == nameof(_ActividadVM.EdicionHabilitada))
+            _ActividadVM.EdicionHabilitada = true;
+            if (_ActividadVM.CooperantesDisponibles.Count > 0
+                && Actividad.Cooperantes.Where(c => c.Nombre == null).ToList().Count == 0)
             {
-                InvalidateCommands();
+                Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
             }
-            else if (e.PropertyName == nameof(Actividad))
-            {
-                Actividad.PropertyChanged += (s, ea) => {
-                    InvalidateCommands();
-                };
-            }
+            _ActividadVM.Actividad.AcceptChanges();
         }
 
-        private void OnGuardarInformacion()
+        private void OnActualizarCommand()
         {
             var cooperanteDummy = Actividad.Cooperantes.Single(c => c.Nombre == null);
             if (cooperanteDummy != null)
@@ -92,7 +89,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             Actividad.UpdatedAt = DateTime.Now;
             _ActividadRepository.Update(Actividad.Model);
             _ActividadVM.Actividad.AcceptChanges();
-            _ActividadVM.Actividad.Cooperantes.Add(cooperanteDummy);
+            //_ActividadVM.Actividad.Cooperantes.Add(cooperanteDummy);
             _ActividadVM.EdicionHabilitada = false;
             _eventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(Actividad.Id);
         }
@@ -100,6 +97,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private void OnCancelarEdicionCommand()
         {
             Actividad.RejectChanges();
+            var cooperanteDummy = Actividad.Cooperantes.Where(c => c.Nombre == null).ToList();
+            if (cooperanteDummy.Count > 0)
+            {
+                Actividad.Cooperantes.Remove(cooperanteDummy.First());
+            }
+            Actividad.AcceptChanges();
             _ActividadVM.EdicionHabilitada = false;
         }
 
@@ -133,7 +136,22 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private void InvalidateCommands()
         {
             ((DelegateCommand)HabilitarEdicionCommand).RaiseCanExecuteChanged();
-            ((DelegateCommand)GuardarInformacionCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)ActualizarCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)CancelarEdicionCommand).RaiseCanExecuteChanged();
+        }
+
+        private void _ActividadVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(_ActividadVM.EdicionHabilitada))
+            {
+                InvalidateCommands();
+            }
+            else if (e.PropertyName == nameof(Actividad))
+            {
+                Actividad.PropertyChanged += (s, ea) => {
+                    InvalidateCommands();
+                };
+            }
         }
     }
 }

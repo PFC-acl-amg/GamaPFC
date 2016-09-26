@@ -89,7 +89,7 @@ namespace Gama.Cooperacion.WpfTests
             Assert.NotNull(_vm.ActividadVM);
             Assert.NotNull(_vm.Title);
             Assert.NotEmpty(_vm.Title);
-            Assert.False(_vm.GuardarInformacionCommand.CanExecute(null));
+            Assert.False(_vm.ActualizarCommand.CanExecute(null));
             Assert.True(_vm.HabilitarEdicionCommand.CanExecute(null));
             Assert.False(_vm.CancelarEdicionCommand.CanExecute(null));
         }
@@ -112,6 +112,87 @@ namespace Gama.Cooperacion.WpfTests
             Assert.True(fired);
         }
 
+        [Fact]
+        private void ShoudEnableAndDisableCommandsOnEdicionHabilitada()
+        {
+            _vm.HabilitarEdicionCommand.Execute(null);
+            Assert.False(_vm.ActualizarCommand.CanExecute(null));
+            Assert.True(_vm.CancelarEdicionCommand.CanExecute(null));
+            Assert.False(_vm.HabilitarEdicionCommand.CanExecute(null));
 
+            _vm.Actividad.Titulo = "Otro título";
+            Assert.True(_vm.ActualizarCommand.CanExecute(null));
+            Assert.True(_vm.CancelarEdicionCommand.CanExecute(null));
+            Assert.False(_vm.HabilitarEdicionCommand.CanExecute(null));
+        }
+
+        [Fact]
+        private void ShouldReturnActividadToOriginalStateIfEdicionIsCanceled()
+        {
+            _vm.HabilitarEdicionCommand.Execute(null);
+            _vm.Actividad.Titulo = "Otro título";
+            _vm.Actividad.Coordinador = new CooperanteWrapper(new Cooperante());
+            Assert.True(_vm.ActualizarCommand.CanExecute(null));
+            Assert.True(_vm.CancelarEdicionCommand.CanExecute(null));
+
+            _vm.CancelarEdicionCommand.Execute(null);
+
+            Assert.Equal(_vm.Actividad.Titulo, "Título de la actividad");
+            Assert.Equal(_vm.Actividad.Coordinador.Id, _cooperantes.First().Id);
+            Assert.Equal(_vm.Actividad.Coordinador.Nombre, _cooperantes.First().Nombre);
+            Assert.False(_vm.ActualizarCommand.CanExecute(null));
+            Assert.False(_vm.CancelarEdicionCommand.CanExecute(null));
+            Assert.True(_vm.HabilitarEdicionCommand.CanExecute(null));
+        }
+
+        [Fact]
+        private void ShouldReturnToOriginalStateAfterUpdating()
+        {
+            _vm.HabilitarEdicionCommand.Execute(null);
+            _vm.Actividad.Titulo = "Otro título";
+            _vm.Actividad.Coordinador = new CooperanteWrapper(new Cooperante());
+
+            _vm.ActualizarCommand.Execute(null);
+
+            Assert.False(_vm.ActualizarCommand.CanExecute(null));
+            Assert.False(_vm.CancelarEdicionCommand.CanExecute(null));
+            Assert.True(_vm.HabilitarEdicionCommand.CanExecute(null));
+            Assert.Equal("Otro título", _vm.Actividad.Titulo);
+            Assert.False(_vm.Actividad.IsChanged);
+        }
+
+        [Fact]
+        private void ShouldDevolverCooperantesAEstadoInicialAlCancelar()
+        {
+            _vm.HabilitarEdicionCommand.Execute(null);
+            _vm.Actividad.Cooperantes.Add(new CooperanteWrapper(_cooperantes[0]));
+            _vm.Actividad.Cooperantes.Add(new CooperanteWrapper(_cooperantes[1]));
+
+            _vm.ActualizarCommand.Execute(null);
+
+            Assert.Equal(2, _vm.Actividad.Cooperantes.Count);
+            Assert.True(_vm.Actividad.Cooperantes.All(c => c.Nombre != null));
+            Assert.False(_vm.Actividad.IsChanged);
+
+            _vm.HabilitarEdicionCommand.Execute(null);
+            _vm.Actividad.Cooperantes.RemoveAt(0);
+
+            _vm.ActualizarCommand.Execute(null);
+
+            Assert.Equal(1, _vm.Actividad.Cooperantes.Count);
+            Assert.True(_vm.Actividad.Cooperantes.All(c => c.Nombre != null));
+            Assert.False(_vm.Actividad.IsChanged);
+
+            _vm.HabilitarEdicionCommand.Execute(null);
+            _vm.Actividad.Cooperantes.RemoveAt(0);
+            _vm.Actividad.Cooperantes.Add(new CooperanteWrapper(_cooperantes[3]));
+            _vm.Actividad.Cooperantes.Add(new CooperanteWrapper(_cooperantes[4]));
+
+            _vm.CancelarEdicionCommand.Execute(null);
+
+            Assert.Equal(1, _vm.Actividad.Cooperantes.Count);
+            Assert.True(_vm.Actividad.Cooperantes.All(c => c.Nombre != null));
+            Assert.False(_vm.Actividad.IsChanged);
+        }
     }
 }

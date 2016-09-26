@@ -125,7 +125,7 @@
                 MinWidth="250"
                 SearchMode="Delayed"
                 ItemsSource="{Binding Source={StaticResource CooperantesBuscables}}"
-                SelectedItem="{Binding DataContext.SelectedCooperante, Mode=TwoWay, ElementName=cooperantesListBox}"
+                SelectedItem="{Binding DataContext.CooperanteBuscado, Mode=TwoWay, ElementName=cooperantesListBox}"
                 ItemTemplateSelector="{StaticResource BuscadorTemplateSelector}"
                 Text="{Binding NombreCompleto, Mode=OneWay}"
                 Margin="{StaticResource Margin}">
