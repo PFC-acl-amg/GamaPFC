@@ -64,7 +64,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
             _eventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
 
-            SelectActividadCommand = new DelegateCommand<Actividad>(OnSelectActividadCommand);
+            SelectActividadCommand = new DelegateCommand<LookupItem>(OnSelectActividadCommand);
             SelectCooperanteCommand = new DelegateCommand<Cooperante>(OnSelectCooperanteCommand);
         }
 
@@ -110,9 +110,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             throw new NotImplementedException();
         }
 
-        private void OnSelectActividadCommand(Actividad actividad)
+        private void OnSelectActividadCommand(LookupItem lookup)
         {
-            _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish(actividad.Id);
+            _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish(lookup.Id);
         }
 
         private void OnNuevaActividadEvent(int id)

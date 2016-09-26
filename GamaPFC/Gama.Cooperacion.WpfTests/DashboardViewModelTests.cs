@@ -89,7 +89,7 @@ namespace Gama.Cooperacion.WpfTests
         [Fact]
         private void ShouldPublishActividadSeleccionadaEventWhenUnaActividadIsSelected()
         {
-            _vm.SelectActividadCommand.Execute(new Actividad { Id = 1 });
+            _vm.SelectActividadCommand.Execute(1);
             _actividadSeleccionadaEventMock.Verify(e => e.Publish(It.IsAny<int>()), Times.Once);
         }
 

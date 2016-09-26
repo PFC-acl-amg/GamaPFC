@@ -48,7 +48,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             PaginaAnteriorCommand = new DelegateCommand(OnPaginaAnterior);
             PaginaSiguienteCommand = new DelegateCommand(OnPaginaSiguiente);
-            SeleccionarActividadCommand = new DelegateCommand<LookupItem>(OnSeleccionarActividad);
+            SeleccionarActividadCommand = new DelegateCommand<object>(OnSeleccionarActividad);
         }
 
         public PaginatedCollectionView Actividades { get; private set; }
@@ -86,9 +86,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             Actividades.MoveToNextPage();
         }
 
-        private void OnSeleccionarActividad(LookupItem actividadSeleccionada)
+        private void OnSeleccionarActividad(object id)
         {
-            _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish(actividadSeleccionada.Id);
+            _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish((int)id);
         }
 
         private void OnActividadActualizadaEvent(int id)

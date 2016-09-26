@@ -6,6 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
@@ -41,8 +42,32 @@
       </GroupBox.Header>
       <ScrollViewer HorizontalScrollBarVisibility="Auto">
         <ListBox ItemsSource="{Binding UltimasActividades}"
-               ScrollViewer.VerticalScrollBarVisibility="Auto"
-               DisplayMemberPath="DisplayMember1"/>
+                 x:Name="listBox"
+                 SelectionMode="Single"
+               ScrollViewer.VerticalScrollBarVisibility="Auto">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="35"/>
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Id}"/>
+                <TextBlock Grid.Column="2" Text="{Binding DisplayMember1}"/>
+              </Grid>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseDoubleClick">
+              <prism:InvokeCommandAction 
+                  Command="{Binding RelativeSource =
+                      {RelativeSource FindAncestor,
+                          AncestorType={x:Type GroupBox}},
+                          Path=DataContext.SelectActividadCommand}"
+                  CommandParameter="{Binding ElementName=listBox, Path=SelectedItem}"/>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </ListBox>
       </ScrollViewer>
     </GroupBox>
 

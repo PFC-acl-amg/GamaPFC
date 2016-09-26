@@ -32,6 +32,7 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
                 .Take(_settings.DashboardActividadesAMostrar)
                 .Select(a => new LookupItem
                 {
+                    Id = a.Id,
                     DisplayMember1 = LookupItem.ShortenStringForDisplay(a.Titulo,
                         _settings.DashboardActividadesLongitudDeTitulos),
                 }));
