@@ -11,6 +11,7 @@
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen" 
         WindowState="Maximized" 
+        Style="{StaticResource CustomMetroWindowStyle}"
         Title="Módulo de Cooperación" Height="350" Width="525">
   <Grid>
       <Grid.RowDefinitions>

@@ -71,6 +71,7 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterType<object, ListadoDeActividadesView>("ListadoDeActividadesView");
             Container.RegisterType<object, NuevaActividadView>("NuevaActividadView");
             Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
+            Container.RegisterType<object, StatusBarView>("StatusBarView");
             Container.RegisterType<object, ToolbarView>("ToolbarView");
         }
 
@@ -83,6 +84,7 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterType<ListadoDeActividadesViewModel>();
             Container.RegisterType<NuevaActividadViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
+            Container.RegisterType<StatusBarViewModel>();
             Container.RegisterType<ToolbarViewModel>();
         }
 
@@ -116,6 +118,7 @@ namespace Gama.Cooperacion.Wpf
         {
             RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
             RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
+            RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "ActividadesContentView");
             RegionManager.RequestNavigate(RegionNames.ActividadesTabContentRegion, "ListadoDeActividadesView");
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
