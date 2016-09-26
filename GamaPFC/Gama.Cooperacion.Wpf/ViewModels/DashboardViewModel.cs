@@ -130,13 +130,16 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private void OnActividadActualizadaEvent(int id)
         {
             var actividadActualizada = _actividadRepository.GetById(id);
-            var indice = UltimasActividades.IndexOf(UltimasActividades.Single(a => a.Id == id));
-            UltimasActividades[indice] = new LookupItem
+            if (UltimasActividades.Any(a => a.Id == id))
             {
-                Id = actividadActualizada.Id,
-                DisplayMember1 = LookupItem.ShortenStringForDisplay(actividadActualizada.Titulo,
-                        _settings.DashboardActividadesLongitudDeTitulos)
-            };
+                var indice = UltimasActividades.IndexOf(UltimasActividades.Single(a => a.Id == id));
+                UltimasActividades[indice] = new LookupItem
+                {
+                    Id = actividadActualizada.Id,
+                    DisplayMember1 = LookupItem.ShortenStringForDisplay(actividadActualizada.Titulo,
+                            _settings.DashboardActividadesLongitudDeTitulos)
+                };
+            }
         }
     }
 }

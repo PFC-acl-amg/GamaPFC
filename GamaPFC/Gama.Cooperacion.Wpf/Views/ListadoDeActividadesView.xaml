@@ -9,7 +9,7 @@
              xmlns:designData="clr-namespace:Gama.Cooperacion.Wpf.DesignTimeData"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="666.85">
+             d:DesignHeight="338.71" d:DesignWidth="1058.785">
   <d:DataContext>
     <designData:ListadoDeActividadesVM_DTD/>
   </d:DataContext>
@@ -20,7 +20,7 @@
     </Grid.RowDefinitions>
 
     <StackPanel Orientation="Horizontal">
-      <Button Margin="{StaticResource Margin}">
+      <Button Margin="{StaticResource Margin}" Command="{Binding PaginaAnteriorCommand}">
         <Rectangle Width="15" Height="15">
           <Rectangle.Fill>
             <VisualBrush  Visual="{StaticResource appbar_arrow_left}"/>
@@ -33,7 +33,7 @@
         <Run Text="de"/>
         <Run Text="{Binding Actividades.PageCount, Mode=OneWay}"/>
       </TextBlock>
-      <Button Margin="{StaticResource Margin}">
+      <Button Margin="{StaticResource Margin}" Command="{Binding PaginaSiguienteCommand}">
         <Rectangle Width="15" Height="15">
           <Rectangle.Fill>
             <VisualBrush  Visual="{StaticResource appbar_arrow_right}"/>
@@ -52,9 +52,9 @@
       </ItemsControl.Template>
       <ItemsControl.ItemTemplate>
         <DataTemplate>
-          <GroupBox Header="{Binding Titulo}" MaxWidth="250">
+          <GroupBox Header="{Binding DisplayMember1}" MaxWidth="250">
             <StackPanel Orientation="Vertical">
-              <TextBlock Text="{Binding Titulo}" TextWrapping="Wrap" 
+              <TextBlock Text="{Binding DisplayMember2}" TextWrapping="Wrap" 
                          Margin="{StaticResource Margin}"/>
               <!--<TextBlock Text="{Binding DescripcionResumen}" TextWrapping="Wrap"
                          Margin="{StaticResource Margin}"/>-->

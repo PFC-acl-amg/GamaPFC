@@ -15,7 +15,7 @@ namespace Gama.Cooperacion.Wpf.Services
             DashboardCooperantesAMostrar = 25;
             DashboardMesesAMostrarDeActividadesNuevas = 6;
             DashboardMesesAMostrarDeCooperantesNuevos = 6;
-            ListadoDeActividadesItemsPerPage = 5;
+            ListadoDeActividadesItemsPerPage = 10;
         }
 
         public int DashboardCooperantesAMostrar { get; set; }
