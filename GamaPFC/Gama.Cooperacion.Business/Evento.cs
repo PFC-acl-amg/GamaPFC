@@ -15,9 +15,9 @@ namespace Gama.Cooperacion.Business
     public class Evento
     {
         // public virtual Actividad Actividad { get; set; }
+        public virtual int Id { get; set; }
         public virtual string Titulo { get; set; }
-        public virtual DateTime FechaPublicado { get; set; }
-        public virtual Ocurrencia EventoSucedido { get; set; }
-
+        public virtual DateTime FechaDePublicacion { get; set; }
+        public virtual Ocurrencia Ocurrencia { get; set; }
     }
 }

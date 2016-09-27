@@ -17,7 +17,12 @@ namespace Gama.Cooperacion.Business
         public virtual Cooperante Responsable { get; set; }
         public virtual IList<Seguimiento> Historial { get; set; }
         public virtual IList<Mensaje> Mensajes { get; set; }
-        
+
+        public Tarea()
+        {
+            Historial = new List<Seguimiento>();
+            Mensajes = new List<Mensaje>();
+        }
     }
 
 }

@@ -26,6 +26,7 @@ namespace Gama.Cooperacion.Business
         public virtual string Titulo { get; set; }
         public virtual IList<Tarea> Tareas { get; set; }
         public virtual IList<Foro> Foros { get; set; }
+        public virtual IList<Evento> Eventos { get; set; }
 
         public Actividad()
         {
@@ -33,6 +34,7 @@ namespace Gama.Cooperacion.Business
             Cooperantes = new List<Cooperante>();
             Tareas = new List<Tarea>();
             Foros = new List<Foro>();
+            Eventos = new List<Evento>();
         }
 
         public virtual void AddCooperante(Cooperante cooperante)

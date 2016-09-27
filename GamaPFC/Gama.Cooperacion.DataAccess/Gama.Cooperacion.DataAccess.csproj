@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="INHibernateSessionFactory.cs" />
+    <Compile Include="Mappings\EventoMap.cs" />
     <Compile Include="NHibernateSessionFactory.cs" />
     <Compile Include="Mappings\ActividadMap.cs" />
     <Compile Include="Mappings\CooperanteMap.cs" />

@@ -27,7 +27,7 @@ namespace Gama.Cooperacion.DataAccess
                     {
                         NHibernate.Cfg.Configuration configuration;
 
-                        //File.Delete("nh.cfg");
+                        File.Delete("nh.cfg");
                         if (File.Exists("nh.cfg"))
                         {
                             var file = File.Open("nh.cfg", FileMode.Open);
@@ -61,19 +61,21 @@ namespace Gama.Cooperacion.DataAccess
         private static NHibernate.Cfg.Configuration Configure()
         {
             return Fluently.Configure()
-                .Database(MySQLConfiguration.Standard.ConnectionString(_connectionString)
-                .ShowSql())
-                .Mappings(m => m.FluentMappings
-                                .Add<ActividadMap>()
-                                .Add<CooperanteMap>()
-                                .Conventions.Add(DefaultCascade.Delete(), DefaultLazy.Always()))
+                .Database(MySQLConfiguration.Standard.ConnectionString(_connectionString))
+                //.ShowSql())
+                .Mappings(m => 
+                    m.FluentMappings
+                        .AddFromAssemblyOf<ActividadMap>()
+                        //.Add<ActividadMap>()
+                        //.Add<CooperanteMap>()
+                        .Conventions.Add(DefaultCascade.Delete(), DefaultLazy.Always()))
                 .ExposeConfiguration(
                     c => {
                         var schema = new SchemaExport(c);
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: true,
-                            execute: false,
+                            execute: true,
                             justDrop: false);
                     })
                 .BuildConfiguration();

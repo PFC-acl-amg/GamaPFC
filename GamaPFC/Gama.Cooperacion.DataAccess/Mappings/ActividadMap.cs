@@ -27,6 +27,9 @@ namespace Gama.Cooperacion.DataAccess.Mappings
                 .Not.LazyLoad()
                 .Fetch.Join();
 
+            HasMany(x => x.Eventos)
+                .Inverse();
+
             HasManyToMany(x => x.Cooperantes)
                 .Not.LazyLoad()
                 //.Fetch.Join()

@@ -22,13 +22,13 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
             TareasDisponible.Add(new Tarea() { HaFinalizado = false, FechaDeFinalizacion = new DateTime(2008, 8, 29, 19, 27, 15), Descripcion = "Tarea 2" });
             TareasDisponible.Add(new Tarea() { HaFinalizado = false, FechaDeFinalizacion = new DateTime(2008, 8, 29, 19, 27, 15), Descripcion = "Tarea 3" });
             MensajesDisponible = new ObservableCollection<Mensaje>();
-            MensajesDisponible.Add(new Mensaje() { FechaPublico = new DateTime(2008, 8, 29, 19, 27, 15), TituloMensaje = "Mensaje => Un poco de WPF" });
-            MensajesDisponible.Add(new Mensaje() { FechaPublico = new DateTime(2008, 8, 29, 19, 27, 15), TituloMensaje = "Mensaje => Y Mvvm", });
-            MensajesDisponible.Add(new Mensaje() { FechaPublico = new DateTime(2008, 8, 29, 19, 27, 15), TituloMensaje = "Mensaje => Aplicacionpara Gama" });
+            MensajesDisponible.Add(new Mensaje() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Mensaje => Un poco de WPF" });
+            MensajesDisponible.Add(new Mensaje() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Mensaje => Y Mvvm", });
+            MensajesDisponible.Add(new Mensaje() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Mensaje => Aplicacionpara Gama" });
             var eventosDisponibles = new List<Evento>();
-            eventosDisponibles.Add(new Evento() { FechaPublicado = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Crear las vistas Tarea", EventoSucedido = Ocurrencia.Mensaje_Publicado });
-            eventosDisponibles.Add(new Evento() { FechaPublicado = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Hola a todos bienvenidos", EventoSucedido = Ocurrencia.Mensaje_Publicado });
-            eventosDisponibles.Add(new Evento() { FechaPublicado = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Crear los ViewModels", EventoSucedido = Ocurrencia.Mensaje_Publicado });
+            eventosDisponibles.Add(new Evento() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Crear las vistas Tarea", Ocurrencia = Ocurrencia.Mensaje_Publicado });
+            eventosDisponibles.Add(new Evento() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Hola a todos bienvenidos", Ocurrencia = Ocurrencia.Mensaje_Publicado });
+            eventosDisponibles.Add(new Evento() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Crear los ViewModels", Ocurrencia = Ocurrencia.Mensaje_Publicado });
             IsVisibleMensaje = false;
 
             EventosDisponibles = new List<EventoWrapper>(eventosDisponibles.Select(e => new EventoWrapper(e)));
