@@ -10,7 +10,8 @@
         mc:Ignorable="d"
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen" 
-        WindowState="Maximized" 
+        WindowState="Maximized"
+        WindowTitleBrush="{StaticResource AccentVioletaBrush}"
         Style="{StaticResource CustomMetroWindowStyle}"
         Title="Módulo de Cooperación" Height="350" Width="525">
   <Grid>

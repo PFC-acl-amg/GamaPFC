@@ -27,7 +27,7 @@
       </Style>
     </ResourceDictionary>
   </UserControl.Resources>
-  <Grid Height="40" Style="{StaticResource StatusBarStyle}">
+  <Grid Height="35" Style="{StaticResource StatusBarStyle}">
     <Border BorderBrush="LightSlateGray" BorderThickness="0,1,0,0"/>
     <Label VerticalAlignment="Center"
            Margin="{StaticResource Margin}"

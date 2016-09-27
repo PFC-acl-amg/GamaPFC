@@ -9,9 +9,11 @@ using NHibernate;
 
 namespace Gama.Cooperacion.Wpf.Services
 {
-    public class FakeActividadRepository 
+    public class FakeActividadRepository : IActividadRepository
     {
         private List<Actividad> _actividades;
+
+        public ISession Session { get; set; }
 
         public void Create(Actividad entity)
         {
@@ -67,6 +69,16 @@ namespace Gama.Cooperacion.Wpf.Services
         public void Flush()
         {
             throw new NotImplementedException();
+        }
+
+        public List<int> GetActividadesNuevasPorMes(int numeroDeMeses)
+        {
+            var resultado = new List<int>(numeroDeMeses);
+
+            for (int i = 0; i < numeroDeMeses; i++)
+                resultado.Add(i + 2);
+
+            return resultado;
         }
     }
 }

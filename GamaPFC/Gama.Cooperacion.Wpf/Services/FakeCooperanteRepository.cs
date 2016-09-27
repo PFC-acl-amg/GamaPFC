@@ -8,9 +8,11 @@ using NHibernate;
 
 namespace Gama.Cooperacion.Wpf.Services
 {
-    public class FakeCooperanteRepository 
+    public class FakeCooperanteRepository : ICooperanteRepository
     {
         List<Cooperante> _cooperantes;
+
+        public ISession Session { get; set; }
 
         public void Create(Cooperante entity)
         {
@@ -51,6 +53,16 @@ namespace Gama.Cooperacion.Wpf.Services
         public Cooperante GetById(int id)
         {
             return _cooperantes.Where(c => c.Id == id).First();
+        }
+
+        public List<int> GetCooperantesNuevosPorMes(int numeroDeMeses)
+        {
+            var resultado = new List<int>(numeroDeMeses);
+
+            for (int i = 0; i < numeroDeMeses; i++)
+                resultado.Add(i + 2);
+
+            return resultado;
         }
 
         public bool Update(Cooperante entity)
