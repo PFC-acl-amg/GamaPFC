@@ -76,6 +76,7 @@
     <Compile Include="Seguimiento.cs" />
     <Compile Include="Tarea.cs" />
     <Compile Include="Telefono.cs" />
+    <Compile Include="TimestampedModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

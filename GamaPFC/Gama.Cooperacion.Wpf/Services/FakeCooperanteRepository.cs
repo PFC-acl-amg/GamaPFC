@@ -4,16 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Gama.Cooperacion.Business;
+using NHibernate;
 
 namespace Gama.Cooperacion.Wpf.Services
 {
-    public class FakeCooperanteRepository : ICooperanteRepository
+    public class FakeCooperanteRepository 
     {
         List<Cooperante> _cooperantes;
 
         public void Create(Cooperante entity)
         {
-            
+
         }
 
         public void Delete(Cooperante entity)
@@ -30,11 +31,11 @@ namespace Gama.Cooperacion.Wpf.Services
             {
                 _cooperantes = new List<Cooperante>();
 
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 50; i++)
                 {
                     Cooperante c = new Cooperante
                     {
-                        //Id = i + 1,
+                        Id = i + 1,
                         Apellido = Faker.NameFaker.LastName(),
                         Dni = Faker.StringFaker.AlphaNumeric(9),
                         Nombre = Faker.NameFaker.FirstName(),

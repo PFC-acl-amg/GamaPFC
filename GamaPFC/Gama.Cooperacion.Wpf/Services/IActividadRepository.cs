@@ -11,6 +11,7 @@ namespace Gama.Cooperacion.Wpf.Services
 {
     public interface IActividadRepository
     {
+        ISession Session { get; set; }
         //ISessionFactory _session { get; set; }
 
         Actividad GetById(int id);
@@ -24,5 +25,9 @@ namespace Gama.Cooperacion.Wpf.Services
         bool Update(Actividad entity);
 
         void Delete(Actividad entity);
+
+        void Flush();
+
+        List<int> GetActividadesNuevasPorMes(int numeroDeMeses);
     }
 }

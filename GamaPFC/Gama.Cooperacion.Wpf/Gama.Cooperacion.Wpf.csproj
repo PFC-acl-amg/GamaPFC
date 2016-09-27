@@ -47,6 +47,14 @@
       <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="LiveCharts, Version=0.7.14.3, Culture=neutral, PublicKeyToken=c5935629d38af058, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.7.14.3\lib\portable-net40+sl5+win8+wp8+wpa81\LiveCharts.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.7.14.3, Culture=neutral, PublicKeyToken=3b585c2a5f1a92c1, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.7.14.3\lib\net452\LiveCharts.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
@@ -118,36 +126,44 @@
     <Compile Include="Converters\ActividadViewToViewModelConverter.cs" />
     <Compile Include="Converters\BooleanToVisivilityConverter.cs" />
     <Compile Include="CooperacionModule.cs" />
+    <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />
     <Compile Include="DesignTimeData\DesignTimeDataViewModel.cs" />
     <Compile Include="DesignTimeData\ListadoDeActividadesVM_DTD.cs" />
     <Compile Include="DesignTimeData\TareasDeActividadViewModelDTD.cs" />
+    <Compile Include="DesignTimeData\StatusBarViewModelDTD.cs" />
+    <Compile Include="Eventos\ActividadActualizadaEvent.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaChangedEvent.cs" />
+    <Compile Include="Eventos\ActividadSeleccionadaEvent.cs" />
     <Compile Include="Eventos\NuevaActividadEvent.cs" />
     <Compile Include="Services\ActividadRepository.cs" />
-    <Compile Include="Services\CooperacionUserConfiguration.cs" />
+    <Compile Include="Services\CooperacionSettings.cs" />
     <Compile Include="Services\CooperanteRepository.cs" />
     <Compile Include="Services\FakeCooperanteRepository.cs" />
     <Compile Include="Services\FakeActividadRepository.cs" />
     <Compile Include="Services\IActividadRepository.cs" />
-    <Compile Include="Services\ICooperacionUserConfiguration.cs" />
+    <Compile Include="Services\ICooperacionSettings.cs" />
     <Compile Include="Services\ICooperanteRepository.cs" />
-    <Compile Include="ViewModels\ActividadDetailViewModel.cs" />
+    <Compile Include="ViewModels\EditarActividadViewModel.cs" />
     <Compile Include="ViewModels\ActividadesContentViewModel.cs" />
     <Compile Include="ViewModels\InformacionDeActividadViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\ListadoDeActividadesViewModel.cs" />
     <Compile Include="ViewModels\NuevaActividadViewModel.cs" />
     <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
+    <Compile Include="ViewModels\StatusBarViewModel.cs" />
     <Compile Include="ViewModels\TareasDeActividadViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
-    <Compile Include="Views\ActividadDetailView.xaml.cs">
-      <DependentUpon>ActividadDetailView.xaml</DependentUpon>
+    <Compile Include="Views\EditarActividadView.xaml.cs">
+      <DependentUpon>EditarActividadView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ActividadesContentView.xaml.cs">
       <DependentUpon>ActividadesContentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\InformacionDeActividadView.xaml.cs">
       <DependentUpon>InformacionDeActividadView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatusBarView.xaml.cs">
+      <DependentUpon>StatusBarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TareasDeActividad.xaml.cs">
       <DependentUpon>TareasDeActividad.xaml</DependentUpon>
@@ -187,7 +203,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ActividadDetailView.xaml">
+    <Page Include="Views\EditarActividadView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -196,6 +212,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InformacionDeActividadView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatusBarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

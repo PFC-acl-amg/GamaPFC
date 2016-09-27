@@ -1,4 +1,5 @@
 ﻿using Gama.Cooperacion.Business;
+using NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace Gama.Cooperacion.Wpf.Services
 {
     public interface ICooperanteRepository
     {
+        ISession Session { get; set; }
         Cooperante GetById(int id);
 
         List<Cooperante> GetAll();
@@ -20,5 +22,7 @@ namespace Gama.Cooperacion.Wpf.Services
         bool Update(Cooperante entity);
 
         void Delete(Cooperante entity);
+
+        List<int> GetCooperantesNuevosPorMes(int numeroDeMeses);
     }
 }

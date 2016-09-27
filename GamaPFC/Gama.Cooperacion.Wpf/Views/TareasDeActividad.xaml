@@ -17,7 +17,7 @@
         <designData:TareasDeActividadViewModelDTD/>
     </d:DataContext>
     <UserControl.Resources>
-        <converters:BooleanToVisivilityConverter x:Key="BooleanToVisivilityConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisivilityConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>

@@ -20,24 +20,27 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 {
     public class InformacionDeActividadViewModel : ViewModelBase
     {
+        private bool _EdicionHabilitada;
+        private ActividadWrapper _Actividad;
         public IActividadRepository _ActividadRepository { get; set; }
-        private bool? _Cerrar; // Debe ser nulo al inicializarse el VM, o hay excepción con Dialogcloser
         private ICooperanteRepository _CooperanteRepository;
         private IEventAggregator _EventAggregator;
         private IEnumerable _MensajeDeEspera;
         private string _Modo;
         private bool _PopupEstaAbierto = false;
         private IEnumerable _ResultadoDeBusqueda;
-        private LookupItem _SelectedCooperante;
-        private LookupItem _CoordinadorSeleccionado;
+        private LookupItem _CooperanteBuscado;
+        private LookupItem _CoordinadorBuscado;
 
         public InformacionDeActividadViewModel(
             ICooperanteRepository cooperanteRepository,
-            IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator, ISession session)
         {
             _CooperanteRepository = cooperanteRepository;
+            _CooperanteRepository.Session = session;
             _EventAggregator = eventAggregator;
             _MensajeDeEspera = new List<string>() { "Espera por favor..." };
+            _EdicionHabilitada = true;
 
             Actividad = new ActividadWrapper(new Actividad());
 
@@ -60,43 +63,41 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             QuitarCoordinadorCommand = new DelegateCommand(OnQuitarCoordinadorCommand, OnQuitarCoordinadorCommand_CanExecute);
             QuitarCooperanteCommand = new DelegateCommand<CooperanteWrapper>(OnQuitarCooperanteCommand, OnQuitarCooperanteCommand_CanExecute);
             SearchCommand = new DelegateCommand<string>(OnSearchEventCommand);
-            SelectResultCommand = new DelegateCommand<CooperanteWrapper>(OnSelectResultEventCommand);
+            SelectCooperanteEventCommand = new DelegateCommand<CooperanteWrapper>(OnSelectCooperanteEventCommand);
             SelectCoordinadorCommand = new DelegateCommand(OnSelectCoordinadorEventCommand);
         }
 
-        public bool? Cerrar
+        public bool EdicionHabilitada
         {
-            get { return _Cerrar; }
-            set { SetProperty(ref _Cerrar, value); }
+            get { return _EdicionHabilitada; }
+            set { SetProperty(ref _EdicionHabilitada, value); }
         }
 
+        // Se usa para abrir el Popup de la lista emergente de cooperantes
         public bool PopupEstaAbierto
         {
             get { return _PopupEstaAbierto; }
             set { SetProperty(ref _PopupEstaAbierto, value); }
         }
 
-        public LookupItem SelectedCooperante
+        // El que se enlaza con el elemento seleccionado del SearchBox
+        public LookupItem CooperanteBuscado
         {
-            get { return _SelectedCooperante; }
-            set { SetProperty(ref _SelectedCooperante, value); }
+            get { return _CooperanteBuscado; }
+            set { SetProperty(ref _CooperanteBuscado, value); }
         }
 
-        public LookupItem CoordinadorSeleccionado
+        // El que se enlaza con el elemento seleccionado del SearchBox
+        public LookupItem CoordinadorBuscado
         {
-            get { return _CoordinadorSeleccionado; }
-            set { SetProperty(ref _CoordinadorSeleccionado, value); }
+            get { return _CoordinadorBuscado; }
+            set { SetProperty(ref _CoordinadorBuscado, value); }
         }
 
-        private ActividadWrapper _Actividad;
         public ActividadWrapper Actividad
         {
             get { return _Actividad; }
-            set
-            {
-                _Actividad = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _Actividad, value); }
         }
 
         public ObservableCollection<CooperanteWrapper> CooperantesDisponibles { get; private set; }
@@ -110,18 +111,19 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand QuitarCooperanteCommand { get; private set; }
         public ICommand QuitarCoordinadorCommand { get; private set; }
         public ICommand SearchCommand { get; private set; }
-        public ICommand SelectResultCommand { get; private set; }
+        public ICommand SelectCooperanteEventCommand { get; private set; }
         public ICommand SelectCoordinadorCommand { get; private set; }
 
-        public void Setup(ActividadWrapper wrapper)
+        public void Load(ActividadWrapper wrapper)
         {
+            EdicionHabilitada = false;
             Actividad = wrapper;
             foreach (var cooperante in Actividad.Cooperantes)
             {
                 CooperantesDisponibles.Remove(CooperantesDisponibles.Where(c => c.Id == cooperante.Id).First());
             }
             CooperantesDisponibles.Remove(CooperantesDisponibles.Where(c => c.Id == Actividad.Coordinador.Id).First());
-            Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
+            Actividad.AcceptChanges();
         }
 
         private void OnAbrirPopupCommand(CooperanteWrapper cooperanteAnterior)
@@ -155,13 +157,13 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnSelectCoordinadorEventCommand()
         {
-            var coordinadorNuevo = CooperantesDisponibles.Where(c => c.Id == CoordinadorSeleccionado.Id).First();
+            var coordinadorNuevo = CooperantesDisponibles.Where(c => c.Id == CoordinadorBuscado.Id).First();
             EstablecerCoordinador(coordinadorNuevo);
         }
 
-        private void OnSelectResultEventCommand(CooperanteWrapper cooperanteAnterior)
+        private void OnSelectCooperanteEventCommand(CooperanteWrapper cooperanteAnterior)
         {
-            var cooperanteNuevo = CooperantesDisponibles.Where(c => c.Id == SelectedCooperante.Id).First();
+            var cooperanteNuevo = CooperantesDisponibles.Where(c => c.Id == CooperanteBuscado.Id).First();
             InsertarCooperante(cooperanteAnterior, cooperanteNuevo);
         }
 
@@ -192,7 +194,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             Actividad.Coordinador = coordinadorSeleccionado;
 
             CooperanteEmergenteSeleccionado = null;
-            SelectedCooperante = null;
+            CooperanteBuscado = null;
             CooperantePreviamenteSeleccionado = null;
 
             CooperantesDisponibles.Remove(coordinadorSeleccionado);
@@ -208,8 +210,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             CooperanteWrapper cooperanteAnterior,
             CooperanteWrapper cooperanteNuevo)
         {
-            Actividad.Cooperantes[Actividad.Cooperantes.IndexOf(cooperanteAnterior)]
-                = cooperanteNuevo;
+            var cooperanteAReemplazar = Actividad.Cooperantes.Single(c => c.Id == cooperanteAnterior.Id);
+            int indiceAReemplazar = Actividad.Cooperantes.IndexOf(cooperanteAReemplazar);
+            
+            Actividad.Cooperantes.Insert(indiceAReemplazar, cooperanteNuevo);
+            Actividad.Cooperantes.RemoveAt(indiceAReemplazar + 1);
 
             // El nombre será nulo sólo en el caso del Cooperante Dummy
             if (cooperanteAnterior.Nombre != null)
@@ -232,6 +237,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnQuitarCoordinadorCommand()
         {
+            // Al quitar al coordinador podemos ponerlo como cooperante
             if (CooperantesDisponibles.Count == 0)
             {
                 Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));

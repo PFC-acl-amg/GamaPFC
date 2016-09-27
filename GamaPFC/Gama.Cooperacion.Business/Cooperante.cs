@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.Business
 {
-    public class Cooperante 
+    public class Cooperante : TimestampedModel
     {
         public virtual IList<Actividad> ActividadesDeQueEsCoordinador { get; protected set; }
         public virtual IList<Actividad> ActividadesEnQueParticipa { get; protected set; }

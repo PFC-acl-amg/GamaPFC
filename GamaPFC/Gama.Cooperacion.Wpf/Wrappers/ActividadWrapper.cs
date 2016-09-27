@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.Wpf.Wrappers
 {
-    public class ActividadWrapper : ModelWrapper<Actividad>
+    public class ActividadWrapper : TimestampedModelWrapper<Actividad>
     {
         public ActividadWrapper(Actividad model) : base(model)
         {
@@ -52,8 +52,25 @@ namespace Gama.Cooperacion.Wpf.Wrappers
                 throw new ArgumentNullException("Coordinador");
             }
 
-            this.Coordinador = new CooperanteWrapper(model.Coordinador);
-            RegisterComplex(this.Coordinador);
+            _Coordinador = new CooperanteWrapper(model.Coordinador);
+            _CoordinadorOriginalValue = new CooperanteWrapper(model.Coordinador);
+            this.CoordinadorIsChanged = false;
+        }
+
+        public override bool IsChanged => base.IsChanged || CoordinadorIsChanged;
+
+        public override void AcceptChanges()
+        {
+            CoordinadorOriginalValue = new CooperanteWrapper(Coordinador.Model);
+
+            base.AcceptChanges();
+        }
+
+        public override void RejectChanges()
+        {
+            Coordinador = new CooperanteWrapper(CoordinadorOriginalValue.Model);
+
+            base.RejectChanges();
         }
 
         public string Descripcion
@@ -115,27 +132,52 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         private CooperanteWrapper _Coordinador;
         public CooperanteWrapper Coordinador
         {
-            get { return _Coordinador; }
+            get { return _Coordinador; } 
             set
             {
                 _Coordinador = value;
-                OnPropertyChanged("Coordinador");
 
                 if (value != null)
                 {
-                    Model.Coordinador = value.Model;
+                    if (value.Id == CoordinadorOriginalValue.Id)
+                    {
+                        CoordinadorIsChanged = false;
+                        OnPropertyChanged(nameof(IsChanged));
+                    }
+                    else
+                    {
+                        CoordinadorIsChanged = true;
+                        OnPropertyChanged(nameof(IsChanged));
+                    }
+
+                    SetValue(value.Model);
+                }
+            }
+        }
+        
+        private CooperanteWrapper _CoordinadorOriginalValue;
+        public CooperanteWrapper CoordinadorOriginalValue
+        {
+            get { return _CoordinadorOriginalValue; }
+            set
+            {
+                _CoordinadorOriginalValue = value;
+                if (Coordinador.Id == CoordinadorOriginalValue.Id)
+                {
+                    CoordinadorIsChanged = false;
+                }
+                else
+                {
+                    CoordinadorIsChanged = true;
                 }
             }
         }
 
+        public bool CoordinadorIsChanged { get; set; }
+
         public ChangeTrackingCollection<CooperanteWrapper> Cooperantes { get; private set; }
         public ChangeTrackingCollection<TareaWrapper> Tareas { get; private set; }
         public ChangeTrackingCollection<ForoWrapper> Foros { get; private set; }
-
-        public void AddCooperante(CooperanteWrapper cooperanteNuevo)
-        {
-            Cooperantes.Add(cooperanteNuevo);
-        }
     }
 }
  

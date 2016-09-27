@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Gama.Cooperacion.Wpf.Views
 {
     /// <summary>
-    /// Interaction logic for ActividadDetailView.xaml
+    /// Interaction logic for StatusBarView.xaml
     /// </summary>
-    public partial class ActividadDetailView : UserControl
+    public partial class StatusBarView : UserControl
     {
-        public ActividadDetailView()
+        public StatusBarView()
         {
             InitializeComponent();
         }

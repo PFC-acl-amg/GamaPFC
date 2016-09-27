@@ -16,7 +16,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
     {
         private IEventAggregator _eventAggregator;
         private IRegionManager _regionManager;
-        private ActividadDetailViewModel _selectedViewModel;
+        private EditarActividadViewModel _selectedViewModel;
         //private bool _cerrar = false;
 
         public ActividadesContentViewModel(IEventAggregator eventAggregator,
@@ -26,11 +26,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _regionManager = regionManager;
 
             _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnActividadNuevaEvent);
-            //_eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Subscribe(OnActividadSeleccionadaEvent);
-            //_eventAggregator.GetEvent<ActividadEliminadaEvent>().Subscribe(OnActividadEliminadaEvent);
+            _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Subscribe(OnActividadSeleccionadaEvent);
         }
 
-        public ActividadDetailViewModel SelectedViewModel
+        public EditarActividadViewModel SelectedViewModel
         {
             get { return _selectedViewModel; }
             set
@@ -44,17 +43,18 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             }
         }
 
-        //public bool Cerrar
-        //{
-        //    get { return _cerrar; }
-        //    private set
-        //    {
-        //        if (value)
-        //        {
-        //            OnPropertyChanged();
-        //        }
-        //    }
-        //}
+        private void OnActividadNuevaEvent(int id)
+        {
+            //if (id != 0)
+            //    throw new ArgumentException("El Id en OnAddActividad no puede ser distinto a cero");
+
+            AbrirActividad(id);
+        }
+
+        private void OnActividadSeleccionadaEvent(int id)
+        {
+            AbrirActividad(id);
+        }
 
         private void AbrirActividad(int id)
         {
@@ -66,21 +66,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             // Segundamente navegamos al detalle de la Actividad a abrir
             _regionManager.RequestNavigate(RegionNames.ActividadesTabContentRegion,
-                "ActividadDetailView", navigationParameters);
+                "EditarActividadView", navigationParameters);
         }
-
-        private void OnActividadNuevaEvent(int id)
-        {
-            //if (id != 0)
-            //    throw new ArgumentException("El Id en OnAddActividad no puede ser distinto a cero");
-
-            AbrirActividad(id);
-        }
-
-        //private void OnActividadSeleccionadaEvent(int id)
-        //{
-        //    AbrirActividad(id);
-        //}
 
         //private void OnActividadEliminadaEvent(ActividadWrapper obj)
         //{

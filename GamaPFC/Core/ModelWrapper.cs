@@ -27,9 +27,9 @@ namespace Core
 
         public T Model { get; private set; }
 
-        public bool IsChanged => _originalValues.Count > 0 || _trackingObjects.Any(to => to.IsChanged);
+        public virtual bool IsChanged => _originalValues.Count > 0 || _trackingObjects.Any(to => to.IsChanged);
 
-        public void AcceptChanges()
+        public virtual void AcceptChanges()
         {
             _originalValues.Clear();
 
@@ -41,7 +41,7 @@ namespace Core
             OnPropertyChanged(string.Empty);
         }
 
-        public void RejectChanges()
+        public virtual void RejectChanges()
         {
             foreach (var propertyName in _originalValues.Keys)
             {
@@ -89,6 +89,13 @@ namespace Core
                 OnPropertyChanged(propertyName + "IsChanged");
             }
         }
+
+        //protected void SetComplexValue<TValue>(TValue newValue, [CallerMemberName] string propertyName = null)
+        //    where TValue : ModelWrapper<TClass>
+        //{
+        //    var propertyInfo = this.Model.GetType().GetProperty(propertyName);
+
+        //}
 
         private void UpdateOriginalValue(object currentValue, object newValue, string propertyName)
         {

@@ -1,5 +1,7 @@
 ﻿using Core;
+using Gama.Common.CustomControls;
 using Gama.Cooperacion.Business;
+using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Services;
 using NHibernate;
 using Prism.Commands;
@@ -16,35 +18,44 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 {
     public class ListadoDeActividadesViewModel : ViewModelBase
     {
-        private List<Actividad> _actividades;
+        private List<LookupItem> _actividades;
         private IActividadRepository _actividadRepository;
         private IEventAggregator _eventAggregator;
-        private ICooperacionUserConfiguration _userConfig;
+        private ICooperacionSettings _userConfig;
 
         public ListadoDeActividadesViewModel(IEventAggregator eventAggregator,
-            IActividadRepository actividadRepository, ICooperacionUserConfiguration userConfig)
+            IActividadRepository actividadRepository, 
+            ICooperacionSettings userConfig, ISession session)
         {
             Title = "Todas";
 
             _eventAggregator = eventAggregator;
             _actividadRepository = actividadRepository;
+            _actividadRepository.Session = session;
             _userConfig = userConfig;
 
-            _actividades = _actividadRepository.GetAll();
+            _actividades = _actividadRepository.GetAll()
+                .Select(a => new LookupItem
+                {
+                    Id = a.Id,
+                    DisplayMember1 = a.Titulo,
+                    DisplayMember2 = a.Descripcion
+                }).ToList();
             Actividades = new PaginatedCollectionView(_actividades,
                 userConfig.ListadoDeActividadesItemsPerPage);
 
+            _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
+            _eventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
+
             PaginaAnteriorCommand = new DelegateCommand(OnPaginaAnterior);
             PaginaSiguienteCommand = new DelegateCommand(OnPaginaSiguiente);
-            SeleccionarActividadCommand = new DelegateCommand<Actividad>(OnSelectActividad);
+            SeleccionarActividadCommand = new DelegateCommand<object>(OnSeleccionarActividad);
         }
 
         public PaginatedCollectionView Actividades { get; private set; }
         public ICommand PaginaAnteriorCommand { get; private set; }
         public ICommand PaginaSiguienteCommand { get; private set; }
         public ICommand SeleccionarActividadCommand { get; private set; }
-
-
 
         public object ElementosPorPagina
         {
@@ -76,9 +87,34 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             Actividades.MoveToNextPage();
         }
 
-        private void OnSelectActividad(Actividad actividadSeleccionada)
+        private void OnSeleccionarActividad(object id)
         {
-            throw new NotImplementedException();
+            _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish((int)id);
+        }
+
+        private void OnNuevaActividadEvent(int id)
+        {
+            var actividad = _actividadRepository.GetById(id);
+            var lookupItem = new LookupItem
+            {
+                Id = actividad.Id,
+                DisplayMember1 = actividad.Titulo,
+                DisplayMember2 = actividad.Descripcion
+            };
+            _actividades.Insert(0, lookupItem);
+            Actividades.Refresh();
+        }
+
+        private void OnActividadActualizadaEvent(int id)
+        {
+            var actividadActualizada = _actividadRepository.GetById(id);
+            if (_actividades.Any(a => a.Id == id))
+            {
+                var actividad = _actividades.Where(a => a.Id == id).Single();
+                var index = _actividades.IndexOf(actividad);
+                _actividades[index].DisplayMember1 = actividadActualizada.Titulo;
+                _actividades[index].DisplayMember2 = actividadActualizada.Descripcion;
+            }
         }
     }
 }

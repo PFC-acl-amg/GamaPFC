@@ -38,37 +38,54 @@ namespace Gama.Cooperacion.Wpf
 
             if (this.UseFaker)
             {
-                var cooperanteRepository = Container.Resolve<ICooperanteRepository>();
-                var cooperantesDummy = new FakeCooperanteRepository().GetAll();
+                //var cooperantesDummy = new FakeCooperanteRepository().GetAll();
 
-                foreach (var cooperante in cooperantesDummy)
+                //foreach (var cooperante in cooperantesDummy)
+                //{
+                //    cooperanteRepository.Create(cooperante);
+                //}
+
+                var cooperanteRepository = Container.Resolve<ICooperanteRepository>();
+                var actividadRepository = Container.Resolve<IActividadRepository>();
+                var session = Container.Resolve<ISession>();
+                actividadRepository.Session = session;
+                cooperanteRepository.Session = session;
+
+                var coordinador = cooperanteRepository.GetById(1);
+                var actividadesFake = new FakeActividadRepository().GetAll();
+
+                foreach (var actividad in actividadesFake)
                 {
-                    cooperanteRepository.Create(cooperante);
+                    actividad.Coordinador = coordinador;
+                    actividadRepository.Create(actividad);
                 }
             }
         }
 
         private void RegisterViews()
         {
-            Container.RegisterType<object, ActividadDetailView>("ActividadDetailView");
             Container.RegisterType<object, ActividadesContentView>("ActividadesContentView");
             Container.RegisterType<object, DashboardView>("DashboardView");
+            Container.RegisterType<object, EditarActividadView>("EditarActividadView");
+            Container.RegisterType<object, InformacionDeActividadView>("InformacionDeActividadView");
             Container.RegisterType<object, ListadoDeActividadesView>("ListadoDeActividadesView");
             Container.RegisterType<object, NuevaActividadView>("NuevaActividadView");
             Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
+            Container.RegisterType<object, StatusBarView>("StatusBarView");
             Container.RegisterType<object, ToolbarView>("ToolbarView");
             Container.RegisterType<object, TareasDeActividad>("TareasDeActividad");
         }
 
         private void RegisterViewModels()
         {
-            Container.RegisterType<ActividadDetailViewModel>();
             Container.RegisterType<ActividadesContentViewModel>();
-            Container.RegisterType<InformacionDeActividadViewModel>();
             Container.RegisterType<DashboardViewModel>();
+            Container.RegisterType<EditarActividadViewModel>();
+            Container.RegisterType<InformacionDeActividadViewModel>();
             Container.RegisterType<ListadoDeActividadesViewModel>();
             Container.RegisterType<NuevaActividadViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
+            Container.RegisterType<StatusBarViewModel>();
             Container.RegisterType<ToolbarViewModel>();
             Container.RegisterType<TareasDeActividadViewModel>();
         }
@@ -83,14 +100,17 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
             Container.RegisterType<ISession>(
                 new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
-            Container.RegisterType<IStatelessSession>(
-                new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenStatelessSession()));
+            //Container.RegisterType<IStatelessSession>(
+            //    new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenStatelessSession()));
 
             Container.RegisterType<IActividadRepository, ActividadRepository>();
 
             //Container.RegisterInstance(typeof(IActividadRepository),
             //    new ActividadRepository(Container.Resolve<ISessionHelper>()));
             Container.RegisterType<ICooperanteRepository, CooperanteRepository>();
+
+            Container.RegisterInstance<ICooperacionSettings>(
+                new CooperacionSettings());
 
             //Container.RegisterInstance(typeof(IActividadRepository), new FakeActividadRepository());
             //Container.RegisterInstance(typeof(ICooperanteRepository), new FakeCooperanteRepository());
@@ -100,6 +120,7 @@ namespace Gama.Cooperacion.Wpf
         {
             RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
             RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
+            RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "ActividadesContentView");
             RegionManager.RequestNavigate(RegionNames.ActividadesTabContentRegion, "ListadoDeActividadesView");
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");

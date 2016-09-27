@@ -44,11 +44,36 @@ namespace Gama.Bootstrapper
 
             ViewModelLocationProvider.SetDefaultViewModelFactory(
                 type => {
-                    return _container.Resolve(type);
+                    try
+                    {
+                        var result = _container.Resolve(type);
+                        return _container.Resolve(type);
+                    }
+                    catch (Exception ex)
+                    {
+                        var message = ex.Message;
+                        throw ex;
+                        return null;
+                    }
                 });
 
             var bootstrapper = new Bootstrapper(Modulos.Cooperacion);
-            bootstrapper.Run();
+            try {
+                //System.AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+                bootstrapper.Run();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Console.WriteLine(e.ExceptionObject.ToString());
+            Console.WriteLine("Press Enter to continue");
+            Console.ReadLine();
+            Environment.Exit(1);
         }
     }
 }

@@ -10,6 +10,7 @@
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:prism="http://prismlibrary.com/"
   xmlns:selector="clr-namespace:Gama.Common.Resources.DataTemplateSelectors;assembly=Gama.Common"
+  xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
   mc:Ignorable="d" 
   d:DesignHeight="349.5" d:DesignWidth="422.26">
   <UserControl.Resources>
@@ -27,7 +28,7 @@
     <!-- Selector para mostrar estado de espera mientras se realiza la búsqueda. -->
     <selector:BuscadorDataTemplateSelector x:Key="BuscadorTemplateSelector"/>
   </UserControl.Resources>
-  <Grid>
+  <Grid IsHitTestVisible="{Binding EdicionHabilitada}">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
@@ -50,12 +51,12 @@
     <GroupBox Grid.Row="0" Header="Información Básica">
       <StackPanel>
         <TextBox  BorderThickness="1"
-                  Text="{Binding Actividad.Titulo}"
+                  Text="{Binding Actividad.Titulo, UpdateSourceTrigger=PropertyChanged}"
                   metro:TextBoxHelper.Watermark="Introduce el título..."
                   TextWrapping="Wrap"
                   Margin="{StaticResource Margin}"/>
         <TextBox  
-            Text="{Binding Actividad.Descripcion}"
+            Text="{Binding Actividad.Descripcion, UpdateSourceTrigger=PropertyChanged}"
             metro:TextBoxHelper.Watermark="Introduce la descripción..."
             TextWrapping="Wrap"
             Margin="{StaticResource Margin}"
@@ -124,7 +125,7 @@
                 MinWidth="250"
                 SearchMode="Delayed"
                 ItemsSource="{Binding Source={StaticResource CooperantesBuscables}}"
-                SelectedItem="{Binding DataContext.SelectedCooperante, Mode=TwoWay, ElementName=cooperantesListBox}"
+                SelectedItem="{Binding DataContext.CooperanteBuscado, Mode=TwoWay, ElementName=cooperantesListBox}"
                 ItemTemplateSelector="{StaticResource BuscadorTemplateSelector}"
                 Text="{Binding NombreCompleto, Mode=OneWay}"
                 Margin="{StaticResource Margin}">
@@ -136,7 +137,7 @@
                   </i:EventTrigger>
                   <i:EventTrigger EventName="SelectResult">
                     <prism:InvokeCommandAction 
-                      Command="{Binding DataContext.SelectResultCommand, ElementName=cooperantesListBox}"
+                      Command="{Binding DataContext.SelectCooperanteEventCommand, ElementName=cooperantesListBox}"
                       CommandParameter="{Binding}"/>
                   </i:EventTrigger>
                 </i:Interaction.Triggers>

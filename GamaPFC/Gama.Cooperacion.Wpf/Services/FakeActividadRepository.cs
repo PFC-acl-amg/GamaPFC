@@ -9,9 +9,8 @@ using NHibernate;
 
 namespace Gama.Cooperacion.Wpf.Services
 {
-    public class FakeActividadRepository : IActividadRepository
+    public class FakeActividadRepository 
     {
-        public ISessionFactory _session { get; set; }
         private List<Actividad> _actividades;
 
         public void Create(Actividad entity)
@@ -31,15 +30,25 @@ namespace Gama.Cooperacion.Wpf.Services
 
             _actividades = new List<Actividad>();
 
-            for (int i = 0; i < 30; i++)
+            int createdAt = 0;
+            for (int i = 0; i < 50; i++)
             {
                 var actividad = new Actividad()
                 {
+                    Id = i + 1,
                     Titulo = Faker.TextFaker.Sentence(),
                     Descripcion = Faker.TextFaker.Sentences(4),
+                    CreatedAt = DateTime.Now.AddMonths(createdAt),
+                    Coordinador = null,
+                    Cooperantes = null,
                 };
 
                 _actividades.Add(actividad);
+
+                if (i % 5 == 0)
+                {
+                    createdAt--;
+                }
             }
 
             return _actividades;
@@ -51,6 +60,11 @@ namespace Gama.Cooperacion.Wpf.Services
         }
 
         public bool Update(Actividad entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Flush()
         {
             throw new NotImplementedException();
         }

@@ -7,6 +7,8 @@ using NHibernate;
 using NHibernate.Context;
 using NHibernate.Tool.hbm2ddl;
 using System.Configuration;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Gama.Cooperacion.DataAccess
 {
@@ -23,7 +25,21 @@ namespace Gama.Cooperacion.DataAccess
                 {
                     try
                     {
-                        NHibernate.Cfg.Configuration configuration = Configure();
+                        NHibernate.Cfg.Configuration configuration;
+
+                        //File.Delete("nh.cfg");
+                        if (File.Exists("nh.cfg"))
+                        {
+                            var file = File.Open("nh.cfg", FileMode.Open);
+                            configuration = (NHibernate.Cfg.Configuration)new BinaryFormatter()
+                                .Deserialize(file);
+                            //file.Close();
+                        }
+                        else
+                        {
+                            configuration = Configure();
+                            new BinaryFormatter().Serialize(File.Create("nh.cfg"), configuration);
+                        }
 
                         _sessionFactory = configuration.BuildSessionFactory();
                     }
@@ -45,11 +61,12 @@ namespace Gama.Cooperacion.DataAccess
         private static NHibernate.Cfg.Configuration Configure()
         {
             return Fluently.Configure()
-                .Database(MySQLConfiguration.Standard.ConnectionString(_connectionString))
+                .Database(MySQLConfiguration.Standard.ConnectionString(_connectionString)
+                .ShowSql())
                 .Mappings(m => m.FluentMappings
                                 .Add<ActividadMap>()
                                 .Add<CooperanteMap>()
-                                .Conventions.Add(DefaultCascade.All(), DefaultLazy.Never()))
+                                .Conventions.Add(DefaultCascade.Delete(), DefaultLazy.Always()))
                 .ExposeConfiguration(
                     c => {
                         var schema = new SchemaExport(c);
@@ -69,7 +86,9 @@ namespace Gama.Cooperacion.DataAccess
 
         public ISession OpenSession()
         {
-            return SessionFactory.OpenSession();
+            var session = SessionFactory.OpenSession();
+            session.FlushMode = FlushMode.Commit;
+            return session;
         }
 
         public void CreateSession()

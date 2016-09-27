@@ -1,4 +1,6 @@
-﻿using Gama.Cooperacion.Business;
+﻿using Gama.Common.CustomControls;
+using Gama.Cooperacion.Business;
+using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Services;
 using Gama.Cooperacion.Wpf.ViewModels;
 using Moq;
@@ -18,35 +20,30 @@ namespace Gama.Cooperacion.WpfTests
         private ListadoDeActividadesViewModel _vm;
         private List<Actividad> _actividades;
         private int _itemsPerPage = 30;
+        private Mock<ISession> _sessionMock;
+        private Mock<ICooperacionSettings> _userConfigMock;
+        private Mock<IActividadRepository> _activdadRepositoryMock;
+        private EventAggregator _eventAggregatorMock;
 
         public ListadoDeActividadesViewModelTests()
         {
-            _actividades = new List<Actividad> { // 4 x 10 elementos
-                new Actividad(), new Actividad(), new Actividad(), new Actividad(),
-                new Actividad(), new Actividad(), new Actividad(), new Actividad(),
-                new Actividad(), new Actividad(), new Actividad(), new Actividad(),
-                new Actividad(), new Actividad(), new Actividad(), new Actividad(),
-                new Actividad(), new Actividad(), new Actividad(), new Actividad(),
-                new Actividad(), new Actividad(), new Actividad(), new Actividad(),
-                new Actividad(), new Actividad(), new Actividad(), new Actividad(),
-                new Actividad(), new Actividad(), new Actividad(), new Actividad(),
-                new Actividad(), new Actividad(), new Actividad(), new Actividad(),
-                new Actividad(), new Actividad(), new Actividad(), new Actividad(),};
+            _actividades = new FakeActividadRepository().GetAll().Take(40).ToList();
 
-            var eventAggregatorMock = new Mock<IEventAggregator>();
-            var activdadRepositoryMock = new Mock<IActividadRepository>();
-            var userConfigMock = new Mock<ICooperacionUserConfiguration>();
-            var sessionMock = new Mock<ISession>();
+            _eventAggregatorMock = new EventAggregator();
+            _activdadRepositoryMock = new Mock<IActividadRepository>();
+            _userConfigMock = new Mock<ICooperacionSettings>();
+            _sessionMock = new Mock<ISession>();
 
-            userConfigMock.SetupProperty(uc => uc.ListadoDeActividadesItemsPerPage, _itemsPerPage);
+            _userConfigMock.SetupProperty(uc => uc.ListadoDeActividadesItemsPerPage, _itemsPerPage);
 
-            activdadRepositoryMock.Setup(pr => pr.GetAll())
+            _activdadRepositoryMock.Setup(pr => pr.GetAll())
                 .Returns(_actividades);
 
             _vm = new ListadoDeActividadesViewModel(
-                eventAggregatorMock.Object,
-                activdadRepositoryMock.Object,
-                userConfigMock.Object);
+                _eventAggregatorMock,
+                _activdadRepositoryMock.Object,
+                _userConfigMock.Object,
+                _sessionMock.Object);
         }
 
         [Fact]
@@ -93,6 +90,21 @@ namespace Gama.Cooperacion.WpfTests
 
             _vm.ElementosPorPagina = 35;
             Assert.True(fired);
+        }
+
+        [Fact]
+        public void ShouldUpdateInnerActividadWhenItIsUpdated()
+        {
+            var actividad = _actividades[3];
+            actividad.Titulo = "Otro título";
+
+            _activdadRepositoryMock.Setup(ar => ar.GetById(actividad.Id))
+                 .Returns(actividad);
+
+            _eventAggregatorMock.GetEvent<ActividadActualizadaEvent>().Publish(actividad.Id);
+
+            Assert.True(((List<LookupItem>)_vm.Actividades.SourceCollection)
+                .Single(a => a.Id == actividad.Id).DisplayMember1 == actividad.Titulo);
         }
     }
 }

@@ -10,11 +10,37 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.Wpf.Services
 {
-    public class CooperanteRepository : NHibernateRepository<Cooperante, int>, ICooperanteRepository
+    public class CooperanteRepository : NHibernateOneSessionRepository<Cooperante, int>, ICooperanteRepository
     {
-        public CooperanteRepository(INHibernateSessionFactory sessionFactory)
-            : base(sessionFactory)
+        public CooperanteRepository()
         {
+        }
+
+        public List<int> GetCooperantesNuevosPorMes(int numeroDeMeses)
+        {
+            List<int> resultado;
+            try
+            {
+                resultado = Session.CreateSQLQuery(@"
+                SELECT COUNT(Id)
+                FROM `cooperantes` 
+                GROUP BY
+                    YEAR(CreatedAt), 
+                    MONTH(CreatedAt) 
+                ORDER BY 
+                    YEAR(CreatedAt) DESC, 
+                    MONTH(CreatedAt) DESC")
+                        .SetMaxResults(numeroDeMeses)
+                        .List<object>()
+                        .Select(r => int.Parse(r.ToString()))
+                        .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return resultado;
         }
     }
 }

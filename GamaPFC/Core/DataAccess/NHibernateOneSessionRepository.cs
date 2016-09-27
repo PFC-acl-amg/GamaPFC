@@ -1,5 +1,4 @@
-﻿using Gama.Cooperacion.DataAccess;
-using NHibernate;
+﻿using NHibernate;
 using NHibernate.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -9,44 +8,31 @@ using System.Threading.Tasks;
 
 namespace Core.DataAccess
 {
-    public class NHibernateRepository<TEntity, TKey> where TEntity : class
+    public class NHibernateOneSessionRepository<TEntity, TKey> where TEntity : class
     {
-        public ISession _session;
-        public IStatelessSession _statelessSession;
-        private INHibernateSessionFactory _sessionFactory;
+        private ISession _session;
 
-        public NHibernateRepository(INHibernateSessionFactory sessionFactory)
+        public NHibernateOneSessionRepository()
         {
-            //_session = session;
-            //_statelessSession = statelessSession;
-            _sessionFactory = sessionFactory;
-            _session = _sessionFactory.OpenSession();
+
         }
 
-        protected ISession Session
+        public ISession Session
         {
-            get
-            {
-                if (!_session.IsOpen)
-                {
-                    _session = _sessionFactory.OpenSession();
-                }
-                return _session;
-            }
+            get { return _session; }
+            set { _session = value; }
         }
 
         public virtual TEntity GetById(int id)
         {
             try
             {
-                using (var tx = Session.BeginTransaction())
-                {
+                //using (var tx = Session.BeginTransaction())
+                //{
                     var result = Session.Get<TEntity>((object)id);
-                    //_session.Close();
-                    tx.Commit();
-                    Session.Close();
+                    //tx.Commit();
                     return result;
-                }
+                //}
             }
             catch (Exception ex)
             {
@@ -58,13 +44,12 @@ namespace Core.DataAccess
         {
             try
             {
-                using (var tx = Session.BeginTransaction())
-                {
+                //using (var tx = Session.BeginTransaction())
+                //{
                     var result = Session.CreateCriteria<TEntity>().List<TEntity>().ToList();
-                    Session.Close();
                     //tx.Commit();
                     return result;
-                }
+                //}
             }
             catch (Exception ex)
             {
@@ -80,30 +65,31 @@ namespace Core.DataAccess
                 //{
                 using (var tx = Session.BeginTransaction())
                 {
-                    Session.SaveOrUpdate(entity);
+                    Session.Save(entity);
                     //_session.Insert(entity);
                     //_statelessSession.Insert(entity);
 
                     tx.Commit();
+                    //Session.Flush();
                 }
-                Session.Close();
             }
             catch (Exception ex)
             {
-                throw new GenericADOException(ex.Message, ex);
+                var message = ex.Message;
+                if (message.StartsWith("object references an unsaved transient instance"))
+                    return;
             }
         }
 
-        public bool Update(TEntity entity)
+        public virtual bool Update(TEntity entity)
         {
             try
             {
                 using (var tx = Session.BeginTransaction())
                 {
-                    Session.SaveOrUpdate(entity);
+                    Session.Update(entity);
                     tx.Commit();
                 }
-                Session.Close();
 
                 return true;
             }
@@ -117,7 +103,21 @@ namespace Core.DataAccess
         public void Delete(TEntity entity)
         {
             _session.Delete(entity);
-            //_session.Flush();
+            _session.Flush();
+        }
+
+        public void Flush()
+        {
+            try
+            {
+                Session.Flush();
+            }
+            catch (Exception ex)
+            {
+                var message = ex.Message;
+                if (message.StartsWith("object references an unsaved transient instance"))
+                    return;
+            }
         }
     }
 }

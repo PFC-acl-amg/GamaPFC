@@ -1,4 +1,5 @@
 ﻿using Core;
+using Gama.Common.CustomControls;
 using Gama.Cooperacion.Wpf.Services;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,13 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
 
         public ListadoDeActividadesVM_DTD()
         {
-            var actividades = new FakeActividadRepository().GetAll();
+            var actividades = new FakeActividadRepository().GetAll()
+                .Select(a =>
+                new LookupItem
+                {
+                    DisplayMember1 = a.Titulo,
+                    DisplayMember2 = a.Descripcion
+                }).ToList();
             Actividades = new PaginatedCollectionView(actividades, 30);
         }
     }

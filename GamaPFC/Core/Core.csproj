@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="ChangeTrackingCollection.cs" />
     <Compile Include="DataAccess\ISessionHelper.cs" />
+    <Compile Include="DataAccess\NHibernateOneSessionRepository.cs" />
     <Compile Include="DataAccess\NHibernateRepository.cs" />
     <Compile Include="DataAccess\SessionHelper.cs" />
     <Compile Include="IViewModelBase.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="ObservableObject.cs" />
     <Compile Include="PaginatedCollectionView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimestampedModelWrapper.cs" />
     <Compile Include="ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>

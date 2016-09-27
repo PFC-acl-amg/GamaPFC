@@ -14,18 +14,21 @@ namespace Gama.Cooperacion.DataAccess.Mappings
         {
             Table("Cooperantes");
             Id(x => x.Id).GeneratedBy.Identity();
-
+                
             Map(x => x.Apellido);
             Map(x => x.Dni).Unique();
             Map(x => x.Nombre);
             Map(x => x.Observaciones);
+            Map(x => x.CreatedAt);
+            Map(x => x.UpdatedAt);
 
             HasMany(x => x.ActividadesDeQueEsCoordinador)
+                .LazyLoad()
                 .Inverse();
 
             HasManyToMany(x => x.ActividadesEnQueParticipa)
                 .Table("CooperanteParticipaEnActividad")
-                .Not.LazyLoad()
+                .LazyLoad()
                 .Inverse();
         }
     }
