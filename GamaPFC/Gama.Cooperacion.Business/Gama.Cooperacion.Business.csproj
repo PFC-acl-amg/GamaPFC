@@ -56,6 +56,9 @@
   <ItemGroup>
     <Compile Include="Cooperante.cs" />
     <Compile Include="Email.cs" />
+    <Compile Include="Evento.cs" />
+    <Compile Include="Foro.cs" />
+    <Compile Include="Mensaje.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -70,6 +73,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Actividad.cs" />
+    <Compile Include="Seguimiento.cs" />
     <Compile Include="Tarea.cs" />
     <Compile Include="Telefono.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

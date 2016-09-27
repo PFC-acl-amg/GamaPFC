@@ -12,9 +12,43 @@ namespace Gama.Cooperacion.Wpf.Wrappers
     {
         public TareaWrapper(Tarea model) : base(model)
         {
-
+            InitializeComplexProperties(model);
+            InitializeCollectionProperties(model);
         }
+        private void InitializeCollectionProperties(Tarea model)
+        {
+            if (model.Historial == null)
+            {
+                throw new ArgumentNullException("Historial");
+            }
+            else if (model.Mensajes == null)
+            {
+                throw new ArgumentNullException("Mensajes");
+            }
+            this.Mensaje = new ChangeTrackingCollection<MensajeWrapper>
+                (model.Mensajes.Select(t => new MensajeWrapper(t)));
+            this.RegisterCollection(this.Mensaje, model.Mensajes);
 
+            this.Historial = new ChangeTrackingCollection<SeguimientoWrapper>
+                (model.Historial.Select(t => new SeguimientoWrapper(t)));
+            this.RegisterCollection(this.Historial, model.Historial);
+        }
+        private void InitializeComplexProperties(Tarea model)
+        {
+            if (model.Responsable == null)
+            {
+                throw new ArgumentNullException("Resposable");
+            }
+
+            this.Responsable = new CooperanteWrapper(model.Responsable);
+            if (model.Actividad == null)
+            {
+                throw new ArgumentNullException("Actividad");
+            }
+
+            this.Actividad = new ActividadWrapper(model.Actividad);
+            //RegisterComplex(this.Responsable);
+        }
         public int Id
         {
             get { return GetValue<int>(); }
@@ -51,15 +85,8 @@ namespace Gama.Cooperacion.Wpf.Wrappers
 
         public bool FechaDeFinalizacionIsChanged => GetIsChanged(nameof(FechaDeFinalizacion));
 
-        public string Seguimiento
-        {
-            get { return GetValue<string>(); }
-            set { SetValue(value); }
-        }
-
-        public string SeguimientoOriginalValue => GetOriginalValue<string>(nameof(Seguimiento));
-
-        public bool SeguimientoIsChanged => GetIsChanged(nameof(Seguimiento));
+        public ChangeTrackingCollection<MensajeWrapper> Mensaje { get; set; }
+        public ChangeTrackingCollection<SeguimientoWrapper> Historial { get; set; }
 
         public ActividadWrapper Actividad { get; private set; }
         public CooperanteWrapper Responsable { get; private set; }

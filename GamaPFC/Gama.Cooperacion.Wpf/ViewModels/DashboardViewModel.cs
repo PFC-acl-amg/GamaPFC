@@ -27,11 +27,14 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _actividadRepository = actividadRepository;
             _eventAggregator = eventAggregator;
 
-            UltimasActividades = new ObservableCollection<Actividad>(
-                _actividadRepository.GetAll()
-                .OrderBy(a => a.FechaDeFin)
-                .Take(_cantidadDeProyectosAMostrar)
-                .ToArray());
+            UltimasActividades = new ObservableCollection<Actividad>();
+            UltimasActividades.Add(new Actividad() { Titulo = "President 1" });
+            UltimasActividades.Add(new Actividad() { Titulo = "President 2" });
+            UltimasActividades.Add(new Actividad() { Titulo = "President 3" });
+            //_actividadRepository.GetAll()
+            //.OrderBy(a => a.FechaDeFin)
+            //.Take(_cantidadDeProyectosAMostrar)
+            //.ToArray());
 
             _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
         }

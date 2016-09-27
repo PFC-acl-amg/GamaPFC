@@ -57,6 +57,7 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterType<object, NuevaActividadView>("NuevaActividadView");
             Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
             Container.RegisterType<object, ToolbarView>("ToolbarView");
+            Container.RegisterType<object, TareasDeActividad>("TareasDeActividad");
         }
 
         private void RegisterViewModels()
@@ -69,6 +70,7 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterType<NuevaActividadViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
             Container.RegisterType<ToolbarViewModel>();
+            Container.RegisterType<TareasDeActividadViewModel>();
         }
 
         private void RegisterServices()

@@ -26,6 +26,11 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             {
                 throw new ArgumentNullException("Tareas");
             }
+            else if(model.Foros == null)
+            {
+                throw new ArgumentNullException("Foros");
+            }
+
 
             this.Cooperantes = new ChangeTrackingCollection<CooperanteWrapper>
                 (model.Cooperantes.Select(c => new CooperanteWrapper(c)));
@@ -34,6 +39,10 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             this.Tareas = new ChangeTrackingCollection<TareaWrapper>
                 (model.Tareas.Select(t => new TareaWrapper(t)));
             this.RegisterCollection(this.Tareas, model.Tareas);
+
+            this.Foros = new ChangeTrackingCollection<ForoWrapper>
+                (model.Foros.Select(c => new ForoWrapper(c)));
+            this.RegisterCollection(this.Foros, model.Foros);
         }
 
         private void InitializeComplexProperties(Actividad model)
@@ -121,6 +130,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
 
         public ChangeTrackingCollection<CooperanteWrapper> Cooperantes { get; private set; }
         public ChangeTrackingCollection<TareaWrapper> Tareas { get; private set; }
+        public ChangeTrackingCollection<ForoWrapper> Foros { get; private set; }
 
         public void AddCooperante(CooperanteWrapper cooperanteNuevo)
         {

@@ -24,12 +24,14 @@ namespace Gama.Cooperacion.Business
         public virtual int Id { get; protected set; }
         public virtual string Titulo { get; set; }
         public virtual IList<Tarea> Tareas { get; set; }
+        public virtual IList<Foro> Foros { get; set; }
 
         public Actividad()
         {
             Coordinador = new Cooperante();
             Cooperantes = new List<Cooperante>();
             Tareas = new List<Tarea>();
+            Foros = new List<Foro>();
         }
 
         public virtual void AddCooperante(Cooperante cooperante)

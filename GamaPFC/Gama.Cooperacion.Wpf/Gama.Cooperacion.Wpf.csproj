@@ -116,9 +116,11 @@
     <Compile Include="Actions\CloseWindowAction.cs" />
     <Compile Include="Actions\DialogCloser.cs" />
     <Compile Include="Converters\ActividadViewToViewModelConverter.cs" />
+    <Compile Include="Converters\BooleanToVisivilityConverter.cs" />
     <Compile Include="CooperacionModule.cs" />
     <Compile Include="DesignTimeData\DesignTimeDataViewModel.cs" />
     <Compile Include="DesignTimeData\ListadoDeActividadesVM_DTD.cs" />
+    <Compile Include="DesignTimeData\TareasDeActividadViewModelDTD.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaChangedEvent.cs" />
     <Compile Include="Eventos\NuevaActividadEvent.cs" />
     <Compile Include="Services\ActividadRepository.cs" />
@@ -175,6 +177,10 @@
     <Compile Include="Wrappers\ActividadWrapper.cs" />
     <Compile Include="Wrappers\CooperanteWrapper.cs" />
     <Compile Include="Wrappers\EmailWrapper.cs" />
+    <Compile Include="Wrappers\EventoWrapper.cs" />
+    <Compile Include="Wrappers\ForoWrapper.cs" />
+    <Compile Include="Wrappers\MensajeWrapper.cs" />
+    <Compile Include="Wrappers\SeguimientoWrapper.cs" />
     <Compile Include="Wrappers\TareaWrapper.cs" />
     <Compile Include="Wrappers\TelefonoWrapper.cs" />
     <Page Include="Themes\Generic.xaml">

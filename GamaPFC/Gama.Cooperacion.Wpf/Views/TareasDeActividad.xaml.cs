@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gama.Cooperacion.Business;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,9 @@ namespace Gama.Cooperacion.Wpf.Views
         public TareasDeActividad()
         {
             InitializeComponent();
+            //DataContext = Evento.GetColeccionEventos();
+            //DataContext = Tarea.GetColeccionTareas();
+            //DataContext = Mensajes.GetColeccionMensajes();
         }
     }
 }
