@@ -31,6 +31,21 @@ namespace Gama.Bootstrapper
         {
             base.InitializeShell();
 
+            string title = "";
+            switch(_moduloSeleccionado)
+            {
+                case Modulos.Cooperacion:
+                    title = "MÓDULO DE COOPERACIÓN";
+                    break;
+                case Modulos.ServicioDeAtenciones:
+                    title = "SERVICIO DE ATENCIONES";
+                    break;
+                case Modulos.GestionDeSocios:
+                    break;
+            }
+
+            ((ShellViewModel)((FrameworkElement)Shell).DataContext).Title = title;
+
             Application.Current.MainWindow = Shell as Window;
             Application.Current.MainWindow.Show();
         }
@@ -59,6 +74,7 @@ namespace Gama.Bootstrapper
                         InitializationMode = InitializationMode.WhenAvailable
                     };
                     ModuleCatalog.AddModule(moduleInfo);
+
                     break;
                 default:
                     break;

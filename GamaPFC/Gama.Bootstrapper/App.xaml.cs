@@ -53,19 +53,48 @@ namespace Gama.Bootstrapper
                     {
                         var message = ex.Message;
                         throw ex;
-                        return null;
                     }
                 });
 
-            var bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
-            try {
+            Bootstrapper bootstrapper;
+
+            //bootstrapper = new Bootstrapper(Modulos.Cooperacion);
+            //bootstrapper.Run();
+            try
+            {
                 //System.AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-                bootstrapper.Run();
+                Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+                var selectorDeModulo = new SelectorDeModulo();
+                selectorDeModulo.ShowDialog();
+                selectorDeModulo.ModuloSeleccionado = selectorDeModulo.ModuloSeleccionado;
+                Application.Current.MainWindow = null;
+                Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+                switch (selectorDeModulo.ModuloSeleccionado)
+                {
+                    case Modulos.Cooperacion:
+                        bootstrapper = new Bootstrapper(Modulos.Cooperacion);
+                        bootstrapper.Run();
+                        break;
+                    case Modulos.ServicioDeAtenciones:
+                        bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
+                        bootstrapper.Run();
+                        break;
+                    case Modulos.GestionDeSocios:
+                        bootstrapper = new Bootstrapper(Modulos.GestionDeSocios);
+                        bootstrapper.Run();
+                        break;
+                }
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+            //var x = 1;
+            //if (x == 1)
+            //{
+            //bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
+            //bootstrapper.Run();
+            //}
         }
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

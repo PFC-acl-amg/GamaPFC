@@ -13,9 +13,13 @@
     <designData:DesignTimeDataViewModel/>
   </d:DataContext>
   <UserControl.Resources>
-    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml"/>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"/>
-    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+      </ResourceDictionary.MergedDictionaries>
+      <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </ResourceDictionary>
   </UserControl.Resources>
   <Grid>
     <Grid.ColumnDefinitions>
