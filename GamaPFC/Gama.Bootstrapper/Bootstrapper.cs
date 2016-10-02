@@ -40,6 +40,13 @@ namespace Gama.Bootstrapper
             switch (_moduloSeleccionado)
             {
                 case Modulos.Cooperacion:
+                    Type cooperacionModuleType = typeof(Gama.Cooperacion.Wpf.CooperacionModule);
+                    ModuleCatalog.AddModule(new ModuleInfo()
+                    {
+                        ModuleName = cooperacionModuleType.Name,
+                        ModuleType = cooperacionModuleType.AssemblyQualifiedName,
+                        InitializationMode = InitializationMode.WhenAvailable
+                    });
                     break;
                 case Modulos.GestionDeSocios:
                     break;
@@ -48,14 +55,6 @@ namespace Gama.Bootstrapper
                 default:
                     break;
             }
-
-            Type cooperacionModuleType = typeof(Gama.Cooperacion.Wpf.CooperacionModule);
-            ModuleCatalog.AddModule(new ModuleInfo()
-            {
-                ModuleName = cooperacionModuleType.Name,
-                ModuleType = cooperacionModuleType.AssemblyQualifiedName,
-                InitializationMode = InitializationMode.WhenAvailable
-            });
         }
     }
 }
