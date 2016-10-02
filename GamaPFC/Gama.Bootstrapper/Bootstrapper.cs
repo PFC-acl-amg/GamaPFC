@@ -51,6 +51,14 @@ namespace Gama.Bootstrapper
                 case Modulos.GestionDeSocios:
                     break;
                 case Modulos.ServicioDeAtenciones:
+                    Type atencionesModuleType = typeof(Gama.Atenciones.Wpf.AtencionesModule);
+                    var moduleInfo = new ModuleInfo()
+                    {
+                        ModuleName = atencionesModuleType.Name,
+                        ModuleType = atencionesModuleType.AssemblyQualifiedName,
+                        InitializationMode = InitializationMode.WhenAvailable
+                    };
+                    ModuleCatalog.AddModule(moduleInfo);
                     break;
                 default:
                     break;

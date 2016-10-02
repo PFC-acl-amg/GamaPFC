@@ -1,4 +1,5 @@
 ﻿using Core;
+using Gama.Atenciones.DataAccess;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
 using System;
@@ -24,26 +25,36 @@ namespace Gama.Atenciones.Wpf
             RegisterViewModels();
             RegisterServices();
             InitializeNavigation();
+
+            try {
+                var sessionFactory = new NHibernateSessionFactory();
+                var factory = sessionFactory.GetSessionFactory();
+            } 
+            catch (Exception ex)
+            {
+                var message = ex.Message;
+            }
         }
 
         private void RegisterViews()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void RegisterViewModels()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void RegisterServices()
         {
-            throw new NotImplementedException();
+
+            //throw new NotImplementedException();
         }
 
         private void InitializeNavigation()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

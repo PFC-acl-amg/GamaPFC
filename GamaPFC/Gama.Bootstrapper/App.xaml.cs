@@ -57,7 +57,7 @@ namespace Gama.Bootstrapper
                     }
                 });
 
-            var bootstrapper = new Bootstrapper(Modulos.Cooperacion);
+            var bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
             try {
                 //System.AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
                 bootstrapper.Run();
