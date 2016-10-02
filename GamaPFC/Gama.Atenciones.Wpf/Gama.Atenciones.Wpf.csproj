@@ -117,9 +117,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />
+    <Compile Include="FakeServices\FakeAtencionRepository.cs" />
+    <Compile Include="FakeServices\FakeCitaRepository.cs" />
     <Compile Include="FakeServices\FakePersonaRepository.cs" />
     <Compile Include="Services\AtencionesSettings.cs" />
+    <Compile Include="Services\CitaRepository.cs" />
     <Compile Include="Services\IAtencionesSettings.cs" />
+    <Compile Include="Services\IAtencionRepository.cs" />
+    <Compile Include="Services\ICitaRepository.cs" />
     <Compile Include="Services\IPersonaRepository.cs" />
     <Compile Include="Services\PersonaRepository.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />

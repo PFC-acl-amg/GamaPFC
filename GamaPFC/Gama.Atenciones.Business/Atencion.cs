@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Business
 {
-    public class Atencion
+    public class Atencion : TimestampedModel
     {
-        public virtual int Id { get; protected set; }
+        public virtual int Id { get; set; }
         public virtual int NumeroDeExpediente { get; set; }
         public virtual DateTime Fecha { get; set; }
         public virtual string Seguimiento { get; set; }
