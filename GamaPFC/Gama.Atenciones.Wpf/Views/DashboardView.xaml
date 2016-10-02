@@ -60,5 +60,85 @@
       </ScrollViewer>
     </GroupBox>
 
+    <!-- Últimas Atenciones -->
+    <GroupBox Grid.Column="1" Grid.Row="0"
+                 Margin="{StaticResource Margin}">
+      <GroupBox.Header>
+        <Label HorizontalAlignment="Center" Content="ÚLTIMAS ATENCIONES" Foreground="White" Padding="0"></Label>
+      </GroupBox.Header>
+      <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <ListBox ItemsSource="{Binding UltimasAtenciones}"
+                 x:Name="_AtencionesListBox"
+                 SelectionMode="Single"
+               ScrollViewer.VerticalScrollBarVisibility="Auto">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="35"/>
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Id}" VerticalAlignment="Center"/>
+                <StackPanel Grid.Column="2">
+                  <TextBlock Text="{Binding DisplayMember1}" Margin="{StaticResource Margin}"/>
+                  <TextBlock Text="{Binding DisplayMember2}" Margin="{StaticResource Margin}"/>
+                </StackPanel>
+              </Grid>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseDoubleClick">
+              <prism:InvokeCommandAction 
+                  Command="{Binding RelativeSource =
+                      {RelativeSource FindAncestor,
+                          AncestorType={x:Type GroupBox}},
+                          Path=DataContext.SelectActividadCommand}"
+                  CommandParameter="{Binding ElementName=_AtencionesListBox, Path=SelectedItem}"/>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </ListBox>
+      </ScrollViewer>
+    </GroupBox>
+
+    <!-- Últimas Citas -->
+    <GroupBox Grid.Column="2" Grid.Row="0"
+                 Margin="{StaticResource Margin}">
+      <GroupBox.Header>
+        <Label HorizontalAlignment="Center" Content="ÚLTIMAS CITAS" Foreground="White" Padding="0"></Label>
+      </GroupBox.Header>
+      <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <ListBox ItemsSource="{Binding UltimasCitas}"
+                 x:Name="_CitasListBox"
+                 SelectionMode="Single"
+               ScrollViewer.VerticalScrollBarVisibility="Auto">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="35"/>
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Id}" VerticalAlignment="Center"/>
+                <StackPanel Grid.Column="2">
+                  <TextBlock Text="{Binding DisplayMember1}" Margin="{StaticResource Margin}"/>
+                  <TextBlock Text="{Binding DisplayMember2}" Margin="{StaticResource Margin}"/>
+                </StackPanel>
+              </Grid>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseDoubleClick">
+              <prism:InvokeCommandAction 
+                  Command="{Binding RelativeSource =
+                      {RelativeSource FindAncestor,
+                          AncestorType={x:Type GroupBox}},
+                          Path=DataContext.SelectActividadCommand}"
+                  CommandParameter="{Binding ElementName=_CitasListBox, Path=SelectedItem}"/>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </ListBox>
+      </ScrollViewer>
+    </GroupBox>
+
   </Grid>
 </UserControl>

@@ -8,6 +8,9 @@ namespace Gama.Atenciones.Wpf.Services
 {
     public interface IAtencionesSettings
     {
+        int DashboardLongitudDeSeguimientos { get; set; }
+        int DashboardUltimasAtenciones { get; set; }
+        int DashboardUltimasCitas { get; set; }
         int DashboardUltimasPersonas { get; set; }
     }
 }

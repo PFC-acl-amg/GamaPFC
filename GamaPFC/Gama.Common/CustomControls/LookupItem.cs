@@ -27,10 +27,5 @@ namespace Gama.Common.CustomControls
                 + (contenido.Length > n ? "..." : "");
             return result;
         }
-
-        public static string ShortenStringForDisplay(string nombre, object dashboardLongitudDeNombres)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

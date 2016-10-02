@@ -12,9 +12,15 @@ namespace Gama.Atenciones.Wpf.Services
         {
             DashboardUltimasPersonas = 15;
             DashboardLongitudDeNombres = 60;
+            DashboardUltimasCitas = 10;
+            DashboardLongitudDeSeguimientos = 60;
+            DashboardUltimasAtenciones = 5;
         }
 
         public int DashboardLongitudDeNombres { get; set; }
         public int DashboardUltimasPersonas { get; set; }
+        public int DashboardUltimasCitas { get; set; }
+        public int DashboardLongitudDeSeguimientos { get; set; }
+        public int DashboardUltimasAtenciones { get; set; }
     }
 }

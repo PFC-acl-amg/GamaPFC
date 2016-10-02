@@ -121,6 +121,7 @@
     <Compile Include="FakeServices\FakeCitaRepository.cs" />
     <Compile Include="FakeServices\FakePersonaRepository.cs" />
     <Compile Include="Services\AtencionesSettings.cs" />
+    <Compile Include="Services\AtencionRepository.cs" />
     <Compile Include="Services\CitaRepository.cs" />
     <Compile Include="Services\IAtencionesSettings.cs" />
     <Compile Include="Services\IAtencionRepository.cs" />
