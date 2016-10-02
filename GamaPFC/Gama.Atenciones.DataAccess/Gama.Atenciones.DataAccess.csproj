@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4830F33B-E739-4BAA-BF0E-F88BE61B01BD}</ProjectGuid>
+    <ProjectGuid>{DAE975FE-2EAC-4E3A-87D2-44E50281F22D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Gama.Cooperacion.DataAccess</RootNamespace>
-    <AssemblyName>Gama.Cooperacion.DataAccess</AssemblyName>
+    <RootNamespace>Gama.Atenciones.DataAccess</RootNamespace>
+    <AssemblyName>Gama.Atenciones.DataAccess</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,12 +24,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentNHibernate, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
@@ -53,13 +59,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mappings\EventoMap.cs" />
+    <Compile Include="Mappings\AtencionMap.cs" />
+    <Compile Include="Mappings\CitaMap.cs" />
+    <Compile Include="Mappings\DerivacionMap.cs" />
+    <Compile Include="Mappings\PersonaMap.cs" />
     <Compile Include="NHibernateSessionFactory.cs" />
-    <Compile Include="Mappings\ActividadMap.cs" />
-    <Compile Include="Mappings\CooperanteMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -67,9 +75,9 @@
       <Project>{61c764bb-5692-463a-bc70-55b6ad46b1a3}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Gama.Cooperacion.Business\Gama.Cooperacion.Business.csproj">
-      <Project>{e54a71cf-f5e1-45d4-9ed2-cdbf2b08c317}</Project>
-      <Name>Gama.Cooperacion.Business</Name>
+    <ProjectReference Include="..\Gama.Atenciones.Business\Gama.Atenciones.Business.csproj">
+      <Project>{5da7174d-a8d2-499d-b950-bf0533d4335d}</Project>
+      <Name>Gama.Atenciones.Business</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

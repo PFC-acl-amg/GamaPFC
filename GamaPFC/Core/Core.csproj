@@ -91,10 +91,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangeTrackingCollection.cs" />
+    <Compile Include="DataAccess\INHibernateSessionFactory.cs" />
     <Compile Include="DataAccess\ISessionHelper.cs" />
     <Compile Include="DataAccess\NHibernateOneSessionRepository.cs" />
     <Compile Include="DataAccess\NHibernateRepository.cs" />
-    <Compile Include="DataAccess\SessionHelper.cs" />
     <Compile Include="IViewModelBase.cs" />
     <Compile Include="ModelWrapper.cs" />
     <Compile Include="ModuleBase.cs" />
@@ -108,12 +108,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Gama.Cooperacion.DataAccess\Gama.Cooperacion.DataAccess.csproj">
-      <Project>{4830f33b-e739-4baa-bf0e-f88be61b01bd}</Project>
-      <Name>Gama.Cooperacion.DataAccess</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

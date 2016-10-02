@@ -1,21 +1,25 @@
-﻿
-using Core.DataAccess;
+﻿using Core.DataAccess;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using FluentNHibernate.Conventions.Helpers;
-using Gama.Cooperacion.DataAccess.Mappings;
+using Gama.Atenciones.DataAccess.Mappings;
 using NHibernate;
 using NHibernate.Context;
 using NHibernate.Tool.hbm2ddl;
+using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Gama.Cooperacion.DataAccess
+namespace Gama.Atenciones.DataAccess
 {
     public class NHibernateSessionFactory : INHibernateSessionFactory
     {
-        private static string _connectionString = ConfigurationManager.ConnectionStrings["GamaMySql"].ConnectionString;
+        private static string _connectionString = ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString;
 
         private ISessionFactory _sessionFactory = null;
         public ISessionFactory SessionFactory
@@ -28,10 +32,10 @@ namespace Gama.Cooperacion.DataAccess
                     {
                         NHibernate.Cfg.Configuration configuration;
 
-                        //File.Delete("nh.cfg");
-                        if (File.Exists("nh.cfg"))
+                        //File.Delete("nh_atenciones.cfg");
+                        if (File.Exists("nh_atenciones.cfg"))
                         {
-                            var file = File.Open("nh.cfg", FileMode.Open);
+                            var file = File.Open("nh_atenciones.cfg", FileMode.Open);
                             configuration = (NHibernate.Cfg.Configuration)new BinaryFormatter()
                                 .Deserialize(file);
                             //file.Close();
@@ -39,7 +43,7 @@ namespace Gama.Cooperacion.DataAccess
                         else
                         {
                             configuration = Configure();
-                            new BinaryFormatter().Serialize(File.Create("nh.cfg"), configuration);
+                            new BinaryFormatter().Serialize(File.Create("nh_atenciones.cfg"), configuration);
                         }
 
                         _sessionFactory = configuration.BuildSessionFactory();
@@ -64,9 +68,9 @@ namespace Gama.Cooperacion.DataAccess
             return Fluently.Configure()
                 .Database(MySQLConfiguration.Standard.ConnectionString(_connectionString))
                 //.ShowSql())
-                .Mappings(m => 
+                .Mappings(m =>
                     m.FluentMappings
-                        .AddFromAssemblyOf<ActividadMap>()
+                        .AddFromAssemblyOf<PersonaMap>()
                         //.Add<ActividadMap>()
                         //.Add<CooperanteMap>()
                         .Conventions.Add(DefaultCascade.Delete(), DefaultLazy.Always()))

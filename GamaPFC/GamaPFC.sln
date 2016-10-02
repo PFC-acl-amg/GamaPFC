@@ -29,6 +29,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Atenciones", "Atenciones", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gama.Atenciones.Business", "Gama.Atenciones.Business\Gama.Atenciones.Business.csproj", "{5DA7174D-A8D2-499D-B950-BF0533D4335D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gama.Atenciones.DataAccess", "Gama.Atenciones.DataAccess\Gama.Atenciones.DataAccess.csproj", "{DAE975FE-2EAC-4E3A-87D2-44E50281F22D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{5DA7174D-A8D2-499D-B950-BF0533D4335D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DA7174D-A8D2-499D-B950-BF0533D4335D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DA7174D-A8D2-499D-B950-BF0533D4335D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAE975FE-2EAC-4E3A-87D2-44E50281F22D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAE975FE-2EAC-4E3A-87D2-44E50281F22D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAE975FE-2EAC-4E3A-87D2-44E50281F22D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAE975FE-2EAC-4E3A-87D2-44E50281F22D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,5 +95,6 @@ Global
 		{89BAA80B-8465-4595-AF3C-C092AC3C75BE} = {7E2BF0C1-9EF0-478A-A9F9-DC2797AFAC22}
 		{4830F33B-E739-4BAA-BF0E-F88BE61B01BD} = {40A2AEA2-D7CB-4325-98A1-433600F259E6}
 		{5DA7174D-A8D2-499D-B950-BF0533D4335D} = {2B4804E2-8D42-4BE7-BA8E-CF9E600DEB69}
+		{DAE975FE-2EAC-4E3A-87D2-44E50281F22D} = {2B4804E2-8D42-4BE7-BA8E-CF9E600DEB69}
 	EndGlobalSection
 EndGlobal
