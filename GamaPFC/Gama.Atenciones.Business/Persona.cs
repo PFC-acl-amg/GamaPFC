@@ -1,4 +1,5 @@
-﻿using Core.Util;
+﻿using Core;
+using Core.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Business
 {
-    public class Persona
+    public class Persona : TimestampedModel
     {
         public virtual ComoConocioAGama ComoConocioAGama { get; set; }
         public virtual string DireccionPostal { get; set; }

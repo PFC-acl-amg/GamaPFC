@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace Gama.Bootstrapper
     /// <summary>
     /// Interaction logic for SelectorDeModulo.xaml
     /// </summary>
-    public partial class SelectorDeModulo : Window
+    public partial class SelectorDeModulo : MetroWindow
     {
         public Modulos ModuloSeleccionado { get; set; }
         public SelectorDeModulo()
@@ -34,6 +35,12 @@ namespace Gama.Bootstrapper
         private void AtencionesButton_Click(object sender, RoutedEventArgs e)
         {
             ModuloSeleccionado = Modulos.ServicioDeAtenciones;
+            Close();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ModuloSeleccionado = Modulos.GestionDeSocios;
             Close();
         }
     }

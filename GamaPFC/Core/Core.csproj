@@ -98,6 +98,7 @@
     <Compile Include="ObservableObject.cs" />
     <Compile Include="PaginatedCollectionView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimestampedModel.cs" />
     <Compile Include="TimestampedModelWrapper.cs" />
     <Compile Include="Util\EnumBindingSourceExtension.cs" />
     <Compile Include="Util\EnumDescriptionTypeConverter.cs" />

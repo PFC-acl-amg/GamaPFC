@@ -17,8 +17,6 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
     {
         private CooperacionSettings _settings;
         private string[] _Labels;
-        private string[] _ActividadesLabels;
-        private string[] _CooperantesLabels;
         private int _mesInicialActividades;
         private int _mesInicialCooperantes;
 

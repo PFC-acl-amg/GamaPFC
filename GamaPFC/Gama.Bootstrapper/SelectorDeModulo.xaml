@@ -1,15 +1,25 @@
-﻿<Window x:Class="Gama.Bootstrapper.SelectorDeModulo"
+﻿<metro:MetroWindow x:Class="Gama.Bootstrapper.SelectorDeModulo"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:Gama.Bootstrapper"
-        mc:Ignorable="d"
-        Title="SelectorDeModulo" Height="240.411" Width="323.63">
+        Title="Seleccione un Módulo de Trabajo"
+        mc:Ignorable="d" Height="178.767" Width="522.945">
+  <metro:MetroWindow.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </metro:MetroWindow.Resources>
   <Grid>
     <StackPanel Orientation="Horizontal">
-      <Button Margin="4" MinWidth="150" Click="CooperacionButton_Click">Cooperación</Button>
-      <Button Margin="4" MinWidth="150" Click="AtencionesButton_Click">Atenciones</Button>
+      <Button Margin="10" MinWidth="150" Click="CooperacionButton_Click">Cooperación</Button>
+      <Button Margin="10" MinWidth="150" Click="AtencionesButton_Click">Servicio de Atenciones</Button>
+      <Button Margin="10" MinWidth="150" Click="Button_Click">Gestión de Socios</Button>
     </StackPanel>
   </Grid>
-</Window>
+</metro:MetroWindow>
