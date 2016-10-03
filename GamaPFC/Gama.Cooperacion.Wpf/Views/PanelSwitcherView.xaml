@@ -10,15 +10,25 @@
              d:DesignHeight="61.644" d:DesignWidth="300">
   <Grid>
     <StackPanel Orientation="Horizontal">
-      <Button Style="{StaticResource EstiloBotonPredeterminado}"
-              Content="D"
-              FontSize="24"
-              Command="{Binding NavigateCommand}" CommandParameter="DashboardView"/>
+      <Button Background="Transparent" BorderThickness="0"
+            Command="{Binding NavigateCommand}"
+              CommandParameter="DashboardView">
+        <StackPanel>
+          <Image Source="{StaticResource IconoDashboard}" Height="{StaticResource NavigationIconSize}"/>
+        </StackPanel>
+      </Button>
       <Button Style="{StaticResource EstiloBotonPredeterminado}"
               Padding="0"
               Content="A"
               FontSize="24"
               Command="{Binding NavigateCommand}" CommandParameter="ActividadesContentView"/>
+      <Button Background="Transparent" BorderThickness="0"
+            Command="{Binding NavigateCommand}"
+            CommandParameter="GraficasView">
+        <StackPanel>
+          <Image Source="{StaticResource IconoGraficas}" Height="{StaticResource NavigationIconSize}"/>
+        </StackPanel>
+      </Button>
     </StackPanel>
   </Grid>
 </UserControl>

@@ -146,6 +146,9 @@
     <Compile Include="Views\PanelSwitcherView.xaml.cs">
       <DependentUpon>PanelSwitcherView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PersonasContentView.xaml.cs">
+      <DependentUpon>PersonasContentView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ToolbarView.xaml.cs">
       <DependentUpon>ToolbarView.xaml</DependentUpon>
     </Compile>
@@ -179,6 +182,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PanelSwitcherView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PersonasContentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -245,6 +252,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\icono_atenciones.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\icono_personas.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

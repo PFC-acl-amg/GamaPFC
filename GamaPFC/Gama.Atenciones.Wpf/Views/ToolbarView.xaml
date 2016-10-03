@@ -7,7 +7,7 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" d:DesignHeight="76.452" d:DesignWidth="377.055">
-  <StackPanel Orientation="Horizontal">
+  <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
     <Button Background="Transparent" BorderThickness="0"
             Command="{Binding NuevaPersonaCommand}">
       <StackPanel>
@@ -16,6 +16,12 @@
                    FontWeight="Light">
           Nueva Persona
         </TextBlock>-->
+      </StackPanel>
+    </Button>
+    <Button Background="Transparent" BorderThickness="0"
+            Command="{Binding ExportarCommand}">
+      <StackPanel>
+        <Image Source="{StaticResource IconoExportar}" Height="{StaticResource NavigationIconSize}"/>
       </StackPanel>
     </Button>
   </StackPanel>

@@ -17,9 +17,23 @@
       </Button>
       <Button Background="Transparent" BorderThickness="0"
             Command="{Binding NavigateCommand}"
+            CommandParameter="PersonasContentView">
+        <StackPanel>
+          <Image Source="{StaticResource IconoPersonas}" Height="{StaticResource NavigationIconSize}"/>
+        </StackPanel>
+      </Button>
+      <Button Background="Transparent" BorderThickness="0"
+            Command="{Binding NavigateCommand}"
             CommandParameter="AtencionesContentView">
         <StackPanel>
           <Image Source="{StaticResource IconoAtenciones}" Height="{StaticResource NavigationIconSize}"/>
+        </StackPanel>
+      </Button>
+      <Button Background="Transparent" BorderThickness="0"
+            Command="{Binding NavigateCommand}"
+            CommandParameter="GraficasView">
+        <StackPanel>
+          <Image Source="{StaticResource IconoGraficas}" Height="{StaticResource NavigationIconSize}"/>
         </StackPanel>
       </Button>
     </StackPanel>

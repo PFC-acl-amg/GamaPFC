@@ -15,14 +15,21 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ToolbarViewModel()
         {
             NuevaPersonaCommand = new DelegateCommand(OnNuevaPersonaCommandExecute);
+            ExportarCommand = new DelegateCommand(OnExportarCommandExecute);
         }
 
         public ICommand NuevaPersonaCommand { get; private set; }
+        public ICommand ExportarCommand { get; private set; }
 
         private void OnNuevaPersonaCommandExecute()
         {
             var o = new NuevaPersonaView();
             o.ShowDialog();
+        }
+
+        private void OnExportarCommandExecute()
+        {
+            //throw new NotImplementedException();
         }
     }
 }

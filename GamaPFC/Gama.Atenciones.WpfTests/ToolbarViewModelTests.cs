@@ -21,6 +21,7 @@ namespace Gama.Atenciones.WpfTests
         private void ShouldInitializeItsProperties()
         {
             Assert.NotNull(_Vm.NuevaPersonaCommand);
+            Assert.NotNull(_Vm.ExportarCommand);
         }
     }
 }
