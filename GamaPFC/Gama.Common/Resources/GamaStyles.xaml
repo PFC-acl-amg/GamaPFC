@@ -10,5 +10,6 @@
     <ResourceDictionary Source="Constants/BasicStyles.xaml"/>
     <ResourceDictionary Source="Constants/Colores.xaml"/>
     <ResourceDictionary Source="Templates/SearchBox.xaml"/>
+    <ResourceDictionary Source="GamaIcons.xaml"/>
   </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

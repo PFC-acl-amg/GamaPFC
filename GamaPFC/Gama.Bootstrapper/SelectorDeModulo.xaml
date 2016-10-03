@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:Gama.Bootstrapper"
-        Title="Seleccione un Módulo de Trabajo"
-        mc:Ignorable="d" Height="178.767" Width="522.945">
+        Title="Seleccione un módulo para trabajar..."
+        BorderThickness="1"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d" Height="180.072" Width="528.164">
   <metro:MetroWindow.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -17,9 +19,30 @@
   </metro:MetroWindow.Resources>
   <Grid>
     <StackPanel Orientation="Horizontal">
-      <Button Margin="10" MinWidth="150" Click="CooperacionButton_Click">Cooperación</Button>
-      <Button Margin="10" MinWidth="150" Click="AtencionesButton_Click">Servicio de Atenciones</Button>
-      <Button Margin="10" MinWidth="150" Click="Button_Click">Gestión de Socios</Button>
+      <!-- Gestión de Socios -->
+      <Button Margin="10" MinWidth="150" MaxWidth="150"  Click="Button_Click" Background="#FFEC7EA8">
+        <StackPanel>
+          <Image Source="{StaticResource IconoModuloSocios}" Height="50"/>
+          <TextBlock TextWrapping="Wrap" FontSize="22" FontWeight="Thin" Foreground="White" 
+                     TextAlignment="Center">Gestión de Socios</TextBlock>
+        </StackPanel>
+      </Button>
+      
+      <!-- Servicio de Atenciones -->
+      <Button Margin="10" MinWidth="150" MaxWidth="150" Click="AtencionesButton_Click" Background="#FFDCD2D2">
+        <StackPanel>
+          <Image Source="{StaticResource IconoModuloAtenciones}" Height="50"/>
+          <TextBlock TextWrapping="Wrap" FontSize="22" FontWeight="Thin" Foreground="#FF473E3E" >Servicio de Atenciones</TextBlock>
+        </StackPanel>
+      </Button>
+      
+      <!-- Cooperación -->
+      <Button Margin="10" MinWidth="150" MaxWidth="150" Click="CooperacionButton_Click" Background="#B6127698">
+        <StackPanel>
+          <Image Source="{StaticResource IconoModuloCooperacion}" Height="50"/>
+          <TextBlock FontSize="22" FontWeight="Thin" Foreground="#FFF9F9F9" >Cooperación</TextBlock>
+        </StackPanel>
+      </Button>
     </StackPanel>
   </Grid>
 </metro:MetroWindow>
