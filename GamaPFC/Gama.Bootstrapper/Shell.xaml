@@ -19,7 +19,9 @@
                    Height="350" Width="525">
   <metro:MetroWindow.IconTemplate>
     <DataTemplate>
-      <Image Source="{Binding}"/>
+      <Viewbox Margin="{StaticResource Margin}">
+        <Image Source="{Binding}"/>
+      </Viewbox>
     </DataTemplate>
   </metro:MetroWindow.IconTemplate>
   <Grid>

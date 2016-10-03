@@ -21,7 +21,6 @@ namespace Gama.Bootstrapper
     public partial class App : Application
     {
         IUnityContainer _container = new UnityContainer();
-        //SelectorDeModulo _SelectorDeModulo;
         DispatcherTimer _Timer = new DispatcherTimer();
 
         protected override void OnStartup(StartupEventArgs e)
@@ -55,25 +54,16 @@ namespace Gama.Bootstrapper
             Bootstrapper bootstrapper;
 
             // Para poder hacer pruebas más rápido...
-            bool SALTAR_SELECCION_DE_MODULO = true;
-
-            //System.AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
+            bool SALTAR_SELECCION_DE_MODULO = false;
             if (SALTAR_SELECCION_DE_MODULO)
             {
                 bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
-                //bootstrapper.Run();
-                //_Timer.Tick += Timer_Tick;
-                //_Timer.Interval = new TimeSpan(2000);
-                //_SelectorDeModulo.Show();
-                //_Timer.Start();
-                //var task = new Task(new Action(() => bootstrapper.Run()));
-                //task.Wait(2000);
                 bootstrapper.Run();
             }
             else
             {
                 Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
                 var selectorDeModulo = new SelectorDeModulo();
                 var vm = new SelectorDeModuloViewModel(new LoginService());
                 selectorDeModulo.DataContext = vm;
@@ -81,7 +71,7 @@ namespace Gama.Bootstrapper
 
                 Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
-                if (vm.ModuloSeleccionado == null || !vm.SeHaAccedido)
+                if (!vm.SeHaAccedido)
                     return;
 
                 switch (vm.ModuloSeleccionado)
@@ -98,26 +88,9 @@ namespace Gama.Bootstrapper
                     default:
                         throw new Exception("¡No se ha seleccionado ningún módulo!");
                 }
-                //selectorDeModulo.Show();
-                //var task = new Task(new Action(() => bootstrapper.Run()));
-                //task.Wait();
-                //selectorDeModulo.Close();
+
                 bootstrapper.Run();
             }
-        }
-
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            //_SelectorDeModulo.Close();
-            //_Timer.Stop();
-        }
-
-        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            Console.WriteLine(e.ExceptionObject.ToString());
-            Console.WriteLine("Press Enter to continue");
-            Console.ReadLine();
-            Environment.Exit(1);
         }
     }
 }
