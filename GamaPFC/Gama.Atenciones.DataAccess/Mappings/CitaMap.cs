@@ -21,6 +21,9 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Map(c => c.Inicio);
             Map(c => c.Sala);
 
+            Map(p => p.CreatedAt);
+            Map(p => p.UpdatedAt);
+
             References(c => c.Persona);
 
             HasOne(c => c.Atencion);

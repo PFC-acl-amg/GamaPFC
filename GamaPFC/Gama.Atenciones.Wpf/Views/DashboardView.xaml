@@ -54,7 +54,7 @@
                   Command="{Binding RelativeSource =
                       {RelativeSource FindAncestor,
                           AncestorType={x:Type GroupBox}},
-                          Path=DataContext.SelectActividadCommand}"
+                          Path=DataContext.SelectPersonaCommand}"
                   CommandParameter="{Binding ElementName=_PersonasListBox, Path=SelectedItem}"/>
             </i:EventTrigger>
           </i:Interaction.Triggers>
@@ -94,7 +94,7 @@
                   Command="{Binding RelativeSource =
                       {RelativeSource FindAncestor,
                           AncestorType={x:Type GroupBox}},
-                          Path=DataContext.SelectActividadCommand}"
+                          Path=DataContext.SelectAtencionCommand}"
                   CommandParameter="{Binding ElementName=_AtencionesListBox, Path=SelectedItem}"/>
             </i:EventTrigger>
           </i:Interaction.Triggers>
@@ -102,14 +102,14 @@
       </ScrollViewer>
     </GroupBox>
 
-    <!-- Últimas Citas -->
+    <!-- Próximas Citas -->
     <GroupBox Grid.Column="2" Grid.Row="0"
                  Margin="{StaticResource Margin}">
       <GroupBox.Header>
-        <Label HorizontalAlignment="Center" Content="ÚLTIMAS CITAS" Foreground="White" Padding="0"></Label>
+        <Label HorizontalAlignment="Center" Content="PRÓXIMAS CITAS" Foreground="White" Padding="0"></Label>
       </GroupBox.Header>
       <ScrollViewer HorizontalScrollBarVisibility="Auto">
-        <ListBox ItemsSource="{Binding UltimasCitas}"
+        <ListBox ItemsSource="{Binding ProximasCitas}"
                  x:Name="_CitasListBox"
                  SelectionMode="Single"
                ScrollViewer.VerticalScrollBarVisibility="Auto">
@@ -134,7 +134,7 @@
                   Command="{Binding RelativeSource =
                       {RelativeSource FindAncestor,
                           AncestorType={x:Type GroupBox}},
-                          Path=DataContext.SelectActividadCommand}"
+                          Path=DataContext.SelectCitaCommand}"
                   CommandParameter="{Binding ElementName=_CitasListBox, Path=SelectedItem}"/>
             </i:EventTrigger>
           </i:Interaction.Triggers>

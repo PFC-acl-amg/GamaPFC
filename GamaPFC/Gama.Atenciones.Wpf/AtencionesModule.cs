@@ -43,23 +43,23 @@ namespace Gama.Atenciones.Wpf
                     var session = factory.OpenSession();
                     personaRepository.Session = session;
 
-                    //var personas = new FakePersonaRepository().GetAll();
-                    //foreach(var persona in personas)
-                    //{
-                    //    persona.Id = 0;
-                    //    personaRepository.Create(persona);
-                    //}
+                    var personas = new FakePersonaRepository().GetAll();
+                    foreach (var persona in personas)
+                    {
+                        persona.Id = 0;
+                        personaRepository.Create(persona);
+                    }
 
                     var citaRepository = new CitaRepository();
                     citaRepository.Session = session;
-                    //var citas = new FakeCitaRepository().GetAll();
-                    //var personaParaCita = personaRepository.GetById(1);
-                    //foreach(var cita in citas)
-                    //{
-                    //    cita.Id = 0;
-                    //    cita.Persona = personaParaCita;
-                    //    citaRepository.Create(cita);
-                    //}
+                    var citas = new FakeCitaRepository().GetAll();
+                    var personaParaCita = personaRepository.GetById(1);
+                    foreach (var cita in citas)
+                    {
+                        cita.Id = 0;
+                        cita.Persona = personaParaCita;
+                        citaRepository.Create(cita);
+                    }
 
                     var atencionRepository = new AtencionRepository();
                     atencionRepository.Session = session;

@@ -34,6 +34,9 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Map(p => p.Twitter);
             Map(p => p.ViaDeAccesoAGama);
 
+            Map(p => p.CreatedAt);
+            Map(p => p.UpdatedAt);
+
             HasMany(x => x.Citas)
                 .Cascade.All()
                 .Inverse()

@@ -117,6 +117,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />
+    <Compile Include="Eventos\AtencionSeleccionadaEvent.cs" />
+    <Compile Include="Eventos\CitaSeleccionadaEvent.cs" />
+    <Compile Include="Eventos\NuevaAtencionEvent.cs" />
+    <Compile Include="Eventos\NuevaCitaEvent.cs" />
+    <Compile Include="Eventos\NuevaPersonaEvent.cs" />
+    <Compile Include="Eventos\PersonaSeleccionadaEvent.cs" />
     <Compile Include="FakeServices\FakeAtencionRepository.cs" />
     <Compile Include="FakeServices\FakeCitaRepository.cs" />
     <Compile Include="FakeServices\FakePersonaRepository.cs" />
@@ -203,7 +209,6 @@
   <ItemGroup>
     <Folder Include="Actions\" />
     <Folder Include="Converters\" />
-    <Folder Include="Eventos\" />
     <Folder Include="Wrappers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

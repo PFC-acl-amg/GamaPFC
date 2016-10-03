@@ -40,7 +40,7 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
                         _Settings.DashboardLongitudDeNombres),
                 }));
 
-            UltimasCitas = new ObservableCollection<LookupItem>(
+            ProximasCitas = new ObservableCollection<LookupItem>(
                 new FakeCitaRepository().GetAll()
                     .OrderBy(c => c.Inicio)
                     .Take(_Settings.DashboardUltimasCitas)
@@ -65,7 +65,7 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
         }
 
         public ObservableCollection<LookupItem> UltimasAtenciones { get; private set; }
-        public ObservableCollection<LookupItem> UltimasCitas { get; private set; }
+        public ObservableCollection<LookupItem> ProximasCitas { get; private set; }
         public ObservableCollection<LookupItem> UltimasPersonas { get; private set; }
         public ChartValues<int> PersonasNuevasPorMes { get; private set; }
         public ChartValues<int> AtencionesNuevasPorMes { get; private set; }

@@ -1,8 +1,10 @@
 ﻿using Core;
+using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Common.CustomControls;
 using LiveCharts;
 using NHibernate;
+using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -35,6 +38,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _PersonaRepository = personaRepository;
             _CitaRepository = citaRepository;
             _AtencionRepository = atencionRepository;
+            _AtencionRepository.Session = session;
             _PersonaRepository.Session = session;
             _CitaRepository.Session = session;
             _EventAggregator = eventAggregator;
@@ -52,7 +56,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     DisplayMember2 = a.Nif
                 }));
 
-            UltimasCitas = new ObservableCollection<LookupItem>(
+            ProximasCitas = new ObservableCollection<LookupItem>(
                 _CitaRepository.GetAll()
                  .OrderBy(c => c.Inicio)
                  .Take(_Settings.DashboardUltimasCitas)
@@ -76,10 +80,18 @@ namespace Gama.Atenciones.Wpf.ViewModels
                  }));
 
             InicializarGraficos();
+
+            SelectPersonaCommand = new DelegateCommand<LookupItem>(OnSelectPersonaCommandExecute);
+            SelectCitaCommand = new DelegateCommand<LookupItem>(OnSelectCitaCommandExecute);
+            SelectAtencionCommand = new DelegateCommand<LookupItem>(OnSelectAtencionCommandExecute);
+
+            _EventAggregator.GetEvent<NuevaPersonaEvent>().Subscribe(OnNuevaPersonaEvent);
+            _EventAggregator.GetEvent<NuevaCitaEvent>().Subscribe(OnNuevaCitaEvent);
+            _EventAggregator.GetEvent<NuevaAtencionEvent>().Subscribe(OnNuevaAtencionEvent);
         }
 
         public ObservableCollection<LookupItem> UltimasAtenciones { get; private set; }
-        public ObservableCollection<LookupItem> UltimasCitas { get; private set; }
+        public ObservableCollection<LookupItem> ProximasCitas { get; private set; }
         public ObservableCollection<LookupItem> UltimasPersonas { get; private set; }
         public ChartValues<int> PersonasNuevasPorMes { get; private set; }
         public ChartValues<int> AtencionesNuevasPorMes { get; private set; }
@@ -94,6 +106,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 .Take(_Settings.DashboardMesesAMostrarDeAtencionesNuevas).ToArray();
 
         public string[] TotalesLabels => _LabelsTotales;
+
+        public ICommand SelectPersonaCommand { get; private set; }
+        public ICommand SelectCitaCommand { get; private set; }
+        public ICommand SelectAtencionCommand { get; private set; }
 
         private void InicializarGraficos()
         {
@@ -117,6 +133,75 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     _CitaRepository.CountAll(),
                     _AtencionRepository.CountAll()
                 });
+        }
+
+        private void OnSelectAtencionCommandExecute(LookupItem atencion)
+        {
+            _EventAggregator.GetEvent<AtencionSeleccionadaEvent>().Publish(atencion.Id);
+        }
+
+        private void OnSelectCitaCommandExecute(LookupItem cita)
+        {
+            _EventAggregator.GetEvent<CitaSeleccionadaEvent>().Publish(cita.Id);
+        }
+
+        private void OnSelectPersonaCommandExecute(LookupItem persona)
+        {
+            _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Publish(persona.Id);
+        }
+
+        private void OnNuevaPersonaEvent(int id)
+        {
+            var persona = _PersonaRepository.GetById(id);
+            var lookupItem = new LookupItem
+            {
+                Id = persona.Id,
+                DisplayMember1 = persona.Nombre,
+                DisplayMember2 = persona.Nif
+            };
+
+            UltimasPersonas.Insert(0, lookupItem);
+        }
+
+        private void OnNuevaAtencionEvent(int id)
+        {
+            var atencion = _AtencionRepository.GetById(id);
+            var lookupItem = new LookupItem
+            {
+                Id = atencion.Id,
+                DisplayMember1 = atencion.Fecha.ToString(),
+                DisplayMember2 = LookupItem.ShortenStringForDisplay(
+                         atencion.Seguimiento, _Settings.DashboardLongitudDeSeguimientos)
+            };
+            UltimasAtenciones.Insert(0, lookupItem);
+        }
+
+        private void OnNuevaCitaEvent(int id)
+        {
+            var cita = _CitaRepository.GetById(id);
+            var lookupItem = new LookupItem
+            {
+                Id = cita.Id,
+                DisplayMember1 = cita.Inicio.ToString(),
+                DisplayMember2 = cita.Sala
+            };
+
+            var last = DateTime.Parse(ProximasCitas.Last().DisplayMember1);
+            if (cita.Inicio < last) // es antes
+            {
+                int index = 0;
+                foreach (var lookup in ProximasCitas)
+                {
+                    var next = DateTime.Parse(lookup.DisplayMember1);
+                    if (cita.Inicio < next)
+                    {
+                        ProximasCitas.Insert(index, lookupItem);
+                        break;
+                    }
+
+                    index++;
+                }
+            }
         }
     }
 }
