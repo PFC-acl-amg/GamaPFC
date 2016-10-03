@@ -6,38 +6,47 @@
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:Gama.Bootstrapper"
         Title="Seleccione un módulo para trabajar..."
-        BorderThickness="1"
+        BorderThickness="4"
+        BorderBrush="#9B5F5959"
+        Background="#FFF7F2F2"
         WindowStartupLocation="CenterScreen"
-        mc:Ignorable="d" Height="180.072" Width="528.164">
+        MinHeight="200" MinWidth="570"
+        ResizeMode="NoResize"
+        mc:Ignorable="d" Height="196.739" Width="580">
   <metro:MetroWindow.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"/>
       </ResourceDictionary.MergedDictionaries>
+
+      <Thickness x:Key="_MargenBotones">20</Thickness>
     </ResourceDictionary>
   </metro:MetroWindow.Resources>
   <Grid>
     <StackPanel Orientation="Horizontal">
       <!-- Gestión de Socios -->
-      <Button Margin="10" MinWidth="150" MaxWidth="150"  Click="Button_Click" Background="#FFEC7EA8">
+      <Button Margin="{StaticResource _MargenBotones}" MinWidth="150" MaxWidth="150"  Click="Button_Click" Background="#FFEC7EA8"
+              BorderThickness="0">
         <StackPanel>
           <Image Source="{StaticResource IconoModuloSocios}" Height="50"/>
           <TextBlock TextWrapping="Wrap" FontSize="22" FontWeight="Thin" Foreground="White" 
                      TextAlignment="Center">Gestión de Socios</TextBlock>
         </StackPanel>
       </Button>
-      
-      <!-- Servicio de Atenciones -->
-      <Button Margin="10" MinWidth="150" MaxWidth="150" Click="AtencionesButton_Click" Background="#FFDCD2D2">
+
+      <!-- Servicio de Atenciones FF473E3E FFDCD2D2 E669B044 -->
+      <Button Margin="{StaticResource _MargenBotones}" MinWidth="150" MaxWidth="150" Click="AtencionesButton_Click" Background="#E669B044"
+              BorderThickness="0">
         <StackPanel>
           <Image Source="{StaticResource IconoModuloAtenciones}" Height="50"/>
-          <TextBlock TextWrapping="Wrap" FontSize="22" FontWeight="Thin" Foreground="#FF473E3E" >Servicio de Atenciones</TextBlock>
+          <TextBlock TextWrapping="Wrap" FontSize="22" FontWeight="Thin" Foreground="White" >Servicio de Atenciones</TextBlock>
         </StackPanel>
       </Button>
-      
+
       <!-- Cooperación -->
-      <Button Margin="10" MinWidth="150" MaxWidth="150" Click="CooperacionButton_Click" Background="#B6127698">
+      <Button Margin="{StaticResource _MargenBotones}" MinWidth="150" MaxWidth="150" Click="CooperacionButton_Click" Background="#B6127698"
+              BorderThickness="0">
         <StackPanel>
           <Image Source="{StaticResource IconoModuloCooperacion}" Height="50"/>
           <TextBlock FontSize="22" FontWeight="Thin" Foreground="#FFF9F9F9" >Cooperación</TextBlock>
