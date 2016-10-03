@@ -1,21 +1,27 @@
-﻿<metro:MetroWindow 
-  x:Class="Gama.Bootstrapper.Shell"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-  xmlns:local="clr-namespace:Gama.Bootstrapper"
-  xmlns:prism="http://prismlibrary.com/"
-  xmlns:common="clr-namespace:Gama.Common;assembly=Gama.Common"
-  xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-  mc:Ignorable="d"
-  prism:ViewModelLocator.AutoWireViewModel="True"
-  ResizeMode="CanResizeWithGrip"
-  WindowStartupLocation="CenterScreen" 
-  WindowState="Maximized"
-  WindowTitleBrush="{StaticResource AccentVioletaBrush}"
-  Style="{StaticResource CustomMetroWindowStyle}"
-  Title="{Binding Title}" Height="350" Width="525">
+﻿<metro:MetroWindow x:Class="Gama.Bootstrapper.Shell"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:local="clr-namespace:Gama.Bootstrapper"
+                  xmlns:prism="http://prismlibrary.com/"
+                  xmlns:common="clr-namespace:Gama.Common;assembly=Gama.Common"
+                  xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+                  mc:Ignorable="d"
+                  prism:ViewModelLocator.AutoWireViewModel="True"
+                  ResizeMode="CanResizeWithGrip"
+                  WindowStartupLocation="CenterScreen" 
+                  WindowState="Maximized"
+                  WindowTitleBrush="{StaticResource AccentVioletaBrush}"
+                  Style="{StaticResource CustomMetroWindowStyle}"
+                  Title="{Binding Title}" 
+                   Icon="{Binding IconSource}"
+                   Height="350" Width="525">
+  <metro:MetroWindow.IconTemplate>
+    <DataTemplate>
+      <Image Source="{Binding}"/>
+    </DataTemplate>
+  </metro:MetroWindow.IconTemplate>
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" MaxHeight="100"/>

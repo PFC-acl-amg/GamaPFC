@@ -21,22 +21,9 @@ namespace Gama.Bootstrapper
     /// </summary>
     public partial class Shell : MetroWindow
     {
-        //private SelectorDeModulo _SelectorDeModulo;
-
         public Shell()
         {
-            //_SelectorDeModulo = new SelectorDeModulo();
-            //_SelectorDeModulo.Topmost = true;
-            //_SelectorDeModulo.Show();
-
             InitializeComponent();
-        }
-
-        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            //_SelectorDeModulo = new SelectorDeModulo();
-            //preloaderRegion.Children.Add(_SelectorDeModulo);
-            //_SelectorDeModulo = null;
         }
     }
 }
