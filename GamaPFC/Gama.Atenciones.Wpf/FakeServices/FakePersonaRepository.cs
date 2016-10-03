@@ -66,6 +66,11 @@ namespace Gama.Atenciones.Wpf.FakeServices
             }
         }
 
+        public int CountAll()
+        {
+            return _Personas.Count;
+        }
+
         public void Create(Persona entity)
         {
             throw new NotImplementedException();
@@ -89,6 +94,16 @@ namespace Gama.Atenciones.Wpf.FakeServices
         public Persona GetById(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<int> GetPersonasNuevasPorMes(int numeroDeMeses)
+        {
+            var resultado = new List<int>(numeroDeMeses);
+
+            for (int i = 0; i < numeroDeMeses; i++)
+                resultado.Add(i + 2);
+
+            return resultado;
         }
 
         public bool Update(Persona entity)

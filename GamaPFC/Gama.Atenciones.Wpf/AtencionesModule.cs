@@ -1,8 +1,13 @@
 ﻿using Core;
+using Core.DataAccess;
 using Gama.Atenciones.DataAccess;
 using Gama.Atenciones.Wpf.FakeServices;
 using Gama.Atenciones.Wpf.Services;
+using Gama.Atenciones.Wpf.ViewModels;
+using Gama.Atenciones.Wpf.Views;
+using Gama.Common;
 using Microsoft.Practices.Unity;
+using NHibernate;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
@@ -47,13 +52,24 @@ namespace Gama.Atenciones.Wpf
 
                     var citaRepository = new CitaRepository();
                     citaRepository.Session = session;
-                    var citas = new FakeCitaRepository().GetAll();
-                    var personaParaCita = personaRepository.GetById(1);
-                    foreach(var cita in citas)
+                    //var citas = new FakeCitaRepository().GetAll();
+                    //var personaParaCita = personaRepository.GetById(1);
+                    //foreach(var cita in citas)
+                    //{
+                    //    cita.Id = 0;
+                    //    cita.Persona = personaParaCita;
+                    //    citaRepository.Create(cita);
+                    //}
+
+                    var atencionRepository = new AtencionRepository();
+                    atencionRepository.Session = session;
+                    var atenciones = new FakeAtencionRepository().GetAll();
+                    var citaParaAtencion = citaRepository.GetById(1);
+                    foreach ( var atencion in atenciones )
                     {
-                        cita.Id = 0;
-                        cita.Persona = personaParaCita;
-                        citaRepository.Create(cita);
+                        atencion.Id = 0;
+                        atencion.Cita = citaParaAtencion;
+                        atencionRepository.Create(atencion);
                     }
                 }
             } 
@@ -65,23 +81,28 @@ namespace Gama.Atenciones.Wpf
 
         private void RegisterViews()
         {
-            //throw new NotImplementedException();
+            Container.RegisterType<object, DashboardView>("DashboardView");
         }
 
         private void RegisterViewModels()
         {
-            //throw new NotImplementedException();
+            Container.RegisterType<DashboardViewModel>();
         }
 
         private void RegisterServices()
         {
-
-            //throw new NotImplementedException();
+            Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
+            Container.RegisterType<ISession>(
+                new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
+            Container.RegisterType<IPersonaRepository, PersonaRepository>();
+            Container.RegisterType<ICitaRepository, CitaRepository>();
+            Container.RegisterType<IAtencionRepository, AtencionRepository>();
+            Container.RegisterType<IAtencionesSettings, AtencionesSettings>();
         }
 
         private void InitializeNavigation()
         {
-            //throw new NotImplementedException();
+            RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
         }
     }
 }

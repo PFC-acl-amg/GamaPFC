@@ -7,8 +7,10 @@
              xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="760">
+             d:DesignHeight="638" d:DesignWidth="883">
   <d:DataContext>
     <designData:DashboardViewModelDTD/>
   </d:DataContext>
@@ -22,7 +24,7 @@
       <ColumnDefinition Width="*"/>
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
-    
+
     <!-- Últimas Personas -->
     <GroupBox Grid.Column="0" Grid.Row="0"
                  Margin="{StaticResource Margin}">
@@ -139,6 +141,72 @@
         </ListBox>
       </ScrollViewer>
     </GroupBox>
+    <!-- PERSONAS NUEVAS POR MES-->
+    <lvc:CartesianChart  Grid.Column="0" Grid.Row="1" Margin="{StaticResource MarginDouble}" LegendLocation="Top">
+      <lvc:CartesianChart.Series>
+        <lvc:LineSeries Values="{Binding PersonasNuevasPorMes}"
+                        Title="PERSONAS NUEVAS POR MES"
+                        Fill="Transparent" 
+                        Stroke="Green"
+                        LineSmoothness="0">
+        </lvc:LineSeries>
+      </lvc:CartesianChart.Series>
+      <lvc:CartesianChart.AxisY>
+        <lvc:Axis MinValue="0"></lvc:Axis>
+      </lvc:CartesianChart.AxisY>
+      <lvc:CartesianChart.AxisX>
+        <lvc:Axis Labels="{Binding PersonasLabels}">
+          <lvc:Axis.Separator>
+            <lvc:Separator Step="1"></lvc:Separator>
+          </lvc:Axis.Separator>
+        </lvc:Axis>
+      </lvc:CartesianChart.AxisX>
+    </lvc:CartesianChart>
+    <!--</GroupBox>-->
+
+    <!-- ATENCIONES NUEVAS POR MES-->
+    <lvc:CartesianChart  Grid.Column="1" Grid.Row="1" Margin="{StaticResource MarginDouble}" LegendLocation="Top">
+      <lvc:CartesianChart.Series>
+        <lvc:LineSeries Values="{Binding AtencionesNuevasPorMes}"
+                        Title="ATENCIONES NUEVAS POR MES"
+                        Fill="Transparent" 
+                        Stroke="Crimson"
+                        LineSmoothness="0">
+        </lvc:LineSeries>
+      </lvc:CartesianChart.Series>
+      <lvc:CartesianChart.AxisY>
+        <lvc:Axis MinValue="0"></lvc:Axis>
+      </lvc:CartesianChart.AxisY>
+      <lvc:CartesianChart.AxisX>
+        <lvc:Axis Labels="{Binding AtencionesLabels}">
+          <lvc:Axis.Separator>
+            <lvc:Separator Step="1"></lvc:Separator>
+          </lvc:Axis.Separator>
+        </lvc:Axis>
+      </lvc:CartesianChart.AxisX>
+    </lvc:CartesianChart>
+
+    <!-- TOTAL DE PERSONAS, CITAS Y ATENCIONES -->
+    <lvc:CartesianChart  Grid.Column="2" Grid.Row="1" Margin="{StaticResource MarginDouble}" LegendLocation="Top">
+      <lvc:CartesianChart.Series>
+        <lvc:LineSeries Values="{Binding Totales}"
+                        Title="TOTALES"
+                        Fill="Transparent" 
+                        Stroke="BlueViolet"
+                        LineSmoothness="0">
+        </lvc:LineSeries>
+      </lvc:CartesianChart.Series>
+      <lvc:CartesianChart.AxisY>
+        <lvc:Axis MinValue="0"></lvc:Axis>
+      </lvc:CartesianChart.AxisY>
+      <lvc:CartesianChart.AxisX>
+        <lvc:Axis Labels="{Binding TotalesLabels}">
+          <lvc:Axis.Separator>
+            <lvc:Separator Step="1"></lvc:Separator>
+          </lvc:Axis.Separator>
+        </lvc:Axis>
+      </lvc:CartesianChart.AxisX>
+    </lvc:CartesianChart>
 
   </Grid>
 </UserControl>

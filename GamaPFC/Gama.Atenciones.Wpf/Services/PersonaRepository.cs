@@ -15,5 +15,32 @@ namespace Gama.Atenciones.Wpf.Services
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<int> GetPersonasNuevasPorMes(int numeroDeMeses)
+        {
+            List<int> resultado;
+            try
+            {
+                resultado = Session.CreateSQLQuery(@"
+                SELECT COUNT(Id)
+                FROM `personas` 
+                GROUP BY
+                    YEAR(CreatedAt), 
+                    MONTH(CreatedAt) 
+                ORDER BY 
+                    YEAR(CreatedAt) DESC, 
+                    MONTH(CreatedAt) DESC")
+                        .SetMaxResults(numeroDeMeses)
+                        .List<object>()
+                        .Select(r => int.Parse(r.ToString()))
+                        .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return resultado;
+        }
     }
 }

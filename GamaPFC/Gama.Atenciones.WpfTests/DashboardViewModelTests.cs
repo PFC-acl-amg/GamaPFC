@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Atenciones.WpfTests
 {
-    public class Class1
+    public class DashboardViewModelTests
     {
     }
 }

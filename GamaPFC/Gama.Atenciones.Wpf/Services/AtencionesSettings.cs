@@ -15,6 +15,8 @@ namespace Gama.Atenciones.Wpf.Services
             DashboardUltimasCitas = 10;
             DashboardLongitudDeSeguimientos = 60;
             DashboardUltimasAtenciones = 5;
+            DashboardMesesAMostrarDeAtencionesNuevas = 6;
+            DashboardMesesAMostrarDePersonasNuevas = 6;
         }
 
         public int DashboardLongitudDeNombres { get; set; }
@@ -22,5 +24,7 @@ namespace Gama.Atenciones.Wpf.Services
         public int DashboardUltimasCitas { get; set; }
         public int DashboardLongitudDeSeguimientos { get; set; }
         public int DashboardUltimasAtenciones { get; set; }
+        public int DashboardMesesAMostrarDeAtencionesNuevas { get; set; }
+        public int DashboardMesesAMostrarDePersonasNuevas { get; set; }
     }
 }

@@ -24,5 +24,6 @@ namespace Gama.Atenciones.Wpf.Services
         bool Update(Cita entity);
 
         void Delete(Cita entity);
+        int CountAll();
     }
 }

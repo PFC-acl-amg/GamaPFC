@@ -24,5 +24,7 @@ namespace Gama.Atenciones.Wpf.Services
         bool Update(Atencion entity);
 
         void Delete(Atencion entity);
+        IEnumerable<int> GetAtencionesNuevasPorMes(int numeroDeMeses);
+        int CountAll();
     }
 }

@@ -16,17 +16,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
 
         public ISession Session { get; set; }
 
-        public void Create(Cita entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(Cita entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Cita> GetAll()
+        public FakeCitaRepository()
         {
             _Citas = new List<Cita>();
 
@@ -53,7 +43,20 @@ namespace Gama.Atenciones.Wpf.FakeServices
                     createdAt--;
                 }
             }
+        }
 
+        public void Create(Cita entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(Cita entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Cita> GetAll()
+        {
             return _Citas;
         }
 
@@ -70,6 +73,11 @@ namespace Gama.Atenciones.Wpf.FakeServices
         public bool Update(Cita entity)
         {
             throw new NotImplementedException();
+        }
+
+        public int CountAll()
+        {
+            return _Citas.Count;
         }
     }
 }
