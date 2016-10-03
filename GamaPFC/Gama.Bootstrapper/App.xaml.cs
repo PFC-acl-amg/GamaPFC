@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Unity;
+﻿using Gama.Bootstrapper.Services;
+using Microsoft.Practices.Unity;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,9 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Gama.Bootstrapper
 {
@@ -18,6 +21,8 @@ namespace Gama.Bootstrapper
     public partial class App : Application
     {
         IUnityContainer _container = new UnityContainer();
+        //SelectorDeModulo _SelectorDeModulo;
+        DispatcherTimer _Timer = new DispatcherTimer();
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -44,57 +49,67 @@ namespace Gama.Bootstrapper
 
             ViewModelLocationProvider.SetDefaultViewModelFactory(
                 type => {
-                    try
-                    {
-                        var result = _container.Resolve(type);
                         return _container.Resolve(type);
-                    }
-                    catch (Exception ex)
-                    {
-                        var message = ex.Message;
-                        throw ex;
-                    }
                 });
 
             Bootstrapper bootstrapper;
 
-            //bootstrapper = new Bootstrapper(Modulos.Cooperacion);
-            //bootstrapper.Run();
-            try
+            // Para poder hacer pruebas más rápido...
+            bool SALTAR_SELECCION_DE_MODULO = true;
+
+            //System.AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+            if (SALTAR_SELECCION_DE_MODULO)
             {
-                //System.AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+                bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
+                //bootstrapper.Run();
+                //_Timer.Tick += Timer_Tick;
+                //_Timer.Interval = new TimeSpan(2000);
+                //_SelectorDeModulo.Show();
+                //_Timer.Start();
+                //var task = new Task(new Action(() => bootstrapper.Run()));
+                //task.Wait(2000);
+                bootstrapper.Run();
+            }
+            else
+            {
                 Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
                 var selectorDeModulo = new SelectorDeModulo();
+                var vm = new SelectorDeModuloViewModel(new LoginService());
+                selectorDeModulo.DataContext = vm;
                 selectorDeModulo.ShowDialog();
-                selectorDeModulo.ModuloSeleccionado = selectorDeModulo.ModuloSeleccionado;
-                Application.Current.MainWindow = null;
+
                 Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
-                switch (selectorDeModulo.ModuloSeleccionado)
+
+                if (vm.ModuloSeleccionado == null || !vm.SeHaAccedido)
+                    return;
+
+                switch (vm.ModuloSeleccionado)
                 {
                     case Modulos.Cooperacion:
                         bootstrapper = new Bootstrapper(Modulos.Cooperacion);
-                        bootstrapper.Run();
                         break;
                     case Modulos.ServicioDeAtenciones:
                         bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
-                        bootstrapper.Run();
                         break;
                     case Modulos.GestionDeSocios:
                         bootstrapper = new Bootstrapper(Modulos.GestionDeSocios);
-                        bootstrapper.Run();
                         break;
+                    default:
+                        throw new Exception("¡No se ha seleccionado ningún módulo!");
                 }
+                //selectorDeModulo.Show();
+                //var task = new Task(new Action(() => bootstrapper.Run()));
+                //task.Wait();
+                //selectorDeModulo.Close();
+                bootstrapper.Run();
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            //var x = 1;
-            //if (x == 1)
-            //{
-            //bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
-            //bootstrapper.Run();
-            //}
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            //_SelectorDeModulo.Close();
+            //_Timer.Stop();
         }
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

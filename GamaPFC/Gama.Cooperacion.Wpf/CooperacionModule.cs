@@ -34,8 +34,8 @@ namespace Gama.Cooperacion.Wpf
             RegisterServices();
             InitializeNavigation();
 
-            ILoggerFacade log = Container.Resolve<ILoggerFacade>();
-            log.Log("ok", Category.Exception, Priority.None);
+            //ILoggerFacade log = Container.Resolve<ILoggerFacade>();
+            //log.Log("ok", Category.Exception, Priority.None);
 
             if (this.UseFaker)
             {
@@ -114,10 +114,12 @@ namespace Gama.Cooperacion.Wpf
             RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
             RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
             RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
-            RegionManager.RequestNavigate(RegionNames.ContentRegion, "ActividadesContentView");
+            //RegionManager.RequestNavigate(RegionNames.ContentRegion, "ActividadesContentView");
             //RegionManager.AddToRegion(RegionNames.ActividadesTabContentRegion, new ListadoDeActividadesView());
-            RegionManager.RequestNavigate(RegionNames.ActividadesTabContentRegion, "ListadoDeActividadesView");
+            //RegionManager.RequestNavigate(RegionNames.ActividadesTabContentRegion, "ListadoDeActividadesView");
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
+            RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<ActividadesContentView>());
+            RegionManager.AddToRegion(RegionNames.ActividadesTabContentRegion, Container.Resolve<ListadoDeActividadesView>());
         }
     }
 }

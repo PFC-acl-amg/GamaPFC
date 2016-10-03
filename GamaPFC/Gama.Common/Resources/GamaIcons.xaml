@@ -4,4 +4,5 @@
   <BitmapImage x:Key="IconoModuloAtenciones" UriSource="/Gama.Common;component/Resources/Images/icono_modulo_atenciones.png"/>
   <BitmapImage x:Key="IconoModuloCooperacion" UriSource="/Gama.Common;component/Resources/Images/icono_modulo_cooperacion.png"/>
   <BitmapImage x:Key="IconoModuloSocios" UriSource="/Gama.Common;component/Resources/Images/icono_modulo_socios.png"/>
+  <BitmapImage x:Key="IconoDashboard" UriSource="/Gama.Common;component/Resources/Images/icono_dashboard.png"/>
 </ResourceDictionary>

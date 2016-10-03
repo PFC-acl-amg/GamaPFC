@@ -13,14 +13,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Gama.Bootstrapper
+namespace Gama.Atenciones.Wpf.Views
 {
     /// <summary>
-    /// Interaction logic for SelectorDeModulo.xaml
+    /// Interaction logic for NuevaPersonaView.xaml
     /// </summary>
-    public partial class SelectorDeModulo : MetroWindow
+    public partial class NuevaPersonaView : MetroWindow
     {
-        public SelectorDeModulo()
+        public NuevaPersonaView()
         {
             InitializeComponent();
         }

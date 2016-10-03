@@ -7,10 +7,9 @@
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/GamaStyles.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Resources.xaml"/>
         <ResourceDictionary>
           <Style x:Key="CustomMetroWindowStyle" TargetType="{x:Type metro:MetroWindow}">
-            <!--<Setter Property="Background" Value="White" />-->
-            <!--<Setter Property="Background" Value="#FFF4F4F4" />-->
             <Setter Property="BorderBrush" Value="#FFB9B9B9" />
             <Setter Property="BorderThickness" Value="1,1,1,1" />
           </Style>

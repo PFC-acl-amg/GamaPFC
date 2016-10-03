@@ -145,7 +145,6 @@
     </ApplicationDefinition>
     <Compile Include="Actions\CloseTabAction.cs" />
     <Compile Include="Actions\CloseWindowAction.cs" />
-    <Compile Include="Actions\DialogCloser.cs" />
     <Compile Include="Converters\ActividadViewToViewModelConverter.cs" />
     <Compile Include="Converters\BooleanToVisivilityConverter.cs" />
     <Compile Include="CooperacionModule.cs" />

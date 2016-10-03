@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Gama.Cooperacion.Wpf.Actions
+namespace Core.Util
 {
     public static class DialogCloser
     {

@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:Gama.Bootstrapper"
+        xmlns:util="clr-namespace:Core.Util;assembly=Core"
+        xmlns:prism="http://prismlibrary.com/"
         Title="Seleccione un módulo para trabajar..."
         BorderThickness="4"
         BorderBrush="#9B5F5959"
@@ -12,7 +14,8 @@
         WindowStartupLocation="CenterScreen"
         MinHeight="200" MinWidth="570"
         ResizeMode="NoResize"
-        mc:Ignorable="d" Height="196.739" Width="580">
+        util:DialogCloser.DialogResult="{Binding Cerrar}"
+        mc:Ignorable="d" Height="353" Width="582" TitleCaps="False" >
   <metro:MetroWindow.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -21,13 +24,20 @@
       </ResourceDictionary.MergedDictionaries>
 
       <Thickness x:Key="_MargenBotones">20</Thickness>
+      <BooleanToVisibilityConverter x:Key="_BooleanToVisibilityConverter"/>
     </ResourceDictionary>
   </metro:MetroWindow.Resources>
   <Grid>
-    <StackPanel Orientation="Horizontal">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    
+    <StackPanel Grid.Row="0" Orientation="Horizontal">
       <!-- Gestión de Socios -->
-      <Button Margin="{StaticResource _MargenBotones}" MinWidth="150" MaxWidth="150"  Click="Button_Click" Background="#FFEC7EA8"
-              BorderThickness="0">
+      <Button Margin="{StaticResource _MargenBotones}" MinWidth="150" MaxWidth="150" Background="#FFEC7EA8"
+              BorderThickness="0" 
+              Command="{Binding SeleccionarModuloCommand}" CommandParameter="socios">
         <StackPanel>
           <Image Source="{StaticResource IconoModuloSocios}" Height="50"/>
           <TextBlock TextWrapping="Wrap" FontSize="22" FontWeight="Thin" Foreground="White" 
@@ -36,8 +46,9 @@
       </Button>
 
       <!-- Servicio de Atenciones FF473E3E FFDCD2D2 E669B044 -->
-      <Button Margin="{StaticResource _MargenBotones}" MinWidth="150" MaxWidth="150" Click="AtencionesButton_Click" Background="#E669B044"
-              BorderThickness="0">
+      <Button Margin="{StaticResource _MargenBotones}" MinWidth="150" MaxWidth="150" Background="#E669B044"
+              BorderThickness="0"
+              Command="{Binding SeleccionarModuloCommand}" CommandParameter="atenciones">
         <StackPanel>
           <Image Source="{StaticResource IconoModuloAtenciones}" Height="50"/>
           <TextBlock TextWrapping="Wrap" FontSize="22" FontWeight="Thin" Foreground="White" >Servicio de Atenciones</TextBlock>
@@ -45,13 +56,48 @@
       </Button>
 
       <!-- Cooperación -->
-      <Button Margin="{StaticResource _MargenBotones}" MinWidth="150" MaxWidth="150" Click="CooperacionButton_Click" Background="#B6127698"
-              BorderThickness="0">
+      <Button Margin="{StaticResource _MargenBotones}" MinWidth="150" MaxWidth="150" Background="#B6127698"
+              BorderThickness="0"
+              Command="{Binding SeleccionarModuloCommand}" CommandParameter="cooperacion">
         <StackPanel>
           <Image Source="{StaticResource IconoModuloCooperacion}" Height="50"/>
           <TextBlock FontSize="22" FontWeight="Thin" Foreground="#FFF9F9F9" >Cooperación</TextBlock>
         </StackPanel>
       </Button>
     </StackPanel>
+
+    <Grid Grid.Row="1" MaxWidth="350" 
+          IsEnabled="{Binding MostrarLogin}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <StackPanel>
+        <Label Margin="{StaticResource Margin}" FontWeight="Thin"
+               FontSize="14">Usuario</Label>
+        <Label Margin="{StaticResource Margin}" FontWeight="Thin"
+               FontSize="14">Contraseña</Label>
+      </StackPanel>
+      <StackPanel Grid.Column="1">
+        <TextBox Margin="{StaticResource Margin}" Text="{Binding Usuario}"></TextBox>
+        <PasswordBox Margin="{StaticResource Margin}" 
+                     util:PasswordHelper.Attach="True"
+                     util:PasswordHelper.Password="{Binding Password, Mode=TwoWay}"
+                     ></PasswordBox>
+      </StackPanel>
+      <Button Margin="{StaticResource Margin}" Grid.Row="1" Grid.ColumnSpan="2"
+              FontWeight="Thin"
+              Background="#FFF16B2C"
+              Foreground="White"
+              Padding="14"
+              BorderThickness="0"
+              FontSize="20"
+              Command="{Binding AccederCommand}"
+              >ACCEDER</Button>
+    </Grid>
   </Grid>
 </metro:MetroWindow>

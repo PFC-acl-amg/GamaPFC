@@ -30,10 +30,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             var o = new NuevaActividadView();
             o.ShowDialog();
-
-            //var vm = o.DataContext as NuevaActividadViewModel;
-
-            //_eventAggregator.GetEvent<NuevaActividadEvent>().Publish(vm.Actividad.Id);
         }
     }
 }

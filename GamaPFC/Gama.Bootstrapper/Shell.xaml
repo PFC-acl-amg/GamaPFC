@@ -39,6 +39,12 @@
 
     <!-- Región de contenido -->
     <ContentControl Grid.Row="1" Grid.ColumnSpan="3" prism:RegionManager.RegionName="{x:Static common:RegionNames.ContentRegion}" />
+    <!--<Grid Grid.Row="1" Grid.ColumnSpan="3" Background="#FFF4ECE2" Panel.ZIndex="-5">
+      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                 FontSize="26" FontWeight="Thin" FontStretch="UltraCondensed"
+                 FontStyle="Italic">El módulo está cargando...</TextBlock>
+    </Grid>-->
+    <!--<Grid Grid.Row="1" Grid.ColumnSpan="3" x:Name="preloaderRegion"></Grid>-->
 
     <!-- Status Bar -->
     <ContentControl Grid.Row="2" Grid.ColumnSpan="3" prism:RegionManager.RegionName="{x:Static common:RegionNames.StatusBarRegion}"/>

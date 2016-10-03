@@ -82,11 +82,15 @@ namespace Gama.Atenciones.Wpf
         private void RegisterViews()
         {
             Container.RegisterType<object, DashboardView>("DashboardView");
+            Container.RegisterType<object, ToolbarView>("ToolbarView");
+            Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
         }
 
         private void RegisterViewModels()
         {
             Container.RegisterType<DashboardViewModel>();
+            Container.RegisterType<ToolbarViewModel>();
+            Container.RegisterType<PanelSwitcherViewModel>();
         }
 
         private void RegisterServices()
@@ -102,6 +106,8 @@ namespace Gama.Atenciones.Wpf
 
         private void InitializeNavigation()
         {
+            RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
+            RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
         }
     }

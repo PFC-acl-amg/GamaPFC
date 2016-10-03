@@ -101,7 +101,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DashboardViewModelTests.cs" />
+    <Compile Include="PanelSwitcherViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ToolbarViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
