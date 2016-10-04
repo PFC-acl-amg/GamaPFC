@@ -45,9 +45,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnActividadNuevaEvent(int id)
         {
-            //if (id != 0)
-            //    throw new ArgumentException("El Id en OnAddActividad no puede ser distinto a cero");
-
             AbrirActividad(id);
         }
 

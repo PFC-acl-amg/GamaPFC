@@ -143,7 +143,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Actions\CloseTabAction.cs" />
     <Compile Include="Actions\CloseWindowAction.cs" />
     <Compile Include="Converters\ActividadViewToViewModelConverter.cs" />
     <Compile Include="Converters\BooleanToVisivilityConverter.cs" />

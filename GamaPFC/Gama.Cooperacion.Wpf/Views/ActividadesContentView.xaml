@@ -9,7 +9,7 @@
              xmlns:common="clr-namespace:Gama.Common;assembly=Gama.Common"
              xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:actions="clr-namespace:Gama.Cooperacion.Wpf.Actions"
+             xmlns:util="clr-namespace:Core.Util;assembly=Core"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -50,7 +50,7 @@
                       </Button.Style>
                       <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                          <actions:CloseTabAction/>
+                          <util:CloseTabAction/>
                         </i:EventTrigger>
                       </i:Interaction.Triggers>
                     </Button>
