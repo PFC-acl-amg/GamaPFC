@@ -58,11 +58,6 @@ namespace Gama.Atenciones.DataAccess
             }
         }
 
-        public ISessionFactory GetSessionFactory()
-        {
-            return SessionFactory;
-        }
-
         private static NHibernate.Cfg.Configuration Configure()
         {
             return Fluently.Configure()
@@ -86,40 +81,11 @@ namespace Gama.Atenciones.DataAccess
                 .BuildConfiguration();
         }
 
-        public IStatelessSession OpenStatelessSession()
-        {
-            return SessionFactory.OpenStatelessSession();
-        }
-
         public ISession OpenSession()
         {
             var session = SessionFactory.OpenSession();
             session.FlushMode = FlushMode.Commit;
             return session;
-        }
-
-        public void CreateSession()
-        {
-            CurrentSessionContext.Bind(OpenSession());
-        }
-
-        public void CloseSession()
-        {
-            if (CurrentSessionContext.HasBind(SessionFactory))
-            {
-                CurrentSessionContext.Unbind(SessionFactory).Dispose();
-            }
-        }
-
-        public ISession GetCurrentSession()
-        {
-            if (!CurrentSessionContext.HasBind(SessionFactory))
-            {
-                CurrentSessionContext.Bind(SessionFactory.OpenSession());
-            }
-
-            //return SessionFactory.OpenSession();
-            return SessionFactory.GetCurrentSession();
         }
     }
 }

@@ -9,9 +9,6 @@ namespace Core.DataAccess
 {
     public interface INHibernateSessionFactory
     {
-        ISessionFactory GetSessionFactory();
         ISession OpenSession();
-        IStatelessSession OpenStatelessSession();
-        ISession GetCurrentSession();
     }
 }
