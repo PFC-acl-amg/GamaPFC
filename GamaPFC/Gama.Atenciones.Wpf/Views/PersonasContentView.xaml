@@ -15,7 +15,7 @@
              d:DesignHeight="211.152" d:DesignWidth="490.303">
   <UserControl.Resources>
     <Style TargetType="metro:MetroTabItem">
-      <Setter Property="Header" Value="{Binding DataContext.Persona.Nombre, UpdateSourceTrigger=PropertyChanged}"/>
+      <Setter Property="Header" Value="{Binding DataContext.Title, UpdateSourceTrigger=PropertyChanged}"/>
       <Setter Property="metro:ControlsHelper.HeaderFontSize" Value="14"/>
       <Setter Property="HeaderTemplate">
         <Setter.Value>
@@ -32,7 +32,7 @@
                     <Setter Property="FontWeight" Value="Bold"/>
                     <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="Padding" Value="0"/>
-                    <Setter Property="Margin" Value="{DynamicResource GlobalMargin}"/>
+                    <Setter Property="Margin" Value="{StaticResource Margin}"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                     <Setter Property="VerticalContentAlignment" Value="Center"/>
                     <Style.Triggers>

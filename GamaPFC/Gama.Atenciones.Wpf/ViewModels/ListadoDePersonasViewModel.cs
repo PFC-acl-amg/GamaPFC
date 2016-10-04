@@ -27,6 +27,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             IAtencionesSettings settings,
             ISession session)
         {
+            Title = "Todas";
+
             _EventAggregator = eventAggregator;
             _PersonaRepository = personaRepository;
             _PersonaRepository.Session = session;

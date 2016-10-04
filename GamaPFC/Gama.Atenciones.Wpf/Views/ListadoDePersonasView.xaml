@@ -29,9 +29,9 @@
       </Button>
       <TextBlock VerticalAlignment="Center">
         <Run Text="Página"/>
-        <Run Text="{Binding Actividades.CurrentPage, Mode=OneWay}"/>
+        <Run Text="{Binding Personas.CurrentPage, Mode=OneWay}"/>
         <Run Text="de"/>
-        <Run Text="{Binding Actividades.PageCount, Mode=OneWay}"/>
+        <Run Text="{Binding Personas.PageCount, Mode=OneWay}"/>
       </TextBlock>
       <Button Margin="{StaticResource Margin}" Command="{Binding PaginaSiguienteCommand}">
         <Rectangle Width="15" Height="15">
