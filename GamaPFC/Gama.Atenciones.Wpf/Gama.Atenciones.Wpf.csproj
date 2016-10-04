@@ -117,11 +117,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />
+    <Compile Include="DesignTimeData\ListadoDePersonasViewModelDTD.cs" />
     <Compile Include="Eventos\AtencionSeleccionadaEvent.cs" />
     <Compile Include="Eventos\CitaSeleccionadaEvent.cs" />
     <Compile Include="Eventos\NuevaAtencionEvent.cs" />
     <Compile Include="Eventos\NuevaCitaEvent.cs" />
     <Compile Include="Eventos\NuevaPersonaEvent.cs" />
+    <Compile Include="Eventos\PersonaActualizadaEvent.cs" />
     <Compile Include="Eventos\PersonaSeleccionadaEvent.cs" />
     <Compile Include="FakeServices\FakeAtencionRepository.cs" />
     <Compile Include="FakeServices\FakeCitaRepository.cs" />
@@ -135,11 +137,15 @@
     <Compile Include="Services\IPersonaRepository.cs" />
     <Compile Include="Services\PersonaRepository.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\ListadoDePersonasViewModel.cs" />
     <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
     <Compile Include="ViewModels\PersonasContentViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="Views\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ListadoDePersonasView.xaml.cs">
+      <DependentUpon>ListadoDePersonasView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NuevaPersonaView.xaml.cs">
       <DependentUpon>NuevaPersonaView.xaml</DependentUpon>
@@ -175,6 +181,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DashboardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ListadoDePersonasView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

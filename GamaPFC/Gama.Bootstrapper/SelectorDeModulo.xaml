@@ -83,10 +83,12 @@
                FontSize="14">Contraseña</Label>
       </StackPanel>
       <StackPanel Grid.Column="1">
-        <TextBox Margin="{StaticResource Margin}" Text="{Binding Usuario}"></TextBox>
+        <TextBox Margin="{StaticResource Margin}" 
+                 Text="{Binding Usuario}"
+                 KeyDown="UsuarioTextBox_KeyDown"></TextBox>
         <PasswordBox Margin="{StaticResource Margin}" 
                      util:PasswordHelper.Attach="True"
-                     util:PasswordHelper.Password="{Binding Password, Mode=TwoWay}"
+                     util:PasswordHelper.Password="{Binding Password, Mode=TwoWay}" KeyDown="PasswordBox_KeyDown"
                      ></PasswordBox>
       </StackPanel>
       <Button Margin="{StaticResource Margin}" Grid.Row="1" Grid.ColumnSpan="2"

@@ -14,5 +14,6 @@ namespace Gama.Atenciones.Wpf.Services
         int DashboardUltimasAtenciones { get; set; }
         int DashboardUltimasCitas { get; set; }
         int DashboardUltimasPersonas { get; set; }
+        int ListadoDePersonasItemsPerPage { get; set; }
     }
 }

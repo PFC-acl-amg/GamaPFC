@@ -4,18 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="55.48" d:DesignWidth="264.042">
   <Grid>
     <StackPanel Orientation="Horizontal">
       <Button Background="Transparent" BorderThickness="0"
-            Command="{Binding NavigateCommand}"
+              Margin="{StaticResource Margin}"
+              Command="{Binding NavigateCommand}"
               CommandParameter="DashboardView">
         <StackPanel>
           <Image Source="{StaticResource IconoDashboard}" Height="{StaticResource NavigationIconSize}"/>
         </StackPanel>
       </Button>
       <Button Background="Transparent" BorderThickness="0"
+              Margin="{StaticResource Margin}"
             Command="{Binding NavigateCommand}"
             CommandParameter="PersonasContentView">
         <StackPanel>
@@ -23,6 +27,7 @@
         </StackPanel>
       </Button>
       <Button Background="Transparent" BorderThickness="0"
+              Margin="{StaticResource Margin}"
             Command="{Binding NavigateCommand}"
             CommandParameter="AtencionesContentView">
         <StackPanel>
@@ -30,6 +35,7 @@
         </StackPanel>
       </Button>
       <Button Background="Transparent" BorderThickness="0"
+              Margin="{StaticResource Margin}"
             Command="{Binding NavigateCommand}"
             CommandParameter="GraficasView">
         <StackPanel>

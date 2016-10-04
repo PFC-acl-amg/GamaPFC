@@ -82,15 +82,19 @@ namespace Gama.Atenciones.Wpf
         private void RegisterViews()
         {
             Container.RegisterType<object, DashboardView>("DashboardView");
-            Container.RegisterType<object, ToolbarView>("ToolbarView");
+            Container.RegisterType<object, ListadoDePersonasView>("ListadoDePersonasView");
             Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
+            Container.RegisterType<object, PersonasContentView>("PersonasContentView");
+            Container.RegisterType<object, ToolbarView>("ToolbarView");
         }
 
         private void RegisterViewModels()
         {
             Container.RegisterType<DashboardViewModel>();
-            Container.RegisterType<ToolbarViewModel>();
+            Container.RegisterType<ListadoDePersonasViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
+            Container.RegisterType<PersonasContentViewModel>();
+            Container.RegisterType<ToolbarViewModel>();
         }
 
         private void RegisterServices()
@@ -109,6 +113,9 @@ namespace Gama.Atenciones.Wpf
             RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
             RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
+
+            RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<PersonasContentView>());
+            RegionManager.AddToRegion(RegionNames.PersonasTabContentRegion, Container.Resolve<ListadoDePersonasView>());
         }
     }
 }

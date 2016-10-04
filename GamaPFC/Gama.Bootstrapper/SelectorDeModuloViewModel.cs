@@ -23,6 +23,9 @@ namespace Gama.Bootstrapper
             SeleccionarModuloCommand = new DelegateCommand<string>(OnSeleccionarModuloCommandExecute);
             AccederCommand = new DelegateCommand(OnAccederCommandExecute);
 
+            this.Usuario = "atenciones";
+            this.Password = "secret";
+
             SeHaAccedido = false;
         }
 
