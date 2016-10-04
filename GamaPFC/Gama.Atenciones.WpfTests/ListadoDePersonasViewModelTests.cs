@@ -16,7 +16,7 @@ using Xunit;
 
 namespace Gama.Atenciones.WpfTests
 {
-    class ListadoDePersonasViewModelTests
+    public class ListadoDePersonasViewModelTests
     {
         private ListadoDePersonasViewModel _Vm;
         private List<Persona> _Personas;

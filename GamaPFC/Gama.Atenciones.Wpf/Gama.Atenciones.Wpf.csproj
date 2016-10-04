@@ -156,9 +156,16 @@
     <Compile Include="Views\PersonasContentView.xaml.cs">
       <DependentUpon>PersonasContentView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PersonaView.xaml.cs">
+      <DependentUpon>PersonaView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ToolbarView.xaml.cs">
       <DependentUpon>ToolbarView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Wrappers\AtencionWrapper.cs" />
+    <Compile Include="Wrappers\CitaWrapper.cs" />
+    <Compile Include="Wrappers\DerivacionWrapper.cs" />
+    <Compile Include="Wrappers\PersonaWrapper.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -197,6 +204,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PersonasContentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PersonaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -254,7 +265,6 @@
   <ItemGroup>
     <Folder Include="Actions\" />
     <Folder Include="Converters\" />
-    <Folder Include="Wrappers\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\icono_nueva_persona.png">
