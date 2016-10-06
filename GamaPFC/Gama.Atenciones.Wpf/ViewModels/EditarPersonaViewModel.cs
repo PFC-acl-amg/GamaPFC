@@ -105,7 +105,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             if (nombre.Length > 20)
             {
-                Title = nombre.Substring(0, 20);
+                Title = nombre.Substring(0, 20) + "...";
             }
             else
             {
