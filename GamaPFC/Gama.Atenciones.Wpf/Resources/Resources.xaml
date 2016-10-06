@@ -1,6 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Resources">
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="Styles/TextBox.xaml"/>
+  </ResourceDictionary.MergedDictionaries>
   <BitmapImage x:Key="IconoNuevaPersona" 
                    UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/icono_nueva_persona.png"/>
   <BitmapImage x:Key="IconoAtenciones" 
