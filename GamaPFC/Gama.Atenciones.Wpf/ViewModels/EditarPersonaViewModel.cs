@@ -61,7 +61,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand ActualizarCommand { get; private set; }
         public ICommand CancelarEdicionCommand { get; private set; }
 
-
         private void OnActualizarCommand()
         {
             Persona.UpdatedAt = DateTime.Now;

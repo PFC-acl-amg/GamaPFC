@@ -10,7 +10,9 @@ xmlns:business="clr-namespace:Gama.Atenciones.Business;assembly=Gama.Atenciones.
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="535.274" d:DesignWidth="318.493">
-
+  <UserControl.Resources>
+    <util:NullableValueConverter x:Key="_NullableValueConverter"/>
+  </UserControl.Resources>
   <GroupBox Header="Datos Personales" IsHitTestVisible="{Binding EdicionHabilitada}">
     <ScrollViewer>
       <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden">
@@ -49,7 +51,8 @@ xmlns:business="clr-namespace:Gama.Atenciones.Business;assembly=Gama.Atenciones.
 
           <Label Margin="{StaticResource Margin}">Fecha de Nacimiento</Label>
           <DatePicker Margin="{StaticResource Margin}" 
-                                Text="{Binding Persona.FechaDeNacimiento, UpdateSourceTrigger=PropertyChanged}"
+                                Text="{Binding Persona.FechaDeNacimiento, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                  Converter={StaticResource _NullableValueConverter}}"
                                 Height="18"/>
 
           <Label Margin="{StaticResource Margin}">Teléfono</Label>

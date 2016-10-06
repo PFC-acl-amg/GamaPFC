@@ -27,6 +27,8 @@ namespace Gama.Bootstrapper
             this.Password = "secret";
 
             SeHaAccedido = false;
+
+            SeleccionarModuloCommand.Execute("atenciones");
         }
 
         public ICommand SeleccionarModuloCommand { get; private set; }
