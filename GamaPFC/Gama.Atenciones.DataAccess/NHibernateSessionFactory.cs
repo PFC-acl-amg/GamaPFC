@@ -38,7 +38,7 @@ namespace Gama.Atenciones.DataAccess
                             var file = File.Open("nh_atenciones.cfg", FileMode.Open);
                             configuration = (NHibernate.Cfg.Configuration)new BinaryFormatter()
                                 .Deserialize(file);
-                            //file.Close();
+                            file.Close();
                         }
                         else
                         {
@@ -58,11 +58,6 @@ namespace Gama.Atenciones.DataAccess
             }
         }
 
-        public ISessionFactory GetSessionFactory()
-        {
-            return SessionFactory;
-        }
-
         private static NHibernate.Cfg.Configuration Configure()
         {
             return Fluently.Configure()
@@ -80,15 +75,10 @@ namespace Gama.Atenciones.DataAccess
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: true,
-                            execute: true,
+                            execute: false,
                             justDrop: false);
                     })
                 .BuildConfiguration();
-        }
-
-        public IStatelessSession OpenStatelessSession()
-        {
-            return SessionFactory.OpenStatelessSession();
         }
 
         public ISession OpenSession()
@@ -96,30 +86,6 @@ namespace Gama.Atenciones.DataAccess
             var session = SessionFactory.OpenSession();
             session.FlushMode = FlushMode.Commit;
             return session;
-        }
-
-        public void CreateSession()
-        {
-            CurrentSessionContext.Bind(OpenSession());
-        }
-
-        public void CloseSession()
-        {
-            if (CurrentSessionContext.HasBind(SessionFactory))
-            {
-                CurrentSessionContext.Unbind(SessionFactory).Dispose();
-            }
-        }
-
-        public ISession GetCurrentSession()
-        {
-            if (!CurrentSessionContext.HasBind(SessionFactory))
-            {
-                CurrentSessionContext.Bind(SessionFactory.OpenSession());
-            }
-
-            //return SessionFactory.OpenSession();
-            return SessionFactory.GetCurrentSession();
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Gama.Atenciones.Wpf
 
             try {
                 var sessionFactory = new NHibernateSessionFactory();
-                var factory = sessionFactory.GetSessionFactory();
+                var factory = sessionFactory.SessionFactory;
 
                 if (UseFaker)
                 {
