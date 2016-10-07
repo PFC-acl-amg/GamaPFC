@@ -41,7 +41,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             ActualizarCommand = new DelegateCommand(
                 OnActualizarCommand,
-                () => _PersonaVM.EdicionHabilitada && _PersonaVM.Persona.IsChanged);
+                () => _PersonaVM.EdicionHabilitada 
+                   && Persona.IsChanged
+                   && Persona.IsValid);
 
             CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand,
                 () => _PersonaVM.EdicionHabilitada);
@@ -134,7 +136,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
             else if (e.PropertyName == nameof(Persona))
             {
                 Persona.PropertyChanged += (s, ea) => {
-                    InvalidateCommands();
+                    if (ea.PropertyName == nameof(Persona.IsChanged)
+                        || ea.PropertyName == nameof(Persona.IsValid))
+                    {
+                        InvalidateCommands();
+                    }
                 };
             }
         }
