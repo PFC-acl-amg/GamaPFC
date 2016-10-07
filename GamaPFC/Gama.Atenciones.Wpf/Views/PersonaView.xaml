@@ -10,12 +10,12 @@ xmlns:business="clr-namespace:Gama.Atenciones.Business;assembly=Gama.Atenciones.
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="535.274" d:DesignWidth="318.493">
-  <GroupBox Header="Datos Personales" IsHitTestVisible="{Binding EdicionHabilitada}">
+  <GroupBox Header="Datos Personales">
     <ScrollViewer>
-      <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden">
+      <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding EdicionHabilitada}">
         <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto" MaxWidth="300"/>
-          <ColumnDefinition Width="Auto" MaxWidth="300"/>
+          <ColumnDefinition Width="*" MaxWidth="300"/>
+          <ColumnDefinition Width="*" MaxWidth="300"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto"/>

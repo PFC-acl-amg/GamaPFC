@@ -108,6 +108,7 @@
     <Compile Include="PersonasContentViewTests.cs" />
     <Compile Include="PersonaViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatusBarViewModelTests.cs" />
     <Compile Include="ToolbarViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
