@@ -56,5 +56,39 @@ namespace Gama.CommonTests.Wrapper
             wrapper.Nombre = "Algún nombre";
             Assert.True(fired);
         }
+
+        [Fact]
+        private void ShouldSetIsValid()
+        {
+            var wrapper = new PersonaWrapper(_Persona);
+            Assert.True(wrapper.IsValid);
+
+            wrapper.Nombre = "";
+            Assert.False(wrapper.IsValid);
+
+            wrapper.Nombre = "Algún nombre";
+            Assert.True(wrapper.IsValid);
+        }
+
+        [Fact]
+        private void ShouldRaisePropertyChangedEventForIsValid()
+        {
+            var fired = false;
+            var wrapper = new PersonaWrapper(_Persona);
+
+            wrapper.PropertyChanged += (s, e) => {
+                if (e.PropertyName == nameof(wrapper.IsValid))
+                {
+                    fired = true;
+                }
+            };
+
+            wrapper.Nombre = "";
+            Assert.True(fired);
+
+            fired = false;
+            wrapper.Nombre = "Algún nombre";
+            Assert.True(fired);
+        }
     }
 }

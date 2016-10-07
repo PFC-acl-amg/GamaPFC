@@ -30,6 +30,8 @@ namespace Core
 
         public virtual bool IsChanged => _originalValues.Count > 0 || _trackingObjects.Any(to => to.IsChanged);
 
+        public bool IsValid => !HasErrors;
+
         public virtual void AcceptChanges()
         {
             _originalValues.Clear();
@@ -104,12 +106,15 @@ namespace Core
             {
                 Errors[propertyName] = results.Select(r => r.ErrorMessage).Distinct().ToList();
                 OnErrorsChanged(propertyName);
+                OnPropertyChanged(nameof(IsValid));
             }
             else if (Errors.ContainsKey(propertyName))
             {
                 Errors.Remove(propertyName);
                 OnErrorsChanged(propertyName);
+                OnPropertyChanged(nameof(IsValid));
             }
+
         }
 
         //protected void SetComplexValue<TValue>(TValue newValue, [CallerMemberName] string propertyName = null)
