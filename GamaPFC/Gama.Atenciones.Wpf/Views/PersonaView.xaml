@@ -52,8 +52,7 @@ xmlns:business="clr-namespace:Gama.Atenciones.Business;assembly=Gama.Atenciones.
           <Label Margin="{StaticResource Margin}">Fecha de Nacimiento</Label>
           <DatePicker Margin="{StaticResource Margin}" 
                                 SelectedDate="{Binding Persona.FechaDeNacimiento, 
-            UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
-                                  Converter={StaticResource _NullableValueConverter}}"
+            UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                 Height="18"/>
 
           <Label Margin="{StaticResource Margin}">Teléfono</Label>
