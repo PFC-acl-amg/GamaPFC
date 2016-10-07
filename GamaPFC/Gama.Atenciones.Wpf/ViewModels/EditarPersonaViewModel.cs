@@ -2,6 +2,7 @@
 using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.Wrappers;
+using Gama.Common.Views;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
@@ -12,11 +13,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
-    public class EditarPersonaViewModel : ViewModelBase
+    public class EditarPersonaViewModel : ViewModelBase, IConfirmNavigationRequest
     {
         private IEventAggregator _EventAggregator;
         private IPersonaRepository _PersonaRepository;
@@ -134,6 +136,19 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 Persona.PropertyChanged += (s, ea) => {
                     InvalidateCommands();
                 };
+            }
+        }
+
+        public void ConfirmNavigationRequest(NavigationContext navigationContext,
+            Action<bool> continuationCallback)
+        {
+            if (Persona.IsChanged)
+            {
+                var o = new ConfirmarOperacionView();
+                o.Mensaje = "Si sale se perderán los cambios, ¿Desea salir de todas formas?";
+                o.ShowDialog();
+
+                continuationCallback.Invoke(o.EstaConfirmado);
             }
         }
     }

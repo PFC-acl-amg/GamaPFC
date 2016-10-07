@@ -74,6 +74,9 @@
     <Compile Include="Resources\Converters\DatePickerOriginalValueConverter.cs" />
     <Compile Include="Resources\Converters\ViewToViewModelConverter.cs" />
     <Compile Include="Resources\DataTemplateSelectors\BuscadorDataTemplateSelector.cs" />
+    <Compile Include="Views\ConfirmarOperacionView.xaml.cs">
+      <DependentUpon>ConfirmarOperacionView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Resources\Constants\Colores.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -115,6 +118,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Templates\SearchBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfirmarOperacionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

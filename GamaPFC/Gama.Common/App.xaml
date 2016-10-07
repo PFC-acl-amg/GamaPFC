@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:Gama.Common"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
-    </Application.Resources>
+    <ResourceDictionary Source="Resources/GamaStyles.xaml"/>
+  </Application.Resources>
 </Application>
