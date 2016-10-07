@@ -32,5 +32,14 @@ namespace Core
         {
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
+
+        protected void ClearErrors()
+        {
+            foreach (var propertyName in Errors.Keys.ToList())
+            {
+                Errors.Remove(propertyName);
+                OnErrorsChanged(propertyName);
+            }
+        }
     }
 }

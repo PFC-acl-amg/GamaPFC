@@ -24,6 +24,8 @@ namespace Core
             this.Model = model;
             _originalValues = new Dictionary<string, object>();
             _trackingObjects = new List<IRevertibleChangeTracking>();
+
+            Validate();
         }
 
         public T Model { get; private set; }
@@ -58,6 +60,7 @@ namespace Core
                 trackedObject.RejectChanges();
             }
 
+            Validate();
             OnPropertyChanged(string.Empty);
         }
 
@@ -88,41 +91,37 @@ namespace Core
             {
                 UpdateOriginalValue(currentValue, newValue, propertyName);
                 propertyInfo.SetValue(this.Model, newValue);
-                ValidateProperty(propertyName, newValue);
+                Validate();
                 OnPropertyChanged(propertyName);
                 OnPropertyChanged(propertyName + "IsChanged");
             }
         }
 
-        private void ValidateProperty(string propertyName, object newValue)
+        private void Validate()
         {
+            ClearErrors();
+
             var results = new List<ValidationResult>();
-            var context = new ValidationContext(this)
-            {
-                MemberName = propertyName
-            };
-            Validator.TryValidateProperty(newValue, context, results);
+            var context = new ValidationContext(this);
+            Validator.TryValidateObject(this, context, results, true);
+
             if (results.Any())
             {
-                Errors[propertyName] = results.Select(r => r.ErrorMessage).Distinct().ToList();
-                OnErrorsChanged(propertyName);
-                OnPropertyChanged(nameof(IsValid));
-            }
-            else if (Errors.ContainsKey(propertyName))
-            {
-                Errors.Remove(propertyName);
-                OnErrorsChanged(propertyName);
-                OnPropertyChanged(nameof(IsValid));
+                var propertyNames = results.SelectMany(r => r.MemberNames).Distinct().ToList();
+
+                foreach (var propertyName in propertyNames)
+                {    
+                    Errors[propertyName] = results
+                        .Where(r => r.MemberNames.Contains(propertyName))
+                        .Select(r => r.ErrorMessage)
+                        .Distinct()
+                        .ToList();
+                    OnErrorsChanged(propertyName);
+                }
             }
 
+            OnPropertyChanged(nameof(IsValid));
         }
-
-        //protected void SetComplexValue<TValue>(TValue newValue, [CallerMemberName] string propertyName = null)
-        //    where TValue : ModelWrapper<TClass>
-        //{
-        //    var propertyInfo = this.Model.GetType().GetProperty(propertyName);
-
-        //}
 
         private void UpdateOriginalValue(object currentValue, object newValue, string propertyName)
         {

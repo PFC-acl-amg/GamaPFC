@@ -90,5 +90,35 @@ namespace Gama.CommonTests.Wrapper
             wrapper.Nombre = "Algún nombre";
             Assert.True(fired);
         }
+
+        [Fact]
+        private void ShouldSetErrosAndIsValidAfterInitialization()
+        {
+            _Persona.Nombre = "";
+            var wrapper = new PersonaWrapper(_Persona);
+            Assert.False(wrapper.IsValid);
+            Assert.True(wrapper.HasErrors);
+
+            var errors = wrapper.GetErrors(nameof(wrapper.Nombre)).Cast<string>();
+            Assert.Equal(1, errors.Count());
+            Assert.Equal("El campo de nombre es obligatorio", errors.First());
+        }
+
+        [Fact]
+        private void ShouldRefreshErrorsAndIsValidWhenRejectingChanges()
+        {
+            var wrapper = new PersonaWrapper(_Persona);
+            Assert.True(wrapper.IsValid);
+            Assert.False(wrapper.HasErrors);
+
+            wrapper.Nombre = "";
+
+            Assert.False(wrapper.IsValid);
+            Assert.True(wrapper.HasErrors);
+
+            wrapper.RejectChanges();
+            Assert.True(wrapper.IsValid);
+            Assert.False(wrapper.HasErrors);
+        }
     }
 }
