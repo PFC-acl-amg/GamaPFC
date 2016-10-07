@@ -13,7 +13,7 @@ namespace Gama.Cooperacion.Business
         public virtual IList<Actividad> ActividadesEnQueParticipa { get; protected set; }
         public virtual string Apellido { get; set; }
         public virtual string Dni { get; set; }
-        public virtual IList<Email> Emails { get; protected set; }
+        public virtual IList<Email> Emails { get; set; }
         public virtual int Id { get; set; }
         public virtual string Nombre { get; set; }
         public virtual string Observaciones { get; set; }
