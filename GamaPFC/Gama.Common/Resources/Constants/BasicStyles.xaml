@@ -34,4 +34,6 @@
   <Style x:Key="EstiloLabelPredeterminado" BasedOn="{StaticResource MetroLabel}" TargetType="Label">
     <Setter Property="Margin" Value="{StaticResource Margin}"/>
   </Style>
+
+  <SolidColorBrush x:Key="IsChangedBackgroundBrush" Color="SlateBlue"/>
 </ResourceDictionary>

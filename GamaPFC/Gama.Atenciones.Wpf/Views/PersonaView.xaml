@@ -51,7 +51,8 @@ xmlns:business="clr-namespace:Gama.Atenciones.Business;assembly=Gama.Atenciones.
 
           <Label Margin="{StaticResource Margin}">Fecha de Nacimiento</Label>
           <DatePicker Margin="{StaticResource Margin}" 
-                                Text="{Binding Persona.FechaDeNacimiento, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                SelectedDate="{Binding Persona.FechaDeNacimiento, 
+            UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
                                   Converter={StaticResource _NullableValueConverter}}"
                                 Height="18"/>
 
@@ -77,7 +78,7 @@ xmlns:business="clr-namespace:Gama.Atenciones.Business;assembly=Gama.Atenciones.
 
         <StackPanel Grid.Column="1" Grid.Row="1">
           <Label Margin="{StaticResource Margin}">Email</Label>
-          <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.Email}"/>
+          <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.Email, UpdateSourceTrigger=PropertyChanged}"/>
 
           <Label Margin="{StaticResource Margin}">Nivel Académico</Label>
           <ComboBox Margin="{StaticResource Margin}" 

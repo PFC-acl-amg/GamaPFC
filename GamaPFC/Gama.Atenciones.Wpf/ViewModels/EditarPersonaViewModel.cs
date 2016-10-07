@@ -94,11 +94,14 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            var Persona = new PersonaWrapper(
+            if (Persona.Nombre != null)
+                return;
+
+            var persona = new PersonaWrapper(
                 _PersonaRepository.GetById((int)navigationContext.Parameters["Id"]));
 
-            _PersonaVM.Load(Persona);
-            RefrescarTitulo(Persona.Nombre);
+            _PersonaVM.Load(persona);
+            RefrescarTitulo(persona.Nombre);
         }
 
         private void RefrescarTitulo(string nombre)

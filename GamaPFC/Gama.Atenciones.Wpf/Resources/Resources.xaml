@@ -3,6 +3,8 @@
                     xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Resources">
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="Styles/TextBox.xaml"/>
+    <ResourceDictionary Source="Styles/CheckBox.xaml"/>
+    <ResourceDictionary Source="Styles/DatePicker.xaml"/>
   </ResourceDictionary.MergedDictionaries>
   <BitmapImage x:Key="IconoNuevaPersona" 
                    UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/icono_nueva_persona.png"/>
@@ -10,4 +12,5 @@
                    UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/icono_atenciones.png"/>
   <BitmapImage x:Key="IconoPersonas" 
                    UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/icono_personas.png"/>
+
 </ResourceDictionary>

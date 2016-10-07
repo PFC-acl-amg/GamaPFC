@@ -69,7 +69,9 @@
     <Compile Include="CustomControls\LookupItem.cs" />
     <Compile Include="CustomControls\SearchBox.cs" />
     <Compile Include="RegionNames.cs" />
-    <Compile Include="Resources\Behaviours\ChangeBehavior.cs" />
+    <Compile Include="Resources\Behaviors\ChangeBehavior.cs" />
+    <Compile Include="Resources\Behaviors\DummyClass.cs" />
+    <Compile Include="Resources\Converters\DatePickerOriginalValueConverter.cs" />
     <Compile Include="Resources\Converters\ViewToViewModelConverter.cs" />
     <Compile Include="Resources\DataTemplateSelectors\BuscadorDataTemplateSelector.cs" />
     <Page Include="Resources\Constants\Colores.xaml">
