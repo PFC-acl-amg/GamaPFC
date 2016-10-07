@@ -67,6 +67,7 @@
     <Compile Include="Wrapper\ChangeTrackingCollectionProperty.cs" />
     <Compile Include="Wrapper\ChangeTrackingComplexProperty.cs" />
     <Compile Include="Wrapper\ChangeTrackingSimpleProperty.cs" />
+    <Compile Include="Wrapper\ValidationSimpleProperty.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -79,6 +80,14 @@
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{61c764bb-5692-463a-bc70-55b6ad46b1a3}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Atenciones.Business\Gama.Atenciones.Business.csproj">
+      <Project>{5da7174d-a8d2-499d-b950-bf0533d4335d}</Project>
+      <Name>Gama.Atenciones.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Atenciones.Wpf\Gama.Atenciones.Wpf.csproj">
+      <Project>{6191cf4c-502f-44e2-8ff9-808834f31549}</Project>
+      <Name>Gama.Atenciones.Wpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gama.Cooperacion.Business\Gama.Cooperacion.Business.csproj">
       <Project>{e54a71cf-f5e1-45d4-9ed2-cdbf2b08c317}</Project>

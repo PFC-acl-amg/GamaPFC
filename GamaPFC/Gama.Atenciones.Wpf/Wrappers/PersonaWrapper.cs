@@ -2,6 +2,7 @@
 using Gama.Atenciones.Business;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -144,6 +145,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool NivelAcademicoIsChanged => GetIsChanged(nameof(NivelAcademico));
 
+        [Required(ErrorMessage = "El campo de nombre es obligatorio")]
         public string Nombre
         {
             get { return GetValue<string>(); }

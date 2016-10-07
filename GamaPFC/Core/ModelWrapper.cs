@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -85,8 +86,29 @@ namespace Core
             {
                 UpdateOriginalValue(currentValue, newValue, propertyName);
                 propertyInfo.SetValue(this.Model, newValue);
+                ValidateProperty(propertyName, newValue);
                 OnPropertyChanged(propertyName);
                 OnPropertyChanged(propertyName + "IsChanged");
+            }
+        }
+
+        private void ValidateProperty(string propertyName, object newValue)
+        {
+            var results = new List<ValidationResult>();
+            var context = new ValidationContext(this)
+            {
+                MemberName = propertyName
+            };
+            Validator.TryValidateProperty(newValue, context, results);
+            if (results.Any())
+            {
+                Errors[propertyName] = results.Select(r => r.ErrorMessage).Distinct().ToList();
+                OnErrorsChanged(propertyName);
+            }
+            else if (Errors.ContainsKey(propertyName))
+            {
+                Errors.Remove(propertyName);
+                OnErrorsChanged(propertyName);
             }
         }
 
