@@ -98,6 +98,7 @@
     <Compile Include="IViewModelBase.cs" />
     <Compile Include="ModelWrapper.cs" />
     <Compile Include="ModuleBase.cs" />
+    <Compile Include="NotifyDataErrorInfoBase.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="PaginatedCollectionView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

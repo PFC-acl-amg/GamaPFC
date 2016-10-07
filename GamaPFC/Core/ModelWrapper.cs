@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    public class ModelWrapper<T> : ObservableObject, IRevertibleChangeTracking
+    public class ModelWrapper<T> : NotifyDataErrorInfoBase, IRevertibleChangeTracking
     {
         private Dictionary<string, object> _originalValues;
         private List<IRevertibleChangeTracking> _trackingObjects;
