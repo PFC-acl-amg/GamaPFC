@@ -35,7 +35,8 @@ namespace Gama.Common.Resources.Behaviors
                 [typeof(TextBox)] = TextBox.TextProperty,
                 [typeof(CheckBox)] = ToggleButton.IsCheckedProperty,
                 [typeof(DatePicker)] = DatePicker.SelectedDateProperty,
-            };
+                [typeof(ComboBox)] = Selector.SelectedItemProperty
+        };
         }
 
         public static bool GetIsActive(DependencyObject obj)

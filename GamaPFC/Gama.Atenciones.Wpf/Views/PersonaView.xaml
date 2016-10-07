@@ -10,9 +10,6 @@ xmlns:business="clr-namespace:Gama.Atenciones.Business;assembly=Gama.Atenciones.
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="535.274" d:DesignWidth="318.493">
-  <UserControl.Resources>
-    <util:NullableValueConverter x:Key="_NullableValueConverter"/>
-  </UserControl.Resources>
   <GroupBox Header="Datos Personales" IsHitTestVisible="{Binding EdicionHabilitada}">
     <ScrollViewer>
       <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden">
