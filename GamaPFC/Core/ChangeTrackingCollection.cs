@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    public class ChangeTrackingCollection<T> : ObservableCollection<T>, IRevertibleChangeTracking
-        where T : class, IRevertibleChangeTracking, INotifyPropertyChanged
+    public class ChangeTrackingCollection<T> : ObservableCollection<T>, IValidatableTrackingObject
+        where T : class, IValidatableTrackingObject
     {
         private IList<T> _originalCollection;
 
@@ -42,6 +42,14 @@ namespace Core
         public bool IsChanged => AddedItems.Count > 0
                                 || RemovedItems.Count > 0
                                 || ModifiedItems.Count > 0;
+
+        public bool IsValid
+        {
+            get
+            {
+                return true;
+            }
+        }
 
         public void AcceptChanges()
         {

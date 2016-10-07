@@ -67,6 +67,7 @@
     <Compile Include="Wrapper\ChangeTrackingCollectionProperty.cs" />
     <Compile Include="Wrapper\ChangeTrackingComplexProperty.cs" />
     <Compile Include="Wrapper\ChangeTrackingSimpleProperty.cs" />
+    <Compile Include="Wrapper\ValidationComplexProperty.cs" />
     <Compile Include="Wrapper\ValidationSimpleProperty.cs" />
   </ItemGroup>
   <ItemGroup>

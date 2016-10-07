@@ -20,5 +20,10 @@ namespace Gama.Atenciones.Business
         public virtual string Externa { get; set; }
 
         public virtual Atencion Atencion { get; set; }
+
+        public Derivacion()
+        {
+            Tipo = "";
+        }
     }
 }

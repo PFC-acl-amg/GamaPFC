@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    public class ModelWrapper<T> : NotifyDataErrorInfoBase, IRevertibleChangeTracking
+    public class ModelWrapper<T> : NotifyDataErrorInfoBase, IValidatableTrackingObject
     {
         private Dictionary<string, object> _originalValues;
-        private List<IRevertibleChangeTracking> _trackingObjects;
+        private List<IValidatableTrackingObject> _trackingObjects;
 
         public ModelWrapper(T model)
         {
@@ -23,7 +23,7 @@ namespace Core
 
             this.Model = model;
             _originalValues = new Dictionary<string, object>();
-            _trackingObjects = new List<IRevertibleChangeTracking>();
+            _trackingObjects = new List<IValidatableTrackingObject>();
 
             Validate();
         }
@@ -32,7 +32,7 @@ namespace Core
 
         public virtual bool IsChanged => _originalValues.Count > 0 || _trackingObjects.Any(to => to.IsChanged);
 
-        public bool IsValid => !HasErrors;
+        public bool IsValid => !HasErrors && _trackingObjects.All(t => t.IsValid);
 
         public virtual void AcceptChanges()
         {
@@ -156,8 +156,7 @@ namespace Core
             RegisterTrackingObject(wrapper);
         }
 
-        private void RegisterTrackingObject<TTrackingObject>(TTrackingObject trackingObject)
-            where TTrackingObject : IRevertibleChangeTracking, INotifyPropertyChanged
+        private void RegisterTrackingObject(IValidatableTrackingObject trackingObject)
         {
             if (!_trackingObjects.Contains(trackingObject))
             {
@@ -171,6 +170,10 @@ namespace Core
             if (e.PropertyName == nameof(IsChanged))
             {
                 OnPropertyChanged(nameof(IsChanged));
+            }
+            else if (e.PropertyName == nameof(IsValid)) 
+            {
+                OnPropertyChanged(nameof(IsValid));
             }
         }
     }

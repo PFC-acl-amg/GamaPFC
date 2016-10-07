@@ -2,6 +2,7 @@
 using Gama.Atenciones.Business;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
             set { SetValue(value); }
         }
 
+        [Required(AllowEmptyStrings = true, ErrorMessage = "El campo de tipo es obligatorio")]
         public string Tipo
         {
             get { return GetValue<string>(); }
