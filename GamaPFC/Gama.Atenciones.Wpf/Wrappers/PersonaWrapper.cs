@@ -13,7 +13,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
     {
         public PersonaWrapper(Persona model) : base(model)
         {
-            InitializeCollectionProperties(model);
+
         }
 
         protected override void InitializeCollectionProperties(Persona model)
@@ -145,7 +145,6 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool NivelAcademicoIsChanged => GetIsChanged(nameof(NivelAcademico));
 
-        [Required(ErrorMessage = "El campo de nombre es obligatorio")]
         public string Nombre
         {
             get { return GetValue<string>(); }
@@ -223,5 +222,14 @@ namespace Gama.Atenciones.Wpf.Wrappers
         public bool ViaDeAccesoAGamaIsChanged => GetIsChanged(nameof(ViaDeAccesoAGama));
 
         public ChangeTrackingCollection<CitaWrapper> Citas { get; private set; }
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (string.IsNullOrWhiteSpace(Nombre))
+            {
+                yield return new ValidationResult("El campo de nombre es obligatorio",
+                    new[] { nameof(Nombre) });
+            }
+        }
     }
 }

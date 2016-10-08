@@ -12,7 +12,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
     {
         public AtencionWrapper(Atencion model) : base(model)
         {
-            InitializeComplexProperties(model);
+
         }
 
         protected override void InitializeComplexProperties(Atencion model)

@@ -12,7 +12,6 @@ namespace Gama.Cooperacion.Wpf.Wrappers
     {
         public CooperanteWrapper(Cooperante model) : base (model)
         {
-            InitializeCollectionProperties(model);
         }
 
         protected override void InitializeCollectionProperties(Cooperante model)

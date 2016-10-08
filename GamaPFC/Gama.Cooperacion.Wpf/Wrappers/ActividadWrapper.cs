@@ -13,8 +13,6 @@ namespace Gama.Cooperacion.Wpf.Wrappers
     {
         public ActividadWrapper(Actividad model) : base(model)
         {
-            InitializeComplexProperties(model);
-            InitializeCollectionProperties(model);
         }
 
         protected override void InitializeCollectionProperties(Actividad model)
@@ -131,8 +129,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         public bool TituloIsChanged => GetIsChanged(nameof(Titulo));
 
         private CooperanteWrapper _Coordinador;
-
-        [Required(ErrorMessage = "La actividad debe tener un coordinador")]
+        
         public CooperanteWrapper Coordinador
         {
             get { return _Coordinador; } 
@@ -181,6 +178,15 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         public ChangeTrackingCollection<CooperanteWrapper> Cooperantes { get; private set; }
         public ChangeTrackingCollection<TareaWrapper> Tareas { get; private set; }
         public ChangeTrackingCollection<ForoWrapper> Foros { get; private set; }
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (Coordinador == null || Coordinador.Id == 0)
+            {
+                yield return new ValidationResult("La actividad debe tener un coordinador",
+                    new[] {nameof(Coordinador) });
+            }
+        }
     }
 }
  

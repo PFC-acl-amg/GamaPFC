@@ -22,7 +22,6 @@ namespace Gama.Atenciones.Wpf.Wrappers
             set { SetValue(value); }
         }
 
-        [Required(AllowEmptyStrings = true, ErrorMessage = "El campo de tipo es obligatorio")]
         public string Tipo
         {
             get { return GetValue<string>(); }
@@ -92,5 +91,14 @@ namespace Gama.Atenciones.Wpf.Wrappers
         public bool EsExternaOriginalValue => GetOriginalValue<bool>(nameof(EsExterna));
 
         public bool EsExternaIsChanged => GetIsChanged(nameof(EsExterna));
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (string.IsNullOrWhiteSpace(Tipo))
+            {
+                yield return new ValidationResult("El campo de tipo es obligatorio",
+                    new[] { nameof(Tipo) });
+            }
+        }
     }
 }

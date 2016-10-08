@@ -23,7 +23,7 @@ namespace Gama.Atenciones.Business
 
         public Derivacion()
         {
-            Tipo = "";
+            Tipo = "Tipo base";
         }
     }
 }
