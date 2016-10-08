@@ -15,7 +15,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             InitializeCollectionProperties(model);
         }
 
-        private void InitializeCollectionProperties(Cooperante model)
+        protected override void InitializeCollectionProperties(Cooperante model)
         {
             if (model.Emails == null)
                 throw new ArgumentNullException("Emails");

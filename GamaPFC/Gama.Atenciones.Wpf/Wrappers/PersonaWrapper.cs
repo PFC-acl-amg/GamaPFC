@@ -16,7 +16,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
             InitializeCollectionProperties(model);
         }
 
-        private void InitializeCollectionProperties(Persona model)
+        protected override void InitializeCollectionProperties(Persona model)
         {
             if (model.Citas == null)
             {

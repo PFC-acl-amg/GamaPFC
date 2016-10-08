@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    public class ModelWrapper<T> : NotifyDataErrorInfoBase, IValidatableTrackingObject
+    public class ModelWrapper<T> : NotifyDataErrorInfoBase, IValidatableTrackingObject, IValidatableObject
     {
         private Dictionary<string, object> _originalValues;
         private List<IValidatableTrackingObject> _trackingObjects;
@@ -24,8 +24,17 @@ namespace Core
             this.Model = model;
             _originalValues = new Dictionary<string, object>();
             _trackingObjects = new List<IValidatableTrackingObject>();
-
+            InitializeComplexProperties(model);
+            InitializeCollectionProperties(model);
             Validate();
+        }
+
+        protected virtual void InitializeCollectionProperties(T model)
+        {
+        }
+
+        protected virtual void InitializeComplexProperties(T model)
+        {
         }
 
         public T Model { get; private set; }
@@ -141,12 +150,14 @@ namespace Core
             ChangeTrackingCollection<TWrapper> wrapperCollection,
             IList<TModel> modelCollection) where TWrapper : ModelWrapper<TModel>
         {
-            wrapperCollection.CollectionChanged += (s, e) => {
+            wrapperCollection.CollectionChanged += (s, e) => 
+            {
                 modelCollection.Clear();
                 foreach (var wrapper in wrapperCollection)
                 {
                     modelCollection.Add(wrapper.Model);
                 }
+                Validate();
             };
             RegisterTrackingObject(wrapperCollection);
         }
@@ -175,6 +186,11 @@ namespace Core
             {
                 OnPropertyChanged(nameof(IsValid));
             }
+        }
+
+        public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            yield break;
         }
     }
 }

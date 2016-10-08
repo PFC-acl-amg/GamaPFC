@@ -15,7 +15,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
             InitializeComplexProperties(model);
         }
 
-        private void InitializeComplexProperties(Atencion model)
+        protected override void InitializeComplexProperties(Atencion model)
         {
             if (model.DerivacionesPropuestas == null)
                 throw new ArgumentNullException("DerivacionesPropuestas");
