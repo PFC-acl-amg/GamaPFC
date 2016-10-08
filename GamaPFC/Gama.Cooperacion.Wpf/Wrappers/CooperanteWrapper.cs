@@ -84,6 +84,11 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         // Propiedad del Wrapper únicamente
         public string NombreCompleto => string.Format("{0} {1}", Nombre, Apellido);
 
+        public override string ToString()
+        {
+            return NombreCompleto;
+        }
+
         public ChangeTrackingCollection<EmailWrapper> Emails { get; private set; }
         public ChangeTrackingCollection<TelefonoWrapper> Telefonos { get; private set; }
     }

@@ -169,6 +169,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
                 else
                 {
                     CoordinadorIsChanged = true;
+                    
                 }
             }
         }
@@ -181,6 +182,18 @@ namespace Gama.Cooperacion.Wpf.Wrappers
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            if (string.IsNullOrWhiteSpace(Titulo))
+            {
+                yield return new ValidationResult("El campo de título es obligatorio",
+                    new[] { nameof(Titulo) });
+            }
+
+            if (string.IsNullOrWhiteSpace(Descripcion))
+            {
+                yield return new ValidationResult("El campo de descripción es obligatorio",
+                    new[] { nameof(Descripcion) });
+            }
+
             if (Coordinador == null || Coordinador.Id == 0)
             {
                 yield return new ValidationResult("La actividad debe tener un coordinador",

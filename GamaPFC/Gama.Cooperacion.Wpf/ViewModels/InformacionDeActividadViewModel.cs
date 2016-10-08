@@ -42,7 +42,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _MensajeDeEspera = new List<string>() { "Espera por favor..." };
             _EdicionHabilitada = true;
 
-            Actividad = new ActividadWrapper(new Actividad());
+            Actividad = new ActividadWrapper(new Actividad() { Titulo = "", Descripcion = "" });
 
             CooperantesDisponibles = new ObservableCollection<CooperanteWrapper>(
                 _CooperanteRepository.GetAll().Select(c => new CooperanteWrapper(c)));

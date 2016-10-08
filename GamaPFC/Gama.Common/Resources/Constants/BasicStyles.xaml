@@ -36,5 +36,5 @@
     <Setter Property="Margin" Value="{StaticResource Margin}"/>
   </Style>
 
-  <SolidColorBrush x:Key="IsChangedBackgroundBrush" Color="SlateBlue"/>
+  <SolidColorBrush x:Key="IsChangedBackgroundBrush" Color="#D18C7DE7"/>
 </ResourceDictionary>
