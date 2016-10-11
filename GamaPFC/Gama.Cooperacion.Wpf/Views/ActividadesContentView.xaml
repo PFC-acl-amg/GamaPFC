@@ -7,7 +7,6 @@
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:common="clr-namespace:Gama.Common;assembly=Gama.Common"
-             xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
              prism:ViewModelLocator.AutoWireViewModel="True"
@@ -19,7 +18,6 @@
         <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Emerald.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"/>-->
         <!--<ResourceDictionary>-->
-          <converters:ActividadViewToViewModelConverter x:Key="ActividadViewToViewModelConverter"/>
           <Style TargetType="metro:MetroTabItem">
             <Setter Property="Header" Value="{Binding DataContext.Title, UpdateSourceTrigger=PropertyChanged}"/>
             <Setter Property="metro:ControlsHelper.HeaderFontSize" Value="14"/>
@@ -65,10 +63,7 @@
   </UserControl.Resources>
   <StackPanel>
     <metro:MetroAnimatedSingleRowTabControl
-    prism:RegionManager.RegionName="{x:Static common:RegionNames.ActividadesTabContentRegion}"
-    SelectedItem="{Binding SelectedViewModel, 
-                  Mode=OneWayToSource, 
-                  Converter={StaticResource ActividadViewToViewModelConverter}}">
+    prism:RegionManager.RegionName="{x:Static common:RegionNames.ActividadesTabContentRegion}">
     </metro:MetroAnimatedSingleRowTabControl>
   </StackPanel>
 </UserControl>

@@ -15,7 +15,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             InitializeCollectionProperties(model); // Para poder inicilizar la lista mensajes que tiene el foro
         }
 
-        private void InitializeCollectionProperties(Foro model)
+        protected override void InitializeCollectionProperties(Foro model)
         {
             if (model.Mensajes == null)
             {

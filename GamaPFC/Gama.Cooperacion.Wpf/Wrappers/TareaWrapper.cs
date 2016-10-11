@@ -15,7 +15,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             InitializeComplexProperties(model);
             InitializeCollectionProperties(model);
         }
-        private void InitializeCollectionProperties(Tarea model)
+        protected override void InitializeCollectionProperties(Tarea model)
         {
             if (model.Historial == null)
             {
@@ -33,7 +33,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
                 (model.Historial.Select(t => new SeguimientoWrapper(t)));
             this.RegisterCollection(this.Historial, model.Historial);
         }
-        private void InitializeComplexProperties(Tarea model)
+        protected override void InitializeComplexProperties(Tarea model)
         {
             if (model.Responsable == null)
             {
