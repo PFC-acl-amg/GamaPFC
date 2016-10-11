@@ -41,12 +41,13 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             }
 
             this.Responsable = new CooperanteWrapper(model.Responsable);
-            if (model.Actividad == null)
-            {
-                throw new ArgumentNullException("Actividad");
-            }
+            //if (model.Actividad == null)
+            //{
+            //    throw new ArgumentNullException("Actividad");
+            //}
 
-            this.Actividad = new ActividadWrapper(model.Actividad);
+            //this.Actividad = new ActividadWrapper(model.Actividad);
+            // Hasta aqui lo comento yo.
             //RegisterComplex(this.Responsable);
         }
         public int Id

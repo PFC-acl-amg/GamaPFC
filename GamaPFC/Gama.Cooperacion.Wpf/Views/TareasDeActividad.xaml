@@ -52,7 +52,7 @@
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <ListBox x:Name="Eventosss" Grid.Row="0"
-                     ItemsSource="{Binding EventosDisponible}" HorizontalContentAlignment="Left">
+                     ItemsSource="{Binding Eventos}" HorizontalContentAlignment="Left">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid >
@@ -61,7 +61,7 @@
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" Content="{Binding FechaPublicado}"  />
+                                <Label Grid.Column="0" Content="{Binding FechaDePublicacion}"  />
                                 <Label Grid.Column="1" Content="{Binding EventoSucedido}" />
                                 <Label Grid.Column="2" Content="{Binding Titulo}" />
                             </Grid>
@@ -95,8 +95,8 @@
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
                             <!--<TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding TituloForo}" />-->
-                            <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding FechaForo}" />
-                            <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding TituloForo}" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding FechaDePublicacion}" />
+                            <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Titulo}" HorizontalAlignment="Center" />
                             <TextBlock Grid.Column="3" Text="{Binding ForoVisible}" />
                             <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="0" >
                                 <Label Background="AliceBlue" Content="5" />
@@ -117,7 +117,7 @@
                                                     <ColumnDefinition />
                                                     <ColumnDefinition Width="auto"/>
                                                 </Grid.ColumnDefinitions>
-                                                <Label Grid.Column="0" Content="{Binding FechaPublicado}"  />
+                                                <Label Grid.Column="0" Content="{Binding FechaDePublicacion}"  />
                                                 <Label Grid.Column="1" Content="{Binding Titulo}" />
                                             </Grid>
                                         </DataTemplate>

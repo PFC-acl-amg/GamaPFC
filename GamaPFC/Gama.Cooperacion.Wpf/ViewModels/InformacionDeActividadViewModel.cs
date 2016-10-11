@@ -198,7 +198,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             CooperantePreviamenteSeleccionado = null;
 
             CooperantesDisponibles.Remove(coordinadorSeleccionado);
-            ((DelegateCommand)QuitarCoordinadorCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)QuitarCoordinadorCommand).RaiseCanExecuteChanged(); // Para que es
         }
 
         private bool OnNuevoCooperanteCommand_CanExecute()

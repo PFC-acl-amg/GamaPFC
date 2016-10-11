@@ -34,14 +34,14 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
             EventosDisponibles = new List<EventoWrapper>(eventosDisponibles.Select(e => new EventoWrapper(e)));
 
             ForosDisponibles = new ObservableCollection<ForoWrapper>();
-            ForosDisponibles.Add(new ForoWrapper(new Foro() { TituloForo = "Hola caracola", FechaForo = new DateTime(2008, 8, 29, 19, 27, 15) }) { ForoVisible = false });
-            ForosDisponibles.Add(new ForoWrapper(new Foro() { TituloForo = "Hola perito" , FechaForo = new DateTime(2008, 8, 29, 19, 27, 15) }) { ForoVisible = true });
+            ForosDisponibles.Add(new ForoWrapper(new Foro() { Titulo = "Hola caracola", FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15) }) { ForoVisible = false });
+            ForosDisponibles.Add(new ForoWrapper(new Foro() { Titulo = "Hola perito" , FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15) }) { ForoVisible = true });
             ForosDisponibles.Add(
                 new ForoWrapper(
                     new Foro()
                     {
-                        TituloForo = "Hola cagao",
-                        FechaForo = new DateTime(2008, 8, 29, 19, 27, 15)
+                        Titulo = "Hola cagao",
+                        FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15)
                     })
                 {
                     ForoVisible = true,

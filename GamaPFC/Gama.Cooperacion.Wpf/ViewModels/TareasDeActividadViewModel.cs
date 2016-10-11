@@ -1,5 +1,6 @@
 ﻿using Core;
 using Gama.Cooperacion.Business;
+using Gama.Cooperacion.Wpf.Services;
 using Gama.Cooperacion.Wpf.Wrappers;
 using Prism.Commands;
 using Remotion.Linq.Collections;
@@ -42,9 +43,29 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             EventosDisponible.Add(new Evento() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Crear los ViewModels", Ocurrencia = Ocurrencia.Mensaje_Publicado });
             IsVisibleMensaje = false;
             ForosDisponibles = new ObservableCollection<ForoWrapper>();
-            ForosDisponibles.Add(new ForoWrapper(new Foro() { TituloForo = "Hola caracola", FechaForo = new DateTime(2008, 8, 29, 19, 27, 15) }) { ForoVisible = false });
-            ForosDisponibles.Add(new ForoWrapper(new Foro() { TituloForo = "Hola perito" , FechaForo = new DateTime(2008, 8, 29, 19, 27, 15) }) { ForoVisible = true });
-            ForosDisponibles.Add(new ForoWrapper(new Foro() { TituloForo = "Hola cagao", FechaForo = new DateTime(2008, 8, 29, 19, 27, 15) }) { ForoVisible = false });
+            ForosDisponibles.Add(new ForoWrapper(new Foro() { Titulo = "Hola caracola", FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15) }) { ForoVisible = false });
+            ForosDisponibles.Add(new ForoWrapper(new Foro() { Titulo = "Hola perito" , FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15) }) { ForoVisible = true });
+            ForosDisponibles.Add(new ForoWrapper(new Foro() { Titulo = "Hola cagao", FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15) }) { ForoVisible = false });
+            var eventosDisponibles = new List<Evento>();
+            eventosDisponibles.Add(new Evento() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Crear las vistas Tarea", Ocurrencia = Ocurrencia.Mensaje_Publicado });
+            eventosDisponibles.Add(new Evento() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Hola a todos bienvenidos", Ocurrencia = Ocurrencia.Mensaje_Publicado });
+            eventosDisponibles.Add(new Evento() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Crear los ViewModels", Ocurrencia = Ocurrencia.Mensaje_Publicado });
+            IsVisibleMensaje = false;
+
+            EventosDisponibles = new List<EventoWrapper>(eventosDisponibles.Select(e => new EventoWrapper(e)));
+            ForosDisponibles.Add(
+                new ForoWrapper(
+                    new Foro()
+                    {
+                        Titulo = "Hola cagao",
+                        FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15)
+                    })
+                {
+                    ForoVisible = true,
+                    Eventos = new ChangeTrackingCollection<EventoWrapper>(EventosDisponibles)
+                });
+
+
         }
 
         private bool OnCrearForoCommand_CanExecute()
@@ -87,6 +108,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             }
         }
+
+        public List<EventoWrapper> EventosDisponibles { get; private set; }
+
         // Necesario para trabajar con observableCollection.
         //public static Tarea GetTarea()
         //{

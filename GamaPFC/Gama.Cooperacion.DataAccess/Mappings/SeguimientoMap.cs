@@ -8,21 +8,15 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.DataAccess.Mappings
 {
-    public class EventoMap : ClassMap<Evento>
+    public class SeguimientoMap : ClassMap<Seguimiento>
     {
-        public EventoMap()
+        public SeguimientoMap()
         {
-            Table("Eventos");
+            Table("Seguimientos");
             Id(x => x.Id).GeneratedBy.Identity();
-
-            Map(x => x.Titulo).Not.Nullable();
+            Map(x => x.Descripcion).Not.Nullable();
             Map(x => x.FechaDePublicacion).Not.Nullable();
-            Map(x => x.Ocurrencia).Not.Nullable();
-            Map(x => x.CreatedAt);
-            Map(x => x.UpdatedAt);
-
-            References(x => x.Actividad)
-                .LazyLoad();
         }
+        
     }
 }

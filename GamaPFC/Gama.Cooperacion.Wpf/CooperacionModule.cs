@@ -23,7 +23,7 @@ namespace Gama.Cooperacion.Wpf
            : base(container, regionManager)
         {
             this.Entorno = Entorno.Desarrollo;
-            this.UseFaker = false;
+            this.UseFaker = true; // A falso no entra en el if this.UseFaker y no crea nada mas
         }
 
         public override void Initialize()
@@ -38,25 +38,55 @@ namespace Gama.Cooperacion.Wpf
 
             if (this.UseFaker)
             {
-                //var cooperantesDummy = new FakeCooperanteRepository().GetAll();
-
-                //foreach (var cooperante in cooperantesDummy)
-                //{
-                //    cooperanteRepository.Create(cooperante);
-                //}
-
+                var cooperantesDummy = new FakeCooperanteRepository().GetAll();
                 var cooperanteRepository = Container.Resolve<ICooperanteRepository>();
                 var actividadRepository = Container.Resolve<IActividadRepository>();
+                var eventoRepository = Container.Resolve<IEventoRepository>();
+                //var eventoRepository = new FakeEventoRepository().GetAll();    // Creando eventos no BBDD
+                //var eventoRepository = new FakeEventoRepository().GetAll(); // Crea una lista con todos los eventos disponibles en la BBDD
                 var session = Container.Resolve<ISession>();
+
                 actividadRepository.Session = session;
                 cooperanteRepository.Session = session;
+                eventoRepository.Session = session;
+
+                foreach (var cooperante in cooperantesDummy)
+                {
+                    cooperanteRepository.Create(cooperante);
+                }
+
+                //var cooperanteRepository = Container.Resolve<ICooperanteRepository>();
+                //var actividadRepository = Container.Resolve<IActividadRepository>();
+                //var session = Container.Resolve<ISession>();
+                //actividadRepository.Session = session;
+                //cooperanteRepository.Session = session;
 
                 var coordinador = cooperanteRepository.GetById(1);
                 var actividadesFake = new FakeActividadRepository().GetAll();
 
-                foreach (var actividad in actividadesFake)
+                foreach (var actividad in actividadesFake.Take(1))
                 {
+                    var eventosFake = new FakeEventoRepository().GetAll();
+                    var tareaFake = new FakeTareaRepository().GetAll();
+                    foreach(var tarea in tareaFake)
+                    {
+                        var seguimientoFake = new FakeSeguimientoRepository().GetAll();
+                        int j = 0;
+                        int k = 0;
+                        foreach (var seguimiento in seguimientoFake)
+                        {
+                            tarea.Historial.Insert(j, seguimiento);
+                            j++;
+                        }
+                        actividad.Tareas.Insert(k, tarea);
+                        k++;
+                    }
                     actividad.Coordinador = coordinador;
+                    
+                    foreach (var InsertandoEvento in eventosFake)
+                    {
+                        actividad.AddEvento(InsertandoEvento);
+                    }
                     actividadRepository.Create(actividad);
                 }
             }
@@ -108,6 +138,9 @@ namespace Gama.Cooperacion.Wpf
             //Container.RegisterInstance(typeof(IActividadRepository),
             //    new ActividadRepository(Container.Resolve<ISessionHelper>()));
             Container.RegisterType<ICooperanteRepository, CooperanteRepository>();
+
+            // Añido para eventos
+            Container.RegisterType<IEventoRepository, EventoRepository>();
 
             Container.RegisterInstance<ICooperacionSettings>(
                 new CooperacionSettings());

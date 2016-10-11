@@ -8,21 +8,18 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.DataAccess.Mappings
 {
-    public class EventoMap : ClassMap<Evento>
+    public class ForoMap : ClassMap<Foro>
     {
-        public EventoMap()
+        public ForoMap()
         {
-            Table("Eventos");
+            Table("Foros");
             Id(x => x.Id).GeneratedBy.Identity();
 
             Map(x => x.Titulo).Not.Nullable();
             Map(x => x.FechaDePublicacion).Not.Nullable();
-            Map(x => x.Ocurrencia).Not.Nullable();
-            Map(x => x.CreatedAt);
-            Map(x => x.UpdatedAt);
 
-            References(x => x.Actividad)
-                .LazyLoad();
+            HasMany(x => x.Mensajes)
+               .Inverse();
         }
     }
 }

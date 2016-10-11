@@ -12,12 +12,12 @@ namespace Gama.Cooperacion.Business
         Mensaje_Publicado,
         Tarea_Finalizada,
     }
-    public class Evento
+    public class Evento : TimestampedModel
     {
-        // public virtual Actividad Actividad { get; set; }
         public virtual int Id { get; set; }
         public virtual string Titulo { get; set; }
         public virtual DateTime FechaDePublicacion { get; set; }
         public virtual Ocurrencia Ocurrencia { get; set; }
+        public virtual Actividad Actividad { get; set;}
     }
 }

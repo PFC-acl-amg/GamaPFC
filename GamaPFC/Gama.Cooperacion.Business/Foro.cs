@@ -9,8 +9,8 @@ namespace Gama.Cooperacion.Business
     public class Foro
     {
         public virtual int Id { get; set; }
-        public virtual string TituloForo { get; set; }
-        public virtual DateTime FechaForo { get; set; }
+        public virtual string Titulo { get; set; }
+        public virtual DateTime FechaDePublicacion { get; set; }
         public virtual IList<Mensaje> Mensajes { get; set; } // esto me obliga a implementar el constructor 1
 
         public Foro() // 1=> cuando se crea un foro se iniciciliza la lista Mensaje
