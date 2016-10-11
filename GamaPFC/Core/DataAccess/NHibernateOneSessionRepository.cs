@@ -1,4 +1,5 @@
 ﻿using NHibernate;
+using NHibernate.Criterion;
 using NHibernate.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -96,7 +97,7 @@ namespace Core.DataAccess
             catch (NHibernate.Exceptions.GenericADOException e)
             {
                 var message = e.Message;
-                return false;
+                throw e;
             }
         }
 
@@ -117,6 +118,21 @@ namespace Core.DataAccess
                 var message = ex.Message;
                 if (message.StartsWith("object references an unsaved transient instance"))
                     return;
+            }
+        }
+
+        public int CountAll()
+        {
+            try {
+                int result = 0;
+                result = _session.QueryOver<TEntity>()
+                    .Select(Projections.RowCount())
+                    .FutureValue<int>().Value;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

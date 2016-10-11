@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    public class ChangeTrackingCollection<T> : ObservableCollection<T>, IRevertibleChangeTracking
-        where T : class, IRevertibleChangeTracking, INotifyPropertyChanged
+    public class ChangeTrackingCollection<T> : ObservableCollection<T>, IValidatableTrackingObject
+        where T : class, IValidatableTrackingObject
     {
         private IList<T> _originalCollection;
 
@@ -42,6 +42,8 @@ namespace Core
         public bool IsChanged => AddedItems.Count > 0
                                 || RemovedItems.Count > 0
                                 || ModifiedItems.Count > 0;
+
+        public bool IsValid => this.All(t => t.IsValid);
 
         public void AcceptChanges()
         {
@@ -82,32 +84,40 @@ namespace Core
 
             base.OnCollectionChanged(e);
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsChanged)));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsValid)));
         }
 
         private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var item = (T)sender;
-            if (_addedItems.Contains(item))
+            if (e.PropertyName == nameof(IsValid))
             {
-                return;
-            }
-
-            if (item.IsChanged)
-            {
-                if (!_modifiedItems.Contains(item))
-                {
-                    _modifiedItems.Add(item);
-                }
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsValid)));
             }
             else
             {
-                if (_modifiedItems.Contains(item))
+                var item = (T)sender;
+                if (_addedItems.Contains(item))
                 {
-                    _modifiedItems.Remove(item);
+                    return;
                 }
-            }
 
-            OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsChanged)));
+                if (item.IsChanged)
+                {
+                    if (!_modifiedItems.Contains(item))
+                    {
+                        _modifiedItems.Add(item);
+                    }
+                }
+                else
+                {
+                    if (_modifiedItems.Contains(item))
+                    {
+                        _modifiedItems.Remove(item);
+                    }
+                }
+
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsChanged)));
+            }
         }
 
         private void AttachItemPropertyChangedHandler(IEnumerable<T> items)

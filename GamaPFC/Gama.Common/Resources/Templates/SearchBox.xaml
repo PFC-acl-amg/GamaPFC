@@ -102,13 +102,13 @@
               </Grid.ColumnDefinitions>
               <ScrollViewer x:Name="PART_ContentHost" Grid.Column="0" />
               <Label x:Name="LabelText"
-                                   Grid.Column="0"
-                                   Foreground="{Binding RelativeSource={RelativeSource TemplatedParent},
-                                                        Path=LabelTextColor}"
-                                   Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=LabelText}"
-                                   Padding="2,0,0,0"
-                                   FontStyle="Italic" />
-              <Border x:Name="PART_SearchIconBorder"
+                              Grid.Column="0"
+                              Foreground="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                                  Path=LabelTextColor}"
+                              Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=LabelText}"
+                              Padding="2,0,0,0"
+                              FontStyle="Italic" />
+              <!--<Border x:Name="PART_SearchIconBorder"
                                   Grid.Column="1"
                                   BorderThickness="1"
                                   Padding="1"
@@ -126,7 +126,7 @@
                     <VisualBrush Visual="{StaticResource appbar_page_search}" />
                   </Rectangle.Fill>
                 </Rectangle>
-                <!--<Image x:Name="SearchIcon"
+                --><!--<Image x:Name="SearchIcon"
                             Stretch="None"
                             Width="20"
                             Height="20"
@@ -134,8 +134,8 @@
                             VerticalAlignment="Center"
                             Source="{StaticResource appbar_page_search}">
                   
-                </Image>-->
-              </Border>
+                </Image>--><!--
+              </Border>-->
               <Popup x:Name="PART_Popup" StaysOpen="False" IsOpen="False">
                 <ListBox x:Name="PART_ListBox" 
                   HorizontalContentAlignment="Stretch"
@@ -153,7 +153,7 @@
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
               <Setter Property="BorderBrush" Value="{StaticResource SearchTextBox_BorderMouseOver}" />
             </Trigger>
-            <MultiTrigger>
+            <!--<MultiTrigger>
               <MultiTrigger.Conditions>
                 <Condition Property="HasText" Value="True" />
                 <Condition Property="SearchMode" Value="Instant" />
@@ -164,8 +164,8 @@
                   <VisualBrush Visual="{StaticResource appbar_close}" />
                 </Setter.Value>
               </Setter>
-            </MultiTrigger>
-            <MultiTrigger>
+            </MultiTrigger>-->
+            <!--<MultiTrigger>
               <MultiTrigger.Conditions>
                 <Condition Property="IsMouseOver" SourceName="PART_SearchIconBorder" Value="True" />
                 <Condition Property="HasText" Value="True" />
@@ -176,8 +176,8 @@
               <Setter Property="Background"
                                 TargetName="PART_SearchIconBorder"
                                 Value="{StaticResource SearchTextBox_SearchIconBackground_MouseOver}" />
-            </MultiTrigger>
-            <MultiTrigger>
+            </MultiTrigger>-->
+            <!--<MultiTrigger>
               <MultiTrigger.Conditions>
                 <Condition Property="IsMouseOver" SourceName="PART_SearchIconBorder" Value="True" />
                 <Condition Property="HasText" Value="True" />
@@ -204,7 +204,7 @@
               <Setter Property="Background"
                                 TargetName="PART_SearchIconBorder"
                                 Value="{StaticResource SearchTextBox_SearchIconBackground_MouseDown}" />
-            </MultiTrigger>
+            </MultiTrigger>-->
           </ControlTemplate.Triggers>
         </ControlTemplate>
       </Setter.Value>

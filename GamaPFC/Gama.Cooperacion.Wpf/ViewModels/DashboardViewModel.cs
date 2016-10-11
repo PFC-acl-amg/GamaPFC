@@ -1,4 +1,4 @@
-﻿using Core;
+﻿    using Core;
 using Gama.Common.CustomControls;
 using Gama.Cooperacion.Business;
 using Gama.Cooperacion.Wpf.Eventos;

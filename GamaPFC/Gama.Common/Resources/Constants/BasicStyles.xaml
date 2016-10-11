@@ -1,11 +1,15 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml" />
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Label.xaml" />
   </ResourceDictionary.MergedDictionaries>
 
+  <sys:Double x:Key="NavigationIconSize">40</sys:Double>
+
+  <Thickness x:Key="MarginHalf">2</Thickness>
   <Thickness x:Key="Margin">4,4,4,4</Thickness>
   <Thickness x:Key="MarginDouble">8,8,8,8</Thickness>
   <Thickness x:Key="MarginNoLeft">0,4,4,4</Thickness>
@@ -31,4 +35,6 @@
   <Style x:Key="EstiloLabelPredeterminado" BasedOn="{StaticResource MetroLabel}" TargetType="Label">
     <Setter Property="Margin" Value="{StaticResource Margin}"/>
   </Style>
+
+  <SolidColorBrush x:Key="IsChangedBackgroundBrush" Color="#D18C7DE7"/>
 </ResourceDictionary>

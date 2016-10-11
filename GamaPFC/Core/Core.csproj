@@ -35,7 +35,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
+      <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -55,9 +55,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHibernate.4.0.0.4000\lib\net40\NHibernate.dll</HintPath>
+      <HintPath>..\packages\NHibernate.4.0.4.4000\lib\net40\NHibernate.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Prism, Version=6.2.0.0, Culture=neutral, PublicKeyToken=91a96d2a154366d8, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.6.2.0\lib\net45\Prism.dll</HintPath>
@@ -72,6 +73,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows" />
@@ -79,6 +81,7 @@
       <HintPath>..\packages\Prism.Wpf.6.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -89,27 +92,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangeTrackingCollection.cs" />
+    <Compile Include="DataAccess\INHibernateSessionFactory.cs" />
     <Compile Include="DataAccess\ISessionHelper.cs" />
     <Compile Include="DataAccess\NHibernateOneSessionRepository.cs" />
     <Compile Include="DataAccess\NHibernateRepository.cs" />
-    <Compile Include="DataAccess\SessionHelper.cs" />
+    <Compile Include="IValidatableTrackingObject.cs" />
     <Compile Include="IViewModelBase.cs" />
     <Compile Include="ModelWrapper.cs" />
     <Compile Include="ModuleBase.cs" />
+    <Compile Include="NotifyDataErrorInfoBase.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="PaginatedCollectionView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimestampedModel.cs" />
     <Compile Include="TimestampedModelWrapper.cs" />
+    <Compile Include="Util\CloseTabAction.cs" />
+    <Compile Include="Util\DialogCloser.cs" />
+    <Compile Include="Util\EnumBindingSourceExtension.cs" />
+    <Compile Include="Util\EnumDescriptionTypeConverter.cs" />
+    <Compile Include="Util\NullableValueConverter.cs" />
+    <Compile Include="Util\PasswordHelper.cs" />
     <Compile Include="ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Gama.Cooperacion.DataAccess\Gama.Cooperacion.DataAccess.csproj">
-      <Project>{4830f33b-e739-4baa-bf0e-f88be61b01bd}</Project>
-      <Name>Gama.Cooperacion.DataAccess</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

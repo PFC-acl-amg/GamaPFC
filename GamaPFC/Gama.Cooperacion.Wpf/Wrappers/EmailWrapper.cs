@@ -1,10 +1,6 @@
 ﻿using Core;
 using Gama.Cooperacion.Business;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Gama.Cooperacion.Wpf.Wrappers
 {
@@ -20,6 +16,8 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             set { SetValue(value); }
         }
 
+        [Required(ErrorMessage = "El campo de dirección es obligatorio")]
+        [EmailAddress(ErrorMessage = "Debe introducir una direccción válida")]
         public string Direccion
         {
             get { return GetValue<string>(); }

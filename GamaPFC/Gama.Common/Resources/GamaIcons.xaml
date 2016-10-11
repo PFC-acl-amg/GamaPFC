@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Gama.Common.Resources">
+  <BitmapImage x:Key="IconoModuloAtenciones" UriSource="/Gama.Common;component/Resources/Images/icono_modulo_atenciones.png"/>
+  <BitmapImage x:Key="IconoModuloCooperacion" UriSource="/Gama.Common;component/Resources/Images/icono_modulo_cooperacion.png"/>
+  <BitmapImage x:Key="IconoModuloSocios" UriSource="/Gama.Common;component/Resources/Images/icono_modulo_socios.png"/>
+  <BitmapImage x:Key="IconoDashboard" UriSource="/Gama.Common;component/Resources/Images/icono_dashboard.png"/>
+  <BitmapImage x:Key="IconoGraficas" UriSource="/Gama.Common;component/Resources/Images/icono_graficas.png"/>
+  <BitmapImage x:Key="IconoExportar" UriSource="/Gama.Common;component/Resources/Images/icono_exportar.png"/>
+</ResourceDictionary>

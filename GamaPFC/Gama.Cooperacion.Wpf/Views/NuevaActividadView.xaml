@@ -10,7 +10,7 @@
   xmlns:designData="clr-namespace:Gama.Cooperacion.Wpf.DesignTimeData"
   xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-  xmlns:actions="clr-namespace:Gama.Cooperacion.Wpf.Actions"
+  xmlns:actions="clr-namespace:Core.Util;assembly=Core"
   xmlns:selector="clr-namespace:Gama.Common.Resources.DataTemplateSelectors;assembly=Gama.Common"
   prism:ViewModelLocator.AutoWireViewModel="True"
   mc:Ignorable="d"
@@ -20,6 +20,14 @@
   MaxWidth="550"
   BorderBrush="{StaticResource AccentColorBrush}"
   actions:DialogCloser.DialogResult="{Binding Cerrar}">
+  <metro:MetroWindow.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Mauve.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </metro:MetroWindow.Resources>
   <d:DataContext>
     <designData:DesignTimeDataViewModel/>
   </d:DataContext>

@@ -14,22 +14,22 @@ namespace Gama.Cooperacion.Wpf.ViewModels
     public class StatusBarViewModel : ViewModelBase
     {
         private const string _DefaultMensaje = "Barra de estado...";
-        private IEventAggregator _eventAggregator;
+        private IEventAggregator _EventAggregator;
         private string _Mensaje;
         private bool _ActivarFondo;
-        private DispatcherTimer _timer;
+        private DispatcherTimer _Timer;
 
         public StatusBarViewModel(
             IEventAggregator eventAggregator)
         {
-            _eventAggregator = eventAggregator;
+            _EventAggregator = eventAggregator;
 
-            _eventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
+            _EventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
 
             Mensaje = _DefaultMensaje;
-            _timer = new DispatcherTimer();
-            _timer.Tick += _timer_Tick;
-            _timer.Interval = new TimeSpan(0, 0, 2);
+            _Timer = new DispatcherTimer();
+            _Timer.Tick += _timer_Tick;
+            _Timer.Interval = new TimeSpan(0, 0, 2);
         }
 
         private void _timer_Tick(object sender, EventArgs e)
@@ -54,7 +54,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             Mensaje = "La actividad se ha actualizado con éxito.";
             ActivarFondo = true;
-            _timer.Start();
+            _Timer.Start();
         }
     }
 }

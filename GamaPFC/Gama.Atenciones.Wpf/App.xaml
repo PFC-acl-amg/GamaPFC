@@ -1,0 +1,18 @@
+﻿<Application x:Class="Gama.Atenciones.Wpf.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Gama.Atenciones.Wpf"
+             StartupUri="MainWindow.xaml">
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/GamaStyles.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/GamaIcons.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Icons.xaml"/>
+        <ResourceDictionary Source="Themes/Generic.xaml"/>
+        <ResourceDictionary Source="Resources/Resources.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+
+    </ResourceDictionary>
+  </Application.Resources>
+</Application>

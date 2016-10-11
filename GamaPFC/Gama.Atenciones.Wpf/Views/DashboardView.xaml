@@ -1,0 +1,212 @@
+﻿<UserControl x:Class="Gama.Atenciones.Wpf.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
+             xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="638" d:DesignWidth="883">
+  <d:DataContext>
+    <designData:DashboardViewModelDTD/>
+  </d:DataContext>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" MinHeight="200" MaxHeight="300"/>
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <!-- Últimas Personas -->
+    <GroupBox Grid.Column="0" Grid.Row="0"
+                 Margin="{StaticResource Margin}">
+      <GroupBox.Header>
+        <Label HorizontalAlignment="Center" Content="ÚLTIMAS PERSONAS" Foreground="White" Padding="0"></Label>
+      </GroupBox.Header>
+      <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <ListBox ItemsSource="{Binding UltimasPersonas}"
+                 x:Name="_PersonasListBox"
+                 SelectionMode="Single"
+               ScrollViewer.VerticalScrollBarVisibility="Auto">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="35"/>
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Id}"/>
+                <TextBlock Grid.Column="2" Text="{Binding DisplayMember1}"/>
+              </Grid>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseDoubleClick">
+              <prism:InvokeCommandAction 
+                  Command="{Binding RelativeSource =
+                      {RelativeSource FindAncestor,
+                          AncestorType={x:Type GroupBox}},
+                          Path=DataContext.SelectPersonaCommand}"
+                  CommandParameter="{Binding ElementName=_PersonasListBox, Path=SelectedItem}"/>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </ListBox>
+      </ScrollViewer>
+    </GroupBox>
+
+    <!-- Últimas Atenciones -->
+    <GroupBox Grid.Column="1" Grid.Row="0"
+                 Margin="{StaticResource Margin}">
+      <GroupBox.Header>
+        <Label HorizontalAlignment="Center" Content="ÚLTIMAS ATENCIONES" Foreground="White" Padding="0"></Label>
+      </GroupBox.Header>
+      <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <ListBox ItemsSource="{Binding UltimasAtenciones}"
+                 x:Name="_AtencionesListBox"
+                 SelectionMode="Single"
+               ScrollViewer.VerticalScrollBarVisibility="Auto">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="35"/>
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Id}" VerticalAlignment="Center"/>
+                <StackPanel Grid.Column="2">
+                  <TextBlock Text="{Binding DisplayMember1}" Margin="{StaticResource Margin}"/>
+                  <TextBlock Text="{Binding DisplayMember2}" Margin="{StaticResource Margin}"/>
+                </StackPanel>
+              </Grid>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseDoubleClick">
+              <prism:InvokeCommandAction 
+                  Command="{Binding RelativeSource =
+                      {RelativeSource FindAncestor,
+                          AncestorType={x:Type GroupBox}},
+                          Path=DataContext.SelectAtencionCommand}"
+                  CommandParameter="{Binding ElementName=_AtencionesListBox, Path=SelectedItem}"/>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </ListBox>
+      </ScrollViewer>
+    </GroupBox>
+
+    <!-- Próximas Citas -->
+    <GroupBox Grid.Column="2" Grid.Row="0"
+                 Margin="{StaticResource Margin}">
+      <GroupBox.Header>
+        <Label HorizontalAlignment="Center" Content="PRÓXIMAS CITAS" Foreground="White" Padding="0"></Label>
+      </GroupBox.Header>
+      <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <ListBox ItemsSource="{Binding ProximasCitas}"
+                 x:Name="_CitasListBox"
+                 SelectionMode="Single"
+               ScrollViewer.VerticalScrollBarVisibility="Auto">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="35"/>
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Id}" VerticalAlignment="Center"/>
+                <StackPanel Grid.Column="2">
+                  <TextBlock Text="{Binding DisplayMember1}" Margin="{StaticResource Margin}"/>
+                  <TextBlock Text="{Binding DisplayMember2}" Margin="{StaticResource Margin}"/>
+                </StackPanel>
+              </Grid>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseDoubleClick">
+              <prism:InvokeCommandAction 
+                  Command="{Binding RelativeSource =
+                      {RelativeSource FindAncestor,
+                          AncestorType={x:Type GroupBox}},
+                          Path=DataContext.SelectCitaCommand}"
+                  CommandParameter="{Binding ElementName=_CitasListBox, Path=SelectedItem}"/>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </ListBox>
+      </ScrollViewer>
+    </GroupBox>
+    <!-- PERSONAS NUEVAS POR MES-->
+    <lvc:CartesianChart  Grid.Column="0" Grid.Row="1" Margin="{StaticResource MarginDouble}" LegendLocation="Top">
+      <lvc:CartesianChart.Series>
+        <lvc:LineSeries Values="{Binding PersonasNuevasPorMes}"
+                        Title="PERSONAS NUEVAS POR MES"
+                        Fill="Transparent" 
+                        Stroke="Green"
+                        LineSmoothness="0">
+        </lvc:LineSeries>
+      </lvc:CartesianChart.Series>
+      <lvc:CartesianChart.AxisY>
+        <lvc:Axis MinValue="0"></lvc:Axis>
+      </lvc:CartesianChart.AxisY>
+      <lvc:CartesianChart.AxisX>
+        <lvc:Axis Labels="{Binding PersonasLabels}">
+          <lvc:Axis.Separator>
+            <lvc:Separator Step="1"></lvc:Separator>
+          </lvc:Axis.Separator>
+        </lvc:Axis>
+      </lvc:CartesianChart.AxisX>
+    </lvc:CartesianChart>
+    <!--</GroupBox>-->
+
+    <!-- ATENCIONES NUEVAS POR MES-->
+    <lvc:CartesianChart  Grid.Column="1" Grid.Row="1" Margin="{StaticResource MarginDouble}" LegendLocation="Top">
+      <lvc:CartesianChart.Series>
+        <lvc:LineSeries Values="{Binding AtencionesNuevasPorMes}"
+                        Title="ATENCIONES NUEVAS POR MES"
+                        Fill="Transparent" 
+                        Stroke="Crimson"
+                        LineSmoothness="0">
+        </lvc:LineSeries>
+      </lvc:CartesianChart.Series>
+      <lvc:CartesianChart.AxisY>
+        <lvc:Axis MinValue="0"></lvc:Axis>
+      </lvc:CartesianChart.AxisY>
+      <lvc:CartesianChart.AxisX>
+        <lvc:Axis Labels="{Binding AtencionesLabels}">
+          <lvc:Axis.Separator>
+            <lvc:Separator Step="1"></lvc:Separator>
+          </lvc:Axis.Separator>
+        </lvc:Axis>
+      </lvc:CartesianChart.AxisX>
+    </lvc:CartesianChart>
+
+    <!-- TOTAL DE PERSONAS, CITAS Y ATENCIONES -->
+    <lvc:CartesianChart  Grid.Column="2" Grid.Row="1" Margin="{StaticResource MarginDouble}" LegendLocation="Top">
+      <lvc:CartesianChart.Series>
+        <lvc:LineSeries Values="{Binding Totales}"
+                        Title="TOTALES"
+                        Fill="Transparent" 
+                        Stroke="BlueViolet"
+                        LineSmoothness="0">
+        </lvc:LineSeries>
+      </lvc:CartesianChart.Series>
+      <lvc:CartesianChart.AxisY>
+        <lvc:Axis MinValue="0"></lvc:Axis>
+      </lvc:CartesianChart.AxisY>
+      <lvc:CartesianChart.AxisX>
+        <lvc:Axis Labels="{Binding TotalesLabels}">
+          <lvc:Axis.Separator>
+            <lvc:Separator Step="1"></lvc:Separator>
+          </lvc:Axis.Separator>
+        </lvc:Axis>
+      </lvc:CartesianChart.AxisX>
+    </lvc:CartesianChart>
+
+  </Grid>
+</UserControl>

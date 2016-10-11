@@ -1,4 +1,5 @@
 ﻿using Core;
+using Gama.Common.CustomControls;
 using Gama.Cooperacion.Business;
 using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Services;
@@ -89,14 +90,15 @@ namespace Gama.Cooperacion.WpfTests
         [Fact]
         private void ShouldPublishActividadSeleccionadaEventWhenUnaActividadIsSelected()
         {
-            _vm.SelectActividadCommand.Execute(1);
+            _vm.SelectActividadCommand.Execute(new LookupItem { Id = 1 });
+            
             _actividadSeleccionadaEventMock.Verify(e => e.Publish(It.IsAny<int>()), Times.Once);
         }
 
         [Fact]
         private void NuevaActividadShouldSetLaActividadEnPrimeraPosicionDeLasActividadesMostradas()
         {
-            var actividad = _actividades.First();
+            var actividad = new Actividad() { Id = int.MaxValue, Titulo = "Titulo" };
             _actividadRepositoryMock.Setup(ar => ar.GetById(It.IsAny<int>()))
                 .Returns(actividad);
 

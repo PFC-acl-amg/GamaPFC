@@ -17,7 +17,12 @@ namespace Gama.CommonTests
 
         public ChangeNotificationCollectionProperty()
         {
-            _Tarea = new Tarea { Descripcion = "Lorem ipsum endeleble intosqui causa ateanum maravillae" };
+            _Tarea = new Tarea
+            {
+                Descripcion = "Lorem ipsum endeleble intosqui causa ateanum maravillae",
+                Responsable = new Cooperante(),
+                Actividad = new Actividad()
+            };
 
             _Cooperante = new Cooperante()
             {
@@ -29,9 +34,15 @@ namespace Gama.CommonTests
                 Titulo = "Título del Primer Actividad",
                 Tareas = new List<Tarea>()
                 {
-                    new Tarea { Descripcion = "Tarea número 1 para conseguir algo más o menos concreto" },
-                    new Tarea { Descripcion = "A veces los Tareas se escriben de diferentes maneras" },
-                    new Tarea { Descripcion = "Las piedras preciosas han llevado a más de un rey a la locura" },
+                    new Tarea { Descripcion = "Tarea número 1 para conseguir algo más o menos concreto",
+                                Responsable = new Cooperante(),
+                                Actividad = new Actividad() },
+                    new Tarea { Descripcion = "A veces los Tareas se escriben de diferentes maneras",
+                                Responsable = new Cooperante(),
+                                Actividad = new Actividad() },
+                    new Tarea { Descripcion = "Las piedras preciosas han llevado a más de un rey a la locura",
+                                Responsable = new Cooperante(),
+                                Actividad = new Actividad() },
                     _Tarea,
                 },
                 Cooperantes = new List<Cooperante>()

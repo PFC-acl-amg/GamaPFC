@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:Gama.Common.Resources.Converters">
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml"/>
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml"/>
@@ -8,6 +9,11 @@
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"/>
 
     <ResourceDictionary Source="Constants/BasicStyles.xaml"/>
+    <ResourceDictionary Source="Constants/Colores.xaml"/>
     <ResourceDictionary Source="Templates/SearchBox.xaml"/>
+    <ResourceDictionary Source="GamaIcons.xaml"/>
+    <ResourceDictionary Source="Constants/ControlBaseStyle.xaml"/>
   </ResourceDictionary.MergedDictionaries>
+
+  <converters:DatePickerOriginalValueConverter x:Key="DatePickerOriginalValueConverter"/>
 </ResourceDictionary>

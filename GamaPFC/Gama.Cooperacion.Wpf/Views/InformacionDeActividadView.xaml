@@ -80,7 +80,7 @@
           SelectedItem="{Binding CoordinadorSeleccionado}"
           ItemsSource="{Binding Source={StaticResource CooperantesBuscables}}"
           ItemTemplateSelector="{StaticResource BuscadorTemplateSelector}"
-          Text="{Binding Actividad.Coordinador.NombreCompleto, Mode=OneWay}">
+          Text="{Binding Actividad.Coordinador, Mode=OneWay}">
           <i:Interaction.Triggers>
             <i:EventTrigger EventName="Search">
               <prism:InvokeCommandAction 
@@ -92,6 +92,16 @@
                       Command="{Binding SelectCoordinadorCommand}"/>
             </i:EventTrigger>
           </i:Interaction.Triggers>
+          <!--<cc:SearchBox.Style>
+            <Style TargetType="cc:SearchBox" BasedOn="{StaticResource {x:Type cc:SearchBox}}">
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding Actividad.Coordinador.Nombre}" Value="{x:Null}">
+                  <Setter Property="BorderBrush" Value="{DynamicResource ControlsValidationBrush}"/>
+                  <Setter Property="BorderThickness" Value="1"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </cc:SearchBox.Style>-->
         </cc:SearchBox>
 
         <StackPanel Orientation="Horizontal" Grid.Column="1">

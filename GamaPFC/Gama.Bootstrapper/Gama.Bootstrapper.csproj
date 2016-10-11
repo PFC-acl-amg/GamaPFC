@@ -35,16 +35,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LiveCharts, Version=0.7.14.3, Culture=neutral, PublicKeyToken=c5935629d38af058, processorArchitecture=MSIL">
-      <HintPath>..\packages\LiveCharts.0.7.14.3\lib\portable-net40+sl5+win8+wp8+wpa81\LiveCharts.dll</HintPath>
+    <Reference Include="LiveCharts, Version=0.7.15.0, Culture=neutral, PublicKeyToken=c5935629d38af058, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.7.15\lib\portable-net40+sl5+win8+wp8+wpa81\LiveCharts.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="LiveCharts.Wpf, Version=0.7.14.3, Culture=neutral, PublicKeyToken=3b585c2a5f1a92c1, processorArchitecture=MSIL">
-      <HintPath>..\packages\LiveCharts.Wpf.0.7.14.3\lib\net452\LiveCharts.Wpf.dll</HintPath>
+    <Reference Include="LiveCharts.Wpf, Version=0.7.15.0, Culture=neutral, PublicKeyToken=3b585c2a5f1a92c1, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.7.15\lib\net452\LiveCharts.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
+    <Reference Include="MahApps.Metro, Version=1.3.0.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.3.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -83,7 +83,7 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.1.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
@@ -104,6 +104,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SelectorDeModulo.xaml.cs">
+      <DependentUpon>SelectorDeModulo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SelectorDeModuloViewModel.cs" />
+    <Compile Include="Services\ILoginService.cs" />
+    <Compile Include="Services\LoginService.cs" />
+    <Compile Include="ShellViewModel.cs" />
+    <Page Include="SelectorDeModulo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Shell.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -147,6 +158,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{61c764bb-5692-463a-bc70-55b6ad46b1a3}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Atenciones.Wpf\Gama.Atenciones.Wpf.csproj">
+      <Project>{6191cf4c-502f-44e2-8ff9-808834f31549}</Project>
+      <Name>Gama.Atenciones.Wpf</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Gama.Common\Gama.Common.csproj">
       <Project>{46a268c7-c157-4a93-931d-951a908e149f}</Project>
       <Name>Gama.Common</Name>
@@ -154,6 +173,10 @@
     <ProjectReference Include="..\Gama.Cooperacion.Wpf\Gama.Cooperacion.Wpf.csproj">
       <Project>{0d5f2d35-032b-4f23-8794-f49f31870ed7}</Project>
       <Name>Gama.Cooperacion.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Socios.Wpf\Gama.Socios.Wpf.csproj">
+      <Project>{d6dd2133-8809-4dd4-bae8-60088d5b2848}</Project>
+      <Name>Gama.Socios.Wpf</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

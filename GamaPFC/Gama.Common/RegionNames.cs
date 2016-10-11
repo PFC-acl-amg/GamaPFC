@@ -8,11 +8,17 @@ namespace Gama.Common
 {
     public static class RegionNames
     {
+        // Generales
         public static string SearchBoxRegion = "SearchBoxRegion";
         public static string ToolbarRegion = "ToolbarRegion";
         public static string PanelSwitcherRegion = "PanelSwitcherRegion";
         public static string ContentRegion = "ContentRegion";
         public static string StatusBarRegion = "StatusBarRegion";
+
+        // Módulo de Atenciones
+        public static string PersonasTabContentRegion = "PersonasTabContentRegion";
+
+        // Módulo de Cooperación
         public static string ActividadesTabContentRegion = "ActividadesTabContentRegion";
     }
 }

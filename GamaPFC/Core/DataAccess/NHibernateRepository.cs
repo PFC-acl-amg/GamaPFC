@@ -1,11 +1,8 @@
-﻿using Gama.Cooperacion.DataAccess;
-using NHibernate;
+﻿using NHibernate;
 using NHibernate.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.DataAccess
 {

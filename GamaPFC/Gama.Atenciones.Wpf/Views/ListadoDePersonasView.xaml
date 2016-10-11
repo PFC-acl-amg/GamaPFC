@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="Gama.Atenciones.Wpf.Views.ListadoDePersonasView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="320.497" d:DesignWidth="637.267">
+  <d:DataContext>
+    <designData:ListadoDePersonasViewModelDTD/>
+  </d:DataContext>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition />
+    </Grid.RowDefinitions>
+
+    <StackPanel Orientation="Horizontal">
+      <Button Margin="{StaticResource Margin}" Command="{Binding PaginaAnteriorCommand}">
+        <Rectangle Width="15" Height="15">
+          <Rectangle.Fill>
+            <VisualBrush  Visual="{StaticResource appbar_arrow_left}"/>
+          </Rectangle.Fill>
+        </Rectangle>
+      </Button>
+      <TextBlock VerticalAlignment="Center">
+        <Run Text="Página"/>
+        <Run Text="{Binding Personas.CurrentPage, Mode=OneWay}"/>
+        <Run Text="de"/>
+        <Run Text="{Binding Personas.PageCount, Mode=OneWay}"/>
+      </TextBlock>
+      <Button Margin="{StaticResource Margin}" Command="{Binding PaginaSiguienteCommand}">
+        <Rectangle Width="15" Height="15">
+          <Rectangle.Fill>
+            <VisualBrush  Visual="{StaticResource appbar_arrow_right}"/>
+          </Rectangle.Fill>
+        </Rectangle>
+      </Button>
+    </StackPanel>
+
+    <ItemsControl ItemsSource="{Binding Personas}" Grid.Row="1">
+      <ItemsControl.Template>
+        <ControlTemplate TargetType="{x:Type ItemsControl}">
+          <ScrollViewer BorderThickness="2" VerticalScrollBarVisibility="Auto">
+            <WrapPanel IsItemsHost="True" Orientation="Horizontal"/>
+          </ScrollViewer>
+        </ControlTemplate>
+      </ItemsControl.Template>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <GroupBox Header="{Binding DisplayMember1}" MaxWidth="250">
+            <StackPanel Orientation="Vertical">
+              <TextBlock Text="{Binding DisplayMember2}" TextWrapping="Wrap" 
+                         Margin="{StaticResource Margin}"/>
+              <!--<TextBlock Text="{Binding DescripcionResumen}" TextWrapping="Wrap"
+                         Margin="{StaticResource Margin}"/>-->
+            </StackPanel>
+            <i:Interaction.Triggers>
+              <i:EventTrigger EventName="MouseDoubleClick">
+                <prism:InvokeCommandAction 
+                  Command="{Binding RelativeSource =
+                      {RelativeSource FindAncestor,
+                          AncestorType={x:Type Grid}},
+                          Path=DataContext.SeleccionarPersonaCommand}"
+                  CommandParameter="{Binding Id}"/>
+              </i:EventTrigger>
+            </i:Interaction.Triggers>
+          </GroupBox>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </Grid>
+</UserControl>

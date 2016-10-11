@@ -5,13 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gama.Cooperacion.DataAccess
+namespace Core.DataAccess
 {
     public interface INHibernateSessionFactory
     {
-        ISessionFactory GetSessionFactory();
         ISession OpenSession();
-        IStatelessSession OpenStatelessSession();
-        ISession GetCurrentSession();
     }
 }

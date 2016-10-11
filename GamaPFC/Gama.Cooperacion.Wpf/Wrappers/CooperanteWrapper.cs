@@ -12,10 +12,9 @@ namespace Gama.Cooperacion.Wpf.Wrappers
     {
         public CooperanteWrapper(Cooperante model) : base (model)
         {
-            InitializeCollectionProperties(model);
         }
 
-        private void InitializeCollectionProperties(Cooperante model)
+        protected override void InitializeCollectionProperties(Cooperante model)
         {
             if (model.Emails == null)
                 throw new ArgumentNullException("Emails");
@@ -84,6 +83,11 @@ namespace Gama.Cooperacion.Wpf.Wrappers
 
         // Propiedad del Wrapper únicamente
         public string NombreCompleto => string.Format("{0} {1}", Nombre, Apellido);
+
+        public override string ToString()
+        {
+            return NombreCompleto;
+        }
 
         public ChangeTrackingCollection<EmailWrapper> Emails { get; private set; }
         public ChangeTrackingCollection<TelefonoWrapper> Telefonos { get; private set; }

@@ -2,6 +2,7 @@
 using Gama.Cooperacion.Business;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,11 +13,9 @@ namespace Gama.Cooperacion.Wpf.Wrappers
     {
         public ActividadWrapper(Actividad model) : base(model)
         {
-            InitializeComplexProperties(model);
-            InitializeCollectionProperties(model);
         }
 
-        private void InitializeCollectionProperties(Actividad model)
+        protected override void InitializeCollectionProperties(Actividad model)
         {
             if (model.Cooperantes == null)
             {
@@ -45,7 +44,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             this.RegisterCollection(this.Foros, model.Foros);
         }
 
-        private void InitializeComplexProperties(Actividad model)
+        protected override void InitializeComplexProperties(Actividad model)
         {
             if (model.Coordinador == null)
             {
@@ -130,6 +129,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         public bool TituloIsChanged => GetIsChanged(nameof(Titulo));
 
         private CooperanteWrapper _Coordinador;
+        
         public CooperanteWrapper Coordinador
         {
             get { return _Coordinador; } 
@@ -169,6 +169,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
                 else
                 {
                     CoordinadorIsChanged = true;
+                    
                 }
             }
         }
@@ -178,6 +179,27 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         public ChangeTrackingCollection<CooperanteWrapper> Cooperantes { get; private set; }
         public ChangeTrackingCollection<TareaWrapper> Tareas { get; private set; }
         public ChangeTrackingCollection<ForoWrapper> Foros { get; private set; }
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (string.IsNullOrWhiteSpace(Titulo))
+            {
+                yield return new ValidationResult("El campo de título es obligatorio",
+                    new[] { nameof(Titulo) });
+            }
+
+            if (string.IsNullOrWhiteSpace(Descripcion))
+            {
+                yield return new ValidationResult("El campo de descripción es obligatorio",
+                    new[] { nameof(Descripcion) });
+            }
+
+            if (Coordinador == null || Coordinador.Id == 0)
+            {
+                yield return new ValidationResult("La actividad debe tener un coordinador",
+                    new[] {nameof(Coordinador) });
+            }
+        }
     }
 }
  

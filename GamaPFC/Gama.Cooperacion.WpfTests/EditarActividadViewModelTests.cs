@@ -194,5 +194,15 @@ namespace Gama.Cooperacion.WpfTests
             Assert.True(_vm.Actividad.Cooperantes.All(c => c.Nombre != null));
             Assert.False(_vm.Actividad.IsChanged);
         }
+
+        [Fact]
+        private void ShouldPublishActividadActualizadaEventAfterUpdating()
+        {
+            _vm.HabilitarEdicionCommand.Execute(null);
+            _vm.Actividad.Titulo = "Otro título";
+
+            _vm.ActualizarCommand.Execute(null);
+            _actividadActualizadaEvent.Verify(e => e.Publish(1), Times.Once);
+        }
     }
 }

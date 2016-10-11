@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="Styles/CheckBox.xaml"/>
+    <ResourceDictionary Source="Styles/ComboBox.xaml"/>
+    <ResourceDictionary Source="Styles/DatePicker.xaml"/>
+    <ResourceDictionary Source="Styles/TextBox.xaml"/>
+  </ResourceDictionary.MergedDictionaries>
+  <BitmapImage x:Key="IconoNuevaPersona" 
+                   UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/icono_nueva_persona.png"/>
+  <BitmapImage x:Key="IconoAtenciones" 
+                   UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/icono_atenciones.png"/>
+  <BitmapImage x:Key="IconoPersonas" 
+                   UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/icono_personas.png"/>
+
+</ResourceDictionary>

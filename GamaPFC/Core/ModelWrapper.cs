@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -8,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    public class ModelWrapper<T> : ObservableObject, IRevertibleChangeTracking
+    public class ModelWrapper<T> : NotifyDataErrorInfoBase, IValidatableTrackingObject, IValidatableObject
     {
         private Dictionary<string, object> _originalValues;
-        private List<IRevertibleChangeTracking> _trackingObjects;
+        private List<IValidatableTrackingObject> _trackingObjects;
 
         public ModelWrapper(T model)
         {
@@ -22,12 +23,25 @@ namespace Core
 
             this.Model = model;
             _originalValues = new Dictionary<string, object>();
-            _trackingObjects = new List<IRevertibleChangeTracking>();
+            _trackingObjects = new List<IValidatableTrackingObject>();
+            InitializeComplexProperties(model);
+            InitializeCollectionProperties(model);
+            Validate();
+        }
+
+        protected virtual void InitializeCollectionProperties(T model)
+        {
+        }
+
+        protected virtual void InitializeComplexProperties(T model)
+        {
         }
 
         public T Model { get; private set; }
 
         public virtual bool IsChanged => _originalValues.Count > 0 || _trackingObjects.Any(to => to.IsChanged);
+
+        public bool IsValid => !HasErrors && _trackingObjects.All(t => t.IsValid);
 
         public virtual void AcceptChanges()
         {
@@ -55,6 +69,7 @@ namespace Core
                 trackedObject.RejectChanges();
             }
 
+            Validate();
             OnPropertyChanged(string.Empty);
         }
 
@@ -85,17 +100,37 @@ namespace Core
             {
                 UpdateOriginalValue(currentValue, newValue, propertyName);
                 propertyInfo.SetValue(this.Model, newValue);
+                Validate();
                 OnPropertyChanged(propertyName);
                 OnPropertyChanged(propertyName + "IsChanged");
             }
         }
 
-        //protected void SetComplexValue<TValue>(TValue newValue, [CallerMemberName] string propertyName = null)
-        //    where TValue : ModelWrapper<TClass>
-        //{
-        //    var propertyInfo = this.Model.GetType().GetProperty(propertyName);
+        private void Validate()
+        {
+            ClearErrors();
 
-        //}
+            var results = new List<ValidationResult>();
+            var context = new ValidationContext(this);
+            Validator.TryValidateObject(this, context, results, true);
+
+            if (results.Any())
+            {
+                var propertyNames = results.SelectMany(r => r.MemberNames).Distinct().ToList();
+
+                foreach (var propertyName in propertyNames)
+                {    
+                    Errors[propertyName] = results
+                        .Where(r => r.MemberNames.Contains(propertyName))
+                        .Select(r => r.ErrorMessage)
+                        .Distinct()
+                        .ToList();
+                    OnErrorsChanged(propertyName);
+                }
+            }
+
+            OnPropertyChanged(nameof(IsValid));
+        }
 
         private void UpdateOriginalValue(object currentValue, object newValue, string propertyName)
         {
@@ -115,12 +150,14 @@ namespace Core
             ChangeTrackingCollection<TWrapper> wrapperCollection,
             IList<TModel> modelCollection) where TWrapper : ModelWrapper<TModel>
         {
-            wrapperCollection.CollectionChanged += (s, e) => {
+            wrapperCollection.CollectionChanged += (s, e) => 
+            {
                 modelCollection.Clear();
                 foreach (var wrapper in wrapperCollection)
                 {
                     modelCollection.Add(wrapper.Model);
                 }
+                Validate();
             };
             RegisterTrackingObject(wrapperCollection);
         }
@@ -130,8 +167,7 @@ namespace Core
             RegisterTrackingObject(wrapper);
         }
 
-        private void RegisterTrackingObject<TTrackingObject>(TTrackingObject trackingObject)
-            where TTrackingObject : IRevertibleChangeTracking, INotifyPropertyChanged
+        private void RegisterTrackingObject(IValidatableTrackingObject trackingObject)
         {
             if (!_trackingObjects.Contains(trackingObject))
             {
@@ -146,6 +182,15 @@ namespace Core
             {
                 OnPropertyChanged(nameof(IsChanged));
             }
+            else if (e.PropertyName == nameof(IsValid)) 
+            {
+                OnPropertyChanged(nameof(IsValid));
+            }
+        }
+
+        public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            yield break;
         }
     }
 }
