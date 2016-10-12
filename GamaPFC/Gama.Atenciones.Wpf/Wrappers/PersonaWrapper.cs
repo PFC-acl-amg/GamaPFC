@@ -26,7 +26,6 @@ namespace Gama.Atenciones.Wpf.Wrappers
             this.Citas = new ChangeTrackingCollection<CitaWrapper>
                 (model.Citas.Select(c => new CitaWrapper(c)));
             this.RegisterCollection(this.Citas, model.Citas.ToList());
-
         }
 
         public int Id
@@ -154,12 +153,6 @@ namespace Gama.Atenciones.Wpf.Wrappers
         public string NombreOriginalValue => GetOriginalValue<string>(nameof(Nombre));
 
         public bool NombreIsChanged => GetIsChanged(nameof(Nombre));
-
-        public int NumeroDeAtendido
-        {
-            get { return GetValue<int>(); }
-            set { SetValue(value); }
-        }
 
         public string Ocupacion
         {

@@ -2,6 +2,7 @@
 using Gama.Atenciones.Business;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -163,6 +164,15 @@ namespace Gama.Atenciones.Wpf.Wrappers
         public bool OtraIsChanged => GetIsChanged(nameof(Otra));
 
         public DerivacionWrapper DerivacionesPropuestas { get; private set; }
-        public DerivacionWrapper DerivacionesRealizadas { get;  private set;}
+        public DerivacionWrapper DerivacionesRealizadas { get;  private set; }
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (Fecha == null || Fecha.Year < 1990) // Just an old date
+            {
+                yield return new ValidationResult("El campo de fecha es obligatorio",
+                    new[] { nameof(Fecha) });
+            }
+        }
     }
 }
