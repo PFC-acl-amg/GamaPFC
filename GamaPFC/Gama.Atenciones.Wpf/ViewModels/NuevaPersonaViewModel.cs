@@ -34,6 +34,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             AceptarCommand = new DelegateCommand(OnAceptarCommand_Execute,
                 OnAceptarCommand_CanExecute);
+            CancelarCommand = new DelegateCommand(OnCancelarCommand_Execute);
 
             Persona.PropertyChanged += Persona_PropertyChanged;
         }
@@ -73,6 +74,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private bool OnAceptarCommand_CanExecute()
         {
             return Persona.IsValid;
+        }
+
+        private void OnCancelarCommand_Execute()
+        {
+            Cerrar = true;
         }
     }
 }

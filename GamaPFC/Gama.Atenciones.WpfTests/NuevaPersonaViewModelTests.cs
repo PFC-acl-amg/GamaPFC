@@ -1,4 +1,5 @@
-﻿using Gama.Atenciones.Wpf.Eventos;
+﻿using Gama.Atenciones.Business;
+using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.ViewModels;
 using Moq;
@@ -32,6 +33,9 @@ namespace Gama.Atenciones.WpfTests
             _EventAggregatorMock.Setup(e => e.GetEvent<NuevaPersonaEvent>())
                 .Returns(_NuevaPersonaEvent.Object);
 
+            _EventAggregatorMock.Setup(e => e.GetEvent<NuevaPersonaEvent>()
+                .Publish(It.IsAny<int>())).Verifiable();
+
             _PersonaViewModelMock = new PersonaViewModel();
 
             _Vm = new NuevaPersonaViewModel(
@@ -48,6 +52,33 @@ namespace Gama.Atenciones.WpfTests
             Assert.NotNull(_Vm.PersonaVM);
             Assert.False(_Vm.AceptarCommand.CanExecute(null));
             Assert.True(_Vm.CancelarCommand.CanExecute(null));
+        }
+
+        [Fact]
+        private void ShouldSetCreatedAtFieldToToday()
+        {
+            Assert.True(_Vm.Persona.CreatedAt.Year < 1950);
+
+            _Vm.AceptarCommand.Execute(null);
+
+            Assert.True(_Vm.Persona.CreatedAt.Date == DateTime.Now.Date);
+        }
+
+        [Fact]
+        private void ShouldCallMethodCreateWithInnerModelWhenAPersonaIsCreated()
+        {
+            _Vm.AceptarCommand.Execute(null);
+
+            _PersonaRepositoryMock.Verify(p => p.Create(_Vm.Persona.Model), Times.Once);
+        }
+
+        [Fact]
+        private void ShouldPublishNuevaPersonaEventWhenAPersonaIsCreated()
+        {
+            _Vm.AceptarCommand.Execute(null);
+
+            _EventAggregatorMock.Verify(e => e.GetEvent<NuevaPersonaEvent>()
+                .Publish(It.IsAny<int>()), Times.Once);
         }
 
         [Fact]
