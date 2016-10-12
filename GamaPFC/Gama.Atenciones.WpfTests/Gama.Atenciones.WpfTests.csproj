@@ -108,6 +108,7 @@
     <Compile Include="DashboardViewModelTests.cs" />
     <Compile Include="EditarPersonaViewModelTests.cs" />
     <Compile Include="ListadoDePersonasViewModelTests.cs" />
+    <Compile Include="NuevaPersonaViewModelTests.cs" />
     <Compile Include="PanelSwitcherViewModelTests.cs" />
     <Compile Include="PersonasContentViewTests.cs" />
     <Compile Include="PersonaViewModelTests.cs" />
