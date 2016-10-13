@@ -62,6 +62,8 @@ namespace Gama.Atenciones.Business
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum ComoConocioAGama
     {
+        [Description("No Proporcionado")]
+        NoProporcionado,
         [Description("Red Informal")]
         RedInformal,
         [Description("Red Formal")]
@@ -73,6 +75,8 @@ namespace Gama.Atenciones.Business
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum EstadoCivil
     {
+        [Description("No Proporcionado")]
+        NoProporcionado,
         [Description("Soltera/o")]
         Soltera,
         [Description("Casada/o")]
@@ -86,6 +90,8 @@ namespace Gama.Atenciones.Business
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum IdentidadSexual
     {
+        [Description("No Proporcionado")]
+        NoProporcionado,
         [Description("Hombre Cisexual")]
         HombreCisexual,
         [Description("Mujer Cisexual")]
@@ -101,6 +107,8 @@ namespace Gama.Atenciones.Business
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum NivelAcademico
     {
+        [Description("No Proporcionado")]
+        NoProporcionado,
         [Description("Sin Estudios")]
         SinEstudios,
         [Description("Estudios Primarios")]
@@ -120,6 +128,8 @@ namespace Gama.Atenciones.Business
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum OrientacionSexual
     {
+        [Description("No Proporcionado")]
+        NoProporcionado,
         [Description("Heterosexual")]
         Heterosexual,
         [Description("Bisexual")]
@@ -133,6 +143,8 @@ namespace Gama.Atenciones.Business
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum ViaDeAccesoAGama
     {
+        [Description("No Proporcionado")]
+        NoProporcionado,
         [Description("Personal")]
         Personal,
         [Description("Telefónica")]
