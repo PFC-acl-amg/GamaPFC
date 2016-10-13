@@ -50,7 +50,9 @@ namespace Gama.Bootstrapper
                 Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
                 if (!vm.SeHaAccedido)
-                    return;
+                {
+                    Application.Current.Shutdown();
+                }
 
                 switch (vm.ModuloSeleccionado)
                 {

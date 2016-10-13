@@ -104,7 +104,8 @@ namespace Gama.Cooperacion.WpfTests
                 {
                     Nombre = "Coordinador"
                 });
-            Assert.False(_vm.AceptarCommand.CanExecute(null));
+            Assert.True(_vm.Actividad.IsChanged);
+            Assert.True(_vm.AceptarCommand.CanExecute(null));
 
             _vm.ActividadVM.Actividad.Titulo = "Título de la actividad";
             Assert.True(_vm.AceptarCommand.CanExecute(null));

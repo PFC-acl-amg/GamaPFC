@@ -16,7 +16,11 @@ namespace Gama.CommonTests.Wrapper
 
         public ValidationClassLevel()
         {
-            _Actividad = new Actividad();
+            _Actividad = new Actividad()
+            {
+                Titulo = "Algún título",
+                Descripcion  = "Alguna descripción"
+            };
         }
 
         [Fact]

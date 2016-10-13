@@ -16,7 +16,10 @@ namespace Gama.CommonTests.Wrapper
 
         public ValidationComplexProperty()
         {
-            _Atencion = new Atencion();
+            _Atencion = new Atencion()
+            {
+                Fecha = DateTime.Now
+            };
         }
 
         [Fact]

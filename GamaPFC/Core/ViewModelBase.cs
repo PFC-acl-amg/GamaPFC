@@ -9,7 +9,7 @@ using NHibernate;
 
 namespace Core
 {
-    public class ViewModelBase : BindableBase, INavigationAware, IViewModelBase
+    public class ViewModelBase : BindableBase, INavigationAware
     {
         string _title;
         public string Title

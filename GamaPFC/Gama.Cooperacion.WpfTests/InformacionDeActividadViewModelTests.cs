@@ -43,7 +43,7 @@ namespace Gama.Cooperacion.WpfTests
         private void ShouldInitializeItsProperties()
         {
             Assert.NotNull(_vm.Actividad);
-            Assert.Null(_vm.Actividad.Titulo);
+            Assert.Empty(_vm.Actividad.Titulo);
             Assert.NotNull(_vm.CooperantesDisponibles != null);
             Assert.Equal(_vm.CooperantesDisponibles.Count, _cooperantes.Count);
             Assert.True(_vm.CooperantesDisponibles.All(c => _cooperantes.Contains(c.Model)));
