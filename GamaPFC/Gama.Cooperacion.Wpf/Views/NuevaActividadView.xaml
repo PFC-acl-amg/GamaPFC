@@ -7,14 +7,11 @@
   xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
   xmlns:prism="http://prismlibrary.com/"
   xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-  xmlns:designData="clr-namespace:Gama.Cooperacion.Wpf.DesignTimeData"
-  xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
-  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:actions="clr-namespace:Core.Util;assembly=Core"
-  xmlns:selector="clr-namespace:Gama.Common.Resources.DataTemplateSelectors;assembly=Gama.Common"
   prism:ViewModelLocator.AutoWireViewModel="True"
   mc:Ignorable="d"
-  Title="Nueva Actividad" d:DesignWidth="550" d:DesignHeight="515.781"
+  Title="Nueva Actividad" 
+  d:DesignWidth="550" d:DesignHeight="515.781"
   WindowStartupLocation="CenterScreen"
   BorderThickness="1"
   MaxWidth="550"
@@ -28,9 +25,6 @@
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </metro:MetroWindow.Resources>
-  <d:DataContext>
-    <designData:DesignTimeDataViewModel/>
-  </d:DataContext>
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition />
