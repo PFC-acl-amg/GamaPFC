@@ -1,0 +1,150 @@
+﻿<UserControl x:Class="Gama.Atenciones.Wpf.Views.EditarAtencionesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="538.356" d:DesignWidth="615.411">
+  <ScrollViewer>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+
+      <!-- Listado de atenciones -->
+      <GroupBox Header="Atenciones">
+        <ListBox SelectionMode="Single"></ListBox>
+      </GroupBox>
+
+      <!-- Detalle de la atención -->
+      <Grid Grid.IsSharedSizeScope="True" Grid.Column="1">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"  SharedSizeGroup="A"/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition />
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+
+          <StackPanel Orientation="Horizontal">
+            <StackPanel>
+              <Label Margin="{DynamicResource Margin}">Atención</Label>
+              <Label Margin="{DynamicResource Margin}">Fecha</Label>
+            </StackPanel>
+
+            <StackPanel>
+              <Label Margin="{DynamicResource Margin}">342</Label>
+              <Label Margin="{DynamicResource Margin}">12/04/2016</Label>
+            </StackPanel>
+          </StackPanel>
+
+          <StackPanel Grid.Column="1" Orientation="Horizontal">
+            <StackPanel>
+              <Label Margin="{DynamicResource Margin}">Lugar</Label>
+              <Label Margin="{DynamicResource Margin}">Hora</Label>
+            </StackPanel>
+
+            <StackPanel Grid.Column="3" Grid.RowSpan="2">
+              <Label Margin="{DynamicResource Margin}">SALA B</Label>
+              <Label Margin="{DynamicResource Margin}">11:30 a 12:15</Label>
+            </StackPanel>
+          </StackPanel>
+        </Grid>
+
+        <StackPanel Grid.Row="2">
+          <GroupBox Header="Atención Solicitada" x:Name="atencionSolicitadaGroupBox">
+            <StackPanel>
+              <CheckBox Margin="{DynamicResource Margin}">Acogida</CheckBox>
+              <CheckBox Margin="{DynamicResource Margin}">Formación</CheckBox>
+              <CheckBox Margin="{DynamicResource Margin}">Orientación Laboral</CheckBox>
+              <CheckBox Margin="{DynamicResource Margin}">Participación en Gamá</CheckBox>
+              <CheckBox Margin="{DynamicResource Margin}">Prevención para la Salud</CheckBox>
+              <CheckBox Margin="{DynamicResource Margin}">Psicológica</CheckBox>
+              <CheckBox Margin="{DynamicResource Margin}">Jurídica</CheckBox>
+              <CheckBox Margin="{DynamicResource Margin}">Social</CheckBox>
+              <CheckBox Margin="{DynamicResource Margin}">Otra:</CheckBox>
+              <TextBox Margin="{DynamicResource Margin}"
+                                 HorizontalAlignment="Stretch"/>
+            </StackPanel>
+          </GroupBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="1">
+          <GroupBox Header="Derivación Propuesta/Realizada"
+                          Height="{Binding ActualHeight, ElementName=atencionSolicitadaGroupBox}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+              </Grid.ColumnDefinitions>
+
+              <StackPanel>
+                <CheckBox Margin="{DynamicResource Margin}">Acogida</CheckBox>
+                <CheckBox Margin="{DynamicResource Margin}">Psicológica</CheckBox>
+                <CheckBox Margin="{DynamicResource Margin}">Jurídica</CheckBox>
+                <CheckBox Margin="{DynamicResource Margin}">Social</CheckBox>
+                <CheckBox Margin="{DynamicResource Margin}">Externa</CheckBox>
+                <CheckBox Margin="{DynamicResource Margin}">Otra:</CheckBox>
+                <TextBox Margin="{DynamicResource Margin}"
+                                     MinWidth="120"
+                                     HorizontalAlignment="Stretch"/>
+              </StackPanel>
+
+              <StackPanel Grid.Column="1">
+                <CheckBox Margin="{DynamicResource Margin}">Acogida</CheckBox>
+                <CheckBox Margin="{DynamicResource Margin}">Psicológica</CheckBox>
+                <CheckBox Margin="{DynamicResource Margin}">Jurídica</CheckBox>
+                <CheckBox Margin="{DynamicResource Margin}">Social</CheckBox>
+                <CheckBox Margin="{DynamicResource Margin}">Externa</CheckBox>
+                <CheckBox Margin="{DynamicResource Margin}">Otra:</CheckBox>
+                <TextBox Margin="{DynamicResource Margin}"
+                                     MinWidth="120"
+                                     HorizontalAlignment="Stretch"/>
+              </StackPanel>
+            </Grid>
+          </GroupBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Grid.ColumnSpan="2">
+          <Label Margin="{DynamicResource Margin}">Seguimiento</Label>
+        </StackPanel>
+        <Border Grid.Row="4" Grid.ColumnSpan="2">
+          <ScrollViewer>
+            <TextBox AcceptsReturn="True" AcceptsTab="True"
+                             Margin="{DynamicResource Margin}"
+                             />
+          </ScrollViewer>
+        </Border>
+
+
+        <StackPanel Orientation="Horizontal" Grid.Row="5" HorizontalAlignment="Right" Grid.ColumnSpan="2">
+          <Label Margin="{StaticResource Margin}" Visibility="{Binding PersonaVM.EdicionHabilitada,
+          Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Hyperlink Command="{Binding ActualizarCommand}">Guardar</Hyperlink>
+          </Label>
+          <Label Margin="{StaticResource Margin}" Visibility="{Binding PersonaVM.EdicionHabilitada,
+          Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Hyperlink Command="{Binding CancelarEdicionCommand}">Cancelar</Hyperlink>
+          </Label>
+          <Label Margin="{StaticResource Margin}">
+            <Hyperlink Command="{Binding HabilitarEdicionCommand}">Editar</Hyperlink>
+          </Label>
+        </StackPanel>
+      </Grid>
+    </Grid>
+  </ScrollViewer>
+</UserControl>

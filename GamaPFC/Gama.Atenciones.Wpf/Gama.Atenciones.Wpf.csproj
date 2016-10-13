@@ -150,6 +150,12 @@
     <Compile Include="Views\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\EditarAtencionesView.xaml.cs">
+      <DependentUpon>EditarAtencionesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditarCitasView.xaml.cs">
+      <DependentUpon>EditarCitasView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EditarPersonaView.xaml.cs">
       <DependentUpon>EditarPersonaView.xaml</DependentUpon>
     </Compile>
@@ -216,6 +222,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DashboardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditarAtencionesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditarCitasView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
