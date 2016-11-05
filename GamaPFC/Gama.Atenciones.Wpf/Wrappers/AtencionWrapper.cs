@@ -113,15 +113,15 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool EsDeOrientacionLaboralIsChanged => GetIsChanged(nameof(EsDeOrientacionLaboral));
 
-        public bool EsDePrevencionParaLaSalur
+        public bool EsDePrevencionParaLaSalud
         {
             get { return GetValue<bool>(); }
             set { SetValue(value); }
         }
 
-        public bool EsDePrevencionParaLaSalurOriginalValue => GetOriginalValue<bool>(nameof(EsDePrevencionParaLaSalur));
+        public bool EsDePrevencionParaLaSaludOriginalValue => GetOriginalValue<bool>(nameof(EsDePrevencionParaLaSalud));
 
-        public bool EsDePrevencionParaLaSalurIsChanged => GetIsChanged(nameof(EsDePrevencionParaLaSalur));
+        public bool EsDePrevencionParaLaSaludIsChanged => GetIsChanged(nameof(EsDePrevencionParaLaSalud));
 
         public bool EsDeFormacion
         {

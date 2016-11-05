@@ -62,15 +62,15 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool EsPsicologicaIsChanged => GetIsChanged(nameof(EsPsicologica));
 
-        public bool EsDeAcodiga
+        public bool EsDeFormacion
         {
             get { return GetValue<bool>(); }
             set { SetValue(value); }
         }
 
-        public bool EsDeAcodigaOriginalValue => GetOriginalValue<bool>(nameof(EsDeAcodiga));
+        public bool EsDeFormacionOriginalValue => GetOriginalValue<bool>(nameof(EsDeFormacion));
 
-        public bool EsDeAcodigaIsChanged => GetIsChanged(nameof(EsDeAcodiga));
+        public bool EsDeFormacionIsChanged => GetIsChanged(nameof(EsDeFormacion));
 
         public bool EsDeOrientacionLaboral
         {
@@ -91,6 +91,12 @@ namespace Gama.Atenciones.Wpf.Wrappers
         public bool EsExternaOriginalValue => GetOriginalValue<bool>(nameof(EsExterna));
 
         public bool EsExternaIsChanged => GetIsChanged(nameof(EsExterna));
+
+        public string Externa
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

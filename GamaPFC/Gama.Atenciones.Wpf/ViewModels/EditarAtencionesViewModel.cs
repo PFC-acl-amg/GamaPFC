@@ -20,18 +20,27 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             _EdicionHabilitada = true;
             Persona = new PersonaWrapper(new Persona());
-        }
-
-        public bool EdicionHabilitada
-        {
-            get { return _EdicionHabilitada; }
-            set { SetProperty(ref _EdicionHabilitada, value); }
+            
         }
 
         public PersonaWrapper Persona
         {
             get { return _Persona; }
             set { SetProperty(ref _Persona, value); }
+        }
+
+        public ObservableCollection<AtencionWrapper> Atenciones { get; private set; }
+
+        public AtencionWrapper AtencionSeleccionada
+        {
+            get { return _AtencionSeleccionada; }
+            set { SetProperty(ref _AtencionSeleccionada, value); }
+        }
+
+        public bool EdicionHabilitada
+        {
+            get { return _EdicionHabilitada; }
+            set { SetProperty(ref _EdicionHabilitada, value); }
         }
 
         public void Load(PersonaWrapper wrapper)
@@ -41,14 +50,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Atenciones = new ObservableCollection<AtencionWrapper>(
                 Persona.Citas.Select(c => c.Atencion).Where(a => a != null && a.Id != 0).ToList());
             OnPropertyChanged("Atenciones");
-        }
-
-        public ObservableCollection<AtencionWrapper> Atenciones { get; private set; }
-
-        public AtencionWrapper AtencionSeleccionada
-        {
-            get { return _AtencionSeleccionada; }
-            set { SetProperty(ref _AtencionSeleccionada, value); }
         }
     }
 }
