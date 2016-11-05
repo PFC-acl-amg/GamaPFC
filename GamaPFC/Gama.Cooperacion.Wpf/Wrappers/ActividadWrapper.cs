@@ -30,7 +30,6 @@ namespace Gama.Cooperacion.Wpf.Wrappers
                 throw new ArgumentNullException("Foros");
             }
 
-
             this.Cooperantes = new ChangeTrackingCollection<CooperanteWrapper>
                 (model.Cooperantes.Select(c => new CooperanteWrapper(c)));
             this.RegisterCollection(this.Cooperantes, model.Cooperantes);

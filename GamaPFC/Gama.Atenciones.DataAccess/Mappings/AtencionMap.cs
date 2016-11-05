@@ -1,4 +1,5 @@
-﻿using FluentNHibernate.Mapping;
+﻿using FluentNHibernate;
+using FluentNHibernate.Mapping;
 using Gama.Atenciones.Business;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Map(p => p.CreatedAt);
             Map(p => p.UpdatedAt);
 
-            References(a => a.Cita).Cascade.Delete();
+            References(a => a.Cita, "Cita_id").Unique();
 
             HasOne(a => a.DerivacionesPropuestas);
             HasOne(a => a.DerivacionesRealizadas);

@@ -118,6 +118,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />
+    <Compile Include="DesignTimeData\EditarAtencionesViewModelDTD.cs" />
     <Compile Include="DesignTimeData\ListadoDePersonasViewModelDTD.cs" />
     <Compile Include="DesignTimeData\StatusBarViewModelDTD.cs" />
     <Compile Include="Eventos\AtencionSeleccionadaEvent.cs" />
@@ -139,6 +140,8 @@
     <Compile Include="Services\IPersonaRepository.cs" />
     <Compile Include="Services\PersonaRepository.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\EditarAtencionesViewModel.cs" />
+    <Compile Include="ViewModels\EditarCitasViewModel.cs" />
     <Compile Include="ViewModels\EditarPersonaViewModel.cs" />
     <Compile Include="ViewModels\ListadoDePersonasViewModel.cs" />
     <Compile Include="ViewModels\NuevaPersonaViewModel.cs" />

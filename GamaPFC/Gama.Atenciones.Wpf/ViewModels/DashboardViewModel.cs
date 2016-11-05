@@ -46,8 +46,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             UltimasPersonas = new ObservableCollection<LookupItem>(
                 _PersonaRepository.GetAll()
-                    .OrderBy(p => p.CreatedAt)
-                    .OrderBy(p => p.UpdatedAt)
+                    .OrderBy(p => p.Id)
+                    //.OrderBy(p => p.CreatedAt)
+                    //.OrderBy(p => p.UpdatedAt)
                     .Take(_Settings.DashboardUltimasPersonas)
                 .Select(a => new LookupItem
                 {

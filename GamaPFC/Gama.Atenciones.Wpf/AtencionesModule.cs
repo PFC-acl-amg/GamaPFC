@@ -43,7 +43,7 @@ namespace Gama.Atenciones.Wpf
                     var session = factory.OpenSession();
                     personaRepository.Session = session;
 
-                    var personas = new FakePersonaRepository().GetAll();
+                    var personas = new FakePersonaRepository().GetAll().Take(10);
                     foreach (var persona in personas)
                     {
                         persona.Id = 0;
@@ -52,7 +52,7 @@ namespace Gama.Atenciones.Wpf
 
                     var citaRepository = new CitaRepository();
                     citaRepository.Session = session;
-                    var citas = new FakeCitaRepository().GetAll();
+                    var citas = new FakeCitaRepository().GetAll().Take(10);
                     var personaParaCita = personaRepository.GetById(1);
                     foreach (var cita in citas)
                     {
@@ -63,12 +63,14 @@ namespace Gama.Atenciones.Wpf
 
                     var atencionRepository = new AtencionRepository();
                     atencionRepository.Session = session;
-                    var atenciones = new FakeAtencionRepository().GetAll();
-                    var citaParaAtencion = citaRepository.GetById(1);
+                    var atenciones = new FakeAtencionRepository().GetAll().Take(10);
+                    int citaId = 1;
+                    var citaParaAtencion = citaRepository.GetById(citaId);
                     foreach ( var atencion in atenciones )
                     {
                         atencion.Id = 0;
                         atencion.Cita = citaParaAtencion;
+                        citaParaAtencion = citaRepository.GetById(++citaId);
                         atencionRepository.Create(atencion);
                     }
                 }
@@ -76,13 +78,18 @@ namespace Gama.Atenciones.Wpf
             catch (Exception ex)
             {
                 var message = ex.Message;
+                throw ex;
             }
         }
 
         private void RegisterViews()
         {
             Container.RegisterType<object, DashboardView>("DashboardView");
+
             Container.RegisterType<object, EditarPersonaView>("EditarPersonaView");
+            Container.RegisterType<object, EditarAtencionesView>("EditarAtencionesView");
+            Container.RegisterType<object, EditarCitasView>("EditarCitasView");
+
             Container.RegisterType<object, ListadoDePersonasView>("ListadoDePersonasView");
             Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
             Container.RegisterType<object, PersonasContentView>("PersonasContentView");
@@ -93,7 +100,11 @@ namespace Gama.Atenciones.Wpf
         private void RegisterViewModels()
         {
             Container.RegisterType<DashboardViewModel>();
+
             Container.RegisterType<EditarPersonaViewModel>();
+            Container.RegisterType<EditarAtencionesViewModel>();
+            Container.RegisterType<EditarCitasViewModel>();
+
             Container.RegisterType<ListadoDePersonasViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
             Container.RegisterType<PersonasContentViewModel>();

@@ -15,11 +15,23 @@
 
       <!-- Listado de atenciones -->
       <GroupBox Header="Atenciones">
-        <ListBox SelectionMode="Single"></ListBox>
+        <ListBox SelectionMode="Single" ItemsSource="{Binding Atenciones}"
+                 SelectedItem="{Binding AtencionSeleccionada}">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <GroupBox Header="{Binding Fecha}">
+                <TextBlock>
+                  <Run>ID:</Run>
+                  <Run Text="{Binding Id}"></Run>
+                </TextBlock>
+              </GroupBox>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
       </GroupBox>
 
       <!-- Detalle de la atención -->
-      <Grid Grid.IsSharedSizeScope="True" Grid.Column="1">
+      <Grid Grid.IsSharedSizeScope="True" Grid.Column="1" DataContext="{Binding AtencionSeleccionada}">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto"  SharedSizeGroup="A"/>
           <ColumnDefinition/>
@@ -47,8 +59,8 @@
             </StackPanel>
 
             <StackPanel>
-              <Label Margin="{DynamicResource Margin}">342</Label>
-              <Label Margin="{DynamicResource Margin}">12/04/2016</Label>
+              <Label Margin="{DynamicResource Margin}" Content="{Binding NumeroDeExpediente}"></Label>
+              <Label Margin="{DynamicResource Margin}" Content="{Binding Fecha}"></Label>
             </StackPanel>
           </StackPanel>
 
@@ -59,7 +71,7 @@
             </StackPanel>
 
             <StackPanel Grid.Column="3" Grid.RowSpan="2">
-              <Label Margin="{DynamicResource Margin}">SALA B</Label>
+              <Label Margin="{DynamicResource Margin}" Content="{Binding Sala}"></Label>
               <Label Margin="{DynamicResource Margin}">11:30 a 12:15</Label>
             </StackPanel>
           </StackPanel>

@@ -16,6 +16,14 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         }
 
+        protected override void InitializeComplexProperties(Cita model)
+        {
+            if (model.Atencion != null)
+            {
+                Atencion = new AtencionWrapper(model.Atencion);
+            }
+        }
+
         public string Asistente
         {
             get { return GetValue<string>(); }
@@ -62,7 +70,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool SalaIsChanged => GetIsChanged(nameof(Sala));
 
-        public AtencionWrapper Atencion { get; private set; }
+        public AtencionWrapper Atencion { get; set; }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

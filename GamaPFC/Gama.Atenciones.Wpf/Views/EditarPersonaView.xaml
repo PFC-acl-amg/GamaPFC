@@ -47,7 +47,7 @@
       </controls:MetroTabItem>
       <controls:MetroTabItem Header="ATENCIÓN"
                                    controls:ControlsHelper.HeaderFontSize="19">
-        <local:EditarAtencionesView DataContext="{Binding CitaSeleccionada.Atencion}"/>
+        <local:EditarAtencionesView DataContext="{Binding AtencionesVM}"/>
       </controls:MetroTabItem>
     </controls:MetroAnimatedSingleRowTabControl>
 
