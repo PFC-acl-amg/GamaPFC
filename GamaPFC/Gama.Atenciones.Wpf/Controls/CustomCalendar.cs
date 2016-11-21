@@ -106,7 +106,7 @@ namespace Gama.Atenciones.Wpf.Controls
             }
 
             //Show 3 weeks each with 7 days = 21 42
-            for (int box = 1; box <= 7; box++)
+            for (int box = 1; box <= 21; box++)
             {
                 Day day = new Day { Date = startDate, Enabled = true, IsTargetMonth = targetDate.Month == startDate.Month };
                 day.PropertyChanged += Day_Changed;
