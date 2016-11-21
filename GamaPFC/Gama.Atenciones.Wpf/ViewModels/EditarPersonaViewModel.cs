@@ -25,12 +25,14 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private IPersonaRepository _PersonaRepository;
         private PersonaViewModel _PersonaVM;
         private EditarAtencionesViewModel _AtencionesVM;
+        private EditarCitasViewModel _CitasVM;
 
         public EditarPersonaViewModel(
             IEventAggregator eventAggregator,
             IPersonaRepository personaRepository,
             PersonaViewModel personaVM,
             EditarAtencionesViewModel atencionesVM,
+            EditarCitasViewModel citasVM,
             ISession session)
         {
             _EventAggregator = eventAggregator;
@@ -38,6 +40,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _PersonaRepository.Session = session;
             _PersonaVM = personaVM;
             _AtencionesVM = atencionesVM;
+            _AtencionesVM.Session = session;
+            _CitasVM = citasVM;
+            _CitasVM.Session = session;
 
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
@@ -63,6 +68,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public EditarAtencionesViewModel AtencionesVM
         {
             get { return _AtencionesVM; }
+        }
+
+        public EditarCitasViewModel CitasVM
+        {
+            get { return _CitasVM;  }
         }
 
         public PersonaWrapper Persona
@@ -115,6 +125,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             _PersonaVM.Load(persona);
             _AtencionesVM.Load(_PersonaVM.Persona);
+            _CitasVM.Load(_PersonaVM.Persona);
             RefrescarTitulo(persona.Nombre);
         }
 

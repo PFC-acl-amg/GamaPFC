@@ -117,8 +117,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\CustomCalendar.cs" />
+    <Compile Include="Controls\Day.cs" />
+    <Compile Include="Converters\AppointmentsConverter.cs" />
+    <Compile Include="Converters\DateConverter.cs" />
+    <Compile Include="Converters\DayNameConverter.cs" />
+    <Compile Include="Converters\MonthNameConverter.cs" />
     <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />
     <Compile Include="DesignTimeData\EditarAtencionesViewModelDTD.cs" />
+    <Compile Include="DesignTimeData\EditarCitasViewModelDTD.cs" />
     <Compile Include="DesignTimeData\ListadoDePersonasViewModelDTD.cs" />
     <Compile Include="DesignTimeData\StatusBarViewModelDTD.cs" />
     <Compile Include="Eventos\AtencionSeleccionadaEvent.cs" />
@@ -144,6 +151,7 @@
     <Compile Include="ViewModels\EditarCitasViewModel.cs" />
     <Compile Include="ViewModels\EditarPersonaViewModel.cs" />
     <Compile Include="ViewModels\ListadoDePersonasViewModel.cs" />
+    <Compile Include="ViewModels\NuevaCitaViewModel.cs" />
     <Compile Include="ViewModels\NuevaPersonaViewModel.cs" />
     <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
     <Compile Include="ViewModels\PersonasContentViewModel.cs" />
@@ -164,6 +172,9 @@
     </Compile>
     <Compile Include="Views\ListadoDePersonasView.xaml.cs">
       <DependentUpon>ListadoDePersonasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NuevaCitaView.xaml.cs">
+      <DependentUpon>NuevaCitaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NuevaPersonaView.xaml.cs">
       <DependentUpon>NuevaPersonaView.xaml</DependentUpon>
@@ -212,6 +223,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\Styles\CustomCalendar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Styles\DatePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -241,6 +256,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ListadoDePersonasView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NuevaCitaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -317,7 +336,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Actions\" />
-    <Folder Include="Converters\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\icono_nueva_persona.png">

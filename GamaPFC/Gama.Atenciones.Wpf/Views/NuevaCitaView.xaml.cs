@@ -1,4 +1,4 @@
-﻿using Gama.Atenciones.Wpf.DesignTimeData;
+﻿using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,21 +11,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Gama.Atenciones.Wpf.Views
 {
     /// <summary>
-    /// Interaction logic for EditarCitasView.xaml
+    /// Interaction logic for NuevaCitaView.xaml
     /// </summary>
-    public partial class EditarCitasView : UserControl
+    public partial class NuevaCitaView : MetroWindow
     {
-        public EditarCitasView()
+        public NuevaCitaView()
         {
             InitializeComponent();
-            //var vm = new EditarCitasViewModelDTD();
-            //DataContext = vm;
         }
     }
 }

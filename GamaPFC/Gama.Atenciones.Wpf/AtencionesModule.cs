@@ -34,13 +34,12 @@ namespace Gama.Atenciones.Wpf
             InitializeNavigation();
 
             try {
-                var sessionFactory = new NHibernateSessionFactory();
-                var factory = sessionFactory.SessionFactory;
-
                 if (UseFaker)
                 {
+                    var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
+
                     var personaRepository = new PersonaRepository();
-                    var session = factory.OpenSession();
+                    var session = sessionFactory.OpenSession();
                     personaRepository.Session = session;
 
                     var personas = new FakePersonaRepository().GetAll().Take(10);
@@ -50,29 +49,29 @@ namespace Gama.Atenciones.Wpf
                         personaRepository.Create(persona);
                     }
 
-                    var citaRepository = new CitaRepository();
-                    citaRepository.Session = session;
-                    var citas = new FakeCitaRepository().GetAll().Take(10);
-                    var personaParaCita = personaRepository.GetById(1);
-                    foreach (var cita in citas)
-                    {
-                        cita.Id = 0;
-                        cita.Persona = personaParaCita;
-                        citaRepository.Create(cita);
-                    }
+                    //var citaRepository = new CitaRepository();
+                    //citaRepository.Session = session;
+                    //var citas = new FakeCitaRepository().GetAll().Take(10);
+                    //var personaParaCita = personaRepository.GetById(1);
+                    //foreach (var cita in citas)
+                    //{
+                    //    cita.Id = 0;
+                    //    cita.Persona = personaParaCita;
+                    //    citaRepository.Create(cita);
+                    //}
 
-                    var atencionRepository = new AtencionRepository();
-                    atencionRepository.Session = session;
-                    var atenciones = new FakeAtencionRepository().GetAll().Take(10);
-                    int citaId = 1;
-                    var citaParaAtencion = citaRepository.GetById(citaId);
-                    foreach ( var atencion in atenciones )
-                    {
-                        atencion.Id = 0;
-                        atencion.Cita = citaParaAtencion;
-                        citaParaAtencion = citaRepository.GetById(++citaId);
-                        atencionRepository.Create(atencion);
-                    }
+                    //var atencionRepository = new AtencionRepository();
+                    //atencionRepository.Session = session;
+                    //var atenciones = new FakeAtencionRepository().GetAll().Take(10);
+                    //int citaId = 1;
+                    //var citaParaAtencion = citaRepository.GetById(citaId);
+                    //foreach ( var atencion in atenciones )
+                    //{
+                    //    atencion.Id = 0;
+                    //    atencion.Cita = citaParaAtencion;
+                    //    citaParaAtencion = citaRepository.GetById(++citaId);
+                    //    atencionRepository.Create(atencion);
+                    //}
                 }
             } 
             catch (Exception ex)

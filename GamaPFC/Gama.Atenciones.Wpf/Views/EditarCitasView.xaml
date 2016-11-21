@@ -4,7 +4,197 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-  <ListBox ItemsSource="{Binding}"></ListBox>
+             xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
+             xmlns:Converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
+             xmlns:CustomControls="clr-namespace:Gama.Atenciones.Wpf.Controls"
+             mc:Ignorable="d" d:DesignWidth="995" d:DesignHeight="333">
+  <d:DataContext>
+    <designData:EditarCitasViewModelDTD/>
+  </d:DataContext>
+  <UserControl.Resources>
+    <ResourceDictionary>
+      <Converters:DateConverter x:Key="DateConverter"/>
+      <Converters:AppointmentsConverter x:Key="AppointmentsConverter"/>
+      <Converters:MonthNameConverter x:Key="MonthNameConverter"/>
+      <Style x:Key="EditarCitasCalendarStyle" TargetType="{x:Type CustomControls:CustomCalendar}">
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type  CustomControls:CustomCalendar}">
+              <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                <Grid>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
+                  <!--<TextBlock Text="{Binding Date}" />
+
+                  <Grid Height="15" DockPanel.Dock="Top">
+        
+                  </Grid>-->
+
+                  <ItemsControl Grid.Row="0"
+                    ItemsSource="{Binding DayNames, RelativeSource={RelativeSource FindAncestor, 
+					                              AncestorType={x:Type  CustomControls:CustomCalendar}}}" DockPanel.Dock="Top">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <TextBlock TextAlignment="Center" Text="{Binding}" Foreground="White">
+                          <TextBlock.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                              <GradientStop Color="#FF171717" Offset="0"/>
+                              <GradientStop Color="#FF040404" Offset="1"/>
+                            </LinearGradientBrush>
+                          </TextBlock.Background>
+                        </TextBlock>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                      <ItemsPanelTemplate>
+                        <UniformGrid Rows="1" Columns="7" />
+                      </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                  </ItemsControl>
+
+                  <ItemsControl Grid.Row="1" ItemsSource="{Binding Days, RelativeSource={RelativeSource FindAncestor, 
+					                              AncestorType={x:Type  CustomControls:CustomCalendar}}}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <!--Box-->
+                        <Border BorderBrush="Black" BorderThickness="1" Padding="0" Margin="2">
+                          <Border Name="InnerBorder" BorderBrush="Black"
+                              BorderThickness="2">
+                            <!--<Border.Style>
+                              <Style TargetType="{x:Type Border}">
+                                <Style.Triggers>
+                                  --><!--Current Day--><!--
+                                  <DataTrigger Binding="{Binding IsToday}" Value="true">
+                                    <Setter Property="Border.Background">
+                                      <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                          <GradientStop Color="#FF1EA6C8" Offset="0"/>
+                                          <GradientStop Color="#FF0691B3" Offset="1"/>
+                                        </LinearGradientBrush>
+                                      </Setter.Value>
+                                    </Setter>
+                                  </DataTrigger>
+                                </Style.Triggers>
+                              </Style>
+                            </Border.Style>-->
+
+                            <Grid>
+
+                              <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition />
+                              </Grid.RowDefinitions>
+
+                              <!--Day Number-->
+                              <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+
+                                <TextBlock  x:Name="TheGrid" TextAlignment="Left" VerticalAlignment="Center" Background="#FF307DBB"
+                                       Padding="4,2,6,4"
+                                       Margin="2,0,0,0"
+                                       Foreground="White" Text="{Binding Date.Month, Converter={StaticResource MonthNameConverter}}"/>
+                              </StackPanel>
+                              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Background="Transparent" FontWeight="Light" BorderThickness="0"
+                                    VerticalAlignment="Top" FontSize="14"
+                                     Command="{Binding DataContext.NuevaCitaCommand, RelativeSource={RelativeSource FindAncestor, 
+					                              AncestorType={x:Type UserControl}}}" 
+                                  CommandParameter="{Binding}">
+                                  +
+                                </Button>
+                                <TextBlock TextAlignment="Right" 
+                                       Text="{Binding Date, Converter={StaticResource DateConverter}, ConverterParameter=DAY}" 
+                                       FontSize="12" Margin="4" >
+                                  <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                      <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsTargetMonth}" Value="false">
+                                          <Setter Property="TextBlock.Foreground" Value="Gray"></Setter>
+                                        </DataTrigger>
+                                      </Style.Triggers>
+                                    </Style>
+                                  </TextBlock.Style>
+                                </TextBlock>
+                              </StackPanel>
+                              <!-- Appointments -->
+                              <ListBox
+                              x:Name="PART_AppointmentsListBox"
+                              Grid.Row="1"
+                              Background="Transparent"
+                              BorderBrush="Transparent"
+                              HorizontalContentAlignment="Stretch">
+                                <ListBox.ItemsSource>
+                                  <MultiBinding Converter="{StaticResource AppointmentsConverter}">
+                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, 
+                                      AncestorType={x:Type  CustomControls:CustomCalendar}}" Path="Appointments"/>
+                                    <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext"/>
+                                  </MultiBinding>
+                                </ListBox.ItemsSource>
+                                <ListBox.ItemTemplate>
+                                  <DataTemplate>
+                                    <Border Background="#FFDFE8F5" 
+                                        BorderBrush="#FF5177A8" 
+                                        BorderThickness="1" 
+                                        CornerRadius="1"
+                                        Margin="2">
+                                      <Grid>
+                                        <Grid.ColumnDefinitions>
+                                          <ColumnDefinition />
+                                          <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Margin="4" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                      <Run Text="{Binding Asistente}"/>
+                                      <Run Text="{Binding Sala, StringFormat=({0})}"/>
+                                        </TextBlock>
+                                        <StackPanel HorizontalAlignment="Right" Grid.Column="1">
+                                          <Button Margin="2" VerticalAlignment="Center"
+                                              Padding="2,0,2,0"
+                                              BorderThickness="0"
+                                              FontSize="14"
+                                              Content="+"
+                                              Background="#FF3078A5"
+                                              Foreground="White"
+                                              FontWeight="Bold"
+                                              Command="{Binding DataContext.NuevaCitaCommand, 
+                                                RelativeSource={RelativeSource FindAncestor, 
+					                                          AncestorType={x:Type UserControl}}}"
+                                              CommandParameter="{Binding}"></Button>
+                                        </StackPanel>
+                                      </Grid>
+                                    </Border>
+                                  </DataTemplate>
+                                </ListBox.ItemTemplate>
+                              </ListBox>
+                            </Grid>
+                          </Border>
+                        </Border>
+
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                      <ItemsPanelTemplate>
+                        <UniformGrid Rows="3" Columns="7" />
+                      </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                  </ItemsControl>
+                </Grid>
+              </Border>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </ResourceDictionary>
+  </UserControl.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition />
+    </Grid.RowDefinitions>
+
+    <CustomControls:CustomCalendar Grid.Row="1" Appointments="{Binding Appointments}"
+                                   CurrentDate="{Binding CurrentDate, Mode=TwoWay}"/>
+  </Grid>
 </UserControl>

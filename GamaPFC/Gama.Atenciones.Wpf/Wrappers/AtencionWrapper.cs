@@ -18,17 +18,17 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         protected override void InitializeComplexProperties(Atencion model)
         {
-            if (model.DerivacionesPropuestas == null)
-                throw new ArgumentNullException("DerivacionesPropuestas");
+            if (model.Derivacion == null)
+            //    throw new ArgumentNullException("Derivacion");
 
-            if (model.DerivacionesRealizadas == null)
-                throw new ArgumentNullException("DerivacionesRealizadas");
+            //if (model.DerivacionesRealizadas == null)
+            //    throw new ArgumentNullException("DerivacionesRealizadas");
 
-            DerivacionesPropuestas = new DerivacionWrapper(model.DerivacionesPropuestas);
-            RegisterComplex(DerivacionesPropuestas);
+            //DerivacionesPropuestas = new DerivacionWrapper(model.DerivacionesPropuestas);
+            //RegisterComplex(DerivacionesPropuestas);
 
-            DerivacionesRealizadas = new DerivacionWrapper(model.DerivacionesRealizadas);
-            RegisterComplex(DerivacionesRealizadas);
+            Derivacion = new DerivacionWrapper(model.Derivacion);
+            RegisterComplex(Derivacion);
         }
 
         public int Id
@@ -93,15 +93,15 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool EsPsicologicaIsChanged => GetIsChanged(nameof(EsPsicologica));
 
-        public bool EsDeAcodiga
+        public bool EsDeAcogida
         {
             get { return GetValue<bool>(); }
             set { SetValue(value); }
         }
 
-        public bool EsDeAcodigaOriginalValue => GetOriginalValue<bool>(nameof(EsDeAcodiga));
+        public bool EsDeAcogidaOriginalValue => GetOriginalValue<bool>(nameof(EsDeAcogida));
 
-        public bool EsDeAcodigaIsChanged => GetIsChanged(nameof(EsDeAcodiga));
+        public bool EsDeAcogidaIsChanged => GetIsChanged(nameof(EsDeAcogida));
 
         public bool EsDeOrientacionLaboral
         {
@@ -163,8 +163,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool OtraIsChanged => GetIsChanged(nameof(Otra));
 
-        public DerivacionWrapper DerivacionesPropuestas { get; private set; }
-        public DerivacionWrapper DerivacionesRealizadas { get;  private set; }
+        public DerivacionWrapper Derivacion { get; private set; }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

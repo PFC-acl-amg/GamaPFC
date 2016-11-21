@@ -15,6 +15,7 @@
 
       <!-- Listado de atenciones -->
       <GroupBox Header="Atenciones">
+        <ScrollViewer>
         <ListBox SelectionMode="Single" ItemsSource="{Binding Atenciones}"
                  SelectedItem="{Binding AtencionSeleccionada}">
           <ListBox.ItemTemplate>
@@ -28,136 +29,138 @@
             </DataTemplate>
           </ListBox.ItemTemplate>
         </ListBox>
+        </ScrollViewer>
       </GroupBox>
 
-      <!-- Detalle de la atención -->
-      <Grid Grid.IsSharedSizeScope="True" Grid.Column="1" DataContext="{Binding AtencionSeleccionada}">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto"  SharedSizeGroup="A"/>
-          <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-
+      <Grid Grid.Column="1">
         <Grid.RowDefinitions>
-          <RowDefinition Height="Auto"/>
-          <RowDefinition Height="Auto"/>
-          <RowDefinition Height="Auto"/>
-          <RowDefinition Height="Auto"/>
           <RowDefinition />
-          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+        <!-- Detalle de la atención -->
+        <Grid Grid.IsSharedSizeScope="True" Grid.Row="0" DataContext="{Binding AtencionSeleccionada}">
           <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"  SharedSizeGroup="A"/>
+            <ColumnDefinition/>
           </Grid.ColumnDefinitions>
 
-          <StackPanel Orientation="Horizontal">
-            <StackPanel>
-              <Label Margin="{DynamicResource Margin}">Atención</Label>
-              <Label Margin="{DynamicResource Margin}">Fecha</Label>
-            </StackPanel>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
 
-            <StackPanel>
-              <Label Margin="{DynamicResource Margin}" Content="{Binding Id}"></Label>
-              <Label Margin="{DynamicResource Margin}" Content="{Binding Fecha}"></Label>
-            </StackPanel>
-          </StackPanel>
+          <Grid Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
+              <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-          <StackPanel Grid.Column="1" Orientation="Horizontal">
-            <StackPanel>
-              <Label Margin="{DynamicResource Margin}">Lugar</Label>
-              <Label Margin="{DynamicResource Margin}">Hora</Label>
-            </StackPanel>
-
-            <StackPanel Grid.Column="3" Grid.RowSpan="2">
-              <Label Margin="{DynamicResource Margin}" Content="{Binding Cita.Sala}"/>
-              <Label Margin="{DynamicResource Margin}" Content="{Binding Cita.Inicio}"/>
-            </StackPanel>
-          </StackPanel>
-        </Grid>
-
-        <StackPanel Grid.Row="2">
-          <GroupBox Header="Atención Solicitada" x:Name="atencionSolicitadaGroupBox">
-            <StackPanel>
-              <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsDeAcogida}">Acogida</CheckBox>
-              <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsDeFormacion}">Formación</CheckBox>
-              <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsDeOrientacionLaboral}">Orientación Laboral</CheckBox>
-              <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsDeParticipacion}">Participación en Gamá</CheckBox>
-              <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsDePrevencionParaLaSalud}">Prevención para la Salud</CheckBox>
-              <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsPsicologica}">Psicológica</CheckBox>
-              <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsJuridica}">Jurídica</CheckBox>
-              <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsSocial}">Social</CheckBox>
-              <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsOtra}">Otra:</CheckBox>
-              <TextBox Margin="{DynamicResource Margin}" Text="{Binding Otra}" HorizontalAlignment="Stretch"/>
-            </StackPanel>
-          </GroupBox>
-        </StackPanel>
-
-        <StackPanel Grid.Row="2" Grid.Column="1">
-          <GroupBox Header="Derivación Propuesta/Realizada"
-                          Height="{Binding ActualHeight, ElementName=atencionSolicitadaGroupBox}">
-            <Grid>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-              </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+              <StackPanel>
+                <Label Margin="{DynamicResource Margin}">Atención</Label>
+                <Label Margin="{DynamicResource Margin}">Fecha</Label>
+              </StackPanel>
 
               <StackPanel>
-                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding DerivacionesPropuestas.EsDeFormacion}">Formación</CheckBox>
-                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding DerivacionesPropuestas.EsPsicologica}">Psicológica</CheckBox>
-                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding DerivacionesPropuestas.EsJuridica}">Jurídica</CheckBox>
-                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding DerivacionesPropuestas.EsSocial}">Social</CheckBox>
-                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding DerivacionesPropuestas.EsDeOrientacionLaboral}">Orientación Laboral</CheckBox>
-                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding DerivacionesPropuestas.EsExterna}">Externa:</CheckBox>
-                <TextBox Margin="{DynamicResource Margin}"
-                         Text="{Binding DerivacionesPropuestas.Externa}"
-                                     MinWidth="120"
-                                     HorizontalAlignment="Stretch"/>
+                <Label Margin="{DynamicResource Margin}" Content="{Binding Id}"></Label>
+                <Label Margin="{DynamicResource Margin}" Content="{Binding Fecha}"></Label>
+              </StackPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+              <StackPanel>
+                <Label Margin="{DynamicResource Margin}">Lugar</Label>
+                <Label Margin="{DynamicResource Margin}">Hora</Label>
               </StackPanel>
 
-              <StackPanel Grid.Column="1">
-                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding DerivacionesRealizadas.EsDeFormacion}">Formación</CheckBox>
-                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding DerivacionesRealizadas.EsPsicologica}">Psicológica</CheckBox>
-                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding DerivacionesRealizadas.EsJuridica}">Jurídica</CheckBox>
-                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding DerivacionesRealizadas.EsSocial}">Social</CheckBox>
-                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding DerivacionesRealizadas.EsDeOrientacionLaboral}">Orientación Laboral</CheckBox>
-                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding DerivacionesRealizadas.EsExterna}">Externa:</CheckBox>
-                <TextBox Margin="{DynamicResource Margin}"
-                         Text="{Binding DerivacionesRealizadas.Externa}"
-                                     MinWidth="120"
-                                     HorizontalAlignment="Stretch"/>
+              <StackPanel Grid.Column="3" Grid.RowSpan="2">
+                <Label Margin="{DynamicResource Margin}" Content="{Binding Cita.Sala}"/>
+                <Label Margin="{DynamicResource Margin}" Content="{Binding Cita.Inicio}"/>
               </StackPanel>
-            </Grid>
-          </GroupBox>
-        </StackPanel>
+            </StackPanel>
+          </Grid>
 
-        <StackPanel Grid.Row="3" Grid.ColumnSpan="2">
-          <Label Margin="{DynamicResource Margin}">Seguimiento</Label>
-        </StackPanel>
-        <Border Grid.Row="4" Grid.ColumnSpan="2">
-          <ScrollViewer>
-            <TextBox AcceptsReturn="True" AcceptsTab="True" Margin="{DynamicResource Margin}" 
-                     Text="{Binding Seguimiento}"/>
-          </ScrollViewer>
-        </Border>
+          <StackPanel Grid.Row="2">
+            <GroupBox Header="Atención Solicitada" x:Name="atencionSolicitadaGroupBox">
+              <StackPanel>
+                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsDeAcogida}">Acogida</CheckBox>
+                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsDeFormacion}">Formación</CheckBox>
+                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsDeOrientacionLaboral}">Orientación Laboral</CheckBox>
+                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsDeParticipacion}">Participación en Gamá</CheckBox>
+                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsDePrevencionParaLaSalud}">Prevención para la Salud</CheckBox>
+                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsPsicologica}">Psicológica</CheckBox>
+                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsJuridica}">Jurídica</CheckBox>
+                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsSocial}">Social</CheckBox>
+                <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsOtra}">Otra:</CheckBox>
+                <TextBox Margin="{DynamicResource Margin}" Text="{Binding Otra}" HorizontalAlignment="Stretch"/>
+              </StackPanel>
+            </GroupBox>
+          </StackPanel>
 
+          <StackPanel Grid.Row="2" Grid.Column="1">
+            <GroupBox Header="Derivación Propuesta/Realizada"
+                            Height="{Binding ActualHeight, ElementName=atencionSolicitadaGroupBox}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="5" HorizontalAlignment="Right" Grid.ColumnSpan="2">
+                <StackPanel>
+                  <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding Derivacion.EsDeFormacion}">Formación</CheckBox>
+                  <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding Derivacion.EsPsicologica}">Psicológica</CheckBox>
+                  <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding Derivacion.EsJuridica}">Jurídica</CheckBox>
+                  <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding Derivacion.EsSocial}">Social</CheckBox>
+                  <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding Derivacion.EsDeOrientacionLaboral}">Orientación Laboral</CheckBox>
+                  <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding Derivacion.EsExterna}">Externa:</CheckBox>
+                  <TextBox Margin="{DynamicResource Margin}"
+                           Text="{Binding DerivacionesPropuestas.Externa}"
+                                       MinWidth="120"
+                                       HorizontalAlignment="Stretch"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1">
+                  <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding Derivacion.EsDeFormacion_Realizada}">Formación</CheckBox>
+                  <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding Derivacion.EsPsicologica_Realizada}">Psicológica</CheckBox>
+                  <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding Derivacion.EsJuridica_Realizada}">Jurídica</CheckBox>
+                  <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding Derivacion.EsSocial_Realizada}">Social</CheckBox>
+                  <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding Derivacion.EsDeOrientacionLaboral_Realizada}">Orientación Laboral</CheckBox>
+                  <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding Derivacion.EsExterna_Realizada}">Externa:</CheckBox>
+                  <TextBox Margin="{DynamicResource Margin}"
+                           Text="{Binding Derivacion.Externa_Realizada}"
+                                       MinWidth="120"
+                                       HorizontalAlignment="Stretch"/>
+                </StackPanel>
+              </Grid>
+            </GroupBox>
+          </StackPanel>
+
+          <StackPanel Grid.Row="3" Grid.ColumnSpan="2">
+            <Label Margin="{DynamicResource Margin}">Seguimiento</Label>
+          </StackPanel>
+          <Border Grid.Row="4" Grid.ColumnSpan="2">
+            <ScrollViewer>
+              <TextBox AcceptsReturn="True" AcceptsTab="True" Margin="{DynamicResource Margin}" 
+                       Text="{Binding Seguimiento}"/>
+            </ScrollViewer>
+          </Border>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
           <Label Margin="{StaticResource Margin}" 
-                 Visibility="{Binding EdicionHabilitada, Converter={StaticResource BooleanToVisibilityConverter},
-                              RelativeSource={RelativeSource AncestorType=UserControl}}">
+                 Visibility="{Binding EdicionHabilitada, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Hyperlink Command="{Binding ActualizarCommand}">Guardar</Hyperlink>
           </Label>
           <Label Margin="{StaticResource Margin}" 
-                 Visibility="{Binding EdicionHabilitada, Converter={StaticResource BooleanToVisibilityConverter},
-                              RelativeSource={RelativeSource AncestorType=UserControl}}">
-            <Hyperlink Command="{Binding CancelarEdicionCommand,
-                              RelativeSource={RelativeSource AncestorType=UserControl}}">Cancelar</Hyperlink>
+                 Visibility="{Binding EdicionHabilitada, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Hyperlink Command="{Binding CancelarEdicionCommand}">Cancelar</Hyperlink>
           </Label>
           <Label Margin="{StaticResource Margin}">
-            <Hyperlink Command="{Binding HabilitarEdicionCommand,
-                              RelativeSource={RelativeSource AncestorType=UserControl}}">Editar</Hyperlink>
+            <Hyperlink Command="{Binding HabilitarEdicionCommand}">Editar</Hyperlink>
           </Label>
         </StackPanel>
       </Grid>

@@ -19,6 +19,14 @@ namespace Gama.Atenciones.Business
         public virtual bool EsExterna { get; set; }
         public virtual string Externa { get; set; }
 
+        public virtual bool EsSocial_Realizada { get; set; }
+        public virtual bool EsJuridica_Realizada { get; set; }
+        public virtual bool EsPsicologica_Realizada { get; set; }
+        public virtual bool EsDeFormacion_Realizada { get; set; }
+        public virtual bool EsDeOrientacionLaboral_Realizada { get; set; }
+        public virtual bool EsExterna_Realizada { get; set; }
+        public virtual string Externa_Realizada { get; set; }
+
         public virtual Atencion Atencion { get; set; }
 
         public Derivacion()

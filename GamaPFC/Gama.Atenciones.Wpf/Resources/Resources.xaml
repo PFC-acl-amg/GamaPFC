@@ -5,6 +5,7 @@
     <ResourceDictionary Source="Styles/ComboBox.xaml"/>
     <ResourceDictionary Source="Styles/DatePicker.xaml"/>
     <ResourceDictionary Source="Styles/TextBox.xaml"/>
+    <ResourceDictionary Source="Styles/CustomCalendar.xaml"/>
   </ResourceDictionary.MergedDictionaries>
   <BitmapImage x:Key="IconoNuevaPersona" 
                    UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/icono_nueva_persona.png"/>

@@ -27,13 +27,12 @@ namespace Gama.Atenciones.Business
 
         public virtual Cita Cita { get; set; }
 
-        public virtual Derivacion DerivacionesPropuestas { get; protected set; }
-        public virtual Derivacion DerivacionesRealizadas { get; protected set; }
+        public virtual Derivacion Derivacion { get; protected set; }
 
         public Atencion()
         {
-            DerivacionesPropuestas = new Derivacion();
-            DerivacionesRealizadas = new Derivacion();
+            Derivacion = new Derivacion();
+            //Derivacion.Atencion = this;
         }
     }
 }

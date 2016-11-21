@@ -17,5 +17,10 @@ namespace Gama.Atenciones.Business
         public virtual string Sala { get; set; }
         public virtual Atencion Atencion { get; set; }
         public virtual Persona Persona { get; set; }
+
+        public Cita()
+        {
+            Inicio = DateTime.Now;
+        }
     }
 }

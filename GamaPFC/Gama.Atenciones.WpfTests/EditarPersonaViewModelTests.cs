@@ -25,10 +25,16 @@ namespace Gama.Atenciones.WpfTests
         private PersonaViewModel _PersonaViewModelMock;
         private EditarPersonaViewModel _Vm;
         private Mock<ISession> _SessionMock;
+        private Mock<IAtencionRepository> _AtencionRepositoryMock;
+        private EditarAtencionesViewModel _AtencionViewModelMock;
+        private Mock<ICitaRepository> _CitaRepositoryMock;
+        private EditarCitasViewModel _CitaViewModelMock;
 
         public EditarPersonaViewModelTests()
         {
             _PersonaRepositoryMock = new Mock<IPersonaRepository>();
+            _AtencionRepositoryMock = new Mock<IAtencionRepository>();
+            _CitaRepositoryMock = new Mock<ICitaRepository>();
             _EventAggregatorMock = new Mock<IEventAggregator>();
             _PersonaActualizadaEventMock = new Mock<PersonaActualizadaEvent>();
             _SessionMock = new Mock<ISession>();
@@ -48,11 +54,15 @@ namespace Gama.Atenciones.WpfTests
                 .Returns(_Persona.Model);
 
             _PersonaViewModelMock = new PersonaViewModel();
+            _AtencionViewModelMock = new EditarAtencionesViewModel(_AtencionRepositoryMock.Object);
+            _CitaViewModelMock = new EditarCitasViewModel(_CitaRepositoryMock.Object);
 
             _Vm = new EditarPersonaViewModel(
                 _EventAggregatorMock.Object,
                 _PersonaRepositoryMock.Object,
                 _PersonaViewModelMock,
+                _AtencionViewModelMock,
+                _CitaViewModelMock,
                 _SessionMock.Object);
 
             var navigationParameters = new NavigationParameters();

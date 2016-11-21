@@ -50,7 +50,7 @@ namespace Gama.Atenciones.DataAccess
                     }
                     catch (FluentConfigurationException ex)
                     {
-                        throw new FluentConfigurationException($"Error: Session Factory\n - {ex.Message}", null);
+                        throw new FluentConfigurationException($"Error: Session Factory\n - {ex.Message}", ex);
                     }
                 }
 
@@ -75,7 +75,7 @@ namespace Gama.Atenciones.DataAccess
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: true,
-                            execute: true,
+                            execute: false,
                             justDrop: false);
                     })
                 .BuildConfiguration();

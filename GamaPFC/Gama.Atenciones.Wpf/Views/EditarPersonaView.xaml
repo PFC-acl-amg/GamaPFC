@@ -9,6 +9,9 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="566.606" d:DesignWidth="1099.96">
+  <UserControl.Resources>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+  </UserControl.Resources>
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition MaxWidth="400"/>
@@ -43,7 +46,7 @@
     <controls:MetroAnimatedSingleRowTabControl Grid.Column="1">
       <controls:MetroTabItem Header="CITAS"
                                    controls:ControlsHelper.HeaderFontSize="19">
-        <local:EditarCitasView DataContext="{Binding Persona.Citas}"/>
+        <local:EditarCitasView/> <!--DataContext="{Binding CitasVM}"/>-->
       </controls:MetroTabItem>
       <controls:MetroTabItem Header="ATENCIÓN"
                                    controls:ControlsHelper.HeaderFontSize="19">

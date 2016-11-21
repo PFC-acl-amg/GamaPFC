@@ -23,8 +23,15 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Map(x => x.EsSocial);
             Map(x => x.EsExterna);
             Map(x => x.Externa);
+            Map(x => x.EsDeFormacion_Realizada);
+            Map(x => x.EsDeOrientacionLaboral_Realizada);
+            Map(x => x.EsJuridica_Realizada);
+            Map(x => x.EsPsicologica_Realizada);
+            Map(x => x.EsSocial_Realizada);
+            Map(x => x.EsExterna_Realizada);
+            Map(x => x.Externa_Realizada);
 
-            References(x => x.Atencion);
+            References(x => x.Atencion, "Atencion_id").Unique();
         }
     }
 }
