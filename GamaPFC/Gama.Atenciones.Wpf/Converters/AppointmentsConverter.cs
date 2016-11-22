@@ -71,9 +71,9 @@ namespace Gama.Atenciones.Wpf.Converters
                 }
                 return appointments;
             }
-            catch (InvalidCastException ex)
+            catch (Exception ex)
             {
-                return new List<Appointment>();
+                return new List<CitaWrapper>();
             }
         }
 

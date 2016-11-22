@@ -64,19 +64,6 @@ namespace Gama.Atenciones.Wpf.Controls
                 new FrameworkPropertyMetadata(new PropertyChangedCallback(OnAppointmentsPropertyChanged))
             );
 
-
-
-        public int Refresh
-        {
-            get { return (int)GetValue(RefreshProperty); }
-            set { SetValue(RefreshProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for Refresh.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty RefreshProperty =
-            DependencyProperty.Register("Refresh", typeof(int), typeof(CustomCalendar), new PropertyMetadata(0,
-                new PropertyChangedCallback(OnAppointmentsPropertyChanged)));
-
         private static void OnAppointmentsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var cc = d as CustomCalendar;
@@ -158,15 +145,14 @@ namespace Gama.Atenciones.Wpf.Controls
             //Show 3 weeks each with 7 days = 21 42
             for (int box = 1; box <= 21; box++)
             {
-                Day day = new Day { Date = startDate, Enabled = true, IsTargetMonth = targetDate.Month == startDate.Month };
-                day.PropertyChanged += Day_Changed;
-                day.IsToday = startDate == DateTime.Today;
+                Day day = new Day {
+                    Date = startDate,
+                    Enabled = true,
+                    IsToday = startDate.Date == DateTime.Today.Date,
+                    IsTargetMonth = targetDate.Month == startDate.Month
+                };
 
-                //if (Appointments.Where(a => a.Date == day.Date).Any())
-                //{
-                //    Days.AddRange(Appointments.Where(a => a.Date == day.Date)
-                //        .Select(a => new Day { Date = a.Date }).ToList());
-                //}
+                day.PropertyChanged += Day_Changed;
                 
                 Days.Add(day);
                 startDate = startDate.AddDays(1);
