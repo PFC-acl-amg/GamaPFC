@@ -32,9 +32,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public void Load(PersonaWrapper wrapper)
         {
             Persona = wrapper;
-            //Citas = new ObservableCollection<Cita>();
-            //Citas.Add(new Cita { Inicio = DateTime.Now, Asistente = "Asistente", Sala = "Sala B" });
-            OnPropertyChanged("Atenciones");
+            Citas = new ObservableCollection<Cita>();
+            Citas.Add(new Cita { Inicio = DateTime.Now, Asistente = "Asistente", Sala = "Sala B" });
+            //OnPropertyChanged("Atenciones");
         }
 
         private void OnNuevaCitaCommandExecute()

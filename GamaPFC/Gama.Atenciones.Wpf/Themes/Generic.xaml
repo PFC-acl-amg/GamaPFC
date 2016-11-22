@@ -8,13 +8,6 @@
   </ResourceDictionary.MergedDictionaries>
 
   <Converters:DateConverter x:Key="DateConverter"/>
-  <!--<Style x:Key="CitaStyle" TargetType="ContentPresenter">
-    <Style.Triggers>
-      <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ItemsControl}},Path=IsMouseOver}" Value="True">
-        <Setter Property="Background" Value="Green"/>
-      </DataTrigger>
-    </Style.Triggers>
-  </Style>-->
   <Style  TargetType="{x:Type CustomControls:CustomCalendar}">
     <Setter Property="Template">
       <Setter.Value>
@@ -28,21 +21,51 @@
                             BorderThickness="{TemplateBinding BorderThickness}">
             <Grid>
               <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition />
               </Grid.RowDefinitions>
-              <!--<TextBlock Text="{Binding Date}" />
+              <!--<TextBlock Text="{Binding Date}" />-->
 
-                  <Grid Height="15" DockPanel.Dock="Top">
-        
-                  </Grid>-->
+              <Grid>
+                <StackPanel Orientation="Horizontal">
+                  <Button Command="{Binding SemanaAnteriorCommand,
+                        RelativeSource={RelativeSource AncestorType={x:Type CustomControls:CustomCalendar}}}"
+                          Background="Transparent" BorderThickness="0">
+                    <Rectangle Width="20"
+                                Height="20"
+                                Fill="{Binding Path=Foreground, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                      <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_left}" />
+                      </Rectangle.OpacityMask>
+                    </Rectangle>
+                  </Button>
+                  <Button Command="{Binding SemanaSiguienteCommand,
+                        RelativeSource={RelativeSource AncestorType={x:Type CustomControls:CustomCalendar}}}"
+                          Background="Transparent" BorderThickness="0">
+                    <Rectangle Width="20"
+                                Height="20"
+                                Fill="{Binding Path=Foreground, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                      <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_right}" />
+                      </Rectangle.OpacityMask>
+                    </Rectangle>
+                  </Button>
+                </StackPanel>
+              </Grid>
 
-              <ItemsControl Grid.Row="0"
+              <!-- Nombres de los días: Lunes, martes...-->
+              <ItemsControl Grid.Row="1"
                     ItemsSource="{Binding DayNames, RelativeSource={RelativeSource FindAncestor, 
 					                              AncestorType={x:Type  CustomControls:CustomCalendar}}}" DockPanel.Dock="Top">
                 <ItemsControl.ItemTemplate>
                   <DataTemplate>
-                    <TextBlock TextAlignment="Center" Text="{Binding}" Foreground="White">
+                    <TextBlock TextAlignment="Center" Text="{Binding}" 
+                               Foreground="White" FontWeight="Light" FontSize="13"
+                               Margin="0"
+                               Padding="4">
                       <TextBlock.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                           <GradientStop Color="#FF171717" Offset="0"/>
@@ -54,12 +77,12 @@
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
                   <ItemsPanelTemplate>
-                    <UniformGrid Rows="1" Columns="7" />
+                    <UniformGrid Rows="1" Columns="7" Margin="4,0,4,0"/>
                   </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
               </ItemsControl>
 
-              <ItemsControl x:Name="itens" Grid.Row="1" ItemsSource="{Binding Days, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, 
+              <ItemsControl Grid.Row="2" ItemsSource="{Binding Days, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, 
 					                              AncestorType={x:Type  CustomControls:CustomCalendar}}}">
                 <ItemsControl.ItemTemplate>
                   <DataTemplate>
@@ -67,7 +90,7 @@
                     <!-- Box -->
                     <!-- -->
                     <Border BorderBrush="Black" BorderThickness="1" Padding="0" Margin="2">
-                      <Border Name="InnerBorder" BorderBrush="Black" BorderThickness="2" Background="Yellow" Margin="4">
+                      <Border Name="InnerBorder" BorderBrush="Black" BorderThickness="2">
                         <Border.Style>
                           <Style TargetType="{x:Type Border}">
                             <Style.Triggers>
@@ -93,6 +116,9 @@
                                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True">
                                   <Setter Property="Background" Value="Green"/>
                                 </DataTrigger>
+                                <DataTrigger Binding="{Binding IsTargetMonth}" Value="False">
+                                  <Setter Property="Background" Value="LightGray"/>
+                                </DataTrigger>
                               </Style.Triggers>
                             </Style>
                           </Grid.Style>
@@ -105,28 +131,30 @@
                           <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <TextBlock TextAlignment="Left" VerticalAlignment="Center" Background="#FF307DBB"
                                        Padding="4,2,6,4"
-                                       Margin="2,0,0,0"
+                                       Margin="2,-4,0,0"
                                        Foreground="White" 
                                        Text="{Binding Date.Month, Converter={StaticResource MonthNameConverter}}"/>
                           </StackPanel>
 
                           <!-- -->
-                          <!-- Nueva Cita y Fecha -->
+                          <!-- Nueva Cita y Día del mes -->
                           <!-- -->
                           <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                             <!-- Nueva Cita -->
                             <Button Background="Transparent" FontWeight="Light" BorderThickness="0"
-                                    VerticalAlignment="Top" FontSize="14"
+                                    VerticalContentAlignment="Center"
+                                    Margin="0,-4,0,0" FontSize="14"
+                                    Padding="2"
                                     Command="{Binding DataContext.NuevaCitaCommand, RelativeSource={RelativeSource FindAncestor, 
 					                              AncestorType={x:Type UserControl}}}" 
                                     CommandParameter="{Binding}">
                               +
                             </Button>
 
-                            <!-- Fecha -->
+                            <!-- Día del mes -->
                             <TextBlock TextAlignment="Right" 
                                        Text="{Binding Date, Converter={StaticResource DateConverter}, ConverterParameter=DAY}" 
-                                       FontSize="12" Margin="4" >
+                                       FontSize="12" Margin="4,2,4,4" >
                               <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
                                   <Style.Triggers>
@@ -164,14 +192,14 @@
                                     </Grid.ColumnDefinitions>
 
                                     <!-- Contenido de cada cita -->
-                                    <TextBlock Margin="4" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <TextBlock Margin="{DynamicResource Margin}" HorizontalAlignment="Left" VerticalAlignment="Center">
                                       <Run Text="{Binding Asistente}"/>
                                       <Run Text="{Binding Sala, StringFormat=({0})}"/>
                                     </TextBlock>
 
                                     <!-- Botón de agregar atención -->
                                     <StackPanel HorizontalAlignment="Right" Grid.Column="1">
-                                      <Button Margin="2" VerticalAlignment="Center"
+                                      <Button Margin="4,2,4,2" VerticalAlignment="Center"
                                               Padding="2,0,2,0"
                                               BorderThickness="0"
                                               FontSize="14"
@@ -196,7 +224,7 @@
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
                   <ItemsPanelTemplate>
-                    <UniformGrid Rows="3" Columns="7" />
+                    <UniformGrid Rows="3" Columns="7"  Margin="2,0,2,0"/>
                   </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
               </ItemsControl>

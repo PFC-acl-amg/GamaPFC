@@ -24,8 +24,8 @@ namespace Gama.Atenciones.Wpf.Views
         public EditarCitasView()
         {
             InitializeComponent();
-            //var vm = new EditarCitasViewModelDTD();
-            //DataContext = vm;
+            var vm = new EditarCitasViewModelDTD();
+            DataContext = vm;
         }
     }
 }

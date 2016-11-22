@@ -28,11 +28,18 @@ xmlns:business="clr-namespace:Gama.Atenciones.Business;assembly=Gama.Atenciones.
               <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button 
-                            Margin="{StaticResource Margin}"
-                            Padding="0"
-                            MaxHeight="64"
-                            Content="{StaticResource appbar_user}"/>
+            <!--<Button 
+                Margin="{StaticResource Margin}"
+                Padding="0"
+                MaxHeight="64"
+                Content="{StaticResource appbar_user}"/>-->
+            <Border MaxHeight="64" BorderBrush="Black" BorderThickness="1.5" CornerRadius="1">
+              <Rectangle Width="60" Margin="{StaticResource Margin}">
+                <Rectangle.Fill>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_user}" />
+                  </Rectangle.Fill>
+                </Rectangle>
+            </Border>
 
             <StackPanel Grid.Column="1">
               <Label Margin="{StaticResource Margin}">DNI/NIF</Label>

@@ -18,7 +18,7 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
         {
             //Citas = new ObservableCollection<CitaWrapper>(
             //    new FakeServices.FakeCitaRepository().GetAll().Select(c => new CitaWrapper(c)));
-            //Citas = new ObservableCollection<Cita>(new FakeServices.FakeCitaRepository().GetAll());
+            Citas = new ObservableCollection<Cita>(new FakeServices.FakeCitaRepository().GetAll());
             Appointments = new ObservableCollection<Appointment>();
 
             Appointments.Add(new Appointment() { Sala = "Sala A", Date = DateTime.Now, Subject = string.Format("{0} {1}", Faker.NameFaker.FirstName(), Faker.NameFaker.LastName()) });

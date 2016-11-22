@@ -50,16 +50,16 @@ namespace Gama.Atenciones.Wpf.Converters
                 if (day != null)
                     date = ((Day)values[1]).Date;
                 else
-                    return new List<Appointment>();
+                    return new List<Cita>();
 
-                ObservableCollection<Appointment> appointments = new ObservableCollection<Appointment>();
+                ObservableCollection<Cita> appointments = new ObservableCollection<Cita>();
 
                 if (values[0] != DependencyProperty.UnsetValue)
                 {
 
-                    foreach (Appointment appointment in (ObservableCollection<Appointment>)values[0])
+                    foreach (Cita appointment in (ObservableCollection<Cita>)values[0])
                     {
-                        if (IsSameYearMonthDay(appointment.Date, date))
+                        if (IsSameYearMonthDay(appointment.Inicio, date))
                         {
                             appointments.Add(appointment);
                         }

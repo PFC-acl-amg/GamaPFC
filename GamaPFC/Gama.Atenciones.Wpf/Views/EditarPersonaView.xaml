@@ -45,11 +45,11 @@
 
     <controls:MetroAnimatedSingleRowTabControl Grid.Column="1">
       <controls:MetroTabItem Header="CITAS"
-                                   controls:ControlsHelper.HeaderFontSize="19">
-        <local:EditarCitasView/> <!--DataContext="{Binding CitasVM}"/>-->
+                                   controls:ControlsHelper.HeaderFontSize="17">
+        <local:EditarCitasView DataContext="{Binding CitasVM}"/>
       </controls:MetroTabItem>
       <controls:MetroTabItem Header="ATENCIÓN"
-                                   controls:ControlsHelper.HeaderFontSize="19">
+                                   controls:ControlsHelper.HeaderFontSize="17">
         <local:EditarAtencionesView DataContext="{Binding AtencionesVM}"/>
       </controls:MetroTabItem>
     </controls:MetroAnimatedSingleRowTabControl>

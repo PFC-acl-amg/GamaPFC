@@ -1,4 +1,5 @@
 ﻿using Gama.Atenciones.Business;
+using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Gama.Atenciones.Wpf.Controls
 {
@@ -54,9 +56,9 @@ namespace Gama.Atenciones.Wpf.Controls
             DependencyProperty.Register
             (
                 "Appointments",
-                typeof(ObservableCollection<Appointment>),
+                typeof(ObservableCollection<Cita>),
                 typeof(CustomCalendar),
-                new PropertyMetadata(new ObservableCollection<Appointment>())
+                new PropertyMetadata(new ObservableCollection<Cita>())
             );
 
         public DateTime CurrentDate
@@ -71,9 +73,9 @@ namespace Gama.Atenciones.Wpf.Controls
             set { SetValue(DaysProperty, value); }
         }
 
-        public ObservableCollection<Appointment> Appointments
+        public ObservableCollection<Cita> Appointments
         {
-            get { return (ObservableCollection<Appointment>)GetValue(AppointmentsProperty); }
+            get { return (ObservableCollection<Cita>)GetValue(AppointmentsProperty); }
             set { SetValue(AppointmentsProperty, value); }
         }
 
@@ -90,6 +92,22 @@ namespace Gama.Atenciones.Wpf.Controls
             
             BuildCalendar(DateTime.Today);
             //CurrentDate = DateTime.Today;
+
+            SemanaAnteriorCommand = new DelegateCommand(OnSemanaAnteriorCommand);
+            SemanaSiguienteCommand = new DelegateCommand(OnSemanaSiguienteCommand);
+        }
+
+        public ICommand SemanaAnteriorCommand { get; private set; }
+        public ICommand SemanaSiguienteCommand { get; private set; }
+
+        private void OnSemanaAnteriorCommand()
+        {
+            CurrentDate = CurrentDate.AddDays(-7);
+        }
+
+        private void OnSemanaSiguienteCommand()
+        {
+            CurrentDate = CurrentDate.AddDays(7);
         }
 
         public void BuildCalendar(DateTime targetDate)
