@@ -47,8 +47,8 @@
       <controls:MetroTabItem Header="CITAS"
                                    controls:ControlsHelper.HeaderFontSize="17">
         <local:EditarCitasView DataContext="{Binding CitasVM}"/>
-      </controls:MetroTabItem>
-      <controls:MetroTabItem Header="ATENCIÓN"
+      </controls:MetroTabItem> 
+      <controls:MetroTabItem Header="ATENCIÓN" IsSelected="{Binding AtencionesVM.VerAtenciones}"
                                    controls:ControlsHelper.HeaderFontSize="17">
         <local:EditarAtencionesView DataContext="{Binding AtencionesVM}"/>
       </controls:MetroTabItem>

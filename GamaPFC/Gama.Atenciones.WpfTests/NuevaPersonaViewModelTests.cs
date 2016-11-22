@@ -17,7 +17,7 @@ namespace Gama.Atenciones.WpfTests
     public class NuevaPersonaViewModelTests
     {
         private Mock<IEventAggregator> _EventAggregatorMock;
-        private Mock<NuevaPersonaEvent> _NuevaPersonaEvent;
+        private Mock<PersonaCreadaEvent> _NuevaPersonaEvent;
         private Mock<IPersonaRepository> _PersonaRepositoryMock;
         private PersonaViewModel _PersonaViewModelMock;
         private Mock<ISession> _SessionMock;
@@ -27,13 +27,13 @@ namespace Gama.Atenciones.WpfTests
         {
             _PersonaRepositoryMock = new Mock<IPersonaRepository>();
             _EventAggregatorMock = new Mock<IEventAggregator>();
-            _NuevaPersonaEvent = new Mock<NuevaPersonaEvent>();
+            _NuevaPersonaEvent = new Mock<PersonaCreadaEvent>();
             _SessionMock = new Mock<ISession>();
 
-            _EventAggregatorMock.Setup(e => e.GetEvent<NuevaPersonaEvent>())
+            _EventAggregatorMock.Setup(e => e.GetEvent<PersonaCreadaEvent>())
                 .Returns(_NuevaPersonaEvent.Object);
 
-            _EventAggregatorMock.Setup(e => e.GetEvent<NuevaPersonaEvent>()
+            _EventAggregatorMock.Setup(e => e.GetEvent<PersonaCreadaEvent>()
                 .Publish(It.IsAny<int>())).Verifiable();
 
             _PersonaViewModelMock = new PersonaViewModel();
@@ -77,7 +77,7 @@ namespace Gama.Atenciones.WpfTests
         {
             _Vm.AceptarCommand.Execute(null);
 
-            _EventAggregatorMock.Verify(e => e.GetEvent<NuevaPersonaEvent>()
+            _EventAggregatorMock.Verify(e => e.GetEvent<PersonaCreadaEvent>()
                 .Publish(It.IsAny<int>()), Times.Once);
         }
 

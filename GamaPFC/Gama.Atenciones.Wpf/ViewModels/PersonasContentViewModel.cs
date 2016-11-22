@@ -22,7 +22,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator = eventAggregator;
             _RegionManager = regionManager;
 
-            _EventAggregator.GetEvent<NuevaPersonaEvent>().Subscribe(OnNuevaPersonaEvent);
+            _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnNuevaPersonaEvent);
             _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
         }
 

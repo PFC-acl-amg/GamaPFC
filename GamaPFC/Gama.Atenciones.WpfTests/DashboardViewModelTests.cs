@@ -25,14 +25,14 @@ namespace Gama.Atenciones.WpfTests
         private List<Cita> _Citas;
         private Mock<CitaSeleccionadaEvent> _CitaSeleccionadaEventMock;
         private Mock<IEventAggregator> _EventAggregatorMock;
-        private Mock<NuevaPersonaEvent> _NuevaPersonaEventMock;
+        private Mock<PersonaCreadaEvent> _NuevaPersonaEventMock;
         private Mock<IPersonaRepository> _PersonaRepositoryMock;
         private List<Persona> _Personas;
         private Mock<PersonaSeleccionadaEvent> _PersonaSeleccionadaEventMock;
         private Mock<ISession> _SessionMock;
         private AtencionesSettings _Settings;
         DashboardViewModel _Vm;
-        private Mock<NuevaCitaEvent> _NuevaCitaEventMock;
+        private Mock<CitaCreadaEvent> _NuevaCitaEventMock;
         private Mock<NuevaAtencionEvent> _NuevaAtencionEventMock;
 
         public DashboardViewModelTests()
@@ -55,8 +55,8 @@ namespace Gama.Atenciones.WpfTests
             _PersonaSeleccionadaEventMock = new Mock<PersonaSeleccionadaEvent>();
             _CitaSeleccionadaEventMock = new Mock<CitaSeleccionadaEvent>();
             _AtencionSeleccionadaEventMock = new Mock<AtencionSeleccionadaEvent>();
-            _NuevaPersonaEventMock = new Mock<NuevaPersonaEvent>();
-            _NuevaCitaEventMock = new Mock<NuevaCitaEvent>();
+            _NuevaPersonaEventMock = new Mock<PersonaCreadaEvent>();
+            _NuevaCitaEventMock = new Mock<CitaCreadaEvent>();
             _NuevaAtencionEventMock = new Mock<NuevaAtencionEvent>();
 
             _EventAggregatorMock.Setup(e => e.GetEvent<PersonaSeleccionadaEvent>()).Returns(
@@ -65,9 +65,9 @@ namespace Gama.Atenciones.WpfTests
                 _CitaSeleccionadaEventMock.Object);
             _EventAggregatorMock.Setup(e => e.GetEvent<AtencionSeleccionadaEvent>()).Returns(
                 _AtencionSeleccionadaEventMock.Object);
-            _EventAggregatorMock.Setup(e => e.GetEvent<NuevaPersonaEvent>()).Returns(
+            _EventAggregatorMock.Setup(e => e.GetEvent<PersonaCreadaEvent>()).Returns(
                 _NuevaPersonaEventMock.Object);
-            _EventAggregatorMock.Setup(e => e.GetEvent<NuevaCitaEvent>()).Returns(
+            _EventAggregatorMock.Setup(e => e.GetEvent<CitaCreadaEvent>()).Returns(
                 _NuevaCitaEventMock.Object);
             _EventAggregatorMock.Setup(e => e.GetEvent<NuevaAtencionEvent>()).Returns(
                 _NuevaAtencionEventMock.Object);
@@ -134,7 +134,7 @@ namespace Gama.Atenciones.WpfTests
                 _Settings,
                 _SessionMock.Object);
 
-            eventAggregator.GetEvent<NuevaPersonaEvent>().Publish(persona.Id);
+            eventAggregator.GetEvent<PersonaCreadaEvent>().Publish(persona.Id);
 
             Assert.Equal(persona.Id, vm.UltimasPersonas.First().Id);
         }
@@ -155,7 +155,7 @@ namespace Gama.Atenciones.WpfTests
                 _Settings,
                 _SessionMock.Object);
 
-            eventAggregator.GetEvent<NuevaAtencionEvent>().Publish(atencion.Id);
+            eventAggregator.GetEvent<AtencionCreadaEvent>().Publish(atencion.Id);
 
             Assert.Equal(atencion.Id, vm.UltimasAtenciones.First().Id);
         }
@@ -176,7 +176,7 @@ namespace Gama.Atenciones.WpfTests
                 _Settings,
                 _SessionMock.Object);
 
-            eventAggregator.GetEvent<NuevaCitaEvent>().Publish(cita.Id);
+            eventAggregator.GetEvent<CitaCreadaEvent>().Publish(cita.Id);
             Assert.Equal(cita.Id, vm.ProximasCitas.First().Id);
         }
     }

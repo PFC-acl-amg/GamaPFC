@@ -54,8 +54,9 @@ namespace Gama.Atenciones.WpfTests
                 .Returns(_Persona.Model);
 
             _PersonaViewModelMock = new PersonaViewModel();
-            _AtencionViewModelMock = new EditarAtencionesViewModel(_AtencionRepositoryMock.Object);
-            _CitaViewModelMock = new EditarCitasViewModel(_CitaRepositoryMock.Object);
+            _AtencionViewModelMock = new EditarAtencionesViewModel(_AtencionRepositoryMock.Object,
+                _EventAggregatorMock.Object, _PersonaRepositoryMock.Object);
+            _CitaViewModelMock = new EditarCitasViewModel(_CitaRepositoryMock.Object, _EventAggregatorMock.Object);
 
             _Vm = new EditarPersonaViewModel(
                 _EventAggregatorMock.Object,

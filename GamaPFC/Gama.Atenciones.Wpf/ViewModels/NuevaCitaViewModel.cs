@@ -76,7 +76,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Persona.Citas.Add(Cita);
             _PersonaRepository.Update(Persona.Model);
             Persona.AcceptChanges();
-            _EventAggregator.GetEvent<NuevaCitaEvent>().Publish(Cita.Id);
+            _EventAggregator.GetEvent<CitaCreadaEvent>().Publish(Cita.Id);
             Cerrar = true;
         }
 

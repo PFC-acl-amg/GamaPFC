@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Wpf.Eventos
 {
-    public class NuevaCitaEvent : PubSubEvent<int>
+    public class AtencionCreadaEvent : PubSubEvent<int>
     {
     }
 }

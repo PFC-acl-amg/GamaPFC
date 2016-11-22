@@ -67,7 +67,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             Persona.CreatedAt = DateTime.Now;
             _PersonaRepository.Create(Persona.Model);
-            _EventAggregator.GetEvent<NuevaPersonaEvent>().Publish(Persona.Id);
+            _EventAggregator.GetEvent<PersonaCreadaEvent>().Publish(Persona.Id);
             Cerrar = true;
         }
 

@@ -128,11 +128,12 @@
     <Compile Include="DesignTimeData\EditarCitasViewModelDTD.cs" />
     <Compile Include="DesignTimeData\ListadoDePersonasViewModelDTD.cs" />
     <Compile Include="DesignTimeData\StatusBarViewModelDTD.cs" />
+    <Compile Include="Eventos\AtencionCreadaEvent.cs" />
     <Compile Include="Eventos\AtencionSeleccionadaEvent.cs" />
     <Compile Include="Eventos\CitaSeleccionadaEvent.cs" />
     <Compile Include="Eventos\NuevaAtencionEvent.cs" />
-    <Compile Include="Eventos\NuevaCitaEvent.cs" />
-    <Compile Include="Eventos\NuevaPersonaEvent.cs" />
+    <Compile Include="Eventos\CitaCreadaEvent.cs" />
+    <Compile Include="Eventos\PersonaCreadaEvent.cs" />
     <Compile Include="Eventos\PersonaActualizadaEvent.cs" />
     <Compile Include="Eventos\PersonaSeleccionadaEvent.cs" />
     <Compile Include="FakeServices\FakeAtencionRepository.cs" />

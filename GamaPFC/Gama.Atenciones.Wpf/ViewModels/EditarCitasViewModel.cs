@@ -1,11 +1,13 @@
 ﻿using Core;
 using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Controls;
+using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.Views;
 using Gama.Atenciones.Wpf.Wrappers;
 using NHibernate;
 using Prism.Commands;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,23 +22,18 @@ namespace Gama.Atenciones.Wpf.ViewModels
     {
         private ICitaRepository _CitaRepository;
         private ISession _Session;
+        public ObservableCollection<CitaWrapper> _Citas;
+        private IEventAggregator _EventAggregator;
 
-        public EditarCitasViewModel(ICitaRepository citaRepository)
+        public EditarCitasViewModel(ICitaRepository citaRepository, IEventAggregator eventAggregator)
         {
             _CitaRepository = citaRepository;
+            _EventAggregator = eventAggregator;
 
             NuevaCitaCommand = new DelegateCommand<Day>(OnNuevaCitaCommandExecute);
             NuevaAtencionCommand = new DelegateCommand<CitaWrapper>(OnNuevaAtencionExecute);
             Citas = new ObservableCollection<CitaWrapper>();
             Citas.Add(new CitaWrapper(new Cita { Inicio = DateTime.Now, Asistente = "Asistente", Sala = "Sala B" }));
-        }
-
-        private void OnNuevaAtencionExecute(CitaWrapper cita)
-        {
-            var ok = new MahApps.Metro.Controls.MetroWindow();
-            ok.Content = new System.Windows.Controls.TextBlock { Text = "Aguachineinao" };
-            ok.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-            ok.ShowDialog();
         }
 
         public void Load(PersonaWrapper wrapper)
@@ -45,6 +42,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
             //Citas = new ObservableCollection<Cita>();
             Citas = Persona.Citas;
             //OnPropertyChanged("Atenciones");
+        }
+
+        private void OnNuevaAtencionExecute(CitaWrapper cita)
+        {
+            _EventAggregator.GetEvent<NuevaAtencionEvent>().Publish(cita);
         }
 
         private void OnNuevaCitaCommandExecute(Day fechaSeleccionada)
@@ -78,7 +80,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         }
 
         public PersonaWrapper Persona { get; set; }
-        public ObservableCollection<CitaWrapper> _Citas;
+
         public ObservableCollection<CitaWrapper> Citas
         {
             get { return _Citas; }

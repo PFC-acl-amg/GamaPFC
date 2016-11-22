@@ -1,9 +1,12 @@
 ﻿using Core;
 using Gama.Atenciones.Business;
+using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.Wrappers;
 using NHibernate;
 using Prism.Commands;
+using Prism.Events;
+using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,12 +24,20 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private AtencionWrapper _AtencionSeleccionada;
         private IAtencionRepository _AtencionRepository;
         private ISession _Session;
+        private IEventAggregator _EventAggregator;
+        private IPersonaRepository _PersonaRepository;
+        private IRegionManager _RegionManager;
 
-        public EditarAtencionesViewModel(IAtencionRepository atencionRepository)
+        public EditarAtencionesViewModel(IAtencionRepository atencionRepository,
+            IEventAggregator eventAggregator, IPersonaRepository personaRepository,
+            IRegionManager regionManager)
         {
             _EdicionHabilitada = true;
             Persona = new PersonaWrapper(new Persona());
             _AtencionRepository = atencionRepository;
+            _PersonaRepository = personaRepository;
+            _EventAggregator = eventAggregator;
+            _RegionManager = regionManager;
 
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
@@ -43,6 +54,17 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 () => EdicionHabilitada);
 
             PropertyChanged += EditarAtencionesViewModel_PropertyChanged;
+
+            _EventAggregator.GetEvent<NuevaAtencionEvent>().Subscribe(OnNuevaAtencionEvent);
+        }
+
+        public void Load(PersonaWrapper wrapper)
+        {
+            EdicionHabilitada = false;
+            Persona = wrapper;
+            Atenciones = new ObservableCollection<AtencionWrapper>(
+                Persona.Citas.Select(c => c.Atencion).Where(a => a != null && a.Id != 0).ToList());
+            //OnPropertyChanged("Atenciones");
         }
 
         private void EditarAtencionesViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -59,6 +81,24 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ((DelegateCommand)HabilitarEdicionCommand).RaiseCanExecuteChanged();
             ((DelegateCommand)ActualizarCommand).RaiseCanExecuteChanged();
             ((DelegateCommand)CancelarEdicionCommand).RaiseCanExecuteChanged();
+        }
+
+        private void OnNuevaAtencionEvent(CitaWrapper cita)
+        {
+            if (cita.Atencion == null)
+            {
+                var atencion = new AtencionWrapper(new Atencion());
+                atencion.Model.Cita = cita.Model;
+                Atenciones.Add(atencion);
+                AtencionSeleccionada = atencion;
+            }
+            else // ya existe
+            {
+                AtencionSeleccionada = cita.Atencion;
+            }
+
+            VerAtenciones = true;
+            //_RegionManager.Regions["AtencionesMasterDetailRegion"].Activate(_RegionManager.Regions["AtencionesMasterDetailRegion"].Views.First());
         }
 
         private void OnCancelarEdicionCommand()
@@ -91,7 +131,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 _Session = value;
                 _AtencionRepository.Session = _Session;
+                _PersonaRepository.Session = _Session;
             }
+        }
+
+        private bool _VerAtenciones = false;
+        public bool VerAtenciones
+        {
+            get { return _VerAtenciones; }
+            set { SetProperty(ref _VerAtenciones, value); }
         }
 
         public PersonaWrapper Persona
@@ -112,15 +160,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             get { return _EdicionHabilitada; }
             set { SetProperty(ref _EdicionHabilitada, value); }
-        }
-
-        public void Load(PersonaWrapper wrapper)
-        {
-            EdicionHabilitada = false;
-            Persona = wrapper;
-            Atenciones = new ObservableCollection<AtencionWrapper>(
-                Persona.Citas.Select(c => c.Atencion).Where(a => a != null && a.Id != 0).ToList());
-            OnPropertyChanged("Atenciones");
         }
     }
 }
