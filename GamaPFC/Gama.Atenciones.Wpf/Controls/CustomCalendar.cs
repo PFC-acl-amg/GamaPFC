@@ -19,7 +19,7 @@ namespace Gama.Atenciones.Wpf.Controls
     {
         public ObservableCollection<string> DayNames { get; set; }
 
-        public static CustomCalendar _Control;
+        //public static CustomCalendar _Control;
 
         public event EventHandler<DayChangedEventArgs> DayChanged;
 
@@ -37,7 +37,6 @@ namespace Gama.Atenciones.Wpf.Controls
 
         public void OnCurrentDateChanged(DateTime newValue)
         {
-            //CurrentDate = newValue;
             BuildCalendar(newValue);
         }
 
@@ -81,17 +80,16 @@ namespace Gama.Atenciones.Wpf.Controls
         private static void OnAppointmentsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var cc = d as CustomCalendar;
-            _Control = cc;
             if (cc != null)
             {
                 var items = e.NewValue as ObservableCollection<CitaWrapper>;
-                items.CollectionChanged += new NotifyCollectionChangedEventHandler(AppointmentsChanged);
+                items.CollectionChanged += new NotifyCollectionChangedEventHandler(cc.AppointmentsChanged);
             }
         }
 
-        private static void AppointmentsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void AppointmentsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            _Control.BuildCalendar(_Control.CurrentDate);
+            BuildCalendar(CurrentDate);
         }
 
         public DateTime CurrentDate
@@ -181,11 +179,6 @@ namespace Gama.Atenciones.Wpf.Controls
             if (DayChanged == null) return;
 
             DayChanged(this, new DayChangedEventArgs(sender as Day));
-        }
-
-        private static int DayOfWeekNumber(DayOfWeek dow)
-        {
-            return Convert.ToInt32(dow.ToString("D"));
         }
 
         public static bool IsSameYearMonthDay(DateTime a, DateTime b)

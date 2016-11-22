@@ -2,6 +2,7 @@
 using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.Wrappers;
+using Gama.Atenciones.Wpf.Eventos;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using NHibernate;
+using Prism.Events;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -18,13 +20,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private bool? _Cerrar; // Debe ser nulo al inicializarse el VM o hay excepciones por DialogCloser
         private IPersonaRepository _PersonaRepository;
         private ICitaRepository _CitaRepository;
+        private IEventAggregator _EventAggregator;
 
         public NuevaCitaViewModel(IPersonaRepository personaRepository, 
-            ICitaRepository citaRepository)
+            ICitaRepository citaRepository, IEventAggregator eventAggregator)
         {
             Cita = new CitaWrapper(new Cita());
             _PersonaRepository = personaRepository;
             _CitaRepository = citaRepository;
+            _EventAggregator = eventAggregator;
 
             AceptarCommand = new DelegateCommand(OnAceptarCommand_Execute,
                 OnAceptarCommand_CanExecute);
@@ -72,6 +76,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Persona.Citas.Add(Cita);
             _PersonaRepository.Update(Persona.Model);
             Persona.AcceptChanges();
+            _EventAggregator.GetEvent<NuevaCitaEvent>().Publish(Cita.Id);
             Cerrar = true;
         }
 

@@ -193,7 +193,7 @@
                                     </Grid.ColumnDefinitions>
 
                                     <!-- Contenido de cada cita -->
-                                    <TextBlock Margin="{DynamicResource Margin}" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <TextBlock Margin="4" HorizontalAlignment="Left" VerticalAlignment="Center">
                                       <Run Text="{Binding Asistente}"/>
                                       <Run Text="{Binding Sala, StringFormat=({0})}"/>
                                     </TextBlock>
@@ -208,7 +208,7 @@
                                               Background="#FF3078A5"
                                               Foreground="White"
                                               FontWeight="Bold"
-                                              Command="{Binding DataContext.NuevaCitaCommand, 
+                                              Command="{Binding DataContext.NuevaAtencionCommand, 
                                                 RelativeSource={RelativeSource FindAncestor, 
 					                                          AncestorType={x:Type UserControl}}}"
                                               CommandParameter="{Binding}"></Button>

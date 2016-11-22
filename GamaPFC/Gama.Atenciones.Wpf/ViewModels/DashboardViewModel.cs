@@ -60,6 +60,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ProximasCitas = new ObservableCollection<LookupItem>(
                 _CitaRepository.GetAll()
                  .OrderBy(c => c.Inicio)
+                 .Where(c => c.Inicio >= DateTime.Now.Date)
                  .Take(_Settings.DashboardUltimasCitas)
                  .Select(c => new LookupItem
                  {
@@ -196,7 +197,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     var next = DateTime.Parse(lookup.DisplayMember1);
                     if (cita.Inicio < next)
                     {
-                        ProximasCitas.Insert(index, lookupItem);
+                        //ProximasCitas.Insert(index, lookupItem);
+                        ProximasCitas.Add(lookupItem);
                         break;
                     }
 

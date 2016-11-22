@@ -38,13 +38,16 @@ namespace Gama.Atenciones.Wpf.Converters
     //        return appointments;
     //    }
 
-    [ValueConversion(typeof(ObservableCollection<Appointment>), typeof(ObservableCollection<Appointment>))]
+    [ValueConversion(typeof(ObservableCollection<CitaWrapper>), typeof(ObservableCollection<CitaWrapper>))]
     public class AppointmentsConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             try
             {
+                if (values == null)
+                    return new List<CitaWrapper>();
+
                 Day day = values[1] as Day;
                 DateTime date;
 
