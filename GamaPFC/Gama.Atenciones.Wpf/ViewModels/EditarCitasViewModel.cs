@@ -32,24 +32,18 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public void Load(PersonaWrapper wrapper)
         {
             Persona = wrapper;
-            Persona.Citas.Add(new CitaWrapper(new Cita { Inicio = DateTime.Now, Asistente = "Asistente", Sala = "Sala B" }));
             //Citas = new ObservableCollection<Cita>();
-            Citas.Add(new CitaWrapper(new Cita { Inicio = DateTime.Now, Asistente = "Asistente", Sala = "Sala B" }));
+            Citas = Persona.Citas;
             //OnPropertyChanged("Atenciones");
         }
 
         private void OnNuevaCitaCommandExecute()
         {
-            //var o = new NuevaCitaView();
-            //var vm = (NuevaCitaViewModel)o.DataContext;
-            //vm.Load(Persona);
-            //o.ShowDialog();
-
-
-            Citas.Add(new CitaWrapper(new Cita { Inicio = DateTime.Now, Asistente = "Asistente sfsdfss", Sala = "Sala B" }));
-            //Refresh += 1;
-            //if (vm.Cita.IsValid)
-            //    Citas.Add(vm.Cita.Model);
+            var o = new NuevaCitaView();
+            var vm = (NuevaCitaViewModel)o.DataContext;
+            vm.Session = _Session;
+            vm.Load(Persona);
+            o.ShowDialog();
         }
 
         private int _Refresh;

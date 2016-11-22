@@ -71,7 +71,17 @@ namespace Gama.Atenciones.Wpf.Wrappers
         public bool SalaIsChanged => GetIsChanged(nameof(Sala));
 
         public AtencionWrapper Atencion { get; set; }
-        public PersonaWrapper Persona { get; set; }
+
+        private PersonaWrapper _Persona;
+        public PersonaWrapper Persona
+        {
+            get { return _Persona; }
+            set
+            {
+                _Persona = value;
+                Model.Persona = value.Model;
+            }
+        }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

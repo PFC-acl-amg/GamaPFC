@@ -26,7 +26,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
             this.Citas = new ChangeTrackingCollection<CitaWrapper>
                 (model.Citas.Select(c => new CitaWrapper(c)));
-            this.RegisterCollection(this.Citas, model.Citas.ToList());
+            this.RegisterCollection(this.Citas, model.Citas);
         }
 
         public int Id
