@@ -1,5 +1,6 @@
 ﻿using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Controls;
+using Gama.Atenciones.Wpf.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -50,16 +51,16 @@ namespace Gama.Atenciones.Wpf.Converters
                 if (day != null)
                     date = ((Day)values[1]).Date;
                 else
-                    return new List<Cita>();
+                    return new List<CitaWrapper>();
 
-                ObservableCollection<Cita> appointments = new ObservableCollection<Cita>();
+                ObservableCollection<CitaWrapper> appointments = new ObservableCollection<CitaWrapper>();
 
                 if (values[0] != DependencyProperty.UnsetValue)
                 {
 
-                    foreach (Cita appointment in (ObservableCollection<Cita>)values[0])
+                    foreach (CitaWrapper appointment in (ObservableCollection<CitaWrapper>)values[0])
                     {
-                        if (IsSameYearMonthDay(appointment.Inicio, date))
+                        if (IsSameYearMonthDay(appointment.Inicio.Value, date))
                         {
                             appointments.Add(appointment);
                         }

@@ -13,6 +13,7 @@
   </d:DataContext>
   <Grid>
     <CustomControls:CustomCalendar Grid.Row="1" Appointments="{Binding Citas}"
-                                   CurrentDate="{Binding CurrentDate, Mode=TwoWay}"/>
+                                   CurrentDate="{Binding CurrentDate, Mode=TwoWay}"
+                                   Refresh="{Binding Refresh}"/>
   </Grid>
 </UserControl>

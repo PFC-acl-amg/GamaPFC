@@ -25,26 +25,38 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _CitaRepository = citaRepository;
 
             NuevaCitaCommand = new DelegateCommand(OnNuevaCitaCommandExecute);
-            Citas = new ObservableCollection<Cita>();
-            Citas.Add(new Cita { Inicio = DateTime.Now, Asistente = "Asistente", Sala = "Sala B" });
+            Citas = new ObservableCollection<CitaWrapper>();
+            Citas.Add(new CitaWrapper(new Cita { Inicio = DateTime.Now, Asistente = "Asistente", Sala = "Sala B" }));
         }
 
         public void Load(PersonaWrapper wrapper)
         {
             Persona = wrapper;
-            Citas = new ObservableCollection<Cita>();
-            Citas.Add(new Cita { Inicio = DateTime.Now, Asistente = "Asistente", Sala = "Sala B" });
+            Persona.Citas.Add(new CitaWrapper(new Cita { Inicio = DateTime.Now, Asistente = "Asistente", Sala = "Sala B" }));
+            //Citas = new ObservableCollection<Cita>();
+            Citas.Add(new CitaWrapper(new Cita { Inicio = DateTime.Now, Asistente = "Asistente", Sala = "Sala B" }));
             //OnPropertyChanged("Atenciones");
         }
 
         private void OnNuevaCitaCommandExecute()
         {
-            var o = new NuevaCitaView();
-            var vm = (NuevaCitaViewModel)o.DataContext;
-            vm.Load(Persona);
-            o.ShowDialog();
+            //var o = new NuevaCitaView();
+            //var vm = (NuevaCitaViewModel)o.DataContext;
+            //vm.Load(Persona);
+            //o.ShowDialog();
 
-            //Citas.Add(vm.Cita);
+
+            Citas.Add(new CitaWrapper(new Cita { Inicio = DateTime.Now, Asistente = "Asistente sfsdfss", Sala = "Sala B" }));
+            //Refresh += 1;
+            //if (vm.Cita.IsValid)
+            //    Citas.Add(vm.Cita.Model);
+        }
+
+        private int _Refresh;
+        public int Refresh
+        {
+            get { return _Refresh; }
+            set { SetProperty(ref _Refresh, value); }
         }
 
         public ICommand NuevaCitaCommand { get; private set; }
@@ -60,6 +72,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
         }
 
         public PersonaWrapper Persona { get; set; }
-        public ObservableCollection<Cita> Citas { get; private set; }
+        public ObservableCollection<CitaWrapper> _Citas;
+        public ObservableCollection<CitaWrapper> Citas
+        {
+            get { return _Citas; }
+            set
+            {
+                _Citas = value;
+                OnPropertyChanged("Citas");
+            }
+        }
     }
 }

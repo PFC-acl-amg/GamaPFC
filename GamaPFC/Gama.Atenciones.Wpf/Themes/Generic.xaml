@@ -178,7 +178,8 @@
                               HorizontalContentAlignment="Stretch">
                             <ListBox.ItemsSource>
                               <MultiBinding Converter="{StaticResource AppointmentsConverter}">
-                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type  CustomControls:CustomCalendar}}" Path="Appointments"/>
+                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
+                                  AncestorType={x:Type  CustomControls:CustomCalendar}}" Path="Appointments"/>
                                 <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext"/>
                               </MultiBinding>
                             </ListBox.ItemsSource>

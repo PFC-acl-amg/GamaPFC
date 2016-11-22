@@ -1,4 +1,5 @@
 ﻿using Gama.Atenciones.Business;
+using Gama.Atenciones.Wpf.Wrappers;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -10,12 +11,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Collections.Specialized;
 
 namespace Gama.Atenciones.Wpf.Controls
 {
     public class CustomCalendar : Control
     {
         public ObservableCollection<string> DayNames { get; set; }
+
+        public static CustomCalendar _Control;
 
         public event EventHandler<DayChangedEventArgs> DayChanged;
 
@@ -56,10 +60,39 @@ namespace Gama.Atenciones.Wpf.Controls
             DependencyProperty.Register
             (
                 "Appointments",
-                typeof(ObservableCollection<Cita>),
+                typeof(ObservableCollection<CitaWrapper>),
                 typeof(CustomCalendar),
-                new PropertyMetadata(new ObservableCollection<Cita>())
+                new FrameworkPropertyMetadata(new PropertyChangedCallback(OnAppointmentsPropertyChanged))
             );
+
+
+
+        public int Refresh
+        {
+            get { return (int)GetValue(RefreshProperty); }
+            set { SetValue(RefreshProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Refresh.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty RefreshProperty =
+            DependencyProperty.Register("Refresh", typeof(int), typeof(CustomCalendar), new PropertyMetadata(0,
+                new PropertyChangedCallback(OnAppointmentsPropertyChanged)));
+
+        private static void OnAppointmentsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var cc = d as CustomCalendar;
+            _Control = cc;
+            if (cc != null)
+            {
+                var items = e.NewValue as ObservableCollection<CitaWrapper>;
+                items.CollectionChanged += new NotifyCollectionChangedEventHandler(AppointmentsChanged);
+            }
+        }
+
+        private static void AppointmentsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            _Control.BuildCalendar(_Control.CurrentDate);
+        }
 
         public DateTime CurrentDate
         {
@@ -73,9 +106,9 @@ namespace Gama.Atenciones.Wpf.Controls
             set { SetValue(DaysProperty, value); }
         }
 
-        public ObservableCollection<Cita> Appointments
+        public ObservableCollection<CitaWrapper> Appointments
         {
-            get { return (ObservableCollection<Cita>)GetValue(AppointmentsProperty); }
+            get { return (ObservableCollection<CitaWrapper>)GetValue(AppointmentsProperty); }
             set { SetValue(AppointmentsProperty, value); }
         }
 
@@ -89,6 +122,7 @@ namespace Gama.Atenciones.Wpf.Controls
         {
             Days = new ObservableCollection<Day>();
             DayNames = new ObservableCollection<string> { "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo", };
+            //Appointments = new ObservableCollection<CitaWrapper>();
             
             BuildCalendar(DateTime.Today);
             //CurrentDate = DateTime.Today;
