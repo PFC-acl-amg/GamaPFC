@@ -188,22 +188,30 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 DisplayMember2 = cita.Sala
             };
 
-            var last = DateTime.Parse(ProximasCitas.Last().DisplayMember1);
-            if (cita.Inicio < last) // es antes
+            if (ProximasCitas.Count > 0)
             {
-                int index = 0;
-                foreach (var lookup in ProximasCitas)
-                {
-                    var next = DateTime.Parse(lookup.DisplayMember1);
-                    if (cita.Inicio < next)
-                    {
-                        //ProximasCitas.Insert(index, lookupItem);
-                        ProximasCitas.Add(lookupItem);
-                        break;
-                    }
 
-                    index++;
+                var last = DateTime.Parse(ProximasCitas.Last().DisplayMember1);
+                if (cita.Inicio < last) // es antes
+                {
+                    int index = 0;
+                    foreach (var lookup in ProximasCitas)
+                    {
+                        var next = DateTime.Parse(lookup.DisplayMember1);
+                        if (cita.Inicio < next)
+                        {
+                            //ProximasCitas.Insert(index, lookupItem);
+                            ProximasCitas.Add(lookupItem);
+                            break;
+                        }
+
+                        index++;
+                    }
                 }
+            }
+            else
+            {
+                ProximasCitas.Add(lookupItem);
             }
         }
     }
