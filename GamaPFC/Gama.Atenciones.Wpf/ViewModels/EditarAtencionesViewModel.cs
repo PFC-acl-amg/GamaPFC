@@ -88,9 +88,16 @@ namespace Gama.Atenciones.Wpf.ViewModels
             if (cita.Atencion == null)
             {
                 var atencion = new AtencionWrapper(new Atencion());
+                atencion.CreatedAt = DateTime.Now;
                 atencion.Model.Cita = cita.Model;
+                atencion.Fecha = DateTime.Now;
+
+
+                cita.Atencion = atencion;
+                cita.Model.Atencion = atencion.Model;
                 Atenciones.Add(atencion);
                 AtencionSeleccionada = atencion;
+                _PersonaRepository.Update(Persona.Model);
             }
             else // ya existe
             {
@@ -98,7 +105,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
 
             VerAtenciones = true;
-            //_RegionManager.Regions["AtencionesMasterDetailRegion"].Activate(_RegionManager.Regions["AtencionesMasterDetailRegion"].Views.First());
         }
 
         private void OnCancelarEdicionCommand()

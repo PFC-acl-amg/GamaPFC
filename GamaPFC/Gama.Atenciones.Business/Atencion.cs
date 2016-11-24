@@ -32,7 +32,7 @@ namespace Gama.Atenciones.Business
         public Atencion()
         {
             Derivacion = new Derivacion();
-            //Derivacion.Atencion = this;
+            Derivacion.Atencion = this;
         }
     }
 }

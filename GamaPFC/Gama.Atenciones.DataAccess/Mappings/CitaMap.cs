@@ -26,7 +26,7 @@ namespace Gama.Atenciones.DataAccess.Mappings
 
             References(c => c.Persona);
 
-            HasOne(c => c.Atencion).PropertyRef(x => x.Cita);
+            HasOne(c => c.Atencion).PropertyRef(x => x.Cita).Cascade.All();
         }
     }
 }

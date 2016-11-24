@@ -29,6 +29,7 @@ namespace Gama.Atenciones.WpfTests
         private EditarAtencionesViewModel _AtencionViewModelMock;
         private Mock<ICitaRepository> _CitaRepositoryMock;
         private EditarCitasViewModel _CitaViewModelMock;
+        private Mock<IRegionManager> _RegionManagerMock;
 
         public EditarPersonaViewModelTests()
         {
@@ -38,10 +39,11 @@ namespace Gama.Atenciones.WpfTests
             _EventAggregatorMock = new Mock<IEventAggregator>();
             _PersonaActualizadaEventMock = new Mock<PersonaActualizadaEvent>();
             _SessionMock = new Mock<ISession>();
+            _RegionManagerMock = new Mock<IRegionManager>();
 
             _EventAggregatorMock.Setup(ea => ea.GetEvent<PersonaActualizadaEvent>())
                 .Returns(_PersonaActualizadaEventMock.Object);
-            
+
             _Persona = new PersonaWrapper(
                 new Persona()
                 {
@@ -55,7 +57,7 @@ namespace Gama.Atenciones.WpfTests
 
             _PersonaViewModelMock = new PersonaViewModel();
             _AtencionViewModelMock = new EditarAtencionesViewModel(_AtencionRepositoryMock.Object,
-                _EventAggregatorMock.Object, _PersonaRepositoryMock.Object);
+                _EventAggregatorMock.Object, _PersonaRepositoryMock.Object, _RegionManagerMock.Object);
             _CitaViewModelMock = new EditarCitasViewModel(_CitaRepositoryMock.Object, _EventAggregatorMock.Object);
 
             _Vm = new EditarPersonaViewModel(

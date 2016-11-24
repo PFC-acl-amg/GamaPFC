@@ -29,6 +29,7 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Map(a => a.EsOtra);
             Map(a => a.EsPsicologica);
             Map(a => a.EsSocial);
+            Map(a => a.Otra);
 
             Map(p => p.CreatedAt);
             Map(p => p.UpdatedAt);

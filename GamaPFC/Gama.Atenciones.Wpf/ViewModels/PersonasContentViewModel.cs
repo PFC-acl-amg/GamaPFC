@@ -44,9 +44,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
             // Primero cambiamos de panel
             _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
 
-            // Segundamente navegamos al detalle de la Actividad a abrir
-            _RegionManager.RequestNavigate(RegionNames.PersonasTabContentRegion,
-                "EditarPersonaView", navigationParameters);
+            try {
+                // Segundamente navegamos al detalle de la Actividad a abrir
+                _RegionManager.RequestNavigate(RegionNames.PersonasTabContentRegion,
+                    "EditarPersonaView", navigationParameters);
+            }
+            catch (Exception eX)
+            {
+                throw eX;
+            }
         }
     }
 }

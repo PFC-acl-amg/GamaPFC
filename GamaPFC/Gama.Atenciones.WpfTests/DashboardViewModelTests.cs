@@ -33,7 +33,7 @@ namespace Gama.Atenciones.WpfTests
         private AtencionesSettings _Settings;
         DashboardViewModel _Vm;
         private Mock<CitaCreadaEvent> _NuevaCitaEventMock;
-        private Mock<NuevaAtencionEvent> _NuevaAtencionEventMock;
+        private Mock<AtencionCreadaEvent> _AtencionCreadaEventMock;
 
         public DashboardViewModelTests()
         {
@@ -57,7 +57,7 @@ namespace Gama.Atenciones.WpfTests
             _AtencionSeleccionadaEventMock = new Mock<AtencionSeleccionadaEvent>();
             _NuevaPersonaEventMock = new Mock<PersonaCreadaEvent>();
             _NuevaCitaEventMock = new Mock<CitaCreadaEvent>();
-            _NuevaAtencionEventMock = new Mock<NuevaAtencionEvent>();
+            _AtencionCreadaEventMock = new Mock<AtencionCreadaEvent>();
 
             _EventAggregatorMock.Setup(e => e.GetEvent<PersonaSeleccionadaEvent>()).Returns(
                 _PersonaSeleccionadaEventMock.Object);
@@ -69,8 +69,8 @@ namespace Gama.Atenciones.WpfTests
                 _NuevaPersonaEventMock.Object);
             _EventAggregatorMock.Setup(e => e.GetEvent<CitaCreadaEvent>()).Returns(
                 _NuevaCitaEventMock.Object);
-            _EventAggregatorMock.Setup(e => e.GetEvent<NuevaAtencionEvent>()).Returns(
-                _NuevaAtencionEventMock.Object);
+            _EventAggregatorMock.Setup(e => e.GetEvent<AtencionCreadaEvent>()).Returns(
+                _AtencionCreadaEventMock.Object);
 
             _Vm = new DashboardViewModel(
                 personaRepository: _PersonaRepositoryMock.Object,
