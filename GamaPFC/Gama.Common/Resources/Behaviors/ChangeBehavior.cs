@@ -94,7 +94,7 @@ namespace Gama.Common.Resources.Behaviors
                         BindingOperations.SetBinding(d, IsChangedProperty,
                             new Binding(bindingPath + "IsChanged"));
                         BindingOperations.SetBinding(d, OriginalValueProperty,
-                            new Binding(bindingPath + "OriginalVaue")
+                            new Binding(bindingPath + "OriginalValue")
                             {
                                 Converter = GetOriginalValueConverter(d)
                             });

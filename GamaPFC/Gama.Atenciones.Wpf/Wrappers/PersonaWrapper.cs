@@ -141,7 +141,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
             set { SetValue(value); }
         }
 
-        public string NivelAcademicoOriginalValue => GetOriginalValue<string>(nameof(NivelAcademico));
+        public NivelAcademico NivelAcademicoOriginalValue => GetOriginalValue<NivelAcademico>(nameof(NivelAcademico));
 
         public bool NivelAcademicoIsChanged => GetIsChanged(nameof(NivelAcademico));
 

@@ -16,11 +16,11 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Id(p => p.Id).GeneratedBy.Identity();
 
             Map(p => p.ComoConocioAGama);
-            Map(p => p.DireccionPostal);
+            Map(p => p.DireccionPostal).Not.Nullable().Default("");
             Map(p => p.Email);
             Map(p => p.EstadoCivil);
             Map(p => p.FechaDeNacimiento);
-            Map(p => p.Facebook);
+            Map(p => p.Facebook).Not.Nullable().Default("");
             Map(p => p.IdentidadSexual);
             Map(p => p.LinkedIn);
             Map(p => p.Nacionalidad);

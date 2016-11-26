@@ -32,7 +32,7 @@ namespace Gama.Atenciones.DataAccess
                     {
                         NHibernate.Cfg.Configuration configuration;
 
-                        //File.Delete("nh_atenciones.cfg");
+                        File.Delete("nh_atenciones.cfg");
                         if (File.Exists("nh_atenciones.cfg"))
                         {
                             var file = File.Open("nh_atenciones.cfg", FileMode.Open);
@@ -75,8 +75,8 @@ namespace Gama.Atenciones.DataAccess
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: true,
-                            execute: false,
-                            justDrop: false);
+                            execute: true,
+                            justDrop: true);
                     })
                 .BuildConfiguration();
         }

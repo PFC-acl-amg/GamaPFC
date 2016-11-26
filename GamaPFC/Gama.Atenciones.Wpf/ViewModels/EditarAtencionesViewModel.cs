@@ -69,8 +69,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void EditarAtencionesViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(AtencionSeleccionada)
-                || e.PropertyName == nameof(EdicionHabilitada))
+            if (e.PropertyName == nameof(AtencionSeleccionada))
+            {
+                AtencionSeleccionada.PropertyChanged += (s, ea) => { InvalidateCommands(); };
+            }
+            else if (e.PropertyName == nameof(EdicionHabilitada))
             {
                 InvalidateCommands();
             }

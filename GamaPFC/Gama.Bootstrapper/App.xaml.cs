@@ -1,4 +1,5 @@
 ﻿using Gama.Bootstrapper.Services;
+using Gama.Bootstrapper.Views;
 using Microsoft.Practices.Unity;
 using Prism.Mvvm;
 using System;
@@ -25,6 +26,10 @@ namespace Gama.Bootstrapper
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            AppDomain.CurrentDomain.FirstChanceException += CurrentDomain_FirstChanceException;
 
             ViewModelLocationProvider.SetDefaultViewModelFactory(
                 type => { return _container.Resolve(type);
@@ -71,6 +76,32 @@ namespace Gama.Bootstrapper
 
                 bootstrapper.Run();
             }
+        }
+
+        private void CurrentDomain_FirstChanceException(object sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs e)
+        {
+            var o = new ExceptionMessageView();
+            o.DataContext = e.Exception.GetBaseException();
+            o.ShowDialog();
+        }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var o = new ExceptionMessageView();
+            o.DataContext =  e.ExceptionObject;
+            o.ShowDialog();
+        }
+
+        private void Current_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            var o = new ExceptionMessageView();
+            o.DataContext = e.Exception.GetBaseException();
+            o.ShowDialog();
+            e.Handled = true;
+
+            //string errorMessage = string.Format("¡Oops! Algo ha salido mal: {0}", e.Exception.Message);
+            //MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //e.Handled = true;
         }
     }
 }
