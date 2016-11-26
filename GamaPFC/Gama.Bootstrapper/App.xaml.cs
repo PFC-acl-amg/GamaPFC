@@ -29,7 +29,7 @@ namespace Gama.Bootstrapper
 
             Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            AppDomain.CurrentDomain.FirstChanceException += CurrentDomain_FirstChanceException;
+            //AppDomain.CurrentDomain.FirstChanceException += CurrentDomain_FirstChanceException;
 
             ViewModelLocationProvider.SetDefaultViewModelFactory(
                 type => { return _container.Resolve(type);

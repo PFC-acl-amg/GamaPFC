@@ -101,7 +101,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
             set { SetValue(value); }
         }
 
-        public IdentidadSexual IdentidadSexualOriginalVaue => GetOriginalValue<IdentidadSexual>(nameof(IdentidadSexual));
+        public IdentidadSexual IdentidadSexualOriginalValue => GetOriginalValue<IdentidadSexual>(nameof(IdentidadSexual));
 
         public bool IdentidadSexualIsChanged => GetIsChanged(nameof(IdentidadSexual));
 

@@ -18,7 +18,7 @@ namespace Gama.Atenciones.DataAccess.Mappings
 
             Map(a => a.NumeroDeExpediente);
             Map(a => a.Fecha);
-            Map(a => a.Seguimiento);
+            Map(a => a.Seguimiento).Not.Nullable().Default("");
 
             Map(a => a.EsDeAcogida);
             Map(a => a.EsDeFormacion);
@@ -29,7 +29,7 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Map(a => a.EsOtra);
             Map(a => a.EsPsicologica);
             Map(a => a.EsSocial);
-            Map(a => a.Otra);
+            Map(a => a.Otra).Not.Nullable().Default("");
 
             Map(p => p.CreatedAt);
             Map(p => p.UpdatedAt);

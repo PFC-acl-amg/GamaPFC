@@ -98,7 +98,7 @@
                 <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsJuridica}">Jurídica</CheckBox>
                 <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsSocial}">Social</CheckBox>
                 <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding EsOtra}">Otra:</CheckBox>
-                <TextBox Margin="{DynamicResource Margin}" Text="{Binding Otra}" HorizontalAlignment="Stretch"/>
+                <TextBox Margin="{DynamicResource Margin}" Text="{Binding Otra, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"/>
               </StackPanel>
             </GroupBox>
           </StackPanel>
@@ -120,7 +120,7 @@
                   <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding Derivacion.EsDeOrientacionLaboral}">Orientación Laboral</CheckBox>
                   <CheckBox Margin="{DynamicResource Margin}" IsChecked="{Binding Derivacion.EsExterna}">Externa:</CheckBox>
                   <TextBox Margin="{DynamicResource Margin}"
-                           Text="{Binding DerivacionesPropuestas.Externa, UpdateSourceTrigger=PropertyChanged}"
+                           Text="{Binding Derivacion.Externa, UpdateSourceTrigger=PropertyChanged}"
                                        MinWidth="120"
                                        HorizontalAlignment="Stretch"/>
                 </StackPanel>
