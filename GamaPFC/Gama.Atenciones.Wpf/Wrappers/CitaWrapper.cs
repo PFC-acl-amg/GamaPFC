@@ -70,7 +70,16 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool SalaIsChanged => GetIsChanged(nameof(Sala));
 
-        public AtencionWrapper Atencion { get; set; }
+        private AtencionWrapper _Atencion;
+        public AtencionWrapper Atencion
+        {
+            get { return _Atencion; }
+            set
+            {
+                _Atencion = value;
+                Model.Atencion = value.Model;
+            }
+        }
 
         private PersonaWrapper _Persona;
         public PersonaWrapper Persona

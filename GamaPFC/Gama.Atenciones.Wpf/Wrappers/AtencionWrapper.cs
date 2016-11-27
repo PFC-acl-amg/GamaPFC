@@ -165,6 +165,12 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool OtraIsChanged => GetIsChanged(nameof(Otra));
 
+        public Cita Cita
+        {
+            get { return Model.Cita; }
+            set { Model.Cita = value; }
+        }
+
         public DerivacionWrapper Derivacion { get; private set; }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

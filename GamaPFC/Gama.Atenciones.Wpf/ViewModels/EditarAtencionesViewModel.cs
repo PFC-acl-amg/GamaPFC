@@ -65,6 +65,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Persona = wrapper;
             Atenciones = new ObservableCollection<AtencionWrapper>(
                 Persona.Citas.Select(c => c.Atencion).Where(a => a != null && a.Id != 0).ToList());
+            if (Atenciones.Count > 0)
+            {
+                AtencionSeleccionada = Atenciones.First();
+            }
             //OnPropertyChanged("Atenciones");
         }
 
@@ -95,12 +99,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 var atencion = new AtencionWrapper(new Atencion());
                 atencion.CreatedAt = DateTime.Now;
-                atencion.Model.Cita = cita.Model;
+                atencion.Cita = cita.Model;
                 atencion.Fecha = DateTime.Now;
 
 
                 cita.Atencion = atencion;
-                cita.Model.Atencion = atencion.Model;
                 Atenciones.Add(atencion);
                 AtencionSeleccionada = atencion;
                 _PersonaRepository.Update(Persona.Model);
