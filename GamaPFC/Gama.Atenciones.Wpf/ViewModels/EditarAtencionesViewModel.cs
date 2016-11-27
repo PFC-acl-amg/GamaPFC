@@ -41,17 +41,18 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
-                () => !EdicionHabilitada);
+                () => AtencionSeleccionada != null && !AtencionSeleccionada.IsInEditionMode);
 
             ActualizarCommand = new DelegateCommand(
                 OnActualizarCommand,
-                () => EdicionHabilitada
-                   && AtencionSeleccionada != null
+                () => 
+                      AtencionSeleccionada != null
+                   && AtencionSeleccionada.IsInEditionMode
                    && AtencionSeleccionada.IsChanged
                    && AtencionSeleccionada.IsValid);
 
             CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand,
-                () => EdicionHabilitada);
+                () => AtencionSeleccionada != null && AtencionSeleccionada.IsInEditionMode);
 
             PropertyChanged += EditarAtencionesViewModel_PropertyChanged;
 
@@ -71,6 +72,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             if (e.PropertyName == nameof(AtencionSeleccionada))
             {
+                InvalidateCommands();
+                //OnPropertyChanged(nameof(AtencionSeleccionada.IsInEditionMode));
                 AtencionSeleccionada.PropertyChanged += (s, ea) => { InvalidateCommands(); };
             }
             else if (e.PropertyName == nameof(EdicionHabilitada))
@@ -114,6 +117,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             AtencionSeleccionada.RejectChanges();
             EdicionHabilitada = false;
+            AtencionSeleccionada.IsInEditionMode = false;
         }
 
         private void OnActualizarCommand()
@@ -122,11 +126,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _AtencionRepository.Update(AtencionSeleccionada.Model);
             AtencionSeleccionada.AcceptChanges();
             EdicionHabilitada = false;
+            AtencionSeleccionada.IsInEditionMode = false;
         }
 
         private void OnHabilitarEdicionCommand()
         {
             EdicionHabilitada = true;
+            AtencionSeleccionada.IsInEditionMode = true;
         }
 
         public ICommand HabilitarEdicionCommand { get; private set; }
