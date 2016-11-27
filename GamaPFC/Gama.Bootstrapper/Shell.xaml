@@ -12,10 +12,10 @@
                   ResizeMode="CanResizeWithGrip"
                   WindowStartupLocation="CenterScreen" 
                   WindowState="Maximized"
-                  WindowTitleBrush="{StaticResource AccentVioletaBrush}"
+                  WindowTitleBrush="{StaticResource AccentColorBrush}"
                   Style="{StaticResource CustomMetroWindowStyle}"
                   Title="{Binding Title}" 
-                   Icon="{Binding IconSource}"
+                  Icon="{Binding IconSource}"
                    Height="350" Width="525">
   <metro:MetroWindow.IconTemplate>
     <DataTemplate>
@@ -37,13 +37,16 @@
     </Grid.ColumnDefinitions>
 
     <!-- Panel Switcher -->
-    <ContentControl Grid.Row="0" Grid.Column="0" prism:RegionManager.RegionName="{x:Static common:RegionNames.PanelSwitcherRegion}" />
+    <ContentControl Grid.Row="0" Grid.Column="0" Margin="{StaticResource Margin}"
+                    prism:RegionManager.RegionName="{x:Static common:RegionNames.PanelSwitcherRegion}" />
 
     <!-- Cuadro de búsqueda -->
-    <ContentControl Grid.Row="0" Grid.Column="1" prism:RegionManager.RegionName="{x:Static common:RegionNames.SearchBoxRegion}"  />
+    <ContentControl Grid.Row="0" Grid.Column="1" Margin="{StaticResource Margin}"
+                    prism:RegionManager.RegionName="{x:Static common:RegionNames.SearchBoxRegion}"  />
 
     <!-- Toolbar -->
-    <ContentControl Grid.Row="0" Grid.Column="2" prism:RegionManager.RegionName="{x:Static common:RegionNames.ToolbarRegion}"  />
+    <ContentControl Grid.Row="0" Grid.Column="2" Margin="{StaticResource Margin}"
+                    prism:RegionManager.RegionName="{x:Static common:RegionNames.ToolbarRegion}"  />
 
     <!-- Región de contenido -->
     <ContentControl Grid.Row="1" Grid.ColumnSpan="3" prism:RegionManager.RegionName="{x:Static common:RegionNames.ContentRegion}" />
