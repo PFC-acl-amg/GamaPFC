@@ -141,7 +141,7 @@
                 </GroupBox>
                 <ListBox x:Name="MensajesListBox3" ItemsSource="{Binding ForosDisponibles}"
                          Visibility="{Binding OcultarForoVisible, 
-                                                Converter={StaticResource BooleanToVisivilityConverter}}" SelectionChanged="MensajesListBox3_SelectionChanged">
+                                                Converter={StaticResource BooleanToVisivilityConverter}}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid >

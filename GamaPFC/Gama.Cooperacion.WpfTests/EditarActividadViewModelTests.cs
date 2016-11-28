@@ -27,11 +27,14 @@ namespace Gama.Cooperacion.WpfTests
         private Mock<IEventAggregator> _eventAggregatorMock;
         private InformacionDeActividadViewModel _informacionDeActividadViewModelMock;
         private Mock<ActividadActualizadaEvent> _actividadActualizadaEvent;
+        private Mock<IEventoRepository> _EventosRepositoryMock;
+        private TareasDeActividadViewModel _TareaDeActividadViewModelMock;
 
         public EditarActividadViewModelTests()
         {
             _actividadRepositoryMock = new Mock<IActividadRepository>();
             _cooperanteRepositoryMock = new Mock<ICooperanteRepository>();
+            _EventosRepositoryMock = new Mock<IEventoRepository>();
             _eventAggregatorMock = new Mock<IEventAggregator>();
             _actividadActualizadaEvent = new Mock<ActividadActualizadaEvent>();
             var sessionMock = new Mock<ISession>();
@@ -58,11 +61,20 @@ namespace Gama.Cooperacion.WpfTests
                 _eventAggregatorMock.Object,
                 sessionMock.Object);
 
+            _TareaDeActividadViewModelMock = new TareasDeActividadViewModel(
+               _actividadRepositoryMock.Object, 
+               _EventosRepositoryMock.Object,
+               _eventAggregatorMock.Object,
+               sessionMock.Object
+                );
+
+
             _vm = new EditarActividadViewModel(
                 _actividadRepositoryMock.Object,
                 _cooperanteRepositoryMock.Object,
                 _eventAggregatorMock.Object,
                 _informacionDeActividadViewModelMock,
+                _TareaDeActividadViewModelMock,
                 sessionMock.Object);
 
             var navigationParameters = new NavigationParameters();
