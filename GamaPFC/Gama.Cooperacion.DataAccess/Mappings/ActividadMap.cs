@@ -32,6 +32,11 @@ namespace Gama.Cooperacion.DataAccess.Mappings
                 .Inverse();
 
             HasMany(x => x.Foros)
+                .Cascade.SaveUpdate()
+                .Inverse();
+
+            HasMany(x => x.Tareas)
+                .Cascade.SaveUpdate()
                 .Inverse();
 
             HasManyToMany(x => x.Cooperantes)

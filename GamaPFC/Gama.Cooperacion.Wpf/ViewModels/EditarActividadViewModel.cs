@@ -21,6 +21,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
     {
         private IActividadRepository _ActividadRepository;
         private InformacionDeActividadViewModel _ActividadVM;
+        private TareasDeActividadViewModel _TareasActividadVM;
         private ICooperanteRepository _CooperanteRepository;
         private ISession _Session;
         private IEventAggregator _eventAggregator;
@@ -29,7 +30,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             IActividadRepository actividadRepository,
             ICooperanteRepository cooperanteRepository,
             IEventAggregator eventAggregator,
-            InformacionDeActividadViewModel actividadVM, 
+            InformacionDeActividadViewModel actividadVM,
+            TareasDeActividadViewModel tareasActividadVM,
             ISession session)
         {
             _eventAggregator = eventAggregator;
@@ -39,6 +41,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _CooperanteRepository.Session = session;
             _Session = session;
             _ActividadVM = actividadVM;
+            _TareasActividadVM = tareasActividadVM;
 
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
@@ -58,7 +61,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             get { return _ActividadVM; }
         }
-
+        public TareasDeActividadViewModel TareasActividadVM
+        {
+            get { return _TareasActividadVM; }
+        }
         public ActividadWrapper Actividad
         {
             get { return _ActividadVM.Actividad; }
@@ -122,6 +128,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 _ActividadRepository.GetById((int)navigationContext.Parameters["Id"]));
 
             _ActividadVM.Load(actividad);
+            _TareasActividadVM.LoadActividad(actividad);
 
             if (Actividad.Titulo.Length > 20)
             {

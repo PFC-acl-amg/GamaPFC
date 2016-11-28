@@ -52,7 +52,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     DisplayMember1 = LookupItem.ShortenStringForDisplay(a.Titulo,
                         _settings.DashboardActividadesLongitudDeTitulos),
                 }));
-
             UltimosCooperantes = new ObservableCollection<Cooperante>(
                 _cooperanteRepository.GetAll()
                 .OrderBy(c => c.Id)

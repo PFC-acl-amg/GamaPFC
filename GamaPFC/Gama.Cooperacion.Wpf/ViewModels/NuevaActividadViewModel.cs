@@ -69,7 +69,33 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             // Eliminamos el cooperante dummy
             Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == null).First());
-
+            // Creamos el evento de nueva actividad creada
+            var evento = new Evento()
+            {
+                Titulo = Actividad.Titulo,
+                FechaDePublicacion = DateTime.Now,
+                Ocurrencia = Ocurrencia.Nueva_Actividad,
+            };
+            // -------
+            // Evento creado se añade a la actidivad
+            Actividad.Model.AddEvento(evento);
+            // ------
+            // Crear Foro
+            var foro = new Foro()
+            {
+                Titulo = "Primer Foro",
+                FechaDePublicacion = DateTime.Now,   
+            };
+            var mensajeForo = new Mensaje()
+            {
+                Titulo = "Primer mensaje del foro",
+                FechaDePublicacion = DateTime.Now,
+            };
+            foro.AddMensaje(mensajeForo);
+            // -------
+            // Evento creado se añade a la actidivad
+            Actividad.Model.AddForo(foro);
+            //----
             Actividad.CreatedAt = DateTime.Now;
             _ActividadRepository.Create(Actividad.Model);
             _EventAggregator.GetEvent<NuevaActividadEvent>().Publish(Actividad.Id);

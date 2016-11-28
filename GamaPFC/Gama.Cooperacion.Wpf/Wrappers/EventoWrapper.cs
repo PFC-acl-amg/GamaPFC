@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.Wpf.Wrappers
 {
-    public class EventoWrapper : ModelWrapper<Evento>
+    public class EventoWrapper : TimestampedModelWrapper<Evento>
     {
         public EventoWrapper(Evento model) : base(model)
         {
@@ -23,10 +23,11 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             get { return GetValue<DateTime>(); }
             set { }
         }
-        public Ocurrencia EventoSucedido
+        public Ocurrencia Ocurrencia
         {
             get { return GetValue<Ocurrencia>(); }
             set { }
         }
+        public ActividadWrapper Actividad { get; private set; }
     }
 }

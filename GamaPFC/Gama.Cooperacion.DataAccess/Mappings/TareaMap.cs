@@ -19,6 +19,9 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             Map(x => x.FechaDeFinalizacion);
             Map(x => x.HaFinalizado);
 
+            References(x => x.Actividad)
+                .LazyLoad();
+
             References(x => x.Responsable)
                 .Not.LazyLoad()
                 .Fetch.Join();
@@ -26,23 +29,8 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             HasMany(x => x.Historial)
                 .Inverse();
 
-            //HasMany(x => x.Mensajes)
-            //    .Inverse();
+            HasMany(x => x.Mensajes)
+                .Inverse();
         }
     }
-
-    //public class ForoMap : ClassMap<Foro>
-    //{
-    //    public ForoMap()
-    //    {
-    //        Table("Foros");
-    //        Id(x => x.Id).GeneratedBy.Identity();
-
-    //        Map(x => x.Titulo).Not.Nullable();
-    //        Map(x => x.FechaDePublicacion).Not.Nullable();
-
-    //        HasMany(x => x.Mensajes)
-    //           .Inverse();
-    //    }
-    //}
 }

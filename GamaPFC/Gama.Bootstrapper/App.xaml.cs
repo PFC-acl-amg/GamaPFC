@@ -32,10 +32,10 @@ namespace Gama.Bootstrapper
 
             Bootstrapper bootstrapper;
 
-            bool SALTAR_SELECCION_DE_MODULO = false; // Para hacer pruebas más rápido...
+            bool SALTAR_SELECCION_DE_MODULO = true; // Para hacer pruebas más rápido...
             if (SALTAR_SELECCION_DE_MODULO)
             {
-                bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
+                bootstrapper = new Bootstrapper(Modulos.Cooperacion);
                 bootstrapper.Run();
             }
             else

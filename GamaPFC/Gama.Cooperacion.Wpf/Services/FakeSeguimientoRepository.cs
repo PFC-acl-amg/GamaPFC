@@ -34,6 +34,7 @@ namespace Gama.Cooperacion.Wpf.Services
                 {
                     Descripcion = Faker.TextFaker.Sentence(),
                     FechaDePublicacion = Faker.DateTimeFaker.DateTime(),
+                    Tipo = 1,
                 };
 
                 _seguimiento.Add(seguimiento);

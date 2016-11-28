@@ -17,7 +17,6 @@ namespace Gama.Cooperacion.Business
     public class Actividad : TimestampedModel
     {
         public virtual int CoordinadorId { get; set; }
-        public virtual IList<Cooperante> Cooperantes { get; set; }
         public virtual Cooperante Coordinador { get; set; }
         public virtual string Descripcion { get; set; }
         public virtual Estado Estado { get; set; }
@@ -25,6 +24,7 @@ namespace Gama.Cooperacion.Business
         public virtual DateTime FechaDeFin { get; set; }
         public virtual int Id { get; set; }
         public virtual string Titulo { get; set; }
+        public virtual IList<Cooperante> Cooperantes { get; set; }
         public virtual IList<Tarea> Tareas { get; set; }
         public virtual IList<Foro> Foros { get; set; }
         public virtual IList<Evento> Eventos { get; set; }
@@ -54,8 +54,8 @@ namespace Gama.Cooperacion.Business
 
         public virtual void AddTarea(Tarea tarea)
         {
+            tarea.Actividad = this;
             Tareas.Add(tarea);
-            //tarea.Actividad = this;
         }
 
         public virtual void SetCoordinador(Cooperante coordinador)
@@ -69,6 +69,11 @@ namespace Gama.Cooperacion.Business
         {
             evento.Actividad = this;
             Eventos.Add(evento);
+        }
+        public virtual void AddForo(Foro foro)
+        {
+            foro.Actividad = this;
+            Foros.Add(foro);
         }
     }
 }

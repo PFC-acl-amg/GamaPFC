@@ -38,24 +38,21 @@ namespace Gama.Cooperacion.Wpf
                 cooperanteRepository.Session = session;
                 var cooperantesDummy = new FakeCooperanteRepository().GetAll();
 
-                foreach (var cooperante in cooperantesDummy)
+                foreach (var cooperante in cooperantesDummy) // Crea tambien mas cooperantes de forma automatica
                 {
                     cooperanteRepository.Create(cooperante);
                 }
 
                 var actividadRepository = Container.Resolve<IActividadRepository>();
                 var eventoRepository = Container.Resolve<IEventoRepository>();
-                //var eventoRepository = new FakeEventoRepository().GetAll();    // Creando eventos no BBDD
-                //var eventoRepository = new FakeEventoRepository().GetAll(); // Crea una lista con todos los eventos disponibles en la BBDD
-
-
+     
                 actividadRepository.Session = session;
                 cooperanteRepository.Session = session;
                 eventoRepository.Session = session;
 
                 foreach (var cooperante in cooperantesDummy)
                 {
-                    cooperanteRepository.Create(cooperante);
+                    cooperanteRepository.Create(cooperante); // para crear cooperantes nuevos forma automatica
                 }
 
                 //var cooperanteRepository = Container.Resolve<ICooperanteRepository>();

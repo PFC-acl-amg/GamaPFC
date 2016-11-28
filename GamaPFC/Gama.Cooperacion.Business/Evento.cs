@@ -10,8 +10,11 @@ namespace Gama.Cooperacion.Business
 {
     public enum Ocurrencia
     {
-        Mensaje_Publicado,
+        MENSAJE_PUBLICADO_EN_FORO,
         Tarea_Finalizada,
+        Nueva_Actividad,
+        FORO_CREADO,
+        Mensaje_Publicado
     }
     public class Evento : TimestampedModel
     {

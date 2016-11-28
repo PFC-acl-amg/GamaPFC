@@ -12,7 +12,7 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
 {
     public class TareasDeActividadViewModelDTD : ViewModelBase
     {
-        private bool _isVisibleForo = true;
+        private bool _isVisibleForo = false;
         private bool _isVisibleMensaje = false;
         public TareasDeActividadViewModelDTD()
         {
