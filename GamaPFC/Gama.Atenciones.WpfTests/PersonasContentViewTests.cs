@@ -14,6 +14,7 @@ namespace Gama.Atenciones.WpfTests
 {
     public class PersonasContentViewTests
     {
+        private Mock<IUnityContainer> _ContainerMock;
         private Mock<IEventAggregator> _EventAggregatorMock;
         private Mock<IRegionManager> _RegionManagerMock;
         PersonasContentViewModel _Vm;
@@ -26,7 +27,7 @@ namespace Gama.Atenciones.WpfTests
             _Vm = new PersonasContentViewModel(
                 _EventAggregatorMock.Object,
                 _RegionManagerMock.Object, 
-                new Mock<IUnityContainer>());
+                new Mock<IUnityContainer>().Object);
         }
     }
 }

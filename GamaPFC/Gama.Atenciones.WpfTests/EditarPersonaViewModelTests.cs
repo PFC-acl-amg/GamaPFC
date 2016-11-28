@@ -64,8 +64,8 @@ namespace Gama.Atenciones.WpfTests
                 _EventAggregatorMock.Object,
                 _PersonaRepositoryMock.Object,
                 _PersonaViewModelMock,
-                //_AtencionViewModelMock,
-                //_CitaViewModelMock,
+                _AtencionViewModelMock,
+                _CitaViewModelMock,
                 _SessionMock.Object);
 
             var navigationParameters = new NavigationParameters();

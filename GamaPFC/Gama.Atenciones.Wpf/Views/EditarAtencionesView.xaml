@@ -6,6 +6,9 @@
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
              mc:Ignorable="d" 
              d:DesignHeight="538.356" d:DesignWidth="615.411">
+  <UserControl.Resources>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+  </UserControl.Resources>
   <ScrollViewer>
     <Grid>
       <Grid.ColumnDefinitions>

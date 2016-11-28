@@ -87,7 +87,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             SelectCitaCommand = new DelegateCommand<LookupItem>(OnSelectCitaCommandExecute);
             SelectAtencionCommand = new DelegateCommand<LookupItem>(OnSelectAtencionCommandExecute);
 
-            //_EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnNuevaPersonaEvent);
+            _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnNuevaPersonaEvent);
             _EventAggregator.GetEvent<AtencionCreadaEvent>().Subscribe(OnNuevaAtencionEvent);
             _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnNuevaCitaEvent);
         }
