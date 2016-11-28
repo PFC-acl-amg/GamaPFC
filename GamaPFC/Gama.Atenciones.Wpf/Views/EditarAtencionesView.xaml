@@ -15,8 +15,8 @@
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
-      <!--<Border BorderThickness="1" BorderBrush="Black" Padding="10" Margin="{StaticResource Margin}"
-                Panel.ZIndex="999" x:Name="_NoAtencionesBorder">
+      <Border BorderThickness="1" BorderBrush="Black" Padding="10" Margin="{StaticResource Margin}"
+                Panel.ZIndex="999">
         <Border.Style>
           <Style TargetType="{x:Type Border}">
             <Setter Property="Visibility" Value="Collapsed" />
@@ -28,9 +28,9 @@
           </Style>
         </Border.Style>
         <TextBlock HorizontalAlignment="Center">No hay atenciones para mostrar.</TextBlock>
-      </Border>-->
+      </Border>
       <!-- Listado de atenciones -->
-      <GroupBox Header="Atenciones" x:Name="_AtencionesGroupBox">
+      <GroupBox Header="Atenciones">
         <ScrollViewer>
         <ListBox SelectionMode="Single" ItemsSource="{Binding Atenciones}"
                  SelectedItem="{Binding AtencionSeleccionada}"
@@ -49,7 +49,7 @@
         </ScrollViewer>
       </GroupBox>
 
-      <Grid Grid.Column="1" x:Name="_AtencionGrid">
+      <Grid Grid.Column="1">
         <Grid.RowDefinitions>
           <RowDefinition />
           <RowDefinition Height="Auto" />
