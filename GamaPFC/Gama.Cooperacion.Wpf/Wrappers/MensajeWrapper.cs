@@ -18,16 +18,16 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             get { return GetValue<int>(); }
             set { } // No se pone nada dentro del set porque los mensajes son para ller solo no se modificaran ni se borraran asi tma read only
         }
-        public string TituloMensaje
+        public string Titulo
         {
             get { return GetValue<string>(); }
             set { }
         }
-        public DateTime FechaPublico
+        public DateTime FechaDePublicacion
         {
             get { return GetValue<DateTime>(); }
             set { }
         }
-
+        public ForoWrapper Foro { get; private set; }
     }
 }

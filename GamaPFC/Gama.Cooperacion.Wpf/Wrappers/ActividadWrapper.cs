@@ -29,6 +29,10 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             {
                 throw new ArgumentNullException("Foros");
             }
+            else if (model.Eventos == null)
+            {
+                throw new ArgumentNullException("Eventos");
+            }
 
             this.Cooperantes = new ChangeTrackingCollection<CooperanteWrapper>
                 (model.Cooperantes.Select(c => new CooperanteWrapper(c)));
@@ -41,6 +45,10 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             this.Foros = new ChangeTrackingCollection<ForoWrapper>
                 (model.Foros.Select(c => new ForoWrapper(c)));
             this.RegisterCollection(this.Foros, model.Foros);
+
+            this.Eventos = new ChangeTrackingCollection<EventoWrapper>
+                (model.Eventos.Select(c => new EventoWrapper(c)));
+            this.RegisterCollection(this.Eventos, model.Eventos);
         }
 
         protected override void InitializeComplexProperties(Actividad model)
@@ -178,6 +186,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         public ChangeTrackingCollection<CooperanteWrapper> Cooperantes { get; private set; }
         public ChangeTrackingCollection<TareaWrapper> Tareas { get; private set; }
         public ChangeTrackingCollection<ForoWrapper> Foros { get; private set; }
+        public ChangeTrackingCollection<EventoWrapper> Eventos { get; private set; }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

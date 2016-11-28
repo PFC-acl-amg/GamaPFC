@@ -134,6 +134,9 @@
     <Compile Include="Eventos\ActividadSeleccionadaChangedEvent.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaEvent.cs" />
     <Compile Include="Eventos\NuevaActividadEvent.cs" />
+    <Compile Include="Eventos\NuevoForoCreadoEvent.cs" />
+    <Compile Include="Eventos\CargarNuevaActividadEvent.cs" />
+    <Compile Include="Eventos\PublicarEventosActividad.cs" />
     <Compile Include="Services\ActividadRepository.cs" />
     <Compile Include="Services\CooperacionSettings.cs" />
     <Compile Include="Services\CooperanteRepository.cs" />

@@ -76,7 +76,7 @@ namespace Gama.Cooperacion.DataAccess
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: true,
-                            execute: true, // A true trunca las tablas cada vez ejecutas el programa
+                            execute: true,// A true trunca las tablas cada vez ejecutas el programa
                             justDrop: false);
                     })
                 .BuildConfiguration();

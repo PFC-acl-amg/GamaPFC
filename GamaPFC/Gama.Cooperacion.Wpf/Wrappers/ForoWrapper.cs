@@ -59,8 +59,9 @@ namespace Gama.Cooperacion.Wpf.Wrappers
 
             }
         }
-
+      
         public ChangeTrackingCollection<EventoWrapper> Eventos { get; set; }
+        public ActividadWrapper Actividad { get; private set; }
 
     }
 }

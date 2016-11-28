@@ -25,8 +25,8 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             {
                 throw new ArgumentNullException("Mensajes");
             }
-            this.Mensaje = new ChangeTrackingCollection<MensajeWrapper>
-                (model.Mensajes.Select(t => new MensajeWrapper(t)));
+            this.Mensaje = new ChangeTrackingCollection<SeguimientoWrapper>
+                (model.Mensajes.Select(t => new SeguimientoWrapper(t)));
             this.RegisterCollection(this.Mensaje, model.Mensajes);
 
             this.Historial = new ChangeTrackingCollection<SeguimientoWrapper>
@@ -86,7 +86,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
 
         public bool FechaDeFinalizacionIsChanged => GetIsChanged(nameof(FechaDeFinalizacion));
 
-        public ChangeTrackingCollection<MensajeWrapper> Mensaje { get; set; }
+        public ChangeTrackingCollection<SeguimientoWrapper> Mensaje { get; set; }
         public ChangeTrackingCollection<SeguimientoWrapper> Historial { get; set; }
 
         public ActividadWrapper Actividad { get; private set; }

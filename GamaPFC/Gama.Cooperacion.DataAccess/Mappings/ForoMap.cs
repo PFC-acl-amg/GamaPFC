@@ -18,6 +18,9 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             Map(x => x.Titulo).Not.Nullable();
             Map(x => x.FechaDePublicacion).Not.Nullable();
 
+            References(x => x.Actividad)
+                .LazyLoad();
+
             HasMany(x => x.Mensajes)
                .Inverse();
         }

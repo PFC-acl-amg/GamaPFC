@@ -59,6 +59,8 @@
         </Label>
       </StackPanel>
     </Grid>
-    <local:TareasDeActividad Grid.Column="1" Margin="{StaticResource Margin}"/>
-  </Grid>
+        <Grid Grid.Column="1">
+        <local:TareasDeActividad  DataContext="{Binding TareasActividadVM}" Margin="{StaticResource Margin}"/>
+        </Grid>
+    </Grid>
 </UserControl>
