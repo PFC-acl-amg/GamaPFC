@@ -29,7 +29,7 @@ namespace Gama.Bootstrapper
 
             Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            //AppDomain.CurrentDomain.FirstChanceException += CurrentDomain_FirstChanceException;
+            AppDomain.CurrentDomain.FirstChanceException += CurrentDomain_FirstChanceException;
 
             ViewModelLocationProvider.SetDefaultViewModelFactory(
                 type => { return _container.Resolve(type);
@@ -37,7 +37,7 @@ namespace Gama.Bootstrapper
 
             Bootstrapper bootstrapper;
 
-            bool SALTAR_SELECCION_DE_MODULO = false; // Para hacer pruebas más rápido...
+            bool SALTAR_SELECCION_DE_MODULO = true; // Para hacer pruebas más rápido...
             if (SALTAR_SELECCION_DE_MODULO)
             {
                 bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);

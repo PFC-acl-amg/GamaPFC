@@ -1,6 +1,8 @@
 ﻿using Core;
 using Gama.Atenciones.Wpf.Eventos;
+using Gama.Atenciones.Wpf.Views;
 using Gama.Common;
+using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Regions;
 using System;
@@ -11,18 +13,20 @@ using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
-    public class PersonasContentViewModel : ViewModelBase
+    public class PersonasContentViewModel : ViewModelBase, INavigationAware
     {
         private IEventAggregator _EventAggregator;
         private IRegionManager _RegionManager;
+        private IUnityContainer _Container;
 
         public PersonasContentViewModel(IEventAggregator eventAggregator,
-            IRegionManager regionManager)
+            IRegionManager regionManager, IUnityContainer container)
         {
             _EventAggregator = eventAggregator;
             _RegionManager = regionManager;
+            _Container = container;
 
-            _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnNuevaPersonaEvent);
+            _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnPersonaCreadaEvent);
             _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
         }
 
@@ -31,9 +35,20 @@ namespace Gama.Atenciones.Wpf.ViewModels
             AbrirPersona(id);
         }
 
-        private void OnNuevaPersonaEvent(int id)
+        private void OnPersonaCreadaEvent(int id)
         {
-            AbrirPersona(id);
+            //AbrirPersona(id);
+            //ISSUE Workaround porque al crear una persona por alguna razón, la navegación no funciona
+            // el RequestNavigate
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add("Id", id);
+            var region = _RegionManager.Regions[RegionNames.PersonasTabContentRegion];
+            var view = _Container.Resolve<EditarPersonaView>();
+            var vm = (EditarPersonaViewModel)view.DataContext;
+            region.Add(view);
+            region.Activate(view);
+
+            vm.Load(id);
         }
 
         private void AbrirPersona(int id)
@@ -41,18 +56,40 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var navigationParameters = new NavigationParameters();
             navigationParameters.Add("Id", id);
 
-            // Primero cambiamos de panel
-            _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
-
-            try {
-                // Segundamente navegamos al detalle de la Actividad a abrir
-                _RegionManager.RequestNavigate(RegionNames.PersonasTabContentRegion,
-                    "EditarPersonaView", navigationParameters);
-            }
-            catch (Exception eX)
+            // Primero cambiamos de panel, si no estamos ya en él
+            if (!IsActive)
             {
-                throw eX;
+                //_RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
             }
+
+            //try {
+            // _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
+            //Segundamente navegamos al detalle de la persona a abrir
+            _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView",
+                nr => {
+                    var error = nr.Error;
+                    var result = nr.Result;
+                }, navigationParameters);
+            _RegionManager.RequestNavigate(RegionNames.PersonasTabContentRegion, "EditarPersonaView", 
+                    nr => {
+                        var error = nr.Error;
+                        var result = nr.Result;
+                    }, navigationParameters);
+            //}
+            //catch (Exception eX)
+            //{
+            //    throw eX;
+            //}
+        }
+
+        public override void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            IsActive = false;
+        }
+
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            IsActive = true;
         }
     }
 }

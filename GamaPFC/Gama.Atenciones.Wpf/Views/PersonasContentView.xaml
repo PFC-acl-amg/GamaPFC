@@ -22,7 +22,7 @@
           <DataTemplate>
             <StackPanel Orientation="Horizontal">
               <ContentControl Content="{Binding}"
-                                        Margin="{DynamicResource GlobalMargin}"/>
+                                        Margin="{StaticResource Margin}"/>
               <Button Content="x">
                 <Button.Style>
                   <Style TargetType="Button">

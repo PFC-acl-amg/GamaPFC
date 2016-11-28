@@ -1,4 +1,5 @@
 ﻿using Gama.Atenciones.Wpf.ViewModels;
+using Microsoft.Practices.Unity;
 using Moq;
 using Prism.Events;
 using Prism.Regions;
@@ -21,9 +22,11 @@ namespace Gama.Atenciones.WpfTests
         {
             _RegionManagerMock = new Mock<IRegionManager>();
             _EventAggregatorMock = new Mock<IEventAggregator>();
+            _ContainerMock = new Mock<IUnityContainer>();
             _Vm = new PersonasContentViewModel(
                 _EventAggregatorMock.Object,
-                _RegionManagerMock.Object);
+                _RegionManagerMock.Object, 
+                new Mock<IUnityContainer>());
         }
     }
 }

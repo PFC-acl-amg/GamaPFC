@@ -50,7 +50,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             ActualizarCommand = new DelegateCommand(
                 OnActualizarCommand,
-                () => _PersonaVM.EdicionHabilitada 
+                () => _PersonaVM.EdicionHabilitada
                    && Persona.IsChanged
                    && Persona.IsValid);
 
@@ -113,6 +113,27 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 return true;
 
             return false;
+        }
+
+        public void Load(int id)
+        {
+            try
+            {
+                if (Persona.Nombre != null)
+                    return;
+
+                var persona = new PersonaWrapper(
+                    _PersonaRepository.GetById(id));
+
+                _PersonaVM.Load(persona);
+                _AtencionesVM.Load(_PersonaVM.Persona);
+                _CitasVM.Load(_PersonaVM.Persona);
+                RefrescarTitulo(persona.Nombre);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)

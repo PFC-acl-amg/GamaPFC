@@ -101,7 +101,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 atencion.CreatedAt = DateTime.Now;
                 atencion.Cita = cita.Model;
                 atencion.Fecha = DateTime.Now;
-
+                atencion.AcceptChanges();
 
                 cita.Atencion = atencion;
                 Atenciones.Add(atencion);
