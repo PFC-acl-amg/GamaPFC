@@ -15,12 +15,26 @@
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
-
+      <!--<Border BorderThickness="1" BorderBrush="Black" Padding="10" Margin="{StaticResource Margin}"
+                Panel.ZIndex="999" x:Name="_NoAtencionesBorder">
+        <Border.Style>
+          <Style TargetType="{x:Type Border}">
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding ElementName=_AtencionesListBox, Path=Items.Count}" Value="0">
+                <Setter Property="Visibility" Value="Visible" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </Border.Style>
+        <TextBlock HorizontalAlignment="Center">No hay atenciones para mostrar.</TextBlock>
+      </Border>-->
       <!-- Listado de atenciones -->
-      <GroupBox Header="Atenciones">
+      <GroupBox Header="Atenciones" x:Name="_AtencionesGroupBox">
         <ScrollViewer>
         <ListBox SelectionMode="Single" ItemsSource="{Binding Atenciones}"
-                 SelectedItem="{Binding AtencionSeleccionada}">
+                 SelectedItem="{Binding AtencionSeleccionada}"
+                 x:Name="_AtencionesListBox">
           <ListBox.ItemTemplate>
             <DataTemplate>
               <GroupBox Header="{Binding Fecha}">
@@ -35,7 +49,7 @@
         </ScrollViewer>
       </GroupBox>
 
-      <Grid Grid.Column="1">
+      <Grid Grid.Column="1" x:Name="_AtencionGrid">
         <Grid.RowDefinitions>
           <RowDefinition />
           <RowDefinition Height="Auto" />

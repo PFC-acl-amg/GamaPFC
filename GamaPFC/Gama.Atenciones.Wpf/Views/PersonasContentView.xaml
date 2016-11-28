@@ -39,6 +39,12 @@
                       <DataTrigger Binding="{Binding}" Value="Todas">
                         <Setter Property="Visibility" Value="Collapsed"/>
                       </DataTrigger>
+                      <DataTrigger Binding="{Binding}" Value="CITAS">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                      </DataTrigger>
+                      <DataTrigger Binding="{Binding}" Value="ATENCIONES">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                      </DataTrigger>
                     </Style.Triggers>
                   </Style>
                 </Button.Style>

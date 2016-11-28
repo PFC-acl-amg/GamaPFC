@@ -46,6 +46,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var view = _Container.Resolve<EditarPersonaView>();
             var vm = (EditarPersonaViewModel)view.DataContext;
             region.Add(view);
+
+            _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView", navigationParameters);
             region.Activate(view);
 
             vm.Load(id);
@@ -62,24 +64,17 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 //_RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
             }
 
-            //try {
-            // _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
-            //Segundamente navegamos al detalle de la persona a abrir
-            _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView",
-                nr => {
-                    var error = nr.Error;
-                    var result = nr.Result;
-                }, navigationParameters);
-            _RegionManager.RequestNavigate(RegionNames.PersonasTabContentRegion, "EditarPersonaView", 
-                    nr => {
-                        var error = nr.Error;
-                        var result = nr.Result;
-                    }, navigationParameters);
-            //}
-            //catch (Exception eX)
-            //{
-            //    throw eX;
-            //}
+            try
+            {
+                // _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
+                //Segundamente navegamos al detalle de la persona a abrir
+                _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView", navigationParameters);
+                _RegionManager.RequestNavigate(RegionNames.PersonasTabContentRegion, "EditarPersonaView", navigationParameters);
+            }
+            catch (Exception eX)
+            {
+                throw eX;
+            }
         }
 
         public override void OnNavigatedFrom(NavigationContext navigationContext)
