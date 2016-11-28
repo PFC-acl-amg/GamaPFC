@@ -1,4 +1,5 @@
 ﻿using Core;
+using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.Wrappers;
@@ -23,17 +24,25 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private IEventAggregator _EventAggregator;
         private IPersonaRepository _PersonaRepository;
         private PersonaViewModel _PersonaVM;
+        private EditarAtencionesViewModel _AtencionesVM;
+        private EditarCitasViewModel _CitasVM;
 
         public EditarPersonaViewModel(
             IEventAggregator eventAggregator,
             IPersonaRepository personaRepository,
             PersonaViewModel personaVM,
+            EditarAtencionesViewModel atencionesVM,
+            EditarCitasViewModel citasVM,
             ISession session)
         {
             _EventAggregator = eventAggregator;
             _PersonaRepository = personaRepository;
             _PersonaRepository.Session = session;
             _PersonaVM = personaVM;
+            _AtencionesVM = atencionesVM;
+            _AtencionesVM.Session = session;
+            _CitasVM = citasVM;
+            _CitasVM.Session = session;
 
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
@@ -41,7 +50,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             ActualizarCommand = new DelegateCommand(
                 OnActualizarCommand,
-                () => _PersonaVM.EdicionHabilitada 
+                () => _PersonaVM.EdicionHabilitada
                    && Persona.IsChanged
                    && Persona.IsValid);
 
@@ -54,6 +63,16 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public PersonaViewModel PersonaVM
         {
             get { return _PersonaVM; }
+        }
+        
+        public EditarAtencionesViewModel AtencionesVM
+        {
+            get { return _AtencionesVM; }
+        }
+
+        public EditarCitasViewModel CitasVM
+        {
+            get { return _CitasVM;  }
         }
 
         public PersonaWrapper Persona
@@ -96,16 +115,45 @@ namespace Gama.Atenciones.Wpf.ViewModels
             return false;
         }
 
+        public void Load(int id)
+        {
+            try
+            {
+                if (Persona.Nombre != null)
+                    return;
+
+                var persona = new PersonaWrapper(
+                    _PersonaRepository.GetById(id));
+
+                _PersonaVM.Load(persona);
+                _AtencionesVM.Load(_PersonaVM.Persona);
+                _CitasVM.Load(_PersonaVM.Persona);
+                RefrescarTitulo(persona.Nombre);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            if (Persona.Nombre != null)
-                return;
+            try {
+                if (Persona.Nombre != null)
+                    return;
 
-            var persona = new PersonaWrapper(
-                _PersonaRepository.GetById((int)navigationContext.Parameters["Id"]));
+                var persona = new PersonaWrapper(
+                    _PersonaRepository.GetById((int)navigationContext.Parameters["Id"]));
 
-            _PersonaVM.Load(persona);
-            RefrescarTitulo(persona.Nombre);
+                _PersonaVM.Load(persona);
+                _AtencionesVM.Load(_PersonaVM.Persona);
+                _CitasVM.Load(_PersonaVM.Persona);
+                RefrescarTitulo(persona.Nombre);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void RefrescarTitulo(string nombre)

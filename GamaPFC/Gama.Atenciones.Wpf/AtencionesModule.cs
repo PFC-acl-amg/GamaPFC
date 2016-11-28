@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.DataAccess;
+using Gama.Atenciones.Business;
 using Gama.Atenciones.DataAccess;
 using Gama.Atenciones.Wpf.FakeServices;
 using Gama.Atenciones.Wpf.Services;
@@ -34,55 +35,69 @@ namespace Gama.Atenciones.Wpf
             InitializeNavigation();
 
             try {
-                var sessionFactory = new NHibernateSessionFactory();
-                var factory = sessionFactory.SessionFactory;
-
                 if (UseFaker)
                 {
+                    var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
+
                     var personaRepository = new PersonaRepository();
-                    var session = factory.OpenSession();
+                    var session = sessionFactory.OpenSession();
                     personaRepository.Session = session;
 
-                    var personas = new FakePersonaRepository().GetAll();
-                    foreach (var persona in personas)
-                    {
-                        persona.Id = 0;
-                        personaRepository.Create(persona);
-                    }
+                    //var personas = new FakePersonaRepository().GetAll().Take(10);
+                    //foreach (var persona in personas)
+                    //{
+                    //    persona.Id = 0;
+                    //    personaRepository.Create(persona);
+                    //}
 
-                    var citaRepository = new CitaRepository();
-                    citaRepository.Session = session;
-                    var citas = new FakeCitaRepository().GetAll();
-                    var personaParaCita = personaRepository.GetById(1);
-                    foreach (var cita in citas)
-                    {
-                        cita.Id = 0;
-                        cita.Persona = personaParaCita;
-                        citaRepository.Create(cita);
-                    }
+                    var persona = personaRepository.GetById(1);
 
-                    var atencionRepository = new AtencionRepository();
-                    atencionRepository.Session = session;
-                    var atenciones = new FakeAtencionRepository().GetAll();
-                    var citaParaAtencion = citaRepository.GetById(1);
-                    foreach ( var atencion in atenciones )
-                    {
-                        atencion.Id = 0;
-                        atencion.Cita = citaParaAtencion;
-                        atencionRepository.Create(atencion);
-                    }
+                    var cita = new Cita { Inicio = DateTime.Now.AddDays(1), Asistente = "Johny Rothschild", Sala = "Sala C" };
+
+                    cita.Persona = persona;
+                    persona.Citas.Add(cita);
+                    personaRepository.Update(persona);
+
+                    //var citaRepository = new CitaRepository();
+                    //citaRepository.Session = session;
+                    //var citas = new FakeCitaRepository().GetAll().Take(10);
+                    //var personaParaCita = personaRepository.GetById(1);
+                    //foreach (var cita in citas)
+                    //{
+                    //    cita.Id = 0;
+                    //    cita.Persona = personaParaCita;
+                    //    citaRepository.Create(cita);
+                    //}
+
+                    //var atencionRepository = new AtencionRepository();
+                    //atencionRepository.Session = session;
+                    //var atenciones = new FakeAtencionRepository().GetAll().Take(10);
+                    //int citaId = 1;
+                    //var citaParaAtencion = citaRepository.GetById(citaId);
+                    //foreach ( var atencion in atenciones )
+                    //{
+                    //    atencion.Id = 0;
+                    //    atencion.Cita = citaParaAtencion;
+                    //    citaParaAtencion = citaRepository.GetById(++citaId);
+                    //    atencionRepository.Create(atencion);
+                    //}
                 }
             } 
             catch (Exception ex)
             {
                 var message = ex.Message;
+                throw ex;
             }
         }
 
         private void RegisterViews()
         {
             Container.RegisterType<object, DashboardView>("DashboardView");
+
             Container.RegisterType<object, EditarPersonaView>("EditarPersonaView");
+            Container.RegisterType<object, EditarAtencionesView>("EditarAtencionesView");
+            Container.RegisterType<object, EditarCitasView>("EditarCitasView");
+
             Container.RegisterType<object, ListadoDePersonasView>("ListadoDePersonasView");
             Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
             Container.RegisterType<object, PersonasContentView>("PersonasContentView");
@@ -93,7 +108,11 @@ namespace Gama.Atenciones.Wpf
         private void RegisterViewModels()
         {
             Container.RegisterType<DashboardViewModel>();
+
             Container.RegisterType<EditarPersonaViewModel>();
+            Container.RegisterType<EditarAtencionesViewModel>();
+            Container.RegisterType<EditarCitasViewModel>();
+
             Container.RegisterType<ListadoDePersonasViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
             Container.RegisterType<PersonasContentViewModel>();

@@ -2,6 +2,7 @@
 using Gama.Atenciones.Business;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,17 +18,19 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         protected override void InitializeComplexProperties(Atencion model)
         {
-            if (model.DerivacionesPropuestas == null)
-                throw new ArgumentNullException("DerivacionesPropuestas");
+            if (model.Derivacion == null)
+            {
+                throw new ArgumentNullException("Derivacion");
+            }
 
-            if (model.DerivacionesRealizadas == null)
-                throw new ArgumentNullException("DerivacionesRealizadas");
+            //if (model.DerivacionesRealizadas == null)
+            //    throw new ArgumentNullException("DerivacionesRealizadas");
 
-            DerivacionesPropuestas = new DerivacionWrapper(model.DerivacionesPropuestas);
-            RegisterComplex(DerivacionesPropuestas);
+            //DerivacionesPropuestas = new DerivacionWrapper(model.DerivacionesPropuestas);
+            //RegisterComplex(DerivacionesPropuestas);
 
-            DerivacionesRealizadas = new DerivacionWrapper(model.DerivacionesRealizadas);
-            RegisterComplex(DerivacionesRealizadas);
+            Derivacion = new DerivacionWrapper(model.Derivacion);
+            RegisterComplex(Derivacion);
         }
 
         public int Id
@@ -92,15 +95,15 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool EsPsicologicaIsChanged => GetIsChanged(nameof(EsPsicologica));
 
-        public bool EsDeAcodiga
+        public bool EsDeAcogida
         {
             get { return GetValue<bool>(); }
             set { SetValue(value); }
         }
 
-        public bool EsDeAcodigaOriginalValue => GetOriginalValue<bool>(nameof(EsDeAcodiga));
+        public bool EsDeAcogidaOriginalValue => GetOriginalValue<bool>(nameof(EsDeAcogida));
 
-        public bool EsDeAcodigaIsChanged => GetIsChanged(nameof(EsDeAcodiga));
+        public bool EsDeAcogidaIsChanged => GetIsChanged(nameof(EsDeAcogida));
 
         public bool EsDeOrientacionLaboral
         {
@@ -112,15 +115,15 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool EsDeOrientacionLaboralIsChanged => GetIsChanged(nameof(EsDeOrientacionLaboral));
 
-        public bool EsDePrevencionParaLaSalur
+        public bool EsDePrevencionParaLaSalud
         {
             get { return GetValue<bool>(); }
             set { SetValue(value); }
         }
 
-        public bool EsDePrevencionParaLaSalurOriginalValue => GetOriginalValue<bool>(nameof(EsDePrevencionParaLaSalur));
+        public bool EsDePrevencionParaLaSaludOriginalValue => GetOriginalValue<bool>(nameof(EsDePrevencionParaLaSalud));
 
-        public bool EsDePrevencionParaLaSalurIsChanged => GetIsChanged(nameof(EsDePrevencionParaLaSalur));
+        public bool EsDePrevencionParaLaSaludIsChanged => GetIsChanged(nameof(EsDePrevencionParaLaSalud));
 
         public bool EsDeFormacion
         {
@@ -162,7 +165,21 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool OtraIsChanged => GetIsChanged(nameof(Otra));
 
-        public DerivacionWrapper DerivacionesPropuestas { get; private set; }
-        public DerivacionWrapper DerivacionesRealizadas { get;  private set;}
+        public Cita Cita
+        {
+            get { return Model.Cita; }
+            set { Model.Cita = value; }
+        }
+
+        public DerivacionWrapper Derivacion { get; private set; }
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (Fecha == null || Fecha.Year < 1990) // Just an old date
+            {
+                yield return new ValidationResult("El campo de fecha es obligatorio",
+                    new[] { nameof(Fecha) });
+            }
+        }
     }
 }

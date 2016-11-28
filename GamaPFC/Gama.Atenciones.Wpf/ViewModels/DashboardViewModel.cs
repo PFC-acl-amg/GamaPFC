@@ -46,8 +46,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             UltimasPersonas = new ObservableCollection<LookupItem>(
                 _PersonaRepository.GetAll()
-                    .OrderBy(p => p.CreatedAt)
-                    .OrderBy(p => p.UpdatedAt)
+                    .OrderBy(p => p.Id)
+                    //.OrderBy(p => p.CreatedAt)
+                    //.OrderBy(p => p.UpdatedAt)
                     .Take(_Settings.DashboardUltimasPersonas)
                 .Select(a => new LookupItem
                 {
@@ -59,6 +60,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ProximasCitas = new ObservableCollection<LookupItem>(
                 _CitaRepository.GetAll()
                  .OrderBy(c => c.Inicio)
+                 .Where(c => c.Inicio >= DateTime.Now.Date)
                  .Take(_Settings.DashboardUltimasCitas)
                  .Select(c => new LookupItem
                  {
@@ -85,9 +87,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
             SelectCitaCommand = new DelegateCommand<LookupItem>(OnSelectCitaCommandExecute);
             SelectAtencionCommand = new DelegateCommand<LookupItem>(OnSelectAtencionCommandExecute);
 
-            _EventAggregator.GetEvent<NuevaPersonaEvent>().Subscribe(OnNuevaPersonaEvent);
-            _EventAggregator.GetEvent<NuevaCitaEvent>().Subscribe(OnNuevaCitaEvent);
-            _EventAggregator.GetEvent<NuevaAtencionEvent>().Subscribe(OnNuevaAtencionEvent);
+            _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnNuevaPersonaEvent);
+            _EventAggregator.GetEvent<AtencionCreadaEvent>().Subscribe(OnNuevaAtencionEvent);
+            _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnNuevaCitaEvent);
         }
 
         public ObservableCollection<LookupItem> UltimasAtenciones { get; private set; }
@@ -186,21 +188,30 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 DisplayMember2 = cita.Sala
             };
 
-            var last = DateTime.Parse(ProximasCitas.Last().DisplayMember1);
-            if (cita.Inicio < last) // es antes
+            if (ProximasCitas.Count > 0)
             {
-                int index = 0;
-                foreach (var lookup in ProximasCitas)
-                {
-                    var next = DateTime.Parse(lookup.DisplayMember1);
-                    if (cita.Inicio < next)
-                    {
-                        ProximasCitas.Insert(index, lookupItem);
-                        break;
-                    }
 
-                    index++;
+                var last = DateTime.Parse(ProximasCitas.Last().DisplayMember1);
+                if (cita.Inicio < last) // es antes
+                {
+                    int index = 0;
+                    foreach (var lookup in ProximasCitas)
+                    {
+                        var next = DateTime.Parse(lookup.DisplayMember1);
+                        if (cita.Inicio < next)
+                        {
+                            //ProximasCitas.Insert(index, lookupItem);
+                            ProximasCitas.Add(lookupItem);
+                            break;
+                        }
+
+                        index++;
+                    }
                 }
+            }
+            else
+            {
+                ProximasCitas.Add(lookupItem);
             }
         }
     }

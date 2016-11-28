@@ -12,24 +12,24 @@ namespace Gama.Atenciones.Business
     public class Persona : TimestampedModel
     {
         public virtual ComoConocioAGama ComoConocioAGama { get; set; }
-        public virtual string DireccionPostal { get; set; }
+        public virtual string DireccionPostal { get; set; } = "";
         public virtual string Email { get; set; }
         public virtual EstadoCivil EstadoCivil { get; set; }
         public virtual DateTime? FechaDeNacimiento { get; set; }
-        public virtual string Facebook { get; set; }
+        public virtual string Facebook { get; set; } = "";
         public virtual int Id { get; set; }
         public virtual IdentidadSexual IdentidadSexual { get; set; }
-        public virtual string LinkedIn { get; set; }
-        public virtual string Nacionalidad { get; set; }
-        public virtual string Nif { get; set; }
+        public virtual string LinkedIn { get; set; } = "";
+        public virtual string Nacionalidad { get; set; } = "";
+        public virtual string Nif { get; set; } = "";
         public virtual NivelAcademico NivelAcademico { get; set; }
         public virtual string Nombre { get; set; }
         public virtual int NumeroDeAtendido { get; set; }
-        public virtual string Ocupacion { get; set; }
+        public virtual string Ocupacion { get; set; } = "";
         public virtual OrientacionSexual OrientacionSexual { get; set; }
-        public virtual string Telefono { get; set; }
+        public virtual string Telefono { get; set; } = "";
         public virtual bool TieneTrabajo { get; set; }
-        public virtual string Twitter { get; set; }
+        public virtual string Twitter { get; set; } = "";
         public virtual ViaDeAccesoAGama ViaDeAccesoAGama { get; set; }
         public virtual IList<Cita> Citas { get; set; }
 
@@ -62,6 +62,8 @@ namespace Gama.Atenciones.Business
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum ComoConocioAGama
     {
+        [Description("No Proporcionado")]
+        NoProporcionado,
         [Description("Red Informal")]
         RedInformal,
         [Description("Red Formal")]
@@ -73,6 +75,8 @@ namespace Gama.Atenciones.Business
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum EstadoCivil
     {
+        [Description("No Proporcionado")]
+        NoProporcionado,
         [Description("Soltera/o")]
         Soltera,
         [Description("Casada/o")]
@@ -86,6 +90,8 @@ namespace Gama.Atenciones.Business
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum IdentidadSexual
     {
+        [Description("No Proporcionado")]
+        NoProporcionado,
         [Description("Hombre Cisexual")]
         HombreCisexual,
         [Description("Mujer Cisexual")]
@@ -101,6 +107,8 @@ namespace Gama.Atenciones.Business
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum NivelAcademico
     {
+        [Description("No Proporcionado")]
+        NoProporcionado,
         [Description("Sin Estudios")]
         SinEstudios,
         [Description("Estudios Primarios")]
@@ -120,6 +128,8 @@ namespace Gama.Atenciones.Business
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum OrientacionSexual
     {
+        [Description("No Proporcionado")]
+        NoProporcionado,
         [Description("Heterosexual")]
         Heterosexual,
         [Description("Bisexual")]
@@ -133,6 +143,8 @@ namespace Gama.Atenciones.Business
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum ViaDeAccesoAGama
     {
+        [Description("No Proporcionado")]
+        NoProporcionado,
         [Description("Personal")]
         Personal,
         [Description("Telefónica")]

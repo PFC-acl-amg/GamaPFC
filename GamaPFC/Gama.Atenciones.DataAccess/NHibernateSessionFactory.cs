@@ -50,7 +50,7 @@ namespace Gama.Atenciones.DataAccess
                     }
                     catch (FluentConfigurationException ex)
                     {
-                        throw new FluentConfigurationException($"Error: Session Factory\n - {ex.Message}", null);
+                        throw new FluentConfigurationException($"Error: Session Factory\n - {ex.Message}", ex);
                     }
                 }
 
@@ -68,7 +68,7 @@ namespace Gama.Atenciones.DataAccess
                         .AddFromAssemblyOf<PersonaMap>()
                         //.Add<ActividadMap>()
                         //.Add<CooperanteMap>()
-                        .Conventions.Add(DefaultCascade.Delete(), DefaultLazy.Always()))
+                        .Conventions.Add(DefaultCascade.All(), DefaultLazy.Always()))
                 .ExposeConfiguration(
                     c => {
                         var schema = new SchemaExport(c);

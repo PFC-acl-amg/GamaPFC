@@ -12,7 +12,7 @@ namespace Gama.Atenciones.Business
         public virtual int Id { get; set; }
         public virtual int NumeroDeExpediente { get; set; }
         public virtual DateTime Fecha { get; set; }
-        public virtual string Seguimiento { get; set; }
+        public virtual string Seguimiento { get; set; } = "";
 
         public virtual bool EsSocial { get; set; }
         public virtual bool EsJuridica { get; set; }
@@ -23,17 +23,16 @@ namespace Gama.Atenciones.Business
         public virtual bool EsDeFormacion { get; set; }
         public virtual bool EsDeParticipacion { get; set; }
         public virtual bool EsOtra { get; set; }
-        public virtual string Otra { get; set; }
+        public virtual string Otra { get; set; } = "";
 
         public virtual Cita Cita { get; set; }
 
-        public virtual Derivacion DerivacionesPropuestas { get; protected set; }
-        public virtual Derivacion DerivacionesRealizadas { get; protected set; }
+        public virtual Derivacion Derivacion { get; protected set; }
 
         public Atencion()
         {
-            DerivacionesPropuestas = new Derivacion();
-            DerivacionesRealizadas = new Derivacion();
+            Derivacion = new Derivacion();
+            Derivacion.Atencion = this;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public PersonaViewModel()
         {
-            _EdicionHabilitada = false;
+            _EdicionHabilitada = true;
             Persona = new PersonaWrapper(new Persona());
         }
 

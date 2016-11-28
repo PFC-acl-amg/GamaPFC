@@ -25,17 +25,25 @@ namespace Gama.Atenciones.WpfTests
         private PersonaViewModel _PersonaViewModelMock;
         private EditarPersonaViewModel _Vm;
         private Mock<ISession> _SessionMock;
+        private Mock<IAtencionRepository> _AtencionRepositoryMock;
+        private EditarAtencionesViewModel _AtencionViewModelMock;
+        private Mock<ICitaRepository> _CitaRepositoryMock;
+        private EditarCitasViewModel _CitaViewModelMock;
+        private Mock<IRegionManager> _RegionManagerMock;
 
         public EditarPersonaViewModelTests()
         {
             _PersonaRepositoryMock = new Mock<IPersonaRepository>();
+            _AtencionRepositoryMock = new Mock<IAtencionRepository>();
+            _CitaRepositoryMock = new Mock<ICitaRepository>();
             _EventAggregatorMock = new Mock<IEventAggregator>();
             _PersonaActualizadaEventMock = new Mock<PersonaActualizadaEvent>();
             _SessionMock = new Mock<ISession>();
+            _RegionManagerMock = new Mock<IRegionManager>();
 
             _EventAggregatorMock.Setup(ea => ea.GetEvent<PersonaActualizadaEvent>())
                 .Returns(_PersonaActualizadaEventMock.Object);
-            
+
             _Persona = new PersonaWrapper(
                 new Persona()
                 {
@@ -48,11 +56,16 @@ namespace Gama.Atenciones.WpfTests
                 .Returns(_Persona.Model);
 
             _PersonaViewModelMock = new PersonaViewModel();
+            _AtencionViewModelMock = new EditarAtencionesViewModel(_AtencionRepositoryMock.Object,
+                _EventAggregatorMock.Object, _PersonaRepositoryMock.Object, _RegionManagerMock.Object);
+            _CitaViewModelMock = new EditarCitasViewModel(_CitaRepositoryMock.Object, _EventAggregatorMock.Object);
 
             _Vm = new EditarPersonaViewModel(
                 _EventAggregatorMock.Object,
                 _PersonaRepositoryMock.Object,
                 _PersonaViewModelMock,
+                _AtencionViewModelMock,
+                _CitaViewModelMock,
                 _SessionMock.Object);
 
             var navigationParameters = new NavigationParameters();

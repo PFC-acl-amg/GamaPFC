@@ -4,9 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gama.Atenciones.Wpf"
+        xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
+        xmlns:views="clr-namespace:Gama.Atenciones.Wpf.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="420" Width="829.138" Background="LightGreen">
+  <Window.Resources>
+    <designData:EditarCitasViewModelDTD x:Key="VM"/>
+  </Window.Resources>
+  <Grid>
+    <views:EditarCitasView DataContext="{StaticResource VM}" d:DataContext="{StaticResource VM}"/>
+  </Grid>
 </Window>

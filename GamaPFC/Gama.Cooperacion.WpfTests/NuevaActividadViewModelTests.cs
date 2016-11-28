@@ -20,7 +20,7 @@ namespace Gama.Cooperacion.WpfTests
     public class NuevaActividadViewModelTests
     {
         private List<Cooperante> _cooperantes;
-        NuevaActividadViewModel _vm;
+        private NuevaActividadViewModel _vm;
         private Mock<IActividadRepository> _actividadRepositoryMock;
         private Mock<ICooperanteRepository> _cooperanteRepositoryMock;
         private Mock<IEventAggregator> _eventAggregatorMock;
@@ -79,7 +79,7 @@ namespace Gama.Cooperacion.WpfTests
         }
 
         [Fact]
-        private void ShouldRaiseRaiseCanExecuteChangedOnActividadCommandWhenCoordinadorChanges()
+        private void ShouldRaiseRaiseCanExecuteChangedOnAceptarCommandWhenCoordinadorChanges()
         {
             bool fired = false;
             var resetEvent = new AutoResetEvent(false);
@@ -104,7 +104,8 @@ namespace Gama.Cooperacion.WpfTests
                 {
                     Nombre = "Coordinador"
                 });
-            Assert.False(_vm.AceptarCommand.CanExecute(null));
+            Assert.True(_vm.Actividad.IsChanged);
+            Assert.True(_vm.AceptarCommand.CanExecute(null));
 
             _vm.ActividadVM.Actividad.Titulo = "Título de la actividad";
             Assert.True(_vm.AceptarCommand.CanExecute(null));

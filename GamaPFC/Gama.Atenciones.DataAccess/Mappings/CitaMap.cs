@@ -15,18 +15,18 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Table("Citas");
             Id(c => c.Id).GeneratedBy.Identity();
 
-            Map(c => c.Asistente);
+            Map(c => c.Asistente).Not.Nullable().Default("");
             Map(c => c.Fin);
-            Map(c => c.HaTenidoLugar);
+            Map(c => c.HaTenidoLugar).Not.Nullable().Default("0");
             Map(c => c.Inicio);
-            Map(c => c.Sala);
+            Map(c => c.Sala).Not.Nullable().Default("");
 
             Map(p => p.CreatedAt);
             Map(p => p.UpdatedAt);
 
             References(c => c.Persona);
 
-            HasOne(c => c.Atencion);
+            HasOne(c => c.Atencion).PropertyRef(x => x.Cita).Cascade.All();
         }
     }
 }

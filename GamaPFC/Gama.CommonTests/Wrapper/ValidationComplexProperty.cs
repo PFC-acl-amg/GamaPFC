@@ -16,7 +16,10 @@ namespace Gama.CommonTests.Wrapper
 
         public ValidationComplexProperty()
         {
-            _Atencion = new Atencion();
+            _Atencion = new Atencion()
+            {
+                Fecha = DateTime.Now
+            };
         }
 
         [Fact]
@@ -25,21 +28,21 @@ namespace Gama.CommonTests.Wrapper
             var wrapper = new AtencionWrapper(_Atencion);
             Assert.True(wrapper.IsValid);
 
-            wrapper.DerivacionesPropuestas.Tipo = null;
+            wrapper.Derivacion.Tipo = null;
             Assert.False(wrapper.IsValid);
 
-            wrapper.DerivacionesPropuestas.Tipo = "algún tipo";
+            wrapper.Derivacion.Tipo = "algún tipo";
             Assert.True(wrapper.IsValid);
         }
 
         [Fact]
         private void ShouldSetIsValidOfRootAfterInitialization()
         {
-            _Atencion.DerivacionesPropuestas.Tipo = null;
+            _Atencion.Derivacion.Tipo = null;
             var wrapper = new AtencionWrapper(_Atencion);
             Assert.False(wrapper.IsValid);
 
-            wrapper.DerivacionesPropuestas.Tipo = "algún tipo";
+            wrapper.Derivacion.Tipo = "algún tipo";
             Assert.True(wrapper.IsValid);
         }
 
@@ -55,11 +58,11 @@ namespace Gama.CommonTests.Wrapper
                 }
             };
 
-            wrapper.DerivacionesPropuestas.Tipo = null;
+            wrapper.Derivacion.Tipo = null;
             Assert.True(fired);
 
             fired = false;
-            wrapper.DerivacionesPropuestas.Tipo = "algún tipo";
+            wrapper.Derivacion.Tipo = "algún tipo";
             Assert.True(fired);
         }
     }

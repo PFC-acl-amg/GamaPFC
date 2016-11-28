@@ -28,75 +28,82 @@ xmlns:business="clr-namespace:Gama.Atenciones.Business;assembly=Gama.Atenciones.
               <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button 
-                            Margin="{StaticResource Margin}"
-                            Padding="0"
-                            MaxHeight="64"
-                            Content="{StaticResource appbar_user}"/>
+            <!--<Button 
+                Margin="{DynamicResource Margin}"
+                Padding="0"
+                MaxHeight="64"
+                Content="{StaticResource appbar_user}"/>-->
+            <Border MaxHeight="64" BorderBrush="Black" BorderThickness="1.5" CornerRadius="1">
+              <Rectangle Width="60" Margin="{DynamicResource Margin}">
+                <Rectangle.Fill>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_user}" />
+                  </Rectangle.Fill>
+                </Rectangle>
+            </Border>
 
             <StackPanel Grid.Column="1">
-              <Label Margin="{StaticResource Margin}">DNI/NIF</Label>
-              <TextBox Margin="{StaticResource Margin}" 
+              <Label Margin="{DynamicResource Margin}">DNI/NIF</Label>
+              <TextBox Margin="{DynamicResource Margin}" 
                        Text="{Binding Persona.Nif, UpdateSourceTrigger=PropertyChanged}"
                         MinWidth="80"/>
             </StackPanel>
           </Grid>
         </StackPanel>
         <StackPanel Grid.Row="1">
-          <Label Margin="{StaticResource Margin}">Nombre</Label>
-          <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.Nombre, UpdateSourceTrigger=PropertyChanged}"/>
+          <Label Margin="{DynamicResource Margin}">Nombre</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Nombre, UpdateSourceTrigger=PropertyChanged}"/>
 
-          <Label Margin="{StaticResource Margin}">Fecha de Nacimiento</Label>
-          <DatePicker Margin="{StaticResource Margin}" 
+          <Label Margin="{DynamicResource Margin}">Fecha de Nacimiento</Label>
+          <DatePicker Margin="{DynamicResource Margin}" 
                                 SelectedDate="{Binding Persona.FechaDeNacimiento, 
             UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                 Height="18"/>
 
-          <Label Margin="{StaticResource Margin}">Teléfono</Label>
-          <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.Telefono, UpdateSourceTrigger=PropertyChanged}"/>
+          <Label Margin="{DynamicResource Margin}">Teléfono</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Telefono, UpdateSourceTrigger=PropertyChanged}"/>
 
-          <Label Margin="{StaticResource Margin}">Dirección</Label>
-          <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.DireccionPostal, UpdateSourceTrigger=PropertyChanged}"/>
+          <Label Margin="{DynamicResource Margin}">Dirección</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.DireccionPostal, UpdateSourceTrigger=PropertyChanged}"/>
 
-          <Label Margin="{StaticResource Margin}">Nacionalidad</Label>
-          <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.Nacionalidad, UpdateSourceTrigger=PropertyChanged}"/>
+          <Label Margin="{DynamicResource Margin}">Nacionalidad</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Nacionalidad, UpdateSourceTrigger=PropertyChanged}"/>
 
-          <Label Margin="{StaticResource Margin}">Identidad Sexual</Label>
-          <ComboBox Margin="{StaticResource Margin}" 
+          <Label Margin="{DynamicResource Margin}">Identidad Sexual</Label>
+          <ComboBox Margin="{DynamicResource Margin}" 
                         ItemsSource="{Binding Source={util:EnumBindingSource {x:Type business:IdentidadSexual}}}"
                         SelectedItem="{Binding Persona.IdentidadSexual, UpdateSourceTrigger=PropertyChanged}"/>
 
-          <Label Margin="{StaticResource Margin}">Orientación Sexual</Label>
-          <ComboBox Margin="{StaticResource Margin}" 
+          <Label Margin="{DynamicResource Margin}">Orientación Sexual</Label>
+          <ComboBox Margin="{DynamicResource Margin}" 
                         ItemsSource="{Binding Source={util:EnumBindingSource {x:Type business:OrientacionSexual}}}"
                         SelectedItem="{Binding Persona.OrientacionSexual, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="1">
-          <Label Margin="{StaticResource Margin}">Email</Label>
-          <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.Email, UpdateSourceTrigger=PropertyChanged}"/>
+          <Label Margin="{DynamicResource Margin}">Email</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Email, UpdateSourceTrigger=PropertyChanged}"/>
 
-          <Label Margin="{StaticResource Margin}">Nivel Académico</Label>
-          <ComboBox Margin="{StaticResource Margin}" 
+          <Label Margin="{DynamicResource Margin}">Nivel Académico</Label>
+          <ComboBox Margin="{DynamicResource Margin}" 
                         ItemsSource="{Binding Source={util:EnumBindingSource {x:Type business:NivelAcademico}}}"
                         SelectedItem="{Binding Persona.NivelAcademico, UpdateSourceTrigger=PropertyChanged}"/>
 
-          <Label Margin="{StaticResource Margin}">Ocupación</Label>
-          <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.Ocupacion, UpdateSourceTrigger=PropertyChanged}"/>
+          <Label Margin="{DynamicResource Margin}">Ocupación</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Ocupacion, UpdateSourceTrigger=PropertyChanged}"/>
 
-          <Label Margin="{StaticResource Margin}">Facebook</Label>
-          <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.Facebook, UpdateSourceTrigger=PropertyChanged}"/>
+          <Label Margin="{DynamicResource Margin}">Facebook</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Facebook, UpdateSourceTrigger=PropertyChanged}"/>
 
-          <Label Margin="{StaticResource Margin}">Twitter</Label>
-          <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.Twitter, UpdateSourceTrigger=PropertyChanged}"/>
+          <Label Margin="{DynamicResource Margin}">Twitter</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Twitter, UpdateSourceTrigger=PropertyChanged}"/>
 
-          <Label Margin="{StaticResource Margin}">Cómo conoció a Gamá</Label>
-          <ComboBox Margin="{StaticResource Margin}" 
+          <Label Margin="{DynamicResource Margin}">Cómo conoció a Gamá</Label>
+          <ComboBox Margin="{DynamicResource Margin}" 
                         ItemsSource="{Binding Source={util:EnumBindingSource {x:Type business:ComoConocioAGama}}}"
                         SelectedItem="{Binding Persona.ComoConocioAGama, UpdateSourceTrigger=PropertyChanged}"/>
 
-          <Label Margin="{StaticResource Margin}">Vía de acceso a Gamá</Label>
-          <ComboBox Margin="{StaticResource Margin}" 
+          <Label Margin="{DynamicResource Margin}">Vía de acceso a Gamá</Label>
+          <ComboBox Margin="{DynamicResource Margin}" 
                         ItemsSource="{Binding Source={util:EnumBindingSource {x:Type business:ViaDeAccesoAGama}}}"
                         SelectedItem="{Binding Persona.ViaDeAccesoAGama, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>

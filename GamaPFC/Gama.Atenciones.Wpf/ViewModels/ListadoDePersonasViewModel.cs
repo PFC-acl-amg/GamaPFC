@@ -45,7 +45,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Personas = new PaginatedCollectionView(_Personas,
                 _Settings.ListadoDePersonasItemsPerPage);
 
-            _EventAggregator.GetEvent<NuevaPersonaEvent>().Subscribe(OnNuevaPersonaEvent);
+            _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnNuevaPersonaEvent);
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
 
             PaginaAnteriorCommand = new DelegateCommand(() => Personas.MoveToPreviousPage());

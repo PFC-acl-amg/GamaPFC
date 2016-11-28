@@ -22,7 +22,7 @@
           <DataTemplate>
             <StackPanel Orientation="Horizontal">
               <ContentControl Content="{Binding}"
-                                        Margin="{DynamicResource GlobalMargin}"/>
+                                        Margin="{StaticResource Margin}"/>
               <Button Content="x">
                 <Button.Style>
                   <Style TargetType="Button">
@@ -37,6 +37,12 @@
                     <Setter Property="VerticalContentAlignment" Value="Center"/>
                     <Style.Triggers>
                       <DataTrigger Binding="{Binding}" Value="Todas">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                      </DataTrigger>
+                      <DataTrigger Binding="{Binding}" Value="CITAS">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                      </DataTrigger>
+                      <DataTrigger Binding="{Binding}" Value="ATENCIONES">
                         <Setter Property="Visibility" Value="Collapsed"/>
                       </DataTrigger>
                     </Style.Triggers>

@@ -62,15 +62,15 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool EsPsicologicaIsChanged => GetIsChanged(nameof(EsPsicologica));
 
-        public bool EsDeAcodiga
+        public bool EsDeFormacion
         {
             get { return GetValue<bool>(); }
             set { SetValue(value); }
         }
 
-        public bool EsDeAcodigaOriginalValue => GetOriginalValue<bool>(nameof(EsDeAcodiga));
+        public bool EsDeFormacionOriginalValue => GetOriginalValue<bool>(nameof(EsDeFormacion));
 
-        public bool EsDeAcodigaIsChanged => GetIsChanged(nameof(EsDeAcodiga));
+        public bool EsDeFormacionIsChanged => GetIsChanged(nameof(EsDeFormacion));
 
         public bool EsDeOrientacionLaboral
         {
@@ -91,6 +91,86 @@ namespace Gama.Atenciones.Wpf.Wrappers
         public bool EsExternaOriginalValue => GetOriginalValue<bool>(nameof(EsExterna));
 
         public bool EsExternaIsChanged => GetIsChanged(nameof(EsExterna));
+
+        public string Externa
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string ExternaOriginalValue => GetOriginalValue<string>(nameof(Externa));
+
+        public bool ExternaIsChanged => GetIsChanged(nameof(Externa));
+
+        public bool EsSocial_Realizada
+        {
+            get { return GetValue<bool>(); }
+            set { SetValue(value); }
+        }
+
+        public bool EsSocial_RealizadaOriginalValue => GetOriginalValue<bool>(nameof(EsSocial_Realizada));
+
+        public bool EsSocial_RealizadaIsChanged => GetIsChanged(nameof(EsSocial_Realizada));
+
+        public bool EsJuridica_Realizada
+        {
+            get { return GetValue<bool>(); }
+            set { SetValue(value); }
+        }
+
+        public bool EsJuridica_RealizadaOriginalValue => GetOriginalValue<bool>(nameof(EsJuridica_Realizada));
+
+        public bool EsJuridica_RealizadaIsChanged => GetIsChanged(nameof(EsJuridica_Realizada));
+
+        public bool EsPsicologica_Realizada
+        {
+            get { return GetValue<bool>(); }
+            set { SetValue(value); }
+        }
+
+        public bool EsPsicologica_RealizadaOriginalValue => GetOriginalValue<bool>(nameof(EsPsicologica_Realizada));
+
+        public bool EsPsicologica_RealizadaIsChanged => GetIsChanged(nameof(EsPsicologica_Realizada));
+
+        public bool EsDeFormacion_Realizada
+        {
+            get { return GetValue<bool>(); }
+            set { SetValue(value); }
+        }
+
+        public bool EsDeFormacion_RealizadaOriginalValue => GetOriginalValue<bool>(nameof(EsDeFormacion_Realizada));
+
+        public bool EsDeFormacion_RealizadaIsChanged => GetIsChanged(nameof(EsDeFormacion_Realizada));
+
+        public bool EsDeOrientacionLaboral_Realizada
+        {
+            get { return GetValue<bool>(); }
+            set { SetValue(value); }
+        }
+
+        public bool EsDeOrientacionLaboral_RealizadaOriginalValue => GetOriginalValue<bool>(nameof(EsDeOrientacionLaboral_Realizada));
+
+        public bool EsDeOrientacionLaboral_RealizadaIsChanged => GetIsChanged(nameof(EsDeOrientacionLaboral_Realizada));
+
+        public bool EsExterna_Realizada
+        {
+            get { return GetValue<bool>(); }
+            set { SetValue(value); }
+        }
+
+        public bool EsExterna_RealizadaOriginalValue => GetOriginalValue<bool>(nameof(EsExterna_Realizada));
+
+        public bool EsExterna_RealizadaIsChanged => GetIsChanged(nameof(EsExterna_Realizada));
+
+        public string Externa_Realizada
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string Externa_RealizadaOriginalValue => GetOriginalValue<string>(nameof(Externa_Realizada));
+
+        public bool Externa_RealizadaIsChanged => GetIsChanged(nameof(Externa_Realizada));
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

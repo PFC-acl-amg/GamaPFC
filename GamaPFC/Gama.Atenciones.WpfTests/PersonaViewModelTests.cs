@@ -23,7 +23,7 @@ namespace Gama.Atenciones.WpfTests
         [Fact]
         private void ShouldInitializeItsProperties()
         {
-            Assert.False(_Vm.EdicionHabilitada);
+            Assert.True(_Vm.EdicionHabilitada);
             Assert.Null(_Vm.Persona.Nombre);
         }
 

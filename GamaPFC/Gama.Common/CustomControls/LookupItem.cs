@@ -21,10 +21,14 @@ namespace Gama.Common.CustomControls
         /// <returns></returns>
         public static string ShortenStringForDisplay(string contenido, int n)
         {
-            var result = contenido
-                .Substring(0,
-                           Math.Min(contenido.Length, n))
-                + (contenido.Length > n ? "..." : "");
+            string result = "";
+
+            if (contenido != null)
+            {
+                result = contenido.Substring(0,Math.Min(contenido.Length, n))
+                    + (contenido.Length > n ? "..." : "");
+            }
+
             return result;
         }
     }

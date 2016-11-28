@@ -1,4 +1,5 @@
-﻿using FluentNHibernate.Mapping;
+﻿using FluentNHibernate;
+using FluentNHibernate.Mapping;
 using Gama.Atenciones.Business;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Gama.Atenciones.DataAccess.Mappings
 
             Map(a => a.NumeroDeExpediente);
             Map(a => a.Fecha);
-            Map(a => a.Seguimiento);
+            Map(a => a.Seguimiento).Not.Nullable().Default("");
 
             Map(a => a.EsDeAcogida);
             Map(a => a.EsDeFormacion);
@@ -28,14 +29,14 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Map(a => a.EsOtra);
             Map(a => a.EsPsicologica);
             Map(a => a.EsSocial);
+            Map(a => a.Otra).Not.Nullable().Default("");
 
             Map(p => p.CreatedAt);
             Map(p => p.UpdatedAt);
 
-            References(a => a.Cita).Cascade.Delete();
+            References(a => a.Cita, "Cita_id").Unique();
 
-            HasOne(a => a.DerivacionesPropuestas);
-            HasOne(a => a.DerivacionesRealizadas);
+            HasOne(a => a.Derivacion).PropertyRef(c => c.Atencion);
         }
     }
 }

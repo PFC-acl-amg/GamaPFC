@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Wpf.Wrappers
@@ -25,8 +26,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
             this.Citas = new ChangeTrackingCollection<CitaWrapper>
                 (model.Citas.Select(c => new CitaWrapper(c)));
-            this.RegisterCollection(this.Citas, model.Citas.ToList());
-
+            this.RegisterCollection(this.Citas, model.Citas);
         }
 
         public int Id
@@ -101,7 +101,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
             set { SetValue(value); }
         }
 
-        public IdentidadSexual IdentidadSexualOriginalVaue => GetOriginalValue<IdentidadSexual>(nameof(IdentidadSexual));
+        public IdentidadSexual IdentidadSexualOriginalValue => GetOriginalValue<IdentidadSexual>(nameof(IdentidadSexual));
 
         public bool IdentidadSexualIsChanged => GetIsChanged(nameof(IdentidadSexual));
 
@@ -141,7 +141,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
             set { SetValue(value); }
         }
 
-        public string NivelAcademicoOriginalValue => GetOriginalValue<string>(nameof(NivelAcademico));
+        public NivelAcademico NivelAcademicoOriginalValue => GetOriginalValue<NivelAcademico>(nameof(NivelAcademico));
 
         public bool NivelAcademicoIsChanged => GetIsChanged(nameof(NivelAcademico));
 
@@ -154,12 +154,6 @@ namespace Gama.Atenciones.Wpf.Wrappers
         public string NombreOriginalValue => GetOriginalValue<string>(nameof(Nombre));
 
         public bool NombreIsChanged => GetIsChanged(nameof(Nombre));
-
-        public int NumeroDeAtendido
-        {
-            get { return GetValue<int>(); }
-            set { SetValue(value); }
-        }
 
         public string Ocupacion
         {
@@ -225,11 +219,24 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            var results = new List<ValidationResult>();
+
             if (string.IsNullOrWhiteSpace(Nombre))
             {
-                yield return new ValidationResult("El campo de nombre es obligatorio",
-                    new[] { nameof(Nombre) });
+                results.Add(new ValidationResult("El campo de nombre es obligatorio", new[] { nameof(Nombre) }));
             }
+
+            var pattern = 
+                @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
+                @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
+
+            if (!string.IsNullOrWhiteSpace(Email) &&
+                !Regex.IsMatch(Email, pattern, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
+            {
+                results.Add(new ValidationResult("Email inválido", new[] { nameof(Email) }));
+            }
+
+            return results;
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Core
     {
         private Dictionary<string, object> _originalValues;
         private List<IValidatableTrackingObject> _trackingObjects;
+        private bool _IsInEditionMode;
 
         public ModelWrapper(T model)
         {
@@ -42,6 +43,16 @@ namespace Core
         public virtual bool IsChanged => _originalValues.Count > 0 || _trackingObjects.Any(to => to.IsChanged);
 
         public bool IsValid => !HasErrors && _trackingObjects.All(t => t.IsValid);
+
+        public bool IsInEditionMode
+        {
+            get { return _IsInEditionMode; }
+            set
+            {
+                _IsInEditionMode = value;
+                OnPropertyChanged();
+            }
+        }
 
         public virtual void AcceptChanges()
         {

@@ -62,7 +62,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             set { SetProperty(ref _Cerrar, value); }
         }
 
-        public ICommand AceptarCommand { get; set; }
+        public ICommand AceptarCommand { get; private set; }
         public ICommand CancelarCommand { get; private set; }
 
         private void OnAceptarCommand()

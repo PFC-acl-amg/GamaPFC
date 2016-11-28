@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Gama.Atenciones.Wpf.Wrappers
 {
@@ -13,6 +14,14 @@ namespace Gama.Atenciones.Wpf.Wrappers
         public CitaWrapper(Cita model) : base(model)
         {
 
+        }
+
+        protected override void InitializeComplexProperties(Cita model)
+        {
+            if (model.Atencion != null)
+            {
+                Atencion = new AtencionWrapper(model.Atencion);
+            }
         }
 
         public string Asistente
@@ -61,6 +70,45 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool SalaIsChanged => GetIsChanged(nameof(Sala));
 
-        public AtencionWrapper Atencion { get; private set; }
+        private AtencionWrapper _Atencion;
+        public AtencionWrapper Atencion
+        {
+            get { return _Atencion; }
+            set
+            {
+                _Atencion = value;
+                Model.Atencion = value.Model;
+            }
+        }
+
+        private PersonaWrapper _Persona;
+        public PersonaWrapper Persona
+        {
+            get { return _Persona; }
+            set
+            {
+                _Persona = value;
+                Model.Persona = value.Model;
+            }
+        }
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (Inicio == null)
+            {
+                yield return new ValidationResult("El campo de inicio es obligatorio",
+                    new[] { nameof(Inicio) });
+            }
+            if (string.IsNullOrWhiteSpace(Asistente))
+            {
+                yield return new ValidationResult("El campo de asistente es obligatorio",
+                    new[] { nameof(Asistente) });
+            }
+            if (string.IsNullOrWhiteSpace(Sala))
+            {
+                yield return new ValidationResult("El campo de sala es obligatorio",
+                    new[] { nameof(Sala) });
+            }
+        }
     }
 }
