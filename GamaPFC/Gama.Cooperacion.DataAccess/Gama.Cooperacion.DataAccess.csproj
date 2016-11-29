@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="Mappings\EventoMap.cs" />
     <Compile Include="Mappings\ForoMap.cs" />
+    <Compile Include="Mappings\IncidenciaMap.cs" />
     <Compile Include="Mappings\MensajeMap.cs" />
     <Compile Include="Mappings\SeguimientoMap.cs" />
     <Compile Include="Mappings\TareaMap.cs" />

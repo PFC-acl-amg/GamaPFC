@@ -72,6 +72,9 @@ namespace Gama.Cooperacion.DataAccess
                         .Add<EventoMap>()
                         .Add<ForoMap>()
                         .Add<MensajeMap>()
+                        .Add<TareaMap>()
+                        .Add<SeguimientoMap>()
+                        .Add<IncidenciaMap>()
                         .Conventions.Add(DefaultCascade.Delete(), DefaultLazy.Always()))
                 .ExposeConfiguration(
                     c => {

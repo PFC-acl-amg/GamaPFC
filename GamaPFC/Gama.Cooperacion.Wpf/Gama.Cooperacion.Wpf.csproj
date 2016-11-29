@@ -209,6 +209,7 @@
     <Compile Include="Wrappers\EmailWrapper.cs" />
     <Compile Include="Wrappers\EventoWrapper.cs" />
     <Compile Include="Wrappers\ForoWrapper.cs" />
+    <Compile Include="Wrappers\IncidenciaWrapper.cs" />
     <Compile Include="Wrappers\MensajeWrapper.cs" />
     <Compile Include="Wrappers\SeguimientoWrapper.cs" />
     <Compile Include="Wrappers\TareaWrapper.cs" />
