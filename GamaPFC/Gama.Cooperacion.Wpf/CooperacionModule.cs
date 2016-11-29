@@ -64,28 +64,38 @@ namespace Gama.Cooperacion.Wpf
                 var coordinador = cooperanteRepository.GetAll().First();
                 var actividadesFake = new FakeActividadRepository().GetAll();
 
-                foreach (var actividad in actividadesFake.Take(1))
+                foreach (var actividad in actividadesFake.Take(2))
                 {
                     var eventosFake = new FakeEventoRepository().GetAll();
-                    var tareaFake = new FakeTareaRepository().GetAll();
-                    foreach(var tarea in tareaFake)
-                    {
-                        var seguimientoFake = new FakeSeguimientoRepository().GetAll();
-                        int j = 0;
-                        int k = 0;
-                        foreach (var seguimiento in seguimientoFake)
-                        {
-                            tarea.Historial.Insert(j, seguimiento);
-                            j++;
-                        }
-                        actividad.Tareas.Insert(k, tarea);
-                        k++;
-                    }
+                    var foroFake = new FakeForoRepository().GetAll();
+                    var mensajeForoFake = new FakeMensajeRepository().GetAll();
+                    //var tareaFake = new FakeTareaRepository().GetAll();
+                    //foreach(var tarea in tareaFake)
+                    //{
+                    //    var seguimientoFake = new FakeSeguimientoRepository().GetAll();
+                    //    int j = 0;
+                    //    int k = 0;
+                    //    foreach (var seguimiento in seguimientoFake)
+                    //    {
+                    //        tarea.Historial.Insert(j, seguimiento);
+                    //        j++;
+                    //    }
+                    //    actividad.Tareas.Insert(k, tarea);
+                    //    k++;
+                    //}
                     actividad.Coordinador = coordinador;
                     
                     foreach (var InsertandoEvento in eventosFake)
                     {
                         actividad.AddEvento(InsertandoEvento);
+                    }
+                    foreach (var InsertandoForos in foroFake)
+                    {
+                        foreach (var InsertandoMensajesForos in mensajeForoFake)
+                        {
+                            InsertandoForos.AddMensaje(InsertandoMensajesForos);
+                        }
+                        actividad.AddForo(InsertandoForos);
                     }
                     actividadRepository.Create(actividad);
                 }

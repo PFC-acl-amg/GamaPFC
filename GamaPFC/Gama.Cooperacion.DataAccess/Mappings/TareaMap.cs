@@ -26,11 +26,11 @@ namespace Gama.Cooperacion.DataAccess.Mappings
                 .Not.LazyLoad()
                 .Fetch.Join();
 
-            HasMany(x => x.Historial)
-                .Inverse();
+            //HasMany(x => x.Historial)
+            //    .Inverse();
 
-            HasMany(x => x.Mensajes)
-                .Inverse();
+            //HasMany(x => x.Mensajes)
+            //    .Inverse();
         }
     }
 }

@@ -22,6 +22,7 @@ namespace Gama.Cooperacion.DataAccess.Mappings
                 .LazyLoad();
 
             HasMany(x => x.Mensajes)
+                .Cascade.SaveUpdate()
                .Inverse();
         }
     }
