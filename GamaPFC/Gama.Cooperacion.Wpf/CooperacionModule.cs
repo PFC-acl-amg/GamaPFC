@@ -69,22 +69,43 @@ namespace Gama.Cooperacion.Wpf
                     var eventosFake = new FakeEventoRepository().GetAll();
                     var foroFake = new FakeForoRepository().GetAll();
                     var mensajeForoFake = new FakeMensajeRepository().GetAll();
-                    //var tareaFake = new FakeTareaRepository().GetAll();
-                    //foreach(var tarea in tareaFake)
+                    var tareaFake = new FakeTareaRepository().GetAll();
+                    var seguimientoFake = new FakeSeguimientoRepository().GetAll();
+                    var incidenciaFake = new FakeIncidenciaRepository().GetAll();
+                    //foreach (var tarea in tareaFake)
                     //{
                     //    var seguimientoFake = new FakeSeguimientoRepository().GetAll();
+                    //    var incidenciaFake = new FakeIncidenciaRepository().GetAll();
                     //    int j = 0;
                     //    int k = 0;
+                    //    int l = 0;
                     //    foreach (var seguimiento in seguimientoFake)
                     //    {
-                    //        tarea.Historial.Insert(j, seguimiento);
+                    //        tarea.Seguimiento.Insert(j, seguimiento);
                     //        j++;
+                    //    }
+                    //    foreach (var incidencia in incidenciaFake)
+                    //    {
+                    //        tarea.Incidencias.Insert(l, incidencia);
+                    //        l++;
                     //    }
                     //    actividad.Tareas.Insert(k, tarea);
                     //    k++;
                     //}
                     actividad.Coordinador = coordinador;
-                    
+                    foreach (var InsertandoTareas in tareaFake)
+                    {
+                        foreach (var InsertandoSeguimientos in seguimientoFake)
+                        {
+                            InsertandoTareas.AddSeguimiento(InsertandoSeguimientos);
+                        }
+                        foreach(var InsertandoIncidencias in incidenciaFake)
+                        {
+                            InsertandoTareas.AddIncidencia(InsertandoIncidencias);
+                        }
+                        InsertandoTareas.Responsable = coordinador;
+                        actividad.AddTarea(InsertandoTareas);
+                    }
                     foreach (var InsertandoEvento in eventosFake)
                     {
                         actividad.AddEvento(InsertandoEvento);

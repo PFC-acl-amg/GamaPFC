@@ -145,6 +145,7 @@
     <Compile Include="Services\FakeActividadRepository.cs" />
     <Compile Include="Services\FakeEventoRepository.cs" />
     <Compile Include="Services\FakeForoRepository.cs" />
+    <Compile Include="Services\FakeIncidenciaRepository.cs" />
     <Compile Include="Services\FakeMensajeRepository.cs" />
     <Compile Include="Services\FakeSeguimientoRepository.cs" />
     <Compile Include="Services\FakeTareaRepository.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="Services\ICooperanteRepository.cs" />
     <Compile Include="Services\IEventoRepository.cs" />
     <Compile Include="Services\IForoRepository.cs" />
+    <Compile Include="Services\IIncidenciaRepository.cs" />
     <Compile Include="Services\IMensajeRepository.cs" />
     <Compile Include="Services\ISeguimientoRepository.cs" />
     <Compile Include="Services\ITareaRepository.cs" />

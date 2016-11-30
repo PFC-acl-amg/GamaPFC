@@ -33,6 +33,10 @@ namespace Gama.Cooperacion.DataAccess.Mappings
                 .Cascade.SaveUpdate()
                .Inverse();
 
+            HasMany(x => x.Incidencias)
+                .Cascade.SaveUpdate()
+               .Inverse();
+
             //HasMany(x => x.Historial)
             //    .Inverse();
 
