@@ -8,8 +8,8 @@ namespace Gama.Atenciones.Business
 {
     public class Derivacion
     {
-        public virtual int Id { get; protected set; }
-        public virtual string Tipo { get; set; }
+        public virtual int Id { get; set; }
+        public virtual string Tipo { get; set; } 
 
         public virtual bool EsSocial { get; set; }
         public virtual bool EsJuridica { get; set; }

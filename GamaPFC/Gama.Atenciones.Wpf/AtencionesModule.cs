@@ -24,11 +24,15 @@ namespace Gama.Atenciones.Wpf
            : base(container, regionManager)
         {
             this.Entorno = Entorno.Desarrollo;
-            this.UseFaker = false;
+            this.UseFaker = true;
         }
 
         public override void Initialize()
         {
+            RegisterViews();
+            RegisterViewModels();
+            RegisterServices();
+
             #region Database Seeding
             try
             {
@@ -40,53 +44,50 @@ namespace Gama.Atenciones.Wpf
                     var session = sessionFactory.OpenSession();
                     personaRepository.Session = session;
 
-                    var personas = new FakePersonaRepository().GetAll().Take(10);
+                    var personas = new FakePersonaRepository().GetAll(); //personaRepository.GetAll();
                     var citas = new FakeCitaRepository().GetAll();
-                    int start = 0;
-                    int page = 5;
-                    foreach (var persona in personas)
-                    {
-                        persona.Id = 0;
-                        ((List<Cita>)persona.Citas).AddRange(citas.Skip(start).Take(page).ToList());
+                    var atenciones = new FakeAtencionRepository().GetAll();
 
-                        ((List<Cita>)persona.Citas).ForEach(c => { c.Persona = persona; c.Id = 0; });
+                    personas.ForEach(p => p.Id = 0);
+                    citas.ForEach(c => c.Id = 0);
+                    atenciones.ForEach(a => a.Id = 0);
+
+                    var random = new Random();
+                    var opciones = new bool[] { true, false, true, false, true, true, false, true, false };
+
+                    for (int i = 0; i < personas.Count; i++)
+                    {
+                        var persona = personas[i];
+                        var cita = citas[i];
+                        var atencion = atenciones[i];
+                        var derivacion = new Derivacion
+                        {
+                            Id = 0,
+                            Atencion = atencion,
+                            EsDeFormacion = opciones[random.Next(0, 8)],
+                            EsDeFormacion_Realizada = opciones[random.Next(0, 8)],
+                            EsDeOrientacionLaboral = opciones[random.Next(0, 8)],
+                            EsDeOrientacionLaboral_Realizada = opciones[random.Next(0, 8)],
+                            EsExterna = opciones[random.Next(0, 8)],
+                            EsExterna_Realizada = opciones[random.Next(0, 8)],
+                            EsJuridica = opciones[random.Next(0, 8)],
+                            EsJuridica_Realizada = opciones[random.Next(0, 8)],
+                            EsPsicologica = opciones[random.Next(0, 8)],
+                            EsPsicologica_Realizada = opciones[random.Next(0, 8)],
+                            EsSocial = opciones[random.Next(0, 8)],
+                            EsSocial_Realizada = opciones[random.Next(0, 8)],
+                            Externa = "Externa",
+                            Externa_Realizada = "Externa realizada",
+                            Tipo = "",
+                        };
+
+                        atencion.Derivacion = derivacion;
+
+                        cita.SetAtencion(atencion);
+                        persona.AddCita(citas[i]);
 
                         personaRepository.Create(persona);
-
-                        start += 5;
                     }
-
-                    //var persona = personaRepository.GetById(1);
-
-                    //var cita = new Cita { Inicio = DateTime.Now.AddDays(1), Asistente = "Johny Rothschild", Sala = "Sala C" };
-
-                    //cita.Persona = persona;
-                    //persona.Citas.Add(cita);
-                    //personaRepository.Update(persona);
-
-                    //var citaRepository = new CitaRepository();
-                    //citaRepository.Session = session;
-                    //var citas = new FakeCitaRepository().GetAll().Take(10);
-                    //var personaParaCita = personaRepository.GetById(1);
-                    //foreach (var cita in citas)
-                    //{
-                    //    cita.Id = 0;
-                    //    cita.Persona = personaParaCita;
-                    //    citaRepository.Create(cita);
-                    //}
-
-                    //var atencionRepository = new AtencionRepository();
-                    //atencionRepository.Session = session;
-                    //var atenciones = new FakeAtencionRepository().GetAll().Take(10);
-                    //int citaId = 1;
-                    //var citaParaAtencion = citaRepository.GetById(citaId);
-                    //foreach ( var atencion in atenciones )
-                    //{
-                    //    atencion.Id = 0;
-                    //    atencion.Cita = citaParaAtencion;
-                    //    citaParaAtencion = citaRepository.GetById(++citaId);
-                    //    atencionRepository.Create(atencion);
-                    //}
                 }
             } 
             catch (Exception ex)
@@ -96,11 +97,7 @@ namespace Gama.Atenciones.Wpf
             }
             #endregion
 
-            RegisterViews();
-            RegisterViewModels();
-            RegisterServices();
             InitializeNavigation();
-
         }
 
         private void RegisterViews()

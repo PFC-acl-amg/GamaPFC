@@ -12,6 +12,6 @@
     <designData:EditarCitasViewModelDTD x:Key="VM"/>
   </Window.Resources>
   <Grid>
-    <views:EditarCitasView DataContext="{StaticResource VM}" d:DataContext="{StaticResource VM}"/>
+    <views:GraficasView DataContext="{StaticResource VM}" d:DataContext="{StaticResource VM}"/>
   </Grid>
 </Window>

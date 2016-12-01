@@ -57,6 +57,12 @@ namespace Gama.Atenciones.Business
                 return result;
             }
         }
+
+        public virtual void AddCita(Cita cita)
+        {
+            cita.Persona = this;
+            this.Citas.Add(cita);
+        }
     }
 
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
