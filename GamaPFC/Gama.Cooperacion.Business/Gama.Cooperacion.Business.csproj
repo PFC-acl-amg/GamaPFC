@@ -58,6 +58,7 @@
     <Compile Include="Email.cs" />
     <Compile Include="Evento.cs" />
     <Compile Include="Foro.cs" />
+    <Compile Include="Incidencia.cs" />
     <Compile Include="Mensaje.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

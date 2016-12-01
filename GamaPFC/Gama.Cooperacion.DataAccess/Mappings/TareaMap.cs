@@ -19,6 +19,9 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             Map(x => x.FechaDeFinalizacion);
             Map(x => x.HaFinalizado);
 
+            Map(x => x.CreatedAt);
+            Map(x => x.UpdatedAt);
+
             References(x => x.Actividad)
                 .LazyLoad();
 
@@ -26,11 +29,19 @@ namespace Gama.Cooperacion.DataAccess.Mappings
                 .Not.LazyLoad()
                 .Fetch.Join();
 
-            HasMany(x => x.Historial)
-                .Inverse();
+            HasMany(x => x.Seguimiento)
+                .Cascade.SaveUpdate()
+               .Inverse();
 
-            HasMany(x => x.Mensajes)
-                .Inverse();
+            HasMany(x => x.Incidencias)
+                .Cascade.SaveUpdate()
+               .Inverse();
+
+            //HasMany(x => x.Historial)
+            //    .Inverse();
+
+            //HasMany(x => x.Mensajes)
+            //    .Inverse();
         }
     }
 }

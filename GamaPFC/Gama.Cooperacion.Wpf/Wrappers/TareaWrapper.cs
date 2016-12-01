@@ -17,21 +17,23 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         }
         protected override void InitializeCollectionProperties(Tarea model)
         {
-            if (model.Historial == null)
+            if (model.Seguimiento == null)
             {
                 throw new ArgumentNullException("Historial");
             }
-            else if (model.Mensajes == null)
+            else if (model.Incidencias == null)
             {
                 throw new ArgumentNullException("Mensajes");
             }
-            this.Mensaje = new ChangeTrackingCollection<SeguimientoWrapper>
-                (model.Mensajes.Select(t => new SeguimientoWrapper(t)));
-            this.RegisterCollection(this.Mensaje, model.Mensajes);
 
-            this.Historial = new ChangeTrackingCollection<SeguimientoWrapper>
-                (model.Historial.Select(t => new SeguimientoWrapper(t)));
-            this.RegisterCollection(this.Historial, model.Historial);
+
+            this.Incidencia = new ChangeTrackingCollection<IncidenciaWrapper>
+                (model.Incidencias.Select(t => new IncidenciaWrapper(t)));
+            this.RegisterCollection(this.Incidencia, model.Incidencias);
+
+            this.Seguimiento = new ChangeTrackingCollection<SeguimientoWrapper>
+                (model.Seguimiento.Select(t => new SeguimientoWrapper(t)));
+            this.RegisterCollection(this.Seguimiento, model.Seguimiento);
         }
         protected override void InitializeComplexProperties(Tarea model)
         {
@@ -86,8 +88,8 @@ namespace Gama.Cooperacion.Wpf.Wrappers
 
         public bool FechaDeFinalizacionIsChanged => GetIsChanged(nameof(FechaDeFinalizacion));
 
-        public ChangeTrackingCollection<SeguimientoWrapper> Mensaje { get; set; }
-        public ChangeTrackingCollection<SeguimientoWrapper> Historial { get; set; }
+        public ChangeTrackingCollection<IncidenciaWrapper> Incidencia { get; set; }
+        public ChangeTrackingCollection<SeguimientoWrapper> Seguimiento { get; set; }
 
         public ActividadWrapper Actividad { get; private set; }
         public CooperanteWrapper Responsable { get; private set; }

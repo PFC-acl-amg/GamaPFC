@@ -39,7 +39,7 @@ namespace Gama.Cooperacion.DataAccess
                         else
                         {
                             configuration = Configure();
-                            //new BinaryFormatter().Serialize(File.Create("nh.cfg"), configuration);
+                            new BinaryFormatter().Serialize(File.Create("nh.cfg"), configuration);
                         }
 
                         _sessionFactory = configuration.BuildSessionFactory();
@@ -66,9 +66,15 @@ namespace Gama.Cooperacion.DataAccess
                 //.ShowSql())
                 .Mappings(m => 
                     m.FluentMappings
-                        .AddFromAssemblyOf<ActividadMap>()
-                        //.Add<MensajeMap>()
-                        //.Add<CooperanteMap>()
+                        //.AddFromAssemblyOf<ActividadMap>()
+                        .Add<ActividadMap>()
+                        .Add<CooperanteMap>()
+                        .Add<EventoMap>()
+                        .Add<ForoMap>()
+                        .Add<MensajeMap>()
+                        .Add<TareaMap>()
+                        .Add<SeguimientoMap>()
+                        .Add<IncidenciaMap>()
                         .Conventions.Add(DefaultCascade.Delete(), DefaultLazy.Always()))
                 .ExposeConfiguration(
                     c => {
@@ -76,8 +82,8 @@ namespace Gama.Cooperacion.DataAccess
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: true,
-                            execute: true,// A true trunca las tablas cada vez ejecutas el programa
-                            justDrop: true);
+                            execute: false,// A true trunca las tablas cada vez ejecutas el programa
+                            justDrop: false);
                     })
                 .BuildConfiguration();
         }

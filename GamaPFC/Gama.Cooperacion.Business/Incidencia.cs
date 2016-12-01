@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.Business
 {
-    public class Seguimiento: TimestampedModel
+    public class Incidencia : TimestampedModel
     {
         public virtual int Id { get; set; }
-        //public virtual int Tipo { get; set; } // 0 => Mensaje, 1 => Seguimiento
         public virtual string Descripcion { get; set; }
         public virtual DateTime FechaDePublicacion { get; set; }
+        public virtual int Solucionada { get; set; } // Resuelta = 0 || Sin resolver = 1
         public virtual Tarea Tarea { get; set; }
     }
 }

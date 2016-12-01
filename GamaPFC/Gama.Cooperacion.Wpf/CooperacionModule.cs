@@ -18,7 +18,7 @@ namespace Gama.Cooperacion.Wpf
            : base(container, regionManager)
         {
             this.Entorno = Entorno.Desarrollo;
-            this.UseFaker = true; // A falso no entra en el if this.UseFaker y no crea nada mas
+            this.UseFaker = false; // A falso no entra en el if this.UseFaker y no crea nada mas
         }
 
         public override void Initialize()
@@ -64,28 +64,59 @@ namespace Gama.Cooperacion.Wpf
                 var coordinador = cooperanteRepository.GetAll().First();
                 var actividadesFake = new FakeActividadRepository().GetAll();
 
-                foreach (var actividad in actividadesFake.Take(1))
+                foreach (var actividad in actividadesFake.Take(2))
                 {
                     var eventosFake = new FakeEventoRepository().GetAll();
+                    var foroFake = new FakeForoRepository().GetAll();
+                    var mensajeForoFake = new FakeMensajeRepository().GetAll();
                     var tareaFake = new FakeTareaRepository().GetAll();
-                    foreach(var tarea in tareaFake)
-                    {
-                        var seguimientoFake = new FakeSeguimientoRepository().GetAll();
-                        int j = 0;
-                        int k = 0;
-                        foreach (var seguimiento in seguimientoFake)
-                        {
-                            tarea.Historial.Insert(j, seguimiento);
-                            j++;
-                        }
-                        actividad.Tareas.Insert(k, tarea);
-                        k++;
-                    }
+                    var seguimientoFake = new FakeSeguimientoRepository().GetAll();
+                    var incidenciaFake = new FakeIncidenciaRepository().GetAll();
+                    //foreach (var tarea in tareaFake)
+                    //{
+                    //    var seguimientoFake = new FakeSeguimientoRepository().GetAll();
+                    //    var incidenciaFake = new FakeIncidenciaRepository().GetAll();
+                    //    int j = 0;
+                    //    int k = 0;
+                    //    int l = 0;
+                    //    foreach (var seguimiento in seguimientoFake)
+                    //    {
+                    //        tarea.Seguimiento.Insert(j, seguimiento);
+                    //        j++;
+                    //    }
+                    //    foreach (var incidencia in incidenciaFake)
+                    //    {
+                    //        tarea.Incidencias.Insert(l, incidencia);
+                    //        l++;
+                    //    }
+                    //    actividad.Tareas.Insert(k, tarea);
+                    //    k++;
+                    //}
                     actividad.Coordinador = coordinador;
-                    
+                    foreach (var InsertandoTareas in tareaFake)
+                    {
+                        foreach (var InsertandoSeguimientos in seguimientoFake)
+                        {
+                            InsertandoTareas.AddSeguimiento(InsertandoSeguimientos);
+                        }
+                        foreach(var InsertandoIncidencias in incidenciaFake)
+                        {
+                            InsertandoTareas.AddIncidencia(InsertandoIncidencias);
+                        }
+                        InsertandoTareas.Responsable = coordinador;
+                        actividad.AddTarea(InsertandoTareas);
+                    }
                     foreach (var InsertandoEvento in eventosFake)
                     {
                         actividad.AddEvento(InsertandoEvento);
+                    }
+                    foreach (var InsertandoForos in foroFake)
+                    {
+                        foreach (var InsertandoMensajesForos in mensajeForoFake)
+                        {
+                            InsertandoForos.AddMensaje(InsertandoMensajesForos);
+                        }
+                        actividad.AddForo(InsertandoForos);
                     }
                     actividadRepository.Create(actividad);
                 }

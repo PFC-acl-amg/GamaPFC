@@ -8,43 +8,43 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.Wpf.Services
 {
-    public class FakeSeguimientoRepository
+    public class FakeIncidenciaRepository
     {
         public ISessionFactory _session { get; set; }
-        private List<Seguimiento> _seguimiento;
+        private List<Incidencia> _incidencia;
 
-        public void Create(Seguimiento entity)
+        public void Create(Incidencia entity)
         {
-            _seguimiento.Add(entity);
+            _incidencia.Add(entity);
         }
-        public void Delete(Seguimiento entity)
+        public void Delete(Incidencia entity)
         {
         }
 
-        public List<Seguimiento> GetAll()
+        public List<Incidencia> GetAll()
         {
-            if (_seguimiento != null)
-                return _seguimiento;
+            if (_incidencia != null)
+                return _incidencia;
 
-            _seguimiento = new List<Seguimiento>();
+            _incidencia = new List<Incidencia>();
 
             for (int i = 0; i < 5; i++)
             {
-                var seguimiento = new Seguimiento()
+                var incidencia = new Incidencia()
                 {
                     Descripcion = Faker.TextFaker.Sentence(),
                     FechaDePublicacion = Faker.DateTimeFaker.DateTime(),
-                    //Tipo = 1,
+                    Solucionada = 0,
                 };
 
-                _seguimiento.Add(seguimiento);
+                _incidencia.Add(incidencia);
             }
 
-            return _seguimiento;
+            return _incidencia;
         }
-        public Seguimiento GetById(int id)
+        public Incidencia GetById(int id)
         {
-            return _seguimiento.Where(a => a.Id == id).First();
+            return _incidencia.Where(a => a.Id == id).First();
         }
 
         public bool Update(Seguimiento entity)
