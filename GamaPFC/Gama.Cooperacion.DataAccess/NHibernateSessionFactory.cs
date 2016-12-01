@@ -28,7 +28,7 @@ namespace Gama.Cooperacion.DataAccess
                     {
                         NHibernate.Cfg.Configuration configuration;
 
-                        //File.Delete("nh.cfg");
+                        File.Delete("nh.cfg");
                         if (File.Exists("nh.cfg"))
                         {
                             var file = File.Open("nh.cfg", FileMode.Open);
@@ -39,7 +39,7 @@ namespace Gama.Cooperacion.DataAccess
                         else
                         {
                             configuration = Configure();
-                            new BinaryFormatter().Serialize(File.Create("nh.cfg"), configuration);
+                            //new BinaryFormatter().Serialize(File.Create("nh.cfg"), configuration);
                         }
 
                         _sessionFactory = configuration.BuildSessionFactory();
@@ -67,7 +67,7 @@ namespace Gama.Cooperacion.DataAccess
                 .Mappings(m => 
                     m.FluentMappings
                         .AddFromAssemblyOf<ActividadMap>()
-                        //.Add<ActividadMap>()
+                        //.Add<MensajeMap>()
                         //.Add<CooperanteMap>()
                         .Conventions.Add(DefaultCascade.Delete(), DefaultLazy.Always()))
                 .ExposeConfiguration(
@@ -77,7 +77,7 @@ namespace Gama.Cooperacion.DataAccess
                         schema.Execute(
                             useStdOut: true,
                             execute: true,// A true trunca las tablas cada vez ejecutas el programa
-                            justDrop: false);
+                            justDrop: true);
                     })
                 .BuildConfiguration();
         }

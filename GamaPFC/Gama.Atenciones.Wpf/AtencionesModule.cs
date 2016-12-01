@@ -29,12 +29,9 @@ namespace Gama.Atenciones.Wpf
 
         public override void Initialize()
         {
-            RegisterViews();
-            RegisterViewModels();
-            RegisterServices();
-            InitializeNavigation();
-
-            try {
+            #region Database Seeding
+            try
+            {
                 if (UseFaker)
                 {
                     var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
@@ -43,20 +40,29 @@ namespace Gama.Atenciones.Wpf
                     var session = sessionFactory.OpenSession();
                     personaRepository.Session = session;
 
-                    //var personas = new FakePersonaRepository().GetAll().Take(10);
-                    //foreach (var persona in personas)
-                    //{
-                    //    persona.Id = 0;
-                    //    personaRepository.Create(persona);
-                    //}
+                    var personas = new FakePersonaRepository().GetAll().Take(10);
+                    var citas = new FakeCitaRepository().GetAll();
+                    int start = 0;
+                    int page = 5;
+                    foreach (var persona in personas)
+                    {
+                        persona.Id = 0;
+                        ((List<Cita>)persona.Citas).AddRange(citas.Skip(start).Take(page).ToList());
 
-                    var persona = personaRepository.GetById(1);
+                        ((List<Cita>)persona.Citas).ForEach(c => { c.Persona = persona; c.Id = 0; });
 
-                    var cita = new Cita { Inicio = DateTime.Now.AddDays(1), Asistente = "Johny Rothschild", Sala = "Sala C" };
+                        personaRepository.Create(persona);
 
-                    cita.Persona = persona;
-                    persona.Citas.Add(cita);
-                    personaRepository.Update(persona);
+                        start += 5;
+                    }
+
+                    //var persona = personaRepository.GetById(1);
+
+                    //var cita = new Cita { Inicio = DateTime.Now.AddDays(1), Asistente = "Johny Rothschild", Sala = "Sala C" };
+
+                    //cita.Persona = persona;
+                    //persona.Citas.Add(cita);
+                    //personaRepository.Update(persona);
 
                     //var citaRepository = new CitaRepository();
                     //citaRepository.Session = session;
@@ -88,6 +94,13 @@ namespace Gama.Atenciones.Wpf
                 var message = ex.Message;
                 throw ex;
             }
+            #endregion
+
+            RegisterViews();
+            RegisterViewModels();
+            RegisterServices();
+            InitializeNavigation();
+
         }
 
         private void RegisterViews()

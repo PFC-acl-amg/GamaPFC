@@ -46,7 +46,14 @@ namespace Gama.Atenciones.DataAccess
                             new BinaryFormatter().Serialize(File.Create("nh_atenciones.cfg"), configuration);
                         }
 
-                        _sessionFactory = configuration.BuildSessionFactory();
+                        try
+                        {
+                            _sessionFactory = configuration.BuildSessionFactory();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
                     }
                     catch (FluentConfigurationException ex)
                     {
@@ -75,7 +82,7 @@ namespace Gama.Atenciones.DataAccess
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: true,
-                            execute: false,
+                            execute: true,
                             justDrop: false);
                     })
                 .BuildConfiguration();

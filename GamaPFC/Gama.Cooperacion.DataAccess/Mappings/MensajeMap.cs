@@ -18,8 +18,8 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             Map(x => x.Titulo).Not.Nullable();
             Map(x => x.FechaDePublicacion).Not.Nullable();
 
-            References(x => x.Foro)
-                .LazyLoad();
+            //References(x => x.Foro)
+            //    .LazyLoad();
         }
 
     }
