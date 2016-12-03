@@ -7,11 +7,8 @@
         xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
         xmlns:views="clr-namespace:Gama.Atenciones.Wpf.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="420" Width="829.138" Background="LightGreen">
-  <Window.Resources>
-    <designData:EditarCitasViewModelDTD x:Key="VM"/>
-  </Window.Resources>
+        Title="MainWindow" Height="420" Width="829.138" Background="LightGray">
   <Grid>
-    <views:GraficasView DataContext="{StaticResource VM}" d:DataContext="{StaticResource VM}"/>
+    <views:GraficasView />
   </Grid>
 </Window>

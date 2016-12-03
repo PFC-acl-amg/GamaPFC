@@ -24,7 +24,7 @@ namespace Gama.Atenciones.Wpf
            : base(container, regionManager)
         {
             this.Entorno = Entorno.Desarrollo;
-            this.UseFaker = true;
+            this.UseFaker = false;
         }
 
         public override void Initialize()
