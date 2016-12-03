@@ -1,0 +1,18 @@
+﻿using Core.DataAccess;
+using Gama.Socios.Business;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Gama.Socios.Wpf.Services
+{
+    public class SocioRepository : NHibernateOneSessionRepository<Socio, int>, ISocioRepository
+    {
+        public IEnumerable<int> GetSociosNuevosPorMes(int numeroDeMeses)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

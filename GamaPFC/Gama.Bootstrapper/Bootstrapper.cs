@@ -74,6 +74,13 @@ namespace Gama.Bootstrapper
                     });
                     break;
                 case Modulos.GestionDeSocios:
+                    Type sociosModuleType = typeof(Gama.Socios.Wpf.SociosModule);
+                    ModuleCatalog.AddModule(new ModuleInfo()
+                    {
+                        ModuleName = sociosModuleType.Name,
+                        ModuleType = sociosModuleType.AssemblyQualifiedName,
+                        InitializationMode = InitializationMode.WhenAvailable
+                    });
                     break;
                 case Modulos.ServicioDeAtenciones:
                     Type atencionesModuleType = typeof(Gama.Atenciones.Wpf.AtencionesModule);

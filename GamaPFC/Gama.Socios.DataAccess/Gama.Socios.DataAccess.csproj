@@ -59,6 +59,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -72,11 +73,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Mappings\CuotaMap.cs" />
+    <Compile Include="Mappings\PeriodoDeAltaMap.cs" />
+    <Compile Include="Mappings\SocioMap.cs" />
+    <Compile Include="NHibernateSessionFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{61c764bb-5692-463a-bc70-55b6ad46b1a3}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Common\Gama.Common.csproj">
+      <Project>{46a268c7-c157-4a93-931d-951a908e149f}</Project>
+      <Name>Gama.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Socios.Business\Gama.Socios.Business.csproj">
+      <Project>{ab653fbf-8bfb-4870-819e-dedb09fc39e1}</Project>
+      <Name>Gama.Socios.Business</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
