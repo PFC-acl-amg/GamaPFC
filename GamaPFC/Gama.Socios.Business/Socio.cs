@@ -45,7 +45,7 @@ namespace Gama.Socios.Business
                 && FechaDeNacimiento.Value.Date.Day == DateTime.Now.Day;
         }
 
-        public bool EsMoroso()
+        public virtual bool EsMoroso()
         {
             return Cuotas.Count(x => x.CantidadAPagar > 0) > Socio.MesesParaSerConsideradoMoroso;
         }

@@ -8,6 +8,6 @@ namespace Gama.Socios.Wpf.Services
 {
     public interface ISociosSettings
     {
-        int DashboardMesesAMostrarDeSociosNuevas { get; set; }
+        int DashboardMesesAMostrarDeSociosNuevos { get; set; }
     }
 }

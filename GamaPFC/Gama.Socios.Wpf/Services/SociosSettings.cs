@@ -10,10 +10,10 @@ namespace Gama.Socios.Wpf.Services
     {
         public SociosSettings()
         {
-            DashboardMesesAMostrarDeSociosNuevas = 6;
+            DashboardMesesAMostrarDeSociosNuevos = 6;
         }
 
-        public int DashboardMesesAMostrarDeSociosNuevas { get; set; }
+        public int DashboardMesesAMostrarDeSociosNuevos { get; set; }
         
     }
 }

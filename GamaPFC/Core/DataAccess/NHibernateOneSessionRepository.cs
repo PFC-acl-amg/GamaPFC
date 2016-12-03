@@ -77,9 +77,9 @@ namespace Core.DataAccess
             catch (Exception ex)
             {
                 throw ex;
-                var message = ex.Message;
-                if (message.StartsWith("object references an unsaved transient instance"))
-                    return;
+                //var message = ex.Message;
+                //if (message.StartsWith("object references an unsaved transient instance"))
+                //    return;
             }
         }
 

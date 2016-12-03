@@ -47,7 +47,7 @@ namespace Gama.Socios.WpfTests
             _EventAggregatorMock.Setup(x => x.GetEvent<SocioSeleccionadoEvent>()).Returns(
                 _SocioSeleccionadoEventMock.Object);
 
-            _SettingsMock.SetupGet(x => x.DashboardMesesAMostrarDeSociosNuevas).Returns(6);
+            _SettingsMock.SetupGet(x => x.DashboardMesesAMostrarDeSociosNuevos).Returns(6);
 
             _Vm = new DashboardViewModel(
                 _SocioRepositoryMock.Object,
@@ -64,7 +64,7 @@ namespace Gama.Socios.WpfTests
             Assert.NotNull(_Vm.UltimosSocios);
             Assert.NotNull(_Vm.SociosCumpliendoBirthdays);
             Assert.NotNull(_Vm.SociosMorosos);
-            Assert.Equal(_Vm.UltimosSocios.Count, _SettingsMock.Object.DashboardMesesAMostrarDeSociosNuevas);
+            Assert.Equal(_Vm.UltimosSocios.Count, _SettingsMock.Object.DashboardMesesAMostrarDeSociosNuevos);
             Assert.NotNull(_Vm.SeleccionarSocioCommand);
             Assert.NotNull(_Vm.SociosNuevosPorMes);
         }

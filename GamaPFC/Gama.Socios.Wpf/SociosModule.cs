@@ -1,7 +1,10 @@
 ﻿using Core;
 using Core.DataAccess;
+using Gama.Common;
 using Gama.Socios.DataAccess;
 using Gama.Socios.Wpf.Services;
+using Gama.Socios.Wpf.ViewModels;
+using Gama.Socios.Wpf.Views;
 using Microsoft.Practices.Unity;
 using NHibernate;
 using Prism.Regions;
@@ -96,12 +99,12 @@ namespace Gama.Socios.Wpf
 
         private void RegisterViews()
         {
-            
+            Container.RegisterType<object, DashboardView>("DashboardView");
         }
 
         private void RegisterViewModels()
         {
-
+            Container.RegisterType<DashboardViewModel>();
         }
 
         private void RegisterServices()
@@ -110,11 +113,12 @@ namespace Gama.Socios.Wpf
             Container.RegisterType<ISession>(
                 new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
             Container.RegisterType<ISocioRepository, SocioRepository>();
+            Container.RegisterInstance<ISociosSettings>(new SociosSettings());
         }
 
         private void InitializeNavigation()
         {
-
+            RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
         }
     }
 }

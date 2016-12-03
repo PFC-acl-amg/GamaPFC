@@ -40,7 +40,7 @@ namespace Gama.Socios.Wpf.ViewModels
             UltimosSocios = new ObservableCollection<Socio>(
                     _Socios
                     .OrderBy(x => x.Id)
-                    .Take(_Settings.DashboardMesesAMostrarDeSociosNuevas));
+                    .Take(_Settings.DashboardMesesAMostrarDeSociosNuevos));
 
             SociosCumpliendoBirthdays = new ObservableCollection<Socio>(
                 _Socios.Where(x => x.IsBirthday()));
@@ -62,10 +62,10 @@ namespace Gama.Socios.Wpf.ViewModels
                 "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago","Sep","Oct", "Nov", "Dic",
                 "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic", };
 
-            _MesInicialSocios = 12 + (DateTime.Now.Month - 1) - _Settings.DashboardMesesAMostrarDeSociosNuevas + 1;
+            _MesInicialSocios = 12 + (DateTime.Now.Month - 1) - _Settings.DashboardMesesAMostrarDeSociosNuevos + 1;
 
             SociosNuevosPorMes = new ChartValues<int>(_SocioRepository.GetSociosNuevosPorMes(
-                       _Settings.DashboardMesesAMostrarDeSociosNuevas));
+                       _Settings.DashboardMesesAMostrarDeSociosNuevos));
         }
 
         public ObservableCollection<Socio> UltimosSocios { get; private set; }
@@ -76,7 +76,7 @@ namespace Gama.Socios.Wpf.ViewModels
 
         public string[] SociosLabels =>
             _Labels.Skip(_MesInicialSocios)
-                .Take(_Settings.DashboardMesesAMostrarDeSociosNuevas).ToArray();
+                .Take(_Settings.DashboardMesesAMostrarDeSociosNuevos).ToArray();
 
         private void OnSeleccionarSocioCommandExecute(Socio socio)
         {

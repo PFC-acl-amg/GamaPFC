@@ -10,7 +10,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="465.411" d:DesignWidth="622.603">
+             d:DesignHeight="414.411" d:DesignWidth="751.603">
   <d:DataContext>
     <designData:DashboardViewModelDTD/>
   </d:DataContext>
@@ -147,7 +147,7 @@
                          Grid.ColumnSpan="3">
       <lvc:CartesianChart.Series>
         <lvc:LineSeries Values="{Binding SociosNuevosPorMes}"
-                        Title="PERSONAS NUEVAS POR MES"
+                        Title="SOCIOS NUEVOS POR MES"
                         Fill="Transparent" 
                         Stroke="Green"
                         LineSmoothness="0">
