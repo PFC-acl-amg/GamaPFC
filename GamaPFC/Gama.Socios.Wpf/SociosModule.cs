@@ -2,6 +2,7 @@
 using Core.DataAccess;
 using Gama.Common;
 using Gama.Socios.DataAccess;
+using Gama.Socios.Wpf.FakeServices;
 using Gama.Socios.Wpf.Services;
 using Gama.Socios.Wpf.ViewModels;
 using Gama.Socios.Wpf.Views;
@@ -22,7 +23,7 @@ namespace Gama.Socios.Wpf
            : base(container, regionManager)
         {
             this.Entorno = Entorno.Desarrollo;
-            this.UseFaker = true;
+            this.UseFaker = false;
         }
 
         public override void Initialize()
@@ -38,9 +39,14 @@ namespace Gama.Socios.Wpf
                 {
                     var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
 
-                    var personaRepository = new SocioRepository();
+                    var socioRepository = new SocioRepository();
                     var session = sessionFactory.OpenSession();
-                    personaRepository.Session = session;
+                    socioRepository.Session = session;
+
+                    foreach(var socio in (new FakeSocioRepository().GetAll()))
+                    {
+                        socioRepository.Create(socio);
+                    }
 
                     //var personas = new FakePersonaRepository().GetAll(); //personaRepository.GetAll();
                     //var citas = new FakeCitaRepository().GetAll();

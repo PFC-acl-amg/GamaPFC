@@ -40,7 +40,7 @@ namespace Gama.Socios.Wpf.ViewModels
             UltimosSocios = new ObservableCollection<Socio>(
                     _Socios
                     .OrderBy(x => x.Id)
-                    .Take(_Settings.DashboardMesesAMostrarDeSociosNuevos));
+                    .Take(_Settings.DashboardUltimosSocios));
 
             SociosCumpliendoBirthdays = new ObservableCollection<Socio>(
                 _Socios.Where(x => x.IsBirthday()));

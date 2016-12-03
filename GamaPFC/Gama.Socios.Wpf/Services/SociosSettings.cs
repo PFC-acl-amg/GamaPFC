@@ -11,9 +11,10 @@ namespace Gama.Socios.Wpf.Services
         public SociosSettings()
         {
             DashboardMesesAMostrarDeSociosNuevos = 6;
+            DashboardUltimosSocios = 15;
         }
 
         public int DashboardMesesAMostrarDeSociosNuevos { get; set; }
-        
+        public int DashboardUltimosSocios { get; set; }
     }
 }
