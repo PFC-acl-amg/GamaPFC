@@ -1,0 +1,168 @@
+﻿<UserControl x:Class="Gama.Socios.Wpf.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gama.Socios.Wpf.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="465.411" d:DesignWidth="622.603">
+  <d:DataContext>
+    <designData:DashboardViewModelDTD/>
+  </d:DataContext>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" MinHeight="200" MaxHeight="300"/>
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <!-- Últimos Socios -->
+    <GroupBox Grid.Column="0" Grid.Row="0"
+                 Margin="{StaticResource Margin}">
+      <GroupBox.Header>
+        <Label HorizontalAlignment="Center" Content="ÚLTIMOS SOCIOS" Foreground="White" Padding="0"></Label>
+      </GroupBox.Header>
+      <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <ListBox ItemsSource="{Binding UltimosSocios}"
+                 x:Name="_SociosListBox"
+                 SelectionMode="Single"
+               ScrollViewer.VerticalScrollBarVisibility="Auto">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="35"/>
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Id}"/>
+                <TextBlock Grid.Column="2" Text="{Binding Nombre}"/>
+              </Grid>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseDoubleClick">
+              <prism:InvokeCommandAction 
+                  Command="{Binding RelativeSource =
+                      {RelativeSource FindAncestor,
+                          AncestorType={x:Type GroupBox}},
+                          Path=DataContext.SeleccionarsocioCommand}"
+                  CommandParameter="{Binding ElementName=_SociosListBox, Path=SelectedItem}"/>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </ListBox>
+      </ScrollViewer>
+    </GroupBox>
+
+    <!-- Socios que cumplen años hoy -->
+    <GroupBox Grid.Column="1" Grid.Row="0"
+                 Margin="{StaticResource Margin}">
+      <GroupBox.Header>
+        <Label HorizontalAlignment="Center" Content="CUMPLEAÑOS DE HOY" Foreground="White" Padding="0"></Label>
+      </GroupBox.Header>
+      <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <ListBox ItemsSource="{Binding SociosCumpliendoBirthdays}"
+                 x:Name="_BirthdaysListBox"
+                 SelectionMode="Single"
+               ScrollViewer.VerticalScrollBarVisibility="Auto">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="35"/>
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Id}" VerticalAlignment="Center"/>
+                <StackPanel Grid.Column="2">
+                  <TextBlock Text="{Binding Nombre}" Margin="{StaticResource Margin}"/>
+                  <TextBlock Text="{Binding Nif}" Margin="{StaticResource Margin}"/>
+                </StackPanel>
+              </Grid>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseDoubleClick">
+              <prism:InvokeCommandAction 
+                  Command="{Binding RelativeSource =
+                      {RelativeSource FindAncestor,
+                          AncestorType={x:Type GroupBox}},
+                          Path=DataContext.SeleccionarSocioCommand}"
+                  CommandParameter="{Binding ElementName=_BirthdaysListBox, Path=SelectedItem}"/>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </ListBox>
+      </ScrollViewer>
+    </GroupBox>
+
+    <!-- Socios Morosos -->
+    <GroupBox Grid.Column="2" Grid.Row="0"
+                 Margin="{StaticResource Margin}">
+      <GroupBox.Header>
+        <Label HorizontalAlignment="Center" Content="IMPAGOS" Foreground="White" Padding="0"></Label>
+      </GroupBox.Header>
+      <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <ListBox ItemsSource="{Binding SociosMorosos}"
+                 x:Name="_MorososListBox"
+                 SelectionMode="Single"
+               ScrollViewer.VerticalScrollBarVisibility="Auto">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="35"/>
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Id}" VerticalAlignment="Center"/>
+                <StackPanel Grid.Column="2">
+                  <TextBlock Text="{Binding Nombre}" Margin="{StaticResource Margin}"/>
+                  <TextBlock Text="{Binding Nif}" Margin="{StaticResource Margin}"/>
+                </StackPanel>
+              </Grid>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseDoubleClick">
+              <prism:InvokeCommandAction 
+                  Command="{Binding RelativeSource =
+                      {RelativeSource FindAncestor,
+                          AncestorType={x:Type GroupBox}},
+                          Path=DataContext.SeleccionarSocioCommand}"
+                  CommandParameter="{Binding ElementName=_MorososListBox, Path=SelectedItem}"/>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </ListBox>
+      </ScrollViewer>
+    </GroupBox>
+
+    <!-- SOCIOS NUEVOS POR MES-->
+    <lvc:CartesianChart  Grid.Column="0" Grid.Row="1" Margin="{StaticResource MarginDouble}" LegendLocation="Top"
+                         Grid.ColumnSpan="3">
+      <lvc:CartesianChart.Series>
+        <lvc:LineSeries Values="{Binding SociosNuevosPorMes}"
+                        Title="PERSONAS NUEVAS POR MES"
+                        Fill="Transparent" 
+                        Stroke="Green"
+                        LineSmoothness="0">
+        </lvc:LineSeries>
+      </lvc:CartesianChart.Series>
+      <lvc:CartesianChart.AxisY>
+        <lvc:Axis MinValue="0"></lvc:Axis>
+      </lvc:CartesianChart.AxisY>
+      <lvc:CartesianChart.AxisX>
+        <lvc:Axis Labels="{Binding SociosLabels}">
+          <lvc:Axis.Separator>
+            <lvc:Separator Step="1"></lvc:Separator>
+          </lvc:Axis.Separator>
+        </lvc:Axis>
+      </lvc:CartesianChart.AxisX>
+    </lvc:CartesianChart>
+  </Grid>
+</UserControl>

@@ -12,7 +12,7 @@
     <designData:GraficasViewModelDTD/>
   </UserControl.DataContext>
   <Grid>
-    <lvc:PieChart LegendLocation="Bottom" DisableAnimations="True">
+    <lvc:PieChart LegendLocation="Bottom">
       <lvc:PieChart.Series>
         <!--<lvc:PieSeries Title="Hombre Cisexual" Values="4" DataLabels="True"
                        LabelPoint="{Binding PointLabel}"

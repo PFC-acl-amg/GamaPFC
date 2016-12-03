@@ -12,7 +12,29 @@ namespace Gama.Socios.Wpf.Services
     {
         public IEnumerable<int> GetSociosNuevosPorMes(int numeroDeMeses)
         {
-            throw new NotImplementedException();
+            List<int> resultado;
+            try
+            {
+                resultado = Session.CreateSQLQuery(@"
+                SELECT COUNT(Id)
+                FROM `socios` 
+                GROUP BY
+                    YEAR(CreatedAt), 
+                    MONTH(CreatedAt) 
+                ORDER BY 
+                    YEAR(CreatedAt) DESC, 
+                    MONTH(CreatedAt) DESC")
+                        .SetMaxResults(numeroDeMeses)
+                        .List<object>()
+                        .Select(r => int.Parse(r.ToString()))
+                        .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return resultado;
         }
     }
 }

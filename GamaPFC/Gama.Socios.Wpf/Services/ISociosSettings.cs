@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gama.Socios.WpfTests
+namespace Gama.Socios.Wpf.Services
 {
-    public class Class1
+    public interface ISociosSettings
     {
+        int DashboardMesesAMostrarDeSociosNuevas { get; set; }
     }
 }

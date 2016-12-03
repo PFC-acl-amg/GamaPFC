@@ -9,6 +9,8 @@ namespace Gama.Socios.Business
 {
     public class Socio : TimestampedModel
     {
+        public static int MesesParaSerConsideradoMoroso = 3;
+
         public virtual string DireccionPostal { get; set; } = "";
         public virtual string Email { get; set; }
         public virtual DateTime? FechaDeNacimiento { get; set; }
@@ -34,6 +36,18 @@ namespace Gama.Socios.Business
         {
             cuota.Socio = this;
             Cuotas.Add(cuota);
+        }
+
+        public virtual bool IsBirthday()
+        {
+            return FechaDeNacimiento.HasValue
+                && FechaDeNacimiento.Value.Date.Month == DateTime.Now.Month
+                && FechaDeNacimiento.Value.Date.Day == DateTime.Now.Day;
+        }
+
+        public bool EsMoroso()
+        {
+            return Cuotas.Count(x => x.CantidadAPagar > 0) > Socio.MesesParaSerConsideradoMoroso;
         }
     }
 }

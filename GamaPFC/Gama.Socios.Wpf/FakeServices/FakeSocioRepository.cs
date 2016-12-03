@@ -42,6 +42,16 @@ namespace Gama.Socios.Wpf.FakeServices
             }
         }
 
+        public IEnumerable<int> GetSociosNuevosPorMes(int numeroDeMeses)
+        {
+            var resultado = new List<int>(numeroDeMeses);
+
+            for (int i = 0; i < numeroDeMeses; i++)
+                resultado.Add(i + 2);
+
+            return resultado;
+        }
+
         public List<Socio> GetAll()
         {
             return _Socios;
@@ -63,11 +73,6 @@ namespace Gama.Socios.Wpf.FakeServices
         }
 
         public Socio GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<int> GetSociosNuevosPorMes(int numeroDeMeses)
         {
             throw new NotImplementedException();
         }
