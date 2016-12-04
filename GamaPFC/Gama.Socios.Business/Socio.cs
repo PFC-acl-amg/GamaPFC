@@ -49,5 +49,22 @@ namespace Gama.Socios.Business
         {
             return Cuotas.Count(x => x.CantidadAPagar > 0) > Socio.MesesParaSerConsideradoMoroso;
         }
+
+        public void CopyValuesFrom(Socio socio)
+        {
+            DireccionPostal = socio.DireccionPostal;
+            Email = socio.Email;
+            FechaDeNacimiento = socio.FechaDeNacimiento;
+            Facebook = socio.Facebook;
+            LinkedIn = socio.LinkedIn;
+            Nacionalidad = socio.Nacionalidad;
+            Nif = socio.Nif;
+            Nombre = socio.Nombre;
+            Telefono = socio.Telefono;
+            Twitter = socio.Twitter;
+
+            PeriodosDeAlta = new List<PeriodoDeAlta>(socio.PeriodosDeAlta);
+            Cuotas = new List<Cuota>(socio.Cuotas);
+        }
     }
 }

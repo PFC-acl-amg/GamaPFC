@@ -78,6 +78,7 @@ namespace Gama.Socios.WpfTests
             _Vm.SeleccionarSocioCommand.Execute(new Socio { Id = 1 });
             _SocioSeleccionadoEventMock.Verify(x => x.Publish(1), Times.Once);
         }
+
         [Fact]
         private void NuevoSocioShouldSetElSocioEnPrimeraPosicionDeLosUltimosSociosMostrados()
         {

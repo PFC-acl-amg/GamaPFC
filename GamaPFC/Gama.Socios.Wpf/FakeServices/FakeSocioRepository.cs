@@ -24,6 +24,7 @@ namespace Gama.Socios.Wpf.FakeServices
             {
                 var socio = new Socio()
                 {
+                    Id = i + 1,
                     CreatedAt = DateTime.Now,
                     DireccionPostal = Faker.Address.StreetAddress(),
                     Email = Faker.Internet.Email(),

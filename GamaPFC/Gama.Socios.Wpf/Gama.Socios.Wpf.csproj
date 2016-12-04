@@ -120,6 +120,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />
+    <Compile Include="DesignTimeData\ListadoDeSociosViewModelDTD.cs" />
+    <Compile Include="Eventos\SocioActualizadoEvent.cs" />
     <Compile Include="Eventos\SocioCreadoEvent.cs" />
     <Compile Include="Eventos\SocioEliminadoEvent.cs" />
     <Compile Include="Eventos\SocioSeleccionadoEvent.cs" />
@@ -130,10 +132,14 @@
     <Compile Include="Services\SociosSettings.cs" />
     <Compile Include="SociosModule.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\ListadoDeSociosViewModel.cs" />
     <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
     <Compile Include="ViewModels\SociosContentViewModel.cs" />
     <Compile Include="Views\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ListadoDeSociosView.xaml.cs">
+      <DependentUpon>ListadoDeSociosView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PanelSwitcherView.xaml.cs">
       <DependentUpon>PanelSwitcherView.xaml</DependentUpon>
@@ -162,6 +168,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DashboardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ListadoDeSociosView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
