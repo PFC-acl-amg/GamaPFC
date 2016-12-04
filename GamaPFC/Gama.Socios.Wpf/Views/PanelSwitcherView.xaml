@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="Gama.Socios.Wpf.Views.PanelSwitcherView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:local="clr-namespace:Gama.Socios.Wpf.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="78.48" d:DesignWidth="779.132">
+  <UserControl.Resources>
+    <sys:Double x:Key="_FontSize">21</sys:Double>
+  </UserControl.Resources>
+  <Grid Background="SteelBlue">
+    <StackPanel Orientation="Horizontal">
+      <Button Background="Transparent" BorderThickness="0"
+              Width="170"
+              Margin="{StaticResource Margin}"
+              Command="{Binding NavigateCommand}"
+              CommandParameter="DashboardView"
+              >
+        <TextBlock Foreground="White" FontSize="{StaticResource _FontSize}" FontWeight="Light">Dashboard</TextBlock>
+      </Button>
+      <Button Background="Transparent" BorderThickness="0"
+              Width="170"
+              Margin="{StaticResource Margin}"
+            Command="{Binding NavigateCommand}"
+            CommandParameter="SociosContentView">
+        <TextBlock Foreground="White" FontSize="{StaticResource _FontSize}" FontWeight="Light">Socios</TextBlock>
+      </Button>
+      <Button Background="Transparent" BorderThickness="0"
+              Width="170"
+              Margin="{StaticResource Margin}"
+            Command="{Binding NavigateCommand}"
+            CommandParameter="AtencionesContentView">
+        <TextBlock Foreground="White" FontSize="{StaticResource _FontSize}" FontWeight="Light">X</TextBlock>
+      </Button>
+      <Button Background="Transparent" BorderThickness="0"
+              Width="170"
+              Margin="{StaticResource Margin}"
+            Command="{Binding NavigateCommand}"
+            CommandParameter="GraficasView">
+        <TextBlock Foreground="White" FontSize="{StaticResource _FontSize}" FontWeight="Light">Gráficas</TextBlock>
+      </Button>
+    </StackPanel>
+  </Grid>
+</UserControl>

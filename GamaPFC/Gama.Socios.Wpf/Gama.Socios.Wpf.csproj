@@ -130,8 +130,12 @@
     <Compile Include="Services\SociosSettings.cs" />
     <Compile Include="SociosModule.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
     <Compile Include="Views\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PanelSwitcherView.xaml.cs">
+      <DependentUpon>PanelSwitcherView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -154,6 +158,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DashboardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PanelSwitcherView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
