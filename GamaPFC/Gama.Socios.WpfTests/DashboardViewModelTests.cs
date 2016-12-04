@@ -36,18 +36,21 @@ namespace Gama.Socios.WpfTests
             _EventAggregatorMock = new Mock<IEventAggregator>();
             _SessionMock = new Mock<ISession>();
 
+            _SocioRepositoryMock.Setup(x => x.GetAll()).Returns(_Socios);
+
             _SocioCreadoEventMock = new Mock<SocioCreadoEvent>();
             _SocioEliminadoEventMock = new Mock<SocioEliminadoEvent>();
             _SocioSeleccionadoEventMock = new Mock<SocioSeleccionadoEvent>();
 
-            _EventAggregatorMock.Setup(x => x.GetEvent<SocioCreadoEvent>()).Returns
-                (_SocioCreadoEventMock.Object);
+            _EventAggregatorMock.Setup(x => x.GetEvent<SocioCreadoEvent>()).Returns(
+                _SocioCreadoEventMock.Object);
             _EventAggregatorMock.Setup(x => x.GetEvent<SocioEliminadoEvent>()).Returns(
                 _SocioEliminadoEventMock.Object);
             _EventAggregatorMock.Setup(x => x.GetEvent<SocioSeleccionadoEvent>()).Returns(
                 _SocioSeleccionadoEventMock.Object);
 
             _SettingsMock.SetupGet(x => x.DashboardMesesAMostrarDeSociosNuevos).Returns(6);
+            _SettingsMock.SetupGet(x => x.DashboardUltimosSocios).Returns(15);
 
             _Vm = new DashboardViewModel(
                 _SocioRepositoryMock.Object,
@@ -64,7 +67,7 @@ namespace Gama.Socios.WpfTests
             Assert.NotNull(_Vm.UltimosSocios);
             Assert.NotNull(_Vm.SociosCumpliendoBirthdays);
             Assert.NotNull(_Vm.SociosMorosos);
-            Assert.Equal(_Vm.UltimosSocios.Count, _SettingsMock.Object.DashboardMesesAMostrarDeSociosNuevos);
+            Assert.True(_Vm.UltimosSocios.Count <= _SettingsMock.Object.DashboardUltimosSocios);
             Assert.NotNull(_Vm.SeleccionarSocioCommand);
             Assert.NotNull(_Vm.SociosNuevosPorMes);
         }
@@ -72,7 +75,7 @@ namespace Gama.Socios.WpfTests
         [Fact]
         private void ShouldPublishSocioSeleccionadoEventWhenASocioIsSelected()
         {
-            _Vm.SeleccionarSocioCommand.Execute(1);
+            _Vm.SeleccionarSocioCommand.Execute(new Socio { Id = 1 });
             _SocioSeleccionadoEventMock.Verify(x => x.Publish(1), Times.Once);
         }
         [Fact]

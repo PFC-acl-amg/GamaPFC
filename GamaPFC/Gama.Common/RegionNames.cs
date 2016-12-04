@@ -20,5 +20,8 @@ namespace Gama.Common
 
         // Módulo de Cooperación
         public static string ActividadesTabContentRegion = "ActividadesTabContentRegion";
+
+        // Módulo de Socios
+        public static string SociosTabContentRegion = "SociosTabContentRegion";
     }
 }

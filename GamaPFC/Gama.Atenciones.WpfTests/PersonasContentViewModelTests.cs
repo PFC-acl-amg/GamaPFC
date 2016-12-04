@@ -12,14 +12,14 @@ using Xunit;
 
 namespace Gama.Atenciones.WpfTests
 {
-    public class PersonasContentViewTests
+    public class PersonasContentViewModelTests
     {
         private Mock<IUnityContainer> _ContainerMock;
         private Mock<IEventAggregator> _EventAggregatorMock;
         private Mock<IRegionManager> _RegionManagerMock;
         PersonasContentViewModel _Vm;
 
-        public PersonasContentViewTests()
+        public PersonasContentViewModelTests()
         {
             _RegionManagerMock = new Mock<IRegionManager>();
             _EventAggregatorMock = new Mock<IEventAggregator>();
