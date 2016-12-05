@@ -23,7 +23,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             get { return GetValue<string>(); }
             set { }
         }
-        public DateTime FechaPublico
+        public DateTime FechaDePublicacion
         {
             get { return GetValue<DateTime>(); }
             set { }

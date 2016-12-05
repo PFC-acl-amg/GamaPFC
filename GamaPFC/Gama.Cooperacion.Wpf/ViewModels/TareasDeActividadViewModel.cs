@@ -54,13 +54,16 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             MensajesDisponibleEnForo = new ObservableCollection<Mensaje>();
             ForosDisponibles = new ObservableCollection<ForoWrapper>();
+            TareasDisponibles = new ObservableCollection<TareaWrapper>();
             EventoActividad = new ObservableCollection<Evento>();
+            TareasFinalizadas = new ObservableCollection<TareaWrapper>();
 
             _EventAggregator.GetEvent<CargarNuevaActividadEvent>().Subscribe(OnCargarNuevaActividadEvent);
             _EventAggregator.GetEvent<NuevoForoCreadoEvent>().Subscribe(OnNuevoForoCreadoEvent);
             _EventAggregator.GetEvent<PublicarEventosActividad>().Subscribe(OnPublicarEventosActividad);
             CrearForoCommand = new DelegateCommand(OnCrearForoCommand, OnCrearForoCommand_CanExecute);
             MensajesForoCommand = new DelegateCommand<object>(OnMensajeForoCommand, OnMensajeForoCommand_CanExecute);
+            InfoTareaCommand = new DelegateCommand<object>(OnInfoTareaCommand, OnInfoTareaCommand_CanExecute);
             AceptarCrearForoCommand = new DelegateCommand(OnAceptarCrearForoCommand, OnAceptarCrearForoCommand_CanExecute);
             AceptarNuevoMensajeCommand = new DelegateCommand<object>(OnAceptarNuevoMensajeCommand, OnAceptarNuevoMensajeCommand_CanExecute);
 
@@ -83,10 +86,15 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand AceptarCrearForoCommand { get; private set; }
         public ICommand AceptarNuevoMensajeCommand { get; private set; }
         public ICommand MensajesForoCommand { get; private set; }
+        public ICommand InfoTareaCommand { get; private set; }
         public ICommand CrearForoCommand { get; private set; }
         private void OnMensajeForoCommand(object wrapper)
         {
             ((ForoWrapper)wrapper).ForoVisible = !((ForoWrapper)wrapper).ForoVisible;
+        }
+        private void OnInfoTareaCommand(object wrapper)
+        {
+            ((TareaWrapper)wrapper).SeguimientoVisible = !((TareaWrapper)wrapper).SeguimientoVisible;
         }
         private void OnAceptarCrearForoCommand()
         {
@@ -124,6 +132,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             return true;
         }
+        private bool OnInfoTareaCommand_CanExecute(object wrapper)
+        {
+            return true;
+        }
         private bool OnAceptarCrearForoCommand_CanExecute()
         {
             return true;
@@ -142,6 +154,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ObservableCollection<ForoWrapper> ForosDisponibles { get; private set; }
         public ObservableCollection<Mensaje> MensajesDisponibleEnForo { get; private set; }
         public ObservableCollection<Evento> EventoActividad { get; private set; }
+        public ObservableCollection<TareaWrapper> TareasDisponibles { get; private set; }
+        public ObservableCollection<TareaWrapper> TareasFinalizadas { get; private set; }
         public ForoWrapper ForoSelecionado { get; set; }
         public bool CrearForoVisible
         {
@@ -173,6 +187,39 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                         FechaDePublicacion = forito.FechaDePublicacion,
                         Mensajes = forito.Mensajes })
                     { ForoVisible = false });
+            }
+            // Recorrido para obtener las Tareas creadas en esta actividad
+            foreach (var tarea in actividad.Tareas)
+            {
+                if (tarea.HaFinalizado == false)
+                {
+                    TareasDisponibles.Add(new TareaWrapper(
+                    new Tarea()
+                    {
+                        Descripcion = tarea.Descripcion,
+                        FechaDeFinalizacion = tarea.FechaDeFinalizacion,
+                        HaFinalizado = tarea.HaFinalizado,
+                        Seguimiento = tarea.Seguimiento,
+                        Incidencias = tarea.Incidencias,
+                        Responsable = tarea.Responsable,
+                    })
+                    { SeguimientoVisible = false });
+                }
+                else
+                {
+                    TareasFinalizadas.Add(new TareaWrapper(
+                    new Tarea()
+                    {
+                        Descripcion = tarea.Descripcion,
+                        FechaDeFinalizacion = tarea.FechaDeFinalizacion,
+                        HaFinalizado = tarea.HaFinalizado,
+                        Seguimiento = tarea.Seguimiento,
+                        Incidencias = tarea.Incidencias,
+                        Responsable = tarea.Responsable,
+                    })
+                    { SeguimientoVisible = false });
+                }
+                
             }
             // Recorrido para obtener los eventos publicados en la Actividad cargada
             foreach (var evento in actividad.Eventos)

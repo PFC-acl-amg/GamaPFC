@@ -61,9 +61,11 @@
       <!--</ResourceDictionary.MergedDictionaries>-->
     </ResourceDictionary>
   </UserControl.Resources>
-  <StackPanel>
+    <ScrollViewer VerticalScrollBarVisibility="Visible">
+  <StackPanel >
     <metro:MetroAnimatedSingleRowTabControl
     prism:RegionManager.RegionName="{x:Static common:RegionNames.ActividadesTabContentRegion}">
     </metro:MetroAnimatedSingleRowTabControl>
   </StackPanel>
+    </ScrollViewer>
 </UserControl>
