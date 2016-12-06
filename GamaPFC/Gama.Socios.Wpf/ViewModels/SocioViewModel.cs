@@ -1,11 +1,6 @@
 ﻿using Core;
 using Gama.Socios.Business;
 using Gama.Socios.Wpf.Wrappers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Gama.Socios.Wpf.ViewModels
 {
