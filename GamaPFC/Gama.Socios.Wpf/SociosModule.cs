@@ -109,6 +109,7 @@ namespace Gama.Socios.Wpf
             Container.RegisterType<object, ListadoDeSociosView>("ListadoDeSociosView");
             Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
             Container.RegisterType<object, SociosContentView>("SociosContentView");
+            Container.RegisterType<object, SocioView>("SocioView");
         }
 
         private void RegisterViewModels()
@@ -117,6 +118,7 @@ namespace Gama.Socios.Wpf
             Container.RegisterType<ListadoDeSociosViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
             Container.RegisterType<SociosContentViewModel>();
+            Container.RegisterType<SocioViewModel>();
         }
 
         private void RegisterServices()
