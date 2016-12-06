@@ -54,7 +54,7 @@
                   Command="{Binding RelativeSource =
                       {RelativeSource FindAncestor,
                           AncestorType={x:Type GroupBox}},
-                          Path=DataContext.SeleccionarsocioCommand}"
+                          Path=DataContext.SeleccionarSocioCommand}"
                   CommandParameter="{Binding ElementName=_SociosListBox, Path=SelectedItem}"/>
             </i:EventTrigger>
           </i:Interaction.Triggers>

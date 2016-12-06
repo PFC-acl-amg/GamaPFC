@@ -24,8 +24,9 @@ namespace Gama.Socios.WpfTests
         private Mock<ISocioRepository> _SocioRepositoryMock;
         private Mock<IEventAggregator> _EventAggregatorMock;
         private Mock<ISociosSettings> _SettingsMock;
-        private Mock<SocioSeleccionadoEvent> _SocioSeleccionadoEventMock;
+        private Mock<SocioActualizadoEvent> _SocioActualizadoEventMock;
         private Mock<SocioCreadoEvent> _SocioCreadoEventMock;
+        private Mock<SocioSeleccionadoEvent> _SocioSeleccionadoEventMock;
 
         public ListadoDeSociosViewModelTest()
         {
@@ -37,10 +38,13 @@ namespace Gama.Socios.WpfTests
             _SessionMock = new Mock<ISession>();
 
             _SocioCreadoEventMock = new Mock<SocioCreadoEvent>();
+            _SocioActualizadoEventMock = new Mock<SocioActualizadoEvent>();
             _SocioSeleccionadoEventMock = new Mock<SocioSeleccionadoEvent>();
 
             _EventAggregatorMock.Setup(x => x.GetEvent<SocioCreadoEvent>()).Returns(
                 _SocioCreadoEventMock.Object);
+            _EventAggregatorMock.Setup(x => x.GetEvent<SocioActualizadoEvent>()).Returns(
+                _SocioActualizadoEventMock.Object);
             _EventAggregatorMock.Setup(x => x.GetEvent<SocioSeleccionadoEvent>()).Returns(
                 _SocioSeleccionadoEventMock.Object);
 

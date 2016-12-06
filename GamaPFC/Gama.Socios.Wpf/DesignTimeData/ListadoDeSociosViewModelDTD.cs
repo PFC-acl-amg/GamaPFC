@@ -1,4 +1,5 @@
-﻿using Gama.Socios.Business;
+﻿using Core;
+using Gama.Socios.Business;
 using Gama.Socios.Wpf.FakeServices;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,14 @@ namespace Gama.Socios.Wpf.DesignTimeData
 {
     public class ListadoDeSociosViewModelDTD
     {
+        public List<Socio> _Socios { get; private set; }
+
         public ListadoDeSociosViewModelDTD()
         {
-            Socios = new List<Socio>(new FakeSocioRepository().GetAll());
+            _Socios = new List<Socio>(new FakeSocioRepository().GetAll());
+            Socios = new PaginatedCollectionView(_Socios, 30);
         }
 
-        public List<Socio> Socios { get; private set; }
+        public PaginatedCollectionView Socios { get; private set; }
     }
 }

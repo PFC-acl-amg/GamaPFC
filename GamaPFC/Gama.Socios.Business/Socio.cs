@@ -50,7 +50,7 @@ namespace Gama.Socios.Business
             return Cuotas.Count(x => x.CantidadAPagar > 0) > Socio.MesesParaSerConsideradoMoroso;
         }
 
-        public void CopyValuesFrom(Socio socio)
+        public virtual void CopyValuesFrom(Socio socio)
         {
             DireccionPostal = socio.DireccionPostal;
             Email = socio.Email;

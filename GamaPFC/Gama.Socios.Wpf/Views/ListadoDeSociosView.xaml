@@ -4,9 +4,74 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gama.Socios.Wpf.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
-    </Grid>
+             d:DesignHeight="460" d:DesignWidth="717">
+  <d:DataContext>
+    <designData:ListadoDeSociosViewModelDTD/>
+  </d:DataContext>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition />
+    </Grid.RowDefinitions>
+
+    <StackPanel Orientation="Horizontal">
+      <Button Margin="{StaticResource Margin}" Command="{Binding PaginaAnteriorCommand}">
+        <Rectangle Width="15" Height="15">
+          <Rectangle.Fill>
+            <VisualBrush  Visual="{StaticResource appbar_arrow_left}"/>
+          </Rectangle.Fill>
+        </Rectangle>
+      </Button>
+      <TextBlock VerticalAlignment="Center">
+        <Run Text="Página"/>
+        <Run Text="{Binding Socios.CurrentPage, Mode=OneWay}"/>
+        <Run Text="de"/>
+        <Run Text="{Binding Socios.PageCount, Mode=OneWay}"/>
+      </TextBlock>
+      <Button Margin="{StaticResource Margin}" Command="{Binding PaginaSiguienteCommand}">
+        <Rectangle Width="15" Height="15">
+          <Rectangle.Fill>
+            <VisualBrush  Visual="{StaticResource appbar_arrow_right}"/>
+          </Rectangle.Fill>
+        </Rectangle>
+      </Button>
+    </StackPanel>
+
+    <ItemsControl ItemsSource="{Binding Socios}" Grid.Row="1">
+      <ItemsControl.Template>
+        <ControlTemplate TargetType="{x:Type ItemsControl}">
+          <ScrollViewer BorderThickness="2" VerticalScrollBarVisibility="Auto">
+            <UniformGrid IsItemsHost="True" />
+          </ScrollViewer>
+        </ControlTemplate>
+      </ItemsControl.Template>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <GroupBox Header="{Binding Nombre}" MaxWidth="250">
+            <StackPanel Orientation="Vertical">
+              <TextBlock Text="{Binding Nif}" TextWrapping="Wrap" 
+                         Margin="{StaticResource Margin}"/>
+              <!--<TextBlock Text="{Binding DescripcionResumen}" TextWrapping="Wrap"
+                         Margin="{StaticResource Margin}"/>-->
+            </StackPanel>
+            <i:Interaction.Triggers>
+              <i:EventTrigger EventName="MouseDoubleClick">
+                <prism:InvokeCommandAction 
+                  Command="{Binding RelativeSource =
+                      {RelativeSource FindAncestor,
+                          AncestorType={x:Type Grid}},
+                          Path=DataContext.SeleccionarSocioCommand}"
+                  CommandParameter="{Binding}"/>
+              </i:EventTrigger>
+            </i:Interaction.Triggers>
+          </GroupBox>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </Grid>
 </UserControl>

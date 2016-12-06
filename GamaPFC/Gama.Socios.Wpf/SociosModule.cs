@@ -106,11 +106,17 @@ namespace Gama.Socios.Wpf
         private void RegisterViews()
         {
             Container.RegisterType<object, DashboardView>("DashboardView");
+            Container.RegisterType<object, ListadoDeSociosView>("ListadoDeSociosView");
+            Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
+            Container.RegisterType<object, SociosContentView>("SociosContentView");
         }
 
         private void RegisterViewModels()
         {
             Container.RegisterType<DashboardViewModel>();
+            Container.RegisterType<ListadoDeSociosViewModel>();
+            Container.RegisterType<PanelSwitcherViewModel>();
+            Container.RegisterType<SociosContentViewModel>();
         }
 
         private void RegisterServices()
@@ -118,13 +124,20 @@ namespace Gama.Socios.Wpf
             Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
             Container.RegisterType<ISession>(
                 new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
+
             Container.RegisterType<ISocioRepository, SocioRepository>();
             Container.RegisterInstance<ISociosSettings>(new SociosSettings());
         }
 
         private void InitializeNavigation()
         {
+            RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
+            //RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
+            //RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
+
+            RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<SociosContentView>());
+            RegionManager.AddToRegion(RegionNames.SociosTabContentRegion, Container.Resolve<ListadoDeSociosView>());
         }
     }
 }
