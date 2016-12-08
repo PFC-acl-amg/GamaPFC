@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              prism:ViewModelLocator.AutoWireViewModel="True"
              d:DesignHeight="475.685" d:DesignWidth="333.904">
-  <GroupBox Header="Datos Socioles">
+  <GroupBox Header="Datos Personales">
     <ScrollViewer>
       <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding EdicionHabilitada}">
         <Grid.ColumnDefinitions>

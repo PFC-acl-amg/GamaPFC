@@ -133,12 +133,24 @@
     <Compile Include="Services\SociosSettings.cs" />
     <Compile Include="SociosModule.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\EditarCuotasViewModel.cs" />
+    <Compile Include="ViewModels\EditarPeriodosDeAltaViewModel.cs" />
+    <Compile Include="ViewModels\EditarSocioViewModel.cs" />
     <Compile Include="ViewModels\ListadoDeSociosViewModel.cs" />
     <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
     <Compile Include="ViewModels\SociosContentViewModel.cs" />
     <Compile Include="ViewModels\SocioViewModel.cs" />
     <Compile Include="Views\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditarCuotasView.xaml.cs">
+      <DependentUpon>EditarCuotasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditarPeriodosDeAltaView.xaml.cs">
+      <DependentUpon>EditarPeriodosDeAltaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditarSocioView.xaml.cs">
+      <DependentUpon>EditarSocioView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ListadoDeSociosView.xaml.cs">
       <DependentUpon>ListadoDeSociosView.xaml</DependentUpon>
@@ -176,6 +188,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DashboardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditarCuotasView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditarPeriodosDeAltaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditarSocioView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

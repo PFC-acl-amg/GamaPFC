@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DashboardViewModelTests.cs" />
+    <Compile Include="EditarSocioViewModelTests.cs" />
     <Compile Include="ListadoDeSociosViewModelTest.cs" />
     <Compile Include="PanelSwitcherViewModeTests.cs" />
     <Compile Include="SociosContentViewModelTests.cs" />

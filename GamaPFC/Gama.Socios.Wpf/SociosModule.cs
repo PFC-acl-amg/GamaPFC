@@ -106,6 +106,9 @@ namespace Gama.Socios.Wpf
         private void RegisterViews()
         {
             Container.RegisterType<object, DashboardView>("DashboardView");
+            Container.RegisterType<object, EditarCuotasView>("EditarCuotasView");
+            Container.RegisterType<object, EditarPeriodosDeAltaView>("EditarPeriodosDeAltaView");
+            Container.RegisterType<object, EditarSocioView>("EditarSocioView");
             Container.RegisterType<object, ListadoDeSociosView>("ListadoDeSociosView");
             Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
             Container.RegisterType<object, SociosContentView>("SociosContentView");
@@ -115,6 +118,9 @@ namespace Gama.Socios.Wpf
         private void RegisterViewModels()
         {
             Container.RegisterType<DashboardViewModel>();
+            Container.RegisterType<EditarCuotasViewModel>();
+            Container.RegisterType<EditarPeriodosDeAltaViewModel>();
+            Container.RegisterType<EditarSocioViewModel>();
             Container.RegisterType<ListadoDeSociosViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
             Container.RegisterType<SociosContentViewModel>();

@@ -38,6 +38,12 @@
                       <DataTrigger Binding="{Binding}" Value="Todos">
                         <Setter Property="Visibility" Value="Collapsed"/>
                       </DataTrigger>
+                      <DataTrigger Binding="{Binding}" Value="CUOTAS">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                      </DataTrigger>
+                      <DataTrigger Binding="{Binding}" Value="PERIODOS DE ALTA">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                      </DataTrigger>
                     </Style.Triggers>
                   </Style>
                 </Button.Style>

@@ -30,7 +30,7 @@ namespace Gama.Socios.Wpf.ViewModels
         {
             var navigationParameters = new NavigationParameters();
             navigationParameters.Add("Id", id);
-            _RegionManager.RequestNavigate(RegionNames.ContentRegion, "SociosContentView", navigationParameters);
+            _RegionManager.RequestNavigate(RegionNames.ContentRegion, "SociosContentView");//, navigationParameters);
             _RegionManager.RequestNavigate(RegionNames.SociosTabContentRegion, "EditarSocioView", navigationParameters);
         }
     }
