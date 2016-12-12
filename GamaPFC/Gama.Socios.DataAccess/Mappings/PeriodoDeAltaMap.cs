@@ -17,6 +17,10 @@ namespace Gama.Socios.DataAccess.Mappings
             Map(x => x.FechaDeAlta).Nullable();
             Map(x => x.FechaDeBaja).Nullable();
 
+            HasMany(x => x.Cuotas)
+                .Cascade.All()
+                .Inverse();
+
             References(x => x.Socio);
         }
     }

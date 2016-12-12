@@ -15,6 +15,18 @@ namespace Gama.Socios.Wpf.Wrappers
 
         }
 
+        protected override void InitializeCollectionProperties(PeriodoDeAlta model)
+        {
+            if (model.Cuotas == null)
+            {
+                throw new ArgumentException("Cuotas");
+            }
+
+            this.Cuotas = new ChangeTrackingCollection<CuotaWrapper>
+                (model.Cuotas.Select(c => new CuotaWrapper(c)));
+            this.RegisterCollection(this.Cuotas, model.Cuotas);
+        }
+
         public int Id
         {
             get { return GetValue<int>(); }
@@ -40,5 +52,7 @@ namespace Gama.Socios.Wpf.Wrappers
         public DateTime? FechaDeBajaOriginalValue => GetOriginalValue<DateTime?>(nameof(FechaDeBaja));
 
         public bool FechaDeBajaIsChanged => GetIsChanged(nameof(FechaDeBaja));
+
+        public ChangeTrackingCollection<CuotaWrapper> Cuotas { get; private set; }
     }
 }

@@ -23,7 +23,7 @@ namespace Gama.Socios.Wpf
            : base(container, regionManager)
         {
             this.Entorno = Entorno.Desarrollo;
-            this.UseFaker = false;
+            this.UseFaker = true;
         }
 
         public override void Initialize()
@@ -45,6 +45,11 @@ namespace Gama.Socios.Wpf
 
                     foreach(var socio in (new FakeSocioRepository().GetAll()))
                     {
+                        socio.AddPeriodoDeAlta(new Business.PeriodoDeAlta
+                        {
+                            FechaDeAlta = DateTime.Now.AddYears(-3).AddMonths(-4),
+                        });
+
                         socioRepository.Create(socio);
                     }
 

@@ -29,10 +29,6 @@ namespace Gama.Socios.DataAccess.Mappings
             Map(x => x.CreatedAt);
             Map(x => x.UpdatedAt);
 
-            HasMany(x => x.Cuotas)
-                .Cascade.All()
-                .Inverse();
-
             HasMany(x => x.PeriodosDeAlta)
                 .Cascade.All()
                 .Inverse();

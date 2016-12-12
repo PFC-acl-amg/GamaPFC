@@ -14,11 +14,11 @@ namespace Gama.Socios.DataAccess.Mappings
         {
             Table("Cuotas");
             Id(x => x.Id).GeneratedBy.Identity();
-            Map(x => x.CantidadAPagar).Default("0");
+            Map(x => x.CantidadTotal).Default("0");
             Map(x => x.CantidadPagada).Default("0");
             Map(x => x.Fecha).Not.Nullable();
 
-            References(x => x.Socio);
+            References(x => x.PeriodoDeAlta);
         }
     }
 }

@@ -24,18 +24,10 @@ namespace Gama.Socios.Business
         public virtual string Twitter { get; set; } = "";
 
         public virtual IList<PeriodoDeAlta> PeriodosDeAlta { get; set; }
-        public virtual IList<Cuota> Cuotas { get; set; }
 
         public Socio()
         {
-            Cuotas = new List<Cuota>();
             PeriodosDeAlta = new List<PeriodoDeAlta>();
-        }
-
-        public virtual void AddCuota(Cuota cuota)
-        {
-            cuota.Socio = this;
-            Cuotas.Add(cuota);
         }
 
         public virtual bool IsBirthday()
@@ -47,7 +39,8 @@ namespace Gama.Socios.Business
 
         public virtual bool EsMoroso()
         {
-            return Cuotas.Count(x => x.CantidadAPagar > 0) > Socio.MesesParaSerConsideradoMoroso;
+            return true;
+            //return Cuotas.Count(x => x.CantidadTotal > 0) > Socio.MesesParaSerConsideradoMoroso;
         }
 
         public virtual void CopyValuesFrom(Socio socio)
@@ -64,7 +57,12 @@ namespace Gama.Socios.Business
             Twitter = socio.Twitter;
 
             PeriodosDeAlta = new List<PeriodoDeAlta>(socio.PeriodosDeAlta);
-            Cuotas = new List<Cuota>(socio.Cuotas);
+        }
+
+        public virtual void AddPeriodoDeAlta(PeriodoDeAlta periodoDeAlta)
+        {
+            periodoDeAlta.Socio = this;
+            PeriodosDeAlta.Add(periodoDeAlta);
         }
     }
 }

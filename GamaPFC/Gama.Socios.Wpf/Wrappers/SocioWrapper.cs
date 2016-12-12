@@ -24,18 +24,9 @@ namespace Gama.Socios.Wpf.Wrappers
                 throw new ArgumentNullException("PeriodosDeAlta");
             }
 
-            if (model.Cuotas == null)
-            {
-                throw new ArgumentException("Cuotas");
-            }
-
             this.PeriodosDeAlta = new ChangeTrackingCollection<PeriodoDeAltaWrapper>
                 (model.PeriodosDeAlta.Select(x => new PeriodoDeAltaWrapper(x)));
             this.RegisterCollection(this.PeriodosDeAlta, model.PeriodosDeAlta);
-
-            this.Cuotas = new ChangeTrackingCollection<CuotaWrapper>
-                (model.Cuotas.Select(c => new CuotaWrapper(c)));
-            this.RegisterCollection(this.Cuotas, model.Cuotas);
         }
 
         public int Id
@@ -145,7 +136,6 @@ namespace Gama.Socios.Wpf.Wrappers
         public bool TwitterIsChanged => GetIsChanged(nameof(Twitter));
 
         public ChangeTrackingCollection<PeriodoDeAltaWrapper> PeriodosDeAlta { get; private set; }
-        public ChangeTrackingCollection<CuotaWrapper> Cuotas { get; private set; }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
