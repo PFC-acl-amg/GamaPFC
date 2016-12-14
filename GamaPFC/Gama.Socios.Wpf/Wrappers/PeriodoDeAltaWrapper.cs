@@ -33,13 +33,13 @@ namespace Gama.Socios.Wpf.Wrappers
             set { SetValue(value); }
         }
 
-        public DateTime? FechaDeAlta
+        public DateTime FechaDeAlta
         {
-            get { return GetValue<DateTime?>(); }
+            get { return GetValue<DateTime>(); }
             set { SetValue(value); }
         }
 
-        public DateTime? FechaDeAltaOriginalValue => GetOriginalValue<DateTime?>(nameof(FechaDeAlta));
+        public DateTime FechaDeAltaOriginalValue => GetOriginalValue<DateTime>(nameof(FechaDeAlta));
 
         public bool FechaDeAltaIsChanged => GetIsChanged(nameof(FechaDeAlta));
 

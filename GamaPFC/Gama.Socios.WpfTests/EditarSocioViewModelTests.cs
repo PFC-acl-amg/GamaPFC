@@ -53,7 +53,9 @@ namespace Gama.Socios.WpfTests
 
             _SocioViewModelMock = new SocioViewModel();
             _EditarCuotasViewModelMock = new EditarCuotasViewModel();
-            _PeriodoDeAltaViewModelMock = new EditarPeriodosDeAltaViewModel();
+            _PeriodoDeAltaViewModelMock = new EditarPeriodosDeAltaViewModel(
+                _SocioRepositoryMock.Object,
+                _EventAggregatorMock.Object);
 
             _Vm = new EditarSocioViewModel(
                 _EventAggregatorMock.Object,

@@ -121,6 +121,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />
+    <Compile Include="DesignTimeData\EditarPeriodosDeAltaViewModelDTD.cs" />
     <Compile Include="DesignTimeData\ListadoDeSociosViewModelDTD.cs" />
     <Compile Include="Eventos\SocioActualizadoEvent.cs" />
     <Compile Include="Eventos\SocioCreadoEvent.cs" />

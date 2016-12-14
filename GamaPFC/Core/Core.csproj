@@ -106,6 +106,7 @@
     <Compile Include="TimestampedModel.cs" />
     <Compile Include="TimestampedModelWrapper.cs" />
     <Compile Include="Util\CloseTabAction.cs" />
+    <Compile Include="Util\DateUtility.cs" />
     <Compile Include="Util\DialogCloser.cs" />
     <Compile Include="Util\EnumBindingSourceExtension.cs" />
     <Compile Include="Util\EnumDescriptionTypeConverter.cs" />

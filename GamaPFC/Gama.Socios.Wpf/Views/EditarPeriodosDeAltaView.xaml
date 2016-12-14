@@ -5,8 +5,39 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gama.Socios.Wpf.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
-    </Grid>
+             xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
+             d:DesignHeight="300" d:DesignWidth="603.141">
+  <d:DataContext>
+    <designData:EditarPeriodosDeAltaViewModelDTD/>
+  </d:DataContext>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    <ListBox
+      ItemsSource="{Binding Socio.PeriodosDeAlta}">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <GroupBox Header="{Binding}">
+            <GroupBox.HeaderTemplate>
+              <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock Text="{Binding FechaDeAlta}"/>
+                  <TextBlock Text=" - "/>
+                  <TextBlock Text="{Binding FechaDeBaja}"/>
+                </StackPanel>
+              </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <ListBox ItemsSource="{Binding Model.MesesAplicables}">
+              <ListBox.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding Cuota.CantidadTotal}"/>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+          </GroupBox>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+  </Grid>
 </UserControl>

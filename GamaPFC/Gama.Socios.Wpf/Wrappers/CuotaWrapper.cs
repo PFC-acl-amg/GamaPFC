@@ -31,15 +31,15 @@ namespace Gama.Socios.Wpf.Wrappers
 
         public bool FechaIsChanged => GetIsChanged(nameof(Fecha));
 
-        public double CantidadAPagar
+        public double CantidadTotal
         {
             get { return GetValue<double>(); }
             set { SetValue(value); }
         }
 
-        public double CantidadAPagarOriginalValue => GetOriginalValue<double>(nameof(CantidadAPagar));
+        public double CantidadTotalOriginalValue => GetOriginalValue<double>(nameof(CantidadTotal));
 
-        public bool CantidadAPagarIsChanged => GetIsChanged(nameof(CantidadAPagar));
+        public bool CantidadTotalIsChanged => GetIsChanged(nameof(CantidadTotal));
 
         public double CantidadPagada
         {

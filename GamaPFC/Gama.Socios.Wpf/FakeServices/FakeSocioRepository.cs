@@ -39,6 +39,15 @@ namespace Gama.Socios.Wpf.FakeServices
                     UpdatedAt = null
                 };
 
+                var periododeAlta = new PeriodoDeAlta
+                {
+                    FechaDeAlta = DateTime.Now.AddYears(-3).AddMonths(-4),
+                };
+
+                periododeAlta.AddCuota(new Cuota() { CantidadTotal = 10.0, CantidadPagada = 0 });
+
+                socio.AddPeriodoDeAlta(periododeAlta);
+
                 _Socios.Add(socio);
             }
         }

@@ -14,7 +14,7 @@ namespace Gama.Socios.DataAccess.Mappings
         {
             Table("PeriodosDeAlta");
             Id(x => x.Id).GeneratedBy.Identity();
-            Map(x => x.FechaDeAlta).Nullable();
+            Map(x => x.FechaDeAlta);
             Map(x => x.FechaDeBaja).Nullable();
 
             HasMany(x => x.Cuotas)
