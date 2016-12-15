@@ -71,6 +71,7 @@ namespace Core.DataAccess
                     //_statelessSession.Insert(entity);
 
                     tx.Commit();
+                   
                     //Session.Flush();
                 }
             }
@@ -90,7 +91,9 @@ namespace Core.DataAccess
                 using (var tx = Session.BeginTransaction())
                 {
                     Session.Update(entity);
+                    //Session.Merge(entity);
                     tx.Commit();
+                   
                 }
 
                 return true;

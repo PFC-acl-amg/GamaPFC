@@ -154,13 +154,15 @@ namespace Gama.Cooperacion.Wpf
         private void RegisterServices()
         {
             Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
-            Container.RegisterType<ISession>(
-                new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
+            Container.RegisterType<ISession>(new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
             Container.RegisterType<IActividadRepository, ActividadRepository>();
             Container.RegisterType<ICooperanteRepository, CooperanteRepository>();
 
             // Añido para eventos
             Container.RegisterType<IEventoRepository, EventoRepository>();
+            Container.RegisterType<IIncidenciaRepository, IncidenciaRepository>();
+            Container.RegisterType<ITareaRepository, TareaRepository>();
+            Container.RegisterType<ISeguimientoRepository, SeguimientoRepository>();
 
             Container.RegisterInstance<ICooperacionSettings>(
                 new CooperacionSettings());

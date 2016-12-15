@@ -78,7 +78,6 @@ xmlns:business="clr-namespace:Gama.Atenciones.Business;assembly=Gama.Atenciones.
                         ItemsSource="{Binding Source={util:EnumBindingSource {x:Type business:OrientacionSexual}}}"
                         SelectedItem="{Binding Persona.OrientacionSexual, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
-
         <StackPanel Grid.Column="1" Grid.Row="1">
           <Label Margin="{DynamicResource Margin}">Email</Label>
           <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Email, UpdateSourceTrigger=PropertyChanged}"/>

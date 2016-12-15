@@ -11,7 +11,10 @@ namespace Gama.Cooperacion.Business
     public enum Ocurrencia
     {
         MENSAJE_PUBLICADO_EN_FORO,
-        Tarea_Finalizada,
+        INCIDENCIA_EN_TAREA,
+        SEGUIMIENGO_EN_TAREA,
+        TAREA_FINALIZADA,
+        NUEVA_TAREA_PUBLICADA,
         Nueva_Actividad,
         FORO_CREADO,
         Mensaje_Publicado
