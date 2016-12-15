@@ -1,11 +1,6 @@
 ﻿using Core;
 using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Wrappers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.25928.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gama.Cooperacion.Business", "Gama.Cooperacion.Business\Gama.Cooperacion.Business.csproj", "{E54A71CF-F5E1-45D4-9ED2-CDBF2B08C317}"
 EndProject
@@ -52,6 +52,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gama.Socios.WpfTests", "Gama.Socios.WpfTests\Gama.Socios.WpfTests.csproj", "{50541681-D1E6-4A40-BA2A-F9050031255B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{85DA579E-E61B-4288-8042-B5587668D7C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gama.Socios.BusinessTests", "Gama.Socios.BusinessTests\Gama.Socios.BusinessTests.csproj", "{80E41D8A-CD3A-407C-A722-A6190AEA0E8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +129,10 @@ Global
 		{50541681-D1E6-4A40-BA2A-F9050031255B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50541681-D1E6-4A40-BA2A-F9050031255B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50541681-D1E6-4A40-BA2A-F9050031255B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80E41D8A-CD3A-407C-A722-A6190AEA0E8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80E41D8A-CD3A-407C-A722-A6190AEA0E8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80E41D8A-CD3A-407C-A722-A6190AEA0E8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80E41D8A-CD3A-407C-A722-A6190AEA0E8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -148,6 +154,6 @@ Global
 		{9C963149-1D42-4742-82E8-2BDE5DFF9A0C} = {D82A5EAE-1951-4418-B37F-56CC70B690DB}
 		{D6DD2133-8809-4DD4-BAE8-60088D5B2848} = {D82A5EAE-1951-4418-B37F-56CC70B690DB}
 		{50541681-D1E6-4A40-BA2A-F9050031255B} = {D82A5EAE-1951-4418-B37F-56CC70B690DB}
-		{85DA579E-E61B-4288-8042-B5587668D7C4} = {40A2AEA2-D7CB-4325-98A1-433600F259E6}
+		{80E41D8A-CD3A-407C-A722-A6190AEA0E8F} = {D82A5EAE-1951-4418-B37F-56CC70B690DB}
 	EndGlobalSection
 EndGlobal

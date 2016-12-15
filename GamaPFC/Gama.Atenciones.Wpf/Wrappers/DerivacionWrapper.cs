@@ -174,7 +174,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (string.IsNullOrWhiteSpace(Tipo))
+            if (Tipo == null)
             {
                 yield return new ValidationResult("El campo de tipo es obligatorio",
                     new[] { nameof(Tipo) });

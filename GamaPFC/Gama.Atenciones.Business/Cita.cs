@@ -22,5 +22,11 @@ namespace Gama.Atenciones.Business
         {
             Inicio = DateTime.Now;
         }
+
+        public virtual void SetAtencion(Atencion atencion)
+        {
+            atencion.Cita = this;
+            this.Atencion = atencion;
+        }
     }
 }

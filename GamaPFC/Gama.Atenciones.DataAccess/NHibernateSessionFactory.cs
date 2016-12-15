@@ -46,7 +46,14 @@ namespace Gama.Atenciones.DataAccess
                             new BinaryFormatter().Serialize(File.Create("nh_atenciones.cfg"), configuration);
                         }
 
-                        _sessionFactory = configuration.BuildSessionFactory();
+                        try
+                        {
+                            _sessionFactory = configuration.BuildSessionFactory();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
                     }
                     catch (FluentConfigurationException ex)
                     {

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
              xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
              xmlns:CustomControls="clr-namespace:Gama.Atenciones.Wpf.Controls"
-             mc:Ignorable="d" d:DesignWidth="992.5" d:DesignHeight="813.5">
+             mc:Ignorable="d" d:DesignWidth="992.5" d:DesignHeight="470.763">
   <Grid>
     <CustomControls:CustomCalendar Grid.Row="1" Appointments="{Binding Citas}"/>
   </Grid>

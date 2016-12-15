@@ -23,6 +23,25 @@ namespace Gama.Atenciones.Wpf.Controls
 
         public event EventHandler<DayChangedEventArgs> DayChanged;
 
+        static CustomCalendar()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(CustomCalendar),
+                new FrameworkPropertyMetadata(typeof(CustomCalendar)));
+        }
+
+        public CustomCalendar()
+        {
+            Days = new ObservableCollection<Day>();
+            DayNames = new ObservableCollection<string> { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo", };
+            //Appointments = new ObservableCollection<CitaWrapper>();
+            
+            BuildCalendar(DateTime.Today);
+            //CurrentDate = DateTime.Today;
+
+            SemanaAnteriorCommand = new DelegateCommand(OnSemanaAnteriorCommand);
+            SemanaSiguienteCommand = new DelegateCommand(OnSemanaSiguienteCommand);
+        }
+
         private static void OnCurrentDateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var cc = d as CustomCalendar;
@@ -95,25 +114,6 @@ namespace Gama.Atenciones.Wpf.Controls
         {
             get { return (ObservableCollection<CitaWrapper>)GetValue(AppointmentsProperty); }
             set { SetValue(AppointmentsProperty, value); }
-        }
-
-        static CustomCalendar()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(CustomCalendar),
-                new FrameworkPropertyMetadata(typeof(CustomCalendar)));
-        }
-
-        public CustomCalendar()
-        {
-            Days = new ObservableCollection<Day>();
-            DayNames = new ObservableCollection<string> { "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo", };
-            //Appointments = new ObservableCollection<CitaWrapper>();
-            
-            BuildCalendar(DateTime.Today);
-            //CurrentDate = DateTime.Today;
-
-            SemanaAnteriorCommand = new DelegateCommand(OnSemanaAnteriorCommand);
-            SemanaSiguienteCommand = new DelegateCommand(OnSemanaSiguienteCommand);
         }
 
         public ICommand SemanaAnteriorCommand { get; private set; }

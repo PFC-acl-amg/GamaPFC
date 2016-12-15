@@ -14,6 +14,18 @@ namespace Gama.Atenciones.Wpf.FakeServices
     {
         List<Persona> _Personas;
 
+        IdentidadSexual[] _IdentidadSexual = new IdentidadSexual[]
+        {
+            IdentidadSexual.HombreCisexual,
+            IdentidadSexual.HombreTransexual,
+            IdentidadSexual.MujerCisexual,
+            IdentidadSexual.MujerTransexual,
+            IdentidadSexual.NoProporcionado,
+            IdentidadSexual.Otra
+        };
+
+        Random _Random = new Random();
+
         public FakePersonaRepository()
         {
             _Personas = new List<Persona>();
@@ -29,7 +41,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
                     EstadoCivil = EstadoCivil.Soltera,
                     Facebook = Faker.InternetFaker.Domain(),
                     FechaDeNacimiento = Faker.DateTimeFaker.BirthDay(),
-                    IdentidadSexual = IdentidadSexual.MujerCisexual,
+                    IdentidadSexual = _IdentidadSexual[_Random.Next(0, 5)],
                     LinkedIn = Faker.InternetFaker.Domain(),
                     Nacionalidad = Faker.LocationFaker.Country(),
                     Nif = Faker.StringFaker.AlphaNumeric(8),

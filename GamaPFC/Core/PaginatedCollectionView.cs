@@ -71,7 +71,7 @@ namespace Core
                 }
                 else if (_currentPage == _pageCount)
                 {
-                    _count = _innerList.Count % _itemsPerPage;
+                    _count = _innerList.Count - (_pageCount - 1) * _itemsPerPage;
                 }
                 OnPropertyChanged(new PropertyChangedEventArgs("CurrentPage"));
             }

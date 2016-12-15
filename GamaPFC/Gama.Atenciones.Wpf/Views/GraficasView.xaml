@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Gama.Atenciones.Wpf.Views.GraficasView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
+             mc:Ignorable="d" 
+             d:DesignHeight="340.704" d:DesignWidth="388.945">
+  <UserControl.DataContext>
+    <designData:GraficasViewModelDTD/>
+  </UserControl.DataContext>
+  <Grid>
+    <lvc:PieChart LegendLocation="Bottom">
+      <lvc:PieChart.Series>
+        <!--<lvc:PieSeries Title="Hombre Cisexual" Values="4" DataLabels="True"
+                       LabelPoint="{Binding PointLabel}"
+                            />-->
+        <lvc:PieSeries Title="Hombre Transexual" Values="{Binding HombreCisexualCount, Mode=OneTime}" DataLabels="True"
+                               />
+        <!--<lvc:PieSeries Title="Hombre Transexual" Values="{Binding HombreTransexualCount}" DataLabels="True"
+                               />
+        <lvc:PieSeries Title="Mujer Cisexual" Values="{Binding MujerCisexualCount}" DataLabels="True"
+                               />
+        <lvc:PieSeries Title="Mujer Transexual" Values="{Binding MujerTransexualCount}" DataLabels="True"
+                               />
+        <lvc:PieSeries Title="No Proporcionado" Values="{Binding NoProporcionadoCount}" DataLabels="True"
+                               />
+        <lvc:PieSeries Title="Otra" Values="{Binding OtraIdentidadCount}" DataLabels="True"
+                              />-->
+      </lvc:PieChart.Series>
+    </lvc:PieChart>
+  </Grid>
+</UserControl>

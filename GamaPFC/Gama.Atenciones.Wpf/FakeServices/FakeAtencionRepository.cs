@@ -20,19 +20,45 @@ namespace Gama.Atenciones.Wpf.FakeServices
         {
             _Atenciones = new List<Atencion>();
 
+            var opciones = new bool[] { true, false };
+
             int createdAt = 0;
+            var random = new Random();
             for (int i = 0; i < 50; i++)
             {
                 var atencion = new Atencion()
                 {
                     Id = i + 1,
-                    EsDeAcogida = true,
-                    EsDeFormacion = true,
-
-                    EsDeParticipacion = true,
+                    EsDeAcogida = opciones[random.Next(0, 1)],
+                    EsDeFormacion = opciones[random.Next(0, 1)],
+                    EsDeOrientacionLaboral = opciones[random.Next(0, 1)],
+                    EsDePrevencionParaLaSalud = opciones[random.Next(0, 1)],
+                     EsJuridica = opciones[random.Next(0, 1)],
+                     EsPsicologica = opciones[random.Next(0, 1)],
+                     EsSocial = opciones[random.Next(0, 1)],
+                     EsOtra = opciones[random.Next(0, 1)],
+                     Otra = "Otraaaaa",
+                    EsDeParticipacion = opciones[random.Next(0, 1)],
                     Fecha = DateTime.Now,
                     Seguimiento = Faker.TextFaker.Sentences(4),
                     CreatedAt = DateTime.Now.AddMonths(createdAt),
+                    Derivacion = new Derivacion
+                    {
+                         EsDeFormacion = opciones[random.Next(0, 1)],
+                          EsSocial = opciones[random.Next(0, 1)],
+                           EsPsicologica = opciones[random.Next(0, 1)],
+                            EsJuridica = opciones[random.Next(0, 1)],
+                             EsDeFormacion_Realizada = opciones[random.Next(0, 1)],
+                        EsDeOrientacionLaboral = opciones[random.Next(0, 1)],
+                        EsDeOrientacionLaboral_Realizada = opciones[random.Next(0, 1)],
+                        EsExterna = opciones[random.Next(0, 1)],
+                        EsExterna_Realizada = opciones[random.Next(0, 1)],
+                        EsJuridica_Realizada = opciones[random.Next(0, 1)],
+                        EsPsicologica_Realizada = opciones[random.Next(0, 1)],
+                        EsSocial_Realizada = opciones[random.Next(0, 1)],
+                        Externa_Realizada = "Externaaaa realizada",
+                         Externa = "Externaaaaaa"
+                    }
                 };
 
                 _Atenciones.Add(atencion);

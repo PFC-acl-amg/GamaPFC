@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="Gama.Socios.Wpf.Views.SocioView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gama.Socios.Wpf.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:util="clr-namespace:Core.Util;assembly=Core"
+             mc:Ignorable="d" 
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="475.685" d:DesignWidth="333.904">
+  <GroupBox Header="Datos Personales">
+    <ScrollViewer>
+      <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding EdicionHabilitada}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" MaxWidth="300"/>
+          <ColumnDefinition Width="*" MaxWidth="300"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.ColumnSpan="2">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border MaxHeight="64" BorderBrush="Black" BorderThickness="1.5" CornerRadius="1">
+              <Rectangle Width="60" Margin="{DynamicResource Margin}">
+                <Rectangle.Fill>
+                  <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_user}" />
+                </Rectangle.Fill>
+              </Rectangle>
+            </Border>
+
+            <StackPanel Grid.Column="1">
+              <Label Margin="{DynamicResource Margin}">DNI/NIF</Label>
+              <TextBox Margin="{DynamicResource Margin}" 
+                       Text="{Binding Socio.Nif, UpdateSourceTrigger=PropertyChanged}"
+                        MinWidth="80"/>
+            </StackPanel>
+          </Grid>
+        </StackPanel>
+        <StackPanel Grid.Row="1">
+          <Label Margin="{DynamicResource Margin}">Nombre</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Nombre, UpdateSourceTrigger=PropertyChanged}"/>
+
+          <Label Margin="{DynamicResource Margin}">Fecha de Nacimiento</Label>
+          <DatePicker Margin="{DynamicResource Margin}" 
+                                SelectedDate="{Binding Socio.FechaDeNacimiento, 
+            UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                Height="18"/>
+
+          <Label Margin="{DynamicResource Margin}">Teléfono</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Telefono, UpdateSourceTrigger=PropertyChanged}"/>
+
+          <Label Margin="{DynamicResource Margin}">Dirección</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.DireccionPostal, UpdateSourceTrigger=PropertyChanged}"/>
+
+          <Label Margin="{DynamicResource Margin}">Nacionalidad</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Nacionalidad, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="1">
+          <Label Margin="{DynamicResource Margin}">Email</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Email, UpdateSourceTrigger=PropertyChanged}"/>
+
+          <Label Margin="{DynamicResource Margin}">Ocupación</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Ocupacion, UpdateSourceTrigger=PropertyChanged}"/>
+
+          <Label Margin="{DynamicResource Margin}">Facebook</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Facebook, UpdateSourceTrigger=PropertyChanged}"/>
+
+          <Label Margin="{DynamicResource Margin}">Twitter</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Twitter, UpdateSourceTrigger=PropertyChanged}"/>
+
+        </StackPanel>
+      </Grid>
+    </ScrollViewer>
+  </GroupBox>
+</UserControl>
