@@ -91,6 +91,35 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         public ChangeTrackingCollection<IncidenciaWrapper> Incidencia { get; set; }
         public ChangeTrackingCollection<SeguimientoWrapper> Seguimiento { get; set; }
 
+        private bool _SeguimientoVisible = true;
+        public bool SeguimientoVisible
+        {
+            get { return _SeguimientoVisible; }
+            set
+            {
+                if (_SeguimientoVisible != value)
+                {
+                    _SeguimientoVisible = value;
+                    OnPropertyChanged();
+                }
+
+            }
+        }
+        private bool _IncidenciaVisible = true;
+        public bool IncidenciaVisible
+        {
+            get { return _IncidenciaVisible; }
+            set
+            {
+                if (_IncidenciaVisible != value)
+                {
+                    _IncidenciaVisible = value;
+                    OnPropertyChanged();
+                }
+
+            }
+        }
+
         public ActividadWrapper Actividad { get; private set; }
         public CooperanteWrapper Responsable { get; private set; }
     }

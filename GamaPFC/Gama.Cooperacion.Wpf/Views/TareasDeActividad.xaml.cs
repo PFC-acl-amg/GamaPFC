@@ -25,5 +25,10 @@ namespace Gama.Cooperacion.Wpf.Views
         {
             InitializeComponent();
         }
+
+        private void TareaFin_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

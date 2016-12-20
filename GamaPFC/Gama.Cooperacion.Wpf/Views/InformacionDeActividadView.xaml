@@ -13,22 +13,22 @@
   xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
   mc:Ignorable="d" 
   d:DesignHeight="349.5" d:DesignWidth="422.26">
-  <UserControl.Resources>
-    <!-- Colleción de personas buscables. Se corresponde al total
+    <UserControl.Resources>
+        <!-- Colleción de personas buscables. Se corresponde al total
              de personas activas en la base de datos. -->
-    <CollectionViewSource x:Key="CooperantesBuscables">
-      <CollectionViewSource.Source>
-        <PriorityBinding>
-          <Binding Path="ResultadoDeBusqueda" IsAsync="True"/>
-          <Binding Path="MensajeDeEspera"/>
-        </PriorityBinding>
-      </CollectionViewSource.Source>
-    </CollectionViewSource>
+        <CollectionViewSource x:Key="CooperantesBuscables">
+            <CollectionViewSource.Source>
+                <PriorityBinding>
+                    <Binding Path="ResultadoDeBusqueda" IsAsync="True"/>
+                    <Binding Path="MensajeDeEspera"/>
+                </PriorityBinding>
+            </CollectionViewSource.Source>
+        </CollectionViewSource>
 
-    <!-- Selector para mostrar estado de espera mientras se realiza la búsqueda. -->
-    <selector:BuscadorDataTemplateSelector x:Key="BuscadorTemplateSelector"/>
-  </UserControl.Resources>
-  <Grid IsHitTestVisible="{Binding EdicionHabilitada}">
+        <!-- Selector para mostrar estado de espera mientras se realiza la búsqueda. -->
+        <selector:BuscadorDataTemplateSelector x:Key="BuscadorTemplateSelector"/>
+    </UserControl.Resources>
+    <Grid IsHitTestVisible="{Binding EdicionHabilitada}" >
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
@@ -171,4 +171,5 @@
       </ListBox>
     </GroupBox>
   </Grid>
+    
 </UserControl>

@@ -10,6 +10,7 @@
              xmlns:designData="clr-namespace:Gama.Cooperacion.Wpf.DesignTimeData"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="1500" d:DesignWidth="650">
@@ -338,34 +339,399 @@
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" HorizontalAlignment="Left" Content="TAREAS" Foreground="White" Padding="0"></Label>
-                    <Button Content="Tareas"  HorizontalAlignment="Right"></Button>
+                    <Button Content="Tareas"  HorizontalAlignment="Right" Command="{Binding CrearTareaCommand}"></Button>
                 </Grid>
             </GroupBox.Header>
-            <ListBox x:Name="TareasListBox"
-                     ItemsSource="{Binding TareasDisponible}" >
-                <!--ItemsSource="{Binding Tareas.Descripcion}">-->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition  Height="auto" />
+                    <RowDefinition  Height="auto" />
+                </Grid.RowDefinitions>
+                <controls:MetroAnimatedSingleRowTabControl Grid.Row="1">
+                    <controls:MetroTabItem Header="Tareas Activas" controls:ControlsHelper.HeaderFontSize="17">
+                        <ListBox x:Name="TareasListBox" Width="900"
+                            ItemsSource="{Binding TareasDisponibles}" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="20"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
 
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <CheckBox Grid.Column="0" Name="TareaFin" />
-                            <TextBlock Grid.Column="1" Text="{Binding Descripcion}"  HorizontalAlignment="Left"/>
-                            <TextBlock Grid.Column="2" Text="Encargado"  HorizontalAlignment="Right"/>
-                            <TextBlock Grid.Column="3" Text="{Binding FechaDeFinalizacion}" HorizontalAlignment="Right"  />
-                            <TextBlock Text="3" Grid.Column="4" HorizontalAlignment="Center" />
-                            <Button Content="VER" Grid.Column="5" />
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                                        <Button Width="40" Height="40" Grid.Column="0" Style="{DynamicResource MetroCircleButtonStyle}"
+                                                                    Command="{Binding DataContext.FinalizarTareaTDCommand,
+                                                                        RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                                                        CommandParameter="{Binding}" >
+                                            <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_clipboard_paper_check}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </Button>
+                                        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Descripcion}"  Margin="10,0,0,0" HorizontalAlignment="Left"/>
+                                        <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding Responsable.Nombre}"  HorizontalAlignment="Right" />
+                                        <TextBlock Grid.Column="3" Grid.Row="0" Text="{Binding FechaDeFinalizacion}" HorizontalAlignment="Right"   />
+                                        <TextBlock Text="3" Grid.Column="4" Grid.Row="0" HorizontalAlignment="Center"  />
+                                        <Button Content="VER" Grid.Row="0" Grid.Column="5"
+                                            Command="{Binding DataContext.InfoTareaCommand,
+                                                       RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                            CommandParameter="{Binding}"
+                                            Margin="{StaticResource Margin}" ></Button>
+
+                                        <controls:MetroAnimatedSingleRowTabControl Grid.Row="1" Visibility="{Binding SeguimientoVisible,
+                                                Converter={StaticResource BooleanToVisivilityConverter}}" Grid.ColumnSpan="6"
+                                                                                   ItemsSource="{Binding TareasDisponibles}">
+                                            <controls:MetroTabItem Header="Incidencias" controls:ControlsHelper.HeaderFontSize="17">
+                                                <StackPanel>
+                                                    <Grid >
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition />
+                                                            <RowDefinition />
+                                                        </Grid.RowDefinitions>
+                                                        <ScrollViewer  Grid.ColumnSpan="4" VerticalScrollBarVisibility="Auto">
+                                                            <ListBox x:Name="MensajeForossssss"  Grid.Row="0" Grid.ColumnSpan="4" Width="860"
+                                                                ItemsSource="{Binding Incidencia}" 
+                                                                ScrollViewer.VerticalScrollBarVisibility="Auto" Height="100">
+                                                                <ListBox.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <Grid >
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition />
+                                                                                <ColumnDefinition Width="auto"/>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <Label Grid.Column="0" Content="{Binding Descripcion}"  />
+                                                                            <Label Grid.Column="1" Content="{Binding FechaDePublicacion}" />
+                                                                        </Grid>
+                                                                    </DataTemplate>
+                                                                </ListBox.ItemTemplate>
+                                                            </ListBox>
+                                                        </ScrollViewer>
+                                                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+                                                            <Grid>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="auto" />
+                                                                    <RowDefinition Height="auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="auto" />
+                                                                    <ColumnDefinition Width="auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <ScrollViewer  HorizontalAlignment="Left" VerticalScrollBarVisibility="Auto">
+                                                                    <StackPanel>
+                                                                        <TextBox  Height="100" Width="400" Grid.Row="0" Margin="40,10,10,10" 
+                                                                      metro:TextBoxHelper.Watermark="Nueva Incidencia"
+                                                                      VerticalScrollBarVisibility="Auto"
+                                                                      TextWrapping="Wrap"
+                                                                      MinLines="2"
+                                                                      AcceptsReturn="True"
+                                                                      Text="{Binding DataContext.NuevoIncidenciaTareasDisponibles,
+                                                                            RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"/>
+                                                                    </StackPanel>
+                                                                </ScrollViewer>
+                                                                <!--Botones a la izaquierda-->
+                                                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="-10,0,0,60">
+                                                                    <Button Width="40" Height="40" Grid.Column="1" Style="{DynamicResource MetroCircleButtonStyle}"
+                                                                    Command="{Binding DataContext.AceptarIncidenciaTDCommand,
+                                                                        RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                                                        CommandParameter="{Binding}" >
+                                                                        <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                                                            <Rectangle.OpacityMask>
+                                                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_check}" />
+                                                                            </Rectangle.OpacityMask>
+                                                                        </Rectangle>
+                                                                    </Button>
+                                                                    <Button Width="40" Height="40" Grid.Column="1" Style="{DynamicResource MetroCircleButtonStyle}">
+                                                                        <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                                                            <Rectangle.OpacityMask>
+                                                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_3d_x}" />
+                                                                            </Rectangle.OpacityMask>
+                                                                        </Rectangle>
+                                                                    </Button>
+                                                                </StackPanel>
+                                                                <!--Fin botones a la izquierda-->
+                                                                <!--Botones abajo-->
+                                                                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,-10,10,10">
+                                                                    <Button Width="40" Height="40" Grid.Column="1" Style="{DynamicResource MetroCircleButtonStyle}"
+                                                                    Command="{Binding DataContext.AceptarNuevoMensajeCommand,
+                                                                        RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                                                        CommandParameter="{Binding}" >
+                                                                        <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                                                            <Rectangle.OpacityMask>
+                                                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_check}" />
+                                                                            </Rectangle.OpacityMask>
+                                                                        </Rectangle>
+                                                                    </Button>
+                                                                    <Button Width="40" Height="40" Grid.Column="1" Style="{DynamicResource MetroCircleButtonStyle}">
+                                                                        <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                                                            <Rectangle.OpacityMask>
+                                                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_3d_x}" />
+                                                                            </Rectangle.OpacityMask>
+                                                                        </Rectangle>
+                                                                    </Button>
+                                                                </StackPanel>
+                                                                <!--Fin botones abajo-->
+                                                            </Grid>
+                                                        </StackPanel>
+
+                                                    </Grid>
+                                                </StackPanel>
+                                            </controls:MetroTabItem>
+                                            <controls:MetroTabItem Header="Seguimiento" controls:ControlsHelper.HeaderFontSize="17">
+                                                <StackPanel>
+                                                    <Grid >
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition />
+                                                            <RowDefinition />
+                                                        </Grid.RowDefinitions>
+                                                        <ScrollViewer  Grid.ColumnSpan="4" VerticalScrollBarVisibility="Auto">
+                                                            <ListBox x:Name="SeguimientoTarea"  Grid.Row="0" Grid.ColumnSpan="4" 
+                                                                ItemsSource="{Binding Seguimiento}" Width="860"
+                                                                ScrollViewer.VerticalScrollBarVisibility="Auto" Height="100">
+                                                                <ListBox.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <Grid >
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition />
+                                                                                <ColumnDefinition Width="auto"/>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <Label Grid.Column="0" Content="{Binding Descripcion}"  />
+                                                                            <Label Grid.Column="1" Content="{Binding FechaDePublicacion}" />
+                                                                        </Grid>
+                                                                    </DataTemplate>
+                                                                </ListBox.ItemTemplate>
+                                                            </ListBox>
+                                                        </ScrollViewer>
+                                                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+                                                            <Grid>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="auto" />
+                                                                    <RowDefinition Height="auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="auto" />
+                                                                    <ColumnDefinition Width="auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <ScrollViewer  HorizontalAlignment="Left" VerticalScrollBarVisibility="Auto">
+                                                                    <StackPanel>
+                                                                        <TextBox  Height="100" Width="400" Grid.Row="0" Margin="40,10,10,10" 
+                                                                      metro:TextBoxHelper.Watermark="Nuevo Seguimeinto"
+                                                                      VerticalScrollBarVisibility="Auto"
+                                                                      TextWrapping="Wrap"
+                                                                      MinLines="2"
+                                                                      AcceptsReturn="True"
+                                                                      Text="{Binding DataContext.NuevoSeguimientoTD,
+                                                                                RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"/>
+                                                                    </StackPanel>
+                                                                </ScrollViewer>
+                                                                <!--Botones a la izaquierda-->
+                                                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="-10,0,0,60">
+                                                                    <Button Width="40" Height="40" Grid.Column="1" Style="{DynamicResource MetroCircleButtonStyle}"
+                                                                    Command="{Binding DataContext.AceptarSeguimientoTDCommand,
+                                                                        RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                                                        CommandParameter="{Binding}" >
+                                                                        <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                                                            <Rectangle.OpacityMask>
+                                                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_check}" />
+                                                                            </Rectangle.OpacityMask>
+                                                                        </Rectangle>
+                                                                    </Button>
+                                                                    <Button Width="40" Height="40" Grid.Column="1" Style="{DynamicResource MetroCircleButtonStyle}">
+                                                                        <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                                                            <Rectangle.OpacityMask>
+                                                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_3d_x}" />
+                                                                            </Rectangle.OpacityMask>
+                                                                        </Rectangle>
+                                                                    </Button>
+                                                                </StackPanel>
+                                                                <!--Fin botones a la izquierda-->
+                                                                <!--Botones abajo-->
+                                                                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,-10,10,10">
+                                                                    <Button Width="40" Height="40" Grid.Column="1" Style="{DynamicResource MetroCircleButtonStyle}"
+                                                                    Command="{Binding DataContext.AceptarNuevoMensajeCommand,
+                                                                        RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                                                        CommandParameter="{Binding}" >
+                                                                        <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                                                            <Rectangle.OpacityMask>
+                                                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_check}" />
+                                                                            </Rectangle.OpacityMask>
+                                                                        </Rectangle>
+                                                                    </Button>
+                                                                    <Button Width="40" Height="40" Grid.Column="1" Style="{DynamicResource MetroCircleButtonStyle}">
+                                                                        <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                                                            <Rectangle.OpacityMask>
+                                                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_3d_x}" />
+                                                                            </Rectangle.OpacityMask>
+                                                                        </Rectangle>
+                                                                    </Button>
+                                                                </StackPanel>
+                                                                <!--Fin botones abajo-->
+                                                            </Grid>
+                                                        </StackPanel>
+
+                                                    </Grid>
+                                                </StackPanel>
+                                            </controls:MetroTabItem>
+                                        </controls:MetroAnimatedSingleRowTabControl>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </controls:MetroTabItem>
+                    <controls:MetroTabItem Header="Tareas Finalizadas" controls:ControlsHelper.HeaderFontSize="17">
+                        <ListBox x:Name="TareasFinalizadasListBox" Width="900"
+                         ItemsSource="{Binding TareasFinalizadas}" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="20"/>
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="20"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <CheckBox Grid.Column="0" Grid.Row="0" Name="TareaFin" />
+                                        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Descripcion}" Margin="10,0,0,0" HorizontalAlignment="Left"/>
+                                        <TextBlock Grid.Column="2" Grid.Row="0" Text="Encargado"  HorizontalAlignment="Right"/>
+                                        <TextBlock Grid.Column="3" Grid.Row="0" Text="{Binding FechaDeFinalizacion}" HorizontalAlignment="Right"  />
+                                        <TextBlock Text="3" Grid.Column="4" Grid.Row="0" HorizontalAlignment="Center" />
+                                        <Button Content="VER" Grid.Row="0" Grid.Column="5"
+                                            Command="{Binding DataContext.InfoTareaCommand,
+                                                       RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                            CommandParameter="{Binding}"
+                                            Margin="{StaticResource Margin}" ></Button>
+
+                                        <controls:MetroAnimatedSingleRowTabControl Grid.Row="1" Visibility="{Binding SeguimientoVisible,
+                                                Converter={StaticResource BooleanToVisivilityConverter}}" Grid.ColumnSpan="5" ItemsSource="{Binding TareasFinalizadas }">
+                                            <controls:MetroTabItem Header="Incidencias" controls:ControlsHelper.HeaderFontSize="17" Width="200">
+                                                <StackPanel>
+                                                    <Grid >
+                                                        <ScrollViewer  Grid.ColumnSpan="4" VerticalScrollBarVisibility="Auto">
+                                                            <ListBox x:Name="TareaFinalizadasIncidencia" Grid.ColumnSpan="4" 
+                                                                ItemsSource="{Binding Incidencia}" 
+                                                                ScrollViewer.VerticalScrollBarVisibility="Auto" Height="100">
+                                                                <ListBox.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <Grid >
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="1*"/>
+                                                                                <ColumnDefinition Width="auto"/>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <Label Grid.Column="0" Content="{Binding Descripcion}" HorizontalAlignment="Left" />
+                                                                            <Label Grid.Column="1" Content="{Binding FechaDePublicacion}" HorizontalAlignment="Left" />
+                                                                        </Grid>
+                                                                    </DataTemplate>
+                                                                </ListBox.ItemTemplate>
+                                                            </ListBox>
+                                                        </ScrollViewer>
+                                                    </Grid>
+                                                </StackPanel>
+                                            </controls:MetroTabItem>
+                                            <controls:MetroTabItem Header="Seguimiento" controls:ControlsHelper.HeaderFontSize="17">
+                                                <Grid>
+                                                    <ScrollViewer  Grid.ColumnSpan="4" VerticalScrollBarVisibility="Auto">
+                                                        <ListBox x:Name="SeguimientoTarea"  Grid.Row="0" Grid.ColumnSpan="4" 
+                                                                ItemsSource="{Binding Seguimiento}" 
+                                                  
+                                                                ScrollViewer.VerticalScrollBarVisibility="Auto" Height="100">
+                                                            <ListBox.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Grid >
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition />
+                                                                            <ColumnDefinition Width="auto"/>
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <Label Grid.Column="0" Content="{Binding Descripcion}"  />
+                                                                        <Label Grid.Column="1" Content="{Binding FechaDePublicacion}" />
+                                                                    </Grid>
+                                                                </DataTemplate>
+                                                            </ListBox.ItemTemplate>
+                                                        </ListBox>
+                                                    </ScrollViewer>
+                                                </Grid>
+                                            </controls:MetroTabItem>
+
+                                        </controls:MetroAnimatedSingleRowTabControl>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </controls:MetroTabItem>
+                </controls:MetroAnimatedSingleRowTabControl>
+                <GroupBox Header="NUEVA TAREA" Grid.Row="0" Margin="{StaticResource Margin}" Height="300" Width="300"
+                          Visibility="{Binding CrearTareaVisible,
+                                                Converter={StaticResource BooleanToVisivilityConverter}}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="19*" MaxWidth="300"/>
+                            <ColumnDefinition Width="53*" MaxWidth="300"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.ColumnSpan="2">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border MaxHeight="64" BorderBrush="White" BorderThickness="1.5" CornerRadius="1" Grid.Column="0">
+                                    <Rectangle Width="60" Margin="{DynamicResource Margin}">
+                                        <Rectangle.Fill>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_clipboard_edit}" />
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Border>
+                                <StackPanel Name="Imagen_Descripcion" Grid.Column="1">
+                                    <TextBox  Height="60" Width="200" Grid.Row="0" Margin="0,10,10,10" 
+                                              metro:TextBoxHelper.Watermark="Descripcion"
+                                              VerticalScrollBarVisibility="Auto"
+                                              TextWrapping="Wrap"
+                                              MinLines="2"
+                                              AcceptsReturn="True"
+                                              Text="{Binding DescripcionNuevaTarea, Mode=TwoWay}"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Name="Fecha_Responsable" Grid.Row="1" Grid.Column="1">
+                            <Label Margin="{DynamicResource Margin}">Fecha Finalización</Label>
+                            <DatePicker HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1"
+                                    SelectedDate="{Binding FechaFinTarea, 
+                                    UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    Height="18" />
+                            <Label Margin="{DynamicResource Margin}">Responsable</Label>
+                            <ComboBox Margin="4,4,0,4" HorizontalAlignment="Left" Width="136"
+                            	ItemsSource="{Binding CooperantesSeleccionados}"
+                            	SelectedItem="{Binding ResponsableTarea, UpdateSourceTrigger=PropertyChanged}" 
+                                />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal"
+                                    HorizontalAlignment="Right" Width="131">
+                            <Button Content="Aceptar" Command="{Binding AceptarCrearTareaCommand}"  Margin="{StaticResource Margin}"/>
+                            <Button Content="Cancelar" Command="{Binding CancelarCommand}"  Margin="{StaticResource Margin}"/>
+                        </StackPanel>
+                    </Grid>
+                </GroupBox>
+            </Grid>
         </GroupBox>
         <!--<GroupBox Grid.Row="3" Header="Tareas">
             <Grid >

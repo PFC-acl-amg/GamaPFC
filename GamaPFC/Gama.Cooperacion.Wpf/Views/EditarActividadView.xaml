@@ -12,30 +12,29 @@
   <d:DataContext>
     <designData:DesignTimeDataViewModel/>
   </d:DataContext>
-  <UserControl.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"/>
-      </ResourceDictionary.MergedDictionaries>
-      <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-    </ResourceDictionary>
-  </UserControl.Resources>
-  <Grid>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition MaxWidth="400"/>
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
-
-    <Grid Grid.Column="0" Grid.Row="0">
+        <Grid Grid.Column="0">
       <Grid.RowDefinitions>
         <RowDefinition />
         <RowDefinition Height="Auto"/>
       </Grid.RowDefinitions>
       <ScrollViewer>
-        <local:InformacionDeActividadView DataContext="{Binding ActividadVM}"
-          ScrollViewer.VerticalScrollBarVisibility="Auto" />
-      </ScrollViewer>
+                <local:InformacionDeActividadView DataContext="{Binding ActividadVM}"
+                ScrollViewer.VerticalScrollBarVisibility="Auto" />
+            </ScrollViewer>
       <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
         <Label Margin="{StaticResource Margin}" Visibility="{Binding ActividadVM.EdicionHabilitada,
           Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -59,8 +58,10 @@
         </Label>
       </StackPanel>
     </Grid>
+        
         <Grid Grid.Column="1">
         <local:TareasDeActividad  DataContext="{Binding TareasActividadVM}" Margin="{StaticResource Margin}"/>
         </Grid>
     </Grid>
+
 </UserControl>

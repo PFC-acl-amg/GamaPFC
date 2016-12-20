@@ -134,6 +134,7 @@
     <Compile Include="Eventos\ActividadSeleccionadaChangedEvent.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaEvent.cs" />
     <Compile Include="Eventos\NuevaActividadEvent.cs" />
+    <Compile Include="Eventos\NuevaTareaCreadaEvent.cs" />
     <Compile Include="Eventos\NuevoForoCreadoEvent.cs" />
     <Compile Include="Eventos\CargarNuevaActividadEvent.cs" />
     <Compile Include="Eventos\PublicarEventosActividad.cs" />
@@ -156,8 +157,10 @@
     <Compile Include="Services\IForoRepository.cs" />
     <Compile Include="Services\IIncidenciaRepository.cs" />
     <Compile Include="Services\IMensajeRepository.cs" />
+    <Compile Include="Services\IncidenciaRepository.cs" />
     <Compile Include="Services\ISeguimientoRepository.cs" />
     <Compile Include="Services\ITareaRepository.cs" />
+    <Compile Include="Services\SeguimientoRepository.cs" />
     <Compile Include="Services\TareaRepository.cs" />
     <Compile Include="ViewModels\EditarActividadViewModel.cs" />
     <Compile Include="ViewModels\ActividadesContentViewModel.cs" />
