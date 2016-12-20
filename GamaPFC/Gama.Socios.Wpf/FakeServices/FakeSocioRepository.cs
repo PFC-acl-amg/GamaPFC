@@ -44,8 +44,10 @@ namespace Gama.Socios.Wpf.FakeServices
                     FechaDeAlta = DateTime.Now.AddYears(-3).AddMonths(-4),
                 };
 
-                periododeAlta.AddCuota(new Cuota() { CantidadTotal = 10.0, CantidadPagada = 0 });
+                periododeAlta.AddCuota(new Cuota() { Fecha = periododeAlta.FechaDeAlta, CantidadTotal = 10.0, CantidadPagada = 0 });
 
+                socio.AddPeriodoDeAlta(periododeAlta);
+                socio.AddPeriodoDeAlta(periododeAlta);
                 socio.AddPeriodoDeAlta(periododeAlta);
 
                 _Socios.Add(socio);

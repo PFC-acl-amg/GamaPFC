@@ -58,17 +58,17 @@
 
           <Label Margin="{DynamicResource Margin}">Dirección</Label>
           <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.DireccionPostal, UpdateSourceTrigger=PropertyChanged}"/>
-
-          <Label Margin="{DynamicResource Margin}">Nacionalidad</Label>
-          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Nacionalidad, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="1">
+          <Label Margin="{DynamicResource Margin}">Nacionalidad</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Nacionalidad, UpdateSourceTrigger=PropertyChanged}"/>
+          
           <Label Margin="{DynamicResource Margin}">Email</Label>
           <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Email, UpdateSourceTrigger=PropertyChanged}"/>
 
-          <Label Margin="{DynamicResource Margin}">Ocupación</Label>
-          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Ocupacion, UpdateSourceTrigger=PropertyChanged}"/>
+          <!--<Label Margin="{DynamicResource Margin}">Ocupación</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Ocupacion, UpdateSourceTrigger=PropertyChanged}"/>-->
 
           <Label Margin="{DynamicResource Margin}">Facebook</Label>
           <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Facebook, UpdateSourceTrigger=PropertyChanged}"/>

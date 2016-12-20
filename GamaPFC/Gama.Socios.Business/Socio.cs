@@ -56,7 +56,15 @@ namespace Gama.Socios.Business
             Telefono = socio.Telefono;
             Twitter = socio.Twitter;
 
-            PeriodosDeAlta = new List<PeriodoDeAlta>(socio.PeriodosDeAlta);
+            try
+            {
+
+                PeriodosDeAlta = new List<PeriodoDeAlta>(socio.PeriodosDeAlta);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public virtual void AddPeriodoDeAlta(PeriodoDeAlta periodoDeAlta)

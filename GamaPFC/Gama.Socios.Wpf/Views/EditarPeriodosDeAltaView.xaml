@@ -4,16 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gama.Socios.Wpf.Views"
+             xmlns:util="clr-namespace:Core.Util;assembly=Core"
              mc:Ignorable="d" 
              xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
-             d:DesignHeight="300" d:DesignWidth="603.141">
+             d:DesignHeight="521.935" d:DesignWidth="2266.103">
   <d:DataContext>
     <designData:EditarPeriodosDeAltaViewModelDTD/>
   </d:DataContext>
+  <UserControl.Resources>
+    <util:DateToMonthYearConverter x:Key="_DateToMonthYearConverter"/>
+  </UserControl.Resources>
   <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition />
-    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
     <ListBox
       ItemsSource="{Binding Socio.PeriodosDeAlta}">
       <ListBox.ItemTemplate>
@@ -28,13 +32,27 @@
                 </StackPanel>
               </DataTemplate>
             </GroupBox.HeaderTemplate>
-            <ListBox ItemsSource="{Binding Model.MesesAplicables}">
-              <ListBox.ItemTemplate>
-                <DataTemplate>
-                  <TextBlock Text="{Binding Cuota.CantidadTotal}"/>
-                </DataTemplate>
-              </ListBox.ItemTemplate>
-            </ListBox>
+            <DataGrid ItemsSource="{Binding MesesAplicables}" GridLinesVisibility="Horizontal" AutoGenerateColumns="False">
+              <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding EstaPagado}" Value="False">
+                      <Setter Property="Background" Value="Red"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding NoContabilizar}" Value="True">
+                      <Setter Property="Background" Value="Green"></Setter>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </DataGrid.RowStyle>
+
+              <DataGrid.Columns>
+                <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha, Converter={StaticResource _DateToMonthYearConverter}}"/>
+                <DataGridTextColumn Header="Cantidad" Binding="{Binding CantidadTotal}"/>
+                <DataGridCheckBoxColumn Header="Está Pagado" Binding="{Binding EstaPagado}"/>
+                <DataGridCheckBoxColumn Header="No Contabilizar" Binding="{Binding NoContabilizar}"/>
+              </DataGrid.Columns>
+            </DataGrid>
           </GroupBox>
         </DataTemplate>
       </ListBox.ItemTemplate>

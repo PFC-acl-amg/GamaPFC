@@ -55,5 +55,25 @@ namespace Gama.Socios.Wpf.Wrappers
         {
             get { return GetValue<double>(); }
         }
+
+        public bool EstaPagado
+        {
+            get { return GetValue<bool>(); }
+            set { SetValue(value); }
+        }
+
+        public bool EstaPagadoOriginalValue => GetOriginalValue<bool>(nameof(EstaPagado));
+
+        public bool EstaPagadoIsChanged => GetIsChanged(nameof(EstaPagado));
+
+        public bool NoContabilizar
+        {
+            get { return GetValue<bool>(); }
+            set { SetValue(value); }
+        }
+
+        public bool NoContabilizarOriginalValue => GetOriginalValue<bool>(nameof(NoContabilizar));
+
+        public bool NoContabilizarIsChanged => GetIsChanged(nameof(NoContabilizar));
     }
 }

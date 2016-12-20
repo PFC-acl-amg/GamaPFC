@@ -12,46 +12,40 @@ namespace Gama.Socios.Business
         public virtual DateTime? FechaDeBaja { get; set; }
 
         public virtual IList<Cuota> Cuotas { get; set; }
+        public virtual List<Cuota> MesesAplicables { get; set; }
         public virtual Socio Socio { get; set; }
 
         public PeriodoDeAlta()
         {
             Cuotas = new List<Cuota>();
+            MesesAplicables = new List<Cuota>();
         }
-
-        public virtual List<CuotaMonth> MesesAplicables => GetMesesAplicables();
-
+        
         public virtual void AddCuota(Cuota cuota)
         {
             cuota.PeriodoDeAlta = this;
             Cuotas.Add(cuota);
         }
 
-        public virtual List<CuotaMonth> GetMesesAplicables()
+        public virtual ICollection<Cuota> GetMesesAplicables()
         {
-            var resultado = new List<CuotaMonth>();
+            var resultado = new List<Cuota>();
 
             var startDate = FechaDeAlta.AddDays(1 - FechaDeAlta.Day);
             var endDate = FechaDeBaja ?? DateTime.Now.AddDays(1 - DateTime.Now.Day);
 
             while (startDate.Date <= endDate.Date)
             {
-                var cuotaMonth = new CuotaMonth
-                {
-                    Cuota = ((List<Cuota>)Cuotas).Where(x => 
-                        DateUtility.IsSameYearMonth(startDate.Date, x.Fecha.Date)).FirstOrDefault()
-                };
+                Cuota nextCuota = ((ICollection<Cuota>)Cuotas).Where(x =>
+                        DateUtility.IsSameYearMonth(startDate.Date, x.Fecha.Date)).FirstOrDefault();
 
-                resultado.Add(cuotaMonth); 
-                startDate.AddMonths(1);
+                nextCuota = nextCuota ?? new Cuota { Fecha = startDate.Date };
+                resultado.Add(nextCuota); 
+
+                startDate = startDate.AddMonths(1);
             }
 
             return resultado;
         }
-    }
-
-    public class CuotaMonth
-    {
-        public Cuota Cuota { get; set; }
     }
 }

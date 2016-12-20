@@ -46,11 +46,11 @@
     <controls:MetroAnimatedSingleRowTabControl Grid.Column="1">
       <controls:MetroTabItem Header="CUOTAS"
                                    controls:ControlsHelper.HeaderFontSize="17">
-        <local:EditarCuotasView DataContext="{Binding CuotasVM}"/>
+        <local:EditarCuotasView DataContext="{Binding EditarCuotasViewModel}"/>
       </controls:MetroTabItem>
       <controls:MetroTabItem Header="PERIODOS DE ALTA" IsSelected="{Binding PeriodosDeAltaVM.VerPeriodosDeAlta}"
                                    controls:ControlsHelper.HeaderFontSize="17">
-        <local:EditarPeriodosDeAltaView DataContext="{Binding PeriodosDeAltaVM}"/>
+        <local:EditarPeriodosDeAltaView DataContext="{Binding EditarPeriodosDeAltaViewModel}"/>
       </controls:MetroTabItem>
     </controls:MetroAnimatedSingleRowTabControl>
 

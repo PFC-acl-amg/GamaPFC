@@ -21,7 +21,7 @@ namespace Gama.Socios.Wpf.ViewModels
     {
         private EditarCuotasViewModel _CuotasVM;
         private IEventAggregator _EventAggregator;
-        private EditarPeriodosDeAltaViewModel _PeriodosDeAltaVM;
+        private EditarPeriodosDeAltaViewModel _EditarPeriodosDeAltaViewModel;
         private ISocioRepository _SocioRepository;
         private SocioViewModel _SocioVM;
 
@@ -37,11 +37,11 @@ namespace Gama.Socios.Wpf.ViewModels
             _SocioRepository = socioRepository;
             _SocioVM = socioVM;
             _CuotasVM = cuotasVM;
-            _PeriodosDeAltaVM = periodosDeAltaVM;
+            _EditarPeriodosDeAltaViewModel = periodosDeAltaVM;
 
             _SocioRepository.Session = session;
             _CuotasVM.Session = session;
-            _PeriodosDeAltaVM.Session = session;
+            _EditarPeriodosDeAltaViewModel.Session = session;
 
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
@@ -74,9 +74,9 @@ namespace Gama.Socios.Wpf.ViewModels
             get { return _CuotasVM; }
         }
 
-        public EditarPeriodosDeAltaViewModel PeriodosDeAltaVM
+        public EditarPeriodosDeAltaViewModel EditarPeriodosDeAltaViewModel
         {
-            get { return _PeriodosDeAltaVM; }
+            get { return _EditarPeriodosDeAltaViewModel; }
         }
 
         public ICommand HabilitarEdicionCommand { get; private set; }
@@ -126,7 +126,7 @@ namespace Gama.Socios.Wpf.ViewModels
 
                 _SocioVM.Load(Socio);
                 _CuotasVM.Load(_SocioVM.Socio);
-                _PeriodosDeAltaVM.Load(_SocioVM.Socio);
+                _EditarPeriodosDeAltaViewModel.Load(_SocioVM.Socio);
                 RefrescarTitulo(Socio.Nombre);
             }
             catch (Exception ex)
