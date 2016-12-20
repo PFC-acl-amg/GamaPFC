@@ -32,7 +32,7 @@ namespace Gama.Socios.DataAccess
                     {
                         NHibernate.Cfg.Configuration configuration;
 
-                        File.Delete("nh_socios.cfg");
+                        //File.Delete("nh_socios.cfg");
                         if (File.Exists("nh_socios.cfg"))
                         {
                             var file = File.Open("nh_socios.cfg", FileMode.Open);

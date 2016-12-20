@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gama.Socios.Wpf.Views"
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
+             Language="es-ES"
              xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
              d:DesignHeight="521.935" d:DesignWidth="2266.103">
   <d:DataContext>
@@ -32,7 +34,28 @@
                 </StackPanel>
               </DataTemplate>
             </GroupBox.HeaderTemplate>
-            <DataGrid ItemsSource="{Binding MesesAplicables}" GridLinesVisibility="Horizontal" AutoGenerateColumns="False">
+            <DataGrid ItemsSource="{Binding MesesAplicables}" GridLinesVisibility="All" AutoGenerateColumns="False"
+                      >
+              <!-- Hace falta aplicar el estilo a la celda de esta manear para poder aplicar el padding que
+              queramos -->
+              <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                  <Setter Property="Padding" Value="{DynamicResource Margin}"/>
+                  <Setter Property="Template">
+                    <Setter.Value>
+                      <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Border Padding="{TemplateBinding Padding}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                          <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                      </ControlTemplate>
+                    </Setter.Value>
+                  </Setter>
+                </Style>
+              </DataGrid.CellStyle>
+              
               <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                   <Style.Triggers>
@@ -47,10 +70,18 @@
               </DataGrid.RowStyle>
 
               <DataGrid.Columns>
-                <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha, Converter={StaticResource _DateToMonthYearConverter}}"/>
-                <DataGridTextColumn Header="Cantidad" Binding="{Binding CantidadTotal}"/>
-                <DataGridCheckBoxColumn Header="Está Pagado" Binding="{Binding EstaPagado}"/>
-                <DataGridCheckBoxColumn Header="No Contabilizar" Binding="{Binding NoContabilizar}"/>
+                <DataGridTextColumn Header="Fecha"
+                                    Binding="{Binding Fecha, Converter={StaticResource _DateToMonthYearConverter}}"
+                                    IsReadOnly="True"/>
+                <controls:DataGridNumericUpDownColumn StringFormat="C" Minimum="0"
+                                                      Header="Cantidad" Binding="{Binding CantidadTotal}"/>
+                <DataGridTextColumn Header="Comentarios" Binding="{Binding Comentarios}" />
+                <DataGridCheckBoxColumn Header="Está Pagado" Binding="{Binding EstaPagado}"
+                                        ElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                                        EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"/>
+                <DataGridCheckBoxColumn Header="No Contabilizar" Binding="{Binding NoContabilizar}"
+                                        ElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                                        EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"/>
               </DataGrid.Columns>
             </DataGrid>
           </GroupBox>

@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
+using System.Windows.Markup;
 using System.Windows.Threading;
 
 namespace Gama.Bootstrapper
@@ -25,6 +26,13 @@ namespace Gama.Bootstrapper
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            FrameworkElement.LanguageProperty.OverrideMetadata(
+                    typeof(FrameworkElement),
+                    new FrameworkPropertyMetadata(
+                        XmlLanguage.GetLanguage(
+            CultureInfo.CurrentCulture.IetfLanguageTag)));
+
+
             base.OnStartup(e);
 
             Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;

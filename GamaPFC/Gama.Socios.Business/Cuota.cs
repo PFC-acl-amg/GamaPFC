@@ -10,6 +10,7 @@ namespace Gama.Socios.Business
         public virtual double CantidadPagada { get; set; } = 0;
         public virtual bool EstaPagado { get; set; }
         public virtual bool NoContabilizar { get; set; }
+        public virtual string Comentarios { get; set; }
 
         public virtual double CantidadPendienteDePago
         {

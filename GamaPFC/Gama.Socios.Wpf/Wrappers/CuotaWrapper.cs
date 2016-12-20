@@ -56,6 +56,16 @@ namespace Gama.Socios.Wpf.Wrappers
             get { return GetValue<double>(); }
         }
 
+        public string Comentarios
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string ComentariosOriginalValue => GetOriginalValue<string>(nameof(Comentarios));
+
+        public bool ComentariosIsChanged => GetIsChanged(nameof(Comentarios));
+
         public bool EstaPagado
         {
             get { return GetValue<bool>(); }
