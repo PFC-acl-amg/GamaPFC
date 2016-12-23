@@ -9,22 +9,153 @@
              mc:Ignorable="d" 
              Language="es-ES"
              xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
-             d:DesignHeight="521.935" d:DesignWidth="2266.103">
+             d:DesignHeight="431.935" d:DesignWidth="804.103">
   <d:DataContext>
     <designData:EditarPeriodosDeAltaViewModelDTD/>
   </d:DataContext>
   <UserControl.Resources>
     <util:DateToMonthYearConverter x:Key="_DateToMonthYearConverter"/>
+    <Style x:Key="CuotasDataGridRowStyle" TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource {x:Type DataGridRow}}">
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding IsChanged}" Value="True">
+          <Setter Property="Background" Value="{StaticResource IsChangedBackgroundBrush}"/>
+        </DataTrigger>
+        <!--<DataTrigger Binding="{Binding EstaPagado}" Value="False">
+          <Setter Property="Background" Value="Red"/>
+        </DataTrigger>-->
+        <!--<DataTrigger Binding="{Binding NoContabilizar}" Value="True">
+          <Setter Property="Background" Value="Green"/>
+        </DataTrigger>-->
+      </Style.Triggers>
+    </Style>
   </UserControl.Resources>
-  <Grid>
+  <Grid Margin="{StaticResource Margin}">
     <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
-    <ListBox
-      ItemsSource="{Binding Socio.PeriodosDeAlta}">
-      <ListBox.ItemTemplate>
+    <ItemsControl ItemsSource="{Binding Socio.PeriodosDeAlta}" Grid.Row="1">
+      <ItemsControl.ItemTemplate>
         <DataTemplate>
-          <GroupBox Header="{Binding}">
+          <Expander Margin="{StaticResource Margin}">
+            <Expander.Header>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="1*"></ColumnDefinition>
+                  <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource Margin}">
+                  <TextBlock Text="{Binding FechaDeAlta}"/>
+                  <TextBlock Text=" - "/>
+                  <TextBlock Text="{Binding FechaDeBaja}"/>
+                </StackPanel>
+                <Button Width="40" Height="40" Grid.Column="1" Style="{DynamicResource MetroCircleButtonStyle}" 
+                          Margin="0,-7,0,-7" 
+                          Command="{Binding DataContext.ActualizarCommand,
+                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                          CommandParameter="{Binding}"
+                          HorizontalAlignment="Right">
+                  <Rectangle Width="18" Height="18" 
+                               Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                      <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
+                    </Rectangle.OpacityMask>
+                  </Rectangle>
+                </Button>
+              </Grid>
+              <!---->
+              </Expander.Header>
+              
+      <ScrollViewer Grid.Row="1" Margin="4,1,-4,-1">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource Margin}">
+                  <DatePickerTextBox Text="{Binding FechaDeAlta, StringFormat='dd MM yyyy'}" />
+                  <TextBlock Text=" - "/>
+                  <DatePickerTextBox Text="{Binding FechaDeBaja, StringFormat='dd MM yyyy',  TargetNullValue='', FallbackValue=''}"/>
+                </StackPanel>
+                <DataGrid 
+                          Grid.Row="1"
+                          SelectionUnit="Cell"
+                          ItemsSource="{Binding MesesAplicables}"
+                          CanUserResizeColumns="True"
+                          CanUserReorderColumns="False"
+                          GridLinesVisibility="All" 
+                          AutoGenerateColumns="False" 
+                          RowStyle="{DynamicResource CuotasDataGridRowStyle}"                                  >
+                  <!-- Hace falta aplicar el estilo a la celda de esta manear para poder aplicar el padding que
+                            queramos -->
+              <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                  <Setter Property="Padding" Value="{DynamicResource Margin}"/>
+                  <Setter Property="Template">
+                    <Setter.Value>
+                      <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Border Padding="{TemplateBinding Padding}" 
+                                              BorderBrush="{TemplateBinding BorderBrush}" 
+                                              BorderThickness="{TemplateBinding BorderThickness}" 
+                                              Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                          <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                      </ControlTemplate>
+                    </Setter.Value>
+                  </Setter>
+                </Style>
+              </DataGrid.CellStyle>
+
+              <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Pagado" Binding="{Binding EstaPagado,
+                                UpdateSourceTrigger=PropertyChanged}"
+                                                      ElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                                                      EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                                                  MinWidth="30" Width="Auto"/>
+                <DataGridCheckBoxColumn Header="NA/NC" Binding="{Binding NoContabilizar,
+                                UpdateSourceTrigger=PropertyChanged}"
+                                                      ElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                                                      EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                                                  MinWidth="30" Width="Auto"/>
+                <DataGridTextColumn Header="Fecha"
+                                                  Binding="{Binding Fecha, Converter={StaticResource _DateToMonthYearConverter}}"
+                                                  MinWidth="50" Width="Auto"
+                                                  IsReadOnly="True"/>
+                <controls:DataGridNumericUpDownColumn StringFormat="C" Minimum="0"
+                                                                    Header="Cantidad" Binding="{Binding CantidadTotal,
+                                UpdateSourceTrigger=PropertyChanged}"
+                                                  MinWidth="50" Width="Auto"/>
+                <DataGridTextColumn Header="Comentarios" Binding="{Binding Comentarios,
+                                UpdateSourceTrigger=PropertyChanged}" 
+                                                  MinWidth="350" Width="*"/>
+              </DataGrid.Columns>
+              </DataGrid>
+  </Grid>
+  </ScrollViewer>
+  </Expander>
+  </DataTemplate>
+  </ItemsControl.ItemTemplate>
+  </ItemsControl>
+  <!--<ListBox Grid.Row="1"
+      ItemsSource="{Binding Socio.PeriodosDeAlta}"
+             SelectionMode="Single"
+             SelectedItem="{Binding PeriodoDeAltaSeleccionado}">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition />
+              </Grid.RowDefinitions>
+
+              <StackPanel Orientation="Horizontal" Margin="{StaticResource Margin}">
+                <TextBlock Text="{Binding FechaDeAlta}"/>
+                <TextBlock Text=" - "/>
+                <TextBlock Text="{Binding FechaDeBaja}"/>
+              </StackPanel>
+              -->
+  <!--<GroupBox Header="{Binding}">
             <GroupBox.HeaderTemplate>
               <DataTemplate>
                 <StackPanel Orientation="Horizontal">
@@ -33,60 +164,76 @@
                   <TextBlock Text="{Binding FechaDeBaja}"/>
                 </StackPanel>
               </DataTemplate>
-            </GroupBox.HeaderTemplate>
-            <DataGrid ItemsSource="{Binding MesesAplicables}" GridLinesVisibility="All" AutoGenerateColumns="False"
+            </GroupBox.HeaderTemplate>-->
+  <!--
+              <DataGrid 
+              Grid.Row="1"
+              SelectionUnit="Cell"
+              ItemsSource="{Binding MesesAplicables}"
+              CanUserResizeColumns="True"
+                      GridLinesVisibility="All" 
+                      AutoGenerateColumns="False" 
+                      RowStyle="{DynamicResource CuotasDataGridRowStyle}"
                       >
-              <!-- Hace falta aplicar el estilo a la celda de esta manear para poder aplicar el padding que
+                -->
+  <!-- Hace falta aplicar el estilo a la celda de esta manear para poder aplicar el padding que
               queramos -->
-              <DataGrid.CellStyle>
-                <Style TargetType="DataGridCell">
-                  <Setter Property="Padding" Value="{DynamicResource Margin}"/>
-                  <Setter Property="Template">
-                    <Setter.Value>
-                      <ControlTemplate TargetType="{x:Type DataGridCell}">
-                        <Border Padding="{TemplateBinding Padding}" 
+  <!--
+                <DataGrid.CellStyle>
+                  <Style TargetType="DataGridCell">
+                    <Setter Property="Padding" Value="{DynamicResource Margin}"/>
+                    <Setter Property="Template">
+                      <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                          <Border Padding="{TemplateBinding Padding}" 
                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                 BorderThickness="{TemplateBinding BorderThickness}" 
                                 Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                          <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        </Border>
-                      </ControlTemplate>
-                    </Setter.Value>
-                  </Setter>
-                </Style>
-              </DataGrid.CellStyle>
-              
-              <DataGrid.RowStyle>
-                <Style TargetType="DataGridRow">
-                  <Style.Triggers>
-                    <DataTrigger Binding="{Binding EstaPagado}" Value="False">
-                      <Setter Property="Background" Value="Red"></Setter>
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding NoContabilizar}" Value="True">
-                      <Setter Property="Background" Value="Green"></Setter>
-                    </DataTrigger>
-                  </Style.Triggers>
-                </Style>
-              </DataGrid.RowStyle>
+                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                          </Border>
+                        </ControlTemplate>
+                      </Setter.Value>
+                    </Setter>
+                  </Style>
+                </DataGrid.CellStyle>
 
-              <DataGrid.Columns>
-                <DataGridTextColumn Header="Fecha"
+                <DataGrid.Columns>
+                  <DataGridCheckBoxColumn Header="Pagado" Binding="{Binding EstaPagado,
+                  UpdateSourceTrigger=PropertyChanged}"
+                                        ElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                                        EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                                    MinWidth="30" Width="Auto"/>
+                  <DataGridCheckBoxColumn Header="NA/NC" Binding="{Binding NoContabilizar,
+                  UpdateSourceTrigger=PropertyChanged}"
+                                        ElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                                        EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                                    MinWidth="30" Width="Auto"/>
+                  <DataGridTextColumn Header="Fecha"
                                     Binding="{Binding Fecha, Converter={StaticResource _DateToMonthYearConverter}}"
+                                    MinWidth="50" Width="Auto"
                                     IsReadOnly="True"/>
-                <controls:DataGridNumericUpDownColumn StringFormat="C" Minimum="0"
-                                                      Header="Cantidad" Binding="{Binding CantidadTotal}"/>
-                <DataGridTextColumn Header="Comentarios" Binding="{Binding Comentarios}" />
-                <DataGridCheckBoxColumn Header="Está Pagado" Binding="{Binding EstaPagado}"
-                                        ElementStyle="{DynamicResource MetroDataGridCheckBox}"
-                                        EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"/>
-                <DataGridCheckBoxColumn Header="No Contabilizar" Binding="{Binding NoContabilizar}"
-                                        ElementStyle="{DynamicResource MetroDataGridCheckBox}"
-                                        EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"/>
-              </DataGrid.Columns>
-            </DataGrid>
-          </GroupBox>
-        </DataTemplate>
-      </ListBox.ItemTemplate>
-    </ListBox>
+                  <controls:DataGridNumericUpDownColumn StringFormat="C" Minimum="0"
+                                                      Header="Cantidad" Binding="{Binding CantidadTotal,
+                  UpdateSourceTrigger=PropertyChanged}"
+                                    MinWidth="50" Width="Auto"/>
+                  <DataGridTextColumn Header="Comentarios" Binding="{Binding Comentarios,
+                  UpdateSourceTrigger=PropertyChanged}" 
+                                    MinWidth="350" Width="*"/>
+                </DataGrid.Columns>
+              </DataGrid>
+            </Grid>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+        <ListBox.ItemContainerStyle>
+          <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+            <Style.Triggers>
+              <Trigger Property="IsSelected" Value="True" >
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="Transparent"/>
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+        </ListBox.ItemContainerStyle>
+      </ListBox>-->
   </Grid>
 </UserControl>

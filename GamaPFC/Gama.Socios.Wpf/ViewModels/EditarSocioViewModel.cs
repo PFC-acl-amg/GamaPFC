@@ -125,7 +125,7 @@ namespace Gama.Socios.Wpf.ViewModels
                     _SocioRepository.GetById(id));
 
                 _SocioVM.Load(Socio);
-                _CuotasVM.Load(_SocioVM.Socio);
+               // _CuotasVM.Load(_SocioVM.Socio);
                 _EditarPeriodosDeAltaViewModel.Load(_SocioVM.Socio);
                 RefrescarTitulo(Socio.Nombre);
             }

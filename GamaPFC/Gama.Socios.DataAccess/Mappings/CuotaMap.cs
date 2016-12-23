@@ -17,6 +17,8 @@ namespace Gama.Socios.DataAccess.Mappings
             Map(x => x.CantidadTotal).Default("0");
             Map(x => x.CantidadPagada).Default("0");
             Map(x => x.Fecha).Not.Nullable();
+            Map(x => x.EstaPagado);
+            Map(x => x.NoContabilizar);
             Map(x => x.Comentarios).Not.Nullable().Default("");
 
             References(x => x.PeriodoDeAlta);

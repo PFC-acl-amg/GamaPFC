@@ -36,6 +36,21 @@ namespace Gama.Socios.Wpf.Wrappers
             this.RegisterCollection(this.MesesAplicables, model.MesesAplicables);
         }
 
+        public override void AcceptChanges()
+        {
+            MesesAplicables.Clear();
+            foreach (var mesAplicable in Model.GetMesesAplicables())
+            {
+                MesesAplicables.Add(new CuotaWrapper(mesAplicable));
+            }
+
+            base.AcceptChanges();
+
+            //this.MesesAplicables = new ChangeTrackingCollection<CuotaWrapper>
+            //    (Model.GetMesesAplicables().Select(x => new CuotaWrapper(x)));
+            //this.RegisterCollection(this.MesesAplicables, Model.MesesAplicables);
+        }
+
         public int Id
         {
             get { return GetValue<int>(); }
