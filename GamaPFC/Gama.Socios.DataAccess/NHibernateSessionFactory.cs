@@ -32,7 +32,7 @@ namespace Gama.Socios.DataAccess
                     {
                         NHibernate.Cfg.Configuration configuration;
 
-                        File.Delete("nh_socios.cfg");
+                        //File.Delete("nh_socios.cfg");
                         if (File.Exists("nh_socios.cfg"))
                         {
                             var file = File.Open("nh_socios.cfg", FileMode.Open);
@@ -82,7 +82,7 @@ namespace Gama.Socios.DataAccess
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: true,
-                            execute: true,
+                            execute: false,
                             justDrop: false);
                     })
                 .BuildConfiguration();

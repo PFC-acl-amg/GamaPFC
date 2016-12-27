@@ -12,7 +12,6 @@
     <ResourceDictionary Source="Constants/Colores.xaml"/>
     <ResourceDictionary Source="Templates/SearchBox.xaml"/>
     <ResourceDictionary Source="GamaIcons.xaml"/>
-    <ResourceDictionary Source="Constants/ControlBaseStyle.xaml"/>
     <ResourceDictionary Source="Styles/CheckBox.xaml"/>
     <ResourceDictionary Source="Styles/ComboBox.xaml"/>
     <ResourceDictionary Source="Styles/DatePicker.xaml"/>

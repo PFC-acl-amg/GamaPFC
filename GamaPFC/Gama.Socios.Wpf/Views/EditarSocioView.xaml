@@ -14,11 +14,11 @@
   </UserControl.Resources>
   <Grid>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition MaxWidth="400" Width="Auto" />
+      <ColumnDefinition MaxWidth="500" Width="Auto" />
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
 
-    <Expander ExpandDirection="Right" IsExpanded="True" >
+    <Expander ExpandDirection="Right" IsExpanded="True">
     <Grid Grid.Column="0" Grid.Row="0">
       <Grid.RowDefinitions>
         <RowDefinition />

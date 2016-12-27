@@ -31,12 +31,7 @@ namespace Gama.Socios.Wpf.ViewModels
                 OnActualizarCommandCanExecute);
         }
 
-        private void PeriodoDeAltaSeleccionado_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            InvalidateCommand();
-        }
-
-        private void InvalidateCommand()
+        private void InvalidateCommands()
         {
             ((DelegateCommand<PeriodoDeAltaWrapper>)ActualizarCommand).RaiseCanExecuteChanged();
         }
@@ -44,29 +39,40 @@ namespace Gama.Socios.Wpf.ViewModels
         public void Load(SocioWrapper socio)
         {
             Socio = socio;
+            if (socio.PeriodosDeAlta.FirstOrDefault() != null)
+                PeriodoDeAltaSeleccionado = socio.PeriodosDeAlta.FirstOrDefault();
 
-            PeriodoDeAltaSeleccionado = Socio.PeriodosDeAlta.FirstOrDefault();
-            PeriodoDeAltaSeleccionado.PropertyChanged += PeriodoDeAltaSeleccionado_PropertyChanged;
+            foreach (var periodoDeAlta in Socio.PeriodosDeAlta)
+            {
+                periodoDeAlta.PropertyChanged += (s, e) => { InvalidateCommands(); };
+            }
         }
 
-        public SocioWrapper Socio { get; set; }
-        
-        private PeriodoDeAltaWrapper _PeriodoDeAltaSeleccionado;
+        public PeriodoDeAltaWrapper _PeriodoDeAltaSeleccionado;
         public PeriodoDeAltaWrapper PeriodoDeAltaSeleccionado
         {
             get { return _PeriodoDeAltaSeleccionado; }
-            set { SetProperty(ref _PeriodoDeAltaSeleccionado, value);}
+            set
+            {
+                _PeriodoDeAltaSeleccionado = value;
+                //_PeriodoDeAltaSeleccionado.PropertyChanged += (s, e) => { InvalidateCommands(); };
+            }
         }
+
+        public SocioWrapper Socio { get; set; }
 
         public ICommand ActualizarCommand { get; private set; }
 
         private bool OnActualizarCommandCanExecute(PeriodoDeAltaWrapper wrapper)
         {
-            return wrapper.MesesAplicables.IsChanged;
+            return
+                (wrapper.IsChanged && wrapper.IsValid) ||
+                (wrapper.MesesAplicables.IsChanged && wrapper.MesesAplicables.IsValid);
         }
 
         private void OnActualizarCommandExecute(PeriodoDeAltaWrapper wrapper)
         {
+            //wrapper = PeriodoDeAltaSeleccionado;
             var model = wrapper.Model;
 
             var cuotasPreexistentes = new List<Cuota>(wrapper.Cuotas.Select(x => x.Model));
@@ -89,6 +95,7 @@ namespace Gama.Socios.Wpf.ViewModels
 
             wrapper.AcceptChanges();
             _SocioRepository.Update(Socio.Model);
+            InvalidateCommands();
         }
 
         public ISession Session
