@@ -156,6 +156,9 @@
     <Compile Include="Views\ListadoDeSociosView.xaml.cs">
       <DependentUpon>ListadoDeSociosView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NuevoSocioView.xaml.cs">
+      <DependentUpon>NuevoSocioView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PanelSwitcherView.xaml.cs">
       <DependentUpon>PanelSwitcherView.xaml</DependentUpon>
     </Compile>
@@ -205,6 +208,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ListadoDeSociosView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NuevoSocioView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -10,6 +10,10 @@
         <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Icons.xaml"/>
         <ResourceDictionary Source="Themes/Generic.xaml"/>
         <ResourceDictionary Source="Resources/Resources.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Styles/CheckBox.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Styles/ComboBox.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Styles/DatePicker.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Styles/TextBox.xaml"/>
       </ResourceDictionary.MergedDictionaries>
 
     </ResourceDictionary>
