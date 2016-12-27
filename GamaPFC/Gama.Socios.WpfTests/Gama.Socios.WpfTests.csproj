@@ -111,6 +111,7 @@
     <Compile Include="DashboardViewModelTests.cs" />
     <Compile Include="EditarSocioViewModelTests.cs" />
     <Compile Include="ListadoDeSociosViewModelTest.cs" />
+    <Compile Include="NuevoSocioViewModelTests.cs" />
     <Compile Include="PanelSwitcherViewModeTests.cs" />
     <Compile Include="SociosContentViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
