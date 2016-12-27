@@ -142,6 +142,7 @@
     <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
     <Compile Include="ViewModels\SociosContentViewModel.cs" />
     <Compile Include="ViewModels\SocioViewModel.cs" />
+    <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="Views\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
@@ -168,6 +169,9 @@
     </Compile>
     <Compile Include="Views\SocioView.xaml.cs">
       <DependentUpon>SocioView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ToolbarView.xaml.cs">
+      <DependentUpon>ToolbarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Wrappers\CuotaWrapper.cs" />
     <Compile Include="Wrappers\PeriodoDeAltaWrapper.cs" />
@@ -228,6 +232,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ToolbarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -274,6 +282,11 @@
       <Project>{9c963149-1d42-4742-82e8-2bde5dff9a0c}</Project>
       <Name>Gama.Socios.DataAccess</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\icono_nuevo_socio.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

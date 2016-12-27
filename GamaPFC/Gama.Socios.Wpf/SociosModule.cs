@@ -118,6 +118,7 @@ namespace Gama.Socios.Wpf
             Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
             Container.RegisterType<object, SociosContentView>("SociosContentView");
             Container.RegisterType<object, SocioView>("SocioView");
+            Container.RegisterType<object, ToolbarView>("ToolbarView");
         }
 
         private void RegisterViewModels()
@@ -127,9 +128,11 @@ namespace Gama.Socios.Wpf
             Container.RegisterType<EditarPeriodosDeAltaViewModel>();
             Container.RegisterType<EditarSocioViewModel>();
             Container.RegisterType<ListadoDeSociosViewModel>();
+            Container.RegisterType<NuevoSocioViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
             Container.RegisterType<SociosContentViewModel>();
             Container.RegisterType<SocioViewModel>();
+            Container.RegisterType<ToolbarViewModel>();
         }
 
         private void RegisterServices()
@@ -145,7 +148,7 @@ namespace Gama.Socios.Wpf
         private void InitializeNavigation()
         {
             RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
-            //RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
+            RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
             //RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
 

@@ -8,7 +8,6 @@
         mc:Ignorable="d"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:actions="clr-namespace:Core.Util;assembly=Core"
-        mc:Ignorable="d"
         Title="Nuevo Socio"
         d:DesignWidth="550" d:DesignHeight="515.781"
         prism:ViewModelLocator.AutoWireViewModel="True"
