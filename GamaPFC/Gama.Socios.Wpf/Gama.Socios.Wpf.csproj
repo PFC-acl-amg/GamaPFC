@@ -138,6 +138,7 @@
     <Compile Include="ViewModels\EditarPeriodosDeAltaViewModel.cs" />
     <Compile Include="ViewModels\EditarSocioViewModel.cs" />
     <Compile Include="ViewModels\ListadoDeSociosViewModel.cs" />
+    <Compile Include="ViewModels\NuevoSocioViewModel.cs" />
     <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
     <Compile Include="ViewModels\SociosContentViewModel.cs" />
     <Compile Include="ViewModels\SocioViewModel.cs" />
