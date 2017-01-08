@@ -11,6 +11,7 @@ using Gama.Socios.Wpf.Services;
 using Prism.Commands;
 using System.Windows.Input;
 using Gama.Socios.Business;
+using Gama.Socios.Wpf.Eventos;
 
 namespace Gama.Socios.Wpf.ViewModels
 {
@@ -95,6 +96,8 @@ namespace Gama.Socios.Wpf.ViewModels
             wrapper.AcceptChanges();
             _SocioRepository.Update(Socio.Model);
             InvalidateCommands();
+
+            _EventAggregator.GetEvent<SocioActualizadoEvent>().Publish(Socio.Model);
         }
 
         public void AddPeriodoDeAlta()

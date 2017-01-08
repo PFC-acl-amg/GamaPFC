@@ -40,6 +40,8 @@ namespace Gama.Socios.Wpf.ViewModels
             SelectResultCommand = new DelegateCommand(OnSelectResultCommandExecute);
 
             Socios = new ObservableCollection<LookupItem>(socioRepository.GetAllForLookup());
+
+            _EventAggregator.GetEvent<SocioCreadoEvent>().Subscribe(OnSocioCreadoEvent);
         }
 
         public string TextoDeBusqueda
@@ -71,6 +73,12 @@ namespace Gama.Socios.Wpf.ViewModels
         private void OnSelectResultCommandExecute()
         {
             _EventAggregator.GetEvent<SocioSeleccionadoEvent>().Publish(_UltimoSocioSeleccionado.Id);
+        }
+
+        private void OnSocioCreadoEvent(int id)
+        {
+            var socio = _SocioRepository.GetById(id);
+            Socios.Add(new LookupItem { DisplayMember1 = socio.Nombre, DisplayMember2 = socio.Nif, Id = socio.Id });
         }
     }
 }

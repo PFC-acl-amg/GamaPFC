@@ -152,6 +152,11 @@ namespace Gama.Socios.Wpf.Wrappers
                 results.Add(new ValidationResult("El campo de nombre es obligatorio", new[] { nameof(Nombre) }));
             }
 
+            if (FechaDeNacimiento == null)
+            {
+                results.Add(new ValidationResult("El campo de fecha de nacimiento es obligatorio", new[] { nameof(FechaDeNacimiento) }));
+            }
+
             var pattern =
                 @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
                 @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
