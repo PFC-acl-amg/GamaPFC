@@ -1,4 +1,5 @@
-﻿using Gama.Socios.Business;
+﻿using Gama.Common.CustomControls;
+using Gama.Socios.Business;
 using NHibernate;
 using System.Collections.Generic;
 
@@ -11,7 +12,9 @@ namespace Gama.Socios.Wpf.Services
         Socio GetById(int id);
 
         List<Socio> GetAll();
-        
+
+        List<LookupItem> GetAllForLookup();
+
         void Create(Socio entity);
 
         bool Update(Socio entity);

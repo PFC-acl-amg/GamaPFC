@@ -68,6 +68,7 @@
     <Compile Include="CustomControls\ListBoxItemBehaviour.cs" />
     <Compile Include="CustomControls\LookupItem.cs" />
     <Compile Include="CustomControls\SearchBox.cs" />
+    <Compile Include="CustomControls\SearchBoxDataTemplateSelector.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="Resources\Behaviors\ChangeBehavior.cs" />
     <Compile Include="Resources\Behaviors\DummyClass.cs" />

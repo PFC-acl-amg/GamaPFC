@@ -140,6 +140,7 @@
     <Compile Include="ViewModels\ListadoDeSociosViewModel.cs" />
     <Compile Include="ViewModels\NuevoSocioViewModel.cs" />
     <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
+    <Compile Include="ViewModels\SearchBoxViewModel.cs" />
     <Compile Include="ViewModels\SociosContentViewModel.cs" />
     <Compile Include="ViewModels\SocioViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
@@ -163,6 +164,9 @@
     </Compile>
     <Compile Include="Views\PanelSwitcherView.xaml.cs">
       <DependentUpon>PanelSwitcherView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SearchBoxView.xaml.cs">
+      <DependentUpon>SearchBoxView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SociosContentView.xaml.cs">
       <DependentUpon>SociosContentView.xaml</DependentUpon>
@@ -221,6 +225,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PanelSwitcherView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SearchBoxView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess;
+using Gama.Common.CustomControls;
 using Gama.Socios.Business;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,21 @@ namespace Gama.Socios.Wpf.Services
             }
 
             return resultado;
+        }
+
+        public List<LookupItem> GetAllForLookup()
+        {
+            var socios = Session.CreateCriteria<Socio>().List<Socio>().Select(
+                p => new LookupItem
+                {
+                    Id = p.Id,
+                    DisplayMember1 = p.Nombre,
+                    DisplayMember2 = p.Nif
+                }).ToList();
+
+            //var result = new List<LookupItem>(socios);
+
+            return socios;
         }
     }
 }

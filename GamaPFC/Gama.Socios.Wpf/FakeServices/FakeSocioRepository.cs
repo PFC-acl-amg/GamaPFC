@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Gama.Socios.Business;
 using NHibernate;
+using Gama.Common.CustomControls;
 
 namespace Gama.Socios.Wpf.FakeServices
 {
@@ -95,6 +96,11 @@ namespace Gama.Socios.Wpf.FakeServices
         }
 
         public bool Update(Socio entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<LookupItem> GetAllForLookup()
         {
             throw new NotImplementedException();
         }
