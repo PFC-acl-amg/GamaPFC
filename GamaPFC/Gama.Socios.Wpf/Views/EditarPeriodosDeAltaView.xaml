@@ -27,15 +27,15 @@
     </Style>
 
     <!-- Hace falta aplicar el estilo a la celda de esta manear para poder aplicar el padding que queramos -->
-    <Style x:Key="CuotaDataGridCellStyle" TargetType="DataGridCell">
+    <Style x:Key="CuotaDataGridCellStyle" TargetType="DataGridCell" >
       <Setter Property="Padding" Value="{DynamicResource Margin}"/>
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="{x:Type DataGridCell}">
             <Border Padding="{TemplateBinding Padding}" 
-                                              BorderBrush="{TemplateBinding BorderBrush}" 
-                                              BorderThickness="{TemplateBinding BorderThickness}" 
-                                              Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}" 
+                    Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
               <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
             </Border>
           </ControlTemplate>
@@ -58,9 +58,9 @@
                   <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" Margin="{StaticResource Margin}">
-                  <TextBlock Text="{Binding FechaDeAlta}"/>
+                  <TextBlock Text="{Binding FechaDeAlta, StringFormat ='dd/MM/yyyy'}"/>
                   <TextBlock Text=" - "/>
-                  <TextBlock Text="{Binding FechaDeBaja}"/>
+                  <TextBlock Text="{Binding FechaDeBaja, StringFormat='dd/MM/yyyy'}"/>
                 </StackPanel>
                 <Button Width="40" Height="40"
                         Grid.Column="1" 
@@ -89,11 +89,11 @@
 
                 <!-- Edición del perido de alta -->
               <StackPanel Orientation="Horizontal" Margin="{StaticResource Margin}">
-                <DatePickerTextBox Text="{Binding FechaDeAlta, StringFormat='dd MM yyyy',
+                <DatePicker BorderThickness="0" Text="{Binding FechaDeAlta, Mode=TwoWay, StringFormat='dd MM yyyy',
                   UpdateSourceTrigger=PropertyChanged}" />
-                <TextBlock Text=" - "/>
-                <DatePicker Text="{Binding FechaDeBaja, Mode=TwoWay, StringFormat='dd MM yyyy',  TargetNullValue='', FallbackValue='',
-                  UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="{Binding FechaDeAlta, Mode=OneTime}"/>
+                <TextBlock Text=" - " VerticalAlignment="Center"/>
+                <DatePicker BorderThickness="0" Text="{Binding FechaDeBaja, Mode=TwoWay, StringFormat='dd MM yyyy',  TargetNullValue='', FallbackValue='',
+                  UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="{Binding FechaDeAlta, UpdateSourceTrigger=PropertyChanged}"/>
               </StackPanel>
 
               <!-- Tabla de cuotas -->
@@ -117,32 +117,32 @@
                       ElementStyle="{DynamicResource MetroDataGridCheckBox}"
                       EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
                       MinWidth="70" 
-                      Width="Auto"/>
+                      Width="*"/>
                     <DataGridCheckBoxColumn
                       Header="NA/NC" 
                       Binding="{Binding NoContabilizar,UpdateSourceTrigger=PropertyChanged}"
                       ElementStyle="{DynamicResource MetroDataGridCheckBox}"
                       EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
                       MinWidth="70" 
-                      Width="Auto"/>
+                      Width="*"/>
                     <DataGridTextColumn 
                       Header="Fecha"
                       Binding="{Binding Fecha, Converter={StaticResource _DateToMonthYearConverter}}"
-                      MinWidth="50" 
-                      Width="Auto"
+                      MinWidth="100" 
+                      Width="*"
                       IsReadOnly="True"/>
                     <controls:DataGridNumericUpDownColumn 
                       StringFormat="C" 
                       Minimum="0"
                       Header="Cantidad" 
                       Binding="{Binding CantidadTotal, UpdateSourceTrigger=PropertyChanged}"
-                      MinWidth="50" 
-                      Width="Auto"/>
+                      MinWidth="100" 
+                      Width="*"/>
                     <DataGridTextColumn 
                       Header="Comentarios" 
                       Binding="{Binding Comentarios, UpdateSourceTrigger=PropertyChanged}" 
-                      MinWidth="350" 
-                      Width="70*"/>
+                      MinWidth="400" 
+                      Width="100*"/>
                   </DataGrid.Columns>
                 </DataGrid>
               </Grid>

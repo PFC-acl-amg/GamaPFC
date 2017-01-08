@@ -115,6 +115,7 @@
     <Compile Include="PanelSwitcherViewModeTests.cs" />
     <Compile Include="SociosContentViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ToolbarViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

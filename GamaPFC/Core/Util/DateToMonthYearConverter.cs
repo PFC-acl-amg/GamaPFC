@@ -16,7 +16,7 @@ namespace Core.Util
 
             if (date.HasValue)
             {
-                return string.Format("{0} {1}", DateUtility.Meses[date.Value.Month].ToUpper(), date.Value.Year);
+                return string.Format("{0} {1}", DateUtility.Meses[date.Value.Month].ToUpper().Substring(0, 3), date.Value.Year);
             }
             else
             {

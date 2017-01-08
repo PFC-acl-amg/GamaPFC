@@ -55,7 +55,6 @@ namespace Gama.Socios.Wpf.ViewModels
             set
             {
                 _PeriodoDeAltaSeleccionado = value;
-                //_PeriodoDeAltaSeleccionado.PropertyChanged += (s, e) => { InvalidateCommands(); };
             }
         }
 
@@ -96,6 +95,18 @@ namespace Gama.Socios.Wpf.ViewModels
             wrapper.AcceptChanges();
             _SocioRepository.Update(Socio.Model);
             InvalidateCommands();
+        }
+
+        public void AddPeriodoDeAlta()
+        {
+            var nuevoPeriodoDeAlta = new PeriodoDeAltaWrapper(new PeriodoDeAlta()
+            {
+                FechaDeAlta = DateTime.Now.Date
+            });
+
+            nuevoPeriodoDeAlta.PropertyChanged += (s, e) => { InvalidateCommands(); };
+
+            Socio.AddPeriodoDeAlta(nuevoPeriodoDeAlta);
         }
 
         public ISession Session

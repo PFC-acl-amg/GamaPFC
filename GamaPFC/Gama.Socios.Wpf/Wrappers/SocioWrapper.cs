@@ -121,6 +121,12 @@ namespace Gama.Socios.Wpf.Wrappers
             set { SetValue(value); }
         }
 
+        internal void AddPeriodoDeAlta(PeriodoDeAltaWrapper nuevoPeriodoDeAlta)
+        {
+            nuevoPeriodoDeAlta.Model.Socio = this.Model;
+            PeriodosDeAlta.Add(nuevoPeriodoDeAlta);
+        }
+
         public string TelefonoOriginalValue => GetOriginalValue<string>(nameof(Telefono));
 
         public bool TelefonoIsChanged => GetIsChanged(nameof(Telefono));

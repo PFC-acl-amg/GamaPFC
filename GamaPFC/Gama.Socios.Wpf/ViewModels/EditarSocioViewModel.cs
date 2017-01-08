@@ -14,6 +14,7 @@ using Gama.Socios.Wpf.Wrappers;
 using Gama.Socios.Wpf.Eventos;
 using System.ComponentModel;
 using Gama.Common.Views;
+using Gama.Socios.Business;
 
 namespace Gama.Socios.Wpf.ViewModels
 {
@@ -42,6 +43,8 @@ namespace Gama.Socios.Wpf.ViewModels
             _SocioRepository.Session = session;
             _CuotasVM.Session = session;
             _EditarPeriodosDeAltaViewModel.Session = session;
+
+            NuevoPeriodoDeAltaCommand = new DelegateCommand(OnNuevoPeriodoDeAltaCommandExecute);
 
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
@@ -79,9 +82,15 @@ namespace Gama.Socios.Wpf.ViewModels
             get { return _EditarPeriodosDeAltaViewModel; }
         }
 
+        public ICommand NuevoPeriodoDeAltaCommand { get; private set; }
         public ICommand HabilitarEdicionCommand { get; private set; }
         public ICommand ActualizarCommand { get; private set; }
         public ICommand CancelarEdicionCommand { get; private set; }
+
+        private void OnNuevoPeriodoDeAltaCommandExecute()
+        {
+            _EditarPeriodosDeAltaViewModel.AddPeriodoDeAlta();
+        }
 
         private void OnActualizarCommand()
         {
