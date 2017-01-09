@@ -1,14 +1,22 @@
 ﻿<UserControl x:Class="Gama.Socios.Wpf.Views.SocioView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gama.Socios.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
+             xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
              mc:Ignorable="d" 
              prism:ViewModelLocator.AutoWireViewModel="True"
              d:DesignHeight="475.685" d:DesignWidth="333.904">
+  <d:DataContext>
+    <designData:SocioViewModelDTD/>
+  </d:DataContext>
+  <UserControl.Resources>
+    <util:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>
+  </UserControl.Resources>
   <GroupBox Header="Datos Personales">
     <ScrollViewer>
       <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding EdicionHabilitada}">
@@ -26,14 +34,26 @@
               <ColumnDefinition Width="Auto"/>
               <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-            <Border MaxHeight="64" BorderBrush="Black" BorderThickness="1.5" CornerRadius="1">
-              <Rectangle Width="60" Margin="{DynamicResource Margin}">
-                <Rectangle.Fill>
-                  <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_user}" />
-                </Rectangle.Fill>
-              </Rectangle>
-            </Border>
+            <StackPanel Orientation="Vertical">
+              <Border MaxHeight="70" BorderBrush="Black" BorderThickness="1.5" CornerRadius="1">
+                <Image Stretch="Fill" Source="{Binding Socio.AvatarPath, 
+                  Converter={StaticResource _PathToFullPathConverter}, UpdateSourceTrigger=PropertyChanged}">
+                </Image>
+                <!--<Rectangle Width="60" Margin="{DynamicResource MarginNoBottom}">
+                  <Rectangle.Fill>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_user}" />
+                  </Rectangle.Fill>
+                </Rectangle>-->
+              </Border>
+              <Label Margin="0,-4,0,-2" VerticalAlignment="Bottom" 
+                     VerticalContentAlignment="Bottom" HorizontalAlignment="Right">
+                <Hyperlink Command="{Binding ExaminarAvatarCommand}" FontSize="9">Examinar...</Hyperlink>
+              </Label>
+            </StackPanel>
 
             <StackPanel Grid.Column="1">
               <Label Margin="{DynamicResource Margin}">DNI/NIF</Label>
@@ -67,7 +87,7 @@
           <Label Margin="{DynamicResource Margin}">Nacionalidad</Label>
           <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Nacionalidad, UpdateSourceTrigger=PropertyChanged}"
                    TextWrapping="Wrap"/>
-          
+
           <Label Margin="{DynamicResource Margin}">Email</Label>
           <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Email, UpdateSourceTrigger=PropertyChanged}"
                    TextWrapping="Wrap"/>

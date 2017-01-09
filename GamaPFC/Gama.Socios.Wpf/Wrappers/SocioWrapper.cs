@@ -14,7 +14,6 @@ namespace Gama.Socios.Wpf.Wrappers
     {
         public SocioWrapper(Socio model) : base(model)
         {
-
         }
 
         protected override void InitializeCollectionProperties(Socio model)
@@ -34,6 +33,16 @@ namespace Gama.Socios.Wpf.Wrappers
             get { return GetValue<int>(); }
             set { SetValue(value); }
         }
+
+        public string AvatarPath
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string AvatarPathOriginalValue => GetOriginalValue<string>(nameof(AvatarPath));
+
+        public bool AvatarPathIsChanged => GetIsChanged(nameof(AvatarPath));
 
         public string DireccionPostal
         {

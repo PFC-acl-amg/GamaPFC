@@ -22,6 +22,7 @@ namespace Gama.Socios.Business
         public virtual string Nombre { get; set; }
         public virtual string Telefono { get; set; } = "";
         public virtual string Twitter { get; set; } = "";
+        public virtual string AvatarPath { get; set; }
 
         public virtual IList<PeriodoDeAlta> PeriodosDeAlta { get; set; }
 
