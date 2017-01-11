@@ -11,16 +11,72 @@ namespace Gama.Socios.Wpf.Services
 {
     public class SocioRepository : NHibernateOneSessionRepository<Socio, int>, ISocioRepository
     {
+        public override List<Socio> GetAll()
+        {
+            try
+            {
+                //using (var tx = Session.BeginTransaction())
+                //{
+                var result = Session.CreateCriteria<Socio>().List<Socio>()
+                    .Select(x => x.DecryptFluent()).ToList();
+                //tx.Commit();
+                return result;
+                //}
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public override void Create(Socio entity)
+        {
+            try
+            {
+                using (var tx = Session.BeginTransaction())
+                {
+                    entity.Encrypt();
+                    Session.Save(entity);
+
+                    tx.Commit();
+                    //entity.Decrypt();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public override Socio GetById(int id)
+        {
+            try
+            {
+                //using (var tx = Session.BeginTransaction())
+                //{
+                var result = Session.Get<Socio>((object)id);
+                result.Decrypt();
+                //tx.Commit();
+                return result;
+                //}
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public override bool Update(Socio entity)
         {
             try
             {
                 using (var tx = Session.BeginTransaction())
                 {
-                    //entity.Encrypt();
+                    entity.Encrypt();
                     Session.Update(entity);
                     //Session.Merge(entity);
                     tx.Commit();
+                    entity.Decrypt();
 
                 }
 
@@ -63,12 +119,14 @@ namespace Gama.Socios.Wpf.Services
 
         public List<LookupItem> GetAllForLookup()
         {
-            var socios = Session.CreateCriteria<Socio>().List<Socio>().Select(
-                p => new LookupItem
+            var socios = Session.CreateCriteria<Socio>().List<Socio>()
+                .Select(x => x.DecryptFluent())
+                .Select(
+                x => new LookupItem
                 {
-                    Id = p.Id,
-                    DisplayMember1 = p.Nombre,
-                    DisplayMember2 = p.Nif
+                    Id = x.Id,
+                    DisplayMember1 = x.Nombre,
+                    DisplayMember2 = x.Nif
                 }).ToList();
 
             //var result = new List<LookupItem>(socios);

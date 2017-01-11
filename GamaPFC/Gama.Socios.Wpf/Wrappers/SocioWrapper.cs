@@ -14,6 +14,11 @@ namespace Gama.Socios.Wpf.Wrappers
     {
         public SocioWrapper(Socio model) : base(model)
         {
+            //var encryptableModel = model as IEncryptable;
+            //if (encryptableModel != null)
+            //{
+            //    encryptableModel.Decrypt();
+            //}
         }
 
         protected override void InitializeCollectionProperties(Socio model)

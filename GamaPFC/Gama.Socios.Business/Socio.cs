@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Socios.Business
 {
-    public class Socio : TimestampedModel
+    public class Socio : TimestampedModel, IEncryptable
     {
         public static int MesesParaSerConsideradoMoroso = 3;
 
@@ -26,9 +26,13 @@ namespace Gama.Socios.Business
 
         public virtual IList<PeriodoDeAlta> PeriodosDeAlta { get; set; }
 
+        public virtual List<string> EncryptedFields { get; set; }
+
         public Socio()
         {
             PeriodosDeAlta = new List<PeriodoDeAlta>();
+            EncryptedFields = new List<string>();
+            EncryptedFields.Add(nameof(Nombre));
         }
 
         public virtual bool IsBirthday()
@@ -72,6 +76,48 @@ namespace Gama.Socios.Business
         {
             periodoDeAlta.Socio = this;
             PeriodosDeAlta.Add(periodoDeAlta);
+        }
+
+        public virtual void Encrypt()
+        {
+            foreach (var propertyName in EncryptedFields)
+            {
+                var propertyInfo = this.GetType().GetProperty(propertyName);
+                var propertyValue = propertyInfo.GetValue(this, null);
+
+                string value = "";
+                for (int i = 0; i < propertyValue.ToString().Length; i++)
+                {
+                    var theChar = (char)((int)propertyValue.ToString()[i] + 1);
+                    value += theChar;
+                }
+
+                propertyInfo.SetValue(this, value);
+            }
+        }
+
+        public virtual Socio DecryptFluent()
+        {
+            Decrypt();
+            return this;
+        }
+
+        public virtual void Decrypt()
+        {
+            foreach (var propertyName in EncryptedFields)
+            {
+                var propertyInfo = this.GetType().GetProperty(propertyName);
+                var propertyValue = propertyInfo.GetValue(this, null);
+
+                string value = "";
+                for (int i = 0; i < propertyValue.ToString().Length; i++)
+                {
+                    var theChar = (char)((int)propertyValue.ToString()[i] - 1);
+                    value += theChar;
+                }
+
+                propertyInfo.SetValue(this, value);
+            }
         }
     }
 }

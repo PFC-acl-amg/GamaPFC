@@ -41,7 +41,7 @@ namespace Core.DataAccess
             }
         }
 
-        public List<TEntity> GetAll()
+        public virtual List<TEntity> GetAll()
         {
             try
             {
@@ -58,7 +58,7 @@ namespace Core.DataAccess
             }
         }
 
-        public void Create(TEntity entity)
+        public virtual void Create(TEntity entity)
         {
             try
             {

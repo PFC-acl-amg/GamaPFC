@@ -27,16 +27,13 @@ namespace Core
             _trackingObjects = new List<IValidatableTrackingObject>();
             InitializeComplexProperties(model);
             InitializeCollectionProperties(model);
+            
             Validate();
         }
 
-        protected virtual void InitializeCollectionProperties(T model)
-        {
-        }
-
-        protected virtual void InitializeComplexProperties(T model)
-        {
-        }
+        protected virtual void InitializeCollectionProperties(T model) { }
+  
+        protected virtual void InitializeComplexProperties(T model) { }
 
         public T Model { get; private set; }
 
