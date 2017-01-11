@@ -14,7 +14,7 @@ namespace Gama.Socios.WpfTests
 
         public ToolbarViewModelTests()
         {
-            _Vm = new ToolbarViewModel();
+            //_Vm = new ToolbarViewModel();
         }
 
         [Fact]

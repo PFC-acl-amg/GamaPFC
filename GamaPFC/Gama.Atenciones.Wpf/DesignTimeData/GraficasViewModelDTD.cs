@@ -18,6 +18,7 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
             PointLabel = chartPoint =>
                 string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
 
+            #region seeder
             var sessionFactory = new NHibernateSessionFactory();
             var rep = new PersonaRepository();
             rep.Session = sessionFactory.OpenSession();
@@ -69,6 +70,7 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
                     //rep.Create(persona);
                 }
             }
+#endregion
 
             var personas = rep.GetAll();
 

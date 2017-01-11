@@ -11,6 +11,29 @@ namespace Gama.Socios.Wpf.Services
 {
     public class SocioRepository : NHibernateOneSessionRepository<Socio, int>, ISocioRepository
     {
+        public override bool Update(Socio entity)
+        {
+            try
+            {
+                using (var tx = Session.BeginTransaction())
+                {
+                    //entity.Encrypt();
+                    Session.Update(entity);
+                    //Session.Merge(entity);
+                    tx.Commit();
+
+                }
+
+                return true;
+            }
+            catch (NHibernate.Exceptions.GenericADOException e)
+            {
+                var message = e.Message;
+                throw e;
+            }
+        }
+
+
         public IEnumerable<int> GetSociosNuevosPorMes(int numeroDeMeses)
         {
             List<int> resultado;
