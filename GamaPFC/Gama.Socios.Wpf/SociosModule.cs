@@ -143,6 +143,7 @@ namespace Gama.Socios.Wpf
 
             Container.RegisterType<ISocioRepository, SocioRepository>();
             Container.RegisterInstance<ISociosSettings>(new SociosSettings());
+            Container.RegisterInstance<ExportService>(new ExportService());
         }
 
         private void InitializeNavigation()
