@@ -28,11 +28,14 @@ namespace Gama.Socios.Business
 
         public virtual List<string> EncryptedFields { get; set; }
 
+        public virtual bool IsEncrypted { get; set; } 
+
         public Socio()
         {
             PeriodosDeAlta = new List<PeriodoDeAlta>();
             EncryptedFields = new List<string>();
             EncryptedFields.Add(nameof(Nombre));
+            IsEncrypted = false;
         }
 
         public virtual bool IsBirthday()
@@ -80,6 +83,9 @@ namespace Gama.Socios.Business
 
         public virtual void Encrypt()
         {
+            if (IsEncrypted)
+                return;
+
             foreach (var propertyName in EncryptedFields)
             {
                 var propertyInfo = this.GetType().GetProperty(propertyName);
@@ -94,6 +100,8 @@ namespace Gama.Socios.Business
 
                 propertyInfo.SetValue(this, value);
             }
+
+            IsEncrypted = true;
         }
 
         public virtual Socio DecryptFluent()
@@ -104,6 +112,9 @@ namespace Gama.Socios.Business
 
         public virtual void Decrypt()
         {
+            if (!IsEncrypted)
+                return;
+
             foreach (var propertyName in EncryptedFields)
             {
                 var propertyInfo = this.GetType().GetProperty(propertyName);
@@ -118,6 +129,8 @@ namespace Gama.Socios.Business
 
                 propertyInfo.SetValue(this, value);
             }
+
+            IsEncrypted = false;
         }
     }
 }

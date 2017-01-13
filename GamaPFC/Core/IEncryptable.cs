@@ -11,5 +11,6 @@ namespace Core
         List<string> EncryptedFields { get; set; }
         void Encrypt();
         void Decrypt();
+        bool IsEncrypted { get; set; }
     }
 }
