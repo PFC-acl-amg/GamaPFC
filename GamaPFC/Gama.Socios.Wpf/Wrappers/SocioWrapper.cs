@@ -14,11 +14,7 @@ namespace Gama.Socios.Wpf.Wrappers
     {
         public SocioWrapper(Socio model) : base(model)
         {
-            //var encryptableModel = model as IEncryptable;
-            //if (encryptableModel != null)
-            //{
-            //    encryptableModel.Decrypt();
-            //}
+
         }
 
         protected override void InitializeCollectionProperties(Socio model)
@@ -160,6 +156,15 @@ namespace Gama.Socios.Wpf.Wrappers
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var results = new List<ValidationResult>();
+
+            if (string.IsNullOrWhiteSpace(Nif))
+            {
+                results.Add(new ValidationResult("El campo de NIF es obligatorio", new[] { nameof(Nif) }));
+            }
+            else if (GlobalResources.TodosLosNif.Contains(Nif))
+            {
+                results.Add(new ValidationResult("El NIF introducido ya existe", new[] { nameof(Nif) }));
+            }
 
             if (string.IsNullOrWhiteSpace(Nombre))
             {

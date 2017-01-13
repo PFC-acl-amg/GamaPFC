@@ -90,6 +90,11 @@ namespace Core.DataAccess
 
                     Session.Save(entity);
                     tx.Commit();
+
+                    if (encryptableEntity != null)
+                    {
+                        encryptableEntity.Decrypt();
+                    }
                 }
             }
             catch (Exception ex)

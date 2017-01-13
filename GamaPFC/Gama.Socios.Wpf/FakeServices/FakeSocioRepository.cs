@@ -104,5 +104,10 @@ namespace Gama.Socios.Wpf.FakeServices
         {
             throw new NotImplementedException();
         }
+
+        public List<string> GetNifs()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

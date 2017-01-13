@@ -12,7 +12,7 @@ namespace Gama.Socios.Business
         public static int MesesParaSerConsideradoMoroso = 3;
 
         public virtual string DireccionPostal { get; set; } = "";
-        public virtual string Email { get; set; }
+        public virtual string Email { get; set; } = "";
         public virtual DateTime? FechaDeNacimiento { get; set; }
         public virtual string Facebook { get; set; } = "";
         public virtual int Id { get; set; }
@@ -28,13 +28,24 @@ namespace Gama.Socios.Business
 
         public virtual List<string> EncryptedFields { get; set; }
 
-        public virtual bool IsEncrypted { get; set; } 
+        public virtual bool IsEncrypted { get; set; }
 
         public Socio()
         {
             PeriodosDeAlta = new List<PeriodoDeAlta>();
             EncryptedFields = new List<string>();
-            EncryptedFields.Add(nameof(Nombre));
+
+            EncryptedFields.AddRange(new[] {
+                nameof(Nombre),
+                nameof(Nif),
+                nameof(Facebook),
+                nameof(Nacionalidad),
+                nameof(LinkedIn),
+                nameof(Telefono),
+                nameof(Twitter),
+                nameof(Email),
+            });
+
             IsEncrypted = false;
         }
 

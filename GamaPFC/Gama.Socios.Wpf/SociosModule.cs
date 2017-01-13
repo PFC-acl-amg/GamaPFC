@@ -17,6 +17,19 @@ using System.Threading.Tasks;
 
 namespace Gama.Socios.Wpf
 {
+    public static class GlobalResources
+    {
+        public static List<string> TodosLosNif { get; set; }
+
+        public static void AddNif(string nif)
+        {
+            if (!TodosLosNif.Contains(nif))
+            {
+                TodosLosNif.Add(nif);
+            }
+        }
+    }
+
     public class SociosModule : ModuleBase
     {
         public SociosModule(IUnityContainer container, IRegionManager regionManager)
@@ -32,16 +45,17 @@ namespace Gama.Socios.Wpf
             RegisterViewModels();
             RegisterServices();
 
+            var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
+
+            var socioRepository = new SocioRepository();
+            var session = sessionFactory.OpenSession();
+            socioRepository.Session = session;
+
             #region Database Seeding
             try
             {
                 if (UseFaker)
                 {
-                    var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
-
-                    var socioRepository = new SocioRepository();
-                    var session = sessionFactory.OpenSession();
-                    socioRepository.Session = session;
 
                     foreach(var socio in (new FakeSocioRepository().GetAll()))
                     {
@@ -104,6 +118,11 @@ namespace Gama.Socios.Wpf
                 throw ex;
             }
             #endregion
+
+            // Recogemos todos los NIF para usarlos en validación
+            // No lo hacemos en el wrapper directamente para eliminar el acomplamiento
+            // del wrapper a los servicios. 
+            GlobalResources.TodosLosNif = socioRepository.GetNifs();
 
             InitializeNavigation();
         }

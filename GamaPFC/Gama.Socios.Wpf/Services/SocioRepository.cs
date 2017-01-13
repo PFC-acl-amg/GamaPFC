@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess;
+using Core.Util;
 using Gama.Common.CustomControls;
 using Gama.Socios.Business;
 using System;
@@ -29,6 +30,31 @@ namespace Gama.Socios.Wpf.Services
                         .List<object>()
                         .Select(r => int.Parse(r.ToString()))
                         .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return resultado;
+        }
+
+        public List<string> GetNifs()
+        {
+            List<string> temp;
+            List<string> resultado = new List<string>();
+
+            try
+            {
+                temp = Session.QueryOver<Socio>()
+                    .Select(x => x.Nif)
+                    .List<string>()
+                    .ToList();
+
+                foreach(var nif in temp)
+                {
+                    resultado.Add(EncryptionService.Decrypt(nif));
+                }
             }
             catch (Exception ex)
             {

@@ -110,6 +110,7 @@
     <Compile Include="Util\DateToMonthYearConverter.cs" />
     <Compile Include="Util\DateUtility.cs" />
     <Compile Include="Util\DialogCloser.cs" />
+    <Compile Include="Util\EncryptionService.cs" />
     <Compile Include="Util\EnumBindingSourceExtension.cs" />
     <Compile Include="Util\EnumDescriptionTypeConverter.cs" />
     <Compile Include="Util\NullableValueConverter.cs" />
