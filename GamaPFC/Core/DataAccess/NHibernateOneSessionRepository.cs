@@ -91,6 +91,9 @@ namespace Core.DataAccess
                     Session.Save(entity);
                     tx.Commit();
 
+                    // Volvemos a desencriptar porque el modelo que nos ha llegado
+                    // ha sido por referencia, así que hay que devolverlo adecudamente
+                    // a las capas visuales...
                     if (encryptableEntity != null)
                     {
                         encryptableEntity.Decrypt();

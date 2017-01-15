@@ -6,30 +6,51 @@
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
+             xmlns:charts="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
              mc:Ignorable="d" 
-             d:DesignHeight="340.704" d:DesignWidth="388.945">
+             d:DesignHeight="538.191" d:DesignWidth="625.628">
   <UserControl.DataContext>
     <designData:GraficasViewModelDTD/>
   </UserControl.DataContext>
+  <UserControl.Resources>
+    <charts:ResourceDictionaryCollection x:Key="MyColorPalette">
+      <ResourceDictionary>
+        <SolidColorBrush x:Key="Brush1" Color="#FFFF2900" />
+      </ResourceDictionary>
+        <ResourceDictionary>
+          <SolidColorBrush x:Key="Brush3" Color="#FF66D149" />
+        </ResourceDictionary>
+        <ResourceDictionary>
+        <SolidColorBrush x:Key="Brush4" Color="#FF5D2A98" />
+      </ResourceDictionary>
+          <ResourceDictionary>
+            <SolidColorBrush x:Key="Brush5" Color="#FFD149C3" />
+      </ResourceDictionary>
+      <ResourceDictionary>
+        <SolidColorBrush x:Key="Brush6" Color="#FFD7E914" />
+      </ResourceDictionary>
+      <ResourceDictionary>
+        <SolidColorBrush x:Key="Brush2" Color="#FF1D97E3" />
+      </ResourceDictionary>
+    </charts:ResourceDictionaryCollection>
+    <Style x:Key="MinimalChartStyle" TargetType="charts:ChartBase">
+      <Setter Property="Width" Value="500"/>
+      <Setter Property="Height" Value="500"/>
+    </Style>
+  </UserControl.Resources>
   <Grid>
-    <lvc:PieChart LegendLocation="Bottom">
-      <lvc:PieChart.Series>
-        <!--<lvc:PieSeries Title="Hombre Cisexual" Values="4" DataLabels="True"
-                       LabelPoint="{Binding PointLabel}"
-                            />-->
-        <lvc:PieSeries Title="Hombre Transexual" Values="{Binding HombreCisexualCount, Mode=OneTime}" DataLabels="True"
-                               />
-        <!--<lvc:PieSeries Title="Hombre Transexual" Values="{Binding HombreTransexualCount}" DataLabels="True"
-                               />
-        <lvc:PieSeries Title="Mujer Cisexual" Values="{Binding MujerCisexualCount}" DataLabels="True"
-                               />
-        <lvc:PieSeries Title="Mujer Transexual" Values="{Binding MujerTransexualCount}" DataLabels="True"
-                               />
-        <lvc:PieSeries Title="No Proporcionado" Values="{Binding NoProporcionadoCount}" DataLabels="True"
-                               />
-        <lvc:PieSeries Title="Otra" Values="{Binding OtraIdentidadCount}" DataLabels="True"
-                              />-->
-      </lvc:PieChart.Series>
-    </lvc:PieChart>
+    <charts:PieChart
+       Palette="{StaticResource MyColorPalette}"
+        ChartTitle="Identidad Sexual"
+        ChartSubTitle="El subtítulo de este gráfico"
+        SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}" >
+      <charts:PieChart.Series>
+        <charts:ChartSeries
+                SeriesTitle="Identidad Sexual"
+                DisplayMember="Title"
+                ValueMember="Value"
+                ItemsSource="{Binding Path=Valores}" />
+      </charts:PieChart.Series>
+    </charts:PieChart>
   </Grid>
 </UserControl>
