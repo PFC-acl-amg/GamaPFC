@@ -199,12 +199,12 @@
                             </Rectangle>
                         </Button>
 
-                        <!-- HAbilitar Edición Button -->
+                        <!-- Habilitar Edición Button -->
                         <Button Width="50" 
                                 Height="50" 
                                 Style="{DynamicResource MetroCircleButtonStyle}"
-                                Visibility="{Binding AtencionSeleccionada.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                Command="{Binding CancelarEdicionCommand}"
+
+                                Command="{Binding HabilitarEdicionCommand}"
                                 >
                             <Rectangle Width="18" Height="18" 
                                     Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
