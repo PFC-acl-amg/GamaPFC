@@ -63,6 +63,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomControls\CircleIconButton.cs" />
     <Compile Include="CustomControls\LimitedCollectionView.cs" />
     <Compile Include="CustomControls\LimitedListCollectionView.cs" />
     <Compile Include="CustomControls\ListBoxItemBehaviour.cs" />
@@ -135,6 +136,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Styles\TextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Templates\CircleIconButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
