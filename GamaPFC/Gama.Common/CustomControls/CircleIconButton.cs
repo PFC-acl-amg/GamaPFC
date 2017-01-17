@@ -11,6 +11,11 @@ namespace Gama.Common.CustomControls
 {
     public class CircleIconButton : Button
     {
+        static CircleIconButton()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(CircleIconButton), new FrameworkPropertyMetadata(typeof(CircleIconButton)));
+        }
+
         public Visual Icon
         {
             get { return (Visual)GetValue(IconProperty); }
@@ -18,7 +23,7 @@ namespace Gama.Common.CustomControls
         }
 
         public static readonly DependencyProperty IconProperty =
-            DependencyProperty.Register("Icon", typeof(Visual), typeof(CircleIconButton), new PropertyMetadata(default(Visual)));
-
+            DependencyProperty.Register(
+                "Icon", typeof(Visual), typeof(CircleIconButton), new PropertyMetadata(default(Visual)));
     }
 }
