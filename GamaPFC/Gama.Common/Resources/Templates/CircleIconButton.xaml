@@ -9,11 +9,13 @@
   </ResourceDictionary.MergedDictionaries>
 
   <Style TargetType="{x:Type cc:CircleIconButton}">
+    <Setter Property="Width" Value="50"/>
+    <Setter Property="Height" Value="50"/>
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type cc:CircleIconButton}">
-          <Button Width="50" 
-                  Height="50" 
+          <Button Width="{TemplateBinding Width}" 
+                  Height="{TemplateBinding Height}" 
                   Style="{DynamicResource MetroCircleButtonStyle}"
                   Command="{TemplateBinding Command}">
             <Rectangle Width="18" 
