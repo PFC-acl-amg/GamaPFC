@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="566.606" d:DesignWidth="1099.96">
@@ -26,20 +27,26 @@
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*"/>
       </Grid.ColumnDefinitions>
+
       <local:PersonaView DataContext="{Binding PersonaVM}"
           ScrollViewer.VerticalScrollBarVisibility="Auto" />
       <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
-        <Label Margin="{StaticResource Margin}" Visibility="{Binding PersonaVM.EdicionHabilitada,
-          Converter={StaticResource BooleanToVisibilityConverter}}">
-          <Hyperlink Command="{Binding ActualizarCommand}">Guardar</Hyperlink>
-        </Label>
-        <Label Margin="{StaticResource Margin}" Visibility="{Binding PersonaVM.EdicionHabilitada,
-          Converter={StaticResource BooleanToVisibilityConverter}}">
-          <Hyperlink Command="{Binding CancelarEdicionCommand}">Cancelar</Hyperlink>
-        </Label>
-        <Label Margin="{StaticResource Margin}">
-          <Hyperlink Command="{Binding HabilitarEdicionCommand}">Editar</Hyperlink>
-        </Label>
+        <!-- Actualizar Button -->
+        <cc:CircleIconButton 
+          Icon="{StaticResource appbar_save}"
+          Visibility="{Binding PersonaVM.EdicionHabilitada, Converter={StaticResource BooleanToVisibilityConverter}}"
+          Command="{Binding ActualizarCommand}"/>
+
+        <!-- Cancelar Button -->
+        <cc:CircleIconButton
+          Icon="{StaticResource appbar_close}"
+          Visibility="{Binding PersonaVM.EdicionHabilitada, Converter={StaticResource BooleanToVisibilityConverter}}"
+          Command="{Binding CancelarEdicionCommand}"/>
+
+        <!-- Habilitar Edición Button -->
+        <cc:CircleIconButton
+          Icon="{StaticResource appbar_edit}"
+          Command="{Binding HabilitarEdicionCommand}"/>
       </StackPanel>
     </Grid>
 

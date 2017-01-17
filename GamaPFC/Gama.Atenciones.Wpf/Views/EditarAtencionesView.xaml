@@ -28,7 +28,7 @@
             </Style.Triggers>
           </Style>
         </Border.Style>
-        <TextBlock HorizontalAlignment="Center">No hay atenciones para mostrar.</TextBlock>
+        <TextBlock HorizontalAlignment="Center" Margin="4,33,19,4" Width="157" FontSize="10">No hay atenciones para mostrar.</TextBlock>
       </Border>
       <!-- Listado de atenciones -->
       <GroupBox Header="Atenciones">
