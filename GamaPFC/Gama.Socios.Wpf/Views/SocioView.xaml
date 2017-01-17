@@ -40,7 +40,7 @@
 
             <StackPanel Orientation="Vertical">
               <Border MaxHeight="70" BorderBrush="Black" BorderThickness="1.5" CornerRadius="1">
-                <Image Stretch="Fill" Source="{Binding Socio.AvatarPath, 
+                <Image MinHeight="50" Stretch="Fill" Source="{Binding Socio.AvatarPath, 
                   Converter={StaticResource _PathToFullPathConverter}, UpdateSourceTrigger=PropertyChanged}">
                 </Image>
                 <!--<Rectangle Width="60" Margin="{DynamicResource MarginNoBottom}">
@@ -63,6 +63,7 @@
             </StackPanel>
           </Grid>
         </StackPanel>
+        
         <StackPanel Grid.Row="1">
           <Label Margin="{DynamicResource Margin}">Nombre</Label>
           <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Nombre, UpdateSourceTrigger=PropertyChanged}"

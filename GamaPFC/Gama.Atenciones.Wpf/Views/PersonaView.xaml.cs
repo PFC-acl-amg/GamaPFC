@@ -24,5 +24,15 @@ namespace Gama.Atenciones.Wpf.Views
         {
             InitializeComponent();
         }
+
+        private void _AvatarHolder_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Cursor = Cursors.Hand;
+        }
+
+        private void _AvatarHolder_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Cursor = Cursors.Arrow;
+        }
     }
 }

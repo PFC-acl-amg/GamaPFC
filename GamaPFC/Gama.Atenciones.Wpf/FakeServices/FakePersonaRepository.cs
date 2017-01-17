@@ -122,5 +122,10 @@ namespace Gama.Atenciones.Wpf.FakeServices
         {
             throw new NotImplementedException();
         }
+
+        public List<string> GetNifs()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
