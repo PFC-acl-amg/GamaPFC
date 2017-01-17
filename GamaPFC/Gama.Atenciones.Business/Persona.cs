@@ -11,6 +11,7 @@ namespace Gama.Atenciones.Business
 {
     public class Persona : TimestampedModel
     {
+        public virtual string AvatarPath { get; set; }
         public virtual ComoConocioAGama ComoConocioAGama { get; set; }
         public virtual string DireccionPostal { get; set; } = "";
         public virtual string Email { get; set; }

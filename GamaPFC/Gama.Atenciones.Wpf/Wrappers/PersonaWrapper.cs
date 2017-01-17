@@ -35,6 +35,16 @@ namespace Gama.Atenciones.Wpf.Wrappers
             set { SetValue(value); }
         }
 
+        public string AvatarPath
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string AvatarPathOriginalValue => GetOriginalValue<string>(nameof(AvatarPath));
+
+        public bool AvatarPathIsChanged => GetIsChanged(nameof(AvatarPath));
+
         public ComoConocioAGama ComoConocioAGama
         {
             get { return GetValue<ComoConocioAGama>(); }
@@ -220,6 +230,15 @@ namespace Gama.Atenciones.Wpf.Wrappers
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var results = new List<ValidationResult>();
+
+            if (string.IsNullOrWhiteSpace(Nif))
+            {
+                results.Add(new ValidationResult("El campo de NIF es obligatorio", new[] { nameof(Nif) }));
+            }
+            else if (AtencionesResources.TodosLosNif.Contains(Nif))
+            {
+                results.Add(new ValidationResult("El NIF introducido ya existe", new[] { nameof(Nif) }));
+            }
 
             if (string.IsNullOrWhiteSpace(Nombre))
             {

@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Socios.Wpf
 {
-    public static class GlobalResources
+    public static class SociosResources
     {
         public static List<string> TodosLosNif { get; set; }
 
@@ -46,7 +46,6 @@ namespace Gama.Socios.Wpf
             RegisterServices();
 
             var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
-
             var socioRepository = new SocioRepository();
             var session = sessionFactory.OpenSession();
             socioRepository.Session = session;
@@ -122,7 +121,7 @@ namespace Gama.Socios.Wpf
             // Recogemos todos los NIF para usarlos en validación
             // No lo hacemos en el wrapper directamente para eliminar el acomplamiento
             // del wrapper a los servicios. 
-            GlobalResources.TodosLosNif = socioRepository.GetNifs();
+            SociosResources.TodosLosNif = socioRepository.GetNifs();
 
             InitializeNavigation();
         }

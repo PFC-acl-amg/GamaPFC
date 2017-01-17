@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Gama.Common.CustomControls;
+using Core.Util;
 
 namespace Gama.Atenciones.Wpf.Services
 {
@@ -34,6 +35,31 @@ namespace Gama.Atenciones.Wpf.Services
                         .List<object>()
                         .Select(r => int.Parse(r.ToString()))
                         .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return resultado;
+        }
+
+        public List<string> GetNifs()
+        {
+            List<string> temp;
+            List<string> resultado = new List<string>();
+
+            try
+            {
+                temp = Session.QueryOver<Persona>()
+                    .Select(x => x.Nif)
+                    .List<string>()
+                    .ToList();
+
+                foreach (var nif in temp)
+                {
+                    resultado.Add(EncryptionService.Decrypt(nif));
+                }
             }
             catch (Exception ex)
             {

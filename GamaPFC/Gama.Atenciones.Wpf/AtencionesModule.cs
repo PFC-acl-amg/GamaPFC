@@ -18,6 +18,19 @@ using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Wpf
 {
+    public static class AtencionesResources
+    {
+        public static List<string> TodosLosNif { get; set; }
+
+        public static void AddNif(string nif)
+        {
+            if (!TodosLosNif.Contains(nif))
+            {
+                TodosLosNif.Add(nif);
+            }
+        }
+    }
+
     public class AtencionesModule : ModuleBase
     {
         public AtencionesModule(IUnityContainer container, IRegionManager regionManager)
@@ -33,16 +46,16 @@ namespace Gama.Atenciones.Wpf
             RegisterViewModels();
             RegisterServices();
 
+            var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
+            var personaRepository = new PersonaRepository();
+            var session = sessionFactory.OpenSession();
+            personaRepository.Session = session;
+
             #region Database Seeding
             try
             {
                 if (UseFaker)
                 {
-                    var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
-
-                    var personaRepository = new PersonaRepository();
-                    var session = sessionFactory.OpenSession();
-                    personaRepository.Session = session;
 
                     var personas = new FakePersonaRepository().GetAll(); //personaRepository.GetAll();
                     var citas = new FakeCitaRepository().GetAll();
@@ -89,13 +102,18 @@ namespace Gama.Atenciones.Wpf
                         personaRepository.Create(persona);
                     }
                 }
-            } 
+            }
             catch (Exception ex)
             {
                 var message = ex.Message;
                 throw ex;
             }
             #endregion
+
+            // Recogemos todos los NIF para usarlos en validación
+            // No lo hacemos en el wrapper directamente para eliminar el acomplamiento
+            // del wrapper a los servicios. 
+            AtencionesResources.TodosLosNif = personaRepository.GetNifs();
 
             InitializeNavigation();
         }

@@ -15,6 +15,7 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Table("Personas");
             Id(p => p.Id).GeneratedBy.Identity();
 
+            Map(x => x.AvatarPath);
             Map(p => p.ComoConocioAGama);
             Map(p => p.DireccionPostal).Not.Nullable().Default("");
             Map(p => p.Email);
@@ -24,7 +25,7 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Map(p => p.IdentidadSexual);
             Map(p => p.LinkedIn).Not.Nullable().Default("");
             Map(p => p.Nacionalidad).Not.Nullable().Default("");
-            Map(p => p.Nif).Not.Nullable().Default("");
+            Map(x => x.Nif).Not.Nullable().Unique();
             Map(p => p.NivelAcademico);
             Map(p => p.Nombre).Length(60).Not.Nullable();
             Map(p => p.Ocupacion).Not.Nullable().Default("");

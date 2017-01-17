@@ -24,7 +24,11 @@ namespace Gama.Atenciones.Wpf.Services
         bool Update(Persona entity);
 
         void Delete(Persona entity);
+
         IEnumerable<int> GetPersonasNuevasPorMes(int dashboardUltimasPersonas);
+
         int CountAll();
+
+        List<string> GetNifs();
     }
 }

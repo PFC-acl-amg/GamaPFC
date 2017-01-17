@@ -161,7 +161,7 @@ namespace Gama.Socios.Wpf.Wrappers
             {
                 results.Add(new ValidationResult("El campo de NIF es obligatorio", new[] { nameof(Nif) }));
             }
-            else if (GlobalResources.TodosLosNif.Contains(Nif))
+            else if (SociosResources.TodosLosNif.Contains(Nif))
             {
                 results.Add(new ValidationResult("El NIF introducido ya existe", new[] { nameof(Nif) }));
             }
