@@ -24,6 +24,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator = eventAggregator;
 
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
+            _EventAggregator.GetEvent<AtencionActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
 
             Mensaje = DefaultMensaje;
             _Timer = new DispatcherTimer();
@@ -46,6 +47,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnPersonaActualizadaEvent(int obj)
         {
             Mensaje = "La persona se ha actualizado con éxito.";
+            ActivarFondo = true;
+            _Timer.Start();
+        }
+
+        private void OnAtencionActualizadaEvent(int obj)
+        {
+            Mensaje = "La atención se ha actualizado con éxito";
             ActivarFondo = true;
             _Timer.Start();
         }
