@@ -122,9 +122,11 @@ namespace Gama.Atenciones.Wpf
         {
             Container.RegisterType<object, DashboardView>("DashboardView");
 
-            Container.RegisterType<object, EditarPersonaView>("EditarPersonaView");
             Container.RegisterType<object, EditarAtencionesView>("EditarAtencionesView");
             Container.RegisterType<object, EditarCitasView>("EditarCitasView");
+            Container.RegisterType<object, EditarPersonaView>("EditarPersonaView");
+
+            Container.RegisterType<object, GraficasView>("GraficasView");
 
             Container.RegisterType<object, ListadoDePersonasView>("ListadoDePersonasView");
             Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
@@ -137,9 +139,11 @@ namespace Gama.Atenciones.Wpf
         {
             Container.RegisterType<DashboardViewModel>();
 
-            Container.RegisterType<EditarPersonaViewModel>();
             Container.RegisterType<EditarAtencionesViewModel>();
             Container.RegisterType<EditarCitasViewModel>();
+            Container.RegisterType<EditarPersonaViewModel>();
+
+            Container.RegisterType<GraficasViewModel>();
 
             Container.RegisterType<ListadoDePersonasViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();

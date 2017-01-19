@@ -116,12 +116,6 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
 
         public ObservableCollection<ChartItem> Valores { get; private set; }
     }
-
-    public class ChartItem
-    {
-        public string Title { get; set; }
-        public int Value { get; set; }
-    }
 }
 
 

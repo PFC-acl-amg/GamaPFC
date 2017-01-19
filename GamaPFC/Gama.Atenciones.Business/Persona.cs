@@ -59,6 +59,39 @@ namespace Gama.Atenciones.Business
             }
         }
 
+        public virtual int? EdadNumerica
+        {
+            get
+            {
+                int? result;
+
+                if (FechaDeNacimiento != null)
+                {
+                    try
+                    {
+                        var difference = new DateTime(DateTime.Now.Ticks - FechaDeNacimiento.Value.Ticks);
+
+                        // Así prevenimos que se lance una excepción. Nadie debería tener una fecha de
+                        // nacimiento mayor a la fecha actual, pero si el usuario lo introduce por error
+                        // se controlorá
+                        if (FechaDeNacimiento > DateTime.Now)
+                            result = null;
+                        else
+                            result = difference.Year;
+                    } catch (ArgumentOutOfRangeException)
+                    {
+                        result = null;
+                    }
+                }
+                else
+                {
+                    result = null;
+                }
+
+                return result;
+            }
+        }
+
         public virtual void AddCita(Cita cita)
         {
             cita.Persona = this;
