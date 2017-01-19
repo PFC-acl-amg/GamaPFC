@@ -8,9 +8,9 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="78.48" d:DesignWidth="779.132">
+             d:DesignHeight="44.48" d:DesignWidth="779.132">
   <UserControl.Resources>
-    <sys:Double x:Key="_FontSize">21</sys:Double>
+    <sys:Double x:Key="_FontSize">18</sys:Double>
   </UserControl.Resources>
   <Grid Background="SteelBlue">
     <!--<StackPanel Orientation="Horizontal">
