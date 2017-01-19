@@ -24,11 +24,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _PersonaRepository.Session = session;
 
             _Personas = _PersonaRepository.GetAll();
-            ValoresDeIdentidadSexual = new ObservableCollection<ChartItem>();
-            ValoresDeEdad = new ObservableCollection<ChartItem>();
 
             InicializarIdentidadSexual();
             InicializarRangosDeEdad();
+            InicializarEstadoCivil();
+            InicializarOrientacionSexual();
         }
 
         private int _HombreCisexualCount;
@@ -41,6 +41,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void InicializarIdentidadSexual()
         {
+            ValoresDeIdentidadSexual = new ObservableCollection<ChartItem>();
+
             _HombreCisexualCount = _Personas.Count(p => p.IdentidadSexual == IdentidadSexual.HombreCisexual);
             _HombreTransexualCount = _Personas.Count(p => p.IdentidadSexual == IdentidadSexual.HombreTransexual);
             _MujerCisexualCount = _Personas.Count(p => p.IdentidadSexual == IdentidadSexual.MujerCisexual);
@@ -64,6 +66,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void InicializarRangosDeEdad()
         {
+            ValoresDeEdad = new ObservableCollection<ChartItem>();
+
             _From0To19 = _Personas.Count(p => p.EdadNumerica.HasValue && p.EdadNumerica.Value <= 19);
             _From20To29 = _Personas.Count(p => p.EdadNumerica.HasValue && p.EdadNumerica.Value <= 29);
             _From30To39 = _Personas.Count(p => p.EdadNumerica.HasValue && p.EdadNumerica.Value <= 39);
@@ -75,6 +79,54 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ValoresDeEdad.Add(new ChartItem { Title = "30 a 39", Value = _From30To39 });
             ValoresDeEdad.Add(new ChartItem { Title = "40 o más", Value = _From40 });
             ValoresDeEdad.Add(new ChartItem { Title = "No Proporcionado", Value = _EdadNoProporcionada });
+        }
+
+        private int _Soltero;
+        private int _Casado;
+        private int _Separado;
+        private int _Divorciado;
+        private int _EstadoCivilNoProporcionado;
+        public ObservableCollection<ChartItem> ValoresDeEstadoCivil {get; private set;}
+
+        private void InicializarEstadoCivil()
+        {
+            ValoresDeEstadoCivil = new ObservableCollection<ChartItem>();
+
+            _Soltero = _Personas.Count(p => p.EstadoCivil == EstadoCivil.Soltera);
+            _Casado = _Personas.Count(p => p.EstadoCivil == EstadoCivil.Casada);
+            _Separado = _Personas.Count(p => p.EstadoCivil == EstadoCivil.Separada);
+            _Divorciado = _Personas.Count(p => p.EstadoCivil == EstadoCivil.Divorciada);
+            _EstadoCivilNoProporcionado = _Personas.Count(p => p.EstadoCivil == EstadoCivil.NoProporcionado);
+
+            ValoresDeEstadoCivil.Add(new ChartItem { Title = "Soltera/o", Value = _Soltero });
+            ValoresDeEstadoCivil.Add(new ChartItem { Title = "Casada/o", Value = _Casado });
+            ValoresDeEstadoCivil.Add(new ChartItem { Title = "Separada/o", Value = _Separado });
+            ValoresDeEstadoCivil.Add(new ChartItem { Title = "Divorciada/o", Value = _Divorciado });
+            ValoresDeEstadoCivil.Add(new ChartItem { Title = "No Proporcionado", Value = _EstadoCivilNoProporcionado });
+        }
+
+        private int _Heterosexual;
+        private int _Gay;
+        private int _Lesbiana;
+        private int _Bisexual;
+        private int _OrientacionSexualNoProporcionada;
+        public ObservableCollection<ChartItem> ValoresDeOrientacionSexual { get; private set; }
+
+        private void InicializarOrientacionSexual()
+        {
+            ValoresDeOrientacionSexual = new ObservableCollection<ChartItem>();
+
+            _Heterosexual = _Personas.Count(p => p.OrientacionSexual == OrientacionSexual.Heterosexual);
+            _Gay = _Personas.Count(p => p.OrientacionSexual == OrientacionSexual.Gay);
+            _Lesbiana = _Personas.Count(p => p.OrientacionSexual == OrientacionSexual.Lesbiana);
+            _Bisexual = _Personas.Count(p => p.OrientacionSexual == OrientacionSexual.Bisexual);
+            _OrientacionSexualNoProporcionada = _Personas.Count(p => p.OrientacionSexual == OrientacionSexual.NoProporcionado);
+
+            ValoresDeOrientacionSexual.Add(new ChartItem { Title = "Heterosexual", Value = _Heterosexual });
+            ValoresDeOrientacionSexual.Add(new ChartItem { Title = "Gay", Value = _Gay });
+            ValoresDeOrientacionSexual.Add(new ChartItem { Title = "Lesbiana", Value = _Lesbiana });
+            ValoresDeOrientacionSexual.Add(new ChartItem { Title = "Bisexual", Value = _Bisexual });
+            ValoresDeOrientacionSexual.Add(new ChartItem { Title = "No Proporcionado", Value = _OrientacionSexualNoProporcionada });
         }
     }
 }

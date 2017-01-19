@@ -39,38 +39,75 @@
             <Setter Property="Height" Value="500"/>
         </Style>
     </UserControl.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <charts:PieChart
+    <ScrollViewer>
+        <UniformGrid>
+            <!--<Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>-->
+
+            <!-- Identidad Sexual -->
+            <charts:PieChart
             Margin="{StaticResource Margin}"
             Palette="{StaticResource MyColorPalette}"
             ChartTitle="Identidad Sexual"
             ChartSubTitle="El subtítulo de este gráfico" >
-            <charts:PieChart.Series>
-                <charts:ChartSeries
+                <charts:PieChart.Series>
+                    <charts:ChartSeries
                 SeriesTitle="Identidad Sexual"
                 DisplayMember="Title"
                 ValueMember="Value"
                 ItemsSource="{Binding Path=ValoresDeIdentidadSexual}" />
-            </charts:PieChart.Series>
-        </charts:PieChart>
+                </charts:PieChart.Series>
+            </charts:PieChart>
 
-        <charts:PieChart
-            Margin="{StaticResource Margin}"
-            Grid.Column="1"
-            Palette="{StaticResource MyColorPalette}"
-            ChartTitle="Rangos de Edad"
-            ChartSubTitle="El subtítulo de este gráfico" >
-            <charts:PieChart.Series>
-                <charts:ChartSeries
-                SeriesTitle="Rangos de Edad"
-                DisplayMember="Title"
-                ValueMember="Value"
-                ItemsSource="{Binding Path=ValoresDeEdad}" />
-            </charts:PieChart.Series>
-        </charts:PieChart>
-  </Grid>
+            <!-- Rangos de Edad -->
+            <charts:PieChart
+                Margin="{StaticResource Margin}"
+                Grid.Column="1"
+                Palette="{StaticResource MyColorPalette}"
+                ChartTitle="Rangos de Edad"
+                ChartSubTitle="El subtítulo de este gráfico" >
+                    <charts:PieChart.Series>
+                        <charts:ChartSeries
+                            SeriesTitle="Rangos de Edad"
+                            DisplayMember="Title"
+                            ValueMember="Value"
+                            ItemsSource="{Binding Path=ValoresDeEdad}" />
+                    </charts:PieChart.Series>
+            </charts:PieChart>
+
+            <!-- Estado Civil -->
+            <charts:PieChart
+                Margin="{StaticResource Margin}"
+                Grid.Column="1"
+                Palette="{StaticResource MyColorPalette}"
+                ChartTitle="Estado Civil"
+                ChartSubTitle="El subtítulo de este gráfico" >
+                <charts:PieChart.Series>
+                    <charts:ChartSeries
+                            SeriesTitle="Estado Civil"
+                            DisplayMember="Title"
+                            ValueMember="Value"
+                            ItemsSource="{Binding Path=ValoresDeEstadoCivil}" />
+                </charts:PieChart.Series>
+            </charts:PieChart>
+
+            <!-- Orientación afectivo-sexual  -->
+            <charts:PieChart
+                Margin="{StaticResource Margin}"
+                Grid.Column="1"
+                Palette="{StaticResource MyColorPalette}"
+                ChartTitle="Orientación Afectivo-Sexual"
+                ChartSubTitle="El subtítulo de este gráfico" >
+                <charts:PieChart.Series>
+                    <charts:ChartSeries
+                            SeriesTitle="Orientación Afectivo-Sexual"
+                            DisplayMember="Title"
+                            ValueMember="Value"
+                            ItemsSource="{Binding Path=ValoresDeOrientacionSexual}" />
+                </charts:PieChart.Series>
+            </charts:PieChart>
+        </UniformGrid>
+    </ScrollViewer>
 </UserControl>
