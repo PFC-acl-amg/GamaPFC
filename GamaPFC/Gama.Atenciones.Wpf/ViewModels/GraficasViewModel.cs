@@ -29,6 +29,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             InicializarRangosDeEdad();
             InicializarEstadoCivil();
             InicializarOrientacionSexual();
+            InicializarComoConocioAGama();
+            InicializarViaDeAccesoAGama();
         }
 
         private int _HombreCisexualCount;
@@ -127,6 +129,48 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ValoresDeOrientacionSexual.Add(new ChartItem { Title = "Lesbiana", Value = _Lesbiana });
             ValoresDeOrientacionSexual.Add(new ChartItem { Title = "Bisexual", Value = _Bisexual });
             ValoresDeOrientacionSexual.Add(new ChartItem { Title = "No Proporcionado", Value = _OrientacionSexualNoProporcionada });
+        }
+
+        private int _RedFormal;
+        private int _RedInformal;
+        private int _Difusion;
+        private int _ComoConocioAGamaNoProporcionado;
+        public ObservableCollection<ChartItem> ValoresDeComoConocioAGama { get; private set; }
+
+        private void InicializarComoConocioAGama()
+        {
+            ValoresDeComoConocioAGama = new ObservableCollection<ChartItem>();
+
+            _RedFormal = _Personas.Count(p => p.ComoConocioAGama == ComoConocioAGama.RedFormal);
+            _RedInformal = _Personas.Count(p => p.ComoConocioAGama == ComoConocioAGama.RedInformal);
+            _Difusion = _Personas.Count(p => p.ComoConocioAGama == ComoConocioAGama.Difusion);
+            _ComoConocioAGamaNoProporcionado = _Personas.Count(p => p.ComoConocioAGama == ComoConocioAGama.NoProporcionado);
+
+            ValoresDeComoConocioAGama.Add(new ChartItem { Title = "Red Formal", Value = _RedFormal });
+            ValoresDeComoConocioAGama.Add(new ChartItem { Title = "Red Informal", Value = _RedInformal });
+            ValoresDeComoConocioAGama.Add(new ChartItem { Title = "Difusión", Value = _Difusion });
+            ValoresDeComoConocioAGama.Add(new ChartItem { Title = "No Proporcionado", Value = _ComoConocioAGamaNoProporcionado });
+        }
+
+        private int _Personal;
+        private int _Telefonica;
+        private int _Email;
+        private int _ViaDeAccesoNoProporcionada;
+        public ObservableCollection<ChartItem> ValoresDeViaDeAccesoAGama { get; private set; }
+
+        private void InicializarViaDeAccesoAGama()
+        {
+            ValoresDeViaDeAccesoAGama = new ObservableCollection<ChartItem>();
+
+            _Personal = _Personas.Count(p => p.ViaDeAccesoAGama == ViaDeAccesoAGama.Personal);
+            _Telefonica = _Personas.Count(p => p.ViaDeAccesoAGama == ViaDeAccesoAGama.Telefonica);
+            _Email = _Personas.Count(p => p.ViaDeAccesoAGama == ViaDeAccesoAGama.Email);
+            _ViaDeAccesoNoProporcionada = _Personas.Count(p => p.ViaDeAccesoAGama == ViaDeAccesoAGama.NoProporcionado);
+
+            ValoresDeViaDeAccesoAGama.Add(new ChartItem { Title = "Personal", Value = _Personal });
+            ValoresDeViaDeAccesoAGama.Add(new ChartItem { Title = "Telefónica", Value = _Telefonica });
+            ValoresDeViaDeAccesoAGama.Add(new ChartItem { Title = "Email", Value = _Email });
+            ValoresDeViaDeAccesoAGama.Add(new ChartItem { Title = "No Proporcionado", Value = _ViaDeAccesoNoProporcionada });
         }
     }
 }

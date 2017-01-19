@@ -34,9 +34,9 @@
                 <SolidColorBrush x:Key="Brush2" Color="#FF1D97E3" />
             </ResourceDictionary>
         </charts:ResourceDictionaryCollection>
-        <Style x:Key="MinimalChartStyle" TargetType="charts:ChartBase">
-            <Setter Property="Width" Value="500"/>
-            <Setter Property="Height" Value="500"/>
+        <Style TargetType="charts:ChartBase">
+            <Setter Property="MinWidth" Value="500"/>
+            <Setter Property="MinHeight" Value="500"/>
         </Style>
     </UserControl.Resources>
     <ScrollViewer>
@@ -106,6 +106,38 @@
                             DisplayMember="Title"
                             ValueMember="Value"
                             ItemsSource="{Binding Path=ValoresDeOrientacionSexual}" />
+                </charts:PieChart.Series>
+            </charts:PieChart>
+
+            <!-- Cómo conoció a Gamá-->
+            <charts:PieChart
+                Margin="{StaticResource Margin}"
+                Grid.Column="1"
+                Palette="{StaticResource MyColorPalette}"
+                ChartTitle="Cómo Conoció a Gamá"
+                ChartSubTitle="El subtítulo de este gráfico" >
+                <charts:PieChart.Series>
+                    <charts:ChartSeries
+                            SeriesTitle="Cómo Conoció a Gamá"
+                            DisplayMember="Title"
+                            ValueMember="Value"
+                            ItemsSource="{Binding Path=ValoresDeComoConocioAGama}" />
+                </charts:PieChart.Series>
+            </charts:PieChart>
+
+            <!-- Cómo conoció a Gamá-->
+            <charts:PieChart
+                Margin="{StaticResource Margin}"
+                Grid.Column="1"
+                Palette="{StaticResource MyColorPalette}"
+                ChartTitle="Vía de Acceso a Gamá"
+                ChartSubTitle="El subtítulo de este gráfico" >
+                <charts:PieChart.Series>
+                    <charts:ChartSeries
+                            SeriesTitle="Vía de Acceso a Gamá"
+                            DisplayMember="Title"
+                            ValueMember="Value"
+                            ItemsSource="{Binding Path=ValoresDeViaDeAccesoAGama}" />
                 </charts:PieChart.Series>
             </charts:PieChart>
         </UniformGrid>
