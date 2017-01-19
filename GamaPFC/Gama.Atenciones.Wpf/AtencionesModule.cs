@@ -42,9 +42,9 @@ namespace Gama.Atenciones.Wpf
 
         public override void Initialize()
         {
+            RegisterServices();
             RegisterViews();
             RegisterViewModels();
-            RegisterServices();
 
             var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
             var personaRepository = new PersonaRepository();
@@ -143,7 +143,9 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<EditarCitasViewModel>();
             Container.RegisterType<EditarPersonaViewModel>();
 
-            Container.RegisterType<GraficasViewModel>();
+            Container.RegisterInstance(new GraficasViewModel(
+                Container.Resolve<IPersonaRepository>(),
+                Container.Resolve<ISession>()));
 
             Container.RegisterType<ListadoDePersonasViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
