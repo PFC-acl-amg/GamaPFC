@@ -31,6 +31,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             InicializarOrientacionSexual();
             InicializarComoConocioAGama();
             InicializarViaDeAccesoAGama();
+            InicializarAtencionSolicitada();
         }
 
         private int _HombreCisexualCount;
@@ -171,6 +172,44 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ValoresDeViaDeAccesoAGama.Add(new ChartItem { Title = "Telefónica", Value = _Telefonica });
             ValoresDeViaDeAccesoAGama.Add(new ChartItem { Title = "Email", Value = _Email });
             ValoresDeViaDeAccesoAGama.Add(new ChartItem { Title = "No Proporcionado", Value = _ViaDeAccesoNoProporcionada });
+        }
+
+        private int _Psicologica;
+        private int _Juridica;
+        private int _Social;
+        private int _DeAcogida;
+        private int _PrevencionParaLaSalud;
+        private int _OrientacionLaboral;
+        private int _EducacionFormacion;
+        private int _ParticipacionEnGama;
+        private int _OtraAtencion;
+        public ObservableCollection<ChartItem> ValoresDeAtencionSolicitada { get; private set; }
+
+        private void InicializarAtencionSolicitada()
+        {
+            ValoresDeAtencionSolicitada = new ObservableCollection<ChartItem>();
+
+            var atenciones = _PersonaRepository.GetAtenciones();
+
+            _Psicologica = atenciones.Count(x => x.EsPsicologica);
+            _Juridica = atenciones.Count(x => x.EsJuridica);
+            _Social = atenciones.Count(x => x.EsSocial);
+            _DeAcogida = atenciones.Count(x => x.EsDeAcogida);
+            _PrevencionParaLaSalud = atenciones.Count(x => x.EsDePrevencionParaLaSalud);
+            _OrientacionLaboral = atenciones.Count(x => x.EsDeOrientacionLaboral);
+            _EducacionFormacion = atenciones.Count(x => x.EsDeFormacion);
+            _ParticipacionEnGama = atenciones.Count(x => x.EsDeParticipacion);
+            _OtraAtencion = atenciones.Count(x => x.EsOtra);
+
+            ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Psicológica", Value = _Psicologica });
+            ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Jurídica", Value = _Juridica });
+            ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Social", Value = _Social });
+            ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Acogida", Value = _DeAcogida });
+            ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Prevención para la Salud", Value = _PrevencionParaLaSalud });
+            ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Orientación Formativa/Laboral", Value = _OrientacionLaboral });
+            ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Educación/Formación", Value = _EducacionFormacion });
+            ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Participación en Gamá", Value = _ParticipacionEnGama });
+            ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Otra", Value = _OtraAtencion });
         }
     }
 }

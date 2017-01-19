@@ -68,5 +68,14 @@ namespace Gama.Atenciones.Wpf.Services
 
             return resultado;
         }
+
+        public List<Atencion> GetAtenciones()
+        {
+            var resultado = new List<Atencion>();
+
+            resultado = Session.QueryOver<Atencion>().List().ToList();
+
+            return resultado;
+        }
     }
 }

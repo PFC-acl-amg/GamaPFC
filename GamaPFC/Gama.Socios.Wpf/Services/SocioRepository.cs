@@ -80,6 +80,7 @@ namespace Gama.Socios.Wpf.Services
 
             return socios;
         }
+
         //public override List<Socio> GetAll()
         //{
         //    try

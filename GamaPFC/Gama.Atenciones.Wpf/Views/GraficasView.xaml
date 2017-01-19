@@ -19,6 +19,9 @@
                 <SolidColorBrush x:Key="Brush1" Color="#FFFF2900" />
             </ResourceDictionary>
             <ResourceDictionary>
+                <SolidColorBrush x:Key="Brush2" Color="#FF1D97E3" />
+            </ResourceDictionary>
+            <ResourceDictionary>
                 <SolidColorBrush x:Key="Brush3" Color="#FF66D149" />
             </ResourceDictionary>
             <ResourceDictionary>
@@ -28,10 +31,16 @@
                 <SolidColorBrush x:Key="Brush5" Color="#FFD149C3" />
             </ResourceDictionary>
             <ResourceDictionary>
-                <SolidColorBrush x:Key="Brush6" Color="#FFD7E914" />
+                <SolidColorBrush x:Key="Brush6" Color="#FFF3F737" />
             </ResourceDictionary>
             <ResourceDictionary>
-                <SolidColorBrush x:Key="Brush2" Color="#FF1D97E3" />
+                <SolidColorBrush x:Key="Brush7" Color="#FFEC7E26" />
+            </ResourceDictionary>
+            <ResourceDictionary>
+                <SolidColorBrush x:Key="Brush8" Color="#FF14E9C0" />
+            </ResourceDictionary>
+            <ResourceDictionary>
+                <SolidColorBrush x:Key="Brush9" Color="#FF85886E" />
             </ResourceDictionary>
         </charts:ResourceDictionaryCollection>
         <Style TargetType="charts:ChartBase">
@@ -138,6 +147,22 @@
                             DisplayMember="Title"
                             ValueMember="Value"
                             ItemsSource="{Binding Path=ValoresDeViaDeAccesoAGama}" />
+                </charts:PieChart.Series>
+            </charts:PieChart>
+
+            <!-- Atención Solicitada -->
+            <charts:PieChart
+                Margin="{StaticResource Margin}"
+                Grid.Column="1"
+                Palette="{StaticResource MyColorPalette}"
+                ChartTitle="Atención Solicitada"
+                ChartSubTitle="El subtítulo de este gráfico" >
+                <charts:PieChart.Series>
+                    <charts:ChartSeries
+                            SeriesTitle="Atención Solicitada"
+                            DisplayMember="Title"
+                            ValueMember="Value"
+                            ItemsSource="{Binding Path=ValoresDeAtencionSolicitada}" />
                 </charts:PieChart.Series>
             </charts:PieChart>
         </UniformGrid>
