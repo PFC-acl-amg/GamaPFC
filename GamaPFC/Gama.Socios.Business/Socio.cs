@@ -131,14 +131,18 @@ namespace Gama.Socios.Business
                 var propertyInfo = this.GetType().GetProperty(propertyName);
                 var propertyValue = propertyInfo.GetValue(this, null);
 
-                string value = "";
-                for (int i = 0; i < propertyValue.ToString().Length; i++)
+                if (propertyValue != null)
                 {
-                    var theChar = (char)((int)propertyValue.ToString()[i] - 1);
-                    value += theChar;
-                }
+                    string decryptedValue = "";
 
-                propertyInfo.SetValue(this, value);
+                    for (int i = 0; i < propertyValue.ToString().Length; i++)
+                    {
+                        var theChar = (char)((int)propertyValue.ToString()[i] - 1);
+                        decryptedValue += theChar;
+                    }
+
+                    propertyInfo.SetValue(this, decryptedValue);
+                }
             }
 
             IsEncrypted = false;

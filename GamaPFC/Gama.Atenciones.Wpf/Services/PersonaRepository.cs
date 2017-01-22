@@ -12,9 +12,20 @@ namespace Gama.Atenciones.Wpf.Services
 {
     public class PersonaRepository : NHibernateOneSessionRepository<Persona, int>, IPersonaRepository
     {
+
         public List<LookupItem> GetAllForLookup()
         {
-            throw new NotImplementedException();
+            var personas = Session.CreateCriteria<Persona>().List<Persona>()
+                .Select(x => x.DecryptFluent())
+                .Select(
+                x => new LookupItem
+                {
+                    Id = x.Id,
+                    DisplayMember1 = x.Nombre,
+                    DisplayMember2 = x.Nif
+                }).ToList();
+            
+            return personas;
         }
 
         public IEnumerable<int> GetPersonasNuevasPorMes(int numeroDeMeses)

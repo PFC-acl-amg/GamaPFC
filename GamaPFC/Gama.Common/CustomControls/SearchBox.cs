@@ -148,7 +148,7 @@ namespace Gama.Common.CustomControls
             RaiseEvent(args);
         }
 
-        private void SetTextValueBySelection(LookupItem selectedItem, bool moveFocus)
+        private void SetTextValueBySelection(bool moveFocus)
         {
             if (_popup != null)
             {
@@ -277,7 +277,7 @@ namespace Gama.Common.CustomControls
         void listBox_MouseUp(object sender, MouseButtonEventArgs e)
         {
             _suppressEvent = true;
-            SetTextValueBySelection((LookupItem)_listBox.SelectedItem, moveFocus: false);
+            SetTextValueBySelection(moveFocus: false);
             SelectedItem = _listBox.SelectedItem as LookupItem;
             RaiseSelectResultEvent();
             _suppressEvent = false;
@@ -288,13 +288,13 @@ namespace Gama.Common.CustomControls
             _suppressEvent = true;
             if (e.Key == Key.Enter || e.Key == Key.Return)
             {
-                SetTextValueBySelection((LookupItem)_listBox.SelectedItem, moveFocus: false);
+                SetTextValueBySelection(moveFocus: false);
                 SelectedItem = _listBox.SelectedItem as LookupItem;
                 RaiseSelectResultEvent();
             }
             else if (e.Key == Key.Tab)
             {
-                SetTextValueBySelection((LookupItem)_listBox.SelectedItem, moveFocus: true);
+                SetTextValueBySelection(moveFocus: true);
                 SelectedItem = _listBox.SelectedItem as LookupItem;
                 RaiseSelectResultEvent();
             }

@@ -37,7 +37,7 @@ namespace Gama.Atenciones.Wpf
            : base(container, regionManager)
         {
             this.Entorno = Entorno.Desarrollo;
-            this.UseFaker = false;
+            this.UseFaker = true;
         }
 
         public override void Initialize()
@@ -150,6 +150,7 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<ListadoDePersonasViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
             Container.RegisterType<PersonasContentViewModel>();
+            Container.RegisterType<SearchBoxViewModel>();
             Container.RegisterType<StatusBarViewModel>();
             Container.RegisterType<ToolbarViewModel>();
         }
@@ -169,6 +170,7 @@ namespace Gama.Atenciones.Wpf
         {
             RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
             RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
+            RegionManager.RegisterViewWithRegion(RegionNames.SearchBoxRegion, typeof(SearchBoxView));
             RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
 
