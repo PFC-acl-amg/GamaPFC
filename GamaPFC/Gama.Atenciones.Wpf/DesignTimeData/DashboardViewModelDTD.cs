@@ -38,6 +38,8 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
                     Id = a.Id,
                     DisplayMember1 = LookupItem.ShortenStringForDisplay(a.Nombre,
                         _Settings.DashboardLongitudDeNombres),
+                    DisplayMember2 = a.Nif,
+                    IconSource = a.AvatarPath
                 }));
 
             ProximasCitas = new ObservableCollection<LookupItem>(

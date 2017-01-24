@@ -54,7 +54,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 {
                     Id = a.Id,
                     DisplayMember1 = a.Nombre,
-                    DisplayMember2 = a.Nif
+                    DisplayMember2 = a.Nif,
+                    IconSource = a.AvatarPath
                 }));
 
             ProximasCitas = new ObservableCollection<LookupItem>(
@@ -90,6 +91,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnNuevaPersonaEvent);
             _EventAggregator.GetEvent<AtencionCreadaEvent>().Subscribe(OnNuevaAtencionEvent);
             _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnNuevaCitaEvent);
+
+            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
         }
 
         public ObservableCollection<LookupItem> UltimasAtenciones { get; private set; }
@@ -213,6 +216,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 ProximasCitas.Add(lookupItem);
             }
+        }
+
+        private void OnPersonaActualizadaEvent(int obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }
