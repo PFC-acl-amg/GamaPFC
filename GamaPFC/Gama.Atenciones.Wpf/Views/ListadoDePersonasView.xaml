@@ -23,14 +23,14 @@
     <StackPanel Orientation="Horizontal">
       <cc:CircleIconButton Margin="{StaticResource Margin}" Command="{Binding PaginaAnteriorCommand}"
                            Icon="{StaticResource appbar_arrow_left}"/>
-      
+
       <TextBlock VerticalAlignment="Center" FontStyle="Italic">
         <Run Text="Página"/>
         <Run Text="{Binding Personas.CurrentPage, Mode=OneWay}" FontWeight="Bold"/>
         <Run Text="/"/>
         <Run Text="{Binding Personas.PageCount, Mode=OneWay}" FontWeight="Bold"/>
       </TextBlock>
-      
+
       <cc:CircleIconButton Margin="{StaticResource Margin}" Command="{Binding PaginaSiguienteCommand}"
                            Icon="{StaticResource appbar_arrow_right}"/>
     </StackPanel>
@@ -63,7 +63,8 @@
                 <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
                 <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
               </StackPanel>
-              <i:Interaction.Triggers>
+            </Grid>
+            <i:Interaction.Triggers>
               <i:EventTrigger EventName="MouseDoubleClick">
                 <prism:InvokeCommandAction 
                                       Command="{Binding RelativeSource =
@@ -73,7 +74,6 @@
                                       CommandParameter="{Binding Id}"/>
               </i:EventTrigger>
             </i:Interaction.Triggers>
-            </Grid>
           </GroupBox>
           <!--<GroupBox Header="{Binding DisplayMember1}" MaxWidth="200" MaxHeight="100"
                               Width="150" Height="90">
