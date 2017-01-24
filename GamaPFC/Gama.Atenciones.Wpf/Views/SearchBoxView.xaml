@@ -26,7 +26,7 @@
         <!-- Selector para mostrar estado de espera mientras se realiza la búsqueda. -->
         <cc:SearchBoxDataTemplateSelector x:Key="_BuscadorTemplateSelector"/>
     </UserControl.Resources>
-    <Grid>
+  <Grid Background="#EE747474">
         <cc:SearchBox 
       VerticalContentAlignment="Center"
             VerticalAlignment="Center"

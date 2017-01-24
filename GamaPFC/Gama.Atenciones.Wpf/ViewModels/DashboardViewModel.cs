@@ -162,7 +162,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 Id = persona.Id,
                 DisplayMember1 = persona.Nombre,
-                DisplayMember2 = persona.Nif
+                DisplayMember2 = persona.Nif,
+                IconSource = persona.AvatarPath
             };
 
             UltimasPersonas.Insert(0, lookupItem);

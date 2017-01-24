@@ -7,7 +7,7 @@
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Label.xaml" />
   </ResourceDictionary.MergedDictionaries>
 
-  <sys:Double x:Key="NavigationIconSize">40</sys:Double>
+  <sys:Double x:Key="NavigationIconSize">20</sys:Double>
 
   <Thickness x:Key="MarginHalf">2</Thickness>
   <Thickness x:Key="Margin">4,4,4,4</Thickness>

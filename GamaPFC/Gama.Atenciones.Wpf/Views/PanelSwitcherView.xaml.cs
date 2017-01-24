@@ -20,9 +20,33 @@ namespace Gama.Atenciones.Wpf.Views
     /// </summary>
     public partial class PanelSwitcherView : UserControl
     {
+        private SolidColorBrush _ActiveBrush = new SolidColorBrush(Color.FromRgb(0X27,0X5B,0X6D));
+        private SolidColorBrush _InactiveBrush = new SolidColorBrush(Colors.White);
+
         public PanelSwitcherView()
         {
             InitializeComponent();
+        }
+
+        private void _Title1_Click(object sender, RoutedEventArgs e)
+        {
+            _Title1.Foreground = _ActiveBrush;
+            _Title2.Foreground = _InactiveBrush;
+            _Title3.Foreground = _InactiveBrush;
+        }
+
+        private void _Title2_Click(object sender, RoutedEventArgs e)
+        {
+            _Title1.Foreground = _InactiveBrush;
+            _Title2.Foreground = _ActiveBrush;
+            _Title3.Foreground = _InactiveBrush;
+        }
+
+        private void _Title3_Click(object sender, RoutedEventArgs e)
+        {
+            _Title1.Foreground = _InactiveBrush;
+            _Title2.Foreground = _InactiveBrush;
+            _Title3.Foreground = _ActiveBrush;
         }
     }
 }

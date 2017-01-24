@@ -127,14 +127,17 @@ namespace Gama.Atenciones.Business
                 var propertyInfo = this.GetType().GetProperty(propertyName);
                 var propertyValue = propertyInfo.GetValue(this, null);
 
-                string value = "";
-                for (int i = 0; i < propertyValue.ToString().Length; i++)
+                if (propertyValue != null)
                 {
-                    var theChar = (char)((int)propertyValue.ToString()[i] + 1);
-                    value += theChar;
-                }
+                    string value = "";
+                    for (int i = 0; i < propertyValue.ToString().Length; i++)
+                    {
+                        var theChar = (char)((int)propertyValue.ToString()[i] + 1);
+                        value += theChar;
+                    }
 
-                propertyInfo.SetValue(this, value);
+                    propertyInfo.SetValue(this, value);
+                }
             }
 
             IsEncrypted = true;
