@@ -20,7 +20,8 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
                 new LookupItem
                 {
                     DisplayMember1 = p.Nombre,
-                    DisplayMember2 = p.Nif
+                    DisplayMember2 = p.Nif,
+                    IconSource = p.AvatarPath
                 }).ToList();
             Personas = new PaginatedCollectionView(personas, 30);
         }

@@ -39,10 +39,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 {
                     Id = p.Id,
                     DisplayMember1 = p.Nombre,
-                    DisplayMember2 = p.Nif
+                    DisplayMember2 = p.Nif,
+                    IconSource = p.AvatarPath
                 }).ToList();
-
-           // _PersonaRepository.Session.Clear();
 
             Personas = new PaginatedCollectionView(_Personas,
                 _Settings.ListadoDePersonasItemsPerPage);
@@ -96,7 +95,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 Id = persona.Id,
                 DisplayMember1 = persona.Nombre,
-                DisplayMember2 = persona.Nif
+                DisplayMember2 = persona.Nif,
+                IconSource = persona.AvatarPath
             };
             _Personas.Insert(0, lookupItem);
             Personas.Refresh();
