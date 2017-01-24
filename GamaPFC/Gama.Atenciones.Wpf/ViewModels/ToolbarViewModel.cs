@@ -36,11 +36,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ExportarCommand = new DelegateCommand(OnExportarCommandExecute);
 
             _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
+            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
         }
 
         private void OnPersonaSeleccionadaEvent(int id)
         {
             var persona = _PersonaRepository.GetById(id);
+            _PersonaRepository.Session.Evict(persona);
 
             _Persona = persona;
         }
