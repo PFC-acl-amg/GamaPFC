@@ -11,6 +11,7 @@ namespace Gama.Common.CustomControls
         public int Id { get; set; }
         public string DisplayMember1 { get; set; }
         public string DisplayMember2 { get; set; }
+        public string IconSource { get; set; } 
 
         /// <summary>
         /// Selecciona los primeros n caracteres,  y añade "..." si la longitud del título 

@@ -12,9 +12,11 @@ using NHibernate;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace Gama.Atenciones.Wpf
 {
@@ -115,7 +117,39 @@ namespace Gama.Atenciones.Wpf
             // del wrapper a los servicios. 
             AtencionesResources.TodosLosNif = personaRepository.GetNifs();
 
+            // Preparamos la estructura de carpeta para la primera vez
+            InicializarDirectorios();
+
             InitializeNavigation();
+        }
+
+        private void InicializarDirectorios()
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+            string iconsAndImagesPath = path + @"IconsAndImages\";
+
+            if (!Directory.Exists(iconsAndImagesPath))
+            {
+                Directory.CreateDirectory(iconsAndImagesPath);
+
+                var icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_search_icon.png"));
+                BitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(icon));
+
+                using (var fileStream = new System.IO.FileStream(iconsAndImagesPath + "default_search_icon.png", System.IO.FileMode.Create))
+                {
+                    encoder.Save(fileStream);
+                }
+
+                icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png"));
+                encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(icon));
+
+                using (var fileStream = new System.IO.FileStream(iconsAndImagesPath + "default_user_icon.png", System.IO.FileMode.Create))
+                {
+                    encoder.Save(fileStream);
+                }
+            }
         }
 
         private void RegisterViews()

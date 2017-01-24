@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace Core.Util
+namespace Gama.Common.Resources.Converters
 {
-    public class PathToFullPathConverter : IValueConverter
+    public class IconSourceToFullPathConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -20,7 +20,7 @@ namespace Core.Util
             }
             else
             {
-                path = AppDomain.CurrentDomain.BaseDirectory + @"IconsAndImages\default_user_icon.png";
+                path = AppDomain.CurrentDomain.BaseDirectory + @"IconsAndImages\default_search_icon.png";
             }
 
             return path;

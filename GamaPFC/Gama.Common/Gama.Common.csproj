@@ -74,6 +74,7 @@
     <Compile Include="Resources\Behaviors\ChangeBehavior.cs" />
     <Compile Include="Resources\Behaviors\DummyClass.cs" />
     <Compile Include="Resources\Converters\DatePickerOriginalValueConverter.cs" />
+    <Compile Include="Resources\Converters\IconSourceToFullPathConverter.cs" />
     <Compile Include="Resources\Converters\ViewToViewModelConverter.cs" />
     <Compile Include="Resources\DataTemplateSelectors\BuscadorDataTemplateSelector.cs" />
     <Compile Include="Views\ConfirmarOperacionView.xaml.cs">
@@ -220,6 +221,22 @@
   <ItemGroup>
     <Resource Include="Resources\Images\logo_gama.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{61c764bb-5692-463a-bc70-55b6ad46b1a3}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\default_user_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\default_search_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
