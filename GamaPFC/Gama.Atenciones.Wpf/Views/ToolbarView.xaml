@@ -7,7 +7,7 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" d:DesignHeight="76.452" d:DesignWidth="377.055">
-  <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Background="#EE747474">
+  <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Background="#EE959595">
     <Button Background="Transparent" BorderThickness="0"
             Command="{Binding NuevaPersonaCommand}">
       <StackPanel>

@@ -33,14 +33,15 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel>
-              <Border MaxHeight="70" MaxWidth="70" BorderBrush="Black" BorderThickness="1.5" CornerRadius="1">
+              <Border MaxHeight="70" MaxWidth="70" BorderBrush="Black" BorderThickness="1" CornerRadius="1">
                 <Image 
                   x:Name="_AvatarHolder"
                   MinHeight="40" MinWidth="40"
                   MaxHeight="68"
                   MaxWidth="68"
                   Stretch="Fill" 
-                  Source="{Binding Persona.AvatarPath, Converter={StaticResource _PathToFullPathConverter}, UpdateSourceTrigger=PropertyChanged}" >
+                  Source="{Binding Persona.AvatarPath, Converter={StaticResource _PathToFullPathConverter}, 
+                  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
                   <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
                       <prism:InvokeCommandAction Command="{Binding ExaminarAvatarCommand}"/>
