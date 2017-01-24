@@ -218,9 +218,19 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
         }
 
-        private void OnPersonaActualizadaEvent(int obj)
+        private void OnPersonaActualizadaEvent(int id)
         {
-            throw new NotImplementedException();
+            var persona = _PersonaRepository.GetById(id);
+            _PersonaRepository.Session.Evict(persona);
+
+            var personaDesactualizada = UltimasPersonas.Where(x => x.Id == id).FirstOrDefault();
+
+            if (personaDesactualizada != null)
+            {
+                personaDesactualizada.DisplayMember1 = persona.Nombre;
+                personaDesactualizada.DisplayMember2 = persona.Nif;
+                personaDesactualizada.IconSource = persona.AvatarPath;
+            }
         }
     }
 }
