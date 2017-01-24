@@ -42,6 +42,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     DisplayMember2 = p.Nif
                 }).ToList();
 
+           // _PersonaRepository.Session.Clear();
+
             Personas = new PaginatedCollectionView(_Personas,
                 _Settings.ListadoDePersonasItemsPerPage);
 
@@ -88,6 +90,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnNuevaPersonaEvent(int id)
         {
             var persona = _PersonaRepository.GetById(id);
+            _PersonaRepository.Session.Evict(persona);
+
             var lookupItem = new LookupItem
             {
                 Id = persona.Id,
@@ -101,12 +105,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnPersonaActualizadaEvent(int id)
         {
             var personaActualizada = _PersonaRepository.GetById(id);
+            _PersonaRepository.Session.Evict(personaActualizada);
+
             if (_Personas.Any(a => a.Id == id))
             {
                 var persona = _Personas.Where(a => a.Id == id).Single();
                 var index = _Personas.IndexOf(persona);
                 _Personas[index].DisplayMember1 = personaActualizada.Nombre;
                 _Personas[index].DisplayMember2 = personaActualizada.Nif;
+                _Personas[index].IconSource = personaActualizada.AvatarPath;
             }
         }
     }

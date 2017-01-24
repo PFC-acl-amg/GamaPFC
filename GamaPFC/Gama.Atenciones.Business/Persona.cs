@@ -55,7 +55,7 @@ namespace Gama.Atenciones.Business
                 nameof(Email),
             });
 
-            IsEncrypted = false;
+            IsEncrypted = true;
         }
 
         public virtual string Edad

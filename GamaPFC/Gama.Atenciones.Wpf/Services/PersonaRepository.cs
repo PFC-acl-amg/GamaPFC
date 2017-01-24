@@ -16,15 +16,22 @@ namespace Gama.Atenciones.Wpf.Services
         public List<LookupItem> GetAllForLookup()
         {
             var personas = Session.CreateCriteria<Persona>().List<Persona>()
-                .Select(x => x.DecryptFluent())
+                .Select(x => {
+                    x.IsEncrypted = true;
+                    x.DecryptFluent();
+                    return x;
+                })
                 .Select(
-                x => new LookupItem
-                {
-                    Id = x.Id,
-                    DisplayMember1 = x.Nombre,
-                    DisplayMember2 = x.Nif
-                }).ToList();
-            
+                    x => new LookupItem
+                    {
+                        Id = x.Id,
+                        DisplayMember1 = x.Nombre,
+                        DisplayMember2 = x.Nif,
+                        IconSource = x.AvatarPath
+                    }).ToList();
+
+            Session.Clear();
+
             return personas;
         }
 
@@ -71,6 +78,8 @@ namespace Gama.Atenciones.Wpf.Services
                 {
                     resultado.Add(EncryptionService.Decrypt(nif));
                 }
+
+                Session.Clear();
             }
             catch (Exception ex)
             {
@@ -85,6 +94,8 @@ namespace Gama.Atenciones.Wpf.Services
             var resultado = new List<Atencion>();
 
             resultado = Session.QueryOver<Atencion>().List().ToList();
+
+            Session.Clear();
 
             return resultado;
         }

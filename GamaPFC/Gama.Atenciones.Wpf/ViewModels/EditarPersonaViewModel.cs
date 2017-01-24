@@ -143,7 +143,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     return;
 
                 var persona = new PersonaWrapper(
-                    _PersonaRepository.GetById((int)navigationContext.Parameters["Id"]));
+                    _PersonaRepository.GetById((int)navigationContext.Parameters["Id"])
+                    .DecryptFluent());
 
                 _PersonaVM.Load(persona);
                 _AtencionesVM.Load(_PersonaVM.Persona);

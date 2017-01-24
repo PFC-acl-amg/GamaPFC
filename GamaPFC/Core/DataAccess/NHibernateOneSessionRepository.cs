@@ -33,8 +33,12 @@ namespace Core.DataAccess
                 var encryptableEntity = entity as IEncryptable;
                 if (encryptableEntity != null)
                 {
-                    encryptableEntity.IsEncrypted = true;
-                    encryptableEntity.Decrypt();
+                    //encryptableEntity.IsEncrypted = true;
+                    //encryptableEntity.Decrypt();
+                    if (encryptableEntity.IsEncrypted)
+                    {
+                        encryptableEntity.Decrypt();
+                    }
                 }
 
                 return entity;
@@ -66,6 +70,8 @@ namespace Core.DataAccess
                         break;
                     }
                 }
+
+                Session.Clear();
 
                 return entities;
             }
