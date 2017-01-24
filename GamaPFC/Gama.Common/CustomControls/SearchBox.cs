@@ -22,12 +22,12 @@ namespace Gama.Common.CustomControls
 
     public class SearchBox : TextBox
     {
-        private Popup _popup;
-        private ListBox _listBox;
-        private string _textCache = "";
-        private bool _suppressEvent = false;
-        private static int _timeDelay = 500;
-        private DispatcherTimer _searchEventDelayTimer;
+        private Popup _Popup;
+        private ListBox _ListBox;
+        private string _TextCache = "";
+        private bool _SuppressEvent = false;
+        private static int _TimeDelay = 500;
+        private DispatcherTimer _SearchEventDelayTimer;
 
         static SearchBox()
         {
@@ -38,9 +38,9 @@ namespace Gama.Common.CustomControls
 
         public SearchBox() : base()
         {
-            _searchEventDelayTimer = new DispatcherTimer();
-            _searchEventDelayTimer.Interval = SearchEventTimeDelay.TimeSpan;
-            _searchEventDelayTimer.Tick += new EventHandler(OnSeachEventDelayTimerTick);
+            _SearchEventDelayTimer = new DispatcherTimer();
+            _SearchEventDelayTimer.Interval = SearchEventTimeDelay.TimeSpan;
+            _SearchEventDelayTimer.Tick += new EventHandler(OnSeachEventDelayTimerTick);
         }
 
         public override void OnApplyTemplate()
@@ -55,13 +55,13 @@ namespace Gama.Common.CustomControls
                 iconBorder.MouseLeave += new MouseEventHandler(IconBorder_MouseLeave);
             }
 
-            _popup = Template.FindName("PART_Popup", this) as Popup;
+            _Popup = Template.FindName("PART_Popup", this) as Popup;
 
-            _listBox = Template.FindName("PART_ListBox", this) as ListBox;
-            if (_listBox != null)
+            _ListBox = Template.FindName("PART_ListBox", this) as ListBox;
+            if (_ListBox != null)
             {
-                _listBox.PreviewMouseDown += new MouseButtonEventHandler(listBox_MouseUp);
-                _listBox.KeyDown += new KeyEventHandler(listBox_KeyDown);
+                _ListBox.PreviewMouseDown += new MouseButtonEventHandler(listBox_MouseUp);
+                _ListBox.KeyDown += new KeyEventHandler(listBox_KeyDown);
 
                 OnItemsSourceChanged(ItemsSource);
                 OnItemTemplateChanged(ItemTemplate);
@@ -148,62 +148,11 @@ namespace Gama.Common.CustomControls
             RaiseEvent(args);
         }
 
-        private void SetTextValueBySelection(bool moveFocus)
-        {
-            if (_popup != null)
-            {
-                InternalClosePopup();
-                Dispatcher.Invoke(new Action(() => {
-                    Focus();
-                    if (moveFocus)
-                        MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
-                }), System.Windows.Threading.DispatcherPriority.Background);
-            }
-
-            _suppressEvent = true;
-            //Text = selectedItem.DisplayMember1;
-            SelectAll();
-            _suppressEvent = false;
-        }
-
-        private void InternalClosePopup()
-        {
-            if (_popup != null)
-                _popup.IsOpen = false;
-        }
-
-        private void InternalOpenPopup()
-        {
-            if (_popup != null && !_popup.IsOpen)
-            {
-                _popup.IsOpen = true;
-                _listBox.SelectedIndex = -1;
-            }
-        }
-
         public void ShowPopup()
         {
-            if (_listBox == null || _popup == null) InternalClosePopup();
-            else if (_listBox.Items.Count == 0) InternalClosePopup();
+            if (_ListBox == null || _Popup == null) InternalClosePopup();
+            else if (_ListBox.Items.Count == 0) InternalClosePopup();
             else InternalOpenPopup();
-        }
-
-        protected override void OnTextChanged(TextChangedEventArgs e)
-        {
-            base.OnTextChanged(e);
-
-            HasText = Text.Trim().Length != 0;
-            _searchEventDelayTimer.Stop();
-
-            if (e.Changes.First().AddedLength == Text.Length)
-                _suppressEvent = true;
-
-            if (SearchMode == SearchMode.Delayed && !_suppressEvent && HasText)
-            {
-                _searchEventDelayTimer.Stop();
-                _searchEventDelayTimer.Start();
-            }
-            _suppressEvent = false;
         }
 
         protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
@@ -224,11 +173,11 @@ namespace Gama.Common.CustomControls
             }
             else if (e.Key == Key.Down)
             {
-                if (_listBox != null && o == this)
+                if (_ListBox != null && o == this)
                 {
-                    _suppressEvent = true;
-                    _listBox.Focus();
-                    _suppressEvent = false;
+                    _SuppressEvent = true;
+                    _ListBox.Focus();
+                    _SuppressEvent = false;
                 }
             }
         }
@@ -247,11 +196,62 @@ namespace Gama.Common.CustomControls
         protected override void OnLostFocus(RoutedEventArgs e)
         {
             base.OnLostFocus(e);
-            if (_suppressEvent) return;
-            if (_popup != null)
+            if (_SuppressEvent) return;
+            if (_Popup != null)
             {
                 InternalClosePopup();
             }
+        }
+
+        private void SetTextValueBySelection(bool moveFocus)
+        {
+            if (_Popup != null)
+            {
+                InternalClosePopup();
+                Dispatcher.Invoke(new Action(() => {
+                    Focus();
+                    if (moveFocus)
+                        MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+                }), System.Windows.Threading.DispatcherPriority.Background);
+            }
+
+            _SuppressEvent = true;
+            //Text = selectedItem.DisplayMember1;
+            SelectAll();
+            _SuppressEvent = false;
+        }
+
+        private void InternalClosePopup()
+        {
+            if (_Popup != null)
+                _Popup.IsOpen = false;
+        }
+
+        private void InternalOpenPopup()
+        {
+            if (_Popup != null && !_Popup.IsOpen)
+            {
+                _Popup.IsOpen = true;
+                _ListBox.SelectedIndex = -1;
+            }
+        }
+
+        protected override void OnTextChanged(TextChangedEventArgs e)
+        {
+            base.OnTextChanged(e);
+
+            HasText = Text.Trim().Length != 0;
+            _SearchEventDelayTimer.Stop();
+
+            if (e.Changes.First().AddedLength == Text.Length)
+                _SuppressEvent = true;
+
+            if (SearchMode == SearchMode.Delayed && !_SuppressEvent && HasText)
+            {
+                _SearchEventDelayTimer.Stop();
+                _SearchEventDelayTimer.Start();
+            }
+            _SuppressEvent = false;
         }
 
         private void IconBorder_MouseLeftButtonDown(object obj, MouseButtonEventArgs e)
@@ -276,57 +276,57 @@ namespace Gama.Common.CustomControls
 
         void listBox_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            _suppressEvent = true;
+            _SuppressEvent = true;
             SetTextValueBySelection(moveFocus: false);
-            SelectedItem = _listBox.SelectedItem as LookupItem;
+            SelectedItem = _ListBox.SelectedItem as LookupItem;
             RaiseSelectResultEvent();
-            _suppressEvent = false;
+            _SuppressEvent = false;
         }
 
         void listBox_KeyDown(object sender, KeyEventArgs e)
         {
-            _suppressEvent = true;
+            _SuppressEvent = true;
             if (e.Key == Key.Enter || e.Key == Key.Return)
             {
                 SetTextValueBySelection(moveFocus: false);
-                SelectedItem = _listBox.SelectedItem as LookupItem;
+                SelectedItem = _ListBox.SelectedItem as LookupItem;
                 RaiseSelectResultEvent();
             }
             else if (e.Key == Key.Tab)
             {
                 SetTextValueBySelection(moveFocus: true);
-                SelectedItem = _listBox.SelectedItem as LookupItem;
+                SelectedItem = _ListBox.SelectedItem as LookupItem;
                 RaiseSelectResultEvent();
             }
-            _suppressEvent = false;
+            _SuppressEvent = false;
         }
 
         void OnSeachEventDelayTimerTick(object o, EventArgs e)
         {
-            _searchEventDelayTimer.Stop();
-            if (_suppressEvent) return;
+            _SearchEventDelayTimer.Stop();
+            if (_SuppressEvent) return;
 
             RaiseSearchEvent();
             // La comprobación de Items.Count previene de una excepción
             // cuya raíz no he sido capaz de identificar. De todas formas,
             // téngase en cuenta que se trata de abrir el popup antes de 
             // lanzar el evento 
-            if (_popup != null && _listBox != null && _listBox.Items.Count == 1)
+            if (_Popup != null && _ListBox != null && _ListBox.Items.Count == 1)
             {
                 InternalOpenPopup();
             }
 
-            _textCache = Text ?? "";
+            _TextCache = Text ?? "";
 
-            if (_popup != null && _textCache == "")
+            if (_Popup != null && _TextCache == "")
             {
                 InternalClosePopup();
             }
-            else if (_listBox != null)
+            else if (_ListBox != null)
             {
-                if (_popup != null)
+                if (_Popup != null)
                 {
-                    if (_listBox.Items.Count == 0)
+                    if (_ListBox.Items.Count == 0)
                         InternalClosePopup();
                     else
                         InternalOpenPopup();
@@ -380,7 +380,7 @@ namespace Gama.Common.CustomControls
                 typeof(Duration),
                 typeof(SearchBox),
                 new FrameworkPropertyMetadata(
-                    new Duration(new TimeSpan(0, 0, 0, 0, _timeDelay)),
+                    new Duration(new TimeSpan(0, 0, 0, 0, _TimeDelay)),
                     new PropertyChangedCallback(OnSearchEventTimeDelayChanged)));
 
         public static readonly DependencyProperty MaxCompletionsProperty =
@@ -437,8 +437,8 @@ namespace Gama.Common.CustomControls
 
         private void OnItemTemplateChanged(DataTemplate p)
         {
-            if (_listBox == null) return;
-            _listBox.ItemTemplate = p;
+            if (_ListBox == null) return;
+            _ListBox.ItemTemplate = p;
         }
 
         public static readonly DependencyProperty ItemContainerStyleProperty =
@@ -456,8 +456,8 @@ namespace Gama.Common.CustomControls
 
         private void OnItemContainerStyleChanged(Style p)
         {
-            if (_listBox == null) return;
-            _listBox.ItemContainerStyle = p;
+            if (_ListBox == null) return;
+            _ListBox.ItemContainerStyle = p;
         }
 
         static void OnSearchEventTimeDelayChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
@@ -465,15 +465,15 @@ namespace Gama.Common.CustomControls
             var stb = o as SearchBox;
             if (stb != null)
             {
-                stb._searchEventDelayTimer.Interval = ((Duration)e.NewValue).TimeSpan;
-                stb._searchEventDelayTimer.Stop();
+                stb._SearchEventDelayTimer.Interval = ((Duration)e.NewValue).TimeSpan;
+                stb._SearchEventDelayTimer.Stop();
             }
         }
 
         private void OnItemTemplateSelectorChanged(DataTemplateSelector p)
         {
-            if (_listBox == null) return;
-            _listBox.ItemTemplateSelector = p;
+            if (_ListBox == null) return;
+            _ListBox.ItemTemplateSelector = p;
         }
 
         public IEnumerable ItemsSource
@@ -497,24 +497,24 @@ namespace Gama.Common.CustomControls
 
         protected void OnItemsSourceChanged(IEnumerable itemsSource)
         {
-            if (_listBox == null)
+            if (_ListBox == null)
                 return;
 
             if (itemsSource is ListCollectionView)
-                _listBox.ItemsSource = new LimitedListCollectionView((IList)((ListCollectionView)itemsSource).SourceCollection);
+                _ListBox.ItemsSource = new LimitedListCollectionView((IList)((ListCollectionView)itemsSource).SourceCollection);
             else if (itemsSource is CollectionView)
-                _listBox.ItemsSource = new LimitedListCollectionView(((CollectionView)itemsSource).SourceCollection);
+                _ListBox.ItemsSource = new LimitedListCollectionView(((CollectionView)itemsSource).SourceCollection);
             else if (itemsSource is IList)
-                _listBox.ItemsSource = new LimitedListCollectionView((IList)itemsSource);
+                _ListBox.ItemsSource = new LimitedListCollectionView((IList)itemsSource);
             else
             {
                 if (itemsSource == null)
                     itemsSource = new List<string>();
 
-                _listBox.ItemsSource = new LimitedCollectionView(itemsSource);
+                _ListBox.ItemsSource = new LimitedCollectionView(itemsSource);
             }
 
-            if (_listBox.Items.Count == 0)
+            if (_ListBox.Items.Count == 0)
                 InternalClosePopup();
         }
 

@@ -12,9 +12,16 @@ namespace Gama.Socios.Wpf.Wrappers
 {
     public class SocioWrapper : TimestampedModelWrapper<Socio>
     {
+        private string _SavedNif;
+
         public SocioWrapper(Socio model) : base(model)
         {
 
+        }
+
+        protected override void InitializeUniqueProperties(Socio model)
+        {
+            _SavedNif = model.Nif;
         }
 
         protected override void InitializeCollectionProperties(Socio model)
@@ -161,7 +168,7 @@ namespace Gama.Socios.Wpf.Wrappers
             {
                 results.Add(new ValidationResult("El campo de NIF es obligatorio", new[] { nameof(Nif) }));
             }
-            else if (SociosResources.TodosLosNif.Contains(Nif))
+            else if (Nif != _SavedNif && SociosResources.TodosLosNif.Contains(Nif))
             {
                 results.Add(new ValidationResult("El NIF introducido ya existe", new[] { nameof(Nif) }));
             }

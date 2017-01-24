@@ -25,11 +25,14 @@ namespace Core
             this.Model = model;
             _originalValues = new Dictionary<string, object>();
             _trackingObjects = new List<IValidatableTrackingObject>();
+            InitializeUniqueProperties(model);
             InitializeComplexProperties(model);
             InitializeCollectionProperties(model);
             
             Validate();
         }
+
+        protected virtual void InitializeUniqueProperties(T model) { }
 
         protected virtual void InitializeCollectionProperties(T model) { }
   
