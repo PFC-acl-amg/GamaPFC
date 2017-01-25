@@ -43,6 +43,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 }
 
                 File.Copy(op.FileName, Persona.AvatarPath, true);
+
+                OnPropertyChanged(nameof(Persona));
             }
         }
 
