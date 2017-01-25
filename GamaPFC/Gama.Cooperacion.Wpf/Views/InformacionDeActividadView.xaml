@@ -12,7 +12,7 @@
   xmlns:selector="clr-namespace:Gama.Common.Resources.DataTemplateSelectors;assembly=Gama.Common"
   xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
   mc:Ignorable="d" 
-  d:DesignHeight="349.5" d:DesignWidth="422.26">
+  d:DesignHeight="415.5" d:DesignWidth="422.26">
     <UserControl.Resources>
         <!-- Colleción de personas buscables. Se corresponde al total
              de personas activas en la base de datos. -->
@@ -50,22 +50,44 @@
 
     <GroupBox Grid.Row="0" Header="Información Básica">
       <StackPanel>
-        <TextBox  BorderThickness="1"
-                  Text="{Binding Actividad.Titulo, UpdateSourceTrigger=PropertyChanged}"
-                  metro:TextBoxHelper.Watermark="Introduce el título..."
-                  TextWrapping="Wrap"
-                  Margin="{StaticResource Margin}"/>
-        <TextBox  
-            Text="{Binding Actividad.Descripcion, UpdateSourceTrigger=PropertyChanged}"
-            metro:TextBoxHelper.Watermark="Introduce la descripción..."
-            TextWrapping="Wrap"
-            Margin="{StaticResource Margin}"
-            MinLines="4"
-            AcceptsReturn="True"/>
-      </StackPanel>
+      <ScrollViewer  HorizontalAlignment="Left" VerticalScrollBarVisibility="Hidden">
+            <TextBox  BorderThickness="1"
+                Height="40" Width="355"
+                VerticalScrollBarVisibility="Auto"
+                Text="{Binding Actividad.Titulo, UpdateSourceTrigger=PropertyChanged}"
+                metro:TextBoxHelper.Watermark="Introduce el título..."
+                TextWrapping="Wrap"
+                Margin="{StaticResource Margin}"/>
+        </ScrollViewer>
+        <ScrollViewer  HorizontalAlignment="Left" VerticalScrollBarVisibility="Hidden">
+            <TextBox
+                Height="80" Width="355"
+                VerticalScrollBarVisibility="Auto"
+                Text="{Binding Actividad.Descripcion, UpdateSourceTrigger=PropertyChanged}"
+                metro:TextBoxHelper.Watermark="Introduce la descripción..."
+                TextWrapping="Wrap"
+                Margin="{StaticResource Margin}"
+                MinLines="4"
+                AcceptsReturn="True"/>
+        </ScrollViewer>
+            </StackPanel>
     </GroupBox>
 
-    <GroupBox Grid.Row="2" Header="Coordinador">
+        <!--<ScrollViewer  HorizontalAlignment="Left" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBox  Height="100" Width="400" Grid.Row="0" Margin="20,10,10,10" 
+                                                                  metro:TextBoxHelper.Watermark="Nuevo mensaje"
+                                                                  VerticalScrollBarVisibility="Auto"
+                                                                  TextWrapping="Wrap"
+                                                                  MinLines="2"
+                                                                  AcceptsReturn="True"
+                                                                  Text="{Binding DataContext.NuevoMensajeForo,RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"/>
+            </StackPanel>
+        </ScrollViewer>-->
+
+
+
+        <GroupBox Grid.Row="2" Header="Coordinador">
       <Grid >
         <Grid.ColumnDefinitions>
           <ColumnDefinition />
@@ -113,10 +135,11 @@
       </Grid>
     </GroupBox>
 
-    <GroupBox Grid.Row="4" Header="Cooperantes">
-      <ListBox x:Name="cooperantesListBox"
-        
-        ItemsSource="{Binding Actividad.Cooperantes}">
+    <GroupBox Grid.Row="4" Header="Cooperantes" >
+            <ScrollViewer  HorizontalAlignment="Left" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="100">
+                <ListBox x:Name="cooperantesListBox"
+                       
+                        ItemsSource="{Binding Actividad.Cooperantes}">
         <ListBox.ItemTemplate>
           <DataTemplate>
             <Grid x:Name="grid">
@@ -169,6 +192,7 @@
           </DataTemplate>
         </ListBox.ItemTemplate>
       </ListBox>
+            </ScrollViewer>
     </GroupBox>
   </Grid>
     

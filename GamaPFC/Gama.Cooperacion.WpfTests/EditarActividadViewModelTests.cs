@@ -28,6 +28,8 @@ namespace Gama.Cooperacion.WpfTests
         private InformacionDeActividadViewModel _informacionDeActividadViewModelMock;
         private Mock<ActividadActualizadaEvent> _actividadActualizadaEvent;
         private Mock<IEventoRepository> _EventosRepositoryMock;
+        private Mock<IForoRepository> _ForoRepositoryMock;
+        private Mock<ITareaRepository> _TareaRepositoryMock;
         private TareasDeActividadViewModel _TareaDeActividadViewModelMock;
 
         public EditarActividadViewModelTests()
@@ -35,6 +37,8 @@ namespace Gama.Cooperacion.WpfTests
             _actividadRepositoryMock = new Mock<IActividadRepository>();
             _cooperanteRepositoryMock = new Mock<ICooperanteRepository>();
             _EventosRepositoryMock = new Mock<IEventoRepository>();
+            _ForoRepositoryMock = new Mock<IForoRepository>();
+            _TareaRepositoryMock = new Mock<ITareaRepository>();
             _eventAggregatorMock = new Mock<IEventAggregator>();
             _actividadActualizadaEvent = new Mock<ActividadActualizadaEvent>();
             var sessionMock = new Mock<ISession>();
@@ -57,15 +61,19 @@ namespace Gama.Cooperacion.WpfTests
                 .Returns(_actividad.Model);
 
             _informacionDeActividadViewModelMock = new InformacionDeActividadViewModel(
+                _actividadRepositoryMock.Object,
                 _cooperanteRepositoryMock.Object,
-                _eventAggregatorMock.Object,
-                sessionMock.Object);
+                _eventAggregatorMock.Object
+                //sessionMock.Object
+                );
 
             _TareaDeActividadViewModelMock = new TareasDeActividadViewModel(
-               _actividadRepositoryMock.Object, 
-               _EventosRepositoryMock.Object,
-               _eventAggregatorMock.Object,
-               sessionMock.Object
+               _actividadRepositoryMock.Object,
+               _cooperanteRepositoryMock.Object,
+               _ForoRepositoryMock.Object,
+               _TareaRepositoryMock.Object,
+               _eventAggregatorMock.Object
+               //sessionMock.Object
                 );
 
 
@@ -98,7 +106,7 @@ namespace Gama.Cooperacion.WpfTests
         private void ShouldInitializeItsProperties()
         {
             Assert.NotNull(_vm.Actividad);
-            Assert.NotNull(_vm.ActividadVM);
+            Assert.NotNull(_vm.InformacionDeActividadViewModel);
             Assert.NotNull(_vm.Title);
             Assert.NotEmpty(_vm.Title);
             Assert.False(_vm.ActualizarCommand.CanExecute(null));
@@ -111,8 +119,8 @@ namespace Gama.Cooperacion.WpfTests
         {
             bool fired = false;
 
-            _vm.ActividadVM.PropertyChanged += (s, e) => {
-                if (e.PropertyName == nameof(_vm.ActividadVM.Actividad))
+            _vm.InformacionDeActividadViewModel.PropertyChanged += (s, e) => {
+                if (e.PropertyName == nameof(_vm.InformacionDeActividadViewModel.Actividad))
                 {
                     fired = true;
                 }
@@ -120,7 +128,7 @@ namespace Gama.Cooperacion.WpfTests
 
             var actividad = new Actividad();
 
-            _vm.ActividadVM.Actividad = new ActividadWrapper(actividad);
+            _vm.InformacionDeActividadViewModel.Actividad = new ActividadWrapper(actividad);
             Assert.True(fired);
         }
 

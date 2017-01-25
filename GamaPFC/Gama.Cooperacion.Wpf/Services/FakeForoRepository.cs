@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.Wpf.Services
 {
-    public class FakeForoRepository : IForoRepository
+    public class FakeForoRepository
     {
         public ISessionFactory _session { get; set; }
         private List<Foro> _foro;
@@ -41,9 +41,9 @@ namespace Gama.Cooperacion.Wpf.Services
 
             return _foro;
         }
-        public Foro GetById(string titulo)
+        public Foro GetById(int  id)
         {
-            return _foro.Where(a => a.Titulo == titulo).First();
+            return _foro.Where(a => a.Id == id).First();
         }
 
         public bool Update(Foro entity)

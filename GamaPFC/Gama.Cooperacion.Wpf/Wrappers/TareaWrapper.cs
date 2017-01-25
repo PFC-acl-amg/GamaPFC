@@ -26,10 +26,12 @@ namespace Gama.Cooperacion.Wpf.Wrappers
                 throw new ArgumentNullException("Mensajes");
             }
 
-
-            this.Incidencia = new ChangeTrackingCollection<IncidenciaWrapper>
+            //this.Incidencia = new ChangeTrackingCollection<IncidenciaWrapper>
+            //    (model.Incidencias.Select(t => new IncidenciaWrapper(t)));
+            //this.RegisterCollection(this.Incidencia, model.Incidencias);
+            this.Incidencias = new ChangeTrackingCollection<IncidenciaWrapper>
                 (model.Incidencias.Select(t => new IncidenciaWrapper(t)));
-            this.RegisterCollection(this.Incidencia, model.Incidencias);
+            this.RegisterCollection(this.Incidencias, model.Incidencias);
 
             this.Seguimiento = new ChangeTrackingCollection<SeguimientoWrapper>
                 (model.Seguimiento.Select(t => new SeguimientoWrapper(t)));
@@ -88,7 +90,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
 
         public bool FechaDeFinalizacionIsChanged => GetIsChanged(nameof(FechaDeFinalizacion));
 
-        public ChangeTrackingCollection<IncidenciaWrapper> Incidencia { get; set; }
+        public ChangeTrackingCollection<IncidenciaWrapper> Incidencias { get; set; } // Antes se llamaba Incidencia
         public ChangeTrackingCollection<SeguimientoWrapper> Seguimiento { get; set; }
 
         private bool _SeguimientoVisible = true;
@@ -121,6 +123,8 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         }
 
         public ActividadWrapper Actividad { get; private set; }
-        public CooperanteWrapper Responsable { get; private set; }
+        public CooperanteWrapper Responsable { get;  set; } // Estaba puesto private set pero no me dejaba hacer la asignacion
+                                                            // TareasDisponibles[indice].Responsable = ResponsableTarea.Model;
+                                                            // para el nuevo evento OnTareaModificadaEvent
     }
 }

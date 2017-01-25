@@ -40,19 +40,19 @@ namespace Gama.Cooperacion.Wpf
 
                 foreach (var cooperante in cooperantesDummy) // Crea tambien mas cooperantes de forma automatica
                 {
-                    cooperanteRepository.Create(cooperante);
+                    //cooperanteRepository.Create(cooperante);
                 }
 
                 var actividadRepository = Container.Resolve<IActividadRepository>();
-                var eventoRepository = Container.Resolve<IEventoRepository>();
+                //var eventoRepository = Container.Resolve<IEventoRepository>();
      
                 actividadRepository.Session = session;
                 cooperanteRepository.Session = session;
-                eventoRepository.Session = session;
+                //eventoRepository.Session = session;
 
                 foreach (var cooperante in cooperantesDummy)
                 {
-                    cooperanteRepository.Create(cooperante); // para crear cooperantes nuevos forma automatica
+                    //cooperanteRepository.Create(cooperante); // para crear cooperantes nuevos forma automatica
                 }
 
                 //var cooperanteRepository = Container.Resolve<ICooperanteRepository>();
@@ -157,12 +157,13 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterType<ISession>(new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
             Container.RegisterType<IActividadRepository, ActividadRepository>();
             Container.RegisterType<ICooperanteRepository, CooperanteRepository>();
-
-            // Añido para eventos
-            Container.RegisterType<IEventoRepository, EventoRepository>();
-            Container.RegisterType<IIncidenciaRepository, IncidenciaRepository>();
+            Container.RegisterType<IForoRepository, ForoRepository>();
             Container.RegisterType<ITareaRepository, TareaRepository>();
-            Container.RegisterType<ISeguimientoRepository, SeguimientoRepository>();
+            // Añido para eventos
+            //Container.RegisterType<IEventoRepository, EventoRepository>();
+            //Container.RegisterType<IIncidenciaRepository, IncidenciaRepository>();
+            //Container.RegisterType<ITareaRepository, TareaRepository>();
+            //Container.RegisterType<ISeguimientoRepository, SeguimientoRepository>();
 
             Container.RegisterInstance<ICooperacionSettings>(
                 new CooperacionSettings());

@@ -28,15 +28,18 @@ namespace Gama.Cooperacion.DataAccess.Mappings
                 .Fetch.Join();
 
             HasMany(x => x.Eventos)
-                .Cascade.SaveUpdate()
+                //.Cascade.SaveUpdate()
+                .Cascade.All()
                 .Inverse();
 
             HasMany(x => x.Foros)
-                .Cascade.SaveUpdate()
+                //.Cascade.SaveUpdate()
+                .Cascade.All()
                 .Inverse();
 
             HasMany(x => x.Tareas)
-                .Cascade.SaveUpdate()
+                // .Cascade.SaveUpdate()
+                .Cascade.All()
                 .Inverse();
 
             HasManyToMany(x => x.Cooperantes)

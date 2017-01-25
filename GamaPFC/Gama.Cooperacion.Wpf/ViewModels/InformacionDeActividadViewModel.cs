@@ -31,29 +31,20 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private IEnumerable _ResultadoDeBusqueda;
         private LookupItem _CooperanteBuscado;
         private LookupItem _CoordinadorBuscado;
+        private ISession _Session;
 
         public InformacionDeActividadViewModel(
+            IActividadRepository actividadRepository,
             ICooperanteRepository cooperanteRepository,
-            IEventAggregator eventAggregator, ISession session)
+            IEventAggregator eventAggregator)
         {
+            _ActividadRepository = actividadRepository;
             _CooperanteRepository = cooperanteRepository;
-            _CooperanteRepository.Session = session;
             _EventAggregator = eventAggregator;
             _MensajeDeEspera = new List<string>() { "Espera por favor..." };
             _EdicionHabilitada = true;
 
             Actividad = new ActividadWrapper(new Actividad() { Titulo = "", Descripcion = "" });
-
-            CooperantesDisponibles = new ObservableCollection<CooperanteWrapper>(
-                _CooperanteRepository.GetAll().Select(c => new CooperanteWrapper(c)));
-
-            _ResultadoDeBusqueda = new ObservableCollection<LookupItem>(
-                CooperantesDisponibles.Select(c => new LookupItem
-                {
-                    Id = c.Id,
-                    DisplayMember1 = c.NombreCompleto,
-                    DisplayMember2 = c.Dni
-                }));
 
             // Añadimos 'Cooperante Dummy' para que se muestre una fila del formulario para añadir el primero
             Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
@@ -100,6 +91,17 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             set { SetProperty(ref _Actividad, value); }
         }
 
+        public ISession Session
+        {
+            get { return _Session;  }
+            set
+            {
+                _Session = value;
+                _ActividadRepository.Session = _Session;
+                _CooperanteRepository.Session = _Session;
+            }
+        }
+
         public ObservableCollection<CooperanteWrapper> CooperantesDisponibles { get; private set; }
         public CooperanteWrapper CooperantePreviamenteSeleccionado { get; set; }
         public CooperanteWrapper CooperanteEmergenteSeleccionado { get; set; }
@@ -116,6 +118,20 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         public void Load(ActividadWrapper wrapper)
         {
+            if (CooperantesDisponibles == null)
+            {
+                CooperantesDisponibles = new ObservableCollection<CooperanteWrapper>(
+                    _CooperanteRepository.GetAll().Select(c => new CooperanteWrapper(c)));
+
+            _ResultadoDeBusqueda = new ObservableCollection<LookupItem>(
+                CooperantesDisponibles.Select(c => new LookupItem
+                {
+                    Id = c.Id,
+                    DisplayMember1 = c.NombreCompleto,
+                    DisplayMember2 = c.Dni
+                }));
+            }
+
             EdicionHabilitada = false;
             Actividad = wrapper;
             foreach (var cooperante in Actividad.Cooperantes)

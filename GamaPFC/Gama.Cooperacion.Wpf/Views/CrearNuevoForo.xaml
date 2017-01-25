@@ -1,0 +1,74 @@
+﻿<metro:MetroWindow x:Class="Gama.Cooperacion.Wpf.Views.CrearNuevoForo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
+                   
+        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:actions="clr-namespace:Core.Util;assembly=Core"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        WindowStartupLocation="CenterScreen"
+        MaxWidth="550"
+        BorderThickness="2"
+        BorderBrush="{StaticResource AccentColorBrush}"
+        mc:Ignorable="d"
+        Title="Nuevo Foro" Height="250" Width="350"
+        actions:DialogCloser.DialogResult="{Binding Cerrar}">
+        
+    
+        <!--Como usamos estilos  metro la ventana no sera una Window sino una 
+            Metro:MetroWindow => dara u error porque no se ha definido el prefijo 
+            del espacio de nombre de metro => tenemos que añadir 
+            xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls" => hay que cambiar 
+            en codigo behind public partial class CrearNuevoForo : MetroWindow.
+            Los dos siguientes espacios de nombres no se para que son pero estan 
+            añadidos en citas xmlns:prism="http://prismlibrary.com/"
+            xmlns:actions="clr-namespace:Core.Util;assembly=Core".
+            Dos añadidos mas prism:ViewModelLocator.AutoWireViewModel="True"
+            WindowStartupLocation="CenterScreen" para generar el viewModel y centrar
+            la ventana en la pantalla. Se añaden detalles de tamaño maximo y 
+            estilosdebordes y por ultimo (creo que ultimo) se añade la acion 
+            para poder cerrar la ventana: 
+            actions:DialogCloser.DialogResult="{Binding Cerrar}" Height="208" Width="327"-->
+    
+    <!--Segundo paso es diseñar la ventana añadiendo los controles necesarios en el grid-->
+    <!--Tercer paso es crear el viewModel una vez que tenemos los controles basicos => creamos
+    la clase CrearNuevoForoViewModel.cs-->
+    
+    <Grid>
+        <StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <Label Margin="{StaticResource Margin}">Título del Foro...</Label>
+                    <TextBox  Name="TituloForo"
+                              BorderThickness="1"
+                              metro:TextBoxHelper.Watermark="Título del Foro..."
+                              TextWrapping="Wrap"
+                              Margin="{StaticResource Margin}"
+                              Text="{Binding TituloForo}"/>
+                </StackPanel>
+                <StackPanel Grid.Row="1">
+                    <Label Margin="{StaticResource Margin}">Primer Mensaje...</Label>
+                    <TextBox  Name="PrimerMensaje"
+                              metro:TextBoxHelper.Watermark="Mensaje de Presentación..."
+                              TextWrapping="Wrap"
+                              Margin="{StaticResource Margin}"
+                              MinLines="3"
+                              AcceptsReturn="True"
+                              Text="{Binding TituloForoMensaje}"/>
+                </StackPanel>
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button Content="Aceptar" Command="{Binding AceptarCommand}" Margin="{StaticResource Margin}"></Button>
+                    <Button Content="Cancelar" Command="{Binding CancelarCommand}" Margin="{StaticResource Margin}"></Button>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</metro:MetroWindow>

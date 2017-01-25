@@ -23,19 +23,20 @@
     </UserControl.Resources>
     <Grid>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition MaxWidth="400"/>
+      <ColumnDefinition MaxWidth="450" Width="auto"/>
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
+        <Expander ExpandDirection="Right" Height="500" VerticalAlignment="Top">
         <Grid Grid.Column="0">
-      <Grid.RowDefinitions>
-        <RowDefinition />
+            <Grid.RowDefinitions>
+        <RowDefinition Height="auto" />
         <RowDefinition Height="Auto"/>
       </Grid.RowDefinitions>
-      <ScrollViewer>
-                <local:InformacionDeActividadView DataContext="{Binding ActividadVM}"
-                ScrollViewer.VerticalScrollBarVisibility="Auto" />
-            </ScrollViewer>
-      <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+            <!--<Expander ExpandDirection="Right">-->
+                <local:InformacionDeActividadView DataContext="{Binding InformacionDeActividadViewModel}" />
+
+            <!--</Expander>-->
+            <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
         <Label Margin="{StaticResource Margin}" Visibility="{Binding ActividadVM.EdicionHabilitada,
           Converter={StaticResource BooleanToVisibilityConverter}}">
           <Hyperlink 
@@ -57,11 +58,13 @@
           </Hyperlink>
         </Label>
       </StackPanel>
-    </Grid>
-        
-        <Grid Grid.Column="1">
-        <local:TareasDeActividad  DataContext="{Binding TareasActividadVM}" Margin="{StaticResource Margin}"/>
+            
         </Grid>
+        </Expander>
+        <Grid Grid.Column="1">
+        <local:TareasDeActividad  DataContext="{Binding TareasDeActividadViewModel}" Margin="{StaticResource Margin}"/>
+        </Grid>
+        
     </Grid>
 
 </UserControl>

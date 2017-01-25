@@ -20,8 +20,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
     public class EditarActividadViewModel : ViewModelBase
     {
         private IActividadRepository _ActividadRepository;
-        private InformacionDeActividadViewModel _ActividadVM;
-        private TareasDeActividadViewModel _TareasActividadVM;
+        private InformacionDeActividadViewModel _InformacionDeActividadViewModel;
+        private TareasDeActividadViewModel _TareasDeActividadViewModel;
         private ICooperanteRepository _CooperanteRepository;
         private ISession _Session;
         private IEventAggregator _eventAggregator;
@@ -30,8 +30,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             IActividadRepository actividadRepository,
             ICooperanteRepository cooperanteRepository,
             IEventAggregator eventAggregator,
-            InformacionDeActividadViewModel actividadVM,
-            TareasDeActividadViewModel tareasActividadVM,
+            InformacionDeActividadViewModel informacionDeActividadViewModel,
+            TareasDeActividadViewModel tareasActividadViewModel,
             ISession session)
         {
             _eventAggregator = eventAggregator;
@@ -40,34 +40,36 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _ActividadRepository.Session = session;
             _CooperanteRepository.Session = session;
             _Session = session;
-            _ActividadVM = actividadVM;
-            _TareasActividadVM = tareasActividadVM;
+            _InformacionDeActividadViewModel = informacionDeActividadViewModel;
+            _InformacionDeActividadViewModel.Session = session;
+            _TareasDeActividadViewModel = tareasActividadViewModel;
+            _TareasDeActividadViewModel.Session = session;
 
-            HabilitarEdicionCommand = new DelegateCommand(
+                HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
-                () => !_ActividadVM.EdicionHabilitada);
+                () => !_InformacionDeActividadViewModel.EdicionHabilitada);
 
             ActualizarCommand = new DelegateCommand(
                 OnActualizarCommand,
-                () => _ActividadVM.EdicionHabilitada && _ActividadVM.Actividad.IsChanged);
+                () => _InformacionDeActividadViewModel.EdicionHabilitada && _InformacionDeActividadViewModel.Actividad.IsChanged);
 
             CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand,
-                () => _ActividadVM.EdicionHabilitada);
+                () => _InformacionDeActividadViewModel.EdicionHabilitada);
 
-            _ActividadVM.PropertyChanged += _ActividadVM_PropertyChanged;
+            _InformacionDeActividadViewModel.PropertyChanged += _ActividadVM_PropertyChanged;
         }
 
-        public InformacionDeActividadViewModel ActividadVM
+        public InformacionDeActividadViewModel InformacionDeActividadViewModel
         {
-            get { return _ActividadVM; }
+            get { return _InformacionDeActividadViewModel; }
         }
-        public TareasDeActividadViewModel TareasActividadVM
+        public TareasDeActividadViewModel TareasDeActividadViewModel
         {
-            get { return _TareasActividadVM; }
+            get { return _TareasDeActividadViewModel; }
         }
         public ActividadWrapper Actividad
         {
-            get { return _ActividadVM.Actividad; }
+            get { return _InformacionDeActividadViewModel.Actividad; }
         }
 
         public ICommand HabilitarEdicionCommand { get; private set; }
@@ -76,13 +78,13 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnHabilitarEdicionCommand()
         {
-            _ActividadVM.EdicionHabilitada = true;
-            if (_ActividadVM.CooperantesDisponibles.Count > 0
+            _InformacionDeActividadViewModel.EdicionHabilitada = true;
+            if (_InformacionDeActividadViewModel.CooperantesDisponibles.Count > 0
                 && Actividad.Cooperantes.Where(c => c.Nombre == null).ToList().Count == 0)
             {
                 Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
             }
-            _ActividadVM.Actividad.AcceptChanges();
+            _InformacionDeActividadViewModel.Actividad.AcceptChanges();
         }
 
         private void OnActualizarCommand()
@@ -94,9 +96,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             }
             Actividad.UpdatedAt = DateTime.Now;
             _ActividadRepository.Update(Actividad.Model);
-            _ActividadVM.Actividad.AcceptChanges();
+            _InformacionDeActividadViewModel.Actividad.AcceptChanges();
             //_ActividadVM.Actividad.Cooperantes.Add(cooperanteDummy);
-            _ActividadVM.EdicionHabilitada = false;
+            _InformacionDeActividadViewModel.EdicionHabilitada = false;
             _eventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(Actividad.Id);
         }
 
@@ -109,7 +111,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 Actividad.Cooperantes.Remove(cooperanteDummy.First());
             }
             Actividad.AcceptChanges();
-            _ActividadVM.EdicionHabilitada = false;
+            _InformacionDeActividadViewModel.EdicionHabilitada = false;
         }
 
         public override bool IsNavigationTarget(NavigationContext navigationContext)
@@ -127,8 +129,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             var actividad = new ActividadWrapper(
                 _ActividadRepository.GetById((int)navigationContext.Parameters["Id"]));
 
-            _ActividadVM.Load(actividad);
-            _TareasActividadVM.LoadActividad(actividad);
+            _InformacionDeActividadViewModel.Load(actividad);
+            _TareasDeActividadViewModel.LoadActividad(actividad);
 
             if (Actividad.Titulo.Length > 20)
             {
@@ -149,7 +151,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void _ActividadVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(_ActividadVM.EdicionHabilitada))
+            if (e.PropertyName == nameof(_InformacionDeActividadViewModel.EdicionHabilitada))
             {
                 InvalidateCommands();
             }

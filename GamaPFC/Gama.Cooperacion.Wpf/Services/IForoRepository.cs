@@ -1,4 +1,5 @@
 ﻿using Gama.Cooperacion.Business;
+using NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,8 @@ namespace Gama.Cooperacion.Wpf.Services
 {
     public interface IForoRepository
     {
-        Foro GetById(string id);
+        ISession Session { get; set; }
+        Foro GetById(int id);
 
         List<Foro> GetAll();
 

@@ -42,15 +42,18 @@ namespace Gama.Cooperacion.WpfTests
             _cooperanteRepositoryMock.Setup(cr => cr.GetAll()).Returns(_cooperantes);
 
             _informacionDeActividadViewModelMock = new InformacionDeActividadViewModel(
+                _actividadRepositoryMock.Object,
                 _cooperanteRepositoryMock.Object,
-                _eventAggregatorMock.Object,
-                sessionMock.Object);
+                _eventAggregatorMock.Object
+                //sessionMock.Object
+                );
 
             _vm = new NuevaActividadViewModel(
                 _actividadRepositoryMock.Object,
                 _eventAggregatorMock.Object,
                 _informacionDeActividadViewModelMock,
-                sessionMock.Object);
+                sessionMock.Object
+                );
         }
 
         [Fact]

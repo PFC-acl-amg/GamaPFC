@@ -30,11 +30,13 @@ namespace Gama.Cooperacion.DataAccess.Mappings
                 .Fetch.Join();
 
             HasMany(x => x.Seguimiento)
-                .Cascade.SaveUpdate()
+                .Cascade.All()
+                //.Cascade.SaveUpdate()
                .Inverse();
 
             HasMany(x => x.Incidencias)
-                .Cascade.SaveUpdate()
+                //.Cascade.SaveUpdate()
+                .Cascade.All()
                .Inverse();
 
             //HasMany(x => x.Historial)

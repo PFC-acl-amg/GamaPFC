@@ -90,7 +90,8 @@ namespace Core.DataAccess
             {
                 using (var tx = Session.BeginTransaction())
                 {
-                    Session.Update(entity);
+                   
+                   Session.Update(entity);
                     //Session.Merge(entity);
                     tx.Commit();
                    

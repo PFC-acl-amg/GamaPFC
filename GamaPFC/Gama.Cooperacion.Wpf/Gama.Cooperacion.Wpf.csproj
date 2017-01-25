@@ -127,6 +127,7 @@
     <Compile Include="CooperacionModule.cs" />
     <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />
     <Compile Include="DesignTimeData\DesignTimeDataViewModel.cs" />
+    <Compile Include="DesignTimeData\InformacionTareaViewModel_DTD.cs" />
     <Compile Include="DesignTimeData\ListadoDeActividadesVM_DTD.cs" />
     <Compile Include="DesignTimeData\TareasDeActividadViewModelDTD.cs" />
     <Compile Include="DesignTimeData\StatusBarViewModelDTD.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Eventos\NuevoForoCreadoEvent.cs" />
     <Compile Include="Eventos\CargarNuevaActividadEvent.cs" />
     <Compile Include="Eventos\PublicarEventosActividad.cs" />
+    <Compile Include="Eventos\TareaModificadaEvent.cs" />
     <Compile Include="Services\ActividadRepository.cs" />
     <Compile Include="Services\CooperacionSettings.cs" />
     <Compile Include="Services\CooperanteRepository.cs" />
@@ -150,6 +152,7 @@
     <Compile Include="Services\FakeMensajeRepository.cs" />
     <Compile Include="Services\FakeSeguimientoRepository.cs" />
     <Compile Include="Services\FakeTareaRepository.cs" />
+    <Compile Include="Services\ForoRepository.cs" />
     <Compile Include="Services\IActividadRepository.cs" />
     <Compile Include="Services\ICooperacionSettings.cs" />
     <Compile Include="Services\ICooperanteRepository.cs" />
@@ -162,16 +165,25 @@
     <Compile Include="Services\ITareaRepository.cs" />
     <Compile Include="Services\SeguimientoRepository.cs" />
     <Compile Include="Services\TareaRepository.cs" />
+    <Compile Include="ViewModels\CrearNuevaTareaViewModel.cs" />
+    <Compile Include="ViewModels\CrearNuevoForoViewModel.cs" />
     <Compile Include="ViewModels\EditarActividadViewModel.cs" />
     <Compile Include="ViewModels\ActividadesContentViewModel.cs" />
     <Compile Include="ViewModels\InformacionDeActividadViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\InformacionTareaViewModel.cs" />
     <Compile Include="ViewModels\ListadoDeActividadesViewModel.cs" />
     <Compile Include="ViewModels\NuevaActividadViewModel.cs" />
     <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
     <Compile Include="ViewModels\StatusBarViewModel.cs" />
     <Compile Include="ViewModels\TareasDeActividadViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
+    <Compile Include="Views\CrearNuevaTareaView.xaml.cs">
+      <DependentUpon>CrearNuevaTareaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CrearNuevoForo.xaml.cs">
+      <DependentUpon>CrearNuevoForo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EditarActividadView.xaml.cs">
       <DependentUpon>EditarActividadView.xaml</DependentUpon>
     </Compile>
@@ -180,6 +192,9 @@
     </Compile>
     <Compile Include="Views\InformacionDeActividadView.xaml.cs">
       <DependentUpon>InformacionDeActividadView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InformacionTareaView.xaml.cs">
+      <DependentUpon>InformacionTareaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StatusBarView.xaml.cs">
       <DependentUpon>StatusBarView.xaml</DependentUpon>
@@ -223,6 +238,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\CrearNuevaTareaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CrearNuevoForo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\EditarActividadView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -232,6 +255,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InformacionDeActividadView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InformacionTareaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

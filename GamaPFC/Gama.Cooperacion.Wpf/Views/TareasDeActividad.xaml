@@ -13,13 +13,14 @@
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="1500" d:DesignWidth="650">
+             d:DesignHeight="1000" d:DesignWidth="650">
     <d:DataContext>
         <designData:TareasDeActividadViewModelDTD/>
     </d:DataContext>
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisivilityConverter"/>
     </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Visible" Height="560">
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="185*"/>
@@ -32,32 +33,6 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <!--<Border BorderBrush="black" BorderThickness="0,0,0,2" Grid.ColumnSpan="2">
-            <StackPanel Grid.Row="0" Orientation="Horizontal" >
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
-                    -->
-        <!--<Button Grid.Column="1" Content="Tareas" FontSize="12"/>-->
-        <!--
-                    <Button Width="50" Height="50" Grid.Column="1" Style="{DynamicResource MetroCircleButtonStyle}">
-                        <Rectangle Width="20" Height="20" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_disk}" />
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </Button>
-                    <Button Grid.Column="3" Content="Foro" FontSize="12" Command="{Binding CrearForoCommand}" />
-                    <ToggleButton x:Name="Toogle" Grid.Column="5" Content="Evento" FontSize="12" />
-                </Grid>
-            </StackPanel>
-        </Border>-->
         <GroupBox Grid.Row="1" Name="ListaEventos" Grid.ColumnSpan="2" Margin="{StaticResource Margin}">
             <GroupBox.Header>
                 <Grid>
@@ -140,9 +115,10 @@
                         </Grid>
                     </StackPanel>
                 </GroupBox>
-                <ListBox x:Name="MensajesListBox3" ItemsSource="{Binding ForosDisponibles}"
+                <ListBox x:Name="MensajesListBox3" 
+                         ItemsSource="{Binding ForosDisponibles}"
                          Visibility="{Binding OcultarForoVisible, 
-                                                Converter={StaticResource BooleanToVisivilityConverter}}">
+                         Converter={StaticResource BooleanToVisivilityConverter}}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid >
@@ -168,7 +144,7 @@
                                 </StackPanel>
                                 <GroupBox Grid.Row="1" Header="Mensajes Publicados" Grid.ColumnSpan="4" 
                                           Visibility="{Binding ForoVisible,
-                                                Converter={StaticResource BooleanToVisivilityConverter}}">
+                                          Converter={StaticResource BooleanToVisivilityConverter}}">
 
                                     <StackPanel>
                                         <Grid >
@@ -330,7 +306,9 @@
             </Grid>
 
         </GroupBox>
-
+        
+<!--Aqui comienza el tratamiento de las tareas-->
+        
         <GroupBox Grid.Row="3" Grid.ColumnSpan="2" Margin="{StaticResource Margin}">
             <GroupBox.Header>
                 <Grid>
@@ -348,26 +326,34 @@
                     <RowDefinition  Height="auto" />
                 </Grid.RowDefinitions>
                 <controls:MetroAnimatedSingleRowTabControl Grid.Row="1">
+                    <!--Este control es el que muestra cada linea del listbox de las tareas activas-->
                     <controls:MetroTabItem Header="Tareas Activas" controls:ControlsHelper.HeaderFontSize="17">
                         <ListBox x:Name="TareasListBox" Width="900"
                             ItemsSource="{Binding TareasDisponibles}" >
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid >
+                                    <Grid  >
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="50"/>
+                                            <!--<ColumnDefinition Width="50"/>
                                             <ColumnDefinition Width="1*" />
                                             <ColumnDefinition Width="auto"/>
                                             <ColumnDefinition Width="150"/>
                                             <ColumnDefinition Width="20"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>-->
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition  />
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto"/>
                                             <RowDefinition Height="auto" />
                                         </Grid.RowDefinitions>
 
-                                        <Button Width="40" Height="40" Grid.Column="0" Style="{DynamicResource MetroCircleButtonStyle}"
+                                        <Button Width="40" Height="40" Grid.Column="0" Grid.Row="0" Style="{DynamicResource MetroCircleButtonStyle}"
                                                                     Command="{Binding DataContext.FinalizarTareaTDCommand,
                                                                         RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
                                                                         CommandParameter="{Binding}" >
@@ -377,19 +363,30 @@
                                                 </Rectangle.OpacityMask>
                                             </Rectangle>
                                         </Button>
-                                        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Descripcion}"  Margin="10,0,0,0" HorizontalAlignment="Left"/>
-                                        <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding Responsable.Nombre}"  HorizontalAlignment="Right" />
-                                        <TextBlock Grid.Column="3" Grid.Row="0" Text="{Binding FechaDeFinalizacion}" HorizontalAlignment="Right"   />
-                                        <TextBlock Text="3" Grid.Column="4" Grid.Row="0" HorizontalAlignment="Center"  />
+                                        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Descripcion}"  Margin="10,0,0,0"/>
+                                        <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding Responsable.Nombre}"   />
+                                        <TextBlock Grid.Column="3" Grid.Row="0" Text="{Binding FechaDeFinalizacion}"    />
+                                        <TextBlock Text="3" Grid.Column="4" Grid.Row="0"  />
                                         <Button Content="VER" Grid.Row="0" Grid.Column="5"
                                             Command="{Binding DataContext.InfoTareaCommand,
                                                        RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
                                             CommandParameter="{Binding}"
                                             Margin="{StaticResource Margin}" ></Button>
-
+                                        <Button Width="40" Height="40" Grid.Column="6" Grid.Row="0" Style="{DynamicResource MetroCircleButtonStyle}"
+                                                                    Command="{Binding DataContext.EditarTareaCommand,
+                                                                        RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                                                        CommandParameter="{Binding}" >
+                                                <Rectangle Width="15" Height="15" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                                    <Rectangle.OpacityMask>
+                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_edit}" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </Button>
+                                        <!--Este control depende de la variable "SeguimientoVisible" y es donde se muestran las incidencias y seguimientos y se permite crear los mensajes-->
                                         <controls:MetroAnimatedSingleRowTabControl Grid.Row="1" Visibility="{Binding SeguimientoVisible,
-                                                Converter={StaticResource BooleanToVisivilityConverter}}" Grid.ColumnSpan="6"
-                                                                                   ItemsSource="{Binding TareasDisponibles}">
+                                                Converter={StaticResource BooleanToVisivilityConverter}}" Grid.ColumnSpan="6">
+                                            <!--ItemsSource="{Binding TareasDisponibles.Incidencias}"-->
+                                            <!--Muestran las incidencias y los contyroles necesarios para crear nuevas incidencias-->
                                             <controls:MetroTabItem Header="Incidencias" controls:ControlsHelper.HeaderFontSize="17">
                                                 <StackPanel>
                                                     <Grid >
@@ -399,7 +396,7 @@
                                                         </Grid.RowDefinitions>
                                                         <ScrollViewer  Grid.ColumnSpan="4" VerticalScrollBarVisibility="Auto">
                                                             <ListBox x:Name="MensajeForossssss"  Grid.Row="0" Grid.ColumnSpan="4" Width="860"
-                                                                ItemsSource="{Binding Incidencia}" 
+                                                                ItemsSource="{Binding Incidencias}" 
                                                                 ScrollViewer.VerticalScrollBarVisibility="Auto" Height="100">
                                                                 <ListBox.ItemTemplate>
                                                                     <DataTemplate>
@@ -485,6 +482,7 @@
                                                     </Grid>
                                                 </StackPanel>
                                             </controls:MetroTabItem>
+                                            <!--Muestra el segumiento y los contyroles necesarios para crear nuevos seguimientos-->
                                             <controls:MetroTabItem Header="Seguimiento" controls:ControlsHelper.HeaderFontSize="17">
                                                 <StackPanel>
                                                     <Grid >
@@ -617,7 +615,7 @@
                                             Margin="{StaticResource Margin}" ></Button>
 
                                         <controls:MetroAnimatedSingleRowTabControl Grid.Row="1" Visibility="{Binding SeguimientoVisible,
-                                                Converter={StaticResource BooleanToVisivilityConverter}}" Grid.ColumnSpan="5" ItemsSource="{Binding TareasFinalizadas }">
+                                                Converter={StaticResource BooleanToVisivilityConverter}}" Grid.ColumnSpan="5">
                                             <controls:MetroTabItem Header="Incidencias" controls:ControlsHelper.HeaderFontSize="17" Width="200">
                                                 <StackPanel>
                                                     <Grid >
@@ -733,52 +731,6 @@
                 </GroupBox>
             </Grid>
         </GroupBox>
-        <!--<GroupBox Grid.Row="3" Header="Tareas">
-            <Grid >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <cc:SearchBox 
-          x:Name="searchBoxCoordinador"
-          Grid.Column="0"
-          Margin="{StaticResource Margin}"
-          SearchMode="Delayed"
-          SelectedItem="{Binding Actividad.Coordinador}"
-         
-          Text="{Binding Actividad.Coordinador.NombreCompleto, Mode=OneWay}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Search">
-                            <prism:InvokeCommandAction 
-                  Command="{Binding SearchCommand}"
-                  CommandParameter="{Binding ElementName=searchBoxCoordinador, Path=Text}"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="SelectResult">
-                            <prism:InvokeCommandAction 
-                      Command="{Binding SelectCoordinadorCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </cc:SearchBox>
-
-                <StackPanel Orientation="Horizontal" Grid.Column="1">
-                    <Button Content="Buscar" Margin="{StaticResource Margin}"
-                Command="{Binding AbrirPopupCommand}"/>
-                    <Button Content="X" Margin="{StaticResource Margin}"
-                Command="{Binding QuitarCoordinadorCommand}"/>
-                </StackPanel>
-            </Grid>
-        </GroupBox>-->
-        <!--<GroupBox Grid.Row="1" Header="Eventos">
-            <ListBox ItemsSource="{Binding Actividad.Cooperantes}"
-             DisplayMemberPath="Nombre">
-
-            </ListBox>
-        </GroupBox>-->
-
-        <!--<ListBox ItemsSource="{Binding Actividad.Cooperantes}"
-             DisplayMemberPath="Nombre">
-
-    </ListBox>-->
     </Grid>
+    </ScrollViewer>
 </UserControl>
