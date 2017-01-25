@@ -40,8 +40,7 @@
                   MaxHeight="68"
                   MaxWidth="68"
                   Stretch="Fill" 
-                  Source="{Binding Persona.AvatarPath, Converter={StaticResource _PathToFullPathConverter}, 
-                  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
+                  Source="{Binding Persona.AvatarPath, Converter={StaticResource _PathToFullPathConverter}}" >
                   <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
                       <prism:InvokeCommandAction Command="{Binding ExaminarAvatarCommand}"/>
