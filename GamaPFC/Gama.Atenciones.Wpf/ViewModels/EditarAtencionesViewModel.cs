@@ -130,6 +130,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             AtencionSeleccionada.AcceptChanges();
             EdicionHabilitada = false;
             AtencionSeleccionada.IsInEditionMode = false;
+            _EventAggregator.GetEvent<AtencionActualizadaEvent>().Publish(AtencionSeleccionada.Id);
         }
 
         private void OnHabilitarEdicionCommand()

@@ -6,14 +6,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Gama.Common.CustomControls;
+using Core.Util;
 
 namespace Gama.Atenciones.Wpf.Services
 {
     public class PersonaRepository : NHibernateOneSessionRepository<Persona, int>, IPersonaRepository
     {
+
         public List<LookupItem> GetAllForLookup()
         {
-            throw new NotImplementedException();
+            var personas = Session.CreateCriteria<Persona>().List<Persona>()
+                .Select(x => {
+                    x.IsEncrypted = true;
+                    x.DecryptFluent();
+                    return x;
+                })
+                .Select(
+                    x => new LookupItem
+                    {
+                        Id = x.Id,
+                        DisplayMember1 = x.Nombre,
+                        DisplayMember2 = x.Nif,
+                        IconSource = x.AvatarPath
+                    }).ToList();
+
+            Session.Clear();
+
+            return personas;
         }
 
         public IEnumerable<int> GetPersonasNuevasPorMes(int numeroDeMeses)
@@ -39,6 +58,44 @@ namespace Gama.Atenciones.Wpf.Services
             {
                 throw ex;
             }
+
+            return resultado;
+        }
+
+        public List<string> GetNifs()
+        {
+            List<string> temp;
+            List<string> resultado = new List<string>();
+
+            try
+            {
+                temp = Session.QueryOver<Persona>()
+                    .Select(x => x.Nif)
+                    .List<string>()
+                    .ToList();
+
+                foreach (var nif in temp)
+                {
+                    resultado.Add(EncryptionService.Decrypt(nif));
+                }
+
+                Session.Clear();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return resultado;
+        }
+
+        public List<Atencion> GetAtenciones()
+        {
+            var resultado = new List<Atencion>();
+
+            resultado = Session.QueryOver<Atencion>().List().ToList();
+
+            Session.Clear();
 
             return resultado;
         }

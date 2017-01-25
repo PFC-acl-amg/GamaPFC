@@ -12,12 +12,27 @@ using NHibernate;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace Gama.Atenciones.Wpf
 {
+    public static class AtencionesResources
+    {
+        public static List<string> TodosLosNif { get; set; }
+
+        public static void AddNif(string nif)
+        {
+            if (!TodosLosNif.Contains(nif))
+            {
+                TodosLosNif.Add(nif);
+            }
+        }
+    }
+
     public class AtencionesModule : ModuleBase
     {
         public AtencionesModule(IUnityContainer container, IRegionManager regionManager)
@@ -29,20 +44,20 @@ namespace Gama.Atenciones.Wpf
 
         public override void Initialize()
         {
+            RegisterServices();
             RegisterViews();
             RegisterViewModels();
-            RegisterServices();
+
+            var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
+            var personaRepository = new PersonaRepository();
+            var session = sessionFactory.OpenSession();
+            personaRepository.Session = session;
 
             #region Database Seeding
             try
             {
                 if (UseFaker)
                 {
-                    var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
-
-                    var personaRepository = new PersonaRepository();
-                    var session = sessionFactory.OpenSession();
-                    personaRepository.Session = session;
 
                     var personas = new FakePersonaRepository().GetAll(); //personaRepository.GetAll();
                     var citas = new FakeCitaRepository().GetAll();
@@ -89,7 +104,7 @@ namespace Gama.Atenciones.Wpf
                         personaRepository.Create(persona);
                     }
                 }
-            } 
+            }
             catch (Exception ex)
             {
                 var message = ex.Message;
@@ -97,16 +112,55 @@ namespace Gama.Atenciones.Wpf
             }
             #endregion
 
+            // Recogemos todos los NIF para usarlos en validación
+            // No lo hacemos en el wrapper directamente para eliminar el acomplamiento
+            // del wrapper a los servicios. 
+            AtencionesResources.TodosLosNif = personaRepository.GetNifs();
+
+            // Preparamos la estructura de carpeta para la primera vez
+            InicializarDirectorios();
+
             InitializeNavigation();
+        }
+
+        private void InicializarDirectorios()
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+            string iconsAndImagesPath = path + @"IconsAndImages\";
+
+            if (!Directory.Exists(iconsAndImagesPath))
+            {
+                Directory.CreateDirectory(iconsAndImagesPath);
+
+                var icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_search_icon.png"));
+                BitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(icon));
+
+                using (var fileStream = new System.IO.FileStream(iconsAndImagesPath + "default_search_icon.png", System.IO.FileMode.Create))
+                {
+                    encoder.Save(fileStream);
+                }
+
+                icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png"));
+                encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(icon));
+
+                using (var fileStream = new System.IO.FileStream(iconsAndImagesPath + "default_user_icon.png", System.IO.FileMode.Create))
+                {
+                    encoder.Save(fileStream);
+                }
+            }
         }
 
         private void RegisterViews()
         {
             Container.RegisterType<object, DashboardView>("DashboardView");
 
-            Container.RegisterType<object, EditarPersonaView>("EditarPersonaView");
             Container.RegisterType<object, EditarAtencionesView>("EditarAtencionesView");
             Container.RegisterType<object, EditarCitasView>("EditarCitasView");
+            Container.RegisterType<object, EditarPersonaView>("EditarPersonaView");
+
+            Container.RegisterType<object, GraficasView>("GraficasView");
 
             Container.RegisterType<object, ListadoDePersonasView>("ListadoDePersonasView");
             Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
@@ -119,13 +173,18 @@ namespace Gama.Atenciones.Wpf
         {
             Container.RegisterType<DashboardViewModel>();
 
-            Container.RegisterType<EditarPersonaViewModel>();
             Container.RegisterType<EditarAtencionesViewModel>();
             Container.RegisterType<EditarCitasViewModel>();
+            Container.RegisterType<EditarPersonaViewModel>();
+
+            Container.RegisterInstance(new GraficasViewModel(
+                Container.Resolve<IPersonaRepository>(),
+                Container.Resolve<ISession>()));
 
             Container.RegisterType<ListadoDePersonasViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
             Container.RegisterType<PersonasContentViewModel>();
+            Container.RegisterType<SearchBoxViewModel>();
             Container.RegisterType<StatusBarViewModel>();
             Container.RegisterType<ToolbarViewModel>();
         }
@@ -145,6 +204,7 @@ namespace Gama.Atenciones.Wpf
         {
             RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
             RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
+            RegionManager.RegisterViewWithRegion(RegionNames.SearchBoxRegion, typeof(SearchBoxView));
             RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
 

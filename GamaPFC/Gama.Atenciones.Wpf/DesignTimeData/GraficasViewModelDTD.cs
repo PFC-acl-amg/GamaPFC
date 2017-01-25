@@ -5,6 +5,7 @@ using Gama.Atenciones.Wpf.Services;
 using LiveCharts;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
             PointLabel = chartPoint =>
                 string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
 
+            #region seeder
             var sessionFactory = new NHibernateSessionFactory();
             var rep = new PersonaRepository();
             rep.Session = sessionFactory.OpenSession();
@@ -69,6 +71,7 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
                     //rep.Create(persona);
                 }
             }
+#endregion
 
             var personas = rep.GetAll();
 
@@ -79,6 +82,28 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
             NoProporcionadoCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.NoProporcionado);
             OtraIdentidadCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.Otra);
 
+            Valores = new ObservableCollection<ChartItem>();
+            Valores.Add(new ChartItem { Title = "Hombre Cisexual", Value = HombreCisexualCount });
+            Valores.Add(new ChartItem { Title = "Hombre Transexual", Value = HombreTransexualCount });
+            Valores.Add(new ChartItem { Title = "Mujer Cisexual", Value = MujerCisexualCount });
+            Valores.Add(new ChartItem { Title = "Mujer Transexual", Value = MujerTransexualCount });
+            Valores.Add(new ChartItem { Title = "No Proporcionado", Value = NoProporcionadoCount });
+            Valores.Add(new ChartItem { Title = "Otra Identidad", Value = OtraIdentidadCount });
+
+        }
+
+        private object selectedItem = null;
+        public object SelectedItem
+        {
+            get
+            {
+                return selectedItem;
+            }
+            set
+            {
+                // selected item has changed
+                selectedItem = value;
+            }
         }
 
         public int HombreCisexualCount { get; set; } = 3;
@@ -88,5 +113,9 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
         public int NoProporcionadoCount { get; set; } = 7;
         public int OtraIdentidadCount { get; set; } = 8;
         public Func<ChartPoint, string> PointLabel { get; set; }
+
+        public ObservableCollection<ChartItem> Valores { get; private set; }
     }
 }
+
+

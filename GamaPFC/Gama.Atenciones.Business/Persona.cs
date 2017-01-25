@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Business
 {
-    public class Persona : TimestampedModel
+    public class Persona : TimestampedModel, IEncryptable
     {
+        public virtual string AvatarPath { get; set; }
         public virtual ComoConocioAGama ComoConocioAGama { get; set; }
         public virtual string DireccionPostal { get; set; } = "";
         public virtual string Email { get; set; }
@@ -33,9 +34,28 @@ namespace Gama.Atenciones.Business
         public virtual ViaDeAccesoAGama ViaDeAccesoAGama { get; set; }
         public virtual IList<Cita> Citas { get; set; }
 
+        public virtual List<string> EncryptedFields { get; set; }
+
+        public virtual bool IsEncrypted { get; set; }
+
         public Persona()
         {
             this.Citas = new List<Cita>();
+            EncryptedFields = new List<string>();
+
+            EncryptedFields.AddRange(new[] {
+                nameof(Nombre),
+                nameof(DireccionPostal),
+                nameof(Nif),
+                nameof(Facebook),
+                nameof(Nacionalidad),
+                nameof(LinkedIn),
+                nameof(Telefono),
+                nameof(Twitter),
+                nameof(Email),
+            });
+
+            IsEncrypted = true;
         }
 
         public virtual string Edad
@@ -58,10 +78,109 @@ namespace Gama.Atenciones.Business
             }
         }
 
+        public virtual int? EdadNumerica
+        {
+            get
+            {
+                int? result;
+
+                if (FechaDeNacimiento != null)
+                {
+                    try
+                    {
+                        var difference = new DateTime(DateTime.Now.Ticks - FechaDeNacimiento.Value.Ticks);
+
+                        // Así prevenimos que se lance una excepción. Nadie debería tener una fecha de
+                        // nacimiento mayor a la fecha actual, pero si el usuario lo introduce por error
+                        // se controlorá
+                        if (FechaDeNacimiento > DateTime.Now)
+                            result = null;
+                        else
+                            result = difference.Year;
+                    } catch (ArgumentOutOfRangeException)
+                    {
+                        result = null;
+                    }
+                }
+                else
+                {
+                    result = null;
+                }
+
+                return result;
+            }
+        }
+
         public virtual void AddCita(Cita cita)
         {
             cita.Persona = this;
             this.Citas.Add(cita);
+        }
+
+        public virtual void Encrypt()
+        {
+            if (IsEncrypted)
+                return;
+
+            foreach (var propertyName in EncryptedFields)
+            {
+                var propertyInfo = this.GetType().GetProperty(propertyName);
+                var propertyValue = propertyInfo.GetValue(this, null);
+
+                if (propertyValue != null)
+                {
+                    string value = "";
+                    for (int i = 0; i < propertyValue.ToString().Length; i++)
+                    {
+                        var theChar = (char)((int)propertyValue.ToString()[i] + 1);
+                        value += theChar;
+                    }
+
+                    propertyInfo.SetValue(this, value);
+                }
+            }
+
+            IsEncrypted = true;
+        }
+
+        public virtual Persona DecryptFluent()
+        {
+            Decrypt();
+            return this;
+        }
+
+        public virtual void Decrypt()
+        {
+            try
+            {
+                if (!IsEncrypted)
+                    return;
+
+                foreach (var propertyName in EncryptedFields)
+                {
+                    var propertyInfo = this.GetType().GetProperty(propertyName);
+                    var propertyValue = propertyInfo.GetValue(this, null);
+
+                    if (propertyValue != null)
+                    {
+                        string decryptedValue = "";
+
+                        for (int i = 0; i < propertyValue.ToString().Length; i++)
+                        {
+                            var theChar = (char)((int)propertyValue.ToString()[i] - 1);
+                            decryptedValue += theChar;
+                        }
+
+                        propertyInfo.SetValue(this, decryptedValue);
+                    }
+                }
+
+                IsEncrypted = false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 

@@ -7,6 +7,7 @@
                     xmlns:prism="http://prismlibrary.com/">
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Templates/SearchBox.xaml"/>
+    <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Templates/CircleIconButton.xaml"/>
   </ResourceDictionary.MergedDictionaries>
 
   <Converters:DateConverter x:Key="DateConverter"/>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Core;
+using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,11 +8,31 @@ using System.Threading.Tasks;
 
 namespace Gama.Common.CustomControls
 {
-    public class LookupItem
+    public class LookupItem : BindableBase
     {
         public int Id { get; set; }
-        public string DisplayMember1 { get; set; }
-        public string DisplayMember2 { get; set; }
+
+        private string _DisplayMember1;
+        public string DisplayMember1
+        {
+            get { return _DisplayMember1; }
+            set { SetProperty(ref _DisplayMember1, value); }
+        }
+
+        private string _DisplayMember2;
+        public string DisplayMember2
+        {
+            get { return _DisplayMember2; }
+            set { SetProperty(ref _DisplayMember2, value);  }
+        }
+
+
+        private string _IconSource;
+        public string IconSource
+        {
+            get { return _IconSource; }
+            set { SetProperty(ref _IconSource, value); }
+        }
 
         /// <summary>
         /// Selecciona los primeros n caracteres,  y añade "..." si la longitud del título 

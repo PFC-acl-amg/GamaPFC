@@ -12,9 +12,16 @@ namespace Gama.Socios.Wpf.Wrappers
 {
     public class SocioWrapper : TimestampedModelWrapper<Socio>
     {
+        private string _SavedNif;
+
         public SocioWrapper(Socio model) : base(model)
         {
 
+        }
+
+        protected override void InitializeUniqueProperties(Socio model)
+        {
+            _SavedNif = model.Nif;
         }
 
         protected override void InitializeCollectionProperties(Socio model)
@@ -34,6 +41,16 @@ namespace Gama.Socios.Wpf.Wrappers
             get { return GetValue<int>(); }
             set { SetValue(value); }
         }
+
+        public string AvatarPath
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string AvatarPathOriginalValue => GetOriginalValue<string>(nameof(AvatarPath));
+
+        public bool AvatarPathIsChanged => GetIsChanged(nameof(AvatarPath));
 
         public string DireccionPostal
         {
@@ -121,6 +138,12 @@ namespace Gama.Socios.Wpf.Wrappers
             set { SetValue(value); }
         }
 
+        internal void AddPeriodoDeAlta(PeriodoDeAltaWrapper nuevoPeriodoDeAlta)
+        {
+            nuevoPeriodoDeAlta.Model.Socio = this.Model;
+            PeriodosDeAlta.Add(nuevoPeriodoDeAlta);
+        }
+
         public string TelefonoOriginalValue => GetOriginalValue<string>(nameof(Telefono));
 
         public bool TelefonoIsChanged => GetIsChanged(nameof(Telefono));
@@ -141,9 +164,23 @@ namespace Gama.Socios.Wpf.Wrappers
         {
             var results = new List<ValidationResult>();
 
+            if (string.IsNullOrWhiteSpace(Nif))
+            {
+                results.Add(new ValidationResult("El campo de NIF es obligatorio", new[] { nameof(Nif) }));
+            }
+            else if (Nif != _SavedNif && SociosResources.TodosLosNif.Contains(Nif))
+            {
+                results.Add(new ValidationResult("El NIF introducido ya existe", new[] { nameof(Nif) }));
+            }
+
             if (string.IsNullOrWhiteSpace(Nombre))
             {
                 results.Add(new ValidationResult("El campo de nombre es obligatorio", new[] { nameof(Nombre) }));
+            }
+
+            if (FechaDeNacimiento == null)
+            {
+                results.Add(new ValidationResult("El campo de fecha de nacimiento es obligatorio", new[] { nameof(FechaDeNacimiento) }));
             }
 
             var pattern =

@@ -35,14 +35,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MahApps.Metro, Version=1.3.0.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.3.0\lib\net45\MahApps.Metro.dll</HintPath>
+    <Reference Include="MahApps.Metro, Version=1.4.0.42, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.4.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Prism, Version=6.2.0.0, Culture=neutral, PublicKeyToken=91a96d2a154366d8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Gama.Atenciones.Wpf\bin\Debug\Prism.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.1.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
@@ -63,15 +67,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomControls\CircleIconButton.cs" />
     <Compile Include="CustomControls\LimitedCollectionView.cs" />
     <Compile Include="CustomControls\LimitedListCollectionView.cs" />
     <Compile Include="CustomControls\ListBoxItemBehaviour.cs" />
     <Compile Include="CustomControls\LookupItem.cs" />
     <Compile Include="CustomControls\SearchBox.cs" />
+    <Compile Include="CustomControls\SearchBoxDataTemplateSelector.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="Resources\Behaviors\ChangeBehavior.cs" />
     <Compile Include="Resources\Behaviors\DummyClass.cs" />
     <Compile Include="Resources\Converters\DatePickerOriginalValueConverter.cs" />
+    <Compile Include="Resources\Converters\IconSourceToFullPathConverter.cs" />
     <Compile Include="Resources\Converters\ViewToViewModelConverter.cs" />
     <Compile Include="Resources\DataTemplateSelectors\BuscadorDataTemplateSelector.cs" />
     <Compile Include="Views\ConfirmarOperacionView.xaml.cs">
@@ -137,6 +144,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\Templates\CircleIconButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Templates\SearchBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -175,7 +186,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\WindowsIcons-license.txt" />
   </ItemGroup>
@@ -209,6 +219,27 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\icono_exportar.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\logo_gama.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{61c764bb-5692-463a-bc70-55b6ad46b1a3}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\default_user_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\default_search_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

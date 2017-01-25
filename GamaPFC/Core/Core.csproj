@@ -96,6 +96,7 @@
     <Compile Include="DataAccess\ISessionHelper.cs" />
     <Compile Include="DataAccess\NHibernateOneSessionRepository.cs" />
     <Compile Include="DataAccess\NHibernateRepository.cs" />
+    <Compile Include="IEncryptable.cs" />
     <Compile Include="IValidatableTrackingObject.cs" />
     <Compile Include="ModelWrapper.cs" />
     <Compile Include="ModuleBase.cs" />
@@ -106,12 +107,15 @@
     <Compile Include="TimestampedModel.cs" />
     <Compile Include="TimestampedModelWrapper.cs" />
     <Compile Include="Util\CloseTabAction.cs" />
+    <Compile Include="Util\DateToMonthYearConverter.cs" />
     <Compile Include="Util\DateUtility.cs" />
     <Compile Include="Util\DialogCloser.cs" />
+    <Compile Include="Util\EncryptionService.cs" />
     <Compile Include="Util\EnumBindingSourceExtension.cs" />
     <Compile Include="Util\EnumDescriptionTypeConverter.cs" />
     <Compile Include="Util\NullableValueConverter.cs" />
     <Compile Include="Util\PasswordHelper.cs" />
+    <Compile Include="Util\PathToFullPathConverter.cs" />
     <Compile Include="ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>

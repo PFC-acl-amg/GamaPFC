@@ -54,7 +54,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 {
                     Id = a.Id,
                     DisplayMember1 = a.Nombre,
-                    DisplayMember2 = a.Nif
+                    DisplayMember2 = a.Nif,
+                    IconSource = a.AvatarPath
                 }));
 
             ProximasCitas = new ObservableCollection<LookupItem>(
@@ -90,6 +91,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnNuevaPersonaEvent);
             _EventAggregator.GetEvent<AtencionCreadaEvent>().Subscribe(OnNuevaAtencionEvent);
             _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnNuevaCitaEvent);
+
+            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
         }
 
         public ObservableCollection<LookupItem> UltimasAtenciones { get; private set; }
@@ -159,7 +162,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 Id = persona.Id,
                 DisplayMember1 = persona.Nombre,
-                DisplayMember2 = persona.Nif
+                DisplayMember2 = persona.Nif,
+                IconSource = persona.AvatarPath
             };
 
             UltimasPersonas.Insert(0, lookupItem);
@@ -212,6 +216,21 @@ namespace Gama.Atenciones.Wpf.ViewModels
             else
             {
                 ProximasCitas.Add(lookupItem);
+            }
+        }
+
+        private void OnPersonaActualizadaEvent(int id)
+        {
+            var persona = _PersonaRepository.GetById(id);
+            _PersonaRepository.Session.Evict(persona);
+
+            var personaDesactualizada = UltimasPersonas.Where(x => x.Id == id).FirstOrDefault();
+
+            if (personaDesactualizada != null)
+            {
+                personaDesactualizada.DisplayMember1 = persona.Nombre;
+                personaDesactualizada.DisplayMember2 = persona.Nif;
+                personaDesactualizada.IconSource = persona.AvatarPath;
             }
         }
     }

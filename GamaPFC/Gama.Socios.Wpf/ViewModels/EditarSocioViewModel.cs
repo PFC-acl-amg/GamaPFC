@@ -14,6 +14,7 @@ using Gama.Socios.Wpf.Wrappers;
 using Gama.Socios.Wpf.Eventos;
 using System.ComponentModel;
 using Gama.Common.Views;
+using Gama.Socios.Business;
 
 namespace Gama.Socios.Wpf.ViewModels
 {
@@ -21,7 +22,7 @@ namespace Gama.Socios.Wpf.ViewModels
     {
         private EditarCuotasViewModel _CuotasVM;
         private IEventAggregator _EventAggregator;
-        private EditarPeriodosDeAltaViewModel _PeriodosDeAltaVM;
+        private EditarPeriodosDeAltaViewModel _EditarPeriodosDeAltaViewModel;
         private ISocioRepository _SocioRepository;
         private SocioViewModel _SocioVM;
 
@@ -37,11 +38,13 @@ namespace Gama.Socios.Wpf.ViewModels
             _SocioRepository = socioRepository;
             _SocioVM = socioVM;
             _CuotasVM = cuotasVM;
-            _PeriodosDeAltaVM = periodosDeAltaVM;
+            _EditarPeriodosDeAltaViewModel = periodosDeAltaVM;
 
             _SocioRepository.Session = session;
             _CuotasVM.Session = session;
-            _PeriodosDeAltaVM.Session = session;
+            _EditarPeriodosDeAltaViewModel.Session = session;
+
+            NuevoPeriodoDeAltaCommand = new DelegateCommand(OnNuevoPeriodoDeAltaCommandExecute);
 
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
@@ -74,14 +77,20 @@ namespace Gama.Socios.Wpf.ViewModels
             get { return _CuotasVM; }
         }
 
-        public EditarPeriodosDeAltaViewModel PeriodosDeAltaVM
+        public EditarPeriodosDeAltaViewModel EditarPeriodosDeAltaViewModel
         {
-            get { return _PeriodosDeAltaVM; }
+            get { return _EditarPeriodosDeAltaViewModel; }
         }
 
+        public ICommand NuevoPeriodoDeAltaCommand { get; private set; }
         public ICommand HabilitarEdicionCommand { get; private set; }
         public ICommand ActualizarCommand { get; private set; }
         public ICommand CancelarEdicionCommand { get; private set; }
+
+        private void OnNuevoPeriodoDeAltaCommandExecute()
+        {
+            _EditarPeriodosDeAltaViewModel.AddPeriodoDeAlta();
+        }
 
         private void OnActualizarCommand()
         {
@@ -90,6 +99,7 @@ namespace Gama.Socios.Wpf.ViewModels
             _SocioVM.Socio.AcceptChanges();
             _SocioVM.EdicionHabilitada = false;
             RefrescarTitulo(Socio.Nombre);
+            SociosResources.AddNif(Socio.Nif);
             _EventAggregator.GetEvent<SocioActualizadoEvent>().Publish(this.Socio.Model);
         }
 
@@ -125,8 +135,8 @@ namespace Gama.Socios.Wpf.ViewModels
                     _SocioRepository.GetById(id));
 
                 _SocioVM.Load(Socio);
-                _CuotasVM.Load(_SocioVM.Socio);
-                _PeriodosDeAltaVM.Load(_SocioVM.Socio);
+               // _CuotasVM.Load(_SocioVM.Socio);
+                _EditarPeriodosDeAltaViewModel.Load(_SocioVM.Socio);
                 RefrescarTitulo(Socio.Nombre);
             }
             catch (Exception ex)

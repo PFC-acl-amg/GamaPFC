@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="538.356" d:DesignWidth="615.411">
+             d:DesignHeight="538.356" d:DesignWidth="749.411">
   <UserControl.Resources>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
   </UserControl.Resources>
@@ -27,25 +28,25 @@
             </Style.Triggers>
           </Style>
         </Border.Style>
-        <TextBlock HorizontalAlignment="Center">No hay atenciones para mostrar.</TextBlock>
+        <TextBlock HorizontalAlignment="Center" Margin="4,33,19,4" Width="157" FontSize="10">No hay atenciones para mostrar.</TextBlock>
       </Border>
       <!-- Listado de atenciones -->
       <GroupBox Header="Atenciones">
         <ScrollViewer>
-        <ListBox SelectionMode="Single" ItemsSource="{Binding Atenciones}"
+          <ListBox SelectionMode="Single" ItemsSource="{Binding Atenciones}"
                  SelectedItem="{Binding AtencionSeleccionada}"
                  x:Name="_AtencionesListBox">
-          <ListBox.ItemTemplate>
-            <DataTemplate>
-              <GroupBox Header="{Binding Fecha}">
-                <TextBlock>
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <GroupBox Header="{Binding Fecha}">
+                  <TextBlock>
                   <Run>ID:</Run>
                   <Run Text="{Binding Id}"></Run>
-                </TextBlock>
-              </GroupBox>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
-        </ListBox>
+                  </TextBlock>
+                </GroupBox>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
         </ScrollViewer>
       </GroupBox>
 
@@ -169,17 +170,21 @@
         </Grid>
         <Grid Grid.Row="1">
           <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
-            <Label Margin="{StaticResource Margin}" 
-                 Visibility="{Binding AtencionSeleccionada.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}">
-              <Hyperlink Command="{Binding ActualizarCommand}">Guardar</Hyperlink>
-            </Label>
-            <Label Margin="{StaticResource Margin}" 
-                 Visibility="{Binding AtencionSeleccionada.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}">
-              <Hyperlink Command="{Binding CancelarEdicionCommand}">Cancelar</Hyperlink>
-            </Label>
-            <Label Margin="{StaticResource Margin}">
-              <Hyperlink Command="{Binding HabilitarEdicionCommand}">Editar</Hyperlink>
-            </Label>
+            <!-- Guardar Button -->
+            <cc:CircleIconButton Icon="{StaticResource appbar_save}"
+                                 Visibility="{Binding AtencionSeleccionada.IsInEditionMode, 
+                                    Converter={StaticResource BooleanToVisibilityConverter}}"
+                                 Command="{Binding ActualizarCommand}"/>
+
+            <!-- Cancelar Button -->
+            <cc:CircleIconButton Icon="{StaticResource appbar_close}"
+                                 Visibility="{Binding AtencionSeleccionada.IsInEditionMode, 
+                                  Converter={StaticResource BooleanToVisibilityConverter}}"
+                                 Command="{Binding CancelarEdicionCommand}" />
+
+            <!-- Habilitar Edición Button -->
+            <cc:CircleIconButton Icon="{StaticResource appbar_edit}"
+                                 Command="{Binding HabilitarEdicionCommand}"/>
           </StackPanel>
         </Grid>
       </Grid>

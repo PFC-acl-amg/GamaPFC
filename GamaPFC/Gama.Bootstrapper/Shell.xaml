@@ -26,26 +26,26 @@
   </metro:MetroWindow.IconTemplate>
   <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" MaxHeight="100"/>
+      <RowDefinition Height="Auto" MaxHeight="60"/>
       <RowDefinition />
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="*"/>
       <ColumnDefinition/>
       <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
 
     <!-- Panel Switcher -->
-    <ContentControl Grid.Row="0" Grid.Column="0" Margin="{StaticResource Margin}"
+    <ContentControl Grid.Row="0" Grid.Column="0" Margin="{StaticResource MarginNoHorizontal}"
                     prism:RegionManager.RegionName="{x:Static common:RegionNames.PanelSwitcherRegion}" />
 
     <!-- Cuadro de búsqueda -->
-    <ContentControl Grid.Row="0" Grid.Column="1" Margin="{StaticResource Margin}"
+    <ContentControl Grid.Row="0" Grid.Column="1" Margin="{StaticResource MarginNoHorizontal}"
                     prism:RegionManager.RegionName="{x:Static common:RegionNames.SearchBoxRegion}"  />
 
     <!-- Toolbar -->
-    <ContentControl Grid.Row="0" Grid.Column="2" Margin="{StaticResource Margin}"
+    <ContentControl Grid.Row="0" Grid.Column="2" Margin="{StaticResource MarginNoHorizontal}"
                     prism:RegionManager.RegionName="{x:Static common:RegionNames.ToolbarRegion}"  />
 
     <!-- Región de contenido -->

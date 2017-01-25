@@ -7,76 +7,51 @@
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-             d:DesignHeight="78.48" d:DesignWidth="779.132">
+             d:DesignHeight="40" d:DesignWidth="779.132">
   <UserControl.Resources>
-    <sys:Double x:Key="_FontSize">21</sys:Double>
+    <Style TargetType="controls:Tile" x:Key="_EstiloDeTitulosStyle">
+      <Setter Property="Height" Value="40"/>
+      <Setter Property="Width" Value="Auto"/>
+      <Setter Property="Foreground" Value="#F4F2F2"/>
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="FontSize" Value="18"/>
+      <Setter Property="VerticalTitleAlignment" Value="Center"/>
+      <Setter Property="HorizontalTitleAlignment" Value="Left"/>
+      <Setter Property="Margin" Value="0,0,0,0"/>
+    </Style>
   </UserControl.Resources>
-  <Grid Background="SteelBlue">
-    <!--<StackPanel Orientation="Horizontal">
-      <Button Background="Transparent" BorderThickness="0"
-              Margin="{StaticResource Margin}"
-              Command="{Binding NavigateCommand}"
-              CommandParameter="DashboardView">
-        <StackPanel>
-          <Image Source="{StaticResource IconoDashboard}" Height="{StaticResource NavigationIconSize}"/>
-        </StackPanel>
-      </Button>
-      <Button Background="Transparent" BorderThickness="0"
-              Margin="{StaticResource Margin}"
-            Command="{Binding NavigateCommand}"
-            CommandParameter="PersonasContentView">
-        <StackPanel>
-          <Image Source="{StaticResource IconoPersonas}" Height="{StaticResource NavigationIconSize}"/>
-        </StackPanel>
-      </Button>
-      <Button Background="Transparent" BorderThickness="0"
-              Margin="{StaticResource Margin}"
-            Command="{Binding NavigateCommand}"
-            CommandParameter="AtencionesContentView">
-        <StackPanel>
-          <Image Source="{StaticResource IconoAtenciones}" Height="{StaticResource NavigationIconSize}"/>
-        </StackPanel>
-      </Button>
-      <Button Background="Transparent" BorderThickness="0"
-              Margin="{StaticResource Margin}"
-            Command="{Binding NavigateCommand}"
-            CommandParameter="GraficasView">
-        <StackPanel>
-          <Image Source="{StaticResource IconoGraficas}" Height="{StaticResource NavigationIconSize}"/>
-        </StackPanel>
-      </Button>
-    </StackPanel>-->
+  <Grid Background="#EE959595">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
     <StackPanel Orientation="Horizontal">
-      <Button Background="Transparent" BorderThickness="0"
-              Width="170"
-              Margin="{StaticResource Margin}"
-              Command="{Binding NavigateCommand}"
-              CommandParameter="DashboardView"
-              >
-        <TextBlock Foreground="White" FontSize="{StaticResource _FontSize}" FontWeight="Light">Dashboard</TextBlock>
-      </Button>
-      <Button Background="Transparent" BorderThickness="0"
-              Width="170"
-              Margin="{StaticResource Margin}"
-            Command="{Binding NavigateCommand}"
-            CommandParameter="PersonasContentView">
-        <TextBlock Foreground="White" FontSize="{StaticResource _FontSize}" FontWeight="Light">Personas</TextBlock>
-      </Button>
-      <Button Background="Transparent" BorderThickness="0"
-              Width="170"
-              Margin="{StaticResource Margin}"
-            Command="{Binding NavigateCommand}"
-            CommandParameter="AtencionesContentView">
-        <TextBlock Foreground="White" FontSize="{StaticResource _FontSize}" FontWeight="Light">Citas</TextBlock>
-      </Button>
-      <Button Background="Transparent" BorderThickness="0"
-              Width="170"
-              Margin="{StaticResource Margin}"
-            Command="{Binding NavigateCommand}"
-            CommandParameter="GraficasView">
-        <TextBlock Foreground="White" FontSize="{StaticResource _FontSize}" FontWeight="Light">Gráficas</TextBlock>
-      </Button>
+      <controls:Tile 
+        x:Name="_Title1"
+        Click="_Title1_Click"
+        Foreground="#275B6D"
+        Style="{StaticResource _EstiloDeTitulosStyle}"
+        Title="Dashboard"
+        Command="{Binding NavigateCommand}"
+        CommandParameter="DashboardView"/>
+      <controls:Tile 
+        x:Name="_Title2"
+        Click="_Title2_Click"
+        Style="{StaticResource _EstiloDeTitulosStyle}"
+        Title="Personas"
+        Command="{Binding NavigateCommand}"
+        CommandParameter="PersonasContentView"/>
+      <controls:Tile 
+        x:Name="_Title3"
+        Click="_Title3_Click"
+        Style="{StaticResource _EstiloDeTitulosStyle}"
+        Title="Gráficas"
+        Command="{Binding NavigateCommand}"
+        CommandParameter="GraficasView"/>
     </StackPanel>
   </Grid>
 </UserControl>

@@ -7,8 +7,17 @@
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/GamaStyles.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Resources.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Gama.Socios.Wpf;component/Resources/Resources.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Styles/CheckBox.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Styles/ComboBox.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Styles/DatePicker.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Styles/TextBox.xaml"/>
         <ResourceDictionary>
           <Style x:Key="CustomMetroWindowStyle" TargetType="{x:Type metro:MetroWindow}">
             <Setter Property="BorderBrush" Value="#FFB9B9B9" />

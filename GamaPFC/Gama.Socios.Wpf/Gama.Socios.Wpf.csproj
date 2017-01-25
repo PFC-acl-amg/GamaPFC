@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DocX, Version=1.0.0.22, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocX.1.0.0.22\lib\net40\DocX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Faker.NET4, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Faker.Net.1.0.3\lib\net40\Faker.NET4.dll</HintPath>
       <Private>True</Private>
@@ -47,16 +51,16 @@
       <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Livecharts, Version=0.8.0.0, Culture=neutral, PublicKeyToken=c5935629d38af058, processorArchitecture=MSIL">
-      <HintPath>..\packages\LiveCharts.0.8.0\lib\net40\Livecharts.dll</HintPath>
+    <Reference Include="LiveCharts, Version=0.8.1.1, Culture=neutral, PublicKeyToken=c5935629d38af058, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.8.1.1\lib\net40\LiveCharts.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="LiveCharts.Wpf, Version=0.8.0.0, Culture=neutral, PublicKeyToken=3b585c2a5f1a92c1, processorArchitecture=MSIL">
-      <HintPath>..\packages\LiveCharts.Wpf.0.8.0\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    <Reference Include="LiveCharts.Wpf, Version=0.8.1.1, Culture=neutral, PublicKeyToken=3b585c2a5f1a92c1, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.8.1.1\lib\net45\LiveCharts.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=1.3.0.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.3.0\lib\net45\MahApps.Metro.dll</HintPath>
+    <Reference Include="MahApps.Metro, Version=1.4.0.42, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.4.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -98,8 +102,9 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.1.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
@@ -123,11 +128,14 @@
     <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />
     <Compile Include="DesignTimeData\EditarPeriodosDeAltaViewModelDTD.cs" />
     <Compile Include="DesignTimeData\ListadoDeSociosViewModelDTD.cs" />
+    <Compile Include="DesignTimeData\SocioViewModelDTD.cs" />
+    <Compile Include="DesignTimeData\StatusBarViewModelDTD.cs" />
     <Compile Include="Eventos\SocioActualizadoEvent.cs" />
     <Compile Include="Eventos\SocioCreadoEvent.cs" />
     <Compile Include="Eventos\SocioEliminadoEvent.cs" />
     <Compile Include="Eventos\SocioSeleccionadoEvent.cs" />
     <Compile Include="FakeServices\FakeSocioRepository.cs" />
+    <Compile Include="Services\ExportService.cs" />
     <Compile Include="Services\ISocioRepository.cs" />
     <Compile Include="Services\ISociosSettings.cs" />
     <Compile Include="Services\SocioRepository.cs" />
@@ -138,9 +146,13 @@
     <Compile Include="ViewModels\EditarPeriodosDeAltaViewModel.cs" />
     <Compile Include="ViewModels\EditarSocioViewModel.cs" />
     <Compile Include="ViewModels\ListadoDeSociosViewModel.cs" />
+    <Compile Include="ViewModels\NuevoSocioViewModel.cs" />
     <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
+    <Compile Include="ViewModels\SearchBoxViewModel.cs" />
     <Compile Include="ViewModels\SociosContentViewModel.cs" />
     <Compile Include="ViewModels\SocioViewModel.cs" />
+    <Compile Include="ViewModels\StatusBarViewModel.cs" />
+    <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="Views\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
@@ -156,14 +168,26 @@
     <Compile Include="Views\ListadoDeSociosView.xaml.cs">
       <DependentUpon>ListadoDeSociosView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NuevoSocioView.xaml.cs">
+      <DependentUpon>NuevoSocioView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PanelSwitcherView.xaml.cs">
       <DependentUpon>PanelSwitcherView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SearchBoxView.xaml.cs">
+      <DependentUpon>SearchBoxView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SociosContentView.xaml.cs">
       <DependentUpon>SociosContentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SocioView.xaml.cs">
       <DependentUpon>SocioView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatusBarView.xaml.cs">
+      <DependentUpon>StatusBarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ToolbarView.xaml.cs">
+      <DependentUpon>ToolbarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Wrappers\CuotaWrapper.cs" />
     <Compile Include="Wrappers\PeriodoDeAltaWrapper.cs" />
@@ -208,7 +232,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\NuevoSocioView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PanelSwitcherView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SearchBoxView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -217,6 +249,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SocioView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatusBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ToolbarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -266,6 +306,11 @@
       <Project>{9c963149-1d42-4742-82e8-2bde5dff9a0c}</Project>
       <Name>Gama.Socios.DataAccess</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\icono_nuevo_socio.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -11,7 +11,7 @@ namespace Core.DataAccess
 {
     public class NHibernateOneSessionRepository<TEntity, TKey> where TEntity : class
     {
-        private ISession _session;
+        private ISession _Session;
 
         public NHibernateOneSessionRepository()
         {
@@ -20,20 +20,28 @@ namespace Core.DataAccess
 
         public ISession Session
         {
-            get { return _session; }
-            set { _session = value; }
+            get { return _Session; }
+            set { _Session = value; }
         }
 
         public virtual TEntity GetById(int id)
         {
             try
             {
-                //using (var tx = Session.BeginTransaction())
-                //{
-                    var result = Session.Get<TEntity>((object)id);
-                    //tx.Commit();
-                    return result;
-                //}
+                var entity = Session.Get<TEntity>((object)id);
+
+                var encryptableEntity = entity as IEncryptable;
+                if (encryptableEntity != null)
+                {
+                    //encryptableEntity.IsEncrypted = true;
+                    //encryptableEntity.Decrypt();
+                    if (encryptableEntity.IsEncrypted)
+                    {
+                        encryptableEntity.Decrypt();
+                    }
+                }
+
+                return entity;
             }
             catch (Exception ex)
             {
@@ -41,16 +49,31 @@ namespace Core.DataAccess
             }
         }
 
-        public List<TEntity> GetAll()
+        public virtual List<TEntity> GetAll()
         {
             try
             {
-                //using (var tx = Session.BeginTransaction())
-                //{
-                    var result = Session.CreateCriteria<TEntity>().List<TEntity>().ToList();
-                    //tx.Commit();
-                    return result;
-                //}
+                var entities = Session.CreateCriteria<TEntity>().List<TEntity>().ToList();
+
+                foreach (var entity in entities)
+                {
+                    var encryptableEntity = entity as IEncryptable;
+                    if (encryptableEntity != null)
+                    {
+                        encryptableEntity.IsEncrypted = true;
+                        encryptableEntity.Decrypt();
+                    }
+                    else
+                    {
+                        // Si una entidad de la colección no lo es, ninguna lo será, ya que
+                        // son todas del mismo tipo (misma clase).
+                        break;
+                    }
+                }
+
+                Session.Clear();
+
+                return entities;
             }
             catch (Exception ex)
             {
@@ -58,29 +81,31 @@ namespace Core.DataAccess
             }
         }
 
-        public void Create(TEntity entity)
+        public virtual void Create(TEntity entity)
         {
             try
             {
-                //using (var tx = _session.BeginTransaction())
-                //{
                 using (var tx = Session.BeginTransaction())
                 {
-                    Session.Save(entity);
-                    //_session.Insert(entity);
-                    //_statelessSession.Insert(entity);
+                    var encryptableEntity = entity as IEncryptable;
+                    if (encryptableEntity != null)
+                    {
+                        encryptableEntity.IsEncrypted = false;
+                        encryptableEntity.Encrypt();
+                    }
 
+                    Session.Save(entity);
                     tx.Commit();
-                   
-                    //Session.Flush();
+                    
+                    //if (encryptableEntity != null)
+                    //{
+                    //    encryptableEntity.Decrypt();
+                    //}
                 }
             }
             catch (Exception ex)
             {
                 throw ex;
-                //var message = ex.Message;
-                //if (message.StartsWith("object references an unsaved transient instance"))
-                //    return;
             }
         }
 
@@ -90,26 +115,38 @@ namespace Core.DataAccess
             {
                 using (var tx = Session.BeginTransaction())
                 {
-                   
-                   Session.Update(entity);
-                    //Session.Merge(entity);
+                    var encryptableEntity = entity as IEncryptable;
+                    if (encryptableEntity != null)
+                    {
+                        encryptableEntity.IsEncrypted = false;
+                        encryptableEntity.Encrypt();
+                    }
+
+                    Session.Update(entity);
                     tx.Commit();
-                   
+
+                    // Volvemos a desencriptar porque el modelo que nos ha llegado
+                    // ha sido por referencia, así que hay que devolverlo adecudamente
+                    // a las capas visuales...
+                    if (encryptableEntity != null)
+                    {
+                        encryptableEntity.Decrypt();
+                    }
+
                 }
 
                 return true;
             }
-            catch (NHibernate.Exceptions.GenericADOException e)
+            catch (Exception e)
             {
-                var message = e.Message;
                 throw e;
             }
         }
 
         public void Delete(TEntity entity)
         {
-            _session.Delete(entity);
-            _session.Flush();
+            _Session.Delete(entity);
+            _Session.Flush();
         }
 
         public void Flush()
@@ -120,9 +157,10 @@ namespace Core.DataAccess
             }
             catch (Exception ex)
             {
-                var message = ex.Message;
-                if (message.StartsWith("object references an unsaved transient instance"))
-                    return;
+                throw ex;
+                //var message = ex.Message;
+                //if (message.StartsWith("object references an unsaved transient instance"))
+                //    return;
             }
         }
 
@@ -130,7 +168,7 @@ namespace Core.DataAccess
         {
             try {
                 int result = 0;
-                result = _session.QueryOver<TEntity>()
+                result = _Session.QueryOver<TEntity>()
                     .Select(Projections.RowCount())
                     .FutureValue<int>().Value;
                 return result;

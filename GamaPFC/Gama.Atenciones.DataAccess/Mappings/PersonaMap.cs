@@ -15,23 +15,24 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Table("Personas");
             Id(p => p.Id).GeneratedBy.Identity();
 
+            Map(x => x.AvatarPath);
             Map(p => p.ComoConocioAGama);
-            Map(p => p.DireccionPostal).Not.Nullable().Default("");
-            Map(p => p.Email);
+            Map(p => p.DireccionPostal).Not.Nullable().Default("").Length(128);
+            Map(p => p.Email).Length(128);
             Map(p => p.EstadoCivil);
             Map(p => p.FechaDeNacimiento);
-            Map(p => p.Facebook).Not.Nullable().Default("");
+            Map(p => p.Facebook).Not.Nullable().Default("").Length(128);
             Map(p => p.IdentidadSexual);
-            Map(p => p.LinkedIn).Not.Nullable().Default("");
-            Map(p => p.Nacionalidad).Not.Nullable().Default("");
-            Map(p => p.Nif).Not.Nullable().Default("");
+            Map(p => p.LinkedIn).Not.Nullable().Default("").Length(128);
+            Map(p => p.Nacionalidad).Not.Nullable().Default("").Length(128);
+            Map(x => x.Nif).Not.Nullable().Unique().Length(128);
             Map(p => p.NivelAcademico);
-            Map(p => p.Nombre).Length(60).Not.Nullable();
+            Map(p => p.Nombre).Length(60).Not.Nullable().Length(128);
             Map(p => p.Ocupacion).Not.Nullable().Default("");
             Map(p => p.OrientacionSexual);
-            Map(p => p.Telefono).Not.Nullable().Default("");
+            Map(p => p.Telefono).Not.Nullable().Default("").Length(128);
             Map(p => p.TieneTrabajo);
-            Map(p => p.Twitter).Not.Nullable().Default("");
+            Map(p => p.Twitter).Not.Nullable().Default("").Length(128);
             Map(p => p.ViaDeAccesoAGama);
 
             Map(p => p.CreatedAt);

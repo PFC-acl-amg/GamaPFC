@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
+using System.Windows.Markup;
 using System.Windows.Threading;
 
 namespace Gama.Bootstrapper
@@ -25,6 +26,13 @@ namespace Gama.Bootstrapper
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            FrameworkElement.LanguageProperty.OverrideMetadata(
+                    typeof(FrameworkElement),
+                    new FrameworkPropertyMetadata(
+                        XmlLanguage.GetLanguage(
+            CultureInfo.CurrentCulture.IetfLanguageTag)));
+
+
             base.OnStartup(e);
 
             Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
@@ -40,7 +48,7 @@ namespace Gama.Bootstrapper
             bool SALTAR_SELECCION_DE_MODULO = true; // Para hacer pruebas más rápido...
             if (SALTAR_SELECCION_DE_MODULO)
             {
-                bootstrapper = new Bootstrapper(Modulos.Cooperacion);
+                bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
                 bootstrapper.Run();
             }
             else

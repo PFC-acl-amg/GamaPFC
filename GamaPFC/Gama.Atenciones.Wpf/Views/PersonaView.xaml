@@ -5,11 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
              xmlns:business="clr-namespace:Gama.Atenciones.Business;assembly=Gama.Atenciones.Business"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="535.274" d:DesignWidth="318.493">
+  <UserControl.Resources>
+    <util:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>
+  </UserControl.Resources>
   <GroupBox Header="Datos Personales">
     <ScrollViewer>
       <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding EdicionHabilitada}">
@@ -28,18 +32,27 @@
               <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!--<Button 
-                Margin="{DynamicResource Margin}"
-                Padding="0"
-                MaxHeight="64"
-                Content="{StaticResource appbar_user}"/>-->
-            <Border MaxHeight="64" BorderBrush="Black" BorderThickness="1.5" CornerRadius="1">
-              <Rectangle Width="60" Margin="{DynamicResource Margin}">
-                <Rectangle.Fill>
-                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_user}" />
-                  </Rectangle.Fill>
-                </Rectangle>
-            </Border>
+            <StackPanel>
+              <Border MaxHeight="70" MaxWidth="70" BorderBrush="Black" BorderThickness="1" CornerRadius="1">
+                <Image 
+                  x:Name="_AvatarHolder"
+                  MinHeight="40" MinWidth="40"
+                  MaxHeight="68"
+                  MaxWidth="68"
+                  Stretch="Fill" 
+                  Source="{Binding Persona.AvatarPath, Converter={StaticResource _PathToFullPathConverter}}" >
+                  <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                      <prism:InvokeCommandAction Command="{Binding ExaminarAvatarCommand}"/>
+                    </i:EventTrigger>
+                  </i:Interaction.Triggers>
+                </Image>
+              </Border>
+              <Label Margin="0" VerticalAlignment="Bottom" 
+                     VerticalContentAlignment="Bottom" HorizontalAlignment="Right">
+                <Hyperlink Command="{Binding ExaminarAvatarCommand}" FontSize="9">Examinar...</Hyperlink>
+              </Label>
+            </StackPanel>
 
             <StackPanel Grid.Column="1">
               <Label Margin="{DynamicResource Margin}">DNI/NIF</Label>

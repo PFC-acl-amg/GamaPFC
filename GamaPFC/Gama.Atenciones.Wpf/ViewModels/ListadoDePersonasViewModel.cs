@@ -39,7 +39,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 {
                     Id = p.Id,
                     DisplayMember1 = p.Nombre,
-                    DisplayMember2 = p.Nif
+                    DisplayMember2 = p.Nif,
+                    IconSource = p.AvatarPath
                 }).ToList();
 
             Personas = new PaginatedCollectionView(_Personas,
@@ -88,11 +89,14 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnNuevaPersonaEvent(int id)
         {
             var persona = _PersonaRepository.GetById(id);
+            _PersonaRepository.Session.Evict(persona);
+
             var lookupItem = new LookupItem
             {
                 Id = persona.Id,
                 DisplayMember1 = persona.Nombre,
-                DisplayMember2 = persona.Nif
+                DisplayMember2 = persona.Nif,
+                IconSource = persona.AvatarPath
             };
             _Personas.Insert(0, lookupItem);
             Personas.Refresh();
@@ -100,15 +104,34 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnPersonaActualizadaEvent(int id)
         {
-            var personaActualizada = _PersonaRepository.GetById(id);
-            if (_Personas.Any(a => a.Id == id))
+            var persona = _PersonaRepository.GetById(id);
+            _PersonaRepository.Session.Evict(persona);
+
+            var personaDesactualizada = _Personas.Where(x => x.Id == id).FirstOrDefault();
+
+            if (personaDesactualizada != null)
             {
-                var persona = _Personas.Where(a => a.Id == id).Single();
-                var index = _Personas.IndexOf(persona);
-                _Personas[index].DisplayMember1 = personaActualizada.Nombre;
-                _Personas[index].DisplayMember2 = personaActualizada.Nif;
+                personaDesactualizada.DisplayMember1 = persona.Nombre;
+                personaDesactualizada.DisplayMember2 = persona.Nif;
+                personaDesactualizada.IconSource = persona.AvatarPath;
             }
+
+            Personas.Refresh();
         }
     }
 }
+
+
+
+//var personaActualizada = _PersonaRepository.GetById(id);
+//_PersonaRepository.Session.Evict(personaActualizada);
+
+//if (_Personas.Any(a => a.Id == id))
+//{
+//    var persona = _Personas.Where(a => a.Id == id).Single();
+//    var index = _Personas.IndexOf(persona);
+//    _Personas[index].DisplayMember1 = personaActualizada.Nombre;
+//    _Personas[index].DisplayMember2 = personaActualizada.Nif;
+//    _Personas[index].IconSource = personaActualizada.AvatarPath;
+//}
 

@@ -25,6 +25,30 @@ namespace Gama.Socios.Wpf.Wrappers
             this.Cuotas = new ChangeTrackingCollection<CuotaWrapper>
                 (model.Cuotas.Select(c => new CuotaWrapper(c)));
             this.RegisterCollection(this.Cuotas, model.Cuotas);
+
+            if (model.MesesAplicables == null)
+            {
+                throw new ArgumentException("MesesAplicables");
+            }
+
+            this.MesesAplicables = new ChangeTrackingCollection<CuotaWrapper>
+                (model.GetMesesAplicables().Select(x => new CuotaWrapper(x)));
+            this.RegisterCollection(this.MesesAplicables, model.MesesAplicables);
+        }
+
+        public override void AcceptChanges()
+        {
+            MesesAplicables.Clear();
+            foreach (var mesAplicable in Model.GetMesesAplicables())
+            {
+                MesesAplicables.Add(new CuotaWrapper(mesAplicable));
+            }
+
+            base.AcceptChanges();
+
+            //this.MesesAplicables = new ChangeTrackingCollection<CuotaWrapper>
+            //    (Model.GetMesesAplicables().Select(x => new CuotaWrapper(x)));
+            //this.RegisterCollection(this.MesesAplicables, Model.MesesAplicables);
         }
 
         public int Id
@@ -54,5 +78,7 @@ namespace Gama.Socios.Wpf.Wrappers
         public bool FechaDeBajaIsChanged => GetIsChanged(nameof(FechaDeBaja));
 
         public ChangeTrackingCollection<CuotaWrapper> Cuotas { get; private set; }
+
+        public ChangeTrackingCollection<CuotaWrapper> MesesAplicables { get; private set; }
     }
 }

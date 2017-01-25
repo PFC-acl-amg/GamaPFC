@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Gama.Socios.Business;
 using NHibernate;
+using Gama.Common.CustomControls;
 
 namespace Gama.Socios.Wpf.FakeServices
 {
@@ -44,8 +45,15 @@ namespace Gama.Socios.Wpf.FakeServices
                     FechaDeAlta = DateTime.Now.AddYears(-3).AddMonths(-4),
                 };
 
-                periododeAlta.AddCuota(new Cuota() { CantidadTotal = 10.0, CantidadPagada = 0 });
+                periododeAlta.AddCuota(new Cuota() {
+                    Fecha = periododeAlta.FechaDeAlta,
+                    CantidadTotal = 10.0,
+                    CantidadPagada = 0,
+                    Comentarios = "Algún comentario"
+                });
 
+                socio.AddPeriodoDeAlta(periododeAlta);
+                socio.AddPeriodoDeAlta(periododeAlta);
                 socio.AddPeriodoDeAlta(periododeAlta);
 
                 _Socios.Add(socio);
@@ -88,6 +96,16 @@ namespace Gama.Socios.Wpf.FakeServices
         }
 
         public bool Update(Socio entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<LookupItem> GetAllForLookup()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> GetNifs()
         {
             throw new NotImplementedException();
         }

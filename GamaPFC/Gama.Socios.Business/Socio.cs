@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Gama.Socios.Business
 {
-    public class Socio : TimestampedModel
+    public class Socio : TimestampedModel, IEncryptable
     {
         public static int MesesParaSerConsideradoMoroso = 3;
 
         public virtual string DireccionPostal { get; set; } = "";
-        public virtual string Email { get; set; }
+        public virtual string Email { get; set; } = "";
         public virtual DateTime? FechaDeNacimiento { get; set; }
         public virtual string Facebook { get; set; } = "";
         public virtual int Id { get; set; }
@@ -22,12 +22,31 @@ namespace Gama.Socios.Business
         public virtual string Nombre { get; set; }
         public virtual string Telefono { get; set; } = "";
         public virtual string Twitter { get; set; } = "";
+        public virtual string AvatarPath { get; set; }
 
         public virtual IList<PeriodoDeAlta> PeriodosDeAlta { get; set; }
+
+        public virtual List<string> EncryptedFields { get; set; }
+
+        public virtual bool IsEncrypted { get; set; }
 
         public Socio()
         {
             PeriodosDeAlta = new List<PeriodoDeAlta>();
+            EncryptedFields = new List<string>();
+
+            EncryptedFields.AddRange(new[] {
+                nameof(Nombre),
+                nameof(Nif),
+                nameof(Facebook),
+                nameof(Nacionalidad),
+                nameof(LinkedIn),
+                nameof(Telefono),
+                nameof(Twitter),
+                nameof(Email),
+            });
+
+            IsEncrypted = false;
         }
 
         public virtual bool IsBirthday()
@@ -56,13 +75,81 @@ namespace Gama.Socios.Business
             Telefono = socio.Telefono;
             Twitter = socio.Twitter;
 
-            PeriodosDeAlta = new List<PeriodoDeAlta>(socio.PeriodosDeAlta);
+            try
+            {
+
+                PeriodosDeAlta = new List<PeriodoDeAlta>(socio.PeriodosDeAlta);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public virtual void AddPeriodoDeAlta(PeriodoDeAlta periodoDeAlta)
         {
             periodoDeAlta.Socio = this;
             PeriodosDeAlta.Add(periodoDeAlta);
+        }
+
+        public virtual void Encrypt()
+        {
+            if (IsEncrypted)
+                return;
+
+            foreach (var propertyName in EncryptedFields)
+            {
+                var propertyInfo = this.GetType().GetProperty(propertyName);
+                var propertyValue = propertyInfo.GetValue(this, null);
+
+                if (propertyValue != null)
+                {
+
+                    string value = "";
+                    for (int i = 0; i < propertyValue.ToString().Length; i++)
+                    {
+                        var theChar = (char)((int)propertyValue.ToString()[i] + 1);
+                        value += theChar;
+                    }
+
+                    propertyInfo.SetValue(this, value);
+                }
+            }
+
+            IsEncrypted = true;
+        }
+
+        public virtual Socio DecryptFluent()
+        {
+            Decrypt();
+            return this;
+        }
+
+        public virtual void Decrypt()
+        {
+            if (!IsEncrypted)
+                return;
+
+            foreach (var propertyName in EncryptedFields)
+            {
+                var propertyInfo = this.GetType().GetProperty(propertyName);
+                var propertyValue = propertyInfo.GetValue(this, null);
+
+                if (propertyValue != null)
+                {
+                    string decryptedValue = "";
+
+                    for (int i = 0; i < propertyValue.ToString().Length; i++)
+                    {
+                        var theChar = (char)((int)propertyValue.ToString()[i] - 1);
+                        decryptedValue += theChar;
+                    }
+
+                    propertyInfo.SetValue(this, decryptedValue);
+                }
+            }
+
+            IsEncrypted = false;
         }
     }
 }

@@ -8,6 +8,9 @@ namespace Gama.Socios.Business
         public virtual DateTime Fecha { get; set; }
         public virtual double CantidadTotal { get; set; } = 0;
         public virtual double CantidadPagada { get; set; } = 0;
+        public virtual bool EstaPagado { get; set; } = false;
+        public virtual bool NoContabilizar { get; set; } = false;
+        public virtual string Comentarios { get; set; } = "";
 
         public virtual double CantidadPendienteDePago
         {
@@ -15,5 +18,15 @@ namespace Gama.Socios.Business
         }
 
         public virtual PeriodoDeAlta PeriodoDeAlta { get; set; }
+
+        public virtual void CopyValuesFrom(Cuota nuevaCuota)
+        {
+            Fecha = nuevaCuota.Fecha;
+            CantidadTotal = nuevaCuota.CantidadTotal;
+            CantidadPagada = nuevaCuota.CantidadPagada;
+            EstaPagado = nuevaCuota.EstaPagado;
+            NoContabilizar = nuevaCuota.NoContabilizar;
+            Comentarios = nuevaCuota.Comentarios;
+        }
     }
 }

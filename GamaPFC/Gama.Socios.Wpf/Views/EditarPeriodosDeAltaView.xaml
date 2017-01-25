@@ -4,40 +4,152 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gama.Socios.Wpf.Views"
+             xmlns:util="clr-namespace:Core.Util;assembly=Core"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
+             Language="es-ES"
              xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
-             d:DesignHeight="300" d:DesignWidth="603.141">
+             d:DesignHeight="431.935" d:DesignWidth="804.103">
   <d:DataContext>
     <designData:EditarPeriodosDeAltaViewModelDTD/>
   </d:DataContext>
-  <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition />
-    </Grid.ColumnDefinitions>
-    <ListBox
-      ItemsSource="{Binding Socio.PeriodosDeAlta}">
+
+  <!-- RESOURCES -->
+  <UserControl.Resources>
+    <util:DateToMonthYearConverter x:Key="_DateToMonthYearConverter"/>
+
+    <Style x:Key="CuotasDataGridRowStyle" TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource {x:Type DataGridRow}}">
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding IsChanged}" Value="True">
+          <Setter Property="Background" Value="{StaticResource IsChangedBackgroundBrush}"/>
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+
+    <!-- Hace falta aplicar el estilo a la celda de esta manear para poder aplicar el padding que queramos -->
+    <Style x:Key="CuotaDataGridCellStyle" TargetType="DataGridCell" >
+      <Setter Property="Padding" Value="{DynamicResource Margin}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type DataGridCell}">
+            <Border Padding="{TemplateBinding Padding}" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}" 
+                    Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+              <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </UserControl.Resources>
+
+  <!-- CONTENT -->
+  <Grid Margin="{StaticResource Margin}">
+    <ListBox ItemsSource="{Binding Socio.PeriodosDeAlta}" HorizontalContentAlignment="Stretch" 
+              SelectedItem="{Binding PeriodoDeAltaSeleccionado}">
       <ListBox.ItemTemplate>
         <DataTemplate>
-          <GroupBox Header="{Binding}">
-            <GroupBox.HeaderTemplate>
-              <DataTemplate>
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock Text="{Binding FechaDeAlta}"/>
+          <Expander Margin="{StaticResource Margin}">
+            <Expander.Header>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"></ColumnDefinition>
+                  <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource Margin}">
+                  <TextBlock Text="{Binding FechaDeAlta, StringFormat ='dd/MM/yyyy'}"/>
                   <TextBlock Text=" - "/>
-                  <TextBlock Text="{Binding FechaDeBaja}"/>
+                  <TextBlock Text="{Binding FechaDeBaja, StringFormat='dd/MM/yyyy'}"/>
                 </StackPanel>
-              </DataTemplate>
-            </GroupBox.HeaderTemplate>
-            <ListBox ItemsSource="{Binding Model.MesesAplicables}">
-              <ListBox.ItemTemplate>
-                <DataTemplate>
-                  <TextBlock Text="{Binding Cuota.CantidadTotal}"/>
-                </DataTemplate>
-              </ListBox.ItemTemplate>
-            </ListBox>
-          </GroupBox>
-        </DataTemplate>
-      </ListBox.ItemTemplate>
-    </ListBox>
+                <Button Width="40" Height="40"
+                        Grid.Column="1" 
+                        Style="{DynamicResource MetroCircleButtonStyle}" 
+                        Margin="0,-7,0,-7" 
+                        Command="{Binding DataContext.ActualizarCommand,
+                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                        CommandParameter="{Binding}"
+                        HorizontalAlignment="Right">
+                  <Rectangle Width="18" Height="18" 
+                             Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                      <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
+                    </Rectangle.OpacityMask>
+                  </Rectangle>
+                </Button>
+              </Grid>
+              <!---->
+              </Expander.Header>
+              
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <!-- Edición del perido de alta -->
+              <StackPanel Orientation="Horizontal" Margin="{StaticResource Margin}">
+                <DatePicker BorderThickness="0" Text="{Binding FechaDeAlta, Mode=TwoWay, StringFormat='dd MM yyyy',
+                  UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Text=" - " VerticalAlignment="Center"/>
+                <DatePicker BorderThickness="0" Text="{Binding FechaDeBaja, Mode=TwoWay, StringFormat='dd MM yyyy',  TargetNullValue='', FallbackValue='',
+                  UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="{Binding FechaDeAlta, UpdateSourceTrigger=PropertyChanged}"/>
+              </StackPanel>
+
+              <!-- Tabla de cuotas -->
+              <Grid Grid.Row="1">
+                <DataGrid 
+                  SelectionUnit="Cell"
+                  ItemsSource="{Binding MesesAplicables}"
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="False"
+                  GridLinesVisibility="All" 
+                  AutoGenerateColumns="False" 
+                  RowStyle="{StaticResource CuotasDataGridRowStyle}"  
+                  CellStyle="{StaticResource CuotaDataGridCellStyle}" 
+                  MaxHeight="350"
+                  VerticalAlignment="Top">
+
+                  <DataGrid.Columns>
+                    <DataGridCheckBoxColumn 
+                      Header="Pagado" 
+                      Binding="{Binding EstaPagado, UpdateSourceTrigger=PropertyChanged}"
+                      ElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                      EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                      MinWidth="70" 
+                      Width="*"/>
+                    <DataGridCheckBoxColumn
+                      Header="NA/NC" 
+                      Binding="{Binding NoContabilizar,UpdateSourceTrigger=PropertyChanged}"
+                      ElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                      EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                      MinWidth="70" 
+                      Width="*"/>
+                    <DataGridTextColumn 
+                      Header="Fecha"
+                      Binding="{Binding Fecha, Converter={StaticResource _DateToMonthYearConverter}}"
+                      MinWidth="100" 
+                      Width="*"
+                      IsReadOnly="True"/>
+                    <controls:DataGridNumericUpDownColumn 
+                      StringFormat="C" 
+                      Minimum="0"
+                      Header="Cantidad" 
+                      Binding="{Binding CantidadTotal, UpdateSourceTrigger=PropertyChanged}"
+                      MinWidth="100" 
+                      Width="*"/>
+                    <DataGridTextColumn 
+                      Header="Comentarios" 
+                      Binding="{Binding Comentarios, UpdateSourceTrigger=PropertyChanged}" 
+                      MinWidth="400" 
+                      Width="100*"/>
+                  </DataGrid.Columns>
+                </DataGrid>
+              </Grid>
+  </Grid>
+  </Expander>
+  </DataTemplate>
+  </ListBox.ItemTemplate>
+  </ListBox>
   </Grid>
 </UserControl>

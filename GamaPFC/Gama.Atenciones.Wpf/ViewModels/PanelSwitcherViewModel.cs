@@ -19,7 +19,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             _RegionManager = regionManager;
 
-            this.NavigateCommand = new DelegateCommand<string>(Navigate);
+            NavigateCommand = new DelegateCommand<string>(Navigate);
         }
 
         private void Navigate(string viewName)

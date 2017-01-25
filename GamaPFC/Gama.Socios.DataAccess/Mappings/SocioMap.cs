@@ -16,7 +16,7 @@ namespace Gama.Socios.DataAccess.Mappings
             Id(x => x.Id).GeneratedBy.Identity();
 
             Map(x => x.DireccionPostal).Not.Nullable().Default("");
-            Map(x => x.Email);
+            Map(x => x.Email).Not.Nullable().Default("");
             Map(x => x.Facebook).Not.Nullable().Default("");
             Map(x => x.FechaDeNacimiento).Not.Nullable();
             Map(x => x.LinkedIn).Not.Nullable().Default("");
@@ -25,6 +25,7 @@ namespace Gama.Socios.DataAccess.Mappings
             Map(x => x.Nombre).Not.Nullable();
             Map(x => x.Telefono).Not.Nullable().Default("");
             Map(x => x.Twitter).Not.Nullable().Default("");
+            Map(x => x.AvatarPath);
 
             Map(x => x.CreatedAt);
             Map(x => x.UpdatedAt);

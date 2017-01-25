@@ -12,9 +12,15 @@ namespace Gama.Atenciones.Wpf.Wrappers
 {
     public class PersonaWrapper : TimestampedModelWrapper<Persona>
     {
+        private string _SavedNif;
+
         public PersonaWrapper(Persona model) : base(model)
         {
+        }
 
+        protected override void InitializeUniqueProperties(Persona model)
+        {
+            _SavedNif = model.Nif;
         }
 
         protected override void InitializeCollectionProperties(Persona model)
@@ -34,6 +40,16 @@ namespace Gama.Atenciones.Wpf.Wrappers
             get { return GetValue<int>(); }
             set { SetValue(value); }
         }
+
+        public string AvatarPath
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string AvatarPathOriginalValue => GetOriginalValue<string>(nameof(AvatarPath));
+
+        public bool AvatarPathIsChanged => GetIsChanged(nameof(AvatarPath));
 
         public ComoConocioAGama ComoConocioAGama
         {
@@ -220,6 +236,15 @@ namespace Gama.Atenciones.Wpf.Wrappers
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var results = new List<ValidationResult>();
+
+            if (string.IsNullOrWhiteSpace(Nif))
+            {
+                results.Add(new ValidationResult("El campo de NIF es obligatorio", new[] { nameof(Nif) }));
+            }
+            else if (Nif != _SavedNif && AtencionesResources.TodosLosNif.Contains(Nif))
+            {
+                results.Add(new ValidationResult("El NIF introducido ya existe", new[] { nameof(Nif) }));
+            }
 
             if (string.IsNullOrWhiteSpace(Nombre))
             {

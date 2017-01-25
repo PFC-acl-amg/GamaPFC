@@ -9,11 +9,15 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:util="clr-namespace:Core.Util;assembly=Core"
              mc:Ignorable="d" 
              d:DesignHeight="638" d:DesignWidth="883">
   <d:DataContext>
     <designData:DashboardViewModelDTD/>
   </d:DataContext>
+  <UserControl.Resources>
+    <util:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>
+  </UserControl.Resources>
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="*" MinHeight="200" MaxHeight="300"/>
@@ -40,11 +44,19 @@
             <DataTemplate>
               <Grid>
                 <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="35"/>
-                  <ColumnDefinition />
+                  <ColumnDefinition Width="45" />
+                  <ColumnDefinition Width="Auto" MinWidth="200"/>
+                  <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding Id}"/>
-                <TextBlock Grid.Column="2" Text="{Binding DisplayMember1}"/>
+                <Grid.RowDefinitions>
+                  <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Image Margin="{StaticResource Margin}" 
+                   Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>
+                <StackPanel Grid.Column="1">
+                  <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                  <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                </StackPanel>
               </Grid>
             </DataTemplate>
           </ListBox.ItemTemplate>
