@@ -19,7 +19,7 @@ namespace Gama.Atenciones.WpfTests
         {
             _RegionManagerMock = new Mock<IRegionManager>();
 
-            _Vm = new PanelSwitcherViewModel(_RegionManagerMock.Object);
+            //_Vm = new PanelSwitcherViewModel(_RegionManagerMock.Object);
         }
 
         [Fact]

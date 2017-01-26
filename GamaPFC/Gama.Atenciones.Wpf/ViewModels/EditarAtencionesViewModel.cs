@@ -19,6 +19,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 {
     public class EditarAtencionesViewModel : ViewModelBase
     {
+        private bool _VerAtenciones = false;
         private bool _EdicionHabilitada;
         private PersonaWrapper _Persona;
         private AtencionWrapper _AtencionSeleccionada;
@@ -154,7 +155,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
         }
 
-        private bool _VerAtenciones = false;
         public bool VerAtenciones
         {
             get { return _VerAtenciones; }

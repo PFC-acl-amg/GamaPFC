@@ -24,7 +24,8 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Map(p => p.CreatedAt);
             Map(p => p.UpdatedAt);
 
-            References(c => c.Persona);
+            References(c => c.Persona)
+                .Not.LazyLoad();
 
             HasOne(c => c.Atencion).PropertyRef(x => x.Cita).Cascade.All();
         }

@@ -123,8 +123,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 if (Persona.Nombre != null)
                     return;
 
-                var persona = new PersonaWrapper(
-                    _PersonaRepository.GetById(id));
+                var personaModel = _PersonaRepository.GetById(id);
+                var persona = new PersonaWrapper(personaModel);
 
                 _PersonaVM.Load(persona);
                 _AtencionesVM.Load(_PersonaVM.Persona);
@@ -140,17 +140,24 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             try {
-                if (Persona.Nombre != null)
-                    return;
+                if (Persona.Nombre == null)
+                {
+                    var persona = new PersonaWrapper(
+                        _PersonaRepository.GetById((int)navigationContext.Parameters["Id"])
+                        .DecryptFluent());
 
-                var persona = new PersonaWrapper(
-                    _PersonaRepository.GetById((int)navigationContext.Parameters["Id"])
-                    .DecryptFluent());
+                    _PersonaVM.Load(persona);
+                    _AtencionesVM.Load(_PersonaVM.Persona);
+                    _CitasVM.Load(_PersonaVM.Persona);
+                    RefrescarTitulo(persona.Nombre);
+                }
 
-                _PersonaVM.Load(persona);
-                _AtencionesVM.Load(_PersonaVM.Persona);
-                _CitasVM.Load(_PersonaVM.Persona);
-                RefrescarTitulo(persona.Nombre);
+                int? atencionId = (int)navigationContext.Parameters["AtencionId"];
+                if (atencionId.HasValue)
+                {
+                    _AtencionesVM.AtencionSeleccionada = _AtencionesVM.Atenciones.Where(x => x.Id == atencionId.Value).First();
+                    _AtencionesVM.VerAtenciones = true;
+                }
             }
             catch (Exception ex)
             {

@@ -82,7 +82,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                  {
                      Id = c.Id,
                      DisplayMember1 = c.Inicio.ToString(),
-                     DisplayMember2 = c.Sala
+                     DisplayMember2 = c.Sala,
+                     IconSource = c.Persona.AvatarPath
                  }));
 
             InicializarGraficos();
@@ -143,14 +144,24 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 });
         }
 
-        private void OnSelectAtencionCommandExecute(LookupItem atencion)
+        private void OnSelectAtencionCommandExecute(LookupItem atencionLookupItem)
         {
-            _EventAggregator.GetEvent<AtencionSeleccionadaEvent>().Publish(atencion.Id);
+            var atencion = _AtencionRepository.GetById(atencionLookupItem.Id);
+
+            _EventAggregator.GetEvent<AtencionSeleccionadaEvent>().Publish(
+                    new IdentificadorDeModelosPayload
+                    {
+                        PersonaId = atencion.Cita.Persona.Id,
+                        CitaId = atencion.Cita.Id,
+                        AtencionId = atencion.Id
+                    }
+                );
         }
 
-        private void OnSelectCitaCommandExecute(LookupItem cita)
+        private void OnSelectCitaCommandExecute(LookupItem citaLookupItem)
         {
-            _EventAggregator.GetEvent<CitaSeleccionadaEvent>().Publish(cita.Id);
+            var cita = _CitaRepository.GetById(citaLookupItem.Id);
+            _EventAggregator.GetEvent<CitaSeleccionadaEvent>().Publish(cita.Persona.Id);
         }
 
         private void OnSelectPersonaCommandExecute(LookupItem persona)

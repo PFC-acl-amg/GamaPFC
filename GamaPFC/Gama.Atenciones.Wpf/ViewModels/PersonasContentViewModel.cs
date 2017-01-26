@@ -29,6 +29,22 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnPersonaCreadaEvent);
             _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
+            _EventAggregator.GetEvent<CitaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
+            _EventAggregator.GetEvent<AtencionSeleccionadaEvent>().Subscribe(OnAtencionSeleccionadaEvent);
+        }
+
+        private void OnAtencionSeleccionadaEvent(IdentificadorDeModelosPayload payload)
+        {
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add("Id", payload.PersonaId);
+
+            if (payload.AtencionId.HasValue)
+            {
+                navigationParameters.Add("AtencionId", payload.AtencionId.Value);
+            }
+
+            _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView", navigationParameters);
+            _RegionManager.RequestNavigate(RegionNames.PersonasTabContentRegion, "EditarPersonaView", navigationParameters);
         }
 
         private void OnPersonaSeleccionadaEvent(int id)

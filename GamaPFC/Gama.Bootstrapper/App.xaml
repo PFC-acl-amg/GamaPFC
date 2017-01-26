@@ -18,6 +18,7 @@
         <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Styles/ComboBox.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Styles/DatePicker.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Styles/TextBox.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Styles/ScrollViewer.xaml"/>
         <ResourceDictionary>
           <Style x:Key="CustomMetroWindowStyle" TargetType="{x:Type metro:MetroWindow}">
             <Setter Property="BorderBrush" Value="#FFB9B9B9" />
