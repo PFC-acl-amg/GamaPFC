@@ -58,6 +58,19 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     IconSource = a.AvatarPath
                 }));
 
+            UltimasAtenciones = new ObservableCollection<LookupItem>(
+                _AtencionRepository.GetAll()
+                 .OrderBy(a => a.Fecha)
+                 .Take(_Settings.DashboardUltimasAtenciones)
+                 .Select(a => new LookupItem
+                 {
+                     Id = a.Id,
+                     DisplayMember1 = a.Fecha.ToString(),
+                     DisplayMember2 = LookupItem.ShortenStringForDisplay(
+                         a.Seguimiento, _Settings.DashboardLongitudDeSeguimientos),
+                     IconSource = @"IconsAndImages\atencion_icon.png"
+                 }));
+
             ProximasCitas = new ObservableCollection<LookupItem>(
                 _CitaRepository.GetAll()
                  .OrderBy(c => c.Inicio)
@@ -68,18 +81,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
                      Id = c.Id,
                      DisplayMember1 = c.Inicio.ToString(),
                      DisplayMember2 = c.Sala
-                 }));
-
-            UltimasAtenciones = new ObservableCollection<LookupItem>(
-                _AtencionRepository.GetAll()
-                 .OrderBy(a => a.Fecha)
-                 .Take(_Settings.DashboardUltimasAtenciones)
-                 .Select(a => new LookupItem
-                 {
-                     Id = a.Id,
-                     DisplayMember1 = a.Fecha.ToString(),
-                     DisplayMember2 = LookupItem.ShortenStringForDisplay(
-                         a.Seguimiento, _Settings.DashboardLongitudDeSeguimientos)
                  }));
 
             InicializarGraficos();

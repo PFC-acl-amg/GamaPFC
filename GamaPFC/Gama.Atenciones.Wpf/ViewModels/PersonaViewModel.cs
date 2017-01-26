@@ -37,11 +37,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     op.FileName.Substring(
                         op.FileName.IndexOf(".", op.FileName.Length - 5));
 
-                if (!Directory.Exists("AvatarImages"))
-                {
-                    Directory.CreateDirectory("AvatarImages");
-                }
-
                 File.Copy(op.FileName, Persona.AvatarPath, true);
 
                 OnPropertyChanged(nameof(Persona));

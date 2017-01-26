@@ -18,7 +18,7 @@
   <UserControl.Resources>
     <util:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>
   </UserControl.Resources>
-  <Grid>
+  <Grid Margin="0,1,0,-1">
     <Grid.RowDefinitions>
       <RowDefinition Height="*" MinHeight="200" MaxHeight="300"/>
       <RowDefinition Height="*" />
@@ -89,13 +89,18 @@
             <DataTemplate>
               <Grid>
                 <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="35"/>
-                  <ColumnDefinition />
+                  <ColumnDefinition Width="45" />
+                  <ColumnDefinition Width="Auto" MinWidth="200"/>
+                  <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding Id}" VerticalAlignment="Center"/>
-                <StackPanel Grid.Column="2">
-                  <TextBlock Text="{Binding DisplayMember1}" Margin="{StaticResource Margin}"/>
-                  <TextBlock Text="{Binding DisplayMember2}" Margin="{StaticResource Margin}"/>
+                <Grid.RowDefinitions>
+                  <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Image Margin="{StaticResource Margin}" 
+                   Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>
+                <StackPanel Grid.Column="1">
+                  <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                  <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
                 </StackPanel>
               </Grid>
             </DataTemplate>
