@@ -139,7 +139,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            try {
+            try
+            {
                 if (Persona.Nombre == null)
                 {
                     var persona = new PersonaWrapper(
