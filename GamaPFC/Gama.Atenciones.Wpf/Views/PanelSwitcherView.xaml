@@ -12,7 +12,7 @@
              d:DesignHeight="40" d:DesignWidth="779.132">
   <UserControl.Resources>
     <Style TargetType="controls:Tile" x:Key="_EstiloDeTitulosStyle">
-      <Setter Property="Height" Value="40"/>
+      <Setter Property="Height" Value="Auto"/>
       <Setter Property="Width" Value="Auto"/>
       <Setter Property="Foreground" Value="#F4F2F2"/>
       <Setter Property="Background" Value="Transparent"/>

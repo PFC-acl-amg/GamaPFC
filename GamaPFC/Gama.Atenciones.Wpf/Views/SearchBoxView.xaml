@@ -32,7 +32,7 @@
             VerticalAlignment="Center"
             HorizontalAlignment="Left"
             HorizontalContentAlignment="Left"
-            Margin="{DynamicResource Margin}"
+            Margin="0"
             SearchMode="Delayed"
             MinWidth="250"
             Text="{Binding TextoDeBusqueda, UpdateSourceTrigger=PropertyChanged}"
