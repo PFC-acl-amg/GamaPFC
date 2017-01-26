@@ -13,6 +13,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Prism.Regions;
+using Gama.Atenciones.Wpf.UIEvents;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -233,6 +235,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 personaDesactualizada.DisplayMember2 = persona.Nif;
                 personaDesactualizada.IconSource = persona.AvatarPath;
             }
+        }
+
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            _EventAggregator.GetEvent<ActiveViewChanged>().Publish("DashboardView");
         }
     }
 }

@@ -12,23 +12,19 @@ namespace Core
 {
     public class ViewModelBase : BindableBase, INavigationAware, IActiveAware
     {
-        string _title;
-
+        string _Title;
         private bool _IsActive;
+
         public bool IsActive
         {
             get { return _IsActive; }
-
-            set
-            {
-                SetProperty(ref _IsActive, value);
-            }
+            set { SetProperty(ref _IsActive, value); }
         }
 
         public string Title
         {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
+            get { return _Title; }
+            set { SetProperty(ref _Title, value); }
         }
 
         public event EventHandler IsActiveChanged;
@@ -41,12 +37,12 @@ namespace Core
 
         public virtual void OnNavigatedFrom(NavigationContext navigationContext)
         {
-
+            IsActive = false;
         }
 
         public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
-
+            IsActive = true;
         }
     }
 }

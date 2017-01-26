@@ -8,20 +8,26 @@ using System.Text;
 using System.Threading.Tasks;
 using Gama.Atenciones.Business;
 using System.Collections.ObjectModel;
+using Gama.Atenciones.Wpf.UIEvents;
+using Prism.Regions;
+using Prism.Events;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
     public class GraficasViewModel : ViewModelBase
     {
         private IPersonaRepository _PersonaRepository;
+        private IEventAggregator _EventAggregator;
         private List<Persona> _Personas;
 
         public GraficasViewModel(
             IPersonaRepository personaRepository,
+            IEventAggregator eventAggregator,
             ISession session)
         {
             _PersonaRepository = personaRepository;
             _PersonaRepository.Session = session;
+            _EventAggregator = eventAggregator;
 
             _Personas = _PersonaRepository.GetAll();
 
@@ -183,6 +189,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private int _EducacionFormacion;
         private int _ParticipacionEnGama;
         private int _OtraAtencion;
+
         public ObservableCollection<ChartItem> ValoresDeAtencionSolicitada { get; private set; }
 
         private void InicializarAtencionSolicitada()
@@ -210,6 +217,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Educación/Formación", Value = _EducacionFormacion });
             ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Participación en Gamá", Value = _ParticipacionEnGama });
             ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Otra", Value = _OtraAtencion });
+        }
+
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            _EventAggregator.GetEvent<ActiveViewChanged>().Publish("GraficasView");
         }
     }
 }

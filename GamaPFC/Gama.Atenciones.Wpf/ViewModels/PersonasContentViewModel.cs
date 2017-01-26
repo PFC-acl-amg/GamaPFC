@@ -1,5 +1,6 @@
 ﻿using Core;
 using Gama.Atenciones.Wpf.Eventos;
+using Gama.Atenciones.Wpf.UIEvents;
 using Gama.Atenciones.Wpf.Views;
 using Gama.Common;
 using Microsoft.Practices.Unity;
@@ -85,6 +86,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             IsActive = true;
+            _EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
         }
     }
 }

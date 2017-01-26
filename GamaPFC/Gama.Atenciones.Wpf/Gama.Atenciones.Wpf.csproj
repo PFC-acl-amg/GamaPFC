@@ -158,6 +158,7 @@
     <Compile Include="Services\ICitaRepository.cs" />
     <Compile Include="Services\IPersonaRepository.cs" />
     <Compile Include="Services\PersonaRepository.cs" />
+    <Compile Include="UIEvents\ActiveViewChanged.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\EditarAtencionesViewModel.cs" />
     <Compile Include="ViewModels\EditarCitasViewModel.cs" />

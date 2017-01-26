@@ -209,15 +209,10 @@ namespace Gama.Atenciones.Wpf
         private void RegisterViewModels()
         {
             Container.RegisterType<DashboardViewModel>();
-
             Container.RegisterType<EditarAtencionesViewModel>();
             Container.RegisterType<EditarCitasViewModel>();
             Container.RegisterType<EditarPersonaViewModel>();
-
-            Container.RegisterInstance(new GraficasViewModel(
-                Container.Resolve<IPersonaRepository>(),
-                Container.Resolve<ISession>()));
-
+            Container.RegisterType<GraficasViewModel>();
             Container.RegisterType<ListadoDePersonasViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
             Container.RegisterType<PersonasContentViewModel>();
@@ -243,6 +238,7 @@ namespace Gama.Atenciones.Wpf
             RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
             RegionManager.RegisterViewWithRegion(RegionNames.SearchBoxRegion, typeof(SearchBoxView));
             RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
+            RegionManager.RequestNavigate(RegionNames.ContentRegion, "GraficasView");
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
 
             RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<PersonasContentView>());
