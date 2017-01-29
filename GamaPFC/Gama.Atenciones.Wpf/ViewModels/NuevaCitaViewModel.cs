@@ -67,8 +67,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             Persona = persona;
             Cita.Persona = persona;
-            Cita.Asistente = "ogkertet";
-            Cita.Sala = "Sala W";
+            OnPropertyChanged(nameof(Cita));
         }
 
         private void OnAceptarCommand_Execute()
@@ -82,7 +81,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private bool OnAceptarCommand_CanExecute()
         {
-            return Cita.Inicio != null && Cita.Asistente != null;
+            return Cita.IsValid;
         }
 
         private void OnCancelarCommand_Execute()

@@ -17,7 +17,7 @@
     <designData:DashboardViewModelDTD/>
   </d:DataContext>
   <UserControl.Resources>
-    <converters:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>
+    <!--<converters:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>-->
     <DataTemplate x:Key="_LookupItemDataTemplate">
       <Grid>
         <Grid.ColumnDefinitions>
