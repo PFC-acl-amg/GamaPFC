@@ -134,12 +134,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             return (Persona.Id == id);
         }
 
-        public override bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            var id = (int)navigationContext.Parameters["Id"];
-            return IsNavigationTarget(id);
-        }
-
         public void NavigateTo(int personaId, int? atencionId = null)
         {
             try
@@ -168,35 +162,14 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
         }
 
+        public override bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return IsNavigationTarget((int)navigationContext.Parameters["Id"]);
+        }
+
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             NavigateTo((int)navigationContext.Parameters["Id"], (int?)navigationContext.Parameters["AtencionId"]);
-            //return;
-            //try
-            //{
-            //    if (Persona.Nombre == null)
-            //    {
-            //        var persona = new PersonaWrapper(
-            //            _PersonaRepository.GetById((int)navigationContext.Parameters["Id"])
-            //            .DecryptFluent());
-
-            //        _PersonaVM.Load(persona);
-            //        _AtencionesVM.Load(_PersonaVM.Persona);
-            //        _CitasVM.Load(_PersonaVM.Persona);
-            //        RefrescarTitulo(persona.Nombre);
-            //    }
-
-            //    int? atencionId = (int)navigationContext.Parameters["AtencionId"];
-            //    if (atencionId.HasValue)
-            //    {
-            //        _AtencionesVM.AtencionSeleccionada = _AtencionesVM.Atenciones.Where(x => x.Id == atencionId.Value).First();
-            //        _AtencionesVM.VerAtenciones = true;
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
         }
 
         private void RefrescarTitulo(string nombre)
