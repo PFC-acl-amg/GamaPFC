@@ -14,7 +14,6 @@ namespace Gama.Atenciones.Wpf.Services
     {
         public override List<Cita> GetAll()
         {
-
             try
             {
                 var entities = Session.CreateCriteria<Cita>()
