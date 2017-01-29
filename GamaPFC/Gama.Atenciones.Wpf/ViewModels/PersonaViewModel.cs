@@ -33,11 +33,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
               "Portable Network Graphic (*.png)|*.png";
             if (op.ShowDialog() == true)
             {
-                Persona.AvatarPath = @"AvatarImages\" + Persona.Id + "-" + DateTime.Now.Ticks +
+                Persona.AvatarPath = Persona.Id + "-" + DateTime.Now.Ticks +
                     op.FileName.Substring(
                         op.FileName.IndexOf(".", op.FileName.Length - 5));
 
-                File.Copy(op.FileName, Persona.AvatarPath, true);
+                File.Copy(op.FileName, Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+                    + @"\IconsAndImages\" + Persona.AvatarPath, true);
 
                 OnPropertyChanged(nameof(Persona));
             }

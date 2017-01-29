@@ -70,7 +70,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                      DisplayMember1 = a.Fecha.ToString(),
                      DisplayMember2 = LookupItem.ShortenStringForDisplay(
                          a.Seguimiento, _Settings.DashboardLongitudDeSeguimientos),
-                     IconSource = @"IconsAndImages\atencion_icon.png"
+                     IconSource = @"atencion_icon.png"
                  }));
 
             ProximasCitas = new ObservableCollection<LookupItem>(
@@ -208,7 +208,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             if (ProximasCitas.Count > 0)
             {
-
                 var last = DateTime.Parse(ProximasCitas.Last().DisplayMember1);
                 if (cita.Inicio < last) // es antes
                 {
@@ -236,15 +235,21 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnPersonaActualizadaEvent(int id)
         {
             var persona = _PersonaRepository.GetById(id);
-            _PersonaRepository.Session.Evict(persona);
+            //_PersonaRepository.Session.Evict(persona);
 
             var personaDesactualizada = UltimasPersonas.Where(x => x.Id == id).FirstOrDefault();
-
             if (personaDesactualizada != null)
             {
                 personaDesactualizada.DisplayMember1 = persona.Nombre;
                 personaDesactualizada.DisplayMember2 = persona.Nif;
                 personaDesactualizada.IconSource = persona.AvatarPath;
+            }
+
+            var citasDesactualizadas = ProximasCitas.Where(x => persona.Citas.Any(c => c.Id == x.Id)).ToList();
+
+            foreach (var citaDesactualizada in citasDesactualizadas)
+            {
+                citaDesactualizada.IconSource = persona.AvatarPath;
             }
         }
 

@@ -33,9 +33,10 @@ namespace Gama.Atenciones.DataAccess
                         NHibernate.Cfg.Configuration configuration;
 
                         //File.Delete("nh_atenciones.cfg");
-                        if (File.Exists("nh_atenciones.cfg"))
+                        var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\nh_atenciones.cfg";
+                        if (File.Exists(path))
                         {
-                            var file = File.Open("nh_atenciones.cfg", FileMode.Open);
+                            var file = File.Open(path, FileMode.Open);
                             configuration = (NHibernate.Cfg.Configuration)new BinaryFormatter()
                                 .Deserialize(file);
                             file.Close();
@@ -43,7 +44,7 @@ namespace Gama.Atenciones.DataAccess
                         else
                         {
                             configuration = Configure();
-                            new BinaryFormatter().Serialize(File.Create("nh_atenciones.cfg"), configuration);
+                            new BinaryFormatter().Serialize(File.Create(path), configuration);
                         }
 
                         try

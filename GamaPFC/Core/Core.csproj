@@ -115,7 +115,6 @@
     <Compile Include="Util\EnumDescriptionTypeConverter.cs" />
     <Compile Include="Util\NullableValueConverter.cs" />
     <Compile Include="Util\PasswordHelper.cs" />
-    <Compile Include="Util\PathToFullPathConverter.cs" />
     <Compile Include="ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>

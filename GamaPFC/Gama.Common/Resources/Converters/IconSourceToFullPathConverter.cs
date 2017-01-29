@@ -14,13 +14,13 @@ namespace Gama.Common.Resources.Converters
         {
             string path = "";
 
-            if (value != null)
+            if (value != null && !string.IsNullOrEmpty(value.ToString()))
             {
-                path = AppDomain.CurrentDomain.BaseDirectory + value.ToString();
+                path += ResourceNames.IconsAndImagesFolder + value.ToString();
             }
-            else
+            else 
             {
-                path = AppDomain.CurrentDomain.BaseDirectory + @"IconsAndImages\default_search_icon.png";
+                path += ResourceNames.DefaultSearchIconPath;
             }
 
             return path;

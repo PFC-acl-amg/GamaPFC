@@ -125,12 +125,9 @@ namespace Gama.Atenciones.Wpf
 
         private void InicializarDirectorios()
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory;
-            string iconsAndImagesPath = path + @"IconsAndImages\";
-
-            if (!Directory.Exists(iconsAndImagesPath))
+            if (!Directory.Exists(ResourceNames.IconsAndImagesFolder))
             {
-                Directory.CreateDirectory(iconsAndImagesPath);
+                Directory.CreateDirectory(ResourceNames.IconsAndImagesFolder);
             }
 
             try
@@ -141,13 +138,14 @@ namespace Gama.Atenciones.Wpf
                 //
                 // Default Search Icon
                 //
-                if (!File.Exists(iconsAndImagesPath + "default_search_icon.png"))
+                if (!File.Exists(ResourceNames.DefaultSearchIconPath))
                 {
                     icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_search_icon.png"));
                     encoder = new PngBitmapEncoder();
                     encoder.Frames.Add(BitmapFrame.Create(icon));
 
-                    using (var fileStream = new System.IO.FileStream(iconsAndImagesPath + "default_search_icon.png", System.IO.FileMode.Create))
+                    using (var fileStream = 
+                        new System.IO.FileStream(ResourceNames.DefaultSearchIconPath, System.IO.FileMode.Create))
                     {
                         encoder.Save(fileStream);
                     }
@@ -156,13 +154,14 @@ namespace Gama.Atenciones.Wpf
                 //
                 // Default User Icon
                 //
-                if (!File.Exists(iconsAndImagesPath + "default_user_icon.png"))
+                if (!File.Exists(ResourceNames.DefaultUserIconPath))
                 {
                     icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png"));
                     encoder = new PngBitmapEncoder();
                     encoder.Frames.Add(BitmapFrame.Create(icon));
 
-                    using (var fileStream = new System.IO.FileStream(iconsAndImagesPath + "default_user_icon.png", System.IO.FileMode.Create))
+                    using (var fileStream = 
+                        new System.IO.FileStream(ResourceNames.DefaultUserIconPath, System.IO.FileMode.Create))
                     {
                         encoder.Save(fileStream);
                     }
@@ -171,13 +170,14 @@ namespace Gama.Atenciones.Wpf
                 //
                 // Atención Icon
                 //
-                if (!File.Exists(iconsAndImagesPath + "atencion_icon.png"))
+                if (!File.Exists(ResourceNames.AtencionIconPath))
                 {
                     icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png"));
                     encoder = new PngBitmapEncoder();
                     encoder.Frames.Add(BitmapFrame.Create(icon));
 
-                    using (var fileStream = new System.IO.FileStream(iconsAndImagesPath + "atencion_icon.png", System.IO.FileMode.Create))
+                    using (var fileStream =
+                        new System.IO.FileStream(ResourceNames.AtencionIconPath, System.IO.FileMode.Create))
                     {
                         encoder.Save(fileStream);
                     }

@@ -8,11 +8,12 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
              xmlns:business="clr-namespace:Gama.Atenciones.Business;assembly=Gama.Atenciones.Business"
+             xmlns:converters="clr-namespace:Gama.Common.Resources.Converters;assembly=Gama.Common"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="535.274" d:DesignWidth="318.493">
   <UserControl.Resources>
-    <util:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>
+    <converters:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>
   </UserControl.Resources>
   <GroupBox Header="Datos Personales">
     <ScrollViewer>

@@ -10,13 +10,14 @@
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
+             xmlns:converters="clr-namespace:Gama.Common.Resources.Converters;assembly=Gama.Common"
              mc:Ignorable="d" 
              d:DesignHeight="638" d:DesignWidth="883">
   <d:DataContext>
     <designData:DashboardViewModelDTD/>
   </d:DataContext>
   <UserControl.Resources>
-    <util:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>
+    <converters:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>
     <DataTemplate x:Key="_LookupItemDataTemplate">
       <Grid>
         <Grid.ColumnDefinitions>

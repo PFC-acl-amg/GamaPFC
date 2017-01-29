@@ -106,16 +106,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _PersonaVM.EdicionHabilitada = false;
         }
 
-        public override bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            var id = (int)navigationContext.Parameters["Id"];
-
-            if (Persona.Id == id)
-                return true;
-
-            return false;
-        }
-
         public void Load(int id)
         {
             try
@@ -135,6 +125,16 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 throw ex;
             }
+        }
+
+        public override bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            var id = (int)navigationContext.Parameters["Id"];
+
+            if (Persona.Id == id)
+                return true;
+
+            return false;
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)

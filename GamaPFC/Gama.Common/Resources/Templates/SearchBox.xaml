@@ -6,7 +6,7 @@
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Icons.xaml"/>
     <ResourceDictionary>
-      <util:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>
+      <converters:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>
       <converters:IconSourceToFullPathConverter x:Key="_IconSourceToFullPathConverter"/>
 
       <!-- Resultado de búsqueda del SearchBox. Requiere usarse con un LookupItem. -->

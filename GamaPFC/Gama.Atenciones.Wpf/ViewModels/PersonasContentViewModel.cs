@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
-    public class PersonasContentViewModel : ViewModelBase, INavigationAware
+    public class PersonasContentViewModel : ViewModelBase
     {
         private IEventAggregator _EventAggregator;
         private IRegionManager _RegionManager;
@@ -72,26 +72,28 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void AbrirPersona(int id)
         {
-            var navigationParameters = new NavigationParameters();
-            navigationParameters.Add("Id", id);
+            OnPersonaCreadaEvent(id);
+            //return;
+            //var navigationParameters = new NavigationParameters();
+            //navigationParameters.Add("Id", id);
 
-            // Primero cambiamos de panel, si no estamos ya en él
-            if (!IsActive)
-            {
-                //_RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
-            }
+            //// Primero cambiamos de panel, si no estamos ya en él
+            //if (!IsActive)
+            //{
+            //    _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
+            //}
 
-            try
-            {
-                // _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
-                //Segundamente navegamos al detalle de la persona a abrir
-                _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView", navigationParameters);
-                _RegionManager.RequestNavigate(RegionNames.PersonasTabContentRegion, "EditarPersonaView", navigationParameters);
-            }
-            catch (Exception eX)
-            {
-                throw eX;
-            }
+            //try
+            //{
+            //    // _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
+            //    //Segundamente navegamos al detalle de la persona a abrir
+            //    //_RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView", navigationParameters);
+            //    _RegionManager.RequestNavigate(RegionNames.PersonasTabContentRegion, "EditarPersonaView", navigationParameters);
+            //}
+            //catch (Exception eX)
+            //{
+            //    throw eX;
+            //}
         }
 
         public override void OnNavigatedFrom(NavigationContext navigationContext)

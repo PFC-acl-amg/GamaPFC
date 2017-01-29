@@ -41,6 +41,8 @@ namespace Core.DataAccess
                     }
                 }
 
+                Session.Clear();
+
                 return entity;
             }
             catch (Exception ex)

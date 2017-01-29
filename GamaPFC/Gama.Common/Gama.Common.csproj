@@ -75,10 +75,12 @@
     <Compile Include="CustomControls\SearchBox.cs" />
     <Compile Include="CustomControls\SearchBoxDataTemplateSelector.cs" />
     <Compile Include="RegionNames.cs" />
+    <Compile Include="ResourceNames.cs" />
     <Compile Include="Resources\Behaviors\ChangeBehavior.cs" />
     <Compile Include="Resources\Behaviors\DummyClass.cs" />
     <Compile Include="Resources\Converters\DatePickerOriginalValueConverter.cs" />
     <Compile Include="Resources\Converters\IconSourceToFullPathConverter.cs" />
+    <Compile Include="Resources\Converters\PathToFullPathConverter.cs" />
     <Compile Include="Resources\Converters\ViewToViewModelConverter.cs" />
     <Compile Include="Resources\DataTemplateSelectors\BuscadorDataTemplateSelector.cs" />
     <Compile Include="Views\ConfirmarOperacionView.xaml.cs">
