@@ -147,6 +147,7 @@
     <Compile Include="Eventos\PersonaCreadaEvent.cs" />
     <Compile Include="Eventos\PersonaActualizadaEvent.cs" />
     <Compile Include="Eventos\PersonaSeleccionadaEvent.cs" />
+    <Compile Include="Eventos\TogglePreferenciasEvent.cs" />
     <Compile Include="FakeServices\FakeAtencionRepository.cs" />
     <Compile Include="FakeServices\FakeCitaRepository.cs" />
     <Compile Include="FakeServices\FakePersonaRepository.cs" />
@@ -164,6 +165,7 @@
     <Compile Include="ViewModels\EditarAtencionesViewModel.cs" />
     <Compile Include="ViewModels\EditarCitasViewModel.cs" />
     <Compile Include="ViewModels\EditarPersonaViewModel.cs" />
+    <Compile Include="ViewModels\FlyoutsViewModel.cs" />
     <Compile Include="ViewModels\GraficasViewModel.cs" />
     <Compile Include="ViewModels\ListadoDePersonasViewModel.cs" />
     <Compile Include="ViewModels\NuevaCitaViewModel.cs" />
@@ -171,6 +173,7 @@
     <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
     <Compile Include="ViewModels\PersonasContentViewModel.cs" />
     <Compile Include="ViewModels\PersonaViewModel.cs" />
+    <Compile Include="ViewModels\RightCommandsViewModel.cs" />
     <Compile Include="ViewModels\SearchBoxViewModel.cs" />
     <Compile Include="ViewModels\StatusBarViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
@@ -185,6 +188,9 @@
     </Compile>
     <Compile Include="Views\EditarPersonaView.xaml.cs">
       <DependentUpon>EditarPersonaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FlyoutsView.xaml.cs">
+      <DependentUpon>FlyoutsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GraficasView.xaml.cs">
       <DependentUpon>GraficasView.xaml</DependentUpon>
@@ -206,6 +212,9 @@
     </Compile>
     <Compile Include="Views\PersonaView.xaml.cs">
       <DependentUpon>PersonaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RightCommandsView.xaml.cs">
+      <DependentUpon>RightCommandsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SearchBoxView.xaml.cs">
       <DependentUpon>SearchBoxView.xaml</DependentUpon>
@@ -277,6 +286,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\FlyoutsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\GraficasView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -302,6 +315,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PersonaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RightCommandsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -368,11 +385,6 @@
     <Folder Include="Actions\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\icono_nueva_persona.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Images\icono_atenciones.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -386,6 +398,14 @@
     <Resource Include="Resources\Images\atencion_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\icono_nueva_persona.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\icono_exportar_persona.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

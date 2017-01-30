@@ -1,23 +1,26 @@
 ﻿using Core;
 using Gama.Atenciones.Wpf.Eventos;
 using Prism.Events;
-using System.Windows.Media;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Gama.Bootstrapper
+namespace Gama.Atenciones.Wpf.ViewModels
 {
-    public class ShellViewModel : ViewModelBase
+    public class FlyoutsViewModel : ViewModelBase
     {
         private IEventAggregator _EventAggregator;
-        private ImageSource _IconSource;
         private bool _PreferenciasFlyoutIsOpen = false;
 
-        public ShellViewModel(IEventAggregator eventAggregator)
+        public FlyoutsViewModel(IEventAggregator eventAggregator)
         {
             _EventAggregator = eventAggregator;
-            Title = "Módulo no cargado";
+
             _EventAggregator.GetEvent<TogglePreferenciasEvent>().Subscribe(OnTogglePreferenciasEvent);
         }
+
         private void OnTogglePreferenciasEvent(bool isOpen)
         {
             PreferenciasFlyoutIsOpen = isOpen;
@@ -27,12 +30,6 @@ namespace Gama.Bootstrapper
         {
             get { return _PreferenciasFlyoutIsOpen; }
             set { SetProperty(ref _PreferenciasFlyoutIsOpen, value); }
-        }
-
-        public ImageSource IconSource
-        {
-            get { return _IconSource; }
-            set { SetProperty(ref _IconSource, value); }
         }
     }
 }

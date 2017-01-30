@@ -24,6 +24,18 @@
       </Viewbox>
     </DataTemplate>
   </metro:MetroWindow.IconTemplate>
+  <metro:MetroWindow.RightWindowCommands>
+    <metro:WindowCommands>
+      <ContentControl prism:RegionManager.RegionName="{x:Static common:RegionNames.RightCommandsRegion}" />
+    </metro:WindowCommands>
+  </metro:MetroWindow.RightWindowCommands>
+  <metro:MetroWindow.Flyouts>
+    <metro:FlyoutsControl>
+      <metro:Flyout Header="Preferencias" Position="Right" IsOpen="{Binding PreferenciasFlyoutIsOpen}">
+        <ContentControl prism:RegionManager.RegionName="{x:Static common:RegionNames.FlyoutsRegion}"/>
+      </metro:Flyout>
+    </metro:FlyoutsControl>
+  </metro:MetroWindow.Flyouts>
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" MaxHeight="60"/>

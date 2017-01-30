@@ -201,6 +201,8 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<object, PersonasContentView>("PersonasContentView");
             Container.RegisterType<object, StatusBarView>("StatusBarView");
             Container.RegisterType<object, ToolbarView>("ToolbarView");
+            Container.RegisterType<object, RightCommandsView>("RightCommandsView");
+            Container.RegisterType<object, FlyoutsView>("FlyoutsView");
         }
 
         private void RegisterViewModels()
@@ -209,10 +211,12 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<EditarAtencionesViewModel>();
             Container.RegisterType<EditarCitasViewModel>();
             Container.RegisterType<EditarPersonaViewModel>();
+            Container.RegisterType<FlyoutsViewModel>();
             Container.RegisterType<GraficasViewModel>();
             Container.RegisterType<ListadoDePersonasViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
             Container.RegisterType<PersonasContentViewModel>();
+            Container.RegisterType<RightCommandsViewModel>();
             Container.RegisterType<SearchBoxViewModel>();
             Container.RegisterType<StatusBarViewModel>();
             Container.RegisterType<ToolbarViewModel>();
@@ -231,6 +235,8 @@ namespace Gama.Atenciones.Wpf
 
         private void InitializeNavigation()
         {
+            RegionManager.RegisterViewWithRegion(RegionNames.FlyoutsRegion, typeof(FlyoutsView));
+            RegionManager.RegisterViewWithRegion(RegionNames.RightCommandsRegion, typeof(RightCommandsView));
             RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
             RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
             RegionManager.RegisterViewWithRegion(RegionNames.SearchBoxRegion, typeof(SearchBoxView));

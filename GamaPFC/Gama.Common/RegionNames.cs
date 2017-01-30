@@ -14,6 +14,8 @@ namespace Gama.Common
         public static string PanelSwitcherRegion = "PanelSwitcherRegion";
         public static string ContentRegion = "ContentRegion";
         public static string StatusBarRegion = "StatusBarRegion";
+        public static string RightCommandsRegion = "RightCommandsRegion";
+        public static string FlyoutsRegion = "FlyoutsRegion";
 
         // Módulo de Atenciones
         public static string PersonasTabContentRegion = "PersonasTabContentRegion";
