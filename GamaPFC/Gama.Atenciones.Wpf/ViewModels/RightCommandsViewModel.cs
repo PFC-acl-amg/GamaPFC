@@ -14,21 +14,19 @@ namespace Gama.Atenciones.Wpf.ViewModels
     public class RightCommandsViewModel : ViewModelBase
     {
         private IEventAggregator _EventAggregator;
-        private bool _PrefenciasIsOpen = false;
 
         public RightCommandsViewModel(IEventAggregator eventAggregator)
         {
             _EventAggregator = eventAggregator;
 
-            TogglePreferenciasCommand = new DelegateCommand(OnTogglePreferenciasCommandExecute);
+            AbrirPreferenciasCommand = new DelegateCommand(OnAbrirPreferenciasCommandExecute);
         }
 
-        public ICommand TogglePreferenciasCommand { get; private set; }
+        public ICommand AbrirPreferenciasCommand { get; private set; }
 
-        private void OnTogglePreferenciasCommandExecute()
+        private void OnAbrirPreferenciasCommandExecute()
         {
-            _EventAggregator.GetEvent<TogglePreferenciasEvent>().Publish(!_PrefenciasIsOpen);
-            _PrefenciasIsOpen = !_PrefenciasIsOpen;
+            _EventAggregator.GetEvent<AbrirPreferenciasEvent>().Publish();
         }
     }
 }

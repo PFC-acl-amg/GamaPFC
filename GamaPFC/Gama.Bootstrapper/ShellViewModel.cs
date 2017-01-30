@@ -16,11 +16,12 @@ namespace Gama.Bootstrapper
         {
             _EventAggregator = eventAggregator;
             Title = "Módulo no cargado";
-            _EventAggregator.GetEvent<TogglePreferenciasEvent>().Subscribe(OnTogglePreferenciasEvent);
+            _EventAggregator.GetEvent<AbrirPreferenciasEvent>().Subscribe(OnTogglePreferenciasEvent);
         }
-        private void OnTogglePreferenciasEvent(bool isOpen)
+
+        private void OnTogglePreferenciasEvent()
         {
-            PreferenciasFlyoutIsOpen = isOpen;
+            PreferenciasFlyoutIsOpen = true;
         }
 
         public bool PreferenciasFlyoutIsOpen

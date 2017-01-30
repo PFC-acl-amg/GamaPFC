@@ -9,5 +9,5 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-  <Button>Yihao</Button>
+  <Button Command="{Binding TestCommand}">Yihao</Button>
 </UserControl>

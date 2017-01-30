@@ -24,6 +24,36 @@
       </Viewbox>
     </DataTemplate>
   </metro:MetroWindow.IconTemplate>
+  <metro:MetroWindow.LeftWindowCommands>
+    <metro:WindowCommands>
+      <!--Acceso directo a Google+-->
+      <Button ToolTip="Programarfacil Google+" Name="GoogleButton" Click="WebsiteButton_Click">
+        <Rectangle Width="22" Height="22" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+          <Rectangle.OpacityMask>
+            <VisualBrush Stretch="Uniform"
+                                     Visual="{StaticResource appbar_home}" />
+          </Rectangle.OpacityMask>
+        </Rectangle>
+      </Button>
+      <!--Acceso directo a Facebook-->
+      <Button ToolTip="Programarfacil Facebook" Name="FacebookButton" Click="FacebookButton_Click">
+        <Rectangle Width="22" Height="22" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+          <Rectangle.OpacityMask>
+            <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_social_facebook}" />
+          </Rectangle.OpacityMask>
+        </Rectangle>
+      </Button>
+      <!--Acceso directo a Twitter-->
+      <Button ToolTip="Programarfacil Twitter" Name="TwitterButton" Click="TwitterButton_Click">
+        <Rectangle Width="22" Height="22" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+          <Rectangle.OpacityMask>
+            <VisualBrush Stretch="Uniform"
+                                     Visual="{StaticResource appbar_twitter_bird}" />
+          </Rectangle.OpacityMask>
+        </Rectangle>
+      </Button>
+    </metro:WindowCommands>
+  </metro:MetroWindow.LeftWindowCommands>
   <metro:MetroWindow.RightWindowCommands>
     <metro:WindowCommands>
       <ContentControl prism:RegionManager.RegionName="{x:Static common:RegionNames.RightCommandsRegion}" />

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Gama.Atenciones.Wpf.Eventos
 {
     // True para abriir, False para cerrar
-    public class TogglePreferenciasEvent : PubSubEvent<bool>
+    public class AbrirPreferenciasEvent : PubSubEvent
     {
     }
 }

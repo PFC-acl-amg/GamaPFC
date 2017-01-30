@@ -11,7 +11,6 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
     <Button Content="Preferencias" Cursor="Hand"
-            Command="{Binding TogglePreferenciasCommand}"
-            />
+            Command="{Binding AbrirPreferenciasCommand}"/>
     </Grid>
 </UserControl>
