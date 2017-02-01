@@ -30,6 +30,24 @@ namespace Core.Encryption
             }
         }
 
+        private static string _IV = "";
+        public static string IV
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_IV))
+                {
+                    var _myResourceDictionary = new ResourceDictionary();
+                    _myResourceDictionary.Source = new Uri("/Core;component/Encryption/Keys.xaml",
+                            UriKind.RelativeOrAbsolute);
+                    _IV = _myResourceDictionary["IV"] as string;
+
+                }
+
+                return _IV;
+            }
+        }
+
         // This constant is used to determine the keysize of the encryption algorithm in bits.
         // We divide this by 8 within the code below to get the equivalent number of bytes.
         private const int Keysize = 256;
@@ -48,7 +66,7 @@ namespace Core.Encryption
                     Mode = CipherMode.CBC,
                     BlockSize = 256,
                     Padding = PaddingMode.PKCS7,
-                    IV = Encoding.ASCII.GetBytes("741952hheeyy66#cs!9hjv887mxx7@8y")
+                    IV = Encoding.ASCII.GetBytes(IV)
                 };
                 ICryptoTransform encryptor = rijndael.CreateEncryptor(rijndael.Key, rijndael.IV);
 
@@ -85,7 +103,7 @@ namespace Core.Encryption
                     Mode = CipherMode.CBC,
                     BlockSize = 256,
                     Padding = PaddingMode.PKCS7,
-                    IV = Encoding.ASCII.GetBytes("741952hheeyy66#cs!9hjv887mxx7@8y")
+                    IV = Encoding.ASCII.GetBytes(IV)
                 };
                 ICryptoTransform decryptor = rijndael.CreateDecryptor(rijndael.Key, rijndael.IV);
 
