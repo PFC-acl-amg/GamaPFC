@@ -7,16 +7,15 @@
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:actions="clr-namespace:Core.Util;assembly=Core"
+        xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         prism:ViewModelLocator.AutoWireViewModel="True"
         WindowStartupLocation="CenterScreen"
-        MaxWidth="550"
         BorderThickness="2"
         BorderBrush="{StaticResource AccentColorBrush}"
         mc:Ignorable="d"
-       ResizeMode="NoResize"
+       ResizeMode="CanResizeWithGrip"
         Title="Nueva Cita" 
-        actions:DialogCloser.DialogResult="{Binding Cerrar}" 
-                   Height="208" Width="267.164">
+        actions:DialogCloser.DialogResult="{Binding Cerrar}" d:DesignWidth="364" d:DesignHeight="263" >
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
@@ -25,32 +24,49 @@
     <Grid Grid.IsSharedSizeScope="True">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" SharedSizeGroup="A"/>
-        <RowDefinition Height="Auto" SharedSizeGroup="A"/>
+        <RowDefinition Height="Auto" SharedSizeGroup="B"/>
+        <RowDefinition Height="Auto" SharedSizeGroup="B"/>
+        <RowDefinition Height="Auto"/>
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
         <ColumnDefinition/>
         <ColumnDefinition/>
       </Grid.ColumnDefinitions>
       <Image Margin="{StaticResource Margin}"
-                  MaxHeight="55"
-               Source="{Binding Cita.Persona.AvatarPath, Converter={StaticResource _PathToFullPathConverter}}"/>
+             MaxHeight="55"
+             Grid.ColumnSpan="2"
+             Source="{Binding Cita.Persona.AvatarPath, Converter={StaticResource _PathToFullPathConverter}}"/>
+
       <StackPanel Orientation="Vertical" Grid.Row="1">
-        <Label Margin="{StaticResource Margin}">Asistente</Label>
-        <TextBox Margin="{StaticResource Margin}" Text="{Binding Cita.Asistente, UpdateSourceTrigger=PropertyChanged}"/>
-      </StackPanel>
-      <StackPanel Grid.Column="1">
         <Label Margin="{StaticResource Margin}">Fecha</Label>
         <DatePicker Margin="{StaticResource Margin}" 
                                 SelectedDate="{Binding Cita.Inicio, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                 Height="18"/>
       </StackPanel>
 
-      <StackPanel Grid.Column="1" Grid.Row="1">
+      <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1">
+        <Label Margin="{StaticResource Margin}">Hora</Label>
+        <!--<Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="20"/>
+          </Grid.ColumnDefinitions>
+        </Grid>-->
+        <local:TimeControl Hours="{Binding Hora}" Minutes="{Binding Minuto}"></local:TimeControl>
+      </StackPanel>
+
+      <StackPanel Orientation="Vertical" Grid.Row="2">
+        <Label Margin="{StaticResource Margin}">Asistente</Label>
+        <TextBox Margin="{StaticResource Margin}" Text="{Binding Cita.Asistente, UpdateSourceTrigger=PropertyChanged}"/>
+      </StackPanel>
+
+      <StackPanel Grid.Column="1" Grid.Row="2">
         <Label Margin="{StaticResource Margin}">Sala</Label>
         <TextBox Margin="{StaticResource Margin}" Text="{Binding Cita.Sala, UpdateSourceTrigger=PropertyChanged}"/>
       </StackPanel>
     </Grid>
-    <StackPanel Grid.Row="1" Orientation="Horizontal"
+    <StackPanel Grid.Row="3" Orientation="Horizontal"
                     HorizontalAlignment="Right">
       <Button Content="Aceptar" Command="{Binding AceptarCommand}"  Margin="{StaticResource Margin}"/>
       <Button Content="Cancelar" Command="{Binding CancelarCommand}"  Margin="{StaticResource Margin}"/>

@@ -21,6 +21,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private IPersonaRepository _PersonaRepository;
         private ICitaRepository _CitaRepository;
         private IEventAggregator _EventAggregator;
+        private int _Hora;
+        private int _Minuto;
 
         public NuevaCitaViewModel(IPersonaRepository personaRepository, 
             ICitaRepository citaRepository, IEventAggregator eventAggregator)
@@ -29,6 +31,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _PersonaRepository = personaRepository;
             _CitaRepository = citaRepository;
             _EventAggregator = eventAggregator;
+
+            Hora = 12;
 
             AceptarCommand = new DelegateCommand(OnAceptarCommand_Execute,
                 OnAceptarCommand_CanExecute);
@@ -40,6 +44,18 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void Cita_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             ((DelegateCommand)AceptarCommand).RaiseCanExecuteChanged();
+        }
+
+        public int Hora
+        {
+            get { return _Hora; }
+            set { SetProperty(ref _Hora, value); }
+        }
+
+        public int Minuto
+        {
+            get { return _Minuto; }
+            set { SetProperty(ref _Minuto, value); }
         }
 
         public CitaWrapper Cita { get; private set; }
@@ -72,6 +88,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnAceptarCommand_Execute()
         {
+            Cita.Inicio = new DateTime(Cita.Inicio.Value.Date.Ticks).AddHours(Hora).AddMinutes(Minuto);            
+
             Persona.Citas.Add(Cita);
             _PersonaRepository.Update(Persona.Model);
             Persona.AcceptChanges();

@@ -98,6 +98,8 @@ namespace Core.DataAccess
 
                     Session.Save(entity);
                     tx.Commit();
+
+                    Session.Clear();
                     
                     //if (encryptableEntity != null)
                     //{

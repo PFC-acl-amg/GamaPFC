@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Encryption;
 using Core.Util;
 using System;
 using System.Collections.Generic;
@@ -129,14 +130,7 @@ namespace Gama.Atenciones.Business
 
                 if (propertyValue != null)
                 {
-                    string value = "";
-                    for (int i = 0; i < propertyValue.ToString().Length; i++)
-                    {
-                        var theChar = (char)((int)propertyValue.ToString()[i] + 1);
-                        value += theChar;
-                    }
-
-                    propertyInfo.SetValue(this, value);
+                    propertyInfo.SetValue(this, StringCipher.Encrypt(propertyValue.ToString()));
                 }
             }
 
@@ -163,15 +157,7 @@ namespace Gama.Atenciones.Business
 
                     if (propertyValue != null)
                     {
-                        string decryptedValue = "";
-
-                        for (int i = 0; i < propertyValue.ToString().Length; i++)
-                        {
-                            var theChar = (char)((int)propertyValue.ToString()[i] - 1);
-                            decryptedValue += theChar;
-                        }
-
-                        propertyInfo.SetValue(this, decryptedValue);
+                        propertyInfo.SetValue(this, StringCipher.Decrypt(propertyValue.ToString()));
                     }
                 }
 

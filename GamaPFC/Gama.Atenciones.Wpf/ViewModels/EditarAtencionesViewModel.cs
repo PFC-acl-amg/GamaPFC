@@ -127,7 +127,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnActualizarCommand()
         {
             AtencionSeleccionada.UpdatedAt = DateTime.Now;
-            _AtencionRepository.Update(AtencionSeleccionada.Model);
+            //_AtencionRepository.Update(AtencionSeleccionada.Model);
+            _PersonaRepository.Update(Persona.Model);
             AtencionSeleccionada.AcceptChanges();
             EdicionHabilitada = false;
             AtencionSeleccionada.IsInEditionMode = false;

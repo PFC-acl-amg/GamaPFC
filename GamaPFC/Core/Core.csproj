@@ -96,6 +96,7 @@
     <Compile Include="DataAccess\ISessionHelper.cs" />
     <Compile Include="DataAccess\NHibernateOneSessionRepository.cs" />
     <Compile Include="DataAccess\NHibernateRepository.cs" />
+    <Compile Include="Encryption\StringCipher.cs" />
     <Compile Include="IEncryptable.cs" />
     <Compile Include="IValidatableTrackingObject.cs" />
     <Compile Include="ModelWrapper.cs" />
@@ -120,6 +121,12 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Encryption\Keys.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

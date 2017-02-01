@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="Gama.Atenciones.Wpf.Views.TimeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
+             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+    Height="Auto" Width="Auto" x:Name="UserControl">
+
+  <Grid x:Name="LayoutRoot" Width="Auto" Height="Auto">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="45"/>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="45"/>
+    </Grid.ColumnDefinitions>
+
+    <Grid x:Name="hour" Focusable="True" KeyDown="Down">
+      <TextBox x:Name="mmTxt" TextWrapping="Wrap" Text="{Binding Path=Hours, ElementName=UserControl, Mode=Default}"
+               mahapps:TextBoxHelper.Watermark="hora"
+               BorderThickness="0"
+                 TextAlignment="Center" VerticalAlignment="Center" FontFamily="Goudy Stout" FontSize="12"/>
+    </Grid>
+
+    <Grid  Grid.Column="1">
+      <TextBlock  x:Name="sep1" TextWrapping="Wrap" VerticalAlignment="Center"
+                  Background="{x:Null}" FontFamily="Goudy Stout"
+                  FontSize="14" Text=":" TextAlignment="Center"/>
+
+    </Grid>
+
+    <Grid  Grid.Column="2" x:Name="min" Focusable="True" KeyDown="Down">
+      <TextBox  x:Name="ddTxt"  TextWrapping="Wrap" Text="{Binding Path=Minutes, ElementName=UserControl, Mode=Default}"
+               mahapps:TextBoxHelper.Watermark="min"
+               BorderThickness="0"
+                  TextAlignment="Center" VerticalAlignment="Center" FontFamily="Goudy Stout" FontSize="12"/>
+    </Grid>
+  </Grid>
+</UserControl>

@@ -32,8 +32,8 @@ namespace Gama.Atenciones.DataAccess
                     {
                         NHibernate.Cfg.Configuration configuration;
 
-                        //File.Delete("nh_atenciones.cfg");
                         var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\nh_atenciones.cfg";
+                        //File.Delete(path);
                         if (File.Exists(path))
                         {
                             var file = File.Open(path, FileMode.Open);

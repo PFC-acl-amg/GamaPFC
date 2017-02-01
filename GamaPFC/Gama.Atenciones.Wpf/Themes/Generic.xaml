@@ -196,6 +196,9 @@
 
                                     <!-- Contenido de cada cita -->
                                     <TextBlock Margin="4" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                      <Run Text="{Binding Inicio.Hour, Mode=OneWay}"/>
+                                      <Run Text=":"/>
+                                      <Run Text="{Binding Inicio.Minute, Mode=OneWay}"/>
                                       <Run Text="{Binding Asistente}"/>
                                       <Run Text="{Binding Sala, StringFormat=({0})}"/>
                                     </TextBlock>
