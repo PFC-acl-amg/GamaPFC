@@ -7,6 +7,7 @@
                   xmlns:prism="http://prismlibrary.com/"
                   xmlns:common="clr-namespace:Gama.Common;assembly=Gama.Common"
                   xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+                   xmlns:sys="clr-namespace:System;assembly=mscorlib"
                   mc:Ignorable="d"
                   prism:ViewModelLocator.AutoWireViewModel="True"
                   ResizeMode="CanResizeWithGrip"
@@ -17,10 +18,15 @@
                   Title="{Binding Title}" 
                   Icon="{Binding IconSource}"
                    Height="350" Width="525">
+  <metro:MetroWindow.Resources>
+    <sys:Double x:Key="_SocialIconSize">13</sys:Double>
+    <sys:Double x:Key="WindowTitleFontSize">14</sys:Double>
+  </metro:MetroWindow.Resources>
+
   <metro:MetroWindow.IconTemplate>
     <DataTemplate>
       <Viewbox Margin="{StaticResource Margin}">
-        <Image Source="{Binding}"/>
+        <Image Width="14" Height="14" Source="{Binding}"/>
       </Viewbox>
     </DataTemplate>
   </metro:MetroWindow.IconTemplate>
@@ -28,7 +34,9 @@
     <metro:WindowCommands>
       <!--Acceso directo a Google+-->
       <Button ToolTip="Programarfacil Google+" Name="GoogleButton" Click="WebsiteButton_Click">
-        <Rectangle Width="22" Height="22" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+        <Rectangle Width="{StaticResource _SocialIconSize}" 
+                   Height="{StaticResource _SocialIconSize}" 
+                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
           <Rectangle.OpacityMask>
             <VisualBrush Stretch="Uniform"
                                      Visual="{StaticResource appbar_home}" />
@@ -37,7 +45,9 @@
       </Button>
       <!--Acceso directo a Facebook-->
       <Button ToolTip="Programarfacil Facebook" Name="FacebookButton" Click="FacebookButton_Click">
-        <Rectangle Width="22" Height="22" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+        <Rectangle Width="{StaticResource _SocialIconSize}" 
+                   Height="{StaticResource _SocialIconSize}" 
+                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
           <Rectangle.OpacityMask>
             <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_social_facebook}" />
           </Rectangle.OpacityMask>
@@ -45,7 +55,9 @@
       </Button>
       <!--Acceso directo a Twitter-->
       <Button ToolTip="Programarfacil Twitter" Name="TwitterButton" Click="TwitterButton_Click">
-        <Rectangle Width="22" Height="22" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+        <Rectangle Width="{StaticResource _SocialIconSize}" 
+                   Height="{StaticResource _SocialIconSize}"
+                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
           <Rectangle.OpacityMask>
             <VisualBrush Stretch="Uniform"
                                      Visual="{StaticResource appbar_twitter_bird}" />
@@ -62,7 +74,7 @@
   <metro:MetroWindow.Flyouts>
     <metro:FlyoutsControl>
       <metro:Flyout Header="Preferencias" Position="Right" IsOpen="{Binding PreferenciasFlyoutIsOpen}">
-        <ContentControl prism:RegionManager.RegionName="{x:Static common:RegionNames.FlyoutsRegion}"/>
+        <ContentControl prism:RegionManager.RegionName="{x:Static common:RegionNames.PreferenciasRegion}"/>
       </metro:Flyout>
     </metro:FlyoutsControl>
   </metro:MetroWindow.Flyouts>

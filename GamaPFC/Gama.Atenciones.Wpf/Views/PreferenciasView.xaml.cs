@@ -18,9 +18,9 @@ namespace Gama.Atenciones.Wpf.Views
     /// <summary>
     /// Interaction logic for FlyoutsView.xaml
     /// </summary>
-    public partial class FlyoutsView : UserControl
+    public partial class PreferenciasView : UserControl
     {
-        public FlyoutsView()
+        public PreferenciasView()
         {
             InitializeComponent();
         }

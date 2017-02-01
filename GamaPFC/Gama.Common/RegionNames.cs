@@ -15,7 +15,7 @@ namespace Gama.Common
         public static string ContentRegion = "ContentRegion";
         public static string StatusBarRegion = "StatusBarRegion";
         public static string RightCommandsRegion = "RightCommandsRegion";
-        public static string FlyoutsRegion = "FlyoutsRegion";
+        public static string PreferenciasRegion = "FlyoutsRegion";
 
         // Módulo de Atenciones
         public static string PersonasTabContentRegion = "PersonasTabContentRegion";

@@ -165,7 +165,7 @@
     <Compile Include="ViewModels\EditarAtencionesViewModel.cs" />
     <Compile Include="ViewModels\EditarCitasViewModel.cs" />
     <Compile Include="ViewModels\EditarPersonaViewModel.cs" />
-    <Compile Include="ViewModels\FlyoutsViewModel.cs" />
+    <Compile Include="ViewModels\PreferenciasViewModel.cs" />
     <Compile Include="ViewModels\GraficasViewModel.cs" />
     <Compile Include="ViewModels\ListadoDePersonasViewModel.cs" />
     <Compile Include="ViewModels\NuevaCitaViewModel.cs" />
@@ -189,8 +189,8 @@
     <Compile Include="Views\EditarPersonaView.xaml.cs">
       <DependentUpon>EditarPersonaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FlyoutsView.xaml.cs">
-      <DependentUpon>FlyoutsView.xaml</DependentUpon>
+    <Compile Include="Views\PreferenciasView.xaml.cs">
+      <DependentUpon>PreferenciasView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GraficasView.xaml.cs">
       <DependentUpon>GraficasView.xaml</DependentUpon>
@@ -286,7 +286,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FlyoutsView.xaml">
+    <Page Include="Views\PreferenciasView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

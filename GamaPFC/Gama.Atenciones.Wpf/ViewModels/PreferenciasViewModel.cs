@@ -12,9 +12,9 @@ using System.Windows.Input;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
-    public class FlyoutsViewModel : ViewModelBase
+    public class PreferenciasViewModel : ViewModelBase
     {
-        public FlyoutsViewModel(IEventAggregator eventAggregator)
+        public PreferenciasViewModel(IEventAggregator eventAggregator)
         {
             TestCommand = new DelegateCommand(OnTestCommandExecute);
         }
