@@ -41,40 +41,31 @@ namespace Core.Encryption
         {
             try
             {
-                var passPhrase = StringCipher.PassPhrase;
-                // Salt and IV is randomly generated each time, but is preprended to encrypted cipher text
-                // so that the same Salt and IV values can be used when decrypting.  
-                var saltStringBytes = Generate256BitsOfRandomEntropy();
-                var ivStringBytes = Generate256BitsOfRandomEntropy();
-                var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
-                using (var password = new Rfc2898DeriveBytes(passPhrase, saltStringBytes, DerivationIterations))
+                string cipherText;
+                var rijndael = new RijndaelManaged()
                 {
-                    var keyBytes = password.GetBytes(Keysize / 8);
-                    using (var symmetricKey = new RijndaelManaged())
+                    Key = Encoding.ASCII.GetBytes(PassPhrase),
+                    Mode = CipherMode.CBC,
+                    BlockSize = 256,
+                    Padding = PaddingMode.PKCS7,
+                    IV = Encoding.ASCII.GetBytes("741952hheeyy66#cs!9hjv887mxx7@8y")
+                };
+                ICryptoTransform encryptor = rijndael.CreateEncryptor(rijndael.Key, rijndael.IV);
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    using (var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
                     {
-                        symmetricKey.BlockSize = 256;
-                        symmetricKey.Mode = CipherMode.CBC;
-                        symmetricKey.Padding = PaddingMode.PKCS7;
-                        using (var encryptor = symmetricKey.CreateEncryptor(keyBytes, ivStringBytes))
+                        using (var streamWriter = new StreamWriter(cryptoStream))
                         {
-                            using (var memoryStream = new MemoryStream())
-                            {
-                                using (var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
-                                {
-                                    cryptoStream.Write(plainTextBytes, 0, plainTextBytes.Length);
-                                    cryptoStream.FlushFinalBlock();
-                                    // Create the final bytes as a concatenation of the random salt bytes, the random iv bytes and the cipher bytes.
-                                    var cipherTextBytes = saltStringBytes;
-                                    cipherTextBytes = cipherTextBytes.Concat(ivStringBytes).ToArray();
-                                    cipherTextBytes = cipherTextBytes.Concat(memoryStream.ToArray()).ToArray();
-                                    memoryStream.Close();
-                                    cryptoStream.Close();
-                                    return Convert.ToBase64String(cipherTextBytes);
-                                }
-                            }
+                            streamWriter.Write(plainText);
+                            streamWriter.Flush();
                         }
+                        cipherText = Convert.ToBase64String(memoryStream.ToArray());
+                        //cryptoStream.FlushFinalBlock();
                     }
                 }
+                return cipherText;
             }
             catch (Exception ex)
             {
@@ -86,41 +77,29 @@ namespace Core.Encryption
         {
             try
             {
-                var passPhrase = StringCipher.PassPhrase;
-                // Get the complete stream of bytes that represent:
-                // [32 bytes of Salt] + [32 bytes of IV] + [n bytes of CipherText]
-                var cipherTextBytesWithSaltAndIv = Convert.FromBase64String(cipherText);
-                // Get the saltbytes by extracting the first 32 bytes from the supplied cipherText bytes.
-                var saltStringBytes = cipherTextBytesWithSaltAndIv.Take(Keysize / 8).ToArray();
-                // Get the IV bytes by extracting the next 32 bytes from the supplied cipherText bytes.
-                var ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(Keysize / 8).Take(Keysize / 8).ToArray();
-                // Get the actual cipher text bytes by removing the first 64 bytes from the cipherText string.
-                var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip((Keysize / 8) * 2).Take(cipherTextBytesWithSaltAndIv.Length - ((Keysize / 8) * 2)).ToArray();
-
-                using (var password = new Rfc2898DeriveBytes(passPhrase, saltStringBytes, DerivationIterations))
+                string plainText;
+                byte[] cipherArray = Convert.FromBase64String(cipherText);
+                var rijndael = new RijndaelManaged()
                 {
-                    var keyBytes = password.GetBytes(Keysize / 8);
-                    using (var symmetricKey = new RijndaelManaged())
+                    Key = Encoding.ASCII.GetBytes(PassPhrase),
+                    Mode = CipherMode.CBC,
+                    BlockSize = 256,
+                    Padding = PaddingMode.PKCS7,
+                    IV = Encoding.ASCII.GetBytes("741952hheeyy66#cs!9hjv887mxx7@8y")
+                };
+                ICryptoTransform decryptor = rijndael.CreateDecryptor(rijndael.Key, rijndael.IV);
+
+                using (var memoryStream = new MemoryStream(cipherArray))
+                {
+                    using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
                     {
-                        symmetricKey.BlockSize = 256;
-                        symmetricKey.Mode = CipherMode.CBC;
-                        symmetricKey.Padding = PaddingMode.PKCS7;
-                        using (var decryptor = symmetricKey.CreateDecryptor(keyBytes, ivStringBytes))
+                        using (var streamReader = new StreamReader(cryptoStream))
                         {
-                            using (var memoryStream = new MemoryStream(cipherTextBytes))
-                            {
-                                using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
-                                {
-                                    var plainTextBytes = new byte[cipherTextBytes.Length];
-                                    var decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
-                                    memoryStream.Close();
-                                    cryptoStream.Close();
-                                    return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
-                                }
-                            }
+                            plainText = streamReader.ReadToEnd();
                         }
                     }
                 }
+                return plainText;
             }
             catch (Exception ex)
             {
