@@ -94,6 +94,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _PersonaVM.Persona.AcceptChanges();
             _PersonaVM.EdicionHabilitada = false;
             RefrescarTitulo(Persona.Nombre);
+            if (Persona._SavedNif != Persona.Nif)
+            {
+                AtencionesResources.TodosLosNif.Remove(Persona._SavedNif);
+                AtencionesResources.TodosLosNif.Add(Persona.Nif);
+                Persona._SavedNif = Persona.Nif;
+            }
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Publish(Persona.Id);
         }
 

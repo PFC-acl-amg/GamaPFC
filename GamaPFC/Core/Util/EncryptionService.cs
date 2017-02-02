@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Encryption;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,30 +11,12 @@ namespace Core.Util
     {
         public static string Encrypt(string cleanText)
         {
-            var propertyValue = cleanText;
-
-            string value = "";
-            for (int i = 0; i < propertyValue.ToString().Length; i++)
-            {
-                var theChar = (char)((int)propertyValue.ToString()[i] + 1);
-                value += theChar;
-            }
-
-            return value;
+            return StringCipher.Encrypt(cleanText);
         }
 
-        public static string Decrypt(string cleanText)
+        public static string Decrypt(string encryptedText)
         {
-            var propertyValue = cleanText;
-
-            string value = "";
-            for (int i = 0; i < propertyValue.ToString().Length; i++)
-            {
-                var theChar = (char)((int)propertyValue.ToString()[i] - 1);
-                value += theChar;
-            }
-
-            return value;
+            return StringCipher.Decrypt(encryptedText);
         }
     }
 }

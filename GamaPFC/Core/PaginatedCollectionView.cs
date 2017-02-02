@@ -85,6 +85,13 @@ namespace Core
             return _innerList[finalIndex];
         }
 
+        public void AddItemAt(int index, object item)
+        {
+            _innerList.Insert(index, item);
+            Refresh();
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(PaginatedCollectionView)));
+        } 
+
         public void MoveToNextPage()
         {
             if (_currentPage < PageCount)

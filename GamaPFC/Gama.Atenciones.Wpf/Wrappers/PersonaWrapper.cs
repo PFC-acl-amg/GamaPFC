@@ -12,7 +12,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
 {
     public class PersonaWrapper : TimestampedModelWrapper<Persona>
     {
-        private string _SavedNif;
+        public string _SavedNif;
 
         public PersonaWrapper(Persona model) : base(model)
         {

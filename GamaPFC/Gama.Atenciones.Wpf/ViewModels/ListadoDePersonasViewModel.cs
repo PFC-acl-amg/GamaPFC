@@ -98,8 +98,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 DisplayMember2 = persona.Nif,
                 IconSource = persona.AvatarPath
             };
-            _Personas.Insert(0, lookupItem);
-            Personas.Refresh();
+
+            Personas.AddItemAt(0, lookupItem);
         }
 
         private void OnPersonaActualizadaEvent(int id)

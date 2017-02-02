@@ -68,6 +68,7 @@ namespace Core.Encryption
                     Padding = PaddingMode.PKCS7,
                     IV = Encoding.ASCII.GetBytes(IV)
                 };
+
                 ICryptoTransform encryptor = rijndael.CreateEncryptor(rijndael.Key, rijndael.IV);
 
                 using (var memoryStream = new MemoryStream())
