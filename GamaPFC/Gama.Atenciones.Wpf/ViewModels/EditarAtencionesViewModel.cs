@@ -70,7 +70,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 AtencionSeleccionada = Atenciones.First();
             }
-            //OnPropertyChanged("Atenciones");
         }
 
         private void EditarAtencionesViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -108,6 +107,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 Atenciones.Add(atencion);
                 AtencionSeleccionada = atencion;
                 _PersonaRepository.Update(Persona.Model);
+                _EventAggregator.GetEvent<AtencionCreadaEvent>().Publish(atencion.Id);
             }
             else // ya existe
             {

@@ -92,8 +92,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             SelectCitaCommand = new DelegateCommand<LookupItem>(OnSelectCitaCommandExecute);
             SelectAtencionCommand = new DelegateCommand<LookupItem>(OnSelectAtencionCommandExecute);
 
-            _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnNuevaPersonaEvent);
-            _EventAggregator.GetEvent<AtencionCreadaEvent>().Subscribe(OnNuevaAtencionEvent);
+            _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnPersonaCreadaEvent);
+            _EventAggregator.GetEvent<AtencionCreadaEvent>().Subscribe(OnAtencionCreadaEvent);
             _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnNuevaCitaEvent);
             _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
 
@@ -170,7 +170,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Publish(persona.Id);
         }
 
-        private void OnNuevaPersonaEvent(int id)
+        private void OnPersonaCreadaEvent(int id)
         {
             var persona = _PersonaRepository.GetById(id);
             var lookupItem = new LookupItem
@@ -189,7 +189,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             UltimasPersonas.Remove(UltimasPersonas.First(x => x.Id == id));
         }
 
-        private void OnNuevaAtencionEvent(int id)
+        private void OnAtencionCreadaEvent(int id)
         {
             var atencion = _AtencionRepository.GetById(id);
             var lookupItem = new LookupItem
@@ -197,7 +197,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 Id = atencion.Id,
                 DisplayMember1 = atencion.Fecha.ToString(),
                 DisplayMember2 = LookupItem.ShortenStringForDisplay(
-                         atencion.Seguimiento, _Settings.DashboardLongitudDeSeguimientos)
+                         atencion.Seguimiento, _Settings.DashboardLongitudDeSeguimientos),
+                IconSource = @"atencion_icon.png"
             };
             UltimasAtenciones.Insert(0, lookupItem);
         }
