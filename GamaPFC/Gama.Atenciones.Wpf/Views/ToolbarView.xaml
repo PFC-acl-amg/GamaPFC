@@ -6,23 +6,39 @@
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              mc:Ignorable="d" d:DesignHeight="76.452" d:DesignWidth="377.055">
   <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Background="#EE959595">
     <Button Background="Transparent" BorderThickness="0"
             Command="{Binding NuevaPersonaCommand}">
+      <Button.ToolTip>
+        <ToolTip>
+          <TextBlock>Nueva Persona</TextBlock>
+        </ToolTip>
+      </Button.ToolTip>
       <StackPanel>
         <Image Source="{StaticResource IconoNuevaPersona}" Height="{StaticResource NavigationIconSize}"/>
       </StackPanel>
     </Button>
     <Button Background="Transparent" BorderThickness="0"
             Command="{Binding ExportarCommand}">
+      <Button.ToolTip>
+        <ToolTip>
+          <TextBlock>Exportar</TextBlock>
+        </ToolTip>
+      </Button.ToolTip>
       <StackPanel>
         <Image Source="{StaticResource IconoExportarPersona}" Height="{StaticResource NavigationIconSize}"/>
       </StackPanel>
     </Button>
     <Button Background="Transparent" BorderThickness="0"
             Command="{Binding EliminarPersonaCommand}">
+      <Button.ToolTip>
+        <ToolTip>
+          <TextBlock>Eliminar Persona</TextBlock>
+        </ToolTip>
+      </Button.ToolTip>
       <StackPanel>
         <Image Source="{StaticResource IconoEliminarPersona}" Height="{StaticResource NavigationIconSize}"/>
       </StackPanel>
