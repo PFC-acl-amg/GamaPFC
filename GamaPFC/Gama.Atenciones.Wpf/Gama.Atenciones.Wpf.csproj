@@ -170,6 +170,7 @@
     <Compile Include="Eventos\CitaCreadaEvent.cs" />
     <Compile Include="Eventos\PersonaCreadaEvent.cs" />
     <Compile Include="Eventos\PersonaActualizadaEvent.cs" />
+    <Compile Include="Eventos\PersonaEliminadaEvent.cs" />
     <Compile Include="Eventos\PersonaSeleccionadaEvent.cs" />
     <Compile Include="Eventos\TogglePreferenciasEvent.cs" />
     <Compile Include="FakeServices\FakeAtencionRepository.cs" />
@@ -431,12 +432,19 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Images\icono_exportar_persona.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="Resources\Images\icono_nueva_persona.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\icono_exportar_persona.png" />
+    <Resource Include="Resources\Images\icono_eliminar_persona.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

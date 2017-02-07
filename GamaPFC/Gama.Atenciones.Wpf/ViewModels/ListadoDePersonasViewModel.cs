@@ -48,6 +48,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnNuevaPersonaEvent);
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
+            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
 
             PaginaAnteriorCommand = new DelegateCommand(() => Personas.MoveToPreviousPage());
             PaginaSiguienteCommand = new DelegateCommand(() => Personas.MoveToNextPage());
@@ -100,6 +101,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
             };
 
             Personas.AddItemAt(0, lookupItem);
+        }
+
+        private void OnPersonaEliminadaEvent(int id)
+        {
+            Personas.Remove(_Personas.Find(x => x.Id == id));
         }
 
         private void OnPersonaActualizadaEvent(int id)

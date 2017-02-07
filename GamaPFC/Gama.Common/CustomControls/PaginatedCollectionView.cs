@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
 
-namespace Core
+namespace Gama.Common.CustomControls
 {
     public class PaginatedCollectionView : CollectionView
     {
-        private readonly IList _innerList;
+        private readonly IList<LookupItem> _innerList;
         private int _itemsPerPage;
         private int _currentPage;
         private int _pageCount;
@@ -20,7 +15,7 @@ namespace Core
 
         private int _startIndex => (_currentPage - 1) * _itemsPerPage;
 
-        public PaginatedCollectionView(IList innerList, int itemsPerPage)
+        public PaginatedCollectionView(IList<LookupItem> innerList, int itemsPerPage)
             : base(innerList)
         {
             _innerList = innerList;
@@ -85,12 +80,18 @@ namespace Core
             return _innerList[finalIndex];
         }
 
-        public void AddItemAt(int index, object item)
+        public void AddItemAt(int index, LookupItem item)
         {
             _innerList.Insert(index, item);
             Refresh();
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(PaginatedCollectionView)));
         } 
+
+        public void Remove(LookupItem item)
+        {
+            _innerList.Remove(item);
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(PaginatedCollectionView)));
+        }
 
         public void MoveToNextPage()
         {

@@ -31,6 +31,27 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
             _EventAggregator.GetEvent<CitaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
             _EventAggregator.GetEvent<AtencionSeleccionadaEvent>().Subscribe(OnAtencionSeleccionadaEvent);
+            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
+        }
+
+        private void OnPersonaEliminadaEvent(int id)
+        {
+            var region = _RegionManager.Regions[RegionNames.PersonasTabContentRegion];
+            var navigationContext = new NavigationContext(region.NavigationService, null);
+            var views = region.Views;
+            foreach (var existingView in views)
+            {
+                var editarPersonaView = existingView as EditarPersonaView;
+                if (editarPersonaView != null)
+                {
+                    var editarPersonaViewModel = (EditarPersonaViewModel)editarPersonaView.DataContext;
+                    if (editarPersonaViewModel.Persona.Id == id)
+                    {
+                        region.Remove(editarPersonaView);
+                        break;
+                    }
+                }
+            }
         }
 
         private void OnAtencionSeleccionadaEvent(IdentificadorDeModelosPayload payload)

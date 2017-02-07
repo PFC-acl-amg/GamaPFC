@@ -26,6 +26,7 @@ namespace Gama.Common.Views
             MensajeTextBlock.Text = Mensaje;
             EstaConfirmado = false;
         }
+
         public string Mensaje
         {
             get { return _Mensaje; }
@@ -35,6 +36,7 @@ namespace Gama.Common.Views
                 MensajeTextBlock.Text = _Mensaje;
             }
         }
+
         public bool EstaConfirmado { get; set; }
 
         private void SiButton_Click(object sender, RoutedEventArgs e)

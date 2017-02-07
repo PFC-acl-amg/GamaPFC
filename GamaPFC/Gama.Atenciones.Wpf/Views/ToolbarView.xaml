@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              mc:Ignorable="d" d:DesignHeight="76.452" d:DesignWidth="377.055">
   <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Background="#EE959595">
     <Button Background="Transparent" BorderThickness="0"
@@ -17,7 +18,13 @@
     <Button Background="Transparent" BorderThickness="0"
             Command="{Binding ExportarCommand}">
       <StackPanel>
-        <Image Source="{StaticResource IconoExportar}" Height="{StaticResource NavigationIconSize}"/>
+        <Image Source="{StaticResource IconoExportarPersona}" Height="{StaticResource NavigationIconSize}"/>
+      </StackPanel>
+    </Button>
+    <Button Background="Transparent" BorderThickness="0"
+            Command="{Binding EliminarPersonaCommand}">
+      <StackPanel>
+        <Image Source="{StaticResource IconoEliminarPersona}" Height="{StaticResource NavigationIconSize}"/>
       </StackPanel>
     </Button>
   </StackPanel>

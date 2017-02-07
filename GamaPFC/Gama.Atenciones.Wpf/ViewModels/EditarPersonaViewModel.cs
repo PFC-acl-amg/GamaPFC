@@ -43,8 +43,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _AtencionesVM.Session = session;
             _CitasVM = citasVM;
             _CitasVM.Session = session;
-
-
+            
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
                 () => !_PersonaVM.EdicionHabilitada);

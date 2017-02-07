@@ -3,6 +3,7 @@ using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.Views;
+using Gama.Common.Views;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
@@ -34,9 +35,24 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             NuevaPersonaCommand = new DelegateCommand(OnNuevaPersonaCommandExecute);
             ExportarCommand = new DelegateCommand(OnExportarCommandExecute);
+            EliminarPersonaCommand = new DelegateCommand(OnEliminarPersonaCommandExecute);
 
             _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
+        }
+
+        private void OnEliminarPersonaCommandExecute()
+        {
+            var o = new ConfirmarOperacionView();
+            o.Mensaje = "¿Está seguro de que desea eliminar esta persona y todos sus registros?";
+            o.ShowDialog();
+
+            if (o.EstaConfirmado)
+            {
+                int id = _Persona.Id;
+                _PersonaRepository.Delete(_Persona);
+                _EventAggregator.GetEvent<PersonaEliminadaEvent>().Publish(id);
+            }
         }
 
         private void OnPersonaSeleccionadaEvent(int id)
@@ -49,6 +65,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public ICommand NuevaPersonaCommand { get; private set; }
         public ICommand ExportarCommand { get; private set; }
+        public ICommand EliminarPersonaCommand { get; private set; }
 
         private void OnNuevaPersonaCommandExecute()
         {

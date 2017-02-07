@@ -1,21 +1,35 @@
-﻿using System;
+﻿
+using Gama.Common.CustomControls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Core.Tests
+namespace Gama.CommonTests
 {
     public class PaginatedCollectionViewTests
     {
-        private List<int> _elementos;
+        private List<LookupItem> _elementos;
         private PaginatedCollectionView _paginatedCollectionView;
         private int _itemsPerPage;
 
         public PaginatedCollectionViewTests()
         {
-            _elementos = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+            _elementos = new List<LookupItem>
+            { new LookupItem { Id = 1 },
+                new LookupItem { Id = 2},
+                new LookupItem { Id = 3},
+                new LookupItem { Id = 4},
+                new LookupItem { Id = 5},
+                new LookupItem { Id = 6},
+                new LookupItem { Id = 7},
+                new LookupItem { Id = 8},
+                new LookupItem { Id = 9},
+                new LookupItem { Id = 10},
+                new LookupItem { Id = 11}
+            };
             _itemsPerPage = 3;
 
             _paginatedCollectionView = new PaginatedCollectionView(_elementos, _itemsPerPage);
@@ -30,7 +44,17 @@ namespace Core.Tests
         [Fact]
         public void ShouldCalculatePageCount()
         {
-            var personas = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var personas = new List<LookupItem>
+            { new LookupItem { Id = 1 },
+                new LookupItem { Id = 2},
+                new LookupItem { Id = 3},
+                new LookupItem { Id = 4},
+                new LookupItem { Id = 5},
+                new LookupItem { Id = 6},
+                new LookupItem { Id = 7},
+                new LookupItem { Id = 8},
+                new LookupItem { Id = 9},
+            };
 
             var paginatedCollectionView = new PaginatedCollectionView(personas, 2);
             var expected = 5;
@@ -48,20 +72,26 @@ namespace Core.Tests
         [Fact]
         public void ShouldAllowHavingZeroOrLessThanItemsPerPageNumberOfItems()
         {
-            var personas = new List<int> { 1, 2 };
+            var personas = new List<LookupItem>
+            { new LookupItem { Id = 1 },
+                new LookupItem { Id = 2},
+            };
 
             var paginatedCollectionView = new PaginatedCollectionView(personas, 3);
             var temp = paginatedCollectionView.GetItemAt(0);
             temp = paginatedCollectionView.GetItemAt(1);
 
-            personas = new List<int>();
+            personas = new List<LookupItem>();
             paginatedCollectionView = new PaginatedCollectionView(personas, 10);
         }
 
         [Fact]
         public void CountShouldReturnInnerCollectionSizeIfThisSizeIsLessThanItemsPerPage()
         {
-            var personas = new List<int> { 1, 2 };
+            var personas = new List<LookupItem>
+            { new LookupItem { Id = 1 },
+                new LookupItem { Id = 2},
+            };
             var paginatedCollectionView = new PaginatedCollectionView(personas, 3);
             Assert.Equal(paginatedCollectionView.Count, 2);
         }

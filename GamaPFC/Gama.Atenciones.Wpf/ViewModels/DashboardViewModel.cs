@@ -95,6 +95,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnNuevaPersonaEvent);
             _EventAggregator.GetEvent<AtencionCreadaEvent>().Subscribe(OnNuevaAtencionEvent);
             _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnNuevaCitaEvent);
+            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
 
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
         }
@@ -181,6 +182,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
             };
 
             UltimasPersonas.Insert(0, lookupItem);
+        }
+
+        private void OnPersonaEliminadaEvent(int id)
+        {
+            UltimasPersonas.Remove(UltimasPersonas.First(x => x.Id == id));
         }
 
         private void OnNuevaAtencionEvent(int id)
