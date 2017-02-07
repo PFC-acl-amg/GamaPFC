@@ -3,6 +3,7 @@
                     xmlns:Converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
                     xmlns:CustomControls="clr-namespace:Gama.Atenciones.Wpf.Controls"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                    xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
                     xmlns:prism="http://prismlibrary.com/">
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Templates/SearchBox.xaml"/>
@@ -23,15 +24,26 @@
                             BorderThickness="{TemplateBinding BorderThickness}">
             <Grid>
               <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="10"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition />
               </Grid.RowDefinitions>
               <!--<TextBlock Text="{Binding Date}" />-->
 
               <Grid>
-                <StackPanel Orientation="Horizontal">
-                  <Button Command="{Binding SemanaAnteriorCommand,
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                  <cc:CircleIconButton 
+                    Command="{Binding SemanaAnteriorCommand,
+                        RelativeSource={RelativeSource AncestorType={x:Type CustomControls:CustomCalendar}}}"
+                                       Icon="{StaticResource appbar_arrow_left}"
+                                       Margin="0,-40,0,0"
+                                       />
+                  <cc:CircleIconButton Command="{Binding SemanaSiguienteCommand,
+                        RelativeSource={RelativeSource AncestorType={x:Type CustomControls:CustomCalendar}}}"
+                                       Icon="{StaticResource appbar_arrow_right}"
+                                       Margin="0,-40,0,0"
+                                       />
+                  <!--<Button Command="{Binding SemanaAnteriorCommand,
                         RelativeSource={RelativeSource AncestorType={x:Type CustomControls:CustomCalendar}}}"
                           Background="Transparent" BorderThickness="0">
                     <Rectangle Width="20"
@@ -54,7 +66,7 @@
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_right}" />
                       </Rectangle.OpacityMask>
                     </Rectangle>
-                  </Button>
+                  </Button>-->
                 </StackPanel>
               </Grid>
 
