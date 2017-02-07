@@ -52,6 +52,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     }
                 }
             }
+
+            foreach (var existingView in views)
+            {
+                var listadoDePersonasView = existingView as ListadoDePersonasView;
+                if (listadoDePersonasView != null)
+                {
+                    region.Activate(listadoDePersonasView);
+                }
+            }
         }
 
         private void OnAtencionSeleccionadaEvent(IdentificadorDeModelosPayload payload)

@@ -43,14 +43,14 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _AtencionesVM.Session = session;
             _CitasVM = citasVM;
             _CitasVM.Session = session;
-            
+
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
                 () => !_PersonaVM.EdicionHabilitada);
 
             ActualizarCommand = new DelegateCommand(
                 OnActualizarCommand,
-                () => 
+                () =>
                 _PersonaVM.EdicionHabilitada
                    && Persona.IsChanged
                    && Persona.IsValid
@@ -58,6 +58,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand,
                 () => _PersonaVM.EdicionHabilitada);
+
+            EliminarPersonaCommand = new DelegateCommand(OnEliminarPersonaCommandExecute);
 
             _PersonaVM.PropertyChanged += _PersonaVM_PropertyChanged;
         }
@@ -85,6 +87,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand HabilitarEdicionCommand { get; private set; }
         public ICommand ActualizarCommand { get; private set; }
         public ICommand CancelarEdicionCommand { get; private set; }
+        public ICommand EliminarPersonaCommand { get; private set; }
 
         private void OnActualizarCommand()
         {
@@ -111,6 +114,20 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             Persona.RejectChanges();
             _PersonaVM.EdicionHabilitada = false;
+        }
+
+        private void OnEliminarPersonaCommandExecute()
+        {
+            var o = new ConfirmarOperacionView();
+            o.Mensaje = "¿Está seguro de que desea eliminar esta persona y todos sus registros?";
+            o.ShowDialog();
+
+            if (o.EstaConfirmado)
+            {
+                int id = Persona.Id;
+                _PersonaRepository.Delete(Persona.Model);
+                _EventAggregator.GetEvent<PersonaEliminadaEvent>().Publish(id);
+            }
         }
 
         public void Load(int id)

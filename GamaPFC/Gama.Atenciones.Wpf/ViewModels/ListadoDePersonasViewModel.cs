@@ -38,7 +38,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 .Select(p => new LookupItem
                 {
                     Id = p.Id,
-                    DisplayMember1 = p.Nombre,
+                    DisplayMember1 = LookupItem.ShortenStringForDisplay(p.Nombre, 25),
                     DisplayMember2 = p.Nif,
                     IconSource = p.AvatarPath
                 }).ToList();
@@ -95,7 +95,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var lookupItem = new LookupItem
             {
                 Id = persona.Id,
-                DisplayMember1 = persona.Nombre,
+                DisplayMember1 = LookupItem.ShortenStringForDisplay(persona.Nombre, 25),
                 DisplayMember2 = persona.Nif,
                 IconSource = persona.AvatarPath
             };

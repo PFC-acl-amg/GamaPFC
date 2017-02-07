@@ -76,20 +76,34 @@ namespace Gama.Common.CustomControls
         {
             var offset = index % _itemsPerPage;
             var finalIndex = offset + _startIndex;
+            object returnObject = null;
 
-            return _innerList[finalIndex];
+            try
+            {
+                returnObject = _innerList[finalIndex];
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                throw;
+            }
+
+            return returnObject;
         }
 
         public void AddItemAt(int index, LookupItem item)
         {
             _innerList.Insert(index, item);
+            _count++;
             Refresh();
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(PaginatedCollectionView)));
         } 
 
         public void Remove(LookupItem item)
         {
-            _innerList.Remove(item);
+            _innerList.RemoveAt(_innerList.IndexOf(item));
+            _count--;
+            //ItemsPerPage = _itemsPerPage;
+            Refresh();
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(PaginatedCollectionView)));
         }
 
