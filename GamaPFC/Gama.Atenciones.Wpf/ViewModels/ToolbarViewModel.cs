@@ -35,8 +35,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             NuevaPersonaCommand = new DelegateCommand(OnNuevaPersonaCommandExecute);
             ExportarCommand = new DelegateCommand(OnExportarCommandExecute);
+            //EliminarPersonaCommand = new DelegateCommand(OnEliminarPersonaCommandExecute);
 
-            _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
+            _EventAggregator.GetEvent<PersonaSeleccionadaChangedEvent>().Subscribe(OnPersonaSeleccionadaEvent);
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
         }
 

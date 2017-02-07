@@ -171,6 +171,7 @@
     <Compile Include="Eventos\PersonaCreadaEvent.cs" />
     <Compile Include="Eventos\PersonaActualizadaEvent.cs" />
     <Compile Include="Eventos\PersonaEliminadaEvent.cs" />
+    <Compile Include="Eventos\PersonaSeleccionadaChangedEvent.cs" />
     <Compile Include="Eventos\PersonaSeleccionadaEvent.cs" />
     <Compile Include="Eventos\TogglePreferenciasEvent.cs" />
     <Compile Include="FakeServices\FakeAtencionRepository.cs" />

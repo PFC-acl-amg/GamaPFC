@@ -1,31 +1,28 @@
 ﻿using Core;
-using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.Wrappers;
 using Gama.Common.Views;
 using NHibernate;
+using Prism;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
-    public class EditarPersonaViewModel : ViewModelBase, IConfirmNavigationRequest
+    public class EditarPersonaViewModel : ViewModelBase, IConfirmNavigationRequest, IActiveAware
     {
         private IEventAggregator _EventAggregator;
         private IPersonaRepository _PersonaRepository;
         private PersonaViewModel _PersonaVM;
         private EditarAtencionesViewModel _AtencionesVM;
         private EditarCitasViewModel _CitasVM;
+        private bool _IsActive;
 
         public EditarPersonaViewModel(
             IEventAggregator eventAggregator,
@@ -88,6 +85,19 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand ActualizarCommand { get; private set; }
         public ICommand CancelarEdicionCommand { get; private set; }
         public ICommand EliminarPersonaCommand { get; private set; }
+
+        public EventHandler IsActiveChanged;
+        public bool IsActive
+        {
+            get { return _IsActive; }
+
+            set
+            {
+                SetProperty(ref _IsActive, value);
+                if (_IsActive)
+                    _EventAggregator.GetEvent<PersonaSeleccionadaChangedEvent>().Publish(Persona.Id);
+            }
+        }
 
         private void OnActualizarCommand()
         {

@@ -119,12 +119,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public override void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            IsActive = false;
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            IsActive = true;
             _EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
         }
     }

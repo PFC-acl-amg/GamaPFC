@@ -10,17 +10,9 @@ using Prism;
 
 namespace Core
 {
-    public class ViewModelBase : BindableBase, INavigationAware, IActiveAware
+    public class ViewModelBase : BindableBase, INavigationAware
     {
         string _Title;
-        private bool _IsActive;
-
-        public bool IsActive
-        {
-            get { return _IsActive; }
-            set { SetProperty(ref _IsActive, value); }
-        }
-
         public string Title
         {
             get { return _Title; }
@@ -37,12 +29,10 @@ namespace Core
 
         public virtual void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            IsActive = false;
         }
 
         public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
-            IsActive = true;
         }
     }
 }
