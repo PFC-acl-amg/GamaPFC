@@ -22,7 +22,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private PersonaViewModel _PersonaVM;
         private EditarAtencionesViewModel _AtencionesVM;
         private EditarCitasViewModel _CitasVM;
-        private bool _IsActive;
 
         public EditarPersonaViewModel(
             IEventAggregator eventAggregator,
@@ -61,32 +60,17 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _PersonaVM.PropertyChanged += _PersonaVM_PropertyChanged;
         }
 
-        public PersonaViewModel PersonaVM
-        {
-            get { return _PersonaVM; }
-        }
-        
-        public EditarAtencionesViewModel AtencionesVM
-        {
-            get { return _AtencionesVM; }
-        }
-
-        public EditarCitasViewModel CitasVM
-        {
-            get { return _CitasVM;  }
-        }
-
-        public PersonaWrapper Persona
-        {
-            get { return _PersonaVM.Persona; }
-        }
+        public PersonaViewModel PersonaVM               => _PersonaVM;
+        public EditarAtencionesViewModel AtencionesVM   => _AtencionesVM;
+        public EditarCitasViewModel CitasVM             => _CitasVM;
+        public PersonaWrapper Persona                   => _PersonaVM.Persona;
 
         public ICommand HabilitarEdicionCommand { get; private set; }
         public ICommand ActualizarCommand { get; private set; }
         public ICommand CancelarEdicionCommand { get; private set; }
         public ICommand EliminarPersonaCommand { get; private set; }
-
-        public EventHandler IsActiveChanged;
+        
+        private bool _IsActive;
         public bool IsActive
         {
             get { return _IsActive; }
