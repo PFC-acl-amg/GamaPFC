@@ -248,11 +248,11 @@
     <Compile Include="Views\StatusBarView.xaml.cs">
       <DependentUpon>StatusBarView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TimeControl.xaml.cs">
+      <DependentUpon>TimeControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ToolbarView.xaml.cs">
       <DependentUpon>ToolbarView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ucDateTimeUpDown.xaml.cs">
-      <DependentUpon>ucDateTimeUpDown.xaml</DependentUpon>
     </Compile>
     <Compile Include="Wrappers\AtencionWrapper.cs" />
     <Compile Include="Wrappers\CitaWrapper.cs" />
@@ -280,10 +280,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Styles\ComboBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Styles\CustomCalendar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -359,11 +355,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ToolbarView.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\TimeControl.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ucDateTimeUpDown.xaml">
+    <Page Include="Views\ToolbarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

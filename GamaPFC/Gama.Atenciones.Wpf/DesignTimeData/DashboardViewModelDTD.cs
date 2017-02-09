@@ -44,12 +44,12 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
 
             ProximasCitas = new ObservableCollection<LookupItem>(
                 new FakeCitaRepository().GetAll()
-                    .OrderBy(c => c.Inicio)
+                    .OrderBy(c => c.Fecha)
                     .Take(_Settings.DashboardUltimasCitas)
                     .Select(c => new LookupItem
                     {
                         Id = c.Id,
-                        DisplayMember1 = c.Inicio.ToString(),
+                        DisplayMember1 = c.Fecha.ToString(),
                         DisplayMember2 = c.Sala
                     }));
 

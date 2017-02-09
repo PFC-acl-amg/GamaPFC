@@ -28,7 +28,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
                     Id = i + 1,
                     Asistente = Faker.NameFaker.Name(),
                     Atencion = null,
-                    Inicio = DateTime.Now.AddDays(i % 7),
+                    Fecha = DateTime.Now.AddDays(i % 7),
                     Fin = DateTime.Now.AddHours(2),
                     Sala = "Sala B",
                     HaTenidoLugar = true,

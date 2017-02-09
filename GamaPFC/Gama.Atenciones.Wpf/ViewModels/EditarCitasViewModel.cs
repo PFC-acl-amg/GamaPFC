@@ -34,7 +34,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             NuevaCitaCommand = new DelegateCommand<Day>(OnNuevaCitaCommandExecute);
             NuevaAtencionCommand = new DelegateCommand<CitaWrapper>(OnNuevaAtencionExecute);
             Citas = new ObservableCollection<CitaWrapper>();
-            Citas.Add(new CitaWrapper(new Cita { Inicio = DateTime.Now, Asistente = "Asistente", Sala = "Sala B" }));
+            Citas.Add(new CitaWrapper(new Cita { Fecha = DateTime.Now, Asistente = "Asistente", Sala = "Sala B" }));
         }
 
         public void Load(PersonaWrapper wrapper)
@@ -54,7 +54,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             var o = new NuevaCitaView();
             var vm = (NuevaCitaViewModel)o.DataContext;
-            vm.Cita.Inicio = fechaSeleccionada.Date;
+            vm.Cita.Fecha = fechaSeleccionada.Date;
             vm.Session = _Session;
             vm.Load(Persona);
             o.ShowDialog();

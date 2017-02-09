@@ -75,13 +75,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             ProximasCitas = new ObservableCollection<LookupItem>(
                 _CitaRepository.GetAll()
-                 .OrderBy(c => c.Inicio)
-                 .Where(c => c.Inicio >= DateTime.Now.Date)
+                 .OrderBy(c => c.Fecha)
+                 .Where(c => c.Fecha >= DateTime.Now.Date)
                  .Take(_Settings.DashboardUltimasCitas)
                  .Select(c => new LookupItem
                  {
                      Id = c.Id,
-                     DisplayMember1 = c.Inicio.ToString(),
+                     DisplayMember1 = c.Fecha.ToString(),
                      DisplayMember2 = c.Sala,
                      IconSource = c.Persona.AvatarPath
                  }));
@@ -209,20 +209,20 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var lookupItem = new LookupItem
             {
                 Id = cita.Id,
-                DisplayMember1 = cita.Inicio.ToString(),
+                DisplayMember1 = cita.Fecha.ToString(),
                 DisplayMember2 = cita.Sala
             };
 
             if (ProximasCitas.Count > 0)
             {
                 var last = DateTime.Parse(ProximasCitas.Last().DisplayMember1);
-                if (cita.Inicio < last) // es antes
+                if (cita.Fecha < last) // es antes
                 {
                     int index = 0;
                     foreach (var lookup in ProximasCitas)
                     {
                         var next = DateTime.Parse(lookup.DisplayMember1);
-                        if (cita.Inicio < next)
+                        if (cita.Fecha < next)
                         {
                             //ProximasCitas.Insert(index, lookupItem);
                             ProximasCitas.Add(lookupItem);

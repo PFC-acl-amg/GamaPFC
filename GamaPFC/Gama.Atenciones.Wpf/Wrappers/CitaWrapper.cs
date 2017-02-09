@@ -50,15 +50,35 @@ namespace Gama.Atenciones.Wpf.Wrappers
             set { SetValue(value); }
         }
 
-        public DateTime? Inicio
+        public DateTime? Fecha
         {
             get { return GetValue<DateTime?>(); }
             set { SetValue(value); }
         }
 
-        public DateTime? InicioOriginalValue => GetOriginalValue<DateTime?>(nameof(Inicio));
+        public DateTime? FechaOriginalValue => GetOriginalValue<DateTime?>(nameof(Fecha));
 
-        public bool InicioIsChanged => GetIsChanged(nameof(Inicio));
+        public bool FechaIsChanged => GetIsChanged(nameof(Fecha));
+
+        public int Hora
+        {
+            get { return GetValue<int>(); }
+            set { SetValue(value); }
+        }
+
+        public int HoraOriginalValue => GetOriginalValue<int>(nameof(Hora));
+
+        public bool HoraIsChanged => GetIsChanged(nameof(Hora));
+
+        public int Minutos
+        {
+            get { return GetValue<int>(); }
+            set { SetValue(value); }
+        }
+
+        public int MinutosOriginalValue => GetOriginalValue<int>(nameof(Minutos));
+
+        public bool MinutosIsChanged => GetIsChanged(nameof(Minutos));
 
         public string Sala
         {
@@ -94,10 +114,10 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (Inicio == null)
+            if (Fecha == null)
             {
-                yield return new ValidationResult("El campo de inicio es obligatorio",
-                    new[] { nameof(Inicio) });
+                yield return new ValidationResult("El campo de fecha es obligatorio",
+                    new[] { nameof(Fecha) });
             }
             if (string.IsNullOrWhiteSpace(Asistente))
             {

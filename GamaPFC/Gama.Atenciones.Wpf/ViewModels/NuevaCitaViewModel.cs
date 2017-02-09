@@ -88,7 +88,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnAceptarCommand_Execute()
         {
-            Cita.Inicio = new DateTime(Cita.Inicio.Value.Date.Ticks).AddHours(Hora).AddMinutes(Minuto);            
+            Cita.Fecha = new DateTime(Cita.Fecha.Value.Date.Ticks).AddHours(Hora).AddMinutes(Minuto);            
 
             Persona.Citas.Add(Cita);
             _PersonaRepository.Update(Persona.Model);

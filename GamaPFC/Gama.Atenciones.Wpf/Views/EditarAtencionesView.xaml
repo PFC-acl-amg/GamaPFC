@@ -86,7 +86,7 @@
 
               <StackPanel>
                 <Label Margin="{DynamicResource Margin}" Content="{Binding Id}"></Label>
-                <Label Margin="{DynamicResource Margin}" Content="{Binding Fecha}"></Label>
+                <Label Margin="{DynamicResource Margin}" Content="{Binding Fecha.Date}"></Label>
               </StackPanel>
             </StackPanel>
 
@@ -97,8 +97,12 @@
               </StackPanel>
 
               <StackPanel Grid.Column="3" Grid.RowSpan="2">
-                <Label Margin="{DynamicResource Margin}" Content="{Binding Cita.Sala}"/>
-                <Label Margin="{DynamicResource Margin}" Content="{Binding Cita.Inicio}"/>
+                <TextBox Margin="{DynamicResource Margin}" Text="{Binding Cita.Sala, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <local:TimeControl 
+                  Margin="{DynamicResource Margin}"
+                  Hours="{Binding Cita.Hora, UpdateSourceTrigger=PropertyChanged}" 
+                  Minutes="{Binding Cita.Minutos, UpdateSourceTrigger=PropertyChanged}"></local:TimeControl>
               </StackPanel>
             </StackPanel>
           </Grid>

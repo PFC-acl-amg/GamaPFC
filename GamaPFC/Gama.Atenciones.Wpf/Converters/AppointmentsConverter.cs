@@ -63,7 +63,7 @@ namespace Gama.Atenciones.Wpf.Converters
 
                     foreach (CitaWrapper appointment in (ObservableCollection<CitaWrapper>)values[0])
                     {
-                        if (IsSameYearMonthDay(appointment.Inicio.Value, date))
+                        if (IsSameYearMonthDay(appointment.Fecha.Value, date))
                         {
                             appointments.Add(appointment);
                         }

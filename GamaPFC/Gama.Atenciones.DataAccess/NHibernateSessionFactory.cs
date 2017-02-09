@@ -4,16 +4,11 @@ using FluentNHibernate.Cfg.Db;
 using FluentNHibernate.Conventions.Helpers;
 using Gama.Atenciones.DataAccess.Mappings;
 using NHibernate;
-using NHibernate.Context;
 using NHibernate.Tool.hbm2ddl;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Gama.Atenciones.DataAccess
 {
@@ -33,7 +28,7 @@ namespace Gama.Atenciones.DataAccess
                         NHibernate.Cfg.Configuration configuration;
 
                         var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\nh_atenciones.cfg";
-                        //File.Delete(path);
+                        File.Delete(path);
                         if (File.Exists(path))
                         {
                             var file = File.Open(path, FileMode.Open);
@@ -82,7 +77,7 @@ namespace Gama.Atenciones.DataAccess
                         var schema = new SchemaExport(c);
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
-                            useStdOut: true,
+                            useStdOut: false,
                             execute: false,
                             justDrop: false);
                     })

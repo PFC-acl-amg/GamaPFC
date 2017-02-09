@@ -169,7 +169,7 @@ namespace Gama.Atenciones.WpfTests
         [Fact]
         private void NuevaCitaShouldSetLaCitaEnPrimeraPosicionDeLasProximasCitasMostradas()
         {
-            var cita = new Cita { Id = int.MaxValue, Inicio = DateTime.Now.AddYears(-10), Sala = "Sala B"};
+            var cita = new Cita { Id = int.MaxValue, Fecha = DateTime.Now.AddYears(-10), Sala = "Sala B"};
             _CitaRepositoryMock.Setup(p => p.GetById(It.IsAny<int>())).Returns(cita);
 
             var eventAggregator = new EventAggregator();
