@@ -33,16 +33,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             NuevaCitaCommand = new DelegateCommand<Day>(OnNuevaCitaCommandExecute);
             NuevaAtencionCommand = new DelegateCommand<CitaWrapper>(OnNuevaAtencionExecute);
-            Citas = new ObservableCollection<CitaWrapper>();
-            Citas.Add(new CitaWrapper(new Cita { Fecha = DateTime.Now, Asistente = "Asistente", Sala = "Sala B" }));
         }
 
         public void Load(PersonaWrapper wrapper)
         {
             Persona = wrapper;
-            //Citas = new ObservableCollection<Cita>();
             Citas = Persona.Citas;
-            //OnPropertyChanged("Atenciones");
         }
 
         private void OnNuevaAtencionExecute(CitaWrapper cita)

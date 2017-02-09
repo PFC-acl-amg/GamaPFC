@@ -43,30 +43,6 @@
                                        Icon="{StaticResource appbar_arrow_right}"
                                        Margin="0,-40,0,0"
                                        />
-                  <!--<Button Command="{Binding SemanaAnteriorCommand,
-                        RelativeSource={RelativeSource AncestorType={x:Type CustomControls:CustomCalendar}}}"
-                          Background="Transparent" BorderThickness="0">
-                    <Rectangle Width="20"
-                                Height="20"
-                                Fill="{Binding Path=Foreground, 
-                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                      <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_left}" />
-                      </Rectangle.OpacityMask>
-                    </Rectangle>
-                  </Button>
-                  <Button Command="{Binding SemanaSiguienteCommand,
-                        RelativeSource={RelativeSource AncestorType={x:Type CustomControls:CustomCalendar}}}"
-                          Background="Transparent" BorderThickness="0">
-                    <Rectangle Width="20"
-                                Height="20"
-                                Fill="{Binding Path=Foreground, 
-                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                      <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_right}" />
-                      </Rectangle.OpacityMask>
-                    </Rectangle>
-                  </Button>-->
                 </StackPanel>
               </Grid>
 
@@ -199,7 +175,8 @@
                             </ListBox.ItemsSource>
                             <ListBox.ItemTemplate>
                               <DataTemplate>
-                                <Border Background="#FFDFE8F5" BorderBrush="#FF5177A8" BorderThickness="1" CornerRadius="1" Margin="2">
+                                <Border Background="#FFDFE8F5" 
+                                        BorderBrush="#FF5177A8" BorderThickness="0.5" CornerRadius="1" Margin="2">
                                   <Grid>
                                     <Grid.ColumnDefinitions>
                                       <ColumnDefinition />
@@ -207,13 +184,27 @@
                                     </Grid.ColumnDefinitions>
 
                                     <!-- Contenido de cada cita -->
-                                    <TextBlock Margin="4" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                      <Run Text="{Binding Hora, Mode=TwoWay}"/>
-                                      <Run Text=":"/>
-                                      <Run Text="{Binding Minutos, Mode=TwoWay}"/>
-                                      <Run Text="{Binding Asistente}"/>
-                                      <Run Text="{Binding Sala, StringFormat=({0})}"/>
-                                    </TextBlock>
+                                    <Grid>
+                                      <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                      </Grid.ColumnDefinitions>
+
+                                      <StackPanel Orientation="Vertical">
+                                        <Label Margin="2">Hora</Label>
+                                        <Label Margin="2">Sala</Label>
+                                      </StackPanel>
+
+                                      <StackPanel Orientation="Vertical" Grid.Column="1">
+                                        <TextBlock Margin="2" 
+                                                   HorizontalAlignment="Left" VerticalAlignment="Center">
+                                          <Label Content="{Binding Hora}"/>
+                                          <Label Content=":"/>
+                                          <Label Content="{Binding Minutos}"/>
+                                        </TextBlock>
+                                        <Label Content="{Binding Sala}" Margin="2"/>
+                                      </StackPanel>
+                                    </Grid>
 
                                     <!-- Botón de agregar atención -->
                                     <StackPanel HorizontalAlignment="Right" Grid.Column="1">
@@ -231,6 +222,16 @@
                                               CommandParameter="{Binding}"></Button>
                                     </StackPanel>
                                   </Grid>
+                                  <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                      <prism:InvokeCommandAction 
+                                      Command="{Binding RelativeSource =
+                                          {RelativeSource FindAncestor,
+                                              AncestorType={x:Type UserControl}},
+                                              Path=DataContext.NuevaAtencionCommand}"
+                                      CommandParameter="{Binding}"/>
+                                    </i:EventTrigger>
+                                  </i:Interaction.Triggers>
                                 </Border>
                               </DataTemplate>
                             </ListBox.ItemTemplate>

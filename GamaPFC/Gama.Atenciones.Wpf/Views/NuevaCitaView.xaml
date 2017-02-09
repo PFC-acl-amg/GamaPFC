@@ -40,7 +40,7 @@
       <StackPanel Orientation="Vertical" Grid.Row="1">
         <Label Margin="{StaticResource Margin}">Fecha</Label>
         <DatePicker Margin="{StaticResource Margin}" 
-                                SelectedDate="{Binding Cita.Inicio, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                SelectedDate="{Binding Cita.Fecha, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                 Height="18"/>
       </StackPanel>
 
@@ -53,7 +53,9 @@
             <ColumnDefinition Width="20"/>
           </Grid.ColumnDefinitions>
         </Grid>-->
-        <local:TimeControl Hours="{Binding Hora}" Minutes="{Binding Minuto}"></local:TimeControl>
+        <local:TimeControl 
+          Hours="{Binding Cita.Hora, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+          Minutes="{Binding Cita.Minutos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></local:TimeControl>
       </StackPanel>
 
       <StackPanel Orientation="Vertical" Grid.Row="2">
