@@ -7,8 +7,7 @@
              xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
     Height="Auto" Width="Auto" x:Name="UserControl">
-
-  <Grid x:Name="LayoutRoot" Width="Auto" Height="Auto">
+  <Grid x:Name="LayoutRoot" Width="Auto" Height="Auto" VerticalAlignment="Center">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="45"/>
       <ColumnDefinition Width="Auto"/>
@@ -16,8 +15,9 @@
     </Grid.ColumnDefinitions>
 
     <Grid x:Name="hour" Focusable="True" KeyDown="Down">
-      <TextBox x:Name="mmTxt" TextWrapping="Wrap" Text="{Binding Path=Hours, ElementName=UserControl, Mode=Default}"
+      <TextBox x:Name="mmTxt" TextWrapping="Wrap" Text="{Binding Path=Hours, ElementName=UserControl, Mode=Default,UpdateSourceTrigger=PropertyChanged}"
                mahapps:TextBoxHelper.Watermark="hora"
+               Margin="{StaticResource Margin}"
                BorderThickness="0"
                  TextAlignment="Center" VerticalAlignment="Center" FontFamily="Goudy Stout" FontSize="12"/>
     </Grid>
@@ -25,14 +25,17 @@
     <Grid  Grid.Column="1">
       <TextBlock  x:Name="sep1" TextWrapping="Wrap" VerticalAlignment="Center"
                   Background="{x:Null}" FontFamily="Goudy Stout"
+               Margin="{StaticResource MarginNoHorizontal}"
                   FontSize="14" Text=":" TextAlignment="Center"/>
 
     </Grid>
 
     <Grid  Grid.Column="2" x:Name="min" Focusable="True" KeyDown="Down">
-      <TextBox  x:Name="ddTxt"  TextWrapping="Wrap" Text="{Binding Path=Minutes, ElementName=UserControl, Mode=Default}"
+      <TextBox  x:Name="ddTxt"  TextWrapping="Wrap" Text="{Binding Path=Minutes, ElementName=UserControl, 
+        Mode=Default, UpdateSourceTrigger=PropertyChanged}"
                mahapps:TextBoxHelper.Watermark="min"
                BorderThickness="0"
+               Margin="{StaticResource Margin}"
                   TextAlignment="Center" VerticalAlignment="Center" FontFamily="Goudy Stout" FontSize="12"/>
     </Grid>
   </Grid>

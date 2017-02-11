@@ -38,10 +38,10 @@
                  x:Name="_AtencionesListBox">
             <ListBox.ItemTemplate>
               <DataTemplate>
-                <GroupBox Header="{Binding Fecha}">
+                <GroupBox Header="{Binding Cita.Fecha.Date}">
                   <TextBlock>
-                  <Run>ID:</Run>
-                  <Run Text="{Binding Id}"></Run>
+                  <Run>Sala:</Run>
+                  <Run Text="{Binding Cita.Sala}"></Run>
                   </TextBlock>
                 </GroupBox>
               </DataTemplate>
@@ -50,13 +50,54 @@
         </ScrollViewer>
       </GroupBox>
 
+      <!-- Detalle de la cita -->
       <Grid Grid.Column="1">
         <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
           <RowDefinition />
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Grid.ColumnSpan="1" DataContext="{Binding CitaSeleccionada}"
+               IsHitTestVisible="{Binding IsInEditionMode}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+
+          <StackPanel Orientation="Horizontal">
+            <StackPanel>
+              <Label Margin="{DynamicResource Margin}">Atención</Label>
+              <Label Margin="{DynamicResource Margin}">Fecha</Label>
+            </StackPanel>
+
+            <StackPanel>
+              <Label Margin="{DynamicResource Margin}" Content="{Binding Id}"></Label>
+              <Label Margin="{DynamicResource Margin}" Content="{Binding Fecha.Date}"></Label>
+            </StackPanel>
+          </StackPanel>
+
+          <StackPanel Grid.Column="1" Orientation="Horizontal">
+            <StackPanel>
+              <Label Margin="{DynamicResource Margin}">Sala</Label>
+              <Label Margin="{DynamicResource Margin}">Hora</Label>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" >
+              <TextBox Margin="{DynamicResource Margin}" Text="{Binding Sala, UpdateSourceTrigger=PropertyChanged}"/>
+
+              <local:TimeControl 
+                  VerticalAlignment="Center"
+                  VerticalContentAlignment="Center"
+                  Margin="{DynamicResource Margin}"
+                  Hours="{Binding Hora, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                  Minutes="{Binding Minutos, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></local:TimeControl>
+            </StackPanel>
+          </StackPanel>
+        </Grid>
+
         <!-- Detalle de la atención -->
-        <Grid Grid.IsSharedSizeScope="True" Grid.Row="0" DataContext="{Binding AtencionSeleccionada}"
+        <Grid Grid.IsSharedSizeScope="True" Grid.Row="1" DataContext="{Binding AtencionSeleccionada}"
                IsHitTestVisible="{Binding IsInEditionMode}">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"  SharedSizeGroup="A"/>
@@ -72,40 +113,6 @@
             <RowDefinition Height="Auto"/>
           </Grid.RowDefinitions>
 
-          <Grid Grid.Row="1" Grid.ColumnSpan="2">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
-              <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-            <StackPanel Orientation="Horizontal">
-              <StackPanel>
-                <Label Margin="{DynamicResource Margin}">Atención</Label>
-                <Label Margin="{DynamicResource Margin}">Fecha</Label>
-              </StackPanel>
-
-              <StackPanel>
-                <Label Margin="{DynamicResource Margin}" Content="{Binding Id}"></Label>
-                <Label Margin="{DynamicResource Margin}" Content="{Binding Fecha.Date}"></Label>
-              </StackPanel>
-            </StackPanel>
-
-            <StackPanel Grid.Column="1" Orientation="Horizontal">
-              <StackPanel>
-                <Label Margin="{DynamicResource Margin}">Lugar</Label>
-                <Label Margin="{DynamicResource Margin}">Hora</Label>
-              </StackPanel>
-
-              <StackPanel Grid.Column="3" Grid.RowSpan="2">
-                <TextBox Margin="{DynamicResource Margin}" Text="{Binding Cita.Sala, UpdateSourceTrigger=PropertyChanged}"/>
-
-                <local:TimeControl 
-                  Margin="{DynamicResource Margin}"
-                  Hours="{Binding Cita.Hora, UpdateSourceTrigger=PropertyChanged}" 
-                  Minutes="{Binding Cita.Minutos, UpdateSourceTrigger=PropertyChanged}"></local:TimeControl>
-              </StackPanel>
-            </StackPanel>
-          </Grid>
 
           <StackPanel Grid.Row="2">
             <GroupBox Header="Atención Solicitada" x:Name="atencionSolicitadaGroupBox">
@@ -172,7 +179,7 @@
             </ScrollViewer>
           </Border>
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
           <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
             <!-- Guardar Button -->
             <cc:CircleIconButton Icon="{StaticResource appbar_save}"

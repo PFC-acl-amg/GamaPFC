@@ -73,7 +73,7 @@ namespace Gama.Atenciones.Wpf.Views
             if (control.Hours > 23)
                 control.Hours = 23;
             if (control.Minutes > 59)
-                control.Minutes = 58;
+                control.Minutes = 59;
             if (control.Minutes < 0)
                 control.Minutes = 0;
             control.Value = new TimeSpan(control.Hours, control.Minutes, 0);

@@ -48,9 +48,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 OnActualizarCommand,
                 () => 
                       AtencionSeleccionada != null
-                   && AtencionSeleccionada.IsInEditionMode
+                   && ((AtencionSeleccionada.IsInEditionMode
                    && AtencionSeleccionada.IsChanged
-                   && AtencionSeleccionada.IsValid);
+                   && AtencionSeleccionada.IsValid)
+                   || (CitaSeleccionada.IsChanged
+                    && CitaSeleccionada.IsValid)));
 
             CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand,
                 () => AtencionSeleccionada != null && AtencionSeleccionada.IsInEditionMode);
@@ -79,6 +81,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 InvalidateCommands();
                 //OnPropertyChanged(nameof(AtencionSeleccionada.IsInEditionMode));
                 AtencionSeleccionada.PropertyChanged += (s, ea) => { InvalidateCommands(); };
+            }
+            else if (e.PropertyName == nameof(CitaSeleccionada))
+            {
+                InvalidateCommands();
+                CitaSeleccionada.PropertyChanged += (s, ea) => { InvalidateCommands(); };
             }
             else if (e.PropertyName == nameof(EdicionHabilitada))
             {
@@ -122,6 +129,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             AtencionSeleccionada.RejectChanges();
             EdicionHabilitada = false;
             AtencionSeleccionada.IsInEditionMode = false;
+            CitaSeleccionada.IsInEditionMode = false;
         }
 
         private void OnActualizarCommand()
@@ -130,8 +138,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
             //_AtencionRepository.Update(AtencionSeleccionada.Model);
             _PersonaRepository.Update(Persona.Model);
             AtencionSeleccionada.AcceptChanges();
+            CitaSeleccionada.AcceptChanges();
             EdicionHabilitada = false;
             AtencionSeleccionada.IsInEditionMode = false;
+            CitaSeleccionada.IsInEditionMode = false;
             _EventAggregator.GetEvent<AtencionActualizadaEvent>().Publish(AtencionSeleccionada.Id);
         }
 
@@ -139,6 +149,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             EdicionHabilitada = true;
             AtencionSeleccionada.IsInEditionMode = true;
+            CitaSeleccionada.IsInEditionMode = true;
         }
 
         public ICommand HabilitarEdicionCommand { get; private set; }
@@ -168,12 +179,21 @@ namespace Gama.Atenciones.Wpf.ViewModels
             set { SetProperty(ref _Persona, value); }
         }
 
-        public ObservableCollection<AtencionWrapper> Atenciones { get; private set; }
-
         public AtencionWrapper AtencionSeleccionada
         {
             get { return _AtencionSeleccionada; }
-            set { SetProperty(ref _AtencionSeleccionada, value); }
+            set
+            {
+                SetProperty(ref _AtencionSeleccionada, value);
+                CitaSeleccionada = new CitaWrapper(_AtencionSeleccionada.Cita);
+            }
+        }
+
+        private CitaWrapper _CitaSeleccionada;
+        public CitaWrapper CitaSeleccionada
+        {
+            get { return _CitaSeleccionada;  }
+            set { SetProperty(ref _CitaSeleccionada, value); }
         }
 
         public bool EdicionHabilitada
@@ -181,5 +201,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             get { return _EdicionHabilitada; }
             set { SetProperty(ref _EdicionHabilitada, value); }
         }
+
+        public ObservableCollection<AtencionWrapper> Atenciones { get; private set; }
     }
 }
