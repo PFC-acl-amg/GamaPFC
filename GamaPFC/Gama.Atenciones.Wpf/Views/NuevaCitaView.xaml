@@ -54,8 +54,8 @@
           </Grid.ColumnDefinitions>
         </Grid>-->
         <local:TimeControl 
-          Hours="{Binding Cita.Hora, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-          Minutes="{Binding Cita.Minutos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></local:TimeControl>
+          Hora="{Binding Cita.Hora, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+          Minutos="{Binding Cita.Minutos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></local:TimeControl>
       </StackPanel>
 
       <StackPanel Orientation="Vertical" Grid.Row="2">

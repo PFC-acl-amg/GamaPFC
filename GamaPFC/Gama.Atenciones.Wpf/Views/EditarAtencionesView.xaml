@@ -90,8 +90,8 @@
                   VerticalAlignment="Center"
                   VerticalContentAlignment="Center"
                   Margin="{DynamicResource Margin}"
-                  Hours="{Binding Hora, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                  Minutes="{Binding Minutos, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></local:TimeControl>
+                  Hora="{Binding Hora, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                  Minutos="{Binding Minutos, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></local:TimeControl>
             </StackPanel>
           </StackPanel>
         </Grid>

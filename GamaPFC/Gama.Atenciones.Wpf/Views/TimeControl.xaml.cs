@@ -39,44 +39,44 @@ namespace Gama.Atenciones.Wpf.Views
         private static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             TimeControl control = obj as TimeControl;
-            control.Hours = ((TimeSpan)e.NewValue).Hours;
-            control.Minutes = ((TimeSpan)e.NewValue).Minutes;
+            control.Hora = ((TimeSpan)e.NewValue).Hours;
+            control.Minutos = ((TimeSpan)e.NewValue).Minutes;
         }
 
-        public int Hours
+        public int Hora
         {
-            get { return (int)GetValue(HoursProperty); }
-            set { SetValue(HoursProperty, value); }
+            get { return (int)GetValue(HoraProperty); }
+            set { SetValue(HoraProperty, value); }
         }
-        public static readonly DependencyProperty HoursProperty =
-            DependencyProperty.Register("Hours", typeof(int), typeof(TimeControl),
+        public static readonly DependencyProperty HoraProperty =
+            DependencyProperty.Register("Hora", typeof(int), typeof(TimeControl),
                 new FrameworkPropertyMetadata(0, new PropertyChangedCallback(OnTimeChanged))
                 {
                     BindsTwoWayByDefault = true,
                     DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                 });
 
-        public int Minutes
+        public int Minutos
         {
-            get { return (int)GetValue(MinutesProperty); }
-            set { SetValue(MinutesProperty, value); }
+            get { return (int)GetValue(MinutosProperty); }
+            set { SetValue(MinutosProperty, value); }
         }
-        public static readonly DependencyProperty MinutesProperty =
-        DependencyProperty.Register("Minutes", typeof(int), typeof(TimeControl),
+        public static readonly DependencyProperty MinutosProperty =
+        DependencyProperty.Register("Minutos", typeof(int), typeof(TimeControl),
         new UIPropertyMetadata(0, new PropertyChangedCallback(OnTimeChanged)));       
 
         private static void OnTimeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             TimeControl control = obj as TimeControl;
-            if (control.Hours < 0)
-                control.Hours = 0;
-            if (control.Hours > 23)
-                control.Hours = 23;
-            if (control.Minutes > 59)
-                control.Minutes = 59;
-            if (control.Minutes < 0)
-                control.Minutes = 0;
-            control.Value = new TimeSpan(control.Hours, control.Minutes, 0);
+            if (control.Hora < 0)
+                control.Hora = 0;
+            if (control.Hora > 23)
+                control.Hora = 23;
+            if (control.Minutos > 59)
+                control.Minutos = 59;
+            if (control.Minutos < 0)
+                control.Minutos = 0;
+            control.Value = new TimeSpan(control.Hora, control.Minutos, 0);
         }
 
         private void Down(object sender, KeyEventArgs args)
@@ -85,16 +85,16 @@ namespace Gama.Atenciones.Wpf.Views
             {
                 case "min":
                     if (args.Key == Key.Up)
-                        this.Minutes++;
+                        this.Minutos++;
                     if (args.Key == Key.Down)
-                        this.Minutes--;
+                        this.Minutos--;
                     break;
 
                 case "hour":
                     if (args.Key == Key.Up)
-                        this.Hours++;
+                        this.Hora++;
                     if (args.Key == Key.Down)
-                        this.Hours--;
+                        this.Hora--;
                     break;
             }
         }

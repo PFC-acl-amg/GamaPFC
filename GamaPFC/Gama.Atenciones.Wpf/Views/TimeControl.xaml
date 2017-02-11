@@ -15,7 +15,7 @@
     </Grid.ColumnDefinitions>
 
     <Grid x:Name="hour" Focusable="True" KeyDown="Down">
-      <TextBox x:Name="mmTxt" TextWrapping="Wrap" Text="{Binding Path=Hours, ElementName=UserControl, Mode=Default,UpdateSourceTrigger=PropertyChanged}"
+      <TextBox x:Name="mmTxt" TextWrapping="Wrap" Text="{Binding Path=Hora, ElementName=UserControl, Mode=Default,UpdateSourceTrigger=PropertyChanged}"
                mahapps:TextBoxHelper.Watermark="hora"
                Margin="{StaticResource Margin}"
                BorderThickness="0"
@@ -31,7 +31,7 @@
     </Grid>
 
     <Grid  Grid.Column="2" x:Name="min" Focusable="True" KeyDown="Down">
-      <TextBox  x:Name="ddTxt"  TextWrapping="Wrap" Text="{Binding Path=Minutes, ElementName=UserControl, 
+      <TextBox  x:Name="ddTxt"  TextWrapping="Wrap" Text="{Binding Path=Minutos, ElementName=UserControl, 
         Mode=Default, UpdateSourceTrigger=PropertyChanged}"
                mahapps:TextBoxHelper.Watermark="min"
                BorderThickness="0"

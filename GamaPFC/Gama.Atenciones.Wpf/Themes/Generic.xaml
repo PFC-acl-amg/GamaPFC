@@ -198,9 +198,9 @@
                                       <StackPanel Orientation="Vertical" Grid.Column="1">
                                         <TextBlock Margin="2" 
                                                    HorizontalAlignment="Left" VerticalAlignment="Center">
-                                          <Label Content="{Binding Hora}"/>
-                                          <Label Content=":"/>
-                                          <Label Content="{Binding Minutos}"/>
+                                          <Run Text="{Binding Hora}"/>
+                                          <Run Text=":" />
+                                          <Run Text="{Binding Minutos}"/>
                                         </TextBlock>
                                         <Label Content="{Binding Sala}" Margin="2"/>
                                       </StackPanel>
@@ -212,16 +212,25 @@
                                               Padding="2,0,2,0"
                                               BorderThickness="0"
                                               FontSize="14"
-                                              Content="+"
+                                              Content=">"
                                               Background="#FF3078A5"
                                               Foreground="White"
                                               FontWeight="Bold"
                                               Command="{Binding DataContext.NuevaAtencionCommand, 
                                                 RelativeSource={RelativeSource FindAncestor, 
 					                                          AncestorType={x:Type UserControl}}}"
-                                              CommandParameter="{Binding}"></Button>
+                                              CommandParameter="{Binding}">
+                                        <Button.Style>
+                                          <Style>
+                                            <Style.Triggers>
+                                              <DataTrigger Binding="{Binding Atencion.Seguimiento}" Value="">
+                                                <Setter Property="Button.Content" Value="+"/>
+                                              </DataTrigger>
+                                            </Style.Triggers>
+                                          </Style>
+                                        </Button.Style>
+                                      </Button>
                                     </StackPanel>
-                                  </Grid>
                                   <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseDoubleClick">
                                       <prism:InvokeCommandAction 
@@ -232,6 +241,7 @@
                                       CommandParameter="{Binding}"/>
                                     </i:EventTrigger>
                                   </i:Interaction.Triggers>
+                                  </Grid>
                                 </Border>
                               </DataTemplate>
                             </ListBox.ItemTemplate>
