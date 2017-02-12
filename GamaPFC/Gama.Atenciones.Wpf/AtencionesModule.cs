@@ -191,6 +191,7 @@ namespace Gama.Atenciones.Wpf
 
         private void RegisterViews()
         {
+            Container.RegisterType<object, CitasContentView>("CitasContentView");
             Container.RegisterType<object, DashboardView>("DashboardView");
             Container.RegisterType<object, EditarAtencionesView>("EditarAtencionesView");
             Container.RegisterType<object, EditarCitasView>("EditarCitasView");
@@ -207,6 +208,7 @@ namespace Gama.Atenciones.Wpf
 
         private void RegisterViewModels()
         {
+            Container.RegisterType<CitasContentViewModel>();
             Container.RegisterType<DashboardViewModel>();
             Container.RegisterType<EditarAtencionesViewModel>();
             Container.RegisterType<EditarCitasViewModel>();

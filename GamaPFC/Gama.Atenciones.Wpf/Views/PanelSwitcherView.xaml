@@ -59,8 +59,22 @@
                         </Style.Triggers>
                     </Style>
                 </controls:Tile.Style>
-            </controls:Tile>
-            <controls:Tile 
+      </controls:Tile>
+      <controls:Tile 
+                Title=" Citas "
+                Command="{Binding NavigateCommand}"
+                CommandParameter="CitasContentView">
+        <controls:Tile.Style>
+          <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding ActivePanel}" Value="CitasContentView">
+                <Setter Property="Foreground" Value="#275B6D"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </controls:Tile.Style>
+      </controls:Tile>
+      <controls:Tile 
                 x:Name="_Title3"
                 Title="Gráficas"
                 Command="{Binding NavigateCommand}"

@@ -121,6 +121,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 AtencionSeleccionada = cita.Atencion;
             }
 
+
+            // Navegamos a la pestaña de atenciones
             VerAtenciones = true;
         }
 

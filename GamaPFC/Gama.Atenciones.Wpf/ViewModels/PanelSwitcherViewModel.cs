@@ -25,7 +25,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _RegionManager = regionManager;
             _EventAggregator = eventAggregator;
 
-            ActivePanel = "Dashboard";
+            ActivePanel = "DashboardView";
 
             _EventAggregator.GetEvent<ActiveViewChanged>().Subscribe(OnActiveViewChangedEvent);
 
