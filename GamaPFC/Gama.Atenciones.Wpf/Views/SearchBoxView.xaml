@@ -34,6 +34,7 @@
             Margin="0"
             SearchMode="Delayed"
             MinWidth="250"
+                  Height="32"
             Text="{Binding TextoDeBusqueda, UpdateSourceTrigger=PropertyChanged}"
             ItemsSource="{Binding Source={StaticResource _PersonasBuscables}}" 
             ItemTemplateSelector="{StaticResource _BuscadorTemplateSelector}"

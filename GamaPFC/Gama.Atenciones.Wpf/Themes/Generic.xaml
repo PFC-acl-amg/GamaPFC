@@ -191,23 +191,24 @@
                                       </Grid.ColumnDefinitions>
 
                                       <StackPanel Orientation="Vertical">
-                                        <Label Margin="2">Hora</Label>
-                                        <Label Margin="2">Sala</Label>
+                                        <TextBlock Margin="4">Hora</TextBlock>
+                                        <TextBlock Margin="4">Sala</TextBlock>
                                       </StackPanel>
 
                                       <StackPanel Orientation="Vertical" Grid.Column="1">
-                                        <TextBlock Margin="2" 
+                                        <TextBlock Margin="4" 
                                                    HorizontalAlignment="Left" VerticalAlignment="Center">
                                           <Run Text="{Binding Hora}"/>
                                           <Run Text=":" />
                                           <Run Text="{Binding Minutos}"/>
                                         </TextBlock>
-                                        <Label Content="{Binding Sala}" Margin="2"/>
+                                        <TextBlock Text="{Binding Sala}" Margin="4"/>
                                       </StackPanel>
                                     </Grid>
 
                                     <!-- Botón de agregar atención -->
-                                    <StackPanel HorizontalAlignment="Right" Grid.Column="1">
+                                    <StackPanel HorizontalAlignment="Right" Grid.Column="1"
+                                                VerticalAlignment="Center">
                                       <Button Margin="4,2,4,2" VerticalAlignment="Center"
                                               Padding="2,0,2,0"
                                               BorderThickness="0"
