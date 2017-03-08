@@ -10,33 +10,11 @@
         xmlns:actions="clr-namespace:Core.Util;assembly=Core"
         prism:ViewModelLocator.AutoWireViewModel="True"
         WindowStartupLocation="CenterScreen"
-        MaxWidth="550"
         BorderThickness="2"
         BorderBrush="{StaticResource AccentColorBrush}"
         mc:Ignorable="d"
-        Title="Nuevo Foro" Height="250" Width="350"
+        Title="Nuevo Foro" Height="270" Width="550"
         actions:DialogCloser.DialogResult="{Binding Cerrar}">
-        
-    
-        <!--Como usamos estilos  metro la ventana no sera una Window sino una 
-            Metro:MetroWindow => dara u error porque no se ha definido el prefijo 
-            del espacio de nombre de metro => tenemos que añadir 
-            xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls" => hay que cambiar 
-            en codigo behind public partial class CrearNuevoForo : MetroWindow.
-            Los dos siguientes espacios de nombres no se para que son pero estan 
-            añadidos en citas xmlns:prism="http://prismlibrary.com/"
-            xmlns:actions="clr-namespace:Core.Util;assembly=Core".
-            Dos añadidos mas prism:ViewModelLocator.AutoWireViewModel="True"
-            WindowStartupLocation="CenterScreen" para generar el viewModel y centrar
-            la ventana en la pantalla. Se añaden detalles de tamaño maximo y 
-            estilosdebordes y por ultimo (creo que ultimo) se añade la acion 
-            para poder cerrar la ventana: 
-            actions:DialogCloser.DialogResult="{Binding Cerrar}" Height="208" Width="327"-->
-    
-    <!--Segundo paso es diseñar la ventana añadiendo los controles necesarios en el grid-->
-    <!--Tercer paso es crear el viewModel una vez que tenemos los controles basicos => creamos
-    la clase CrearNuevoForoViewModel.cs-->
-    
     <Grid>
         <StackPanel>
             <Grid>
@@ -47,22 +25,33 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0">
                     <Label Margin="{StaticResource Margin}">Título del Foro...</Label>
-                    <TextBox  Name="TituloForo"
-                              BorderThickness="1"
-                              metro:TextBoxHelper.Watermark="Título del Foro..."
-                              TextWrapping="Wrap"
-                              Margin="{StaticResource Margin}"
-                              Text="{Binding TituloForo}"/>
+                    <ScrollViewer  HorizontalAlignment="Center" VerticalScrollBarVisibility="Auto" >
+                        <StackPanel>
+                            <TextBox  Name="TituloForo" Width="530" Height="40"
+                                  BorderThickness="1"
+                                  metro:TextBoxHelper.Watermark="Título del Foro..."
+                                  TextWrapping="Wrap"
+                                  Margin="{StaticResource Margin}"
+                                  MinLines="2" AcceptsReturn="True"
+                                  VerticalScrollBarVisibility="Auto"
+                                  Text="{Binding TituloForo}"/>
+                        </StackPanel>
+                    </ScrollViewer>
                 </StackPanel>
                 <StackPanel Grid.Row="1">
                     <Label Margin="{StaticResource Margin}">Primer Mensaje...</Label>
-                    <TextBox  Name="PrimerMensaje"
-                              metro:TextBoxHelper.Watermark="Mensaje de Presentación..."
-                              TextWrapping="Wrap"
-                              Margin="{StaticResource Margin}"
-                              MinLines="3"
-                              AcceptsReturn="True"
-                              Text="{Binding TituloForoMensaje}"/>
+                    <ScrollViewer  HorizontalAlignment="Center" VerticalScrollBarVisibility="Auto" >
+                        <StackPanel>
+                            <TextBox  Name="PrimerMensaje" Width="530" Height="70"
+                                  VerticalScrollBarVisibility="Auto"
+                                  metro:TextBoxHelper.Watermark="Mensaje de Presentación..."
+                                  TextWrapping="Wrap"
+                                  Margin="{StaticResource Margin}"
+                                  MinLines="3"
+                                  AcceptsReturn="True"
+                                  Text="{Binding TituloForoMensaje}"/>
+                        </StackPanel>
+                    </ScrollViewer>
                 </StackPanel>
                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
                     <Button Content="Aceptar" Command="{Binding AceptarCommand}" Margin="{StaticResource Margin}"></Button>

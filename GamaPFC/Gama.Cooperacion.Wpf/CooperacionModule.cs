@@ -26,7 +26,6 @@ namespace Gama.Cooperacion.Wpf
             RegisterViews();
             RegisterViewModels();
             RegisterServices();
-            InitializeNavigation();
 
             //ILoggerFacade log = Container.Resolve<ILoggerFacade>();
             //log.Log("ok", Category.Exception, Priority.None);
@@ -36,11 +35,11 @@ namespace Gama.Cooperacion.Wpf
                 var session = Container.Resolve<ISession>();
                 var cooperanteRepository = Container.Resolve<ICooperanteRepository>();
                 cooperanteRepository.Session = session;
-                var cooperantesDummy = new FakeCooperanteRepository().GetAll();
+                var cooperantesDummy = new FakeCooperanteRepository().GetAll().Take(2);
 
                 foreach (var cooperante in cooperantesDummy) // Crea tambien mas cooperantes de forma automatica
                 {
-                    //cooperanteRepository.Create(cooperante);
+                    cooperanteRepository.Create(cooperante);
                 }
 
                 var actividadRepository = Container.Resolve<IActividadRepository>();
@@ -64,7 +63,7 @@ namespace Gama.Cooperacion.Wpf
                 var coordinador = cooperanteRepository.GetAll().First();
                 var actividadesFake = new FakeActividadRepository().GetAll();
 
-                foreach (var actividad in actividadesFake.Take(2))
+                foreach (var actividad in actividadesFake.Take(1))
                 {
                     var eventosFake = new FakeEventoRepository().GetAll();
                     var foroFake = new FakeForoRepository().GetAll();
@@ -93,34 +92,36 @@ namespace Gama.Cooperacion.Wpf
                     //    k++;
                     //}
                     actividad.Coordinador = coordinador;
-                    foreach (var InsertandoTareas in tareaFake)
-                    {
-                        foreach (var InsertandoSeguimientos in seguimientoFake)
-                        {
-                            InsertandoTareas.AddSeguimiento(InsertandoSeguimientos);
-                        }
-                        foreach(var InsertandoIncidencias in incidenciaFake)
-                        {
-                            InsertandoTareas.AddIncidencia(InsertandoIncidencias);
-                        }
-                        InsertandoTareas.Responsable = coordinador;
-                        actividad.AddTarea(InsertandoTareas);
-                    }
-                    foreach (var InsertandoEvento in eventosFake)
-                    {
-                        actividad.AddEvento(InsertandoEvento);
-                    }
-                    foreach (var InsertandoForos in foroFake)
-                    {
-                        foreach (var InsertandoMensajesForos in mensajeForoFake)
-                        {
-                            InsertandoForos.AddMensaje(InsertandoMensajesForos);
-                        }
-                        actividad.AddForo(InsertandoForos);
-                    }
+                    //foreach (var InsertandoTareas in tareaFake)
+                    //{
+                    //    foreach (var InsertandoSeguimientos in seguimientoFake)
+                    //    {
+                    //        InsertandoTareas.AddSeguimiento(InsertandoSeguimientos);
+                    //    }
+                    //    foreach(var InsertandoIncidencias in incidenciaFake)
+                    //    {
+                    //        InsertandoTareas.AddIncidencia(InsertandoIncidencias);
+                    //    }
+                    //    InsertandoTareas.Responsable = coordinador;
+                    //    actividad.AddTarea(InsertandoTareas);
+                    //}
+                    //foreach (var InsertandoEvento in eventosFake)
+                    //{
+                    //    actividad.AddEvento(InsertandoEvento);
+                    //}
+                    //foreach (var InsertandoForos in foroFake)
+                    //{
+                    //    foreach (var InsertandoMensajesForos in mensajeForoFake)
+                    //    {
+                    //        InsertandoForos.AddMensaje(InsertandoMensajesForos);
+                    //    }
+                    //    actividad.AddForo(InsertandoForos);
+                    //}
                     actividadRepository.Create(actividad);
                 }
             }
+
+                InitializeNavigation();
         }
 
         private void RegisterViews()

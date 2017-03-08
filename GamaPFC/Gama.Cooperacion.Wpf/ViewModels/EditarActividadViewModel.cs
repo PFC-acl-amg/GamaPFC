@@ -129,6 +129,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             var actividad = new ActividadWrapper(
                 _ActividadRepository.GetById((int)navigationContext.Parameters["Id"]));
 
+            _Session.Clear();
+
             _InformacionDeActividadViewModel.Load(actividad);
             _TareasDeActividadViewModel.LoadActividad(actividad);
 

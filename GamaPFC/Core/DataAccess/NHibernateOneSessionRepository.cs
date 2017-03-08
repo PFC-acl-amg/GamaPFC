@@ -122,6 +122,8 @@ namespace Core.DataAccess
                         encryptableEntity.Encrypt();
                     }
 
+
+                    Session.Clear();
                     Session.Update(entity);
                     tx.Commit();
 

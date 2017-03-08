@@ -1,5 +1,4 @@
 ﻿using Core;
-using Gama.Common.CustomControls;
 using Gama.Cooperacion.Business;
 using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Services;
@@ -17,39 +16,36 @@ using System.Windows.Input;
 
 namespace Gama.Cooperacion.Wpf.ViewModels
 {
-    public class InformacionTareaViewModel : ViewModelBase
+    public class MensajesForoViewModel : ViewModelBase
     {
         // Zona de Declaracion variables privadas
         private bool? _Cerrar; // Debe ser nulo al inicializarse el VM o hay excepciones por DialogCloser
-        private bool _IncidenciasSolucionadas;
         private IActividadRepository _ActividadRepository;
         private IEventAggregator _EventAggregator;
         private string _DescripcionNuevaTarea;
-        private string _NuevaIncidencia;
+        private string _NuevoMensaje;
         private string _NuevoSeguimiento;
         private CooperanteWrapper _ResponsableTarea;
         private DateTime _FechaFinTarea;
         private int _ModificarTarea;
         private int _TareaID;
-        private TareaWrapper _TareaSeleccionada;
+        private ForoWrapper _ForoSeleccionado;
         // Fin Zona
         // Constructor de la clase
-        public InformacionTareaViewModel(IActividadRepository ActividadRepository, IEventAggregator EventAggregator)
+        public MensajesForoViewModel(IActividadRepository ActividadRepository, IEventAggregator EventAggregator)
         {
             _ActividadRepository = ActividadRepository;
             _EventAggregator = EventAggregator;
             _ModificarTarea = 0;
             _TareaID = 0;
-            _IncidenciasSolucionadas = false;
 
             TareasDisponibles = new ObservableCollection<TareaWrapper>();
             TareasFinalizadas = new ObservableCollection<TareaWrapper>();
 
-            AceptarIncidenciaCommand = new DelegateCommand(OnAceptarIncidenciaCommand_Execute,
-                OnAceptarIncidenciaCommand_CanExecute);
+            AceptarMensajeCommand = new DelegateCommand(OnAceptarMensajeCommand_Execute,
+                OnAceptarMensajeCommand_CanExecute);
             CancelarIncidenciaCommand = new DelegateCommand(OnCancelarIncidenciaCommand_Execute);
-            AceptarSeguimientoCommand = new DelegateCommand(OnAceptarSeguimientoCommand_Execute,
-                OnAceptarSeguimientoCommand_CanExecute);
+            //AceptarSeguimientoCommand = new DelegateCommand(OnAceptarSeguimientoCommand_Execute,OnAceptarSeguimientoCommand_CanExecute);
         }
         /// <summary>
         /// Zona Entidades y Contenedores
@@ -66,10 +62,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             get { return _Cerrar; }
             set { SetProperty(ref _Cerrar, value); }
         }
-        public TareaWrapper TareaSeleccionada
+        public ForoWrapper ForoSeleccionado
         {
-            get { return _TareaSeleccionada; }
-            set { SetProperty(ref _TareaSeleccionada, value); }
+            get { return _ForoSeleccionado; }
+            set { SetProperty(ref _ForoSeleccionado, value); }
         }
         public ISession Session
         {
@@ -79,10 +75,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 _ActividadRepository.Session = value;
             }
         }
-        public string NuevaIncidencia
+        public string NuevoMensaje
         {
-            get { return _NuevaIncidencia; }
-            set { SetProperty(ref _NuevaIncidencia, value); }
+            get { return _NuevoMensaje; }
+            set { SetProperty(ref _NuevoMensaje, value); }
         }
         public string NuevoSeguimiento
         {
@@ -93,14 +89,14 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         /// Zona Icommand => Funciones invocadas al pulsar un botón.
         /// Uso de la clase DelegateCommand de la librería Prims.Commands
         /// </summary>
-        public ICommand AceptarIncidenciaCommand { get; private set; }
+        public ICommand AceptarMensajeCommand { get; private set; }
         public ICommand CancelarIncidenciaCommand { get; private set; }
         public ICommand AceptarSeguimientoCommand { get; private set; }
 
         /// <summary>
         /// Zona DelegateCommand _CanExecute => Comprueba que se cumplen las condicines para ejecutar la acción del botón
         /// </summary>
-        private bool OnAceptarIncidenciaCommand_CanExecute()
+        private bool OnAceptarMensajeCommand_CanExecute()
         {
             return true;
         }
@@ -111,34 +107,45 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         /// <summary>
         /// Zona DelegateCommand _Execute => Funciones que implementan la acción al pulsar un botón
         /// </summary>
-        private void OnAceptarIncidenciaCommand_Execute()
+        private void OnAceptarMensajeCommand_Execute()
         {
-            var tareaSeleccionada = Actividad.Tareas.Where(x => x.Id == TareaSeleccionada.Id).First();
-            var nuevaIncidencia = new IncidenciaWrapper(new Incidencia()
+            //var nuevoMensaje = new MensajeWrapper(new Mensaje()
+            //{
+            //    Titulo = NuevoMensajeForo,
+            //    FechaDePublicacion = DateTime.Now,
+            //});
+            //((ForoWrapper)wrapper).Mensajes.Insert(0, nuevoMensaje); // Inserta en la variable Mensajes del wrapper y en .Model en la posicion 0
+            //((ForoWrapper)wrapper).Model.AddMensaje(nuevoMensaje.Model); // Inserta en la variable Mensaje de wrapper.Model.Mensajes
+            //_actividadRepository.Update(Actividad.Model);
+            //AuxiliarOnPublicarEventosActividad(Ocurrencia.MENSAJE_PUBLICADO_EN_FORO, ((ForoWrapper)wrapper).Titulo);
+            //NuevoMensajeForo = null;
+            var foroSeleccionado = Actividad.Foros.Where(x => x.Id == ForoSeleccionado.Id).First();
+            var nuevoMensaje = new MensajeWrapper(new Mensaje()
             {
-                Descripcion = NuevaIncidencia,
+                Titulo = NuevoMensaje,
                 FechaDePublicacion = DateTime.Now,
-                Tarea = tareaSeleccionada.Model
+                Foro = foroSeleccionado.Model
             });
-            tareaSeleccionada.Incidencias.Add(nuevaIncidencia);//Con esta instruccion se añade la incidencia al wrapper
-                                // y se anade la informacion al .Model menos a que tarea pertenece la incidencia
-                                // con lo que el mapeo en la bade de datos falla porque a la incidenia deja a nulo
-                                // la tarea-id a la que petenece
+            foroSeleccionado.Mensajes.Add(nuevoMensaje);//Con esta instruccion se añade la incidencia al wrapper
+                                                        // y se anade la informacion al .Model menos a que tarea pertenece la incidencia
+                                                        // con lo que el mapeo en la bade de datos falla porque a la incidenia deja a nulo
+                                                        // la tarea-id a la que petenece => para que tome el id del foro al que pertenece al crear 
+                                                        // el mensaje se añadela instruccion Foro = foroSeleccionado.Model
 
             //tareaSeleccionada.Model.AddIncidencia(nuevaIncidencia.Model);
             // TareaSeleccionada.Model.AddIncidencia(nuevaIncidencia.Model);
 
             _ActividadRepository.Update(Actividad.Model);
-            TareaSeleccionada.Incidencias.Insert(0, nuevaIncidencia);
+            ForoSeleccionado.Mensajes.Insert(0, nuevoMensaje);
             var eventoDeActividad = new Evento()
             {
                 FechaDePublicacion = DateTime.Now,
-                Titulo = TareaSeleccionada.Descripcion,
-                Ocurrencia = Ocurrencia.INCIDENCIA_EN_TAREA,
+                Titulo = ForoSeleccionado.Titulo,
+                Ocurrencia = Ocurrencia.MENSAJE_PUBLICADO_EN_FORO,
             };
             _EventAggregator.GetEvent<PublicarEventosActividad>().Publish(eventoDeActividad);
-            NuevaIncidencia = null;
-            
+            NuevoMensaje = null;
+
 
             //Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().Descripcion = DescripcionNuevaTarea;
             //Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().FechaDeFinalizacion = FechaFinTarea;
@@ -200,26 +207,26 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             //Cerrar = true;
         }
-        private void OnAceptarSeguimientoCommand_Execute()
-        {
-            var nuevoSeguimiento = new SeguimientoWrapper(new Seguimiento()
-            {
-                Descripcion = NuevoSeguimiento,
-                FechaDePublicacion = DateTime.Now,
-            });
-            TareaSeleccionada.Model.AddSeguimiento(nuevoSeguimiento.Model);
-            _ActividadRepository.Update(Actividad.Model);
-            TareaSeleccionada.Seguimiento.Insert(0, nuevoSeguimiento);
-            var eventoDeActividad = new Evento()
-            {
-                FechaDePublicacion = DateTime.Now,
-                Titulo = TareaSeleccionada.Descripcion,
-                Ocurrencia = Ocurrencia.SEGUIMIENGO_EN_TAREA,
-            };
-            _EventAggregator.GetEvent<PublicarEventosActividad>().Publish(eventoDeActividad);
-            NuevoSeguimiento = null;
-            Actividad.AcceptChanges();
-        }
+        //private void OnAceptarSeguimientoCommand_Execute()
+        //{
+        //    var nuevoSeguimiento = new SeguimientoWrapper(new Seguimiento()
+        //    {
+        //        Descripcion = NuevoSeguimiento,
+        //        FechaDePublicacion = DateTime.Now,
+        //    });
+        //    ForoSeleccionado.Model.AddMensaje(nuevoSeguimiento.Model);
+        //    _ActividadRepository.Update(Actividad.Model);
+            
+        //    var eventoDeActividad = new Evento()
+        //    {
+        //        FechaDePublicacion = DateTime.Now,
+        //        Titulo = ForoSeleccionado.Titulo,
+        //        Ocurrencia = Ocurrencia.SEGUIMIENGO_EN_TAREA,
+        //    };
+        //    _EventAggregator.GetEvent<PublicarEventosActividad>().Publish(eventoDeActividad);
+        //    NuevoSeguimiento = null;
+        //    Actividad.AcceptChanges();
+        //}
         private void OnCancelarIncidenciaCommand_Execute()
         {
 
@@ -230,68 +237,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public void LoadActividad(ActividadWrapper actividad)
         {
             Actividad = actividad;
-            //var act = _ActividadRepository.GetById(Actividad.Id); // actividad contiene la información de la base de datos
-            //foreach (var tarea in act.Tareas)
-            //{
-            //    if (tarea.HaFinalizado == false)
-            //    {
-            //        TareasDisponibles.Add(new TareaWrapper(
-            //        new Tarea()
-            //        {
-            //            Id = tarea.Id,
-            //            Descripcion = tarea.Descripcion,
-            //            FechaDeFinalizacion = tarea.FechaDeFinalizacion,
-            //            HaFinalizado = tarea.HaFinalizado,
-            //            Seguimiento = tarea.Seguimiento,
-            //            Incidencias = tarea.Incidencias,
-            //            Responsable = tarea.Responsable,
-            //        })
-            //        { SeguimientoVisible = false });
-            //    }
-            //    else
-            //    {
-            //        TareasFinalizadas.Add(new TareaWrapper(
-            //        new Tarea()
-            //        {
-            //            Id = tarea.Id,
-            //            Descripcion = tarea.Descripcion,
-            //            FechaDeFinalizacion = tarea.FechaDeFinalizacion,
-            //            HaFinalizado = tarea.HaFinalizado,
-            //            Seguimiento = tarea.Seguimiento,
-            //            Incidencias = tarea.Incidencias,
-            //            Responsable = tarea.Responsable,
-            //        })
-            //        { SeguimientoVisible = false });
-            //    }
-
-            //}
             Actividad.AcceptChanges();
-            // Por lo pronto probamos con estos dos lineas porque creo que no las necesito
-            // Con tener Session creo que es suficiente para poder guardar el foro => ERROR si no necesito porque tengo que
-            // usar Actividad.Foros.Add(Foro); antes de llamar a actividadRepository
-            // Foro.Actividad = actividad; //Para que no de error en ForoWrapper Actividad tiene que tener set sin private
         }
-        public void LoadTarea(TareaWrapper tarea) // Esto es necesario para cuando edito una tarea que tengo que pasar la informacion de la tarea
+        public void LoadForo(ForoWrapper foro) // Para Foro no se si es necesario
         {
-            TareaSeleccionada = tarea;
-            //TareasDisponibles.Add(new TareaWrapper(
-            //        new Tarea()
-            //        {
-            //            Id = tarea.Id,
-            //            Descripcion = tarea.Descripcion,
-            //            FechaDeFinalizacion = tarea.FechaDeFinalizacion,
-            //            HaFinalizado = tarea.HaFinalizado,
-            //            //Seguimiento = tarea.Seguimiento,
-            //            //Incidencias = tarea.Incidencias,
-            //            //Responsable = tarea.Responsable,
-            //        })
-            //{ SeguimientoVisible = false });
-        }
-        public bool IncidenciasSolucionadas
-        {
-            get { return _IncidenciasSolucionadas; }
-            set { SetProperty(ref _IncidenciasSolucionadas, value); }
+            ForoSeleccionado = foro;
         }
     }
-    
 }

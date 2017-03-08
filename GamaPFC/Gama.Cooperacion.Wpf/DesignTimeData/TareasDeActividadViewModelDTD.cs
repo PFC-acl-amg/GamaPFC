@@ -31,7 +31,7 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
             eventosDisponibles.Add(new Evento() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Crear los ViewModels", Ocurrencia = Ocurrencia.Mensaje_Publicado });
             IsVisibleMensaje = false;
 
-            EventosDisponibles = new List<EventoWrapper>(eventosDisponibles.Select(e => new EventoWrapper(e)));
+            EventoActividad = new List<EventoWrapper>(eventosDisponibles.Select(e => new EventoWrapper(e)));
 
             ForosDisponibles = new ObservableCollection<ForoWrapper>();
             ForosDisponibles.Add(new ForoWrapper(new Foro() { Titulo = "Hola caracola", FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15) }) { ForoVisible = false });
@@ -45,12 +45,12 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
                     })
                 {
                     ForoVisible = true,
-                    Eventos = new ChangeTrackingCollection<EventoWrapper>(EventosDisponibles)
+                    Eventos = new ChangeTrackingCollection<EventoWrapper>(EventoActividad)
                 });
         }
         public ObservableCollection<Tarea> TareasDisponibles { get; private set; }
         public ObservableCollection<Mensaje> MensajesDisponible { get; private set; }
-        public List<EventoWrapper> EventosDisponibles { get; private set; }
+        public List<EventoWrapper> EventoActividad { get; private set; }
         public ObservableCollection<ForoWrapper> ForosDisponibles { get; private set; }
         public bool IsVisibleForo
         {

@@ -28,7 +28,7 @@ namespace Gama.Cooperacion.DataAccess
                     {
                         NHibernate.Cfg.Configuration configuration;
 
-                        File.Delete("nh.cfg");
+                        //File.Delete("nh.cfg");
                         if (File.Exists("nh.cfg"))
                         {
                             var file = File.Open("nh.cfg", FileMode.Open);
@@ -82,7 +82,7 @@ namespace Gama.Cooperacion.DataAccess
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: true,
-                            execute: false,// A true trunca las tablas cada vez ejecutas el programa
+                            execute: true,// A true trunca las tablas cada vez ejecutas el programa
                             justDrop: false);
                     })
                 .BuildConfiguration();

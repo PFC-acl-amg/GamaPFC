@@ -103,13 +103,13 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public void LoadActividad(ActividadWrapper actividad)
         {
             Actividad = actividad;
-            var act = _ActividadRepository.GetById(Actividad.Id); // actividad contiene la información de la base de datos
+            //var act = _ActividadRepository.GetById(Actividad.Id); // actividad contiene la información de la base de datos
             if (CooperantesSeleccionados != null)
             {
                 CooperantesSeleccionados.Clear();
             }
             
-            foreach (var cooper3 in act.Cooperantes)
+            foreach (var cooper3 in Actividad.Cooperantes)
             {
                 CooperantesSeleccionados.Add(new CooperanteWrapper(
                     new Cooperante()
@@ -148,7 +148,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 var nuevoSeguimiento = new SeguimientoWrapper(new Seguimiento()
                 {
-                    Descripcion = "Historial del desarrollo de las tareas",
+                    Descripcion = "Historial de Seguimiento de la Tarea",
                     FechaDePublicacion = DateTime.Now,
                 });
                 var incidenciaTarea = (new IncidenciaWrapper(new Incidencia()
@@ -161,12 +161,16 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     Descripcion = DescripcionNuevaTarea,
                     FechaDeFinalizacion = FechaFinTarea,
                     Responsable = ResponsableTarea.Model,
-                    HaFinalizado = false
+                    HaFinalizado = false,
+                    Actividad = Actividad.Model
                 })
                 { SeguimientoVisible = false });
-                NuevaTarea.Model.AddIncidencia(incidenciaTarea.Model);
-                NuevaTarea.Model.AddSeguimiento(nuevoSeguimiento.Model);
-                Actividad.Model.AddTarea(NuevaTarea.Model);
+                //NuevaTarea.Model.AddIncidencia(incidenciaTarea.Model);
+                NuevaTarea.Incidencias.Add(incidenciaTarea);
+                //NuevaTarea.Model.AddSeguimiento(nuevoSeguimiento.Model);
+                NuevaTarea.Seguimiento.Add(nuevoSeguimiento);
+                Actividad.Tareas.Add(NuevaTarea); // Como Tareas es un Changetrakincolection cuando modificas tareas tambien modificael .model
+                                                  // Por lo que no tengo que hacer Actividad.Model.AddTarea(NuevaTarea.Model);
                 _ActividadRepository.Update(Actividad.Model);
                 _EventAggregator.GetEvent<NuevaTareaCreadaEvent>().Publish(NuevaTarea);
                 var eventoDeActividad = new Evento()
@@ -182,7 +186,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().Descripcion = DescripcionNuevaTarea;
                 Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().FechaDeFinalizacion = FechaFinTarea;
+                //Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().Responsable = ResponsableTarea;
+                Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().Responsable = new CooperanteWrapper(new Cooperante());
                 Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().Responsable = ResponsableTarea;
+
                 //CooperantesDisponibles.Remove(CooperantesDisponibles.Where(c => c.Id == cooperante.Id).First());
                 //Actividad.Tareas[0].Id ==
                 Actividad.UpdatedAt = DateTime.Now;

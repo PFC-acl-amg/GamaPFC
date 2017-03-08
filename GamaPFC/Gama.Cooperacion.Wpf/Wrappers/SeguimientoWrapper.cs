@@ -28,5 +28,6 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             get { return GetValue<DateTime>(); }
             set { }
         }
+        public TareaWrapper Tarea { get; private set; }
     }
 }

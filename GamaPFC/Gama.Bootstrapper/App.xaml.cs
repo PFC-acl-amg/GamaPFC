@@ -48,7 +48,7 @@ namespace Gama.Bootstrapper
             bool SALTAR_SELECCION_DE_MODULO = true; // Para hacer pruebas más rápido...
             if (SALTAR_SELECCION_DE_MODULO)
             {
-                bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
+                bootstrapper = new Bootstrapper(Modulos.Cooperacion);
                 bootstrapper.Run();
             }
             else

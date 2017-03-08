@@ -173,8 +173,10 @@
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\InformacionTareaViewModel.cs" />
     <Compile Include="ViewModels\ListadoDeActividadesViewModel.cs" />
+    <Compile Include="ViewModels\MensajesForoViewModel.cs" />
     <Compile Include="ViewModels\NuevaActividadViewModel.cs" />
     <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
+    <Compile Include="ViewModels\SeguimientoTareaViewModel.cs" />
     <Compile Include="ViewModels\StatusBarViewModel.cs" />
     <Compile Include="ViewModels\TareasDeActividadViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
@@ -195,6 +197,12 @@
     </Compile>
     <Compile Include="Views\InformacionTareaView.xaml.cs">
       <DependentUpon>InformacionTareaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MensajesForoView.xaml.cs">
+      <DependentUpon>MensajesForoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SeguimientoTareaView.xaml.cs">
+      <DependentUpon>SeguimientoTareaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StatusBarView.xaml.cs">
       <DependentUpon>StatusBarView.xaml</DependentUpon>
@@ -259,6 +267,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InformacionTareaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MensajesForoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SeguimientoTareaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

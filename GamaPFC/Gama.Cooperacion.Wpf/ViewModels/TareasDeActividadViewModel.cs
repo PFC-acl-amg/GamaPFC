@@ -85,8 +85,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             CrearTareaCommand = new DelegateCommand(OnCrearTareaCommand, OnCrearTareaCommand_CanExecute);
             MensajesForoCommand = new DelegateCommand<object>(OnMensajeForoCommand, OnMensajeForoCommand_CanExecute);
             InfoTareaCommand = new DelegateCommand<object>(OnInfoTareaCommand, OnInfoTareaCommand_CanExecute);
+            SeguimientoTareaCommand = new DelegateCommand<object>(OnSeguimientoTareaCommand, OnSeguimientoTareaCommand_CanExecute);
             EditarTareaCommand = new DelegateCommand<object>(OnEditarTareaCommand, OnEditarTareaCommand_CanExecute);
-            AceptarCrearForoCommand = new DelegateCommand(OnAceptarCrearForoCommand, OnAceptarCrearForoCommand_CanExecute);
+            BorrarTareaCommand = new DelegateCommand<object>(OnBorrarTareaCommand, OnBorrarTareaCommand_CanExecute);
+            //AceptarCrearForoCommand = new DelegateCommand(OnAceptarCrearForoCommand, OnAceptarCrearForoCommand_CanExecute);
             AceptarNuevoMensajeCommand = new DelegateCommand<object>(OnAceptarNuevoMensajeCommand, OnAceptarNuevoMensajeCommand_CanExecute);
             AceptarIncidenciaTDCommand = new DelegateCommand<object>(OnAceptarIncidenciaTDCommand, OnAceptarIncidenciaTDCommand_CanExecute);
             AceptarSeguimientoTDCommand = new DelegateCommand<object>(OnAceptarSeguimientoTDCommand, OnAceptarSeguimientoTDCommand_CanExecute);
@@ -94,6 +96,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             AceptarCrearTareaCommand = new DelegateCommand(OnAceptarCrearTareaCommand, OnAceptarCrearTareaCommand_CanExecute);
             AñadirCooperantesComboBox = new DelegateCommand (OnAñadirCooperantesComboBox, OnAñadirCooperantesComboBox_CanExecute);
         }
+
         public ISession Session
         {
             get { return _Session; }
@@ -143,7 +146,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand FinalizarTareaTDCommand { get; set; }
         public ICommand MensajesForoCommand { get; private set; }
         public ICommand InfoTareaCommand { get; private set; }
+        public ICommand SeguimientoTareaCommand { get; private set; }
         public ICommand EditarTareaCommand { get; private set; }
+        public ICommand BorrarTareaCommand { get; private set; }
         public ICommand CrearForoCommand { get; private set; }
         public ICommand CrearTareaCommand { get; private set; }
         public ICommand AñadirCooperantesComboBox { get; private set; }
@@ -168,9 +173,23 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
         private void OnMensajeForoCommand(object wrapper)
         {
-            ((ForoWrapper)wrapper).ForoVisible = !((ForoWrapper)wrapper).ForoVisible;
+            // ((ForoWrapper)wrapper).ForoVisible = !((ForoWrapper)wrapper).ForoVisible;
+            // vamos a abrir una nueva ventana para los mensajes del foro
+            var o = new MensajesForoView();
+            var vm = (MensajesForoViewModel)o.DataContext;
+            vm.Session = _Session;          // Da error si en InformacionTareaViewModel no tenemos definido esta variable
+            vm.LoadActividad(Actividad);    //Da error si no tenemos implemetada esta funcion en InformacionTareaViewModel
+            vm.LoadForo(((ForoWrapper)wrapper));  // necesito los detalles de la tarea concreta seleccionada
+            o.ShowDialog();
 
-            
+
+        }
+        private void OnBorrarTareaCommand(object wrapper)
+        {
+            var tareaBorrada = Actividad.Tareas.Where(x => x.Id == ((TareaWrapper)wrapper).Id).First();
+            Actividad.Tareas.Remove(tareaBorrada);
+            _actividadRepository.Update(Actividad.Model);
+            Actividad.AcceptChanges();
         }
         private void OnEditarTareaCommand(object wrapper)
         {
@@ -206,41 +225,23 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             vm.LoadTarea(((TareaWrapper)wrapper));  // necesito los detalles de la tarea concreta seleccionada
             o.ShowDialog();
         }
-        private void OnAceptarCrearForoCommand()   // Click => Boton aceptar para crear un nuevo FORO con su primer mensaje
+        private void OnSeguimientoTareaCommand(object wrapper)
         {
-            //var o = new NuevaCitaView();
-            var o = new CrearNuevoForo();   // La vista para crear un Foro
-            //var vm = (NuevaCitaViewModel)o.DataContext;
-            var vm = (CrearNuevoForoViewModel)o.DataContext;
-            vm.Session = _Session;
-            //vm.Session = _Session;
-            //vm.Load(Persona);
-            vm.Load(Actividad);
+            var o = new SeguimientoTareaView(); // Falta crear la vista
+            var vm = (SeguimientoTareaViewModel)o.DataContext; // hay que crear el ViewModel de la vista SeguimientoTareaView
+            vm.Session = _Session;          // Da error si en InformacionTareaViewModel no tenemos definido esta variable
+            vm.LoadActividad(Actividad);    //Da error si no tenemos implemetada esta funcion en InformacionTareaViewModel
+            vm.LoadTarea(((TareaWrapper)wrapper));  // necesito los detalles de la tarea concreta seleccionada
             o.ShowDialog();
-            //AuxiliarOnPublicarEventosActividad(Ocurrencia.FORO_CREADO, TituloForo);
-            // Codigo para abrir una nueva ventana para crear el foro
-            // Primer creamos la vista => sera una nueva ventana XMAL => CrearNuevoForo
-
-
-            // Este es el código correcto que ejecuta mostrando en una fila del group box de FOROS DISPONIBLES
-            //var mensajeForo = new MensajeWrapper(new Mensaje() {
-            //    Titulo = TituloForoMensaje,
-            //    FechaDePublicacion = DateTime.Now,
-            //});
-            //var foroW= (new ForoWrapper(new Foro()
-            //                            { Titulo = TituloForo, FechaDePublicacion = DateTime.Now})
-            //                            { ForoVisible = true });
-            ////foroW.Mensajes.Add(mensajeForo);
-            //foroW.Model.AddMensaje(mensajeForo.Model);
-            //Actividad.Model.AddForo(foroW.Model);
-            ////_ForoRepository.Create(foroW.Model);
-            //_actividadRepository.Update(Actividad.Model);
-
-            //_EventAggregator.GetEvent<NuevoForoCreadoEvent>().Publish(foroW);
-            //AuxiliarOnPublicarEventosActividad(Ocurrencia.FORO_CREADO, TituloForo);
-            //CrearForoVisible = false;
-            //OcultarForoVisible = true;
         }
+        //private void OnAceptarCrearForoCommand()   // Click => Boton aceptar para crear un nuevo FORO con su primer mensaje
+        //{
+        //    var o = new CrearNuevoForo();   // La vista para crear un Foro
+        //    var vm = (CrearNuevoForoViewModel)o.DataContext;
+        //    vm.Session = _Session;
+        //    vm.Load(Actividad);
+        //    o.ShowDialog();
+        //}
         private void OnAceptarCrearTareaCommand()
         {
             var nuevoSeguimiento = new SeguimientoWrapper(new Seguimiento()
@@ -340,6 +341,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             return true;
         }
+        private bool OnSeguimientoTareaCommand_CanExecute(object wrapper)
+        {
+            return true;
+        }
         private bool OnEditarTareaCommand_CanExecute(object wrapper)
         {
             return true;
@@ -349,6 +354,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             return true;
         }
         private bool OnAceptarCrearTareaCommand_CanExecute()
+        {
+            return true;
+        }
+        private bool OnBorrarTareaCommand_CanExecute(object wrapper)
         {
             return true;
         }
@@ -475,7 +484,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             ForosDisponibles.Insert(0, (new ForoWrapper(new Foro()
             { Id=forito.Id, Titulo = forito.Titulo, FechaDePublicacion = forito.FechaDePublicacion, Mensajes=forito.Model.Mensajes })
-            { ForoVisible = true }));
+            { ForoVisible = false }));
         }
         private void OnNuevaTareaCreadaEvent(TareaWrapper NuevaTarea)
         {

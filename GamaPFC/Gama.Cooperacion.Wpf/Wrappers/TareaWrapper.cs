@@ -44,16 +44,55 @@ namespace Gama.Cooperacion.Wpf.Wrappers
                 throw new ArgumentNullException("Resposable");
             }
 
-            this.Responsable = new CooperanteWrapper(model.Responsable);
-            //if (model.Actividad == null)
-            //{
-            //    throw new ArgumentNullException("Actividad");
-            //}
-
-            //this.Actividad = new ActividadWrapper(model.Actividad);
-            // Hasta aqui lo comento yo.
-            //RegisterComplex(this.Responsable);
+            // this.Responsable = new CooperanteWrapper(model.Responsable);
+            _Responsable = new CooperanteWrapper(model.Responsable);
+            _ResponsableOriginalValue = new CooperanteWrapper(model.Responsable);
+            this.ResponsableIsChanged = false;
         }
+        private CooperanteWrapper _Responsable;
+        public CooperanteWrapper Responsable
+        {
+            get { return _Responsable; }
+            set
+            {
+                _Responsable = value;
+
+                if (value != null)
+                {
+                    if (value.Id == ResponsableOriginalValue.Id)
+                    {
+                        ResponsableIsChanged = false;
+                        OnPropertyChanged(nameof(IsChanged));
+                    }
+                    else
+                    {
+                        ResponsableIsChanged = true;
+                        OnPropertyChanged(nameof(IsChanged));
+                    }
+
+                    SetValue(value.Model);
+                }
+            }
+        }
+        private CooperanteWrapper _ResponsableOriginalValue;
+        public CooperanteWrapper ResponsableOriginalValue
+        {
+            get { return _ResponsableOriginalValue; }
+            set
+            {
+                _ResponsableOriginalValue = value;
+                if (Responsable.Id == ResponsableOriginalValue.Id)
+                {
+                    ResponsableIsChanged = false;
+                }
+                else
+                {
+                    ResponsableIsChanged = true;
+
+                }
+            }
+        }
+        public bool ResponsableIsChanged { get; set; }
         public int Id
         {
             get { return GetValue<int>(); }
@@ -123,7 +162,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         }
 
         public ActividadWrapper Actividad { get; private set; }
-        public CooperanteWrapper Responsable { get;  set; } // Estaba puesto private set pero no me dejaba hacer la asignacion
+        //public CooperanteWrapper Responsable { get;  set; } // Estaba puesto private set pero no me dejaba hacer la asignacion
                                                             // TareasDisponibles[indice].Responsable = ResponsableTarea.Model;
                                                             // para el nuevo evento OnTareaModificadaEvent
     }
