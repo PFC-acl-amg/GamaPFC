@@ -75,13 +75,13 @@ namespace Gama.Socios.DataAccess
                         .AddFromAssemblyOf<SocioMap>()
                         //.Add<ActividadMap>()
                         //.Add<CooperanteMap>()
-                        .Conventions.Add(DefaultCascade.All(), DefaultLazy.Always()))
+                        .Conventions.Add(DefaultCascade.All(), DefaultLazy.Never()))
                 .ExposeConfiguration(
                     c => {
                         var schema = new SchemaExport(c);
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
-                            useStdOut: true,
+                            useStdOut: false,
                             execute: false,
                             justDrop: false);
                     })

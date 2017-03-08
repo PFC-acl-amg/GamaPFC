@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Encryption;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +47,7 @@ namespace Gama.Socios.Business
                 nameof(Email),
             });
 
-            IsEncrypted = false;
+            IsEncrypted = true;
         }
 
         public virtual bool IsBirthday()
@@ -104,15 +105,7 @@ namespace Gama.Socios.Business
 
                 if (propertyValue != null)
                 {
-
-                    string value = "";
-                    for (int i = 0; i < propertyValue.ToString().Length; i++)
-                    {
-                        var theChar = (char)((int)propertyValue.ToString()[i] + 1);
-                        value += theChar;
-                    }
-
-                    propertyInfo.SetValue(this, value);
+                    propertyInfo.SetValue(this, StringCipher.Encrypt(propertyValue.ToString()));
                 }
             }
 
@@ -127,29 +120,28 @@ namespace Gama.Socios.Business
 
         public virtual void Decrypt()
         {
-            if (!IsEncrypted)
-                return;
-
-            foreach (var propertyName in EncryptedFields)
+            try
             {
-                var propertyInfo = this.GetType().GetProperty(propertyName);
-                var propertyValue = propertyInfo.GetValue(this, null);
+                if (!IsEncrypted)
+                    return;
 
-                if (propertyValue != null)
+                foreach (var propertyName in EncryptedFields)
                 {
-                    string decryptedValue = "";
+                    var propertyInfo = this.GetType().GetProperty(propertyName);
+                    var propertyValue = propertyInfo.GetValue(this, null);
 
-                    for (int i = 0; i < propertyValue.ToString().Length; i++)
+                    if (propertyValue != null)
                     {
-                        var theChar = (char)((int)propertyValue.ToString()[i] - 1);
-                        decryptedValue += theChar;
+                        propertyInfo.SetValue(this, StringCipher.Decrypt(propertyValue.ToString()));
                     }
-
-                    propertyInfo.SetValue(this, decryptedValue);
                 }
-            }
 
-            IsEncrypted = false;
+                IsEncrypted = false;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
