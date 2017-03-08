@@ -95,7 +95,7 @@ namespace Core.DataAccess
                         encryptableEntity.IsEncrypted = false;
                         encryptableEntity.Encrypt();
                     }
-
+                  
                     Session.Save(entity);
                     tx.Commit();
 
