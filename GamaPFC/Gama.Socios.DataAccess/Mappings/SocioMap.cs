@@ -21,7 +21,7 @@ namespace Gama.Socios.DataAccess.Mappings
             Map(x => x.FechaDeNacimiento).Not.Nullable();
             Map(x => x.LinkedIn).Not.Nullable().Default("");
             Map(x => x.Nacionalidad).Not.Nullable().Default("");
-            Map(x => x.Nif).Not.Nullable().Unique();
+            Map(x => x.Nif).Not.Nullable().Unique().Length(128);
             Map(x => x.Nombre).Not.Nullable();
             Map(x => x.Telefono).Not.Nullable().Default("");
             Map(x => x.Twitter).Not.Nullable().Default("");

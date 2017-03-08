@@ -81,7 +81,7 @@ namespace Gama.Socios.DataAccess
                         var schema = new SchemaExport(c);
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
-                            useStdOut: true,
+                            useStdOut: false,
                             execute: false,
                             justDrop: false);
                     })
