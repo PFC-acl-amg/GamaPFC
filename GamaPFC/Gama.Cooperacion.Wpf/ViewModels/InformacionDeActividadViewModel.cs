@@ -219,6 +219,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private bool OnNuevoCooperanteCommand_CanExecute()
         {
+            if (CooperantesDisponibles == null)
+                return false;
+
             return CooperantesDisponibles.Count > 0;
         }
 

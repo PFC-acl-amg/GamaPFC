@@ -89,7 +89,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnActualizarCommand()
         {
-            var cooperanteDummy = Actividad.Cooperantes.Single(c => c.Nombre == null);
+            var cooperanteDummy = Actividad.Cooperantes.Where(c => c.Nombre == null).FirstOrDefault();
             if (cooperanteDummy != null)
             {
                 Actividad.Cooperantes.Remove(cooperanteDummy);

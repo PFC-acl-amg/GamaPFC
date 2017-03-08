@@ -30,16 +30,19 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             HasMany(x => x.Eventos)
                 //.Cascade.SaveUpdate()
                 .Cascade.All()
+                .Not.LazyLoad()
                 .Inverse();
 
             HasMany(x => x.Foros)
                 //.Cascade.SaveUpdate()
                 .Cascade.All()
+                .Not.LazyLoad()
                 .Inverse();
 
             HasMany(x => x.Tareas)
                 // .Cascade.SaveUpdate()
                 .Cascade.All()
+                .Not.LazyLoad()
                 .Inverse();
 
             HasManyToMany(x => x.Cooperantes)

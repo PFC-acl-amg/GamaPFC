@@ -31,11 +31,13 @@ namespace Gama.Cooperacion.DataAccess.Mappings
 
             HasMany(x => x.Seguimiento)
                 //.Cascade.SaveUpdate()
+                .Not.LazyLoad()
                 .Cascade.All()
                .Inverse();
 
             HasMany(x => x.Incidencias)
                 //.Cascade.SaveUpdate()
+                .Not.LazyLoad()
                 .Cascade.All()
                .Inverse();
 
