@@ -16,28 +16,17 @@ namespace Gama.Atenciones.Wpf.Services
         {
             try
             {
-                var entities = Session.CreateCriteria<Cita>()
+                var citas = Session.CreateCriteria<Cita>()
                     .SetFetchMode("Persona", NHibernate.FetchMode.Eager).List<Cita>().ToList();
 
-                foreach (var entity in entities)
+                foreach (var cita in citas)
                 {
-                    var encryptableEntity = entity as IEncryptable;
-                    if (encryptableEntity != null)
-                    {
-                        encryptableEntity.IsEncrypted = true;
-                        encryptableEntity.Decrypt();
-                    }
-                    else
-                    {
-                        // Si una entidad de la colección no lo es, ninguna lo será, ya que
-                        // son todas del mismo tipo (misma clase).
-                        break;
-                    }
+                    cita.Persona.Decrypt();
                 }
 
                 Session.Clear();
 
-                return entities;
+                return citas;
             }
             catch (Exception ex)
             {

@@ -22,6 +22,11 @@ namespace Gama.Atenciones.Wpf.Wrappers
             {
                 Atencion = new AtencionWrapper(model.Atencion);
             }
+
+            if (model.Persona == null)
+            {
+                throw new ArgumentNullException("Persona");
+            }
         }
 
         public string Asistente

@@ -10,6 +10,8 @@
              xmlns:CustomControls="clr-namespace:Gama.Atenciones.Wpf.Controls"
              d:DesignHeight="325.685" d:DesignWidth="572.26">
   <Grid Margin="0,39,0,0">
-    <CustomControls:CustomCalendar Grid.Row="1" Appointments="{Binding Citas}"/>
+    <CustomControls:CustomCalendar
+      Style="{StaticResource CustomCalendarGlobalStyle}"
+      Grid.Row="1" Appointments="{Binding Citas}"/>
   </Grid>
 </UserControl>
