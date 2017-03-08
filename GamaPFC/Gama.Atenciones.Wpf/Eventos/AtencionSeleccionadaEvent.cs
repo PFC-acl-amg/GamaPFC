@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Wpf.Eventos
 {
-    public class AtencionSeleccionadaEvent : PubSubEvent<int>
+    public class AtencionSeleccionadaEvent : PubSubEvent<IdentificadorDeModelosPayload>
     {
     }
 }

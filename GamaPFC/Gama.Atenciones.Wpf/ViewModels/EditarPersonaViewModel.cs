@@ -1,25 +1,21 @@
 ﻿using Core;
-using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.Wrappers;
 using Gama.Common.Views;
 using NHibernate;
+using Prism;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
-    public class EditarPersonaViewModel : ViewModelBase, IConfirmNavigationRequest
+    public class EditarPersonaViewModel : ViewModelBase, IConfirmNavigationRequest, IActiveAware
     {
         private IEventAggregator _EventAggregator;
         private IPersonaRepository _PersonaRepository;
@@ -44,46 +40,48 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _CitasVM = citasVM;
             _CitasVM.Session = session;
 
-
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
                 () => !_PersonaVM.EdicionHabilitada);
 
             ActualizarCommand = new DelegateCommand(
                 OnActualizarCommand,
-                () => _PersonaVM.EdicionHabilitada
+                () =>
+                _PersonaVM.EdicionHabilitada
                    && Persona.IsChanged
-                   && Persona.IsValid);
+                   && Persona.IsValid
+                   );
 
             CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand,
                 () => _PersonaVM.EdicionHabilitada);
 
+            EliminarPersonaCommand = new DelegateCommand(OnEliminarPersonaCommandExecute);
+
             _PersonaVM.PropertyChanged += _PersonaVM_PropertyChanged;
         }
 
-        public PersonaViewModel PersonaVM
-        {
-            get { return _PersonaVM; }
-        }
-        
-        public EditarAtencionesViewModel AtencionesVM
-        {
-            get { return _AtencionesVM; }
-        }
-
-        public EditarCitasViewModel CitasVM
-        {
-            get { return _CitasVM;  }
-        }
-
-        public PersonaWrapper Persona
-        {
-            get { return _PersonaVM.Persona; }
-        }
+        public PersonaViewModel PersonaVM               => _PersonaVM;
+        public EditarAtencionesViewModel AtencionesVM   => _AtencionesVM;
+        public EditarCitasViewModel CitasVM             => _CitasVM;
+        public PersonaWrapper Persona                   => _PersonaVM.Persona;
 
         public ICommand HabilitarEdicionCommand { get; private set; }
         public ICommand ActualizarCommand { get; private set; }
         public ICommand CancelarEdicionCommand { get; private set; }
+        public ICommand EliminarPersonaCommand { get; private set; }
+        
+        private bool _IsActive;
+        public bool IsActive
+        {
+            get { return _IsActive; }
+
+            set
+            {
+                SetProperty(ref _IsActive, value);
+                if (_IsActive)
+                    _EventAggregator.GetEvent<PersonaSeleccionadaChangedEvent>().Publish(Persona.Id);
+            }
+        }
 
         private void OnActualizarCommand()
         {
@@ -92,6 +90,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _PersonaVM.Persona.AcceptChanges();
             _PersonaVM.EdicionHabilitada = false;
             RefrescarTitulo(Persona.Nombre);
+            if (Persona._SavedNif != Persona.Nif)
+            {
+                AtencionesResources.TodosLosNif.Remove(Persona._SavedNif);
+                AtencionesResources.TodosLosNif.Add(Persona.Nif);
+                Persona._SavedNif = Persona.Nif;
+            }
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Publish(Persona.Id);
         }
 
@@ -106,14 +110,18 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _PersonaVM.EdicionHabilitada = false;
         }
 
-        public override bool IsNavigationTarget(NavigationContext navigationContext)
+        private void OnEliminarPersonaCommandExecute()
         {
-            var id = (int)navigationContext.Parameters["Id"];
+            var o = new ConfirmarOperacionView();
+            o.Mensaje = "¿Está seguro de que desea eliminar esta persona y todos sus registros?";
+            o.ShowDialog();
 
-            if (Persona.Id == id)
-                return true;
-
-            return false;
+            if (o.EstaConfirmado)
+            {
+                int id = Persona.Id;
+                _PersonaRepository.Delete(Persona.Model);
+                _EventAggregator.GetEvent<PersonaEliminadaEvent>().Publish(id);
+            }
         }
 
         public void Load(int id)
@@ -123,8 +131,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 if (Persona.Nombre != null)
                     return;
 
-                var persona = new PersonaWrapper(
-                    _PersonaRepository.GetById(id));
+                var personaModel = _PersonaRepository.GetById(id);
+                var persona = new PersonaWrapper(personaModel);
 
                 _PersonaVM.Load(persona);
                 _AtencionesVM.Load(_PersonaVM.Persona);
@@ -137,25 +145,47 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
         }
 
-        public override void OnNavigatedTo(NavigationContext navigationContext)
+        public bool IsNavigationTarget(int id)
         {
-            try {
-                if (Persona.Nombre != null)
-                    return;
+            return (Persona.Id == id);
+        }
 
-                var persona = new PersonaWrapper(
-                    _PersonaRepository.GetById((int)navigationContext.Parameters["Id"])
-                    .DecryptFluent());
+        public void NavigateTo(int personaId, int? atencionId = null)
+        {
+            try
+            {
+                if (Persona.Nombre == null)
+                {
+                    var persona = new PersonaWrapper(
+                        _PersonaRepository.GetById(personaId)
+                        .DecryptFluent());
 
-                _PersonaVM.Load(persona);
-                _AtencionesVM.Load(_PersonaVM.Persona);
-                _CitasVM.Load(_PersonaVM.Persona);
-                RefrescarTitulo(persona.Nombre);
+                    _PersonaVM.Load(persona);
+                    _AtencionesVM.Load(_PersonaVM.Persona);
+                    _CitasVM.Load(_PersonaVM.Persona);
+                    RefrescarTitulo(persona.Nombre);
+                }
+                
+                if (atencionId.HasValue)
+                {
+                    _AtencionesVM.AtencionSeleccionada = _AtencionesVM.Atenciones.Where(x => x.Id == atencionId.Value).First();
+                    _AtencionesVM.VerAtenciones = true;
+                }
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+        }
+
+        public override bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return IsNavigationTarget((int)navigationContext.Parameters["Id"]);
+        }
+
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            NavigateTo((int)navigationContext.Parameters["Id"], (int?)navigationContext.Parameters["AtencionId"]);
         }
 
         private void RefrescarTitulo(string nombre)

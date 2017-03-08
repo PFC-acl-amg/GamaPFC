@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Gama.Common.CustomControls;
+using Core;
+using NHibernate.Criterion;
 
 namespace Gama.Atenciones.Wpf.Services
 {
@@ -14,6 +16,33 @@ namespace Gama.Atenciones.Wpf.Services
         public List<LookupItem> GetAllForLookup()
         {
             throw new NotImplementedException();
+        }
+
+        public override Atencion GetById(int id)
+        {
+            try
+            {
+                var entity = Session.Get<Atencion>((object)id);
+                
+                var encryptableEntity = entity as IEncryptable;
+                if (encryptableEntity != null)
+                {
+                    //encryptableEntity.IsEncrypted = true;
+                    //encryptableEntity.Decrypt();
+                    if (encryptableEntity.IsEncrypted)
+                    {
+                        encryptableEntity.Decrypt();
+                    }
+                }
+
+                //Session.Clear();
+
+                return entity;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public IEnumerable<int> GetAtencionesNuevasPorMes(int numeroDeMeses)

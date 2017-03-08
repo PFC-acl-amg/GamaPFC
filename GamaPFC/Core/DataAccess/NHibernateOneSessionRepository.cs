@@ -41,6 +41,8 @@ namespace Core.DataAccess
                     }
                 }
 
+                Session.Clear();
+
                 return entity;
             }
             catch (Exception ex)
@@ -96,6 +98,8 @@ namespace Core.DataAccess
 
                     Session.Save(entity);
                     tx.Commit();
+
+                    Session.Clear();
                     
                     //if (encryptableEntity != null)
                     //{

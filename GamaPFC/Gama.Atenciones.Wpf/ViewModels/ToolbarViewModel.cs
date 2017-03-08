@@ -3,6 +3,7 @@ using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.Views;
+using Gama.Common.Views;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
@@ -34,21 +35,52 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             NuevaPersonaCommand = new DelegateCommand(OnNuevaPersonaCommandExecute);
             ExportarCommand = new DelegateCommand(OnExportarCommandExecute);
+            EliminarPersonaCommand = new DelegateCommand(OnEliminarPersonaCommandExecute, 
+                () => _Persona != null);
 
-            _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
-            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
+            _EventAggregator.GetEvent<PersonaSeleccionadaChangedEvent>().Subscribe(OnPersonaSeleccionadaChangedEvent);
+            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaSeleccionadaChangedEvent);
         }
 
-        private void OnPersonaSeleccionadaEvent(int id)
+        private void OnPersonaSeleccionadaChangedEvent(int id)
         {
-            var persona = _PersonaRepository.GetById(id);
-            _PersonaRepository.Session.Evict(persona);
+            if (id != 0)
+            {
+                var persona = _PersonaRepository.GetById(id);
+                _PersonaRepository.Session.Evict(persona);
 
-            _Persona = persona;
+                _Persona = persona;
+            }
+            else
+            {
+                _Persona = null;
+            }
+
+            InvalidateCommands();
         }
 
-        public ICommand NuevaPersonaCommand { get; private set; }
+        private void InvalidateCommands()
+        {
+            ((DelegateCommand)EliminarPersonaCommand).RaiseCanExecuteChanged();
+        }
+
+        private void OnEliminarPersonaCommandExecute()
+        {
+            var o = new ConfirmarOperacionView();
+            o.Mensaje = "¿Está seguro de que desea eliminar esta persona y todos sus registros?";
+            o.ShowDialog();
+
+            if (o.EstaConfirmado)
+            {
+                int id = _Persona.Id;
+                _PersonaRepository.Delete(_Persona);
+                _EventAggregator.GetEvent<PersonaEliminadaEvent>().Publish(id);
+            }
+        }
+
+    public ICommand NuevaPersonaCommand { get; private set; }
         public ICommand ExportarCommand { get; private set; }
+        public ICommand EliminarPersonaCommand { get; private set; }
 
         private void OnNuevaPersonaCommandExecute()
         {

@@ -1,5 +1,4 @@
 ﻿using Core;
-using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Controls;
 using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
@@ -8,14 +7,8 @@ using Gama.Atenciones.Wpf.Wrappers;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Prism.Regions;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -33,16 +26,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             NuevaCitaCommand = new DelegateCommand<Day>(OnNuevaCitaCommandExecute);
             NuevaAtencionCommand = new DelegateCommand<CitaWrapper>(OnNuevaAtencionExecute);
-            Citas = new ObservableCollection<CitaWrapper>();
-            Citas.Add(new CitaWrapper(new Cita { Inicio = DateTime.Now, Asistente = "Asistente", Sala = "Sala B" }));
         }
 
         public void Load(PersonaWrapper wrapper)
         {
             Persona = wrapper;
-            //Citas = new ObservableCollection<Cita>();
             Citas = Persona.Citas;
-            //OnPropertyChanged("Atenciones");
         }
 
         private void OnNuevaAtencionExecute(CitaWrapper cita)
@@ -54,7 +43,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             var o = new NuevaCitaView();
             var vm = (NuevaCitaViewModel)o.DataContext;
-            vm.Cita.Inicio = fechaSeleccionada.Date;
+            vm.Cita.Fecha = fechaSeleccionada.Date;
             vm.Session = _Session;
             vm.Load(Persona);
             o.ShowDialog();

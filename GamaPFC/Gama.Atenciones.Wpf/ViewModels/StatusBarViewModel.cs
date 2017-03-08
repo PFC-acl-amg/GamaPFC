@@ -25,6 +25,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
             _EventAggregator.GetEvent<AtencionActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
+            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
 
             Mensaje = DefaultMensaje;
             _Timer = new DispatcherTimer();
@@ -47,6 +48,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnPersonaActualizadaEvent(int obj)
         {
             Mensaje = "La persona se ha actualizado con éxito.";
+            ActivarFondo = true;
+            _Timer.Start();
+        }
+
+        private void OnPersonaEliminadaEvent(int obj)
+        {
+            Mensaje = "La persona y todos sus registros han sido eliminados con éxito.";
             ActivarFondo = true;
             _Timer.Start();
         }

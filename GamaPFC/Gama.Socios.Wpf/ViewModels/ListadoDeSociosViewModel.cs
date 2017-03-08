@@ -1,4 +1,5 @@
 ﻿using Core;
+using Gama.Common.CustomControls;
 using Gama.Socios.Business;
 using Gama.Socios.Wpf.Eventos;
 using Gama.Socios.Wpf.Services;
@@ -20,7 +21,7 @@ namespace Gama.Socios.Wpf.ViewModels
         private IEventAggregator _EventAggregator;
         private ISocioRepository _SocioRepository;
         private ISociosSettings _Settings;
-        private List<Socio> _Socios;
+        private List<LookupItem> _Socios;
 
         public ListadoDeSociosViewModel(
             ISocioRepository socioRepository,
@@ -34,11 +35,19 @@ namespace Gama.Socios.Wpf.ViewModels
             _SocioRepository.Session = session;
             _EventAggregator = eventAggregator;
             _Settings = settings;
+            
+            _Socios = _SocioRepository.GetAll()
+                .Select(p => new LookupItem
+                {
+                    Id = p.Id,
+                    DisplayMember1 = p.Nombre,
+                    DisplayMember2 = p.Nif,
+                    IconSource = p.AvatarPath
+                }).ToList();
 
-            _Socios = _SocioRepository.GetAll();
             Socios = new PaginatedCollectionView(_Socios, _Settings.ListadoDeSociosItemsPerPage);
 
-            SeleccionarSocioCommand = new DelegateCommand<Socio>(OnSeleccionarSocioCommandExecute);
+            SeleccionarSocioCommand = new DelegateCommand<LookupItem>(OnSeleccionarSocioCommandExecute);
             PaginaSiguienteCommand = new DelegateCommand(OnPaginaSiguienteCommandExecute);
             PaginaAnteriorCommand = new DelegateCommand(OnPaginaAnteriorCommandExecute);
 
@@ -72,7 +81,7 @@ namespace Gama.Socios.Wpf.ViewModels
         public ICommand PaginaSiguienteCommand { get; private set; }
         public ICommand PaginaAnteriorCommand { get; private set; }
 
-        private void OnSeleccionarSocioCommandExecute(Socio socio)
+        private void OnSeleccionarSocioCommandExecute(LookupItem socio)
         {
             _EventAggregator.GetEvent<SocioSeleccionadoEvent>().Publish(socio.Id);
         }
@@ -90,7 +99,13 @@ namespace Gama.Socios.Wpf.ViewModels
         private void OnSocioCreadoEvent(int id)
         {
             var socio = _SocioRepository.GetById(id);
-            _Socios.Insert(0, socio);
+            _Socios.Insert(0, new LookupItem
+            {
+                Id = socio.Id,
+                DisplayMember1 = socio.Nombre,
+                DisplayMember2 = socio.Nif,
+                IconSource = socio.AvatarPath
+            });
             Socios.Refresh();
         }
 
@@ -100,7 +115,12 @@ namespace Gama.Socios.Wpf.ViewModels
             {
                 var socioSinActualizar = _Socios.Where(x => x.Id == socio.Id).Single();
                 var index = _Socios.IndexOf(socioSinActualizar);
-                _Socios[index].CopyValuesFrom(socio);
+                var socioEncontrado = _Socios[index];
+                socioEncontrado.DisplayMember1 = socio.Nombre;
+                socioEncontrado.DisplayMember2 = socio.Nif;
+                socioEncontrado.Id = socio.Id;
+                socioEncontrado.IconSource = socio.AvatarPath;
+                //_Socios[index].CopyValuesFrom(socio);
             }
         }
     }

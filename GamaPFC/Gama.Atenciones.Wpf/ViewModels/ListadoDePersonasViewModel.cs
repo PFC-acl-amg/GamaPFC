@@ -3,6 +3,7 @@ using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Common.CustomControls;
 using NHibernate;
+using Prism;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -14,7 +15,7 @@ using System.Windows.Input;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
-    public class ListadoDePersonasViewModel : ViewModelBase
+    public class ListadoDePersonasViewModel : ViewModelBase, IActiveAware
     {
         private IEventAggregator _EventAggregator;
         private IPersonaRepository _PersonaRepository;
@@ -38,7 +39,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 .Select(p => new LookupItem
                 {
                     Id = p.Id,
-                    DisplayMember1 = p.Nombre,
+                    DisplayMember1 = LookupItem.ShortenStringForDisplay(p.Nombre, 25),
                     DisplayMember2 = p.Nif,
                     IconSource = p.AvatarPath
                 }).ToList();
@@ -48,6 +49,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnNuevaPersonaEvent);
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
+            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
 
             PaginaAnteriorCommand = new DelegateCommand(() => Personas.MoveToPreviousPage());
             PaginaSiguienteCommand = new DelegateCommand(() => Personas.MoveToNextPage());
@@ -94,12 +96,17 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var lookupItem = new LookupItem
             {
                 Id = persona.Id,
-                DisplayMember1 = persona.Nombre,
+                DisplayMember1 = LookupItem.ShortenStringForDisplay(persona.Nombre, 25),
                 DisplayMember2 = persona.Nif,
                 IconSource = persona.AvatarPath
             };
-            _Personas.Insert(0, lookupItem);
-            Personas.Refresh();
+
+            Personas.AddItemAt(0, lookupItem);
+        }
+
+        private void OnPersonaEliminadaEvent(int id)
+        {
+            Personas.Remove(_Personas.Find(x => x.Id == id));
         }
 
         private void OnPersonaActualizadaEvent(int id)
@@ -117,6 +124,23 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
 
             Personas.Refresh();
+        }
+        
+        private bool _IsActive;
+        public bool IsActive
+        {
+            get { return _IsActive; }
+
+            set
+            {
+                SetProperty(ref _IsActive, value);
+                if (_IsActive)
+                {
+                    // NOTA: Se está usando un 0 (cero) para indicar que ya no hay
+                    // persona seleccionada. Se ha convenido así.
+                    _EventAggregator.GetEvent<PersonaSeleccionadaChangedEvent>().Publish(0);
+                }
+            }
         }
     }
 }

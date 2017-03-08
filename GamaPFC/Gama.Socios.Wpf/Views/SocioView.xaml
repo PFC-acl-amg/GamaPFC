@@ -8,6 +8,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
              xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
+             xmlns:converters="clr-namespace:Gama.Common.Resources.Converters;assembly=Gama.Common"
              mc:Ignorable="d" 
              prism:ViewModelLocator.AutoWireViewModel="True"
              d:DesignHeight="475.685" d:DesignWidth="333.904">
@@ -15,7 +16,7 @@
     <designData:SocioViewModelDTD/>
   </d:DataContext>
   <UserControl.Resources>
-    <util:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>
+    <converters:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>
   </UserControl.Resources>
   <GroupBox Header="Datos Personales">
     <ScrollViewer>

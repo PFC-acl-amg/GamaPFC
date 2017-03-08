@@ -125,65 +125,100 @@ namespace Gama.Atenciones.Wpf
 
         private void InicializarDirectorios()
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory;
-            string iconsAndImagesPath = path + @"IconsAndImages\";
-
-            if (!Directory.Exists(iconsAndImagesPath))
+            if (!Directory.Exists(ResourceNames.IconsAndImagesFolder))
             {
-                Directory.CreateDirectory(iconsAndImagesPath);
+                Directory.CreateDirectory(ResourceNames.IconsAndImagesFolder);
+            }
 
-                var icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_search_icon.png"));
-                BitmapEncoder encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(icon));
+            try
+            {
+                BitmapImage icon;
+                BitmapEncoder encoder;
 
-                using (var fileStream = new System.IO.FileStream(iconsAndImagesPath + "default_search_icon.png", System.IO.FileMode.Create))
+                //
+                // Default Search Icon
+                //
+                if (!File.Exists(ResourceNames.DefaultSearchIconPath))
                 {
-                    encoder.Save(fileStream);
+                    icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_search_icon.png"));
+                    encoder = new PngBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(icon));
+
+                    using (var fileStream = 
+                        new System.IO.FileStream(ResourceNames.DefaultSearchIconPath, System.IO.FileMode.Create))
+                    {
+                        encoder.Save(fileStream);
+                    }
                 }
 
-                icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png"));
-                encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(icon));
-
-                using (var fileStream = new System.IO.FileStream(iconsAndImagesPath + "default_user_icon.png", System.IO.FileMode.Create))
+                //
+                // Default User Icon
+                //
+                if (!File.Exists(ResourceNames.DefaultUserIconPath))
                 {
-                    encoder.Save(fileStream);
+                    icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png"));
+                    encoder = new PngBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(icon));
+
+                    using (var fileStream = 
+                        new System.IO.FileStream(ResourceNames.DefaultUserIconPath, System.IO.FileMode.Create))
+                    {
+                        encoder.Save(fileStream);
+                    }
                 }
+
+                //
+                // Atención Icon
+                //
+                if (!File.Exists(ResourceNames.AtencionIconPath))
+                {
+                    icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png"));
+                    encoder = new PngBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(icon));
+
+                    using (var fileStream =
+                        new System.IO.FileStream(ResourceNames.AtencionIconPath, System.IO.FileMode.Create))
+                    {
+                        encoder.Save(fileStream);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
         private void RegisterViews()
         {
+            Container.RegisterType<object, CitasContentView>("CitasContentView");
             Container.RegisterType<object, DashboardView>("DashboardView");
-
             Container.RegisterType<object, EditarAtencionesView>("EditarAtencionesView");
             Container.RegisterType<object, EditarCitasView>("EditarCitasView");
             Container.RegisterType<object, EditarPersonaView>("EditarPersonaView");
-
             Container.RegisterType<object, GraficasView>("GraficasView");
-
             Container.RegisterType<object, ListadoDePersonasView>("ListadoDePersonasView");
             Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
             Container.RegisterType<object, PersonasContentView>("PersonasContentView");
             Container.RegisterType<object, StatusBarView>("StatusBarView");
             Container.RegisterType<object, ToolbarView>("ToolbarView");
+            Container.RegisterType<object, RightCommandsView>("RightCommandsView");
+            Container.RegisterType<object, PreferenciasView>("PreferenciasView");
         }
 
         private void RegisterViewModels()
         {
+            Container.RegisterType<CitasContentViewModel>();
             Container.RegisterType<DashboardViewModel>();
-
             Container.RegisterType<EditarAtencionesViewModel>();
             Container.RegisterType<EditarCitasViewModel>();
             Container.RegisterType<EditarPersonaViewModel>();
-
-            Container.RegisterInstance(new GraficasViewModel(
-                Container.Resolve<IPersonaRepository>(),
-                Container.Resolve<ISession>()));
-
+            Container.RegisterType<GraficasViewModel>();
             Container.RegisterType<ListadoDePersonasViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
             Container.RegisterType<PersonasContentViewModel>();
+            Container.RegisterType<PreferenciasViewModel>();
+            Container.RegisterType<RightCommandsViewModel>();
             Container.RegisterType<SearchBoxViewModel>();
             Container.RegisterType<StatusBarViewModel>();
             Container.RegisterType<ToolbarViewModel>();
@@ -202,10 +237,13 @@ namespace Gama.Atenciones.Wpf
 
         private void InitializeNavigation()
         {
+            RegionManager.RegisterViewWithRegion(RegionNames.PreferenciasRegion, typeof(PreferenciasView));
+            RegionManager.RegisterViewWithRegion(RegionNames.RightCommandsRegion, typeof(RightCommandsView));
             RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
             RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
             RegionManager.RegisterViewWithRegion(RegionNames.SearchBoxRegion, typeof(SearchBoxView));
             RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
+            RegionManager.RequestNavigate(RegionNames.ContentRegion, "GraficasView");
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
 
             RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<PersonasContentView>());

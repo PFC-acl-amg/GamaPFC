@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace Core.Util
+namespace Gama.Common.Resources.Converters
 {
     public class PathToFullPathConverter : IValueConverter
     {
@@ -14,13 +14,13 @@ namespace Core.Util
         {
             string path = "";
 
-            if (value != null)
+            if (value != null && !string.IsNullOrEmpty(value.ToString()))
             {
-                path = AppDomain.CurrentDomain.BaseDirectory + value.ToString();
+                path += ResourceNames.IconsAndImagesFolder + value.ToString();
             }
             else
             {
-                path = AppDomain.CurrentDomain.BaseDirectory + @"IconsAndImages\default_user_icon.png";
+                path += ResourceNames.DefaultUserIconPath;
             }
 
             return path;

@@ -10,15 +10,34 @@
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
+             xmlns:converters="clr-namespace:Gama.Common.Resources.Converters;assembly=Gama.Common"
              mc:Ignorable="d" 
              d:DesignHeight="638" d:DesignWidth="883">
   <d:DataContext>
     <designData:DashboardViewModelDTD/>
   </d:DataContext>
   <UserControl.Resources>
-    <util:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>
+    <!--<converters:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>-->
+    <DataTemplate x:Key="_LookupItemDataTemplate">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="45" />
+          <ColumnDefinition Width="Auto" MinWidth="200"/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Image Margin="{StaticResource Margin}" 
+                   Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>
+        <StackPanel Grid.Column="1">
+          <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+          <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+        </StackPanel>
+      </Grid>
+    </DataTemplate>
   </UserControl.Resources>
-  <Grid>
+  <Grid Margin="0,1,0,-1">
     <Grid.RowDefinitions>
       <RowDefinition Height="*" MinHeight="200" MaxHeight="300"/>
       <RowDefinition Height="*" />
@@ -35,43 +54,23 @@
       <GroupBox.Header>
         <Label HorizontalAlignment="Center" Content="ÚLTIMAS PERSONAS" Foreground="White" Padding="0"></Label>
       </GroupBox.Header>
-      <ScrollViewer HorizontalScrollBarVisibility="Auto">
-        <ListBox ItemsSource="{Binding UltimasPersonas}"
-                 x:Name="_PersonasListBox"
-                 SelectionMode="Single"
-               ScrollViewer.VerticalScrollBarVisibility="Auto">
-          <ListBox.ItemTemplate>
-            <DataTemplate>
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="45" />
-                  <ColumnDefinition Width="Auto" MinWidth="200"/>
-                  <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                  <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Image Margin="{StaticResource Margin}" 
-                   Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>
-                <StackPanel Grid.Column="1">
-                  <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
-                  <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
-                </StackPanel>
-              </Grid>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
-          <i:Interaction.Triggers>
-            <i:EventTrigger EventName="MouseDoubleClick">
-              <prism:InvokeCommandAction 
+      <ListBox ItemsSource="{Binding UltimasPersonas}"
+                    x:Name="_PersonasListBox"
+                    SelectionMode="Single"
+                    ItemTemplate="{StaticResource _LookupItemDataTemplate}"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    ScrollViewer.HorizontalScrollBarVisibility="Auto">
+        <i:Interaction.Triggers>
+          <i:EventTrigger EventName="MouseDoubleClick">
+            <prism:InvokeCommandAction 
                   Command="{Binding RelativeSource =
                       {RelativeSource FindAncestor,
                           AncestorType={x:Type GroupBox}},
                           Path=DataContext.SelectPersonaCommand}"
                   CommandParameter="{Binding ElementName=_PersonasListBox, Path=SelectedItem}"/>
-            </i:EventTrigger>
-          </i:Interaction.Triggers>
-        </ListBox>
-      </ScrollViewer>
+          </i:EventTrigger>
+        </i:Interaction.Triggers>
+      </ListBox>
     </GroupBox>
 
     <!-- Últimas Atenciones -->
@@ -80,38 +79,23 @@
       <GroupBox.Header>
         <Label HorizontalAlignment="Center" Content="ÚLTIMAS ATENCIONES" Foreground="White" Padding="0"></Label>
       </GroupBox.Header>
-      <ScrollViewer HorizontalScrollBarVisibility="Auto">
-        <ListBox ItemsSource="{Binding UltimasAtenciones}"
+      <ListBox ItemsSource="{Binding UltimasAtenciones}"
                  x:Name="_AtencionesListBox"
                  SelectionMode="Single"
+                    ItemTemplate="{StaticResource _LookupItemDataTemplate}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
                ScrollViewer.VerticalScrollBarVisibility="Auto">
-          <ListBox.ItemTemplate>
-            <DataTemplate>
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="35"/>
-                  <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding Id}" VerticalAlignment="Center"/>
-                <StackPanel Grid.Column="2">
-                  <TextBlock Text="{Binding DisplayMember1}" Margin="{StaticResource Margin}"/>
-                  <TextBlock Text="{Binding DisplayMember2}" Margin="{StaticResource Margin}"/>
-                </StackPanel>
-              </Grid>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
-          <i:Interaction.Triggers>
-            <i:EventTrigger EventName="MouseDoubleClick">
-              <prism:InvokeCommandAction 
+        <i:Interaction.Triggers>
+          <i:EventTrigger EventName="MouseDoubleClick">
+            <prism:InvokeCommandAction 
                   Command="{Binding RelativeSource =
                       {RelativeSource FindAncestor,
                           AncestorType={x:Type GroupBox}},
                           Path=DataContext.SelectAtencionCommand}"
                   CommandParameter="{Binding ElementName=_AtencionesListBox, Path=SelectedItem}"/>
-            </i:EventTrigger>
-          </i:Interaction.Triggers>
-        </ListBox>
-      </ScrollViewer>
+          </i:EventTrigger>
+        </i:Interaction.Triggers>
+      </ListBox>
     </GroupBox>
 
     <!-- Próximas Citas -->
@@ -120,38 +104,23 @@
       <GroupBox.Header>
         <Label HorizontalAlignment="Center" Content="PRÓXIMAS CITAS" Foreground="White" Padding="0"></Label>
       </GroupBox.Header>
-      <ScrollViewer HorizontalScrollBarVisibility="Auto">
-        <ListBox ItemsSource="{Binding ProximasCitas}"
+      <ListBox ItemsSource="{Binding ProximasCitas}"
                  x:Name="_CitasListBox"
                  SelectionMode="Single"
+                    ItemTemplate="{StaticResource _LookupItemDataTemplate}"
+                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
                ScrollViewer.VerticalScrollBarVisibility="Auto">
-          <ListBox.ItemTemplate>
-            <DataTemplate>
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="35"/>
-                  <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding Id}" VerticalAlignment="Center"/>
-                <StackPanel Grid.Column="2">
-                  <TextBlock Text="{Binding DisplayMember1}" Margin="{StaticResource Margin}"/>
-                  <TextBlock Text="{Binding DisplayMember2}" Margin="{StaticResource Margin}"/>
-                </StackPanel>
-              </Grid>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
-          <i:Interaction.Triggers>
-            <i:EventTrigger EventName="MouseDoubleClick">
-              <prism:InvokeCommandAction 
+        <i:Interaction.Triggers>
+          <i:EventTrigger EventName="MouseDoubleClick">
+            <prism:InvokeCommandAction 
                   Command="{Binding RelativeSource =
                       {RelativeSource FindAncestor,
                           AncestorType={x:Type GroupBox}},
                           Path=DataContext.SelectCitaCommand}"
                   CommandParameter="{Binding ElementName=_CitasListBox, Path=SelectedItem}"/>
-            </i:EventTrigger>
-          </i:Interaction.Triggers>
-        </ListBox>
-      </ScrollViewer>
+          </i:EventTrigger>
+        </i:Interaction.Triggers>
+      </ListBox>
     </GroupBox>
     <!-- PERSONAS NUEVAS POR MES-->
     <lvc:CartesianChart  Grid.Column="0" Grid.Row="1" Margin="{StaticResource MarginDouble}" LegendLocation="Top">

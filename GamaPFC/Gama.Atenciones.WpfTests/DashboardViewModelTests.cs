@@ -115,7 +115,13 @@ namespace Gama.Atenciones.WpfTests
         private void ShouldPublishAtencionSeleccionadaEventWhenUnaAtencionIsSelected()
         {
             _Vm.SelectAtencionCommand.Execute(new LookupItem { Id = 1 });
-            _AtencionSeleccionadaEventMock.Verify(e => e.Publish(1), Times.Once);
+            _AtencionSeleccionadaEventMock.Verify(e => e.Publish(
+                new IdentificadorDeModelosPayload
+                {
+                    AtencionId = 1,
+                    PersonaId = It.IsAny<int>(),
+                     CitaId = It.IsAny<int?>(),
+                }), Times.Once);
         }
 
         [Fact]
@@ -163,7 +169,7 @@ namespace Gama.Atenciones.WpfTests
         [Fact]
         private void NuevaCitaShouldSetLaCitaEnPrimeraPosicionDeLasProximasCitasMostradas()
         {
-            var cita = new Cita { Id = int.MaxValue, Inicio = DateTime.Now.AddYears(-10), Sala = "Sala B"};
+            var cita = new Cita { Id = int.MaxValue, Fecha = DateTime.Now.AddYears(-10), Sala = "Sala B"};
             _CitaRepositoryMock.Setup(p => p.GetById(It.IsAny<int>())).Returns(cita);
 
             var eventAggregator = new EventAggregator();

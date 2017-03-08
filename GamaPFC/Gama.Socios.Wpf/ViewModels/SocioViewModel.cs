@@ -34,16 +34,12 @@ namespace Gama.Socios.Wpf.ViewModels
             if (op.ShowDialog() == true)
             {
                 //Socio.AvatarPath = new BitmapImage(new Uri(op.FileName));
-                Socio.AvatarPath = @"AvatarImages\" + Socio.Id + "-" + DateTime.Now.Ticks +
+                Socio.AvatarPath = Socio.Id + "-" + DateTime.Now.Ticks +
                     op.FileName.Substring(
                         op.FileName.IndexOf(".", op.FileName.Length - 5));
 
-                if (!Directory.Exists("AvatarImages"))
-                {
-                    Directory.CreateDirectory("AvatarImages");
-                }
-
-                File.Copy(op.FileName, Socio.AvatarPath, true);
+                File.Copy(op.FileName, Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+                    + @"\IconsAndImages\" + Socio.AvatarPath, true);
             }
         }
 

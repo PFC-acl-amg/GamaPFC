@@ -18,8 +18,8 @@
                   Height="{TemplateBinding Height}" 
                   Style="{DynamicResource MetroCircleButtonStyle}"
                   Command="{TemplateBinding Command}">
-            <Rectangle Width="18" 
-                       Height="18" 
+            <Rectangle Width="16" 
+                       Height="16" 
                        Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
               <Rectangle.OpacityMask>
                 <VisualBrush Stretch="Fill" Visual="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Icon}" />

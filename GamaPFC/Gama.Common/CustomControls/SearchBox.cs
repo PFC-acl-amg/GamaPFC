@@ -60,8 +60,8 @@ namespace Gama.Common.CustomControls
             _ListBox = Template.FindName("PART_ListBox", this) as ListBox;
             if (_ListBox != null)
             {
-                _ListBox.PreviewMouseDown += new MouseButtonEventHandler(listBox_MouseUp);
-                _ListBox.KeyDown += new KeyEventHandler(listBox_KeyDown);
+                _ListBox.PreviewMouseDown += new MouseButtonEventHandler(ListBox_MouseUp);
+                _ListBox.KeyDown += new KeyEventHandler(ListBox_KeyDown);
 
                 OnItemsSourceChanged(ItemsSource);
                 OnItemTemplateChanged(ItemTemplate);
@@ -274,7 +274,7 @@ namespace Gama.Common.CustomControls
             IsMouseLeftButtonDown = false;
         }
 
-        void listBox_MouseUp(object sender, MouseButtonEventArgs e)
+        void ListBox_MouseUp(object sender, MouseButtonEventArgs e)
         {
             _SuppressEvent = true;
             SetTextValueBySelection(moveFocus: false);
@@ -283,7 +283,7 @@ namespace Gama.Common.CustomControls
             _SuppressEvent = false;
         }
 
-        void listBox_KeyDown(object sender, KeyEventArgs e)
+        void ListBox_KeyDown(object sender, KeyEventArgs e)
         {
             _SuppressEvent = true;
             if (e.Key == Key.Enter || e.Key == Key.Return)

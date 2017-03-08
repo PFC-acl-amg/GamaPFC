@@ -8,22 +8,31 @@ using System.Text;
 using System.Threading.Tasks;
 using Gama.Atenciones.Business;
 using System.Collections.ObjectModel;
+using Gama.Atenciones.Wpf.UIEvents;
+using Prism.Regions;
+using Prism.Events;
+using Gama.Atenciones.Wpf.Eventos;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
     public class GraficasViewModel : ViewModelBase
     {
         private IPersonaRepository _PersonaRepository;
+        private IEventAggregator _EventAggregator;
         private List<Persona> _Personas;
 
         public GraficasViewModel(
             IPersonaRepository personaRepository,
+            IEventAggregator eventAggregator,
             ISession session)
         {
             _PersonaRepository = personaRepository;
             _PersonaRepository.Session = session;
+            _EventAggregator = eventAggregator;
 
             _Personas = _PersonaRepository.GetAll();
+
+            _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnPersonaCreadaEvent);
 
             InicializarIdentidadSexual();
             InicializarRangosDeEdad();
@@ -34,13 +43,44 @@ namespace Gama.Atenciones.Wpf.ViewModels
             InicializarAtencionSolicitada();
         }
 
+        private void OnPersonaCreadaEvent(int id)
+        {
+            var persona = _PersonaRepository.GetById(id);
+            ValoresDeIdentidadSexual.First(x => x.Key == persona.IdentidadSexual.ToString()).Value++;
+
+            int? edad = persona.EdadNumerica;
+            if (edad.HasValue)
+            {
+                if (edad.Value < 20) ValoresDeEdad.First(x => x.Key == "19").Value++;
+                if (edad.Value >= 20 && edad.Value <= 29) ValoresDeEdad.First(x => x.Key == "29").Value++;
+                if (edad.Value >= 30 && edad.Value <= 39) ValoresDeEdad.First(x => x.Key == "39").Value++;
+                if (edad.Value >= 40) ValoresDeEdad.First(x => x.Key == "40").Value++;
+            }
+            else
+            {
+                ValoresDeEdad.First(x => x.Key == "NoProporcionado").Value++;
+            }
+        }
+
+        public ObservableCollection<ChartItem> ValoresDeIdentidadSexual { get; private set; }
+        public ObservableCollection<ChartItem> ValoresDeEdad { get; private set; }
+        public ObservableCollection<ChartItem> ValoresDeEstadoCivil { get; private set; }
+        public ObservableCollection<ChartItem> ValoresDeOrientacionSexual { get; private set; }
+        public ObservableCollection<ChartItem> ValoresDeComoConocioAGama { get; private set; }
+        public ObservableCollection<ChartItem> ValoresDeViaDeAccesoAGama { get; private set; }
+        public ObservableCollection<ChartItem> ValoresDeAtencionSolicitada { get; private set; }
+
         private int _HombreCisexualCount;
         private int _HombreTransexualCount;
         private int _MujerCisexualCount;
         private int _MujerTransexualCount;
         private int _NoProporcionadoCount;
         private int _OtraIdentidadCount;
-        public ObservableCollection<ChartItem> ValoresDeIdentidadSexual { get; private set; }
+
+        private ChartItem NewChartItem(string key, string title, int value)
+        {
+            return new ChartItem { Key = key, Title = title, Value = value };
+        }
 
         private void InicializarIdentidadSexual()
         {
@@ -52,12 +92,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _MujerTransexualCount = _Personas.Count(p => p.IdentidadSexual == IdentidadSexual.MujerTransexual);
             _NoProporcionadoCount = _Personas.Count(p => p.IdentidadSexual == IdentidadSexual.NoProporcionado);
             _OtraIdentidadCount = _Personas.Count(p => p.IdentidadSexual == IdentidadSexual.Otra);
-            ValoresDeIdentidadSexual.Add(new ChartItem { Title = "Hombre Cisexual", Value = _HombreCisexualCount });
-            ValoresDeIdentidadSexual.Add(new ChartItem { Title = "Hombre Transexual", Value = _HombreTransexualCount });
-            ValoresDeIdentidadSexual.Add(new ChartItem { Title = "Mujer Cisexual", Value = _MujerCisexualCount });
-            ValoresDeIdentidadSexual.Add(new ChartItem { Title = "Mujer Transexual", Value = _MujerTransexualCount });
-            ValoresDeIdentidadSexual.Add(new ChartItem { Title = "No Proporcionado", Value = _NoProporcionadoCount });
-            ValoresDeIdentidadSexual.Add(new ChartItem { Title = "Otra Identidad", Value = _OtraIdentidadCount });
+            ValoresDeIdentidadSexual.Add(NewChartItem("HombreCisexual", "Hombre Cisexual", _HombreCisexualCount));
+            ValoresDeIdentidadSexual.Add(NewChartItem("HombreTransexual", "Hombre Transexual", _HombreTransexualCount));
+            ValoresDeIdentidadSexual.Add(NewChartItem("MujerCisexual", "Mujer Cisexual", _MujerCisexualCount));
+            ValoresDeIdentidadSexual.Add(NewChartItem("MujerTransexual", "Mujer Transexual",  _MujerTransexualCount));
+            ValoresDeIdentidadSexual.Add(NewChartItem("NoProporcionado", "No Proporcionado", _NoProporcionadoCount));
+            ValoresDeIdentidadSexual.Add(NewChartItem("Otra", "Otra", _OtraIdentidadCount));
         }
 
         private int _From0To19;
@@ -65,7 +105,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private int _From30To39;
         private int _From40;
         private int _EdadNoProporcionada;
-        public ObservableCollection<ChartItem> ValoresDeEdad { get; private set; }
 
         private void InicializarRangosDeEdad()
         {
@@ -77,11 +116,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _From40 = _Personas.Count(p => p.EdadNumerica.HasValue && p.EdadNumerica.Value >= 40);
             _EdadNoProporcionada = _Personas.Count(p => !p.FechaDeNacimiento.HasValue);
 
-            ValoresDeEdad.Add(new ChartItem { Title = "0 a 19", Value = _From0To19 });
-            ValoresDeEdad.Add(new ChartItem { Title = "20 a 29", Value = _From20To29 });
-            ValoresDeEdad.Add(new ChartItem { Title = "30 a 39", Value = _From30To39 });
-            ValoresDeEdad.Add(new ChartItem { Title = "40 o más", Value = _From40 });
-            ValoresDeEdad.Add(new ChartItem { Title = "No Proporcionado", Value = _EdadNoProporcionada });
+            ValoresDeEdad.Add(NewChartItem("19", "0 a 19", _From0To19));
+            ValoresDeEdad.Add(NewChartItem("29", "20 a 29", _From20To29));
+            ValoresDeEdad.Add(NewChartItem("39", "30 a 39", _From30To39 ));
+            ValoresDeEdad.Add(NewChartItem("40", "40 o más", _From40 ));
+            ValoresDeEdad.Add(NewChartItem("NoProporcionado", "No Proporcionado", _EdadNoProporcionada ));
         }
 
         private int _Soltero;
@@ -89,7 +128,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private int _Separado;
         private int _Divorciado;
         private int _EstadoCivilNoProporcionado;
-        public ObservableCollection<ChartItem> ValoresDeEstadoCivil {get; private set;}
 
         private void InicializarEstadoCivil()
         {
@@ -113,7 +151,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private int _Lesbiana;
         private int _Bisexual;
         private int _OrientacionSexualNoProporcionada;
-        public ObservableCollection<ChartItem> ValoresDeOrientacionSexual { get; private set; }
 
         private void InicializarOrientacionSexual()
         {
@@ -136,7 +173,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private int _RedInformal;
         private int _Difusion;
         private int _ComoConocioAGamaNoProporcionado;
-        public ObservableCollection<ChartItem> ValoresDeComoConocioAGama { get; private set; }
 
         private void InicializarComoConocioAGama()
         {
@@ -157,7 +193,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private int _Telefonica;
         private int _Email;
         private int _ViaDeAccesoNoProporcionada;
-        public ObservableCollection<ChartItem> ValoresDeViaDeAccesoAGama { get; private set; }
 
         private void InicializarViaDeAccesoAGama()
         {
@@ -183,7 +218,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private int _EducacionFormacion;
         private int _ParticipacionEnGama;
         private int _OtraAtencion;
-        public ObservableCollection<ChartItem> ValoresDeAtencionSolicitada { get; private set; }
+
 
         private void InicializarAtencionSolicitada()
         {
@@ -210,6 +245,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Educación/Formación", Value = _EducacionFormacion });
             ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Participación en Gamá", Value = _ParticipacionEnGama });
             ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Otra", Value = _OtraAtencion });
+        }
+
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            _EventAggregator.GetEvent<ActiveViewChanged>().Publish("GraficasView");
         }
     }
 }

@@ -10,48 +10,85 @@
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              d:DesignHeight="40" d:DesignWidth="779.132">
-  <UserControl.Resources>
-    <Style TargetType="controls:Tile" x:Key="_EstiloDeTitulosStyle">
-      <Setter Property="Height" Value="40"/>
-      <Setter Property="Width" Value="Auto"/>
-      <Setter Property="Foreground" Value="#F4F2F2"/>
-      <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="FontSize" Value="18"/>
-      <Setter Property="VerticalTitleAlignment" Value="Center"/>
-      <Setter Property="HorizontalTitleAlignment" Value="Left"/>
-      <Setter Property="Margin" Value="0,0,0,0"/>
-    </Style>
-  </UserControl.Resources>
-  <Grid Background="#EE959595">
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto"/>
-    </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="*"/>
-    </Grid.ColumnDefinitions>
-    <StackPanel Orientation="Horizontal">
+    <UserControl.Resources>
+        <Style TargetType="controls:Tile" x:Key="_EstiloDeTitulosStyle">
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Foreground" Value="#F4F2F2"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="VerticalTitleAlignment" Value="Center"/>
+            <Setter Property="HorizontalTitleAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid Background="#EE959595">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <controls:Tile 
+                x:Name="_Title1"
+                Title="Dashboard"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="DashboardView">
+                <controls:Tile.Style>
+                    <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="DashboardView">
+                                <Setter Property="Foreground" Value="#275B6D"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:Tile.Style>
+            </controls:Tile>
+            <controls:Tile 
+                x:Name="_Title2"
+                Title="Personas"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="PersonasContentView">
+                <controls:Tile.Style>
+                    <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="PersonasContentView">
+                                <Setter Property="Foreground" Value="#275B6D"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:Tile.Style>
+      </controls:Tile>
       <controls:Tile 
-        x:Name="_Title1"
-        Click="_Title1_Click"
-        Foreground="#275B6D"
-        Style="{StaticResource _EstiloDeTitulosStyle}"
-        Title="Dashboard"
-        Command="{Binding NavigateCommand}"
-        CommandParameter="DashboardView"/>
+                Title=" Citas "
+                Command="{Binding NavigateCommand}"
+                CommandParameter="CitasContentView">
+        <controls:Tile.Style>
+          <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding ActivePanel}" Value="CitasContentView">
+                <Setter Property="Foreground" Value="#275B6D"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </controls:Tile.Style>
+      </controls:Tile>
       <controls:Tile 
-        x:Name="_Title2"
-        Click="_Title2_Click"
-        Style="{StaticResource _EstiloDeTitulosStyle}"
-        Title="Personas"
-        Command="{Binding NavigateCommand}"
-        CommandParameter="PersonasContentView"/>
-      <controls:Tile 
-        x:Name="_Title3"
-        Click="_Title3_Click"
-        Style="{StaticResource _EstiloDeTitulosStyle}"
-        Title="Gráficas"
-        Command="{Binding NavigateCommand}"
-        CommandParameter="GraficasView"/>
-    </StackPanel>
-  </Grid>
+                x:Name="_Title3"
+                Title="Gráficas"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="GraficasView">
+                <controls:Tile.Style>
+                    <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="GraficasView">
+                                <Setter Property="Foreground" Value="#275B6D"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:Tile.Style>
+            </controls:Tile>
+        </StackPanel>
+    </Grid>
 </UserControl>

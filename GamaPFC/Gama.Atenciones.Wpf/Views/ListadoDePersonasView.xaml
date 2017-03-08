@@ -49,19 +49,21 @@
             <Grid>
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="80" />
-                <ColumnDefinition Width="Auto" MinWidth="80" MaxWidth="80"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="80"/>
               </Grid.ColumnDefinitions>
               <Grid.RowDefinitions>
-                <RowDefinition MinHeight="80"/>
-                <RowDefinition  MaxHeight="80"/>
+                <RowDefinition Height="80"/>
+                <RowDefinition  Height="Auto"/>
               </Grid.RowDefinitions>
-              <Image Margin="{StaticResource Margin}"  Grid.ColumnSpan="3"
+              <Image Margin="{StaticResource Margin}"  Grid.ColumnSpan="2"
                      MaxHeight="80"
                    Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>
-              <StackPanel Grid.ColumnSpan="3" Grid.Row="1" HorizontalAlignment="Center">
-                <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
-                <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
+              <StackPanel Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center">
+                <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center"
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
+                <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center"
+                           TextWrapping="Wrap" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
               </StackPanel>
             </Grid>
             <i:Interaction.Triggers>
