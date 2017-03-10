@@ -25,7 +25,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public NuevaCitaViewModel(IPersonaRepository personaRepository, 
             ICitaRepository citaRepository, IEventAggregator eventAggregator)
         {
-            Cita = new CitaWrapper(new Cita());
             _PersonaRepository = personaRepository;
             _CitaRepository = citaRepository;
             _EventAggregator = eventAggregator;
@@ -33,8 +32,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             AceptarCommand = new DelegateCommand(OnAceptarCommand_Execute,
                 OnAceptarCommand_CanExecute);
             CancelarCommand = new DelegateCommand(OnCancelarCommand_Execute);
-
-            Cita.PropertyChanged += Cita_PropertyChanged;
         }
 
         private void Cita_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -66,7 +63,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public void Load(PersonaWrapper persona)
         {
             Persona = persona;
-            Cita.Persona = persona;
+            Cita = new CitaWrapper(new Cita() { Persona = Persona.Model });
+            Cita.PropertyChanged += Cita_PropertyChanged;
+            //Cita.Persona = persona;
             OnPropertyChanged(nameof(Cita));
         }
 
@@ -81,6 +80,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private bool OnAceptarCommand_CanExecute()
         {
+            if (Cita == null) return false;
+
             return Cita.IsValid;
         }
 

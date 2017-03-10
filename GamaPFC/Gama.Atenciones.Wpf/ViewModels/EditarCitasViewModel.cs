@@ -43,9 +43,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             var o = new NuevaCitaView();
             var vm = (NuevaCitaViewModel)o.DataContext;
+            vm.Load(Persona);
             vm.Cita.Fecha = fechaSeleccionada.Date;
             vm.Session = _Session;
-            vm.Load(Persona);
             o.ShowDialog();
         }
 
