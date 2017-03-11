@@ -1,4 +1,5 @@
-﻿using Gama.Socios.Business;
+﻿using Gama.Common.CustomControls;
+using Gama.Socios.Business;
 using Gama.Socios.Wpf.FakeServices;
 using Gama.Socios.Wpf.Services;
 using LiveCharts;
@@ -26,23 +27,42 @@ namespace Gama.Socios.Wpf.DesignTimeData
 
             _Socios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
 
-            UltimosSocios = new ObservableCollection<Socio>(
+            UltimosSocios = new ObservableCollection<LookupItem>(
                     _Socios
                     .OrderBy(x => x.Id)
-                    .Take(_Settings.DashboardMesesAMostrarDeSociosNuevos));
+                    .Take(_Settings.DashboardMesesAMostrarDeSociosNuevos)
+                    .Select(a => new LookupItem
+                    {
+                        Id = a.Id,
+                        DisplayMember1 = a.Nombre,
+                        DisplayMember2 = a.Nif,
+                        IconSource = a.AvatarPath
+                    }));
 
-            SociosCumpliendoBirthdays = new ObservableCollection<Socio>(
-                _Socios.Where(x => x.IsBirthday()));
+            SociosCumpliendoBirthdays = new ObservableCollection<LookupItem>(
+                _Socios.Select(a => new LookupItem
+                {
+                    Id = a.Id,
+                    DisplayMember1 = a.Nombre,
+                    DisplayMember2 = a.Nif,
+                    IconSource = a.AvatarPath
+                }));
 
-            SociosMorosos = new ObservableCollection<Socio>(
-                _Socios.Where(x => x.EsMoroso()));
+            SociosMorosos = new ObservableCollection<LookupItem>(
+                _Socios.Select(a => new LookupItem
+                {
+                    Id = a.Id,
+                    DisplayMember1 = a.Nombre,
+                    DisplayMember2 = a.Nif,
+                    IconSource = a.AvatarPath
+                }));
 
             InicializarGraficos();
         }
 
-        public ObservableCollection<Socio> UltimosSocios { get; private set; }
-        public ObservableCollection<Socio> SociosCumpliendoBirthdays { get; private set; }
-        public ObservableCollection<Socio> SociosMorosos { get; private set; }
+        public ObservableCollection<LookupItem> UltimosSocios { get; private set; }
+        public ObservableCollection<LookupItem> SociosCumpliendoBirthdays { get; private set; }
+        public ObservableCollection<LookupItem> SociosMorosos { get; private set; }
         public ChartValues<int> SociosNuevosPorMes { get; set; }
 
         private void InicializarGraficos()

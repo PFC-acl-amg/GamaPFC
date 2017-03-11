@@ -1,4 +1,5 @@
 ﻿using Core;
+using Gama.Common.CustomControls;
 using Gama.Socios.Business;
 using Gama.Socios.Wpf.Eventos;
 using Gama.Socios.Wpf.Services;
@@ -37,22 +38,43 @@ namespace Gama.Socios.Wpf.ViewModels
 
             _Socios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
 
-            UltimosSocios = new ObservableCollection<Socio>(
+            UltimosSocios = new ObservableCollection<LookupItem>(
                     _Socios
                     .OrderBy(x => x.Id)
-                    .Take(_Settings.DashboardUltimosSocios));
+                    .Take(_Settings.DashboardUltimosSocios)
+                    .Select(a => new LookupItem
+                    {
+                        Id = a.Id,
+                        DisplayMember1 = a.Nombre,
+                        DisplayMember2 = a.Nif,
+                        IconSource = a.AvatarPath
+                    }));
 
-            SociosCumpliendoBirthdays = new ObservableCollection<Socio>(
-                _Socios.Where(x => x.IsBirthday()));
+            SociosCumpliendoBirthdays = new ObservableCollection<LookupItem>(
+                _Socios.Where(x => x.IsBirthday())
+                    .Select(a => new LookupItem
+                    {
+                        Id = a.Id,
+                        DisplayMember1 = a.Nombre,
+                        DisplayMember2 = a.Nif,
+                        IconSource = a.AvatarPath
+                    }));
 
-            SociosMorosos = new ObservableCollection<Socio>(
-                _Socios.Where(x => x.EsMoroso()));
+            SociosMorosos = new ObservableCollection<LookupItem>(
+                _Socios.Where(x => x.EsMoroso())
+                    .Select(a => new LookupItem
+                    {
+                        Id = a.Id,
+                        DisplayMember1 = a.Nombre,
+                        DisplayMember2 = a.Nif,
+                        IconSource = a.AvatarPath
+                    }));
 
             _EventAggregator.GetEvent<SocioCreadoEvent>().Subscribe(OnSocioCreadoEvent);
             _EventAggregator.GetEvent<SocioDadoDeBajaEvent>().Subscribe(OnSocioDadoDeBajaEvent);
             _EventAggregator.GetEvent<SocioActualizadoEvent>().Subscribe(OnSocioActualizadoEvent);
 
-            SeleccionarSocioCommand = new DelegateCommand<Socio>(OnSeleccionarSocioCommandExecute);
+            SeleccionarSocioCommand = new DelegateCommand<LookupItem>(OnSeleccionarSocioCommandExecute);
 
             InicializarGraficos();
         }
@@ -69,9 +91,9 @@ namespace Gama.Socios.Wpf.ViewModels
                        _Settings.DashboardMesesAMostrarDeSociosNuevos));
         }
 
-        public ObservableCollection<Socio> UltimosSocios { get; private set; }
-        public ObservableCollection<Socio> SociosCumpliendoBirthdays { get; private set; }
-        public ObservableCollection<Socio> SociosMorosos { get; private set; }
+        public ObservableCollection<LookupItem> UltimosSocios { get; private set; }
+        public ObservableCollection<LookupItem> SociosCumpliendoBirthdays { get; private set; }
+        public ObservableCollection<LookupItem> SociosMorosos { get; private set; }
         public ChartValues<int> SociosNuevosPorMes { get; set;}
         public ICommand SeleccionarSocioCommand { get; private set; }
 
@@ -79,7 +101,7 @@ namespace Gama.Socios.Wpf.ViewModels
             _Labels.Skip(_MesInicialSocios)
                 .Take(_Settings.DashboardMesesAMostrarDeSociosNuevos).ToArray();
 
-        private void OnSeleccionarSocioCommandExecute(Socio socio)
+        private void OnSeleccionarSocioCommandExecute(LookupItem socio)
         {
             _EventAggregator.GetEvent<SocioSeleccionadoEvent>().Publish(socio.Id);
         }
@@ -88,12 +110,20 @@ namespace Gama.Socios.Wpf.ViewModels
         {
             var socio = _SocioRepository.GetById(id);
 
-            UltimosSocios.Insert(0, socio);
+            var lookupItem = new LookupItem
+            {
+                Id = socio.Id,
+                DisplayMember1 = socio.Nombre,
+                DisplayMember2 = socio.Nif,
+                IconSource = socio.AvatarPath
+            };
+
+            UltimosSocios.Insert(0, lookupItem);
 
             // Si es su cumpleaños, añadirllo
             if (socio.IsBirthday())
             {
-                SociosCumpliendoBirthdays.Insert(0, socio);
+                SociosCumpliendoBirthdays.Insert(0, lookupItem);
             }
         }
 
@@ -106,43 +136,44 @@ namespace Gama.Socios.Wpf.ViewModels
             // que se visualice
         }
 
-        private void OnSocioActualizadoEvent(int id)
+        private void OnSocioActualizadoEvent(Socio socioActualizado)
         {
-            var socio = _SocioRepository.GetById(id);
+            var socio = socioActualizado;
+            int id = socio.Id;
 
             var socioDesactualizado = UltimosSocios.Where(x => x.Id == id).FirstOrDefault();
             if (socioDesactualizado != null)
             {
-                socioDesactualizado.Nombre = socio.Nombre;
-                socioDesactualizado.Nif = socio.Nif;
-                socioDesactualizado.AvatarPath = socio.AvatarPath;
+                socioDesactualizado.DisplayMember1 = socio.Nombre;
+                socioDesactualizado.DisplayMember2 = socio.Nif;
+                socioDesactualizado.IconSource = socio.AvatarPath;
             }
 
             // Actualizar a cumpleañeros o lista de morosos. Tal vez hay que quitarlo o ponerlo.
 
             // Si es cumpleañeros y no está en la lista, añadirlo
-            if (socioDesactualizado.IsBirthday() &&
+            if (socioActualizado.IsBirthday() &&
                 SociosCumpliendoBirthdays.FirstOrDefault(x => x.Id == id) == null)
             {
                 SociosCumpliendoBirthdays.Insert(0, socioDesactualizado);
             }
 
             // Si ahora no es cumpleañero y está en la lista, quitarlo
-            if (!socioDesactualizado.IsBirthday() &&
+            if (!socioActualizado.IsBirthday() &&
                 SociosCumpliendoBirthdays.FirstOrDefault(x => x.Id == id) != null)
             {
                 SociosCumpliendoBirthdays.Remove(SociosCumpliendoBirthdays.FirstOrDefault(x => x.Id == id));
             }
 
             // Si es moroso y no está en la lista, añadirlo
-            if (socioDesactualizado.EsMoroso() &&
+            if (socioActualizado.EsMoroso() &&
                 SociosMorosos.FirstOrDefault(x => x.Id == id) == null)
             {
                 SociosMorosos.Insert(0, socioDesactualizado);
             }
 
             // Si ahora no es moroso y está en la lista, quitarlo
-            if (!socioDesactualizado.EsMoroso() &&
+            if (!socioActualizado.EsMoroso() &&
                 SociosMorosos.FirstOrDefault(x => x.Id == id) != null)
             {
                 SociosMorosos.Remove(SociosMorosos.FirstOrDefault(x => x.Id == id));
