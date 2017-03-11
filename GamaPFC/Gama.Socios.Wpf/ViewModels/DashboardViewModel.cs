@@ -49,7 +49,8 @@ namespace Gama.Socios.Wpf.ViewModels
                 _Socios.Where(x => x.EsMoroso()));
 
             _EventAggregator.GetEvent<SocioCreadoEvent>().Subscribe(OnSocioCreadoEvent);
-            _EventAggregator.GetEvent<SocioEliminadoEvent>().Subscribe(OnSocioEliminadoEvent);
+            _EventAggregator.GetEvent<SocioDadoDeBajaEvent>().Subscribe(OnSocioDadoDeBajaEvent);
+            _EventAggregator.GetEvent<SocioActualizadoEvent>().Subscribe(OnSocioActualizadoEvent);
 
             SeleccionarSocioCommand = new DelegateCommand<Socio>(OnSeleccionarSocioCommandExecute);
 
@@ -88,11 +89,64 @@ namespace Gama.Socios.Wpf.ViewModels
             var socio = _SocioRepository.GetById(id);
 
             UltimosSocios.Insert(0, socio);
+
+            // Si es su cumpleaños, añadirllo
+            if (socio.IsBirthday())
+            {
+                SociosCumpliendoBirthdays.Insert(0, socio);
+            }
         }
 
-        private void OnSocioEliminadoEvent(int id)
+        private void OnSocioDadoDeBajaEvent(int id)
         {
-            throw new NotImplementedException();
+            UltimosSocios.Remove(UltimosSocios.First(x => x.Id == id));
+            SociosCumpliendoBirthdays.Remove(SociosCumpliendoBirthdays.First(x => x.Id == id));
+            
+            // No lo quitamos de la lista de morosos ya que aunque esté dado de baja, queremos
+            // que se visualice
+        }
+
+        private void OnSocioActualizadoEvent(int id)
+        {
+            var socio = _SocioRepository.GetById(id);
+
+            var socioDesactualizado = UltimosSocios.Where(x => x.Id == id).FirstOrDefault();
+            if (socioDesactualizado != null)
+            {
+                socioDesactualizado.Nombre = socio.Nombre;
+                socioDesactualizado.Nif = socio.Nif;
+                socioDesactualizado.AvatarPath = socio.AvatarPath;
+            }
+
+            // Actualizar a cumpleañeros o lista de morosos. Tal vez hay que quitarlo o ponerlo.
+
+            // Si es cumpleañeros y no está en la lista, añadirlo
+            if (socioDesactualizado.IsBirthday() &&
+                SociosCumpliendoBirthdays.FirstOrDefault(x => x.Id == id) == null)
+            {
+                SociosCumpliendoBirthdays.Insert(0, socioDesactualizado);
+            }
+
+            // Si ahora no es cumpleañero y está en la lista, quitarlo
+            if (!socioDesactualizado.IsBirthday() &&
+                SociosCumpliendoBirthdays.FirstOrDefault(x => x.Id == id) != null)
+            {
+                SociosCumpliendoBirthdays.Remove(SociosCumpliendoBirthdays.FirstOrDefault(x => x.Id == id));
+            }
+
+            // Si es moroso y no está en la lista, añadirlo
+            if (socioDesactualizado.EsMoroso() &&
+                SociosMorosos.FirstOrDefault(x => x.Id == id) == null)
+            {
+                SociosMorosos.Insert(0, socioDesactualizado);
+            }
+
+            // Si ahora no es moroso y está en la lista, quitarlo
+            if (!socioDesactualizado.EsMoroso() &&
+                SociosMorosos.FirstOrDefault(x => x.Id == id) != null)
+            {
+                SociosMorosos.Remove(SociosMorosos.FirstOrDefault(x => x.Id == id));
+            }
         }
     }
 }

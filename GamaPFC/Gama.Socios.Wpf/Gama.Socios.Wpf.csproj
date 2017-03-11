@@ -132,7 +132,7 @@
     <Compile Include="DesignTimeData\StatusBarViewModelDTD.cs" />
     <Compile Include="Eventos\SocioActualizadoEvent.cs" />
     <Compile Include="Eventos\SocioCreadoEvent.cs" />
-    <Compile Include="Eventos\SocioEliminadoEvent.cs" />
+    <Compile Include="Eventos\SocioDadoDeBajaEvent.cs" />
     <Compile Include="Eventos\SocioSeleccionadoEvent.cs" />
     <Compile Include="FakeServices\FakeSocioRepository.cs" />
     <Compile Include="Services\ExportService.cs" />
