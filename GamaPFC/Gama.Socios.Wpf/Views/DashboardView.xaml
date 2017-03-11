@@ -71,45 +71,30 @@
         </GroupBox>
 
         <!-- Socios que cumplen años hoy -->
-    <GroupBox Grid.Column="1" Grid.Row="0"
+        <GroupBox Grid.Column="1" Grid.Row="0"
                  Margin="{StaticResource Margin}">
-      <GroupBox.Header>
-        <Label HorizontalAlignment="Center" Content="CUMPLEAÑOS DE HOY" Foreground="White" Padding="0"></Label>
-      </GroupBox.Header>
-      <ScrollViewer HorizontalScrollBarVisibility="Auto">
-        <ListBox ItemsSource="{Binding SociosCumpliendoBirthdays}"
-                 x:Name="_BirthdaysListBox"
-                 SelectionMode="Single"
-               ScrollViewer.VerticalScrollBarVisibility="Auto">
-          <ListBox.ItemTemplate>
-            <DataTemplate>
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="35"/>
-                  <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding Id}" VerticalAlignment="Center"/>
-                <StackPanel Grid.Column="2">
-                  <TextBlock Text="{Binding Nombre}" Margin="{StaticResource Margin}"/>
-                  <TextBlock Text="{Binding Nif}" Margin="{StaticResource Margin}"/>
-                </StackPanel>
-              </Grid>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
-          <i:Interaction.Triggers>
-            <i:EventTrigger EventName="MouseDoubleClick">
-              <prism:InvokeCommandAction 
+            <GroupBox.Header>
+                <Label HorizontalAlignment="Center" Content="CUMPLEAÑOS DE HOY" Foreground="White" Padding="0"></Label>
+            </GroupBox.Header>
+            <ListBox ItemsSource="{Binding SociosCumpliendoBirthdays}"
+                    x:Name="_BirthdaysListBox"
+                    SelectionMode="Single"
+                    ItemTemplate="{StaticResource _LookupItemDataTemplate}"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <prism:InvokeCommandAction 
                   Command="{Binding RelativeSource =
                       {RelativeSource FindAncestor,
                           AncestorType={x:Type GroupBox}},
                           Path=DataContext.SeleccionarSocioCommand}"
                   CommandParameter="{Binding ElementName=_BirthdaysListBox, Path=SelectedItem}"/>
-            </i:EventTrigger>
-          </i:Interaction.Triggers>
-        </ListBox>
-      </ScrollViewer>
-    </GroupBox>
-
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ListBox>
+        </GroupBox>
+      
     <!-- Socios Morosos -->
     <GroupBox Grid.Column="2" Grid.Row="0"
                  Margin="{StaticResource Margin}">
@@ -117,26 +102,13 @@
         <Label HorizontalAlignment="Center" Content="IMPAGOS" Foreground="White" Padding="0"></Label>
       </GroupBox.Header>
       <ScrollViewer HorizontalScrollBarVisibility="Auto">
-        <ListBox ItemsSource="{Binding SociosMorosos}"
+                <ListBox ItemsSource="{Binding SociosMorosos}"
                  x:Name="_MorososListBox"
                  SelectionMode="Single"
-               ScrollViewer.VerticalScrollBarVisibility="Auto">
-          <ListBox.ItemTemplate>
-            <DataTemplate>
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="35"/>
-                  <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding Id}" VerticalAlignment="Center"/>
-                <StackPanel Grid.Column="2">
-                  <TextBlock Text="{Binding Nombre}" Margin="{StaticResource Margin}"/>
-                  <TextBlock Text="{Binding Nif}" Margin="{StaticResource Margin}"/>
-                </StackPanel>
-              </Grid>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
-          <i:Interaction.Triggers>
+                    ItemTemplate="{StaticResource _LookupItemDataTemplate}"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                    <i:Interaction.Triggers>
             <i:EventTrigger EventName="MouseDoubleClick">
               <prism:InvokeCommandAction 
                   Command="{Binding RelativeSource =
