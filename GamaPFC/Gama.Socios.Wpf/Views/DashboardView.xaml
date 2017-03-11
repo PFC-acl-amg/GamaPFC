@@ -14,6 +14,26 @@
   <d:DataContext>
     <designData:DashboardViewModelDTD/>
   </d:DataContext>
+    <UserControl.Resources>
+        <DataTemplate x:Key="_LookupItemDataTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="45" />
+                    <ColumnDefinition Width="Auto" MinWidth="200"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Image Margin="{StaticResource Margin}" 
+                   Source="{Binding AvatarPath, Converter={StaticResource _PathToFullPathConverter}}"/>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="{Binding Nombre}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                    <TextBlock Text="{Binding Nif}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="*" MinHeight="200" MaxHeight="300"/>
@@ -23,46 +43,34 @@
       <ColumnDefinition Width="*"/>
       <ColumnDefinition Width="*"/>
       <ColumnDefinition Width="*"/>
-    </Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>
 
-    <!-- Últimos Socios -->
-    <GroupBox Grid.Column="0" Grid.Row="0"
+        <!-- Últimos Socios -->
+        <GroupBox Grid.Column="0" Grid.Row="0"
                  Margin="{StaticResource Margin}">
-      <GroupBox.Header>
-        <Label HorizontalAlignment="Center" Content="ÚLTIMOS SOCIOS" Foreground="White" Padding="0"></Label>
-      </GroupBox.Header>
-      <ScrollViewer HorizontalScrollBarVisibility="Auto">
-        <ListBox ItemsSource="{Binding UltimosSocios}"
-                 x:Name="_SociosListBox"
-                 SelectionMode="Single"
-               ScrollViewer.VerticalScrollBarVisibility="Auto">
-          <ListBox.ItemTemplate>
-            <DataTemplate>
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="35"/>
-                  <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding Id}"/>
-                <TextBlock Grid.Column="2" Text="{Binding Nombre}"/>
-              </Grid>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
-          <i:Interaction.Triggers>
-            <i:EventTrigger EventName="MouseDoubleClick">
-              <prism:InvokeCommandAction 
+            <GroupBox.Header>
+                <Label HorizontalAlignment="Center" Content="ÚLTIMOS SOCIOS" Foreground="White" Padding="0"></Label>
+            </GroupBox.Header>
+            <ListBox ItemsSource="{Binding UltimosSocios}"
+                    x:Name="_SociosListBox"
+                    SelectionMode="Single"
+                    ItemTemplate="{StaticResource _LookupItemDataTemplate}"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <prism:InvokeCommandAction 
                   Command="{Binding RelativeSource =
                       {RelativeSource FindAncestor,
                           AncestorType={x:Type GroupBox}},
                           Path=DataContext.SeleccionarSocioCommand}"
                   CommandParameter="{Binding ElementName=_SociosListBox, Path=SelectedItem}"/>
-            </i:EventTrigger>
-          </i:Interaction.Triggers>
-        </ListBox>
-      </ScrollViewer>
-    </GroupBox>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ListBox>
+        </GroupBox>
 
-    <!-- Socios que cumplen años hoy -->
+        <!-- Socios que cumplen años hoy -->
     <GroupBox Grid.Column="1" Grid.Row="0"
                  Margin="{StaticResource Margin}">
       <GroupBox.Header>
