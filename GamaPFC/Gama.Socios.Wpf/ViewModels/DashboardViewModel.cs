@@ -61,7 +61,7 @@ namespace Gama.Socios.Wpf.ViewModels
                     }));
 
             SociosMorosos = new ObservableCollection<LookupItem>(
-                _Socios.Where(x => x.EsMoroso())
+                _Socios.Where(x => x.EsMoroso(_Settings.MesesParaSerConsideradoMoroso))
                     .Select(a => new LookupItem
                     {
                         Id = a.Id,
