@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.Encryption;
+using Core.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +63,19 @@ namespace Gama.Socios.Business
 
             foreach (var periodo in PeriodosDeAlta)
             {
-                mesesSinPagar += periodo.Cuotas.Count(x => x.EstaPagado == false);
+                var fechaDeInicio = periodo.FechaDeAlta;
+                var fechaDeFin = DateUtility.MinYearMonth(periodo.FechaDeBaja, DateTime.Now);
+
+                while (DateUtility.IsLessOrEqualThanYearMonth(fechaDeInicio, fechaDeFin))
+                {
+                    var cuota = periodo.Cuotas.Where(x =>
+                        DateUtility.IsSameYearMonth(x.Fecha, fechaDeInicio)).FirstOrDefault();
+
+                    if (cuota == null || !cuota.EstaPagado)
+                        mesesSinPagar++;
+
+                    fechaDeInicio = fechaDeInicio.AddMonths(1);
+                }
             }
 
             return mesesSinPagar >= mesesParaSerConsideradoMoroso;

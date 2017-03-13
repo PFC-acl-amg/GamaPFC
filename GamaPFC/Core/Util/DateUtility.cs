@@ -25,5 +25,35 @@ namespace Core.Util
         {
             return string.Format("{0} de {1}", Meses[a.Month], a.Year);
         }
+
+        public static DateTime MinYearMonth(DateTime? a, DateTime? b)
+        {
+            if (a.HasValue && b.HasValue)
+            {
+                if (a.Value.Year < b.Value.Year)
+                    return a.Value;
+                if (a.Value.Year == b.Value.Year && a.Value.Month < b.Value.Month)
+                    return a.Value;
+
+                return b.Value;
+            }
+
+            if (a.HasValue && !b.HasValue)
+                return a.Value;
+
+            if (!a.HasValue && b.HasValue)
+                return b.Value;
+
+            return DateTime.Now;
+        }
+
+        public static bool IsLessOrEqualThanYearMonth(DateTime a, DateTime b)
+        {
+            if (a.Year < b.Year) return true;
+
+            if (a.Year == b.Year && a.Month <= b.Month) return true;
+
+            return false;
+        }
     }
 }

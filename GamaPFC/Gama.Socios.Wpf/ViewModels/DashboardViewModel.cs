@@ -173,7 +173,7 @@ namespace Gama.Socios.Wpf.ViewModels
             }
 
             // Si ahora no es moroso y está en la lista, quitarlo
-            if (!socioActualizado.EsMoroso() &&
+            if (!socioActualizado.EsMoroso(_Settings.MesesParaSerConsideradoMoroso) &&
                 SociosMorosos.FirstOrDefault(x => x.Id == id) != null)
             {
                 SociosMorosos.Remove(SociosMorosos.FirstOrDefault(x => x.Id == id));
