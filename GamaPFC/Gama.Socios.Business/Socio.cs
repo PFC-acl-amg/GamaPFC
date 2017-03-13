@@ -71,7 +71,7 @@ namespace Gama.Socios.Business
                     var cuota = periodo.Cuotas.Where(x =>
                         DateUtility.IsSameYearMonth(x.Fecha, fechaDeInicio)).FirstOrDefault();
 
-                    if (cuota == null || !cuota.EstaPagado)
+                    if (cuota == null || (!cuota.EstaPagado && !cuota.NoContabilizar))
                         mesesSinPagar++;
 
                     fechaDeInicio = fechaDeInicio.AddMonths(1);
