@@ -9,8 +9,7 @@
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             mc:Ignorable="d" 
-             d:DesignHeight="460" d:DesignWidth="717">
+             mc:Ignorable="d" Width="1210.082" Height="949.932">
     <d:DataContext>
         <designData:ListadoDeSociosViewModelDTD/>
     </d:DataContext>
@@ -25,17 +24,18 @@
                            Icon="{StaticResource appbar_arrow_left}"/>
 
             <TextBlock VerticalAlignment="Center" FontStyle="Italic">
-        <Run Text="Página"/>
-        <Run Text="{Binding Socios.CurrentPage, Mode=OneWay}" FontWeight="Bold"/>
-        <Run Text="/"/>
-        <Run Text="{Binding Socios.PageCount, Mode=OneWay}" FontWeight="Bold"/>
+                <Run Text="Página"/>
+                <Run Text="{Binding Socios.CurrentPage, Mode=OneWay}" FontWeight="Bold"/>
+                <Run Text="/"/>
+                <Run Text="{Binding Socios.PageCount, Mode=OneWay}" FontWeight="Bold"/>
             </TextBlock>
 
             <cc:CircleIconButton Margin="{StaticResource Margin}" Command="{Binding PaginaSiguienteCommand}"
                            Icon="{StaticResource appbar_arrow_right}"/>
         </StackPanel>
 
-        <ItemsControl ItemsSource="{Binding Socios}" Grid.Row="1">
+        <ItemsControl ItemsSource="{Binding Socios}" Grid.Row="1" HorizontalAlignment="Left"
+                      VerticalAlignment="Top">
             <ItemsControl.Template>
                 <ControlTemplate TargetType="{x:Type ItemsControl}">
                     <ScrollViewer BorderThickness="2" VerticalScrollBarVisibility="Auto">
@@ -45,7 +45,8 @@
             </ItemsControl.Template>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <GroupBox>
+                    <GroupBox MaxHeight="144" MaxWidth="184"
+                              HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="80" />
