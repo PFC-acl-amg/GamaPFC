@@ -99,14 +99,13 @@ namespace Gama.Socios.Wpf.ViewModels
         private void OnSocioCreadoEvent(int id)
         {
             var socio = _SocioRepository.GetById(id);
-            _Socios.Insert(0, new LookupItem
+            Socios.AddItemAt(0, new LookupItem
             {
                 Id = socio.Id,
                 DisplayMember1 = socio.Nombre,
                 DisplayMember2 = socio.Nif,
                 IconSource = socio.AvatarPath
             });
-            Socios.Refresh();
         }
 
         private void OnSocioActualizadoEvent(Socio socio)

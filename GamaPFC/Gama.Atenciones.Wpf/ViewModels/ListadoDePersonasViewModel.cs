@@ -91,7 +91,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnNuevaPersonaEvent(int id)
         {
             var persona = _PersonaRepository.GetById(id);
-            _PersonaRepository.Session.Evict(persona);
 
             var lookupItem = new LookupItem
             {
