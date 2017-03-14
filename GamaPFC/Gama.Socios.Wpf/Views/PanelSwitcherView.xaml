@@ -6,43 +6,101 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:local="clr-namespace:Gama.Socios.Wpf.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="78.48" d:DesignWidth="779.132">
-  <UserControl.Resources>
-    <sys:Double x:Key="_FontSize">21</sys:Double>
-  </UserControl.Resources>
-  <Grid Background="SteelBlue">
-    <StackPanel Orientation="Horizontal">
-      <Button Background="Transparent" BorderThickness="0"
-              Width="170"
-              Margin="{StaticResource Margin}"
-              Command="{Binding NavigateCommand}"
-              CommandParameter="DashboardView"
-              >
-        <TextBlock Foreground="White" FontSize="{StaticResource _FontSize}" FontWeight="Light">Dashboard</TextBlock>
-      </Button>
-      <Button Background="Transparent" BorderThickness="0"
-              Width="170"
-              Margin="{StaticResource Margin}"
-            Command="{Binding NavigateCommand}"
-            CommandParameter="SociosContentView">
-        <TextBlock Foreground="White" FontSize="{StaticResource _FontSize}" FontWeight="Light">Socios</TextBlock>
-      </Button>
-      <Button Background="Transparent" BorderThickness="0"
-              Width="170"
-              Margin="{StaticResource Margin}"
-            Command="{Binding NavigateCommand}"
-            CommandParameter="AtencionesContentView">
-        <TextBlock Foreground="White" FontSize="{StaticResource _FontSize}" FontWeight="Light">X</TextBlock>
-      </Button>
-      <Button Background="Transparent" BorderThickness="0"
-              Width="170"
-              Margin="{StaticResource Margin}"
-            Command="{Binding NavigateCommand}"
-            CommandParameter="GraficasView">
-        <TextBlock Foreground="White" FontSize="{StaticResource _FontSize}" FontWeight="Light">Gráficas</TextBlock>
-      </Button>
-    </StackPanel>
-  </Grid>
+             d:DesignHeight="40" d:DesignWidth="779.132">
+    <UserControl.Resources>
+        <Style TargetType="controls:Tile" x:Key="_EstiloDeTitulosStyle">
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Foreground" Value="#F4F2F2"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="VerticalTitleAlignment" Value="Center"/>
+            <Setter Property="HorizontalTitleAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid Background="#EE959595">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <controls:Tile 
+                Title="Dashboard"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="DashboardView">
+                <controls:Tile.Style>
+                    <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="DashboardView">
+                                <Setter Property="Foreground" Value="#275B6D"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:Tile.Style>
+            </controls:Tile>
+            <controls:Tile 
+                Title="Socios"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="SociosContentView">
+                <controls:Tile.Style>
+                    <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="SociosContentView">
+                                <Setter Property="Foreground" Value="#275B6D"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:Tile.Style>
+            </controls:Tile>
+            <controls:Tile 
+                Title="Cumpleaños"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="X">
+                <controls:Tile.Style>
+                    <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="BirthdaysView">
+                                <Setter Property="Foreground" Value="#275B6D"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:Tile.Style>
+            </controls:Tile>
+            <controls:Tile 
+                Title="Asistentes"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="X">
+                <controls:Tile.Style>
+                    <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="AsistentesView">
+                                <Setter Property="Foreground" Value="#275B6D"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:Tile.Style>
+            </controls:Tile>
+            <controls:Tile 
+                x:Name="_Title3"
+                Title="Gráficas"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="GraficasView">
+                <controls:Tile.Style>
+                    <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="GraficasView">
+                                <Setter Property="Foreground" Value="#275B6D"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:Tile.Style>
+            </controls:Tile>
+        </StackPanel>
+    </Grid>
 </UserControl>

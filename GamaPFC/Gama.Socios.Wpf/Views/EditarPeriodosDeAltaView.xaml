@@ -134,11 +134,18 @@
                     <controls:DataGridNumericUpDownColumn 
                       StringFormat="C" 
                       Minimum="0"
-                      Header="Cantidad" 
+                      Header="Total a Pagar" 
                       Binding="{Binding CantidadTotal, UpdateSourceTrigger=PropertyChanged}"
+                      MinWidth="120" 
+                      Width="*"/>
+                     <controls:DataGridNumericUpDownColumn 
+                      StringFormat="C" 
+                      Minimum="0"
+                      Header="Pagado" 
+                      Binding="{Binding CantidadPagada, UpdateSourceTrigger=PropertyChanged}"
                       MinWidth="100" 
                       Width="*"/>
-                    <DataGridTextColumn 
+                                        <DataGridTextColumn 
                       Header="Comentarios" 
                       Binding="{Binding Comentarios, UpdateSourceTrigger=PropertyChanged}" 
                       MinWidth="400" 
