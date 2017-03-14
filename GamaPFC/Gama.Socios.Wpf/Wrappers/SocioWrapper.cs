@@ -12,7 +12,7 @@ namespace Gama.Socios.Wpf.Wrappers
 {
     public class SocioWrapper : TimestampedModelWrapper<Socio>
     {
-        private string _SavedNif;
+        public string _SavedNif;
 
         public SocioWrapper(Socio model) : base(model)
         {

@@ -99,7 +99,12 @@ namespace Gama.Socios.Wpf.ViewModels
             _SocioVM.Socio.AcceptChanges();
             _SocioVM.EdicionHabilitada = false;
             RefrescarTitulo(Socio.Nombre);
-            SociosResources.AddNif(Socio.Nif);
+            if (Socio._SavedNif != Socio.Nif)
+            {
+                SociosResources.TodosLosNif.Remove(Socio._SavedNif);
+                SociosResources.TodosLosNif.Add(Socio.Nif);
+                Socio._SavedNif = Socio.Nif;
+            }
             _EventAggregator.GetEvent<SocioActualizadoEvent>().Publish(this.Socio.Model);
         }
 

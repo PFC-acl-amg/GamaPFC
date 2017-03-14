@@ -67,8 +67,8 @@ namespace Gama.Socios.Wpf.ViewModels
         {
             Socio.CreatedAt = DateTime.Now;
             _SocioRepository.Create(Socio.Model);
-            _EventAggregator.GetEvent<SocioCreadoEvent>().Publish(Socio.Id);
             SociosResources.AddNif(Socio.Nif);
+            _EventAggregator.GetEvent<SocioCreadoEvent>().Publish(Socio.Id);
             Cerrar = true;
         }
 

@@ -6,72 +6,79 @@
              xmlns:local="clr-namespace:Gama.Socios.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
+             xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="460" d:DesignWidth="717">
-  <d:DataContext>
-    <designData:ListadoDeSociosViewModelDTD/>
-  </d:DataContext>
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition />
-    </Grid.RowDefinitions>
+    <d:DataContext>
+        <designData:ListadoDeSociosViewModelDTD/>
+    </d:DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
-    <StackPanel Orientation="Horizontal">
-      <Button Margin="{StaticResource Margin}" Command="{Binding PaginaAnteriorCommand}">
-        <Rectangle Width="15" Height="15">
-          <Rectangle.Fill>
-            <VisualBrush  Visual="{StaticResource appbar_arrow_left}"/>
-          </Rectangle.Fill>
-        </Rectangle>
-      </Button>
-      <TextBlock VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal">
+            <cc:CircleIconButton Margin="{StaticResource Margin}" Command="{Binding PaginaAnteriorCommand}"
+                           Icon="{StaticResource appbar_arrow_left}"/>
+
+            <TextBlock VerticalAlignment="Center" FontStyle="Italic">
         <Run Text="Página"/>
-        <Run Text="{Binding Socios.CurrentPage, Mode=OneWay}"/>
-        <Run Text="de"/>
-        <Run Text="{Binding Socios.PageCount, Mode=OneWay}"/>
-      </TextBlock>
-      <Button Margin="{StaticResource Margin}" Command="{Binding PaginaSiguienteCommand}">
-        <Rectangle Width="15" Height="15">
-          <Rectangle.Fill>
-            <VisualBrush  Visual="{StaticResource appbar_arrow_right}"/>
-          </Rectangle.Fill>
-        </Rectangle>
-      </Button>
-    </StackPanel>
+        <Run Text="{Binding Socios.CurrentPage, Mode=OneWay}" FontWeight="Bold"/>
+        <Run Text="/"/>
+        <Run Text="{Binding Socios.PageCount, Mode=OneWay}" FontWeight="Bold"/>
+            </TextBlock>
 
-    <ItemsControl ItemsSource="{Binding Socios}" Grid.Row="1">
-      <ItemsControl.Template>
-        <ControlTemplate TargetType="{x:Type ItemsControl}">
-          <ScrollViewer BorderThickness="2" VerticalScrollBarVisibility="Auto">
-            <UniformGrid IsItemsHost="True" />
-          </ScrollViewer>
-        </ControlTemplate>
-      </ItemsControl.Template>
-      <ItemsControl.ItemTemplate>
-        <DataTemplate>
-          <GroupBox Header="{Binding Nombre}" MaxWidth="250">
-            <StackPanel Orientation="Vertical">
-              <TextBlock Text="{Binding Nif}" TextWrapping="Wrap" 
-                         Margin="{StaticResource Margin}"/>
-              <!--<TextBlock Text="{Binding DescripcionResumen}" TextWrapping="Wrap"
-                         Margin="{StaticResource Margin}"/>-->
-            </StackPanel>
-            <i:Interaction.Triggers>
-              <i:EventTrigger EventName="MouseDoubleClick">
-                <prism:InvokeCommandAction 
-                  Command="{Binding RelativeSource =
-                      {RelativeSource FindAncestor,
-                          AncestorType={x:Type Grid}},
-                          Path=DataContext.SeleccionarSocioCommand}"
-                  CommandParameter="{Binding}"/>
-              </i:EventTrigger>
-            </i:Interaction.Triggers>
-          </GroupBox>
-        </DataTemplate>
-      </ItemsControl.ItemTemplate>
-    </ItemsControl>
-  </Grid>
+            <cc:CircleIconButton Margin="{StaticResource Margin}" Command="{Binding PaginaSiguienteCommand}"
+                           Icon="{StaticResource appbar_arrow_right}"/>
+        </StackPanel>
+
+        <ItemsControl ItemsSource="{Binding Socios}" Grid.Row="1">
+            <ItemsControl.Template>
+                <ControlTemplate TargetType="{x:Type ItemsControl}">
+                    <ScrollViewer BorderThickness="2" VerticalScrollBarVisibility="Auto">
+                        <UniformGrid IsItemsHost="True" />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ItemsControl.Template>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <GroupBox>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="80"/>
+                                <RowDefinition  Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Image Margin="{StaticResource Margin}"  Grid.ColumnSpan="2" 
+                     MaxHeight="80"
+                   Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>
+                            <StackPanel Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center"
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
+                                <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center"
+                           TextWrapping="Wrap" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
+                            </StackPanel>
+                        </Grid>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <prism:InvokeCommandAction 
+                                      Command="{Binding RelativeSource =
+                                          {RelativeSource FindAncestor,
+                                              AncestorType={x:Type Grid}},
+                                              Path=DataContext.SeleccionarSocioCommand}"
+                                      CommandParameter="{Binding Id}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </GroupBox>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
 </UserControl>

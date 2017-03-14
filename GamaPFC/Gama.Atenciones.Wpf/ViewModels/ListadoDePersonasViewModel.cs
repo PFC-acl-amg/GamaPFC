@@ -19,8 +19,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
     {
         private IEventAggregator _EventAggregator;
         private IPersonaRepository _PersonaRepository;
-        private List<LookupItem> _Personas;
         private IAtencionesSettings _Settings;
+        private List<LookupItem> _Personas;
 
         public ListadoDePersonasViewModel(
             IEventAggregator eventAggregator,
@@ -47,13 +47,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Personas = new PaginatedCollectionView(_Personas,
                 _Settings.ListadoDePersonasItemsPerPage);
 
+            SeleccionarPersonaCommand = new DelegateCommand<object>(OnSeleccionarPersonaCommandExecute);
+            PaginaAnteriorCommand = new DelegateCommand(() => Personas.MoveToPreviousPage());
+            PaginaSiguienteCommand = new DelegateCommand(() => Personas.MoveToNextPage());
+            
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnNuevaPersonaEvent);
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
             _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
-
-            PaginaAnteriorCommand = new DelegateCommand(() => Personas.MoveToPreviousPage());
-            PaginaSiguienteCommand = new DelegateCommand(() => Personas.MoveToNextPage());
-            SeleccionarPersonaCommand = new DelegateCommand<object>(OnSeleccionarPersonaCommandExecute);
 
         }
 

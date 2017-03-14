@@ -47,7 +47,7 @@ namespace Gama.Socios.Wpf.ViewModels
 
             Socios = new PaginatedCollectionView(_Socios, _Settings.ListadoDeSociosItemsPerPage);
 
-            SeleccionarSocioCommand = new DelegateCommand<LookupItem>(OnSeleccionarSocioCommandExecute);
+            SeleccionarSocioCommand = new DelegateCommand<object>(OnSeleccionarSocioCommandExecute);
             PaginaSiguienteCommand = new DelegateCommand(OnPaginaSiguienteCommandExecute);
             PaginaAnteriorCommand = new DelegateCommand(OnPaginaAnteriorCommandExecute);
 
@@ -81,9 +81,9 @@ namespace Gama.Socios.Wpf.ViewModels
         public ICommand PaginaSiguienteCommand { get; private set; }
         public ICommand PaginaAnteriorCommand { get; private set; }
 
-        private void OnSeleccionarSocioCommandExecute(LookupItem socio)
+        private void OnSeleccionarSocioCommandExecute(object id)
         {
-            _EventAggregator.GetEvent<SocioSeleccionadoEvent>().Publish(socio.Id);
+            _EventAggregator.GetEvent<SocioSeleccionadoEvent>().Publish((int)id);
         }
 
         private void OnPaginaSiguienteCommandExecute()
