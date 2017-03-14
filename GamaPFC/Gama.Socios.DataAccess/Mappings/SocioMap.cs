@@ -26,6 +26,7 @@ namespace Gama.Socios.DataAccess.Mappings
             Map(x => x.Telefono).Not.Nullable().Default("");
             Map(x => x.Twitter).Not.Nullable().Default("");
             Map(x => x.AvatarPath);
+            Map(x => x.EstaDadoDeAlta);
 
             Map(x => x.CreatedAt);
             Map(x => x.UpdatedAt);

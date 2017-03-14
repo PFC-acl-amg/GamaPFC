@@ -66,6 +66,7 @@ namespace Gama.Socios.Wpf.ViewModels
         private void OnAceptarCommand_Execute()
         {
             Socio.CreatedAt = DateTime.Now;
+            Socio.EstaDadoDeAlta = true;
             _SocioRepository.Create(Socio.Model);
             SociosResources.AddNif(Socio.Nif);
             _EventAggregator.GetEvent<SocioCreadoEvent>().Publish(Socio.Id);

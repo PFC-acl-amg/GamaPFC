@@ -158,6 +158,12 @@ namespace Gama.Socios.Wpf.Wrappers
 
         public bool TwitterIsChanged => GetIsChanged(nameof(Twitter));
 
+        public bool EstaDadoDeAlta
+        {
+            get { return GetValue<bool>(); }
+            set { SetValue(value); }
+        }
+
         public ChangeTrackingCollection<PeriodoDeAltaWrapper> PeriodosDeAlta { get; private set; }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
