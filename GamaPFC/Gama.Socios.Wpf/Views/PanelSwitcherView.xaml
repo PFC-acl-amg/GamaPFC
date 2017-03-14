@@ -73,13 +73,13 @@
                 </controls:Tile.Style>
             </controls:Tile>
             <controls:Tile 
-                Title="Asistentes"
+                Title="Contabilidad"
                 Command="{Binding NavigateCommand}"
                 CommandParameter="X">
                 <controls:Tile.Style>
                     <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ActivePanel}" Value="AsistentesView">
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="ContabilidadView">
                                 <Setter Property="Foreground" Value="#275B6D"/>
                             </DataTrigger>
                         </Style.Triggers>

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gama.Atenciones.Wpf.ViewModels
+namespace Gama.Socios.Wpf.ViewModels
 {
-    public class BirthdaysViewModel
+    class ContabilidadViewModel
     {
     }
 }

@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Gama.Atenciones.Wpf.Views
+namespace Gama.Socios.Wpf.Views
 {
     /// <summary>
-    /// Interaction logic for BirthdaysView.xaml
+    /// Interaction logic for ContabilidadView.xaml
     /// </summary>
-    public partial class BirthdaysView : UserControl
+    public partial class ContabilidadView : UserControl
     {
-        public BirthdaysView()
+        public ContabilidadView()
         {
             InitializeComponent();
         }
