@@ -132,7 +132,7 @@
     <Compile Include="DesignTimeData\StatusBarViewModelDTD.cs" />
     <Compile Include="Eventos\SocioActualizadoEvent.cs" />
     <Compile Include="Eventos\SocioCreadoEvent.cs" />
-    <Compile Include="Eventos\SocioEliminadoEvent.cs" />
+    <Compile Include="Eventos\SocioDadoDeBajaEvent.cs" />
     <Compile Include="Eventos\SocioSeleccionadoEvent.cs" />
     <Compile Include="FakeServices\FakeSocioRepository.cs" />
     <Compile Include="Services\ExportService.cs" />
@@ -141,6 +141,7 @@
     <Compile Include="Services\SocioRepository.cs" />
     <Compile Include="Services\SociosSettings.cs" />
     <Compile Include="SociosModule.cs" />
+    <Compile Include="ViewModels\ContabilidadViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\EditarCuotasViewModel.cs" />
     <Compile Include="ViewModels\EditarPeriodosDeAltaViewModel.cs" />
@@ -153,6 +154,9 @@
     <Compile Include="ViewModels\SocioViewModel.cs" />
     <Compile Include="ViewModels\StatusBarViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
+    <Compile Include="Views\ContabilidadView.xaml.cs">
+      <DependentUpon>ContabilidadView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
@@ -209,6 +213,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ContabilidadView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

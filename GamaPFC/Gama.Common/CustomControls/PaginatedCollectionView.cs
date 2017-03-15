@@ -90,6 +90,12 @@ namespace Gama.Common.CustomControls
             return returnObject;
         }
 
+        /// <summary>
+        /// Añade el item en el índice indicado y lanza un NotifyPropertyChanged
+        /// para que se actualice la lista, mostrando el elemento añadido.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="item"></param>
         public void AddItemAt(int index, LookupItem item)
         {
             _innerList.Insert(index, item);

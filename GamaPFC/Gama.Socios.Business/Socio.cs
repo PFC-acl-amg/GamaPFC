@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.Encryption;
+using Core.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,6 @@ namespace Gama.Socios.Business
 {
     public class Socio : TimestampedModel, IEncryptable
     {
-        public static int MesesParaSerConsideradoMoroso = 3;
-
         public virtual string DireccionPostal { get; set; } = "";
         public virtual string Email { get; set; } = "";
         public virtual DateTime? FechaDeNacimiento { get; set; }
@@ -24,6 +23,7 @@ namespace Gama.Socios.Business
         public virtual string Telefono { get; set; } = "";
         public virtual string Twitter { get; set; } = "";
         public virtual string AvatarPath { get; set; }
+        public virtual bool EstaDadoDeAlta { get; set; }
 
         public virtual IList<PeriodoDeAlta> PeriodosDeAlta { get; set; }
 
@@ -57,10 +57,29 @@ namespace Gama.Socios.Business
                 && FechaDeNacimiento.Value.Date.Day == DateTime.Now.Day;
         }
 
-        public virtual bool EsMoroso()
+        public virtual bool EsMoroso(int mesesParaSerConsideradoMoroso = 3)
         {
-            return true;
-            //return Cuotas.Count(x => x.CantidadTotal > 0) > Socio.MesesParaSerConsideradoMoroso;
+
+            int mesesSinPagar = 0;
+
+            foreach (var periodo in PeriodosDeAlta)
+            {
+                var fechaDeInicio = periodo.FechaDeAlta;
+                var fechaDeFin = DateUtility.MinYearMonth(periodo.FechaDeBaja, DateTime.Now);
+
+                while (DateUtility.IsLessOrEqualThanYearMonth(fechaDeInicio, fechaDeFin))
+                {
+                    var cuota = periodo.Cuotas.Where(x =>
+                        DateUtility.IsSameYearMonth(x.Fecha, fechaDeInicio)).FirstOrDefault();
+
+                    if (cuota == null || (!cuota.EstaPagado && !cuota.NoContabilizar))
+                        mesesSinPagar++;
+
+                    fechaDeInicio = fechaDeInicio.AddMonths(1);
+                }
+            }
+
+            return mesesSinPagar >= mesesParaSerConsideradoMoroso;
         }
 
         public virtual void CopyValuesFrom(Socio socio)
@@ -78,12 +97,11 @@ namespace Gama.Socios.Business
 
             try
             {
-
                 PeriodosDeAlta = new List<PeriodoDeAlta>(socio.PeriodosDeAlta);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -138,7 +156,7 @@ namespace Gama.Socios.Business
 
                 IsEncrypted = false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

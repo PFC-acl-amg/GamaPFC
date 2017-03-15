@@ -21,7 +21,7 @@ namespace Gama.Socios.WpfTests
         private Mock<ISession> _SessionMock;
         private Mock<ISociosSettings> _SettingsMock;
         private Mock<SocioCreadoEvent> _SocioCreadoEventMock;
-        private Mock<SocioEliminadoEvent> _SocioEliminadoEventMock;
+        private Mock<SocioDadoDeBajaEvent> _SocioEliminadoEventMock;
         private Mock<SocioSeleccionadoEvent> _SocioSeleccionadoEventMock;
         private Mock<ISocioRepository> _SocioRepositoryMock;
         private List<Socio> _Socios;
@@ -39,12 +39,12 @@ namespace Gama.Socios.WpfTests
             _SocioRepositoryMock.Setup(x => x.GetAll()).Returns(_Socios);
 
             _SocioCreadoEventMock = new Mock<SocioCreadoEvent>();
-            _SocioEliminadoEventMock = new Mock<SocioEliminadoEvent>();
+            _SocioEliminadoEventMock = new Mock<SocioDadoDeBajaEvent>();
             _SocioSeleccionadoEventMock = new Mock<SocioSeleccionadoEvent>();
 
             _EventAggregatorMock.Setup(x => x.GetEvent<SocioCreadoEvent>()).Returns(
                 _SocioCreadoEventMock.Object);
-            _EventAggregatorMock.Setup(x => x.GetEvent<SocioEliminadoEvent>()).Returns(
+            _EventAggregatorMock.Setup(x => x.GetEvent<SocioDadoDeBajaEvent>()).Returns(
                 _SocioEliminadoEventMock.Object);
             _EventAggregatorMock.Setup(x => x.GetEvent<SocioSeleccionadoEvent>()).Returns(
                 _SocioSeleccionadoEventMock.Object);

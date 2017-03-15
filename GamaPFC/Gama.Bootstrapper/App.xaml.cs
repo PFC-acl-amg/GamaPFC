@@ -52,7 +52,7 @@ namespace Gama.Bootstrapper
                 //grant all on gama_atenciones.*to 'gama'@'localhost';
 
                 //-------------
-                bootstrapper = new Bootstrapper(Modulos.Cooperacion);
+                bootstrapper = new Bootstrapper(Modulos.GestionDeSocios);
                 bootstrapper.Run();
             }
             else
@@ -74,7 +74,7 @@ namespace Gama.Bootstrapper
                 switch (vm.ModuloSeleccionado)
                 {
                     case Modulos.Cooperacion:
-                        bootstrapper = new Bootstrapper(Modulos.Cooperacion);
+                        bootstrapper = new Bootstrapper(Modulos.GestionDeSocios);
                         break;
                     case Modulos.ServicioDeAtenciones:
                         bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);

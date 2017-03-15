@@ -187,6 +187,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnPersonaEliminadaEvent(int id)
         {
             UltimasPersonas.Remove(UltimasPersonas.First(x => x.Id == id));
+            // TODO: Quitar las atenciones de últimas atenciones
+            // Quitar las citas de últimas citas
         }
 
         private void OnAtencionCreadaEvent(int id)

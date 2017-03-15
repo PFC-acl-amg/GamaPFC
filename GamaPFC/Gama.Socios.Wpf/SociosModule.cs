@@ -84,6 +84,7 @@ namespace Gama.Socios.Wpf
 
         private void RegisterViews()
         {
+            Container.RegisterType<object, ContabilidadView>("ContabilidadView");
             Container.RegisterType<object, DashboardView>("DashboardView");
             Container.RegisterType<object, EditarCuotasView>("EditarCuotasView");
             Container.RegisterType<object, EditarPeriodosDeAltaView>("EditarPeriodosDeAltaView");

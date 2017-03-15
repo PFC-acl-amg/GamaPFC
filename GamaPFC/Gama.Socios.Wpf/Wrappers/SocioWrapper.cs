@@ -12,7 +12,7 @@ namespace Gama.Socios.Wpf.Wrappers
 {
     public class SocioWrapper : TimestampedModelWrapper<Socio>
     {
-        private string _SavedNif;
+        public string _SavedNif;
 
         public SocioWrapper(Socio model) : base(model)
         {
@@ -157,6 +157,12 @@ namespace Gama.Socios.Wpf.Wrappers
         public string TwitterOriginalValue => GetOriginalValue<string>(nameof(Twitter));
 
         public bool TwitterIsChanged => GetIsChanged(nameof(Twitter));
+
+        public bool EstaDadoDeAlta
+        {
+            get { return GetValue<bool>(); }
+            set { SetValue(value); }
+        }
 
         public ChangeTrackingCollection<PeriodoDeAltaWrapper> PeriodosDeAlta { get; private set; }
 

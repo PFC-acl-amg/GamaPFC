@@ -59,7 +59,20 @@ namespace Gama.Socios.Wpf.ViewModels
             CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand,
                 () => _SocioVM.EdicionHabilitada);
 
+            DarDeAltaBajaCommand = new DelegateCommand(OnDarDeAltaBajaCommandExecute);
+
             _SocioVM.PropertyChanged += SocioVM_PropertyChanged;
+        }
+
+        private string _TextoDeDarDeAltaBaja;
+        public string TextoDeDarDeAltaBaja
+        {
+            get { return _TextoDeDarDeAltaBaja; }
+            set
+            {
+                _TextoDeDarDeAltaBaja = value;
+                OnPropertyChanged();
+            }
         }
 
         public SocioWrapper Socio
@@ -86,6 +99,7 @@ namespace Gama.Socios.Wpf.ViewModels
         public ICommand HabilitarEdicionCommand { get; private set; }
         public ICommand ActualizarCommand { get; private set; }
         public ICommand CancelarEdicionCommand { get; private set; }
+        public ICommand DarDeAltaBajaCommand { get; private set; }
 
         private void OnNuevoPeriodoDeAltaCommandExecute()
         {
@@ -99,7 +113,12 @@ namespace Gama.Socios.Wpf.ViewModels
             _SocioVM.Socio.AcceptChanges();
             _SocioVM.EdicionHabilitada = false;
             RefrescarTitulo(Socio.Nombre);
-            SociosResources.AddNif(Socio.Nif);
+            if (Socio._SavedNif != Socio.Nif)
+            {
+                SociosResources.TodosLosNif.Remove(Socio._SavedNif);
+                SociosResources.TodosLosNif.Add(Socio.Nif);
+                Socio._SavedNif = Socio.Nif;
+            }
             _EventAggregator.GetEvent<SocioActualizadoEvent>().Publish(this.Socio.Model);
         }
 
@@ -112,6 +131,22 @@ namespace Gama.Socios.Wpf.ViewModels
         {
             Socio.RejectChanges();
             _SocioVM.EdicionHabilitada = false;
+        }
+
+        private void OnDarDeAltaBajaCommandExecute()
+        {
+            if (Socio.EstaDadoDeAlta)
+            {
+                Socio.EstaDadoDeAlta = false;
+                TextoDeDarDeAltaBaja = "Dar de alta";
+            }
+            else
+            {
+                Socio.EstaDadoDeAlta = true;
+                TextoDeDarDeAltaBaja = "Dar de baja";
+            }
+
+            _EventAggregator.GetEvent<SocioActualizadoEvent>().Publish(Socio.Model);
         }
 
         public override bool IsNavigationTarget(NavigationContext navigationContext)
@@ -138,10 +173,12 @@ namespace Gama.Socios.Wpf.ViewModels
                // _CuotasVM.Load(_SocioVM.Socio);
                 _EditarPeriodosDeAltaViewModel.Load(_SocioVM.Socio);
                 RefrescarTitulo(Socio.Nombre);
+                TextoDeDarDeAltaBaja = Socio.EstaDadoDeAlta ? "Dar de baja" : "Dar de alta";
+                
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 

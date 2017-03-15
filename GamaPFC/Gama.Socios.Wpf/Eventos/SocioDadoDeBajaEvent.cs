@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Socios.Wpf.Eventos
 {
-    public class SocioEliminadoEvent : PubSubEvent<int>
+    public class SocioDadoDeBajaEvent : PubSubEvent<int>
     {
     }
 }

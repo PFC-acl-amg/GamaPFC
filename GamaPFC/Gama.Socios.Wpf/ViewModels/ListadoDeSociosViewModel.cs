@@ -47,7 +47,7 @@ namespace Gama.Socios.Wpf.ViewModels
 
             Socios = new PaginatedCollectionView(_Socios, _Settings.ListadoDeSociosItemsPerPage);
 
-            SeleccionarSocioCommand = new DelegateCommand<LookupItem>(OnSeleccionarSocioCommandExecute);
+            SeleccionarSocioCommand = new DelegateCommand<object>(OnSeleccionarSocioCommandExecute);
             PaginaSiguienteCommand = new DelegateCommand(OnPaginaSiguienteCommandExecute);
             PaginaAnteriorCommand = new DelegateCommand(OnPaginaAnteriorCommandExecute);
 
@@ -81,9 +81,9 @@ namespace Gama.Socios.Wpf.ViewModels
         public ICommand PaginaSiguienteCommand { get; private set; }
         public ICommand PaginaAnteriorCommand { get; private set; }
 
-        private void OnSeleccionarSocioCommandExecute(LookupItem socio)
+        private void OnSeleccionarSocioCommandExecute(object id)
         {
-            _EventAggregator.GetEvent<SocioSeleccionadoEvent>().Publish(socio.Id);
+            _EventAggregator.GetEvent<SocioSeleccionadoEvent>().Publish((int)id);
         }
 
         private void OnPaginaSiguienteCommandExecute()
@@ -99,14 +99,13 @@ namespace Gama.Socios.Wpf.ViewModels
         private void OnSocioCreadoEvent(int id)
         {
             var socio = _SocioRepository.GetById(id);
-            _Socios.Insert(0, new LookupItem
+            Socios.AddItemAt(0, new LookupItem
             {
                 Id = socio.Id,
                 DisplayMember1 = socio.Nombre,
                 DisplayMember2 = socio.Nif,
                 IconSource = socio.AvatarPath
             });
-            Socios.Refresh();
         }
 
         private void OnSocioActualizadoEvent(Socio socio)
@@ -120,7 +119,6 @@ namespace Gama.Socios.Wpf.ViewModels
                 socioEncontrado.DisplayMember2 = socio.Nif;
                 socioEncontrado.Id = socio.Id;
                 socioEncontrado.IconSource = socio.AvatarPath;
-                //_Socios[index].CopyValuesFrom(socio);
             }
         }
     }
