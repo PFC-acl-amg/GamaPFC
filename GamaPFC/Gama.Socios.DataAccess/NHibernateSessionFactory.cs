@@ -72,7 +72,7 @@ namespace Gama.Socios.DataAccess
                 //.ShowSql())
                 .Mappings(m =>
                     m.FluentMappings
-                        .AddFromAssemblyOf<SocioMap>()
+                        .AddFromAssemblyOf <SocioMap> ()
                         //.Add<ActividadMap>()
                         //.Add<CooperanteMap>()
                         .Conventions.Add(DefaultCascade.All(), DefaultLazy.Never()))
