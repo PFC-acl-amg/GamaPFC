@@ -12,7 +12,7 @@ namespace Gama.Socios.Wpf.Services
         {
             DashboardMesesAMostrarDeSociosNuevos = 6;
             DashboardUltimosSocios = 15;
-            ListadoDeSociosItemsPerPage = 25;
+            ListadoDeSociosItemsPerPage = 10;
             MesesParaSerConsideradoMoroso = 3;
             CuotaMensualPredeterminada = 10;
         }
