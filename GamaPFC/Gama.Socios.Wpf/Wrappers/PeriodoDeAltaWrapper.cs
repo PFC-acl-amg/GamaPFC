@@ -38,11 +38,11 @@ namespace Gama.Socios.Wpf.Wrappers
 
         public override void AcceptChanges()
         {
-            MesesAplicables.Clear();
-            foreach (var mesAplicable in Model.GetMesesAplicables())
-            {
-                MesesAplicables.Add(new CuotaWrapper(mesAplicable));
-            }
+            //MesesAplicables.Clear();
+            //foreach (var mesAplicable in Model.GetMesesAplicables())
+            //{
+            //    MesesAplicables.Add(new CuotaWrapper(mesAplicable));
+            //}
 
             base.AcceptChanges();
 
@@ -80,5 +80,18 @@ namespace Gama.Socios.Wpf.Wrappers
         public ChangeTrackingCollection<CuotaWrapper> Cuotas { get; private set; }
 
         public ChangeTrackingCollection<CuotaWrapper> MesesAplicables { get; private set; }
+
+        public void AddCuota(Cuota cuota)
+        {
+            cuota.PeriodoDeAlta = this.Model;
+            var wrapper = new CuotaWrapper(cuota);
+            Cuotas.Add(wrapper);
+        }
+
+        public List<Cuota> GetMesesAplicables()
+        {
+            var mesesAplicables = Model.GetMesesAplicables().ToList();
+            return mesesAplicables;
+        }
     }
 }
