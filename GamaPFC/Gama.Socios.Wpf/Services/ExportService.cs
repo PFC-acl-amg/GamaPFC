@@ -27,20 +27,36 @@ namespace Gama.Socios.Wpf.Services
             var destinyPath = GeneratePath(fileName);
             DocX document = DocX.Create(destinyPath);
 
+            // Insertar Parrafo con el titulo de la tabla que se mostrará a continuación
+            Paragraph title = document.InsertParagraph().Append("Información de Socio").
+                FontSize(20).Font(new FontFamily("Times New Roman"));
+                title.Alignment = Alignment.center;
+
             // Insert a Paragraph into this document.
             Paragraph p = document.InsertParagraph();
 
             Header(document);
 
             Table table = document.AddTable(11, 2);
+            //Table table2 = document.AddTable(2, 2);
+            //table.Design = TableDesign.ColorfulGridAccent2;
+            table.Design = TableDesign.MediumList2Accent5;
+            //Table t2 = document.InsertTable(table2);
             Table t1 = document.InsertTable(table);
+            
 
             t1.AutoFit = AutoFit.ColumnWidth;
             t1.SetColumnWidth(0, 1500);
             t1.SetColumnWidth(1, 8000);
 
+            //t2.AutoFit = AutoFit.ColumnWidth;
+            //t2.SetColumnWidth(0, 1500);
+            //t2.SetColumnWidth(1, 8000);
+
             if (!string.IsNullOrEmpty(socio.AvatarPath))
             {
+                string avatar = socio.AvatarPath;
+                //MemoryStream ms = new MemoryStream((byte)avatar);
                 Novacode.Image image = document.AddImage(socio.AvatarPath);
 
                 // Create a picture (A custom view of an Image).
@@ -49,6 +65,8 @@ namespace Gama.Socios.Wpf.Services
                 picture.SetPictureShape(BasicShapes.cube);
 
                 t1.Rows[0].Cells[0].Paragraphs.First().AppendPicture(picture);
+                //t2.Rows[0].MergeCells(0, 1);
+                //t2.Rows[0].Cells[0].Paragraphs.First().AppendLine("Hola");
             }
 
             t1.Rows[0].Cells[1].Paragraphs.First().AppendLine(socio.Nombre);
@@ -109,14 +127,14 @@ namespace Gama.Socios.Wpf.Services
                 BitmapEncoder encoder = new PngBitmapEncoder();
                 encoder.Frames.Add(BitmapFrame.Create(logo));
 
-                using (var fileStream = new System.IO.FileStream(@"Images/gama_logo,jpg", System.IO.FileMode.Create))
+                using (var fileStream = new System.IO.FileStream(@"Images/gama_logo.jpg", System.IO.FileMode.Create))
                 {
                     encoder.Save(fileStream);
                 }
             }
 
             MemoryStream ms = new MemoryStream();
-            System.Drawing.Image myImg = System.Drawing.Image.FromFile(@"Images/gama_logo,jpg");
+            System.Drawing.Image myImg = System.Drawing.Image.FromFile(@"Images/gama_logo.jpg");
 
             myImg.Save(ms, myImg.RawFormat);  // Save your picture in a memory stream.
             ms.Seek(0, SeekOrigin.Begin);
