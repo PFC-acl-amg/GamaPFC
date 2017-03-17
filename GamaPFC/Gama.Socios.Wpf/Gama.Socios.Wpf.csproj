@@ -137,9 +137,9 @@
     <Compile Include="FakeServices\FakeSocioRepository.cs" />
     <Compile Include="Services\ExportService.cs" />
     <Compile Include="Services\ISocioRepository.cs" />
-    <Compile Include="Services\ISociosSettings.cs" />
+    <Compile Include="Services\IPreferenciasDeSocios.cs" />
     <Compile Include="Services\SocioRepository.cs" />
-    <Compile Include="Services\SociosSettings.cs" />
+    <Compile Include="Services\PreferenciasDeSocios.cs" />
     <Compile Include="SociosModule.cs" />
     <Compile Include="ViewModels\ContabilidadViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
@@ -149,7 +149,9 @@
     <Compile Include="ViewModels\ListadoDeSociosViewModel.cs" />
     <Compile Include="ViewModels\NuevoSocioViewModel.cs" />
     <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
+    <Compile Include="ViewModels\RightCommandsViewModel.cs" />
     <Compile Include="ViewModels\SearchBoxViewModel.cs" />
+    <Compile Include="ViewModels\PreferenciasViewModel.cs" />
     <Compile Include="ViewModels\SociosContentViewModel.cs" />
     <Compile Include="ViewModels\SocioViewModel.cs" />
     <Compile Include="ViewModels\StatusBarViewModel.cs" />
@@ -178,8 +180,14 @@
     <Compile Include="Views\PanelSwitcherView.xaml.cs">
       <DependentUpon>PanelSwitcherView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\RightCommandsView.xaml.cs">
+      <DependentUpon>RightCommandsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SearchBoxView.xaml.cs">
       <DependentUpon>SearchBoxView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PreferenciasView.xaml.cs">
+      <DependentUpon>PreferenciasView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SociosContentView.xaml.cs">
       <DependentUpon>SociosContentView.xaml</DependentUpon>
@@ -195,6 +203,7 @@
     </Compile>
     <Compile Include="Wrappers\CuotaWrapper.cs" />
     <Compile Include="Wrappers\PeriodoDeAltaWrapper.cs" />
+    <Compile Include="Wrappers\PreferenciasDeSociosWrapper.cs" />
     <Compile Include="Wrappers\SocioWrapper.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -248,7 +257,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\RightCommandsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SearchBoxView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PreferenciasView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

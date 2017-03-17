@@ -1,5 +1,5 @@
 ﻿using Core;
-using Gama.Atenciones.Wpf.Eventos;
+using Gama.Common.Eventos;
 using Prism.Events;
 using System.Windows.Media;
 using System;

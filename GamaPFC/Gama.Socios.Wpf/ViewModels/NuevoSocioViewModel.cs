@@ -36,10 +36,10 @@ namespace Gama.Socios.Wpf.ViewModels
                 OnAceptarCommand_CanExecute);
             CancelarCommand = new DelegateCommand(OnCancelarCommand_Execute);
 
-            Socio.PropertyChanged += Persona_PropertyChanged;
+            Socio.PropertyChanged += Socio_PropertyChanged;
         }
 
-        private void Persona_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void Socio_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             ((DelegateCommand)AceptarCommand).RaiseCanExecuteChanged();
         }

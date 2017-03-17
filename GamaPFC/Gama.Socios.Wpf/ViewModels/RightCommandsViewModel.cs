@@ -1,6 +1,5 @@
-﻿using Core;
-using Gama.Atenciones.Wpf.Eventos;
-using Gama.Common.Eventos;
+﻿using Gama.Common.Eventos;
+using Gama.Socios.Wpf.Eventos;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -10,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Gama.Atenciones.Wpf.ViewModels
+namespace Gama.Socios.Wpf.ViewModels
 {
     public class RightCommandsViewModel
     {

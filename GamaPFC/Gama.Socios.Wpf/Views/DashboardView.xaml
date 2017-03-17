@@ -101,7 +101,6 @@
       <GroupBox.Header>
         <Label HorizontalAlignment="Center" Content="IMPAGOS" Foreground="White" Padding="0"></Label>
       </GroupBox.Header>
-      <ScrollViewer HorizontalScrollBarVisibility="Auto">
                 <ListBox ItemsSource="{Binding SociosMorosos}"
                  x:Name="_MorososListBox"
                  SelectionMode="Single"
@@ -119,7 +118,6 @@
             </i:EventTrigger>
           </i:Interaction.Triggers>
         </ListBox>
-      </ScrollViewer>
     </GroupBox>
 
     <!-- SOCIOS NUEVOS POR MES-->

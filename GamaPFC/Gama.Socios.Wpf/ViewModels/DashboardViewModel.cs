@@ -1,5 +1,6 @@
 ﻿using Core;
 using Gama.Common.CustomControls;
+using Gama.Common.Eventos;
 using Gama.Socios.Business;
 using Gama.Socios.Wpf.Eventos;
 using Gama.Socios.Wpf.Services;
@@ -20,7 +21,7 @@ namespace Gama.Socios.Wpf.ViewModels
     public class DashboardViewModel : ViewModelBase
     {
         private IEventAggregator _EventAggregator;
-        private ISociosSettings _Settings;
+        private PreferenciasDeSocios _Settings;
         private ISocioRepository _SocioRepository;
         private ObservableCollection<Socio> _Socios;
         private string[] _Labels;
@@ -28,7 +29,7 @@ namespace Gama.Socios.Wpf.ViewModels
 
         public DashboardViewModel(ISocioRepository socioRepository,
             IEventAggregator eventAggregator, 
-            ISociosSettings settings,
+            PreferenciasDeSocios settings,
             ISession session)
         {
             _SocioRepository = socioRepository;
@@ -51,7 +52,9 @@ namespace Gama.Socios.Wpf.ViewModels
                     }));
 
             SociosCumpliendoBirthdays = new ObservableCollection<LookupItem>(
-                _Socios.Where(x => x.IsBirthday())
+                _Socios
+                    .Where(x => x.IsBirthday())
+                    .Take(_Settings.DashboardSociosCumpliendoBirthdays)
                     .Select(a => new LookupItem
                     {
                         Id = a.Id,
@@ -61,7 +64,9 @@ namespace Gama.Socios.Wpf.ViewModels
                     }));
 
             SociosMorosos = new ObservableCollection<LookupItem>(
-                _Socios.Where(x => x.EsMoroso(_Settings.MesesParaSerConsideradoMoroso))
+                _Socios
+                    .Where(x => x.EsMoroso(_Settings.MesesParaSerConsideradoMoroso))
+                    .Take(_Settings.DashboardSociosMorosos)
                     .Select(a => new LookupItem
                     {
                         Id = a.Id,
@@ -74,9 +79,65 @@ namespace Gama.Socios.Wpf.ViewModels
             _EventAggregator.GetEvent<SocioDadoDeBajaEvent>().Subscribe(OnSocioDadoDeBajaEvent);
             _EventAggregator.GetEvent<SocioActualizadoEvent>().Subscribe(OnSocioActualizadoEvent);
 
+            _EventAggregator.GetEvent<PreferenciasActualizadasEvent>().Subscribe(OnPreferenciasActualizadasEvent);
+
             SeleccionarSocioCommand = new DelegateCommand<LookupItem>(OnSeleccionarSocioCommandExecute);
 
             InicializarGraficos();
+        }
+
+        private void OnPreferenciasActualizadasEvent()
+        {
+            if (UltimosSocios.Count != _Settings.DashboardUltimosSocios)
+            {
+                UltimosSocios = new ObservableCollection<LookupItem>(
+                        _Socios
+                        .OrderBy(x => x.Id)
+                        .Take(_Settings.DashboardUltimosSocios)
+                        .Select(a => new LookupItem
+                        {
+                            Id = a.Id,
+                            DisplayMember1 = a.Nombre,
+                            DisplayMember2 = a.Nif,
+                            IconSource = a.AvatarPath
+                        }));
+
+                OnPropertyChanged(nameof(UltimosSocios));
+            }
+
+            if (SociosCumpliendoBirthdays.Count != _Settings.DashboardSociosCumpliendoBirthdays)
+            {
+                SociosCumpliendoBirthdays = new ObservableCollection<LookupItem>(
+                    _Socios
+                        .Where(x => x.IsBirthday())
+                        .Take(_Settings.DashboardSociosCumpliendoBirthdays)
+                        .Select(a => new LookupItem
+                        {
+                            Id = a.Id,
+                            DisplayMember1 = a.Nombre,
+                            DisplayMember2 = a.Nif,
+                            IconSource = a.AvatarPath
+                        }));
+
+                OnPropertyChanged(nameof(SociosCumpliendoBirthdays));
+            }
+
+            if (SociosMorosos.Count != _Settings.DashboardSociosMorosos)
+            {
+                SociosMorosos = new ObservableCollection<LookupItem>(
+                    _Socios
+                        .Where(x => x.EsMoroso(_Settings.MesesParaSerConsideradoMoroso))
+                        .Take(_Settings.DashboardSociosMorosos)
+                        .Select(a => new LookupItem
+                        {
+                            Id = a.Id,
+                            DisplayMember1 = a.Nombre,
+                            DisplayMember2 = a.Nif,
+                            IconSource = a.AvatarPath
+                        }));
+
+                OnPropertyChanged(nameof(SociosMorosos));
+            }
         }
 
         private void InicializarGraficos()

@@ -94,6 +94,8 @@ namespace Gama.Socios.Wpf
             Container.RegisterType<object, SociosContentView>("SociosContentView");
             Container.RegisterType<object, SocioView>("SocioView");
             Container.RegisterType<object, ToolbarView>("ToolbarView");
+            Container.RegisterType<object, RightCommandsView>("RightCommandsView");
+            Container.RegisterType<object, PreferenciasView>("PreferenciasView");
         }
 
         private void RegisterViewModels()
@@ -108,6 +110,8 @@ namespace Gama.Socios.Wpf
             Container.RegisterType<SociosContentViewModel>();
             Container.RegisterType<SocioViewModel>();
             Container.RegisterType<ToolbarViewModel>();
+            Container.RegisterType<PreferenciasViewModel>();
+            Container.RegisterType<RightCommandsViewModel>();
         }
 
         private void RegisterServices()
@@ -117,7 +121,7 @@ namespace Gama.Socios.Wpf
                 new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
 
             Container.RegisterType<ISocioRepository, SocioRepository>();
-            Container.RegisterInstance<ISociosSettings>(new SociosSettings());
+            Container.RegisterInstance<PreferenciasDeSocios>(new PreferenciasDeSocios());
             Container.RegisterInstance<ExportService>(new ExportService());
         }
 
@@ -127,6 +131,8 @@ namespace Gama.Socios.Wpf
             RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
             RegionManager.RegisterViewWithRegion(RegionNames.SearchBoxRegion, typeof(SearchBoxView));
             RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
+            RegionManager.RegisterViewWithRegion(RegionNames.RightCommandsRegion, typeof(RightCommandsView));
+            RegionManager.RegisterViewWithRegion(RegionNames.PreferenciasRegion, typeof(PreferenciasView));
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
 
             RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<SociosContentView>());

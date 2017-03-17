@@ -107,9 +107,9 @@
       <ListBox ItemsSource="{Binding ProximasCitas}"
                  x:Name="_CitasListBox"
                  SelectionMode="Single"
-                    ItemTemplate="{StaticResource _LookupItemDataTemplate}"
-                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
-               ScrollViewer.VerticalScrollBarVisibility="Auto">
+                 ItemTemplate="{StaticResource _LookupItemDataTemplate}"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto">
         <i:Interaction.Triggers>
           <i:EventTrigger EventName="MouseDoubleClick">
             <prism:InvokeCommandAction 

@@ -20,13 +20,13 @@ namespace Gama.Socios.Wpf.ViewModels
     {
         private IEventAggregator _EventAggregator;
         private ISocioRepository _SocioRepository;
-        private ISociosSettings _Settings;
+        private PreferenciasDeSocios _Settings;
         private List<LookupItem> _Socios;
 
         public ListadoDeSociosViewModel(
             ISocioRepository socioRepository,
             IEventAggregator eventAggregator,
-            ISociosSettings settings,
+            PreferenciasDeSocios settings,
             ISession session)
         {
             Title = "Todos";

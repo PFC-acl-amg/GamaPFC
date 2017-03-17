@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gama.Atenciones.Wpf.Eventos
+namespace Gama.Common.Eventos
 {
-    // True para abriir, False para cerrar
-    public class AbrirPreferenciasEvent : PubSubEvent
+    public class PreferenciasActualizadasEvent : PubSubEvent
     {
     }
 }
