@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace Gama.Socios.Wpf.Services
@@ -27,31 +28,56 @@ namespace Gama.Socios.Wpf.Services
             var destinyPath = GeneratePath(fileName);
             DocX document = DocX.Create(destinyPath);
 
+            string curFile = destinyPath;
+            bool isFileInUse;
+
+            isFileInUse = FileInUse(destinyPath);
+
+
+
             // Insertar Parrafo con el titulo de la tabla que se mostrará a continuación
             Paragraph title = document.InsertParagraph().Append("Información de Socio").
                 FontSize(20).Font(new FontFamily("Times New Roman"));
                 title.Alignment = Alignment.center;
 
             // Insert a Paragraph into this document.
-            Paragraph p = document.InsertParagraph();
+            Paragraph P_TablaDatosDNI = document.InsertParagraph();
 
             Header(document);
 
-            Table table = document.AddTable(11, 2);
-            //Table table2 = document.AddTable(2, 2);
-            //table.Design = TableDesign.ColorfulGridAccent2;
-            table.Design = TableDesign.MediumList2Accent5;
-            //Table t2 = document.InsertTable(table2);
-            Table t1 = document.InsertTable(table);
-            
+            // Tablas de Datos
+            Table DatosDNI = document.AddTable(6, 3); // Info Contenida en el DNI
+            // Diseño de las Tablas
+            DatosDNI.Design = TableDesign.MediumList2Accent4;
+            P_TablaDatosDNI.InsertTableBeforeSelf(DatosDNI);
+            P_TablaDatosDNI.AppendLine();
 
-            t1.AutoFit = AutoFit.ColumnWidth;
-            t1.SetColumnWidth(0, 1500);
-            t1.SetColumnWidth(1, 8000);
+            Paragraph title2 = document.InsertParagraph().Append("Otros Datos").
+                FontSize(20).Font(new FontFamily("Times New Roman"));
+                title2.Alignment = Alignment.center;
 
-            //t2.AutoFit = AutoFit.ColumnWidth;
-            //t2.SetColumnWidth(0, 1500);
-            //t2.SetColumnWidth(1, 8000);
+            Paragraph P_TablaOtrosDatos = document.InsertParagraph();
+            Table OtrosDatos = document.AddTable(7, 2); // Info Contenida en el DNI
+            OtrosDatos.Design = TableDesign.MediumList2Accent4;
+            P_TablaOtrosDatos.InsertTableBeforeSelf(OtrosDatos);
+
+            Paragraph title3 = document.InsertParagraph().Append("Cuotas").
+                FontSize(20).Font(new FontFamily("Times New Roman"));
+                title3.Alignment = Alignment.center;
+            Paragraph P_TablaCuotas = document.InsertParagraph();
+            Table Cuotas = document.AddTable(6, 2); // Info Contenida en el DNI
+            Cuotas.Design = TableDesign.MediumList2Accent4;
+            P_TablaCuotas.InsertTableBeforeSelf(OtrosDatos);
+
+            DatosDNI.AutoFit = AutoFit.ColumnWidth;
+            OtrosDatos.AutoFit = AutoFit.ColumnWidth;
+            Cuotas.AutoFit = AutoFit.ColumnWidth;
+            DatosDNI.SetColumnWidth(0, 2500);
+            DatosDNI.SetColumnWidth(1, 7000);
+            OtrosDatos.SetColumnWidth(0, 2500);
+            OtrosDatos.SetColumnWidth(1, 7000);
+            Cuotas.SetColumnWidth(0, 2500);
+            Cuotas.SetColumnWidth(1, 7000);
 
             if (!string.IsNullOrEmpty(socio.AvatarPath))
             {
@@ -63,39 +89,52 @@ namespace Gama.Socios.Wpf.Services
                 Picture picture = image.CreatePicture();
                 picture.Rotation = 10;
                 picture.SetPictureShape(BasicShapes.cube);
-
-                t1.Rows[0].Cells[0].Paragraphs.First().AppendPicture(picture);
-                //t2.Rows[0].MergeCells(0, 1);
-                //t2.Rows[0].Cells[0].Paragraphs.First().AppendLine("Hola");
             }
+            MemoryStream ms = new MemoryStream();
+            System.Drawing.Image myImg = System.Drawing.Image.FromFile(@"Images/Silueta.png");
 
-            t1.Rows[0].Cells[1].Paragraphs.First().AppendLine(socio.Nombre);
-            t1.Rows[1].Cells[0].Paragraphs.First().AppendLine("Nombre");
-            t1.Rows[1].Cells[1].Paragraphs.First().AppendLine(socio.Nombre);
-            t1.Rows[2].Cells[0].Paragraphs.First().AppendLine("NIF");
-            t1.Rows[2].Cells[1].Paragraphs.First().AppendLine(socio.Nif);
-            t1.Rows[3].Cells[0].Paragraphs.First().AppendLine("Dirección Postal");
-            t1.Rows[3].Cells[1].Paragraphs.First().AppendLine(socio.DireccionPostal);
-            t1.Rows[4].Cells[0].Paragraphs.First().AppendLine("Email");
-            t1.Rows[4].Cells[1].Paragraphs.First().AppendLine(socio.Email);
-            t1.Rows[5].Cells[0].Paragraphs.First().AppendLine("Fecha de Nacimiento");
-            t1.Rows[5].Cells[1].Paragraphs.First().AppendLine(socio.FechaDeNacimiento.ToString());
-            t1.Rows[6].Cells[0].Paragraphs.First().AppendLine("Linkedin");
-            t1.Rows[6].Cells[1].Paragraphs.First().AppendLine(socio.LinkedIn);
-            t1.Rows[7].Cells[0].Paragraphs.First().AppendLine("Nacionalidad");
-            t1.Rows[7].Cells[1].Paragraphs.First().AppendLine(socio.Nacionalidad);
-            t1.Rows[8].Cells[0].Paragraphs.First().AppendLine("Telefono");
-            t1.Rows[8].Cells[1].Paragraphs.First().AppendLine(socio.Telefono);
-            t1.Rows[9].Cells[0].Paragraphs.First().AppendLine("Twitter");
-            t1.Rows[9].Cells[1].Paragraphs.First().AppendLine(socio.Twitter);
-            t1.Rows[10].Cells[0].Paragraphs.First().AppendLine("Facebook");
-            t1.Rows[10].Cells[1].Paragraphs.First().AppendLine(socio.Facebook);
+            myImg.Save(ms, myImg.RawFormat);  // Save your picture in a memory stream.
+            ms.Seek(0, SeekOrigin.Begin);
+
+            Novacode.Image img = document.AddImage(ms); // Create image.
+            Picture pic1 = img.CreatePicture();     // Create picture.
+
+            //Insertando los valores en las celda de TablaDatosDNI
+            DatosDNI.Rows[1].Cells[0].Paragraphs.First().AppendPicture(pic1);
+            DatosDNI.Rows[1].Cells[0].VerticalAlignment = Novacode.VerticalAlignment.Center;
+            DatosDNI.MergeCellsInColumn(0, 1, 5);
+            DatosDNI.Rows[1].Cells[1].Paragraphs.First().AppendLine(socio.Nombre);
+            DatosDNI.Rows[2].Cells[1].Paragraphs.First().AppendLine(socio.Nif);
+            DatosDNI.Rows[3].Cells[1].Paragraphs.First().AppendLine(socio.FechaDeNacimiento.ToString());
+            DatosDNI.Rows[4].Cells[1].Paragraphs.First().AppendLine(socio.Nacionalidad);
+            DatosDNI.Rows[5].Cells[1].Paragraphs.First().AppendLine(socio.DireccionPostal);
+
+            // Insertando en la tabla de otros datos
+            OtrosDatos.Rows[1].Cells[0].Paragraphs.First().AppendLine("Telefonos");
+            OtrosDatos.Rows[1].Cells[1].Paragraphs.First().AppendLine(socio.Telefono);
+            OtrosDatos.Rows[2].Cells[0].Paragraphs.First().AppendLine("Dado de Alta");
+            OtrosDatos.Rows[2].Cells[1].Paragraphs.First().AppendLine(socio.CreatedAt.ToShortDateString());
+            OtrosDatos.Rows[3].Cells[0].Paragraphs.First().AppendLine("Emails");
+            OtrosDatos.Rows[3].Cells[1].Paragraphs.First().AppendLine(socio.Email);
+            OtrosDatos.Rows[4].Cells[0].Paragraphs.First().AppendLine("Facebook");
+            OtrosDatos.Rows[4].Cells[1].Paragraphs.First().AppendLine(socio.Facebook);
+            OtrosDatos.Rows[5].Cells[0].Paragraphs.First().AppendLine("LinkedIn");
+            OtrosDatos.Rows[5].Cells[1].Paragraphs.First().AppendLine(socio.LinkedIn);
+            OtrosDatos.Rows[6].Cells[0].Paragraphs.First().AppendLine("Twitter");
+            OtrosDatos.Rows[6].Cells[1].Paragraphs.First().AppendLine(socio.Twitter);
 
             document.InsertParagraph();
-
             // Save this document to disk.
-            document.Save();
-            //Process.Start("WINWORD.EXE", destinyPath);
+            if (!FileInUse(destinyPath))
+            {
+                document.Save();
+            }
+            else
+            {
+                MessageBox.Show("El fichero está abierto. No se realizaron los cambios");
+            }
+            //document.Save();
+            //Process.Start("WINWORD.EXE", destinyPath);        
         }
 
         private void Header(DocX document)
@@ -107,9 +146,8 @@ namespace Gama.Socios.Wpf.Services
             Header headers = document.Headers.odd; // El resto de headers
 
             Paragraph p0 = header_first.InsertParagraph();
-            p0.Append("Gamá - Gestión de Socios").Bold();
-
-            
+            p0.Append("Gamá - Gestión de Socios").FontSize(20).Bold();
+            p0.Alignment = Alignment.center;
 
             //Novacode.Image image = document.AddImage(logo.);
             //Picture picture = image.CreatePicture();
@@ -142,12 +180,12 @@ namespace Gama.Socios.Wpf.Services
             Novacode.Image img = document.AddImage(ms); // Create image.
             Picture pic1 = img.CreatePicture();     // Create picture.
 
-            p0.InsertPicture(pic1, 0); // Insert picture into paragraph.
+            //p0.InsertPicture(pic1, 0); // Insert picture into paragraph.
             //File.Copy(op.FileName, Socio.AvatarPath, true);
 
             // Insert a Paragraph into the odd Header.
-            Paragraph p1 = headers.InsertParagraph();
-            p1.Append("Listado de Socios Impresos a " + DateTime.Now.ToLongTimeString()).Bold();
+            //Paragraph p1 = headers.InsertParagraph();
+           // p1.Append("Listado de Socios Impresos a " + DateTime.Now.ToLongTimeString()).Bold();
         }
 
         private string GeneratePath(string fileName)
@@ -162,5 +200,21 @@ namespace Gama.Socios.Wpf.Services
         {
 
         }
+        static bool FileInUse(string path)
+        {
+            try
+            {
+                using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+                {
+                    
+                }
+                return false;
+            }
+            catch (IOException ex)
+            {
+                return true;
+            }
+        }
+
     }
 }
