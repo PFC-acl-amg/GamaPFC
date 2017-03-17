@@ -15,32 +15,53 @@ namespace Gama.Socios.Wpf.Wrappers
 
         }
 
+        ///
+        /// Dashboard
+        ///
+       
         public int DashboardMesesAMostrarDeSociosNuevos
         {
             get { return GetValue<int>(); }
             set { SetValue(value); }
         }
-
-        public int DashboardMesesAMostrarDeSociosNuevosOriginalValue => GetOriginalValue<int>(nameof(DashboardMesesAMostrarDeSociosNuevos));
-
-        public bool DashboardMesesAMostrarDeSociosNuevosIsChanged => GetIsChanged(nameof(DashboardMesesAMostrarDeSociosNuevos));
+        public int DashboardMesesAMostrarDeSociosNuevosOriginalValue 
+            => GetOriginalValue<int>(nameof(DashboardMesesAMostrarDeSociosNuevos));
+        public bool DashboardMesesAMostrarDeSociosNuevosIsChanged
+            => GetIsChanged(nameof(DashboardMesesAMostrarDeSociosNuevos));
 
         public int DashboardUltimosSocios
         {
             get { return GetValue<int>(); }
             set { SetValue(value); }
         }
-        public int DashboardUltimosSociosOriginalValue => GetOriginalValue<int>(nameof(DashboardUltimosSocios));
-        public bool DashboardUltimosSociosIsChanged => GetIsChanged(nameof(DashboardUltimosSocios));
+        public int DashboardUltimosSociosOriginalValue 
+            => GetOriginalValue<int>(nameof(DashboardUltimosSocios));
+        public bool DashboardUltimosSociosIsChanged 
+            => GetIsChanged(nameof(DashboardUltimosSocios));
+
+        public int DashboardSociosCumpliendoBirthdays
+        {
+            get { return GetValue<int>(); }
+            set { SetValue(value); }
+        }
+        public int DashboardSociosCumpliendoBirthdaysOriginalValue
+            => GetOriginalValue<int>(nameof(DashboardSociosCumpliendoBirthdays));
+        public bool DashboardSociosCumpliendoBirthdaysIsChanged
+            => GetIsChanged(nameof(DashboardSociosCumpliendoBirthdays));
 
         public int DashboardSociosMorosos
         { 
             get { return GetValue<int>(); }
             set { SetValue(value); }
         }
-        public int DashboardSociosMorososOriginalValue => GetOriginalValue<int>(nameof(DashboardSociosMorosos));
-        public bool DashboardSociosMorososIsChanged => GetIsChanged(nameof(DashboardSociosMorosos));
+        public int DashboardSociosMorososOriginalValue 
+            => GetOriginalValue<int>(nameof(DashboardSociosMorosos));
+        public bool DashboardSociosMorososIsChanged 
+            => GetIsChanged(nameof(DashboardSociosMorosos));
 
+        ///
+        /// Socios
+        ///
 
         public int ListadoDeSociosItemsPerPage
         {
@@ -50,6 +71,10 @@ namespace Gama.Socios.Wpf.Wrappers
         public int ListadoDeSociosItemsPerPageOriginalValue => GetOriginalValue<int>(nameof(ListadoDeSociosItemsPerPage));
         public bool ListadoDeSociosItemsPerPageIsChanged => GetIsChanged(nameof(ListadoDeSociosItemsPerPage));
 
+        ///
+        /// Contabilidad
+        ///
+    
         public int MesesParaSerConsideradoMoroso
         {
             get { return GetValue<int>(); }
