@@ -24,6 +24,7 @@ namespace Gama.Socios.Business
         public virtual string Twitter { get; set; } = "";
         public virtual string AvatarPath { get; set; }
         public virtual bool EstaDadoDeAlta { get; set; }
+        
 
         public virtual IList<PeriodoDeAlta> PeriodosDeAlta { get; set; }
 
