@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Socios.Wpf.Services
 {
-    public interface ISociosSettings
+    public interface IPreferenciasDeSocios
     {
         int DashboardMesesAMostrarDeSociosNuevos { get; set; }
         int DashboardUltimosSocios { get; set; }

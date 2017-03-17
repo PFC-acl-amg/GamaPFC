@@ -35,7 +35,8 @@ namespace Gama.Common.Resources.Behaviors
                 [typeof(TextBox)] = TextBox.TextProperty,
                 [typeof(CheckBox)] = ToggleButton.IsCheckedProperty,
                 [typeof(DatePicker)] = DatePicker.SelectedDateProperty,
-                [typeof(ComboBox)] = Selector.SelectedItemProperty
+                [typeof(ComboBox)] = Selector.SelectedItemProperty,
+                [typeof(MahApps.Metro.Controls.NumericUpDown)] = MahApps.Metro.Controls.NumericUpDown.ValueProperty
         };
         }
 

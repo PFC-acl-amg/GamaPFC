@@ -24,7 +24,7 @@ namespace Gama.Socios.Wpf.ViewModels
         public EditarPeriodosDeAltaViewModel(
             ISocioRepository socioRepository,
             IEventAggregator eventAggregator, 
-            ISociosSettings settings)
+            IPreferenciasDeSocios settings)
         {
             _SocioRepository = socioRepository;
             _EventAggregator = eventAggregator;
@@ -52,7 +52,7 @@ namespace Gama.Socios.Wpf.ViewModels
         }
 
         public PeriodoDeAltaWrapper _PeriodoDeAltaSeleccionado;
-        private ISociosSettings _Settings;
+        private IPreferenciasDeSocios _Settings;
 
         public PeriodoDeAltaWrapper PeriodoDeAltaSeleccionado
         {

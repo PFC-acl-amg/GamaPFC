@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Gama.Socios.Wpf.Services
 {
-    public class SociosSettings : ISociosSettings
+    public class PreferenciasDeSocios : IPreferenciasDeSocios
     {
-        public SociosSettings()
+        public PreferenciasDeSocios()
         {
             DashboardMesesAMostrarDeSociosNuevos = 6;
             DashboardUltimosSocios = 15;

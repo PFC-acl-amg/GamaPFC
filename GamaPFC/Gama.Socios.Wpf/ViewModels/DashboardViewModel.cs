@@ -20,7 +20,7 @@ namespace Gama.Socios.Wpf.ViewModels
     public class DashboardViewModel : ViewModelBase
     {
         private IEventAggregator _EventAggregator;
-        private ISociosSettings _Settings;
+        private IPreferenciasDeSocios _Settings;
         private ISocioRepository _SocioRepository;
         private ObservableCollection<Socio> _Socios;
         private string[] _Labels;
@@ -28,7 +28,7 @@ namespace Gama.Socios.Wpf.ViewModels
 
         public DashboardViewModel(ISocioRepository socioRepository,
             IEventAggregator eventAggregator, 
-            ISociosSettings settings,
+            IPreferenciasDeSocios settings,
             ISession session)
         {
             _SocioRepository = socioRepository;

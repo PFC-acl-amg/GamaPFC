@@ -15,14 +15,14 @@ namespace Gama.Socios.Wpf.DesignTimeData
     public class DashboardViewModelDTD
     {
         private FakeSocioRepository _SocioRepository;
-        private SociosSettings _Settings;
+        private PreferenciasDeSocios _Settings;
         private ObservableCollection<Socio> _Socios;
         private string[] _Labels;
         private int _MesInicialSocios;
 
         public DashboardViewModelDTD()
         {
-            _Settings = new SociosSettings();
+            _Settings = new PreferenciasDeSocios();
             _SocioRepository = new FakeSocioRepository();
 
             _Socios = new ObservableCollection<Socio>(_SocioRepository.GetAll());

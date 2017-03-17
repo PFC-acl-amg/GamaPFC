@@ -19,7 +19,7 @@ namespace Gama.Socios.WpfTests
     {
         private Mock<IEventAggregator> _EventAggregatorMock;
         private Mock<ISession> _SessionMock;
-        private Mock<ISociosSettings> _SettingsMock;
+        private Mock<IPreferenciasDeSocios> _SettingsMock;
         private Mock<SocioCreadoEvent> _SocioCreadoEventMock;
         private Mock<SocioDadoDeBajaEvent> _SocioEliminadoEventMock;
         private Mock<SocioSeleccionadoEvent> _SocioSeleccionadoEventMock;
@@ -32,7 +32,7 @@ namespace Gama.Socios.WpfTests
             _Socios = new FakeSocioRepository().GetAll();
 
             _SocioRepositoryMock = new Mock<ISocioRepository>();
-            _SettingsMock = new Mock<ISociosSettings>();
+            _SettingsMock = new Mock<IPreferenciasDeSocios>();
             _EventAggregatorMock = new Mock<IEventAggregator>();
             _SessionMock = new Mock<ISession>();
 
