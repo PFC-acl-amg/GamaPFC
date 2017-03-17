@@ -92,6 +92,15 @@ namespace Gama.Socios.Wpf.Wrappers
 
         public bool FacebookIsChanged => GetIsChanged(nameof(Facebook));
 
+        public byte[] ImagenSocio
+        {
+            get { return GetValue<byte[]>(); }
+            set { SetValue(value); }
+        }
+        public byte[] ImagenSocioOriginalValue => GetOriginalValue<byte[]>(nameof(ImagenSocio));
+
+        public bool ImagenSocioIsChanded => GetIsChanged(nameof(ImagenSocio));
+
         public string LinkedIn
         {
             get { return GetValue<string>(); }

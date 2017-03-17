@@ -27,6 +27,7 @@ namespace Gama.Socios.DataAccess.Mappings
             Map(x => x.Twitter).Not.Nullable().Default("");
             Map(x => x.AvatarPath);
             Map(x => x.EstaDadoDeAlta);
+            Map(x => x.ImagenSocio);
 
             Map(x => x.CreatedAt);
             Map(x => x.UpdatedAt);

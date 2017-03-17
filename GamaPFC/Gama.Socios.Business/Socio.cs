@@ -24,6 +24,7 @@ namespace Gama.Socios.Business
         public virtual string Twitter { get; set; } = "";
         public virtual string AvatarPath { get; set; }
         public virtual bool EstaDadoDeAlta { get; set; }
+        public virtual byte[] ImagenSocio { get; set; }
         
 
         public virtual IList<PeriodoDeAlta> PeriodosDeAlta { get; set; }
@@ -46,6 +47,7 @@ namespace Gama.Socios.Business
                 nameof(Telefono),
                 nameof(Twitter),
                 nameof(Email),
+                nameof(ImagenSocio)
             });
 
             IsEncrypted = true;
@@ -89,6 +91,7 @@ namespace Gama.Socios.Business
             Email = socio.Email;
             FechaDeNacimiento = socio.FechaDeNacimiento;
             Facebook = socio.Facebook;
+            ImagenSocio = socio.ImagenSocio;
             LinkedIn = socio.LinkedIn;
             Nacionalidad = socio.Nacionalidad;
             Nif = socio.Nif;
