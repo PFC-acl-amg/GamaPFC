@@ -23,10 +23,12 @@ namespace Gama.Socios.Wpf.ViewModels
 
         public EditarPeriodosDeAltaViewModel(
             ISocioRepository socioRepository,
-            IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator, 
+            ISociosSettings settings)
         {
             _SocioRepository = socioRepository;
             _EventAggregator = eventAggregator;
+            _Settings = settings;
 
             ActualizarCommand = new DelegateCommand<PeriodoDeAltaWrapper>(OnActualizarCommandExecute,
                 OnActualizarCommandCanExecute);
@@ -50,6 +52,8 @@ namespace Gama.Socios.Wpf.ViewModels
         }
 
         public PeriodoDeAltaWrapper _PeriodoDeAltaSeleccionado;
+        private ISociosSettings _Settings;
+
         public PeriodoDeAltaWrapper PeriodoDeAltaSeleccionado
         {
             get { return _PeriodoDeAltaSeleccionado; }
@@ -72,29 +76,43 @@ namespace Gama.Socios.Wpf.ViewModels
 
         private void OnActualizarCommandExecute(PeriodoDeAltaWrapper wrapper)
         {
-            //wrapper = PeriodoDeAltaSeleccionado;
             var model = wrapper.Model;
 
+            // Guardamos las cuotas efectivas, esto es, donde se haya introducido algún
+            // cambio alguna vez en alguno de sus campos
             var cuotasPreexistentes = new List<Cuota>(wrapper.Cuotas.Select(x => x.Model));
 
-            wrapper.Cuotas.Clear();
-            foreach (var mesAplicable in wrapper.MesesAplicables.Select(x => x.Model))
+            //wrapper.Cuotas.Clear();
+            wrapper.MesesAplicables.Clear();
+            // Los meses aplicables serán en forma de Cuota, desde el mes de alta hasta
+            // el mes de baja o la fecha actual, en caso de no haber mes de baja establecido.
+            foreach (var mesAplicable in wrapper.GetMesesAplicables())
             {
                 var cuota = cuotasPreexistentes.Where(x => x.Id == mesAplicable.Id).FirstOrDefault();
 
+                // Si la cuota ya existe, la tomamos, actualizamos sus campos en caso de modificación
+                // y la añadimos a la lista de cuotas.
+                // Si no existe, es que es nueva o no tenía cambio, por lo que añadimos
+                // una predeterminada, que es una Cuota con sólo el campo de "CantidadTotal" especificado,
+                // que viene de los Settings según la Cuota Mensual Predeterminada
                 if (cuota == null)
                 {
-                    model.AddCuota(mesAplicable);
+                    mesAplicable.CantidadTotal = _Settings.CuotaMensualPredeterminada;
+                    wrapper.AddCuota(mesAplicable);
+                    wrapper.MesesAplicables.Add(new CuotaWrapper(mesAplicable));
+                    //model.AddCuota(mesAplicable);
                 }
                 else // Se ha modificado una cuota existente
                 {
                     cuota.CopyValuesFrom(mesAplicable);
-                    model.AddCuota(cuota);
+                    wrapper.MesesAplicables.Add(new CuotaWrapper(cuota));
+                    //wrapper.AddCuota(cuota);
                 }
+
             }
 
-            wrapper.AcceptChanges();
             _SocioRepository.Update(Socio.Model);
+            wrapper.AcceptChanges();
             InvalidateCommands();
 
             _EventAggregator.GetEvent<SocioActualizadoEvent>().Publish(Socio.Model);
@@ -104,12 +122,29 @@ namespace Gama.Socios.Wpf.ViewModels
         {
             var nuevoPeriodoDeAlta = new PeriodoDeAltaWrapper(new PeriodoDeAlta()
             {
-                FechaDeAlta = DateTime.Now.Date
+                FechaDeAlta = DateTime.Now.Date,
+                Cuotas = new List<Cuota>()
             });
+
+            nuevoPeriodoDeAlta.AddCuota(
+                new Cuota
+                {
+                    CantidadTotal = _Settings.CuotaMensualPredeterminada,
+                    Fecha = DateTime.Now.Date.AddDays(1 - DateTime.Now.Date.Day),
+                });
+
+            // siempre será esta cuota porque se acaba de añadir y es la única que hay
+            nuevoPeriodoDeAlta.MesesAplicables.Clear();
+            nuevoPeriodoDeAlta.MesesAplicables.Add(nuevoPeriodoDeAlta.Cuotas[0]);
 
             nuevoPeriodoDeAlta.PropertyChanged += (s, e) => { InvalidateCommands(); };
 
             Socio.AddPeriodoDeAlta(nuevoPeriodoDeAlta);
+            _SocioRepository.Update(Socio.Model);
+            Socio.AcceptChanges();
+            InvalidateCommands();
+
+            _EventAggregator.GetEvent<SocioActualizadoEvent>().Publish(Socio.Model);
         }
 
         public ISession Session

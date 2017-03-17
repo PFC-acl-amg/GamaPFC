@@ -12,5 +12,6 @@ namespace Gama.Socios.Wpf.Services
         int DashboardUltimosSocios { get; set; }
         int ListadoDeSociosItemsPerPage { get; set; }
         int MesesParaSerConsideradoMoroso { get; set; }
+        float CuotaMensualPredeterminada { get; set; }
     }
 }

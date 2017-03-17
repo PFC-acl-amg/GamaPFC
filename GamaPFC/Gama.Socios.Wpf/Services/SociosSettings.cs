@@ -12,13 +12,15 @@ namespace Gama.Socios.Wpf.Services
         {
             DashboardMesesAMostrarDeSociosNuevos = 6;
             DashboardUltimosSocios = 15;
-            ListadoDeSociosItemsPerPage = 25;
+            ListadoDeSociosItemsPerPage = 10;
             MesesParaSerConsideradoMoroso = 3;
+            CuotaMensualPredeterminada = 10;
         }
 
         public int DashboardMesesAMostrarDeSociosNuevos { get; set; }
         public int DashboardUltimosSocios { get; set; }
         public int ListadoDeSociosItemsPerPage { get; set; }
         public int MesesParaSerConsideradoMoroso { get; set; }
+        public float CuotaMensualPredeterminada { get; set; }
     }
 }

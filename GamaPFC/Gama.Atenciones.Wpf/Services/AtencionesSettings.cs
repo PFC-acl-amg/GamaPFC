@@ -18,7 +18,7 @@ namespace Gama.Atenciones.Wpf.Services
             DashboardMesesAMostrarDeAtencionesNuevas = 6;
             DashboardMesesAMostrarDePersonasNuevas = 6;
 
-            ListadoDePersonasItemsPerPage = 50;
+            ListadoDePersonasItemsPerPage = 10;
         }
 
         public int DashboardLongitudDeNombres { get; set; }

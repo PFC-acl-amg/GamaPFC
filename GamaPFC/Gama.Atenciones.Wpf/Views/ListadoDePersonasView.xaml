@@ -10,7 +10,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              mc:Ignorable="d" 
-             d:DesignHeight="320.497" d:DesignWidth="637.267">
+             d:DesignHeight="320.497" d:DesignWidth="804.267">
   <d:DataContext>
     <designData:ListadoDePersonasViewModelDTD/>
   </d:DataContext>
@@ -21,8 +21,10 @@
     </Grid.RowDefinitions>
 
     <StackPanel Orientation="Horizontal">
-      <cc:CircleIconButton Margin="{StaticResource Margin}" Command="{Binding PaginaAnteriorCommand}"
-                           Icon="{StaticResource appbar_arrow_left}"/>
+      <cc:CircleIconButton 
+          Margin="{StaticResource Margin}" 
+          Command="{Binding PaginaAnteriorCommand}"
+          Icon="{StaticResource appbar_arrow_left}"/>
 
       <TextBlock VerticalAlignment="Center" FontStyle="Italic">
         <Run Text="Página"/>
@@ -55,7 +57,8 @@
                 <RowDefinition Height="80"/>
                 <RowDefinition  Height="Auto"/>
               </Grid.RowDefinitions>
-              <Image Margin="{StaticResource Margin}"  Grid.ColumnSpan="2"
+              <Image Margin="{StaticResource Margin}"  
+                     Grid.ColumnSpan="2"
                      MaxHeight="80"
                    Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>
               <StackPanel Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center">
@@ -77,22 +80,6 @@
               </i:EventTrigger>
             </i:Interaction.Triggers>
           </GroupBox>
-          <!--<GroupBox Header="{Binding DisplayMember1}" MaxWidth="200" MaxHeight="100"
-                              Width="150" Height="90">
-            <StackPanel Orientation="Vertical">
-              <TextBlock Text="{Binding DisplayMember2}" TextWrapping="Wrap" Margin="{StaticResource Margin}"/>
-            </StackPanel>
-            <i:Interaction.Triggers>
-              <i:EventTrigger EventName="MouseDoubleClick">
-                <prism:InvokeCommandAction 
-                                      Command="{Binding RelativeSource =
-                                          {RelativeSource FindAncestor,
-                                              AncestorType={x:Type Grid}},
-                                              Path=DataContext.SeleccionarPersonaCommand}"
-                                      CommandParameter="{Binding Id}"/>
-              </i:EventTrigger>
-            </i:Interaction.Triggers>
-          </GroupBox>-->
         </DataTemplate>
       </ItemsControl.ItemTemplate>
     </ItemsControl>
