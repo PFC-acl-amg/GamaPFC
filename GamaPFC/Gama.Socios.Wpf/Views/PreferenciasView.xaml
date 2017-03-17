@@ -37,6 +37,8 @@
                 <StackPanel Grid.Column="0" Orientation="Vertical">
                     <Label Margin="{StaticResource Margin}">Meses a mostrar de socios nuevos</Label>
                     <Label Margin="{StaticResource Margin}">Últimos socios a mostrar</Label>
+                    <Label Margin="{StaticResource Margin}">Socios cumpleañeros a mostrar</Label>
+                    <Label Margin="{StaticResource Margin}">Socios morosos a mostrar</Label>
                 </StackPanel>
                 
                 <StackPanel  Grid.Column="1" Orientation="Vertical">
@@ -46,6 +48,12 @@
                     <controls:NumericUpDown Minimum="5" 
                                             Margin="{StaticResource Margin}"
                                             Value="{Binding Preferencias.DashboardUltimosSocios}"/>
+                    <controls:NumericUpDown Minimum="1" 
+                                            Margin="{StaticResource Margin}"
+                                            Value="{Binding Preferencias.DashboardSociosCumpliendoBirthdays}"/>
+                    <controls:NumericUpDown Minimum="1" 
+                                            Margin="{StaticResource Margin}"
+                                            Value="{Binding Preferencias.DashboardSociosMorosos}"/>
                 </StackPanel>
             </Grid>
         </GroupBox>

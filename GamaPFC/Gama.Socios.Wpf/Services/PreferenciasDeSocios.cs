@@ -14,6 +14,8 @@ namespace Gama.Socios.Wpf.Services
         {
             DashboardMesesAMostrarDeSociosNuevos = 6;
             DashboardUltimosSocios = 15;
+            DashboardSociosCumpliendoBirthdays = 15;
+            DashboardSociosMorosos = 5;
             ListadoDeSociosItemsPerPage = 10;
             MesesParaSerConsideradoMoroso = 3;
             CuotaMensualPredeterminada = 10;
@@ -32,6 +34,15 @@ namespace Gama.Socios.Wpf.Services
             get { return _DashboardUltimosSocios; }
             set { SetProperty(ref _DashboardUltimosSocios, value); }
         }
+
+        private int _DashboardSociosCumpliendoBirthdays;
+        public int DashboardSociosCumpliendoBirthdays
+        {
+            get { return _DashboardSociosCumpliendoBirthdays; }
+            set { SetProperty(ref _DashboardSociosCumpliendoBirthdays, value); }
+        }
+        
+        public int DashboardSociosMorosos { get; set; }
 
         public int ListadoDeSociosItemsPerPage { get; set; }
         public int MesesParaSerConsideradoMoroso { get; set; }

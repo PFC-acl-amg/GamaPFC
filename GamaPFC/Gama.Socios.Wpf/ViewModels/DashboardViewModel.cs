@@ -52,7 +52,8 @@ namespace Gama.Socios.Wpf.ViewModels
                     }));
 
             SociosCumpliendoBirthdays = new ObservableCollection<LookupItem>(
-                _Socios.Where(x => x.IsBirthday())
+                _Socios
+                    .Where(x => x.IsBirthday())
                     .Select(a => new LookupItem
                     {
                         Id = a.Id,
@@ -62,7 +63,9 @@ namespace Gama.Socios.Wpf.ViewModels
                     }));
 
             SociosMorosos = new ObservableCollection<LookupItem>(
-                _Socios.Where(x => x.EsMoroso(_Settings.MesesParaSerConsideradoMoroso))
+                _Socios
+                    .Where(x => x.EsMoroso(_Settings.MesesParaSerConsideradoMoroso))
+                    .Take(_Settings.DashboardSociosMorosos)
                     .Select(a => new LookupItem
                     {
                         Id = a.Id,
@@ -98,6 +101,22 @@ namespace Gama.Socios.Wpf.ViewModels
                             IconSource = a.AvatarPath
                         }));
                 OnPropertyChanged(nameof(UltimosSocios));
+            }
+
+            if (SociosMorosos.Count != _Settings.DashboardSociosMorosos)
+            {
+                SociosMorosos = new ObservableCollection<LookupItem>(
+                    _Socios
+                        .Where(x => x.EsMoroso(_Settings.MesesParaSerConsideradoMoroso))
+                        .Take(_Settings.DashboardSociosMorosos)
+                        .Select(a => new LookupItem
+                        {
+                            Id = a.Id,
+                            DisplayMember1 = a.Nombre,
+                            DisplayMember2 = a.Nif,
+                            IconSource = a.AvatarPath
+                        }));
+                OnPropertyChanged(nameof(SociosMorosos));
             }
         }
 

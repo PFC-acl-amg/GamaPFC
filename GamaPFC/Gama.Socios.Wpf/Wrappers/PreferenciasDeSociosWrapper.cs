@@ -30,19 +30,24 @@ namespace Gama.Socios.Wpf.Wrappers
             get { return GetValue<int>(); }
             set { SetValue(value); }
         }
-
         public int DashboardUltimosSociosOriginalValue => GetOriginalValue<int>(nameof(DashboardUltimosSocios));
-
         public bool DashboardUltimosSociosIsChanged => GetIsChanged(nameof(DashboardUltimosSocios));
+
+        public int DashboardSociosMorosos
+        { 
+            get { return GetValue<int>(); }
+            set { SetValue(value); }
+        }
+        public int DashboardSociosMorososOriginalValue => GetOriginalValue<int>(nameof(DashboardSociosMorosos));
+        public bool DashboardSociosMorososIsChanged => GetIsChanged(nameof(DashboardSociosMorosos));
+
 
         public int ListadoDeSociosItemsPerPage
         {
             get { return GetValue<int>(); }
             set { SetValue(value); }
         }
-
         public int ListadoDeSociosItemsPerPageOriginalValue => GetOriginalValue<int>(nameof(ListadoDeSociosItemsPerPage));
-
         public bool ListadoDeSociosItemsPerPageIsChanged => GetIsChanged(nameof(ListadoDeSociosItemsPerPage));
 
         public int MesesParaSerConsideradoMoroso
@@ -50,9 +55,7 @@ namespace Gama.Socios.Wpf.Wrappers
             get { return GetValue<int>(); }
             set { SetValue(value); }
         }
-
         public int MesesParaSerConsideradoMorosoOriginalValue => GetOriginalValue<int>(nameof(MesesParaSerConsideradoMoroso));
-
         public bool MesesParaSerConsideradoMorosoIsChanged => GetIsChanged(nameof(MesesParaSerConsideradoMoroso));
 
         public float CuotaMensualPredeterminada
@@ -60,9 +63,7 @@ namespace Gama.Socios.Wpf.Wrappers
             get { return GetValue<float>(); }
             set { SetValue(value); }
         }
-
         public float CuotaMensualPredeterminadaOriginalValue => GetOriginalValue<float>(nameof(CuotaMensualPredeterminada));
-
         public bool CuotaMensualPredeterminadaIsChanged => GetIsChanged(nameof(CuotaMensualPredeterminada));
     }
 }
