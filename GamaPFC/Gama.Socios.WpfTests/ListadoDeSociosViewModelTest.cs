@@ -56,7 +56,7 @@ namespace Gama.Socios.WpfTests
             _Vm = new ListadoDeSociosViewModel(
                 _SocioRepositoryMock.Object,
                 _EventAggregatorMock.Object,
-                _SettingsMock.Object,
+                new PreferenciasDeSocios(),
                 _SessionMock.Object);
         }
 
@@ -124,7 +124,7 @@ namespace Gama.Socios.WpfTests
 
             var eventAggregator = new EventAggregator();
             var vm = new ListadoDeSociosViewModel(_SocioRepositoryMock.Object,
-                eventAggregator, _SettingsMock.Object, _SessionMock.Object);
+                eventAggregator, new PreferenciasDeSocios(), _SessionMock.Object);
 
             eventAggregator.GetEvent<SocioActualizadoEvent>().Publish(socio);
 
