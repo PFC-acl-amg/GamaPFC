@@ -121,7 +121,6 @@ namespace Gama.Socios.Wpf
                 new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
 
             Container.RegisterType<ISocioRepository, SocioRepository>();
-            Container.RegisterInstance<IPreferenciasDeSocios>(new PreferenciasDeSocios());
             Container.RegisterInstance<PreferenciasDeSocios>(new PreferenciasDeSocios());
             Container.RegisterInstance<ExportService>(new ExportService());
         }

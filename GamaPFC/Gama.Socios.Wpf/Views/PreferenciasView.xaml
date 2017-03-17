@@ -43,7 +43,7 @@
                     <controls:NumericUpDown Minimum="1" Maximum="12"
                                             Margin="{StaticResource Margin}"
                                             Value="{Binding Preferencias.DashboardMesesAMostrarDeSociosNuevos}"/>
-                    <controls:NumericUpDown Minimum="10" 
+                    <controls:NumericUpDown Minimum="5" 
                                             Margin="{StaticResource Margin}"
                                             Value="{Binding Preferencias.DashboardUltimosSocios}"/>
                 </StackPanel>

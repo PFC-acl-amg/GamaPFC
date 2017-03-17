@@ -55,7 +55,7 @@ namespace Gama.Socios.WpfTests
             _Vm = new DashboardViewModel(
                 _SocioRepositoryMock.Object,
                 _EventAggregatorMock.Object,
-                _SettingsMock.Object,
+                new PreferenciasDeSocios(),
                 _SessionMock.Object
                 );
         }
@@ -90,7 +90,7 @@ namespace Gama.Socios.WpfTests
             var vm = new DashboardViewModel(
                 _SocioRepositoryMock.Object,
                 eventAggregator,
-                _SettingsMock.Object,
+                new PreferenciasDeSocios(),
                 _SessionMock.Object);
 
             eventAggregator.GetEvent<SocioCreadoEvent>().Publish(Socio.Id);

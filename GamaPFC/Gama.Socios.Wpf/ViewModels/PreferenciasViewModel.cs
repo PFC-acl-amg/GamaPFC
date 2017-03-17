@@ -1,6 +1,8 @@
-﻿using Gama.Socios.Wpf.Services;
+﻿using Gama.Common.Eventos;
+using Gama.Socios.Wpf.Services;
 using Gama.Socios.Wpf.Wrappers;
 using Prism.Commands;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +14,15 @@ namespace Gama.Socios.Wpf.ViewModels
 {
     public class PreferenciasViewModel
     {
-        private IPreferenciasDeSocios _Settings;
+        private PreferenciasDeSocios _Settings;
+        private IEventAggregator _EventAggregator;
 
-        public PreferenciasViewModel(PreferenciasDeSocios settings)
+        public PreferenciasViewModel(PreferenciasDeSocios settings,
+            IEventAggregator eventAggregator)
         {
             _Settings = settings;
+            _EventAggregator = eventAggregator;
+
             Preferencias = new PreferenciasDeSociosWrapper(settings);
 
             GuardarCambiosCommand = new DelegateCommand(
@@ -39,7 +45,7 @@ namespace Gama.Socios.Wpf.ViewModels
         public ICommand GuardarCambiosCommand { get; private set; }
         public ICommand CancelarCambiosCommand { get; private set; }
 
-        public IPreferenciasDeSocios SociosSettings
+        public PreferenciasDeSocios SociosSettings
         {
             get { return _Settings; }
         }
@@ -49,6 +55,7 @@ namespace Gama.Socios.Wpf.ViewModels
         private void OnGuardarCambiosCommandExecute()
         {
             Preferencias.AcceptChanges();
+            _EventAggregator.GetEvent<PreferenciasActualizadasEvent>().Publish();
         }
 
         private void OnCancelarCambiosCommandExecute()

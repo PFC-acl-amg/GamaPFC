@@ -1,5 +1,6 @@
 ﻿using Core;
 using Gama.Common.CustomControls;
+using Gama.Common.Eventos;
 using Gama.Socios.Business;
 using Gama.Socios.Wpf.Eventos;
 using Gama.Socios.Wpf.Services;
@@ -20,7 +21,7 @@ namespace Gama.Socios.Wpf.ViewModels
     public class DashboardViewModel : ViewModelBase
     {
         private IEventAggregator _EventAggregator;
-        private IPreferenciasDeSocios _Settings;
+        private PreferenciasDeSocios _Settings;
         private ISocioRepository _SocioRepository;
         private ObservableCollection<Socio> _Socios;
         private string[] _Labels;
@@ -28,7 +29,7 @@ namespace Gama.Socios.Wpf.ViewModels
 
         public DashboardViewModel(ISocioRepository socioRepository,
             IEventAggregator eventAggregator, 
-            IPreferenciasDeSocios settings,
+            PreferenciasDeSocios settings,
             ISession session)
         {
             _SocioRepository = socioRepository;
@@ -74,9 +75,30 @@ namespace Gama.Socios.Wpf.ViewModels
             _EventAggregator.GetEvent<SocioDadoDeBajaEvent>().Subscribe(OnSocioDadoDeBajaEvent);
             _EventAggregator.GetEvent<SocioActualizadoEvent>().Subscribe(OnSocioActualizadoEvent);
 
+            _EventAggregator.GetEvent<PreferenciasActualizadasEvent>().Subscribe(OnPreferenciasActualizadasEvent);
+
             SeleccionarSocioCommand = new DelegateCommand<LookupItem>(OnSeleccionarSocioCommandExecute);
 
             InicializarGraficos();
+        }
+
+        private void OnPreferenciasActualizadasEvent()
+        {
+            if (UltimosSocios.Count != _Settings.DashboardUltimosSocios)
+            {
+                UltimosSocios = new ObservableCollection<LookupItem>(
+                        _Socios
+                        .OrderBy(x => x.Id)
+                        .Take(_Settings.DashboardUltimosSocios)
+                        .Select(a => new LookupItem
+                        {
+                            Id = a.Id,
+                            DisplayMember1 = a.Nombre,
+                            DisplayMember2 = a.Nif,
+                            IconSource = a.AvatarPath
+                        }));
+                OnPropertyChanged(nameof(UltimosSocios));
+            }
         }
 
         private void InicializarGraficos()

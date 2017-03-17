@@ -76,6 +76,7 @@
     <Compile Include="CustomControls\SearchBox.cs" />
     <Compile Include="CustomControls\SearchBoxDataTemplateSelector.cs" />
     <Compile Include="Eventos\AbrirPreferenciasEvent.cs" />
+    <Compile Include="Eventos\PreferenciasActualizadasEvent.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="ResourceNames.cs" />
     <Compile Include="Resources\Behaviors\ChangeBehavior.cs" />
