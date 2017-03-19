@@ -31,11 +31,12 @@ namespace Gama.Socios.DataAccess
                     try
                     {
                         NHibernate.Cfg.Configuration configuration;
+                        var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\nh_socios.cfg";
 
-                        File.Delete("nh_socios.cfg");
-                        if (File.Exists("nh_socios.cfg"))
+                        //File.Delete(path);
+                        if (File.Exists(path))
                         {
-                            var file = File.Open("nh_socios.cfg", FileMode.Open);
+                            var file = File.Open(path, FileMode.Open);
                             configuration = (NHibernate.Cfg.Configuration)new BinaryFormatter()
                                 .Deserialize(file);
                             file.Close();
@@ -43,7 +44,7 @@ namespace Gama.Socios.DataAccess
                         else
                         {
                             configuration = Configure();
-                            new BinaryFormatter().Serialize(File.Create("nh_socios.cfg"), configuration);
+                            new BinaryFormatter().Serialize(File.Create(path), configuration);
                         }
 
                         try
@@ -82,7 +83,7 @@ namespace Gama.Socios.DataAccess
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: false,
-                            execute: true,
+                            execute: false,
                             justDrop: false);
                     })
                 .BuildConfiguration();
