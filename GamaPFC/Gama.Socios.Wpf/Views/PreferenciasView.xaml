@@ -70,9 +70,9 @@
                 </StackPanel>
 
                 <StackPanel  Grid.Column="1" Orientation="Vertical">
-                    <controls:NumericUpDown Minimum="1" Maximum="12"
+                    <controls:NumericUpDown Minimum="10" 
                                             Margin="{StaticResource Margin}"
-                                            Value="{Binding SociosSettings.DashboardMesesAMostrarDeSociosNuevos}"/>
+                                            Value="{Binding Preferencias.ListadoDeSociosItemsPerPage}"/>
                 </StackPanel>
             </Grid>
         </GroupBox>

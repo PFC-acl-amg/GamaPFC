@@ -45,11 +45,6 @@ namespace Gama.Socios.Wpf.ViewModels
         public ICommand GuardarCambiosCommand { get; private set; }
         public ICommand CancelarCambiosCommand { get; private set; }
 
-        public PreferenciasDeSocios SociosSettings
-        {
-            get { return _Settings; }
-        }
-
         public PreferenciasDeSociosWrapper Preferencias { get; private set; }
 
         private void OnGuardarCambiosCommandExecute()
