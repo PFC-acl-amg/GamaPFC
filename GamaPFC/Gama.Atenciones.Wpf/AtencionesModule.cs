@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
@@ -232,7 +233,24 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<IPersonaRepository, PersonaRepository>();
             Container.RegisterType<ICitaRepository, CitaRepository>();
             Container.RegisterType<IAtencionRepository, AtencionRepository>();
-            Container.RegisterType<PreferenciasDeAtenciones, PreferenciasDeAtenciones>();
+
+            PreferenciasDeAtenciones preferencias;
+            string preferenciasPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+                + @"\preferencias_de_atenciones.cfg";
+
+            if (File.Exists(preferenciasPath))
+            {
+                var preferenciasFile = File.Open(preferenciasPath, FileMode.Open);
+                preferencias = (PreferenciasDeAtenciones)new BinaryFormatter().Deserialize(preferenciasFile);
+                preferenciasFile.Close();
+            }
+            else
+            {
+                preferencias = new PreferenciasDeAtenciones();
+                new BinaryFormatter().Serialize(File.Create(preferenciasPath), preferencias);
+            }
+
+            Container.RegisterInstance<PreferenciasDeAtenciones>(preferencias);
         }
 
         private void InitializeNavigation()
