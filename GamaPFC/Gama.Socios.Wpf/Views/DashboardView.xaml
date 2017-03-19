@@ -8,6 +8,7 @@
              xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:util="clr-namespace:Core.Util;assembly=Core"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="414.411" d:DesignWidth="751.603">
@@ -15,8 +16,8 @@
     <designData:DashboardViewModelDTD/>
   </d:DataContext>
     <UserControl.Resources>
-        
-        
+        <util:BinaryImageConverter x:Key="_BinaryImageConverter" />
+
         <DataTemplate x:Key="_LookupItemDataTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -27,8 +28,21 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Image Margin="{StaticResource Margin}" 
-                   Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>
+
+                <Image Source="{Binding Imagen, 
+                                    Converter={StaticResource _BinaryImageConverter}}" 
+                       Margin="{StaticResource Margin}"
+                                    Stretch="Fill"
+                                    StretchDirection="Both">
+                    <Image.BitmapEffect>
+                        <DropShadowBitmapEffect Color="Black" />
+                    </Image.BitmapEffect>
+                </Image>
+                
+                <!--<Image Margin="{StaticResource Margin}" 
+                   Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>-->
+                
+                
                 <StackPanel Grid.Column="1">
                     <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
                     <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>

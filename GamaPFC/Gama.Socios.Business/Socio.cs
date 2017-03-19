@@ -159,21 +159,24 @@ namespace Gama.Socios.Business
                     var propertyInfo = this.GetType().GetProperty(propertyName);
                     var propertyValue = propertyInfo.GetValue(this, null);
 
-                    if (propertyName == nameof(ImagenSocio))
+                    if (propertyValue != null)
                     {
-                        try
+                        if (propertyName == nameof(ImagenSocio))
                         {
-                            propertyInfo.SetValue(this, StringCipher.DecryptImage((byte[])propertyValue));
+                            try
+                            {
+                                propertyInfo.SetValue(this, StringCipher.DecryptImage((byte[])propertyValue));
+                            }
+                            catch (Exception ex)
+                            {
+                                var ok = ex.Message;
+                                throw;
+                            }
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            var ok = ex.Message;
-                            throw;
+                            propertyInfo.SetValue(this, StringCipher.Decrypt(propertyValue.ToString()));
                         }
-                    }
-                    else
-                    {
-                        propertyInfo.SetValue(this, StringCipher.Decrypt(propertyValue.ToString()));
                     }
                 }
 
