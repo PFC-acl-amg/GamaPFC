@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Gama.Socios.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
+             xmlns:converters="clr-namespace:Gama.Socios.Wpf.Converters"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              prism:ViewModelLocator.AutoWireViewModel="True"
@@ -15,6 +16,7 @@
     <designData:DashboardViewModelDTD/>
   </d:DataContext>
     <UserControl.Resources>
+        <converters:BinaryImageConverter x:Key="imgConverter" />
         <DataTemplate x:Key="_LookupItemDataTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -25,8 +27,21 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Image Margin="{StaticResource Margin}" 
-                   Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>
+                <StackPanel Grid.Column="0">
+                <Image Source="{Binding FotoSocio, 
+                                    Converter={StaticResource imgConverter}}" 
+                                    Stretch="Fill"
+                                       
+                                        MaxHeight="45"
+                                   Grid.ColumnSpan="2"
+                                    StretchDirection="Both">
+                    <!--<Image.BitmapEffect>
+                        <DropShadowBitmapEffect Color="Black" />
+                    </Image.BitmapEffect>-->
+                </Image>
+                </StackPanel>
+                <!--<Image Margin="{StaticResource Margin}" 
+                   Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>-->
                 <StackPanel Grid.Column="1">
                     <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
                     <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>

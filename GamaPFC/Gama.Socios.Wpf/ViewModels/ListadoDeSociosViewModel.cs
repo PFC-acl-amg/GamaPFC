@@ -36,14 +36,15 @@ namespace Gama.Socios.Wpf.ViewModels
             _SocioRepository.Session = session;
             _EventAggregator = eventAggregator;
             _Preferencias = preferencias;
-            
+
             _Socios = _SocioRepository.GetAll()
                 .Select(p => new LookupItem
                 {
                     Id = p.Id,
                     DisplayMember1 = p.Nombre,
                     DisplayMember2 = p.Nif,
-                    IconSource = p.AvatarPath
+                    //IconSource = p.AvatarPath
+                    FotoSocio = p.ImagenSocio
                 }).ToList();
 
             Socios = new PaginatedCollectionView(_Socios, _Preferencias.ListadoDeSociosItemsPerPage);

@@ -48,7 +48,8 @@ namespace Gama.Socios.Wpf.ViewModels
                         Id = a.Id,
                         DisplayMember1 = a.Nombre,
                         DisplayMember2 = a.Nif,
-                        IconSource = a.AvatarPath
+                        //IconSource = a.AvatarPath
+                        FotoSocio = a.ImagenSocio
                     }));
 
             SociosCumpliendoBirthdays = new ObservableCollection<LookupItem>(
@@ -60,7 +61,8 @@ namespace Gama.Socios.Wpf.ViewModels
                         Id = a.Id,
                         DisplayMember1 = a.Nombre,
                         DisplayMember2 = a.Nif,
-                        IconSource = a.AvatarPath
+                        //IconSource = a.AvatarPath
+                        FotoSocio = a.ImagenSocio
                     }));
 
             SociosMorosos = new ObservableCollection<LookupItem>(
@@ -72,7 +74,8 @@ namespace Gama.Socios.Wpf.ViewModels
                         Id = a.Id,
                         DisplayMember1 = a.Nombre,
                         DisplayMember2 = a.Nif,
-                        IconSource = a.AvatarPath
+                        //IconSource = a.AvatarPath
+                        FotoSocio = a.ImagenSocio
                     }));
 
             _EventAggregator.GetEvent<SocioCreadoEvent>().Subscribe(OnSocioCreadoEvent);

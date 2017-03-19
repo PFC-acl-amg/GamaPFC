@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Gama.Socios.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
+             xmlns:converters="clr-namespace:Gama.Socios.Wpf.Converters"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -13,6 +14,9 @@
     <d:DataContext>
         <designData:ListadoDeSociosViewModelDTD/>
     </d:DataContext>
+    <UserControl.Resources>
+        <converters:BinaryImageConverter x:Key="imgConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -56,10 +60,20 @@
                                 <RowDefinition Height="80"/>
                                 <RowDefinition  Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <Image Margin="{StaticResource Margin}"  
-                     Grid.ColumnSpan="2"
-                     MaxHeight="80"
-                   Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>
+                            <Image Source="{Binding FotoSocio, 
+                                    Converter={StaticResource imgConverter}}" 
+                                    Stretch="Fill"
+                                       MinHeight="60"
+                                   Grid.ColumnSpan="2"
+                                    StretchDirection="Both">
+                                <Image.BitmapEffect>
+                                    <DropShadowBitmapEffect Color="Black" />
+                                </Image.BitmapEffect>
+                            </Image>
+                            <!--<Image Margin="{StaticResource Margin}"  
+                                Grid.ColumnSpan="2"
+                                MaxHeight="80"
+                                Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>-->
                             <StackPanel Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center">
                                 <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center"
                            TextWrapping="Wrap"

@@ -34,6 +34,13 @@ namespace Gama.Common.CustomControls
             set { SetProperty(ref _IconSource, value); }
         }
 
+        private byte[] _FotoSocio;
+        public byte[] FotoSocio
+        {
+            get { return _FotoSocio; }
+            set { SetProperty(ref _FotoSocio, value); }
+        }
+
         /// <summary>
         /// Selecciona los primeros n caracteres,  y añade "..." si la longitud del título 
         /// es mayor que n.
