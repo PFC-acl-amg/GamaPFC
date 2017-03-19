@@ -126,15 +126,83 @@ namespace Core.Encryption
             }
         }
 
-        private static byte[] Generate256BitsOfRandomEntropy()
+        public static byte[] EncryptImage(byte[] clearData)
         {
-            var randomBytes = new byte[32]; // 32 Bytes will give us 256 bits.
-            using (var rngCsp = new RNGCryptoServiceProvider())
+            // Create a MemoryStream to accept the encrypted bytes 
+            MemoryStream ms = new MemoryStream();
+
+            // Create a symmetric algorithm. 
+            // We are going to use Rijndael because it is strong and
+            // available on all platforms. 
+            // You can use other algorithms, to do so substitute the
+            // next line with something like 
+            //      TripleDES alg = TripleDES.Create(); 
+            //Rijndael alg = Rijndael.Create();
+
+            // Now set the key and the IV. 
+            // We need the IV (Initialization Vector) because
+            // the algorithm is operating in its default 
+            // mode called CBC (Cipher Block Chaining).
+            // The IV is XORed with the first block (8 byte) 
+            // of the data before it is encrypted, and then each
+            // encrypted block is XORed with the 
+            // following block of plaintext.
+            // This is done to make encryption more secure. 
+
+            // There is also a mode called ECB which does not need an IV,
+            // but it is much less secure. 
+            var rijndael = new RijndaelManaged()
             {
-                // Fill the array with cryptographically secure random bytes.
-                rngCsp.GetBytes(randomBytes);
-            }
-            return randomBytes;
+                Key = Encoding.ASCII.GetBytes(PassPhrase),
+                Mode = CipherMode.ECB,
+                BlockSize = 256,
+                Padding = PaddingMode.PKCS7,
+            };
+
+            // Create a CryptoStream through which we are going to be
+            // pumping our data. 
+            // CryptoStreamMode.Write means that we are going to be
+            // writing data to the stream and the output will be written
+            // in the MemoryStream we have provided. 
+            CryptoStream cs = new CryptoStream(ms, rijndael.CreateEncryptor(), CryptoStreamMode.Write);
+
+            // Write the data and make it do the encryption 
+            cs.Write(clearData, 0, clearData.Length);
+
+            // Close the crypto stream (or do FlushFinalBlock). 
+            // This will tell it that we have done our encryption and
+            // there is no more data coming in, 
+            // and it is now a good time to apply the padding and
+            // finalize the encryption process. 
+            cs.Close();
+
+            // Now get the encrypted data from the MemoryStream.
+            // Some people make a mistake of using GetBuffer() here,
+            // which is not the right way. 
+            byte[] encryptedData = ms.ToArray();
+
+            return encryptedData;
+        }
+
+        public static byte[] DecryptImage(byte[] cipherData)
+        {
+            MemoryStream ms = new MemoryStream();
+
+            var rijndael = new RijndaelManaged()
+            {
+                Key = Encoding.ASCII.GetBytes(PassPhrase),
+                Mode = CipherMode.ECB,
+                BlockSize = 256,
+                Padding = PaddingMode.PKCS7,
+            };
+
+            CryptoStream cs = new CryptoStream(ms, rijndael.CreateDecryptor(), CryptoStreamMode.Write);
+            cs.Write(cipherData, 0, cipherData.Length);
+            cs.Close();
+
+            byte[] decryptedData = ms.ToArray();
+
+            return decryptedData;
         }
     }
 }

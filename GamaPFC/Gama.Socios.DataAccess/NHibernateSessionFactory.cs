@@ -33,7 +33,7 @@ namespace Gama.Socios.DataAccess
                         NHibernate.Cfg.Configuration configuration;
                         var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\nh_socios.cfg";
 
-                        //File.Delete(path);
+                        File.Delete(path);
                         if (File.Exists(path))
                         {
                             var file = File.Open(path, FileMode.Open);

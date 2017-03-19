@@ -46,8 +46,8 @@ namespace Gama.Socios.Business
                 nameof(LinkedIn),
                 nameof(Telefono),
                 nameof(Twitter),
-                nameof(Email)
-                //nameof(ImagenSocio)
+                nameof(Email),
+                nameof(ImagenSocio),
             });
 
             IsEncrypted = true;
@@ -127,7 +127,14 @@ namespace Gama.Socios.Business
 
                 if (propertyValue != null)
                 {
-                    propertyInfo.SetValue(this, StringCipher.Encrypt(propertyValue.ToString()));
+                    if (propertyName == nameof(ImagenSocio))
+                    {
+                        propertyInfo.SetValue(this, StringCipher.EncryptImage((byte[])propertyValue));
+                    }
+                    else
+                    {
+                        propertyInfo.SetValue(this, StringCipher.Encrypt(propertyValue.ToString()));
+                    }
                 }
             }
 
@@ -152,7 +159,18 @@ namespace Gama.Socios.Business
                     var propertyInfo = this.GetType().GetProperty(propertyName);
                     var propertyValue = propertyInfo.GetValue(this, null);
 
-                    if (propertyValue != null)
+                    if (propertyName == nameof(ImagenSocio))
+                    {
+                        try
+                        {
+                            propertyInfo.SetValue(this, StringCipher.DecryptImage((byte[])propertyValue));
+                        }
+                        catch (Exception ex)
+                        {
+                            var ok = ex.Message;
+                        }
+                    }
+                    else
                     {
                         propertyInfo.SetValue(this, StringCipher.Decrypt(propertyValue.ToString()));
                     }

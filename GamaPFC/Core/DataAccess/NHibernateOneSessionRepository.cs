@@ -105,9 +105,9 @@ namespace Core.DataAccess
                     //}
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 

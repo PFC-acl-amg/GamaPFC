@@ -38,7 +38,7 @@ namespace Gama.Socios.Wpf
            : base(container, regionManager)
         {
             this.Entorno = Entorno.Desarrollo;
-            this.UseFaker = true;
+            this.SeedDatabase = false;
         }
 
         public override void Initialize()
@@ -55,7 +55,7 @@ namespace Gama.Socios.Wpf
             #region Database Seeding
             try
             {
-                if (UseFaker)
+                if (SeedDatabase)
                 {
 
                     foreach(var socio in (new FakeSocioRepository().GetAll()))
