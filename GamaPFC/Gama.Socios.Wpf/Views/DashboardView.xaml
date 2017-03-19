@@ -15,6 +15,8 @@
     <designData:DashboardViewModelDTD/>
   </d:DataContext>
     <UserControl.Resources>
+        
+        
         <DataTemplate x:Key="_LookupItemDataTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>

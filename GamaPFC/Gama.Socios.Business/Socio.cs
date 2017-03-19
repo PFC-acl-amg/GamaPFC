@@ -168,6 +168,7 @@ namespace Gama.Socios.Business
                         catch (Exception ex)
                         {
                             var ok = ex.Message;
+                            throw;
                         }
                     }
                     else
