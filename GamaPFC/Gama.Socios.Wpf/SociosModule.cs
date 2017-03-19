@@ -11,7 +11,9 @@ using NHibernate;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,7 +38,7 @@ namespace Gama.Socios.Wpf
            : base(container, regionManager)
         {
             this.Entorno = Entorno.Desarrollo;
-            this.UseFaker = false;
+            this.UseFaker = true;
         }
 
         public override void Initialize()
@@ -58,11 +60,6 @@ namespace Gama.Socios.Wpf
 
                     foreach(var socio in (new FakeSocioRepository().GetAll()))
                     {
-                        socio.AddPeriodoDeAlta(new Business.PeriodoDeAlta
-                        {
-                            FechaDeAlta = DateTime.Now.AddYears(-3).AddMonths(-4),
-                        });
-
                         socioRepository.Create(socio);
                     }
                 }
@@ -121,7 +118,24 @@ namespace Gama.Socios.Wpf
                 new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
 
             Container.RegisterType<ISocioRepository, SocioRepository>();
-            Container.RegisterInstance<PreferenciasDeSocios>(new PreferenciasDeSocios());
+
+            PreferenciasDeSocios preferencias;
+            string preferenciasPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) 
+                + @"\preferencias_de_socios.cfg";
+
+            if (File.Exists(preferenciasPath))
+            {
+                var preferenciasFile = File.Open(preferenciasPath, FileMode.Open);
+                preferencias = (PreferenciasDeSocios)new BinaryFormatter().Deserialize(preferenciasFile);
+                preferenciasFile.Close();
+            }
+            else
+            {
+                preferencias = new PreferenciasDeSocios();
+                new BinaryFormatter().Serialize(File.Create(preferenciasPath), preferencias);
+            }
+
+            Container.RegisterInstance<PreferenciasDeSocios>(preferencias);
             Container.RegisterInstance<ExportService>(new ExportService());
         }
 

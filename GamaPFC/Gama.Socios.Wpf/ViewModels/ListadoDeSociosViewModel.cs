@@ -1,5 +1,6 @@
 ﻿using Core;
 using Gama.Common.CustomControls;
+using Gama.Common.Eventos;
 using Gama.Socios.Business;
 using Gama.Socios.Wpf.Eventos;
 using Gama.Socios.Wpf.Services;
@@ -20,13 +21,13 @@ namespace Gama.Socios.Wpf.ViewModels
     {
         private IEventAggregator _EventAggregator;
         private ISocioRepository _SocioRepository;
-        private PreferenciasDeSocios _Settings;
+        private PreferenciasDeSocios _Preferencias;
         private List<LookupItem> _Socios;
 
         public ListadoDeSociosViewModel(
             ISocioRepository socioRepository,
             IEventAggregator eventAggregator,
-            PreferenciasDeSocios settings,
+            PreferenciasDeSocios preferencias,
             ISession session)
         {
             Title = "Todos";
@@ -34,7 +35,7 @@ namespace Gama.Socios.Wpf.ViewModels
             _SocioRepository = socioRepository;
             _SocioRepository.Session = session;
             _EventAggregator = eventAggregator;
-            _Settings = settings;
+            _Preferencias = preferencias;
             
             _Socios = _SocioRepository.GetAll()
                 .Select(p => new LookupItem
@@ -45,7 +46,7 @@ namespace Gama.Socios.Wpf.ViewModels
                     IconSource = p.AvatarPath
                 }).ToList();
 
-            Socios = new PaginatedCollectionView(_Socios, _Settings.ListadoDeSociosItemsPerPage);
+            Socios = new PaginatedCollectionView(_Socios, _Preferencias.ListadoDeSociosItemsPerPage);
 
             SeleccionarSocioCommand = new DelegateCommand<object>(OnSeleccionarSocioCommandExecute);
             PaginaSiguienteCommand = new DelegateCommand(OnPaginaSiguienteCommandExecute);
@@ -53,6 +54,7 @@ namespace Gama.Socios.Wpf.ViewModels
 
             _EventAggregator.GetEvent<SocioCreadoEvent>().Subscribe(OnSocioCreadoEvent);
             _EventAggregator.GetEvent<SocioActualizadoEvent>().Subscribe(OnSocioActualizadoEvent);
+            _EventAggregator.GetEvent<PreferenciasActualizadasEvent>().Subscribe(OnPreferenciasActualizadasEvent);
         }
 
         public PaginatedCollectionView Socios { get; private set; }
@@ -65,12 +67,12 @@ namespace Gama.Socios.Wpf.ViewModels
                 if (value.GetType() == typeof(int)) // 30, 50, ...
                 {
                     Socios.ItemsPerPage = (int)value;
-                    _Settings.ListadoDeSociosItemsPerPage = (int)value;
+                    _Preferencias.ListadoDeSociosItemsPerPage = (int)value;
                 }
                 else if (value.GetType() == typeof(string)) // "Todos"
                 {
                     Socios.ItemsPerPage = int.MaxValue;
-                    _Settings.ListadoDeSociosItemsPerPage = int.MaxValue;
+                    _Preferencias.ListadoDeSociosItemsPerPage = int.MaxValue;
                 }
 
                 OnPropertyChanged();
@@ -119,6 +121,15 @@ namespace Gama.Socios.Wpf.ViewModels
                 socioEncontrado.DisplayMember2 = socio.Nif;
                 socioEncontrado.Id = socio.Id;
                 socioEncontrado.IconSource = socio.AvatarPath;
+            }
+        }
+
+        private void OnPreferenciasActualizadasEvent()
+        {
+            if (Socios.Count != _Preferencias.ListadoDeSociosItemsPerPage)
+            {
+                Socios = new PaginatedCollectionView(_Socios, _Preferencias.ListadoDeSociosItemsPerPage);
+                OnPropertyChanged(nameof(Socios));
             }
         }
     }

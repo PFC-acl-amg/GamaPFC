@@ -45,14 +45,14 @@ namespace Gama.Bootstrapper
 
             Bootstrapper bootstrapper;
 
-            bool SALTAR_SELECCION_DE_MODULO = false; // Para hacer pruebas más rápido...
+            bool SALTAR_SELECCION_DE_MODULO = true; // Para hacer pruebas más rápido...
             if (SALTAR_SELECCION_DE_MODULO)
             {                //-------------------------------------
                 //create user 'gama'@'localhost' identified by 'secret';
                 //grant all on gama_atenciones.*to 'gama'@'localhost';
 
                 //-------------
-                bootstrapper = new Bootstrapper(Modulos.GestionDeSocios);
+                bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
                 bootstrapper.Run();
             }
             else

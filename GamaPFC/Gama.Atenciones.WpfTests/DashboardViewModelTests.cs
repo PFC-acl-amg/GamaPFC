@@ -30,7 +30,7 @@ namespace Gama.Atenciones.WpfTests
         private List<Persona> _Personas;
         private Mock<PersonaSeleccionadaEvent> _PersonaSeleccionadaEventMock;
         private Mock<ISession> _SessionMock;
-        private AtencionesSettings _Settings;
+        private PreferenciasDeAtenciones _Settings;
         DashboardViewModel _Vm;
         private Mock<CitaCreadaEvent> _NuevaCitaEventMock;
         private Mock<AtencionCreadaEvent> _AtencionCreadaEventMock;
@@ -41,7 +41,7 @@ namespace Gama.Atenciones.WpfTests
             _CitaRepositoryMock = new Mock<ICitaRepository>();
             _AtencionRepositoryMock = new Mock<IAtencionRepository>();
             _EventAggregatorMock = new Mock<IEventAggregator>();
-            _Settings = new AtencionesSettings();
+            _Settings = new PreferenciasDeAtenciones();
             _SessionMock = new Mock<ISession>();
 
             _Personas = new FakePersonaRepository().GetAll();

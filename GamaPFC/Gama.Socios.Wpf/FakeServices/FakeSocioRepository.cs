@@ -40,21 +40,21 @@ namespace Gama.Socios.Wpf.FakeServices
                     UpdatedAt = null
                 };
 
-                var periododeAlta = new PeriodoDeAlta
-                {
-                    FechaDeAlta = DateTime.Now.AddYears(-3).AddMonths(-4),
-                };
+                //var periododeAlta = new PeriodoDeAlta
+                //{
+                //    FechaDeAlta = DateTime.Now.AddYears(-3).AddMonths(-4),
+                //};
 
-                periododeAlta.AddCuota(new Cuota() {
-                    Fecha = periododeAlta.FechaDeAlta,
-                    CantidadTotal = 10.0,
-                    CantidadPagada = 0,
-                    Comentarios = "Algún comentario"
-                });
+                //periododeAlta.AddCuota(new Cuota() {
+                //    Fecha = periododeAlta.FechaDeAlta,
+                //    CantidadTotal = 10.0,
+                //    CantidadPagada = 0,
+                //    Comentarios = "Algún comentario"
+                //});
 
-                socio.AddPeriodoDeAlta(periododeAlta);
-                socio.AddPeriodoDeAlta(periododeAlta);
-                socio.AddPeriodoDeAlta(periododeAlta);
+                //socio.AddPeriodoDeAlta(periododeAlta);
+                //socio.AddPeriodoDeAlta(periododeAlta);
+                //socio.AddPeriodoDeAlta(periododeAlta);
 
                 _Socios.Add(socio);
             }
