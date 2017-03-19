@@ -8,7 +8,8 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
              xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
-             xmlns:converters="clr-namespace:Gama.Common.Resources.Converters;assembly=Gama.Common"
+             
+             xmlns:converters="clr-namespace:Gama.Socios.Wpf.Converters"
              mc:Ignorable="d" 
              prism:ViewModelLocator.AutoWireViewModel="True"
              d:DesignHeight="475.685" d:DesignWidth="333.904">
@@ -16,8 +17,9 @@
     <designData:SocioViewModelDTD/>
   </d:DataContext>
   <UserControl.Resources>
-    <converters:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>
-  </UserControl.Resources>
+    <!--<converters:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>-->
+    <converters:BinaryImageConverter x:Key="imgConverter" />
+    </UserControl.Resources>
   <GroupBox Header="Datos Personales">
     <ScrollViewer>
       <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding EdicionHabilitada}">
@@ -40,17 +42,36 @@
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Vertical">
-              <Border MaxHeight="70" BorderBrush="Black" BorderThickness="1.5" CornerRadius="1">
-                <Image MinHeight="50" Stretch="Fill" Source="{Binding Socio.AvatarPath, 
+                            <Border MaxHeight="70" BorderBrush="Black" BorderThickness="1.5" CornerRadius="1">
+                                <!--<Image MinHeight="50" Stretch="Fill" Source="{Binding Socio.AvatarPath, 
                   Converter={StaticResource _PathToFullPathConverter}, UpdateSourceTrigger=PropertyChanged}">
-                </Image>
-                <!--<Rectangle Width="60" Margin="{DynamicResource MarginNoBottom}">
+                                </Image>-->
+                                <!--<Image MinHeight="50" Stretch="Fill" Source="{Binding ImagenSocio}">
+                                    
+                                </Image>-->
+
+                                <Image Source="{Binding Socio.ImagenSocio, 
+                                    Converter={StaticResource imgConverter}}" 
+                                    Stretch="Fill"
+                                       MinHeight="50"
+                                    StretchDirection="Both">
+                                    <Image.BitmapEffect>
+                                        <DropShadowBitmapEffect Color="Black" />
+                                    </Image.BitmapEffect>
+                                </Image>
+
+                                <!--<Image x:Name="MyImage" MinHeight="50" Stretch="Fill">
+                                    <Image.Source>
+                                        <BitmapImage UriSource="{Binding ImagenSocio}" />
+                                    </Image.Source>
+                                </Image>-->
+                                <!--<Rectangle Width="60" Margin="{DynamicResource MarginNoBottom}">
                   <Rectangle.Fill>
                     <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_user}" />
                   </Rectangle.Fill>
                 </Rectangle>-->
-              </Border>
-              <Label Margin="0,-4,0,-2" VerticalAlignment="Bottom" 
+                            </Border>
+                            <Label Margin="0,-4,0,-2" VerticalAlignment="Bottom" 
                      VerticalContentAlignment="Bottom" HorizontalAlignment="Right">
                 <Hyperlink Command="{Binding ExaminarAvatarCommand}" FontSize="9">Examinar...</Hyperlink>
               </Label>

@@ -46,8 +46,8 @@ namespace Gama.Socios.Business
                 nameof(LinkedIn),
                 nameof(Telefono),
                 nameof(Twitter),
-                nameof(Email),
-                nameof(ImagenSocio)
+                nameof(Email)
+                //nameof(ImagenSocio)
             });
 
             IsEncrypted = true;
