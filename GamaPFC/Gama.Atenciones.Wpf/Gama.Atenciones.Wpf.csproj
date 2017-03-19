@@ -176,11 +176,10 @@
     <Compile Include="FakeServices\FakeAtencionRepository.cs" />
     <Compile Include="FakeServices\FakeCitaRepository.cs" />
     <Compile Include="FakeServices\FakePersonaRepository.cs" />
-    <Compile Include="Services\AtencionesSettings.cs" />
+    <Compile Include="Services\PreferenciasDeAtenciones.cs" />
     <Compile Include="Services\AtencionRepository.cs" />
     <Compile Include="Services\ChartItem.cs" />
     <Compile Include="Services\CitaRepository.cs" />
-    <Compile Include="Services\IAtencionesSettings.cs" />
     <Compile Include="Services\IAtencionRepository.cs" />
     <Compile Include="Services\ICitaRepository.cs" />
     <Compile Include="Services\IPersonaRepository.cs" />
@@ -265,6 +264,7 @@
     <Compile Include="Wrappers\CitaWrapper.cs" />
     <Compile Include="Wrappers\DerivacionWrapper.cs" />
     <Compile Include="Wrappers\PersonaWrapper.cs" />
+    <Compile Include="Wrappers\PreferenciasDeAtencionesWrapper.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

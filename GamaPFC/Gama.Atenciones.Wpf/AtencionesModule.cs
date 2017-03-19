@@ -232,7 +232,7 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<IPersonaRepository, PersonaRepository>();
             Container.RegisterType<ICitaRepository, CitaRepository>();
             Container.RegisterType<IAtencionRepository, AtencionRepository>();
-            Container.RegisterType<IAtencionesSettings, AtencionesSettings>();
+            Container.RegisterType<PreferenciasDeAtenciones, PreferenciasDeAtenciones>();
         }
 
         private void InitializeNavigation()

@@ -4,10 +4,110 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
-             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-  <Button Command="{Binding TestCommand}">Yihao</Button>
+             MinWidth="800"
+             d:DesignHeight="515.194" d:DesignWidth="684">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <!-- Fila para dar espacio, para que los botones estén al final-->
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Margin="{StaticResource Margin}" FontSize="24" FontWeight="Light">Preferencias</Label>
+
+        <GroupBox Header="Dashboard" Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Vertical">
+                    <Label Margin="{StaticResource Margin}">Últimas personas a mostrar</Label>
+                    <Label Margin="{StaticResource Margin}">Últimas atenciones mostrar</Label>
+                    <Label Margin="{StaticResource Margin}">Próximas citas a mostrar</Label>
+                    <Label Margin="{StaticResource Margin}">Longitud máxima de nombres antes de añadir "..."</Label>
+                    <Label Margin="{StaticResource Margin}">Longitud máxima de seguimients antes de añadir "..."</Label>
+                    <Label Margin="{StaticResource Margin}">Meses a mostrar de personas nuevas</Label>
+                    <Label Margin="{StaticResource Margin}">Meses a mostrar de atenciones nuevas</Label>
+                </StackPanel>
+
+                <StackPanel  Grid.Column="1" Orientation="Vertical">
+                    <controls:NumericUpDown Minimum="5" 
+                                            Margin="{StaticResource Margin}"
+                                            Value="{Binding Preferencias.DashboardUltimasPersonas}"/>
+                    <controls:NumericUpDown Minimum="5" 
+                                            Margin="{StaticResource Margin}"
+                                            Value="{Binding Preferencias.DashboardUltimasAtenciones}"/>
+                    <controls:NumericUpDown Minimum="5" 
+                                            Margin="{StaticResource Margin}"
+                                            Value="{Binding Preferencias.DashboardUltimasCitas}"/>
+                    <controls:NumericUpDown Minimum="20" 
+                                            Margin="{StaticResource Margin}"
+                                            Value="{Binding Preferencias.DashboardLongitudDeNombres}"/>
+                    <controls:NumericUpDown Minimum="20" 
+                                            Margin="{StaticResource Margin}"
+                                            Value="{Binding Preferencias.DashboardLongitudDeSeguimientos}"/>
+                    <controls:NumericUpDown Minimum="1" MaxHeight="12"
+                                            Margin="{StaticResource Margin}"
+                                            Value="{Binding Preferencias.DashboardMesesAMostrarDePersonasNuevas}"/>
+                    <controls:NumericUpDown Minimum="1" MaxHeight="12"
+                                            Margin="{StaticResource Margin}"
+                                            Value="{Binding Preferencias.DashboardMesesAMostrarDeAtencionesNuevas}"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="Personas" Grid.Row="1" Grid.Column="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Vertical">
+                    <Label Margin="{StaticResource Margin}">Personas a mostrar en Listado de Personas</Label>
+                </StackPanel>
+
+                <StackPanel  Grid.Column="1" Orientation="Vertical">
+                    <controls:NumericUpDown Minimum="10" 
+                                            Margin="{StaticResource Margin}"
+                                            Value="{Binding Preferencias.ListadoDePersonasItemsPerPage}"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="Citas" Grid.Row="2">
+           
+        </GroupBox>
+
+        <GroupBox Header="Atenciones" Grid.Row="2" Grid.Column="1">
+
+        </GroupBox>
+        
+        <StackPanel Grid.Row="4" Grid.ColumnSpan="2" 
+                    Orientation="Horizontal" HorizontalAlignment="Right">
+            <!-- Guardar cambios Button -->
+            <cc:CircleIconButton 
+                Icon="{StaticResource appbar_save}"
+                Command="{Binding GuardarCambiosCommand}"/>
+
+            <!-- Cancelar Button -->
+            <cc:CircleIconButton
+                Icon="{StaticResource appbar_close}"
+                Command="{Binding CancelarCambiosCommand}"/>
+        </StackPanel>
+    </Grid>
 </UserControl>

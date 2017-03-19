@@ -22,7 +22,7 @@ namespace Gama.Atenciones.WpfTests
         private List<Persona> _Personas;
         private int _ItemsPerPage = 30;
         private Mock<ISession> _SessionMock;
-        private Mock<IAtencionesSettings> _SettingsMock;
+        private PreferenciasDeAtenciones _SettingsMock;
         private Mock<IPersonaRepository> _PersonaRepositoryMock;
         private EventAggregator _EventAggregatorMock;
 
@@ -32,10 +32,10 @@ namespace Gama.Atenciones.WpfTests
 
             _EventAggregatorMock = new EventAggregator();
             _PersonaRepositoryMock = new Mock<IPersonaRepository>();
-            _SettingsMock = new Mock<IAtencionesSettings>();
+            _SettingsMock = new PreferenciasDeAtenciones();
             _SessionMock = new Mock<ISession>();
 
-            _SettingsMock.SetupProperty(uc => uc.ListadoDePersonasItemsPerPage, _ItemsPerPage);
+            _SettingsMock.ListadoDePersonasItemsPerPage = _ItemsPerPage;
 
             _PersonaRepositoryMock.Setup(pr => pr.GetAll())
                 .Returns(_Personas);
@@ -43,7 +43,7 @@ namespace Gama.Atenciones.WpfTests
             _Vm = new ListadoDePersonasViewModel(
                 _EventAggregatorMock,
                 _PersonaRepositoryMock.Object,
-                _SettingsMock.Object,
+                _SettingsMock,
                 _SessionMock.Object);
         }
 
