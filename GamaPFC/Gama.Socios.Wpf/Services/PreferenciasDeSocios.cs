@@ -2,13 +2,16 @@
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Gama.Socios.Wpf.Services
 {
-    public class PreferenciasDeSocios : BindableBase
+    [Serializable]
+    public class PreferenciasDeSocios
     {
         public PreferenciasDeSocios()
         {
@@ -32,5 +35,12 @@ namespace Gama.Socios.Wpf.Services
 
         public int MesesParaSerConsideradoMoroso { get; set; }
         public float CuotaMensualPredeterminada { get; set; }
+
+        public void Serializar()
+        {
+            string preferenciasPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\preferencias_de_socios.cfg";
+
+            new BinaryFormatter().Serialize(File.Create(preferenciasPath), this);
+        }
     }
 }

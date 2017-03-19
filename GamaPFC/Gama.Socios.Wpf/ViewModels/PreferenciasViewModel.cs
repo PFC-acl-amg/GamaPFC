@@ -14,16 +14,16 @@ namespace Gama.Socios.Wpf.ViewModels
 {
     public class PreferenciasViewModel
     {
-        private PreferenciasDeSocios _Settings;
+        private PreferenciasDeSocios _Preferencias;
         private IEventAggregator _EventAggregator;
 
-        public PreferenciasViewModel(PreferenciasDeSocios settings,
+        public PreferenciasViewModel(PreferenciasDeSocios preferencias,
             IEventAggregator eventAggregator)
         {
-            _Settings = settings;
+            _Preferencias = preferencias;
             _EventAggregator = eventAggregator;
 
-            Preferencias = new PreferenciasDeSociosWrapper(settings);
+            Preferencias = new PreferenciasDeSociosWrapper(preferencias);
 
             GuardarCambiosCommand = new DelegateCommand(
                 OnGuardarCambiosCommandExecute,
@@ -50,6 +50,7 @@ namespace Gama.Socios.Wpf.ViewModels
         private void OnGuardarCambiosCommandExecute()
         {
             Preferencias.AcceptChanges();
+            Preferencias.Model.Serializar();
             _EventAggregator.GetEvent<PreferenciasActualizadasEvent>().Publish();
         }
 
