@@ -60,7 +60,7 @@
                                 <RowDefinition Height="80"/>
                                 <RowDefinition  Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <Image Source="{Binding FotoSocio, 
+                            <Image Source="{Binding Imagen, 
                                     Converter={StaticResource imgConverter}}" 
                                     Stretch="Fill"
                                        MinHeight="60"

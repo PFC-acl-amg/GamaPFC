@@ -33,14 +33,12 @@ namespace Gama.Common.CustomControls
             get { return _IconSource; }
             set { SetProperty(ref _IconSource, value); }
         }
-
         private byte[] _Imagen;
         public byte[] Imagen
         {
             get { return _Imagen; }
             set { SetProperty(ref _Imagen, value); }
         }
-
         /// <summary>
         /// Selecciona los primeros n caracteres,  y añade "..." si la longitud del título 
         /// es mayor que n.

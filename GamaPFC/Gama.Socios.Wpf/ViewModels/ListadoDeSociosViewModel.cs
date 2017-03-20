@@ -44,7 +44,7 @@ namespace Gama.Socios.Wpf.ViewModels
                     DisplayMember1 = p.Nombre,
                     DisplayMember2 = p.Nif,
                     //IconSource = p.AvatarPath
-                    FotoSocio = p.ImagenSocio
+                    Imagen = p.ImagenSocio
                 }).ToList();
 
             Socios = new PaginatedCollectionView(_Socios, _Preferencias.ListadoDeSociosItemsPerPage);
