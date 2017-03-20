@@ -8,8 +8,6 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
              xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
-             
-             xmlns:converters="clr-namespace:Gama.Socios.Wpf.Converters"
              mc:Ignorable="d" 
              prism:ViewModelLocator.AutoWireViewModel="True"
              d:DesignHeight="475.685" d:DesignWidth="333.904">
@@ -18,7 +16,7 @@
   </d:DataContext>
   <UserControl.Resources>
     <!--<converters:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>-->
-    <converters:BinaryImageConverter x:Key="imgConverter" />
+    <util:BinaryImageConverter x:Key="_BinaryImageConverter" />
     </UserControl.Resources>
   <GroupBox Header="Datos Personales">
     <ScrollViewer>
@@ -51,7 +49,7 @@
                                 </Image>-->
 
                                 <Image Source="{Binding Socio.ImagenSocio, 
-                                    Converter={StaticResource imgConverter}}" 
+                                    Converter={StaticResource _BinaryImageConverter}}" 
                                     Stretch="Fill"
                                        MinHeight="50"
                                     StretchDirection="Both">

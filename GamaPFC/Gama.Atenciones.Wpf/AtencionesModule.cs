@@ -40,7 +40,7 @@ namespace Gama.Atenciones.Wpf
            : base(container, regionManager)
         {
             this.Entorno = Entorno.Desarrollo;
-            this.UseFaker = false;
+            this.SeedDatabase = false;
         }
 
         public override void Initialize()
@@ -57,7 +57,7 @@ namespace Gama.Atenciones.Wpf
             #region Database Seeding
             try
             {
-                if (UseFaker)
+                if (SeedDatabase)
                 {
 
                     var personas = new FakePersonaRepository().GetAll(); //personaRepository.GetAll();

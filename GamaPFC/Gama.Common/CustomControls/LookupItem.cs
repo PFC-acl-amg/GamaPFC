@@ -34,11 +34,11 @@ namespace Gama.Common.CustomControls
             set { SetProperty(ref _IconSource, value); }
         }
 
-        private byte[] _FotoSocio;
-        public byte[] FotoSocio
+        private byte[] _Imagen;
+        public byte[] Imagen
         {
-            get { return _FotoSocio; }
-            set { SetProperty(ref _FotoSocio, value); }
+            get { return _Imagen; }
+            set { SetProperty(ref _Imagen, value); }
         }
 
         /// <summary>

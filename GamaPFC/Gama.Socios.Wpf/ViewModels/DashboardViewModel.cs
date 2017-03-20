@@ -48,8 +48,7 @@ namespace Gama.Socios.Wpf.ViewModels
                         Id = a.Id,
                         DisplayMember1 = a.Nombre,
                         DisplayMember2 = a.Nif,
-                        //IconSource = a.AvatarPath
-                        FotoSocio = a.ImagenSocio
+                        Imagen = a.ImagenSocio
                     }));
 
             SociosCumpliendoBirthdays = new ObservableCollection<LookupItem>(
@@ -61,8 +60,7 @@ namespace Gama.Socios.Wpf.ViewModels
                         Id = a.Id,
                         DisplayMember1 = a.Nombre,
                         DisplayMember2 = a.Nif,
-                        //IconSource = a.AvatarPath
-                        FotoSocio = a.ImagenSocio
+                        Imagen = a.ImagenSocio
                     }));
 
             SociosMorosos = new ObservableCollection<LookupItem>(
@@ -74,8 +72,7 @@ namespace Gama.Socios.Wpf.ViewModels
                         Id = a.Id,
                         DisplayMember1 = a.Nombre,
                         DisplayMember2 = a.Nif,
-                        //IconSource = a.AvatarPath
-                        FotoSocio = a.ImagenSocio
+                        Imagen = a.ImagenSocio
                     }));
 
             _EventAggregator.GetEvent<SocioCreadoEvent>().Subscribe(OnSocioCreadoEvent);
@@ -102,7 +99,7 @@ namespace Gama.Socios.Wpf.ViewModels
                             Id = a.Id,
                             DisplayMember1 = a.Nombre,
                             DisplayMember2 = a.Nif,
-                            IconSource = a.AvatarPath
+                            Imagen = a.ImagenSocio
                         }));
 
                 OnPropertyChanged(nameof(UltimosSocios));
@@ -119,7 +116,7 @@ namespace Gama.Socios.Wpf.ViewModels
                             Id = a.Id,
                             DisplayMember1 = a.Nombre,
                             DisplayMember2 = a.Nif,
-                            IconSource = a.AvatarPath
+                            Imagen = a.ImagenSocio
                         }));
 
                 OnPropertyChanged(nameof(SociosCumpliendoBirthdays));
@@ -136,7 +133,7 @@ namespace Gama.Socios.Wpf.ViewModels
                             Id = a.Id,
                             DisplayMember1 = a.Nombre,
                             DisplayMember2 = a.Nif,
-                            IconSource = a.AvatarPath
+                            Imagen = a.ImagenSocio
                         }));
 
                 OnPropertyChanged(nameof(SociosMorosos));
@@ -179,7 +176,7 @@ namespace Gama.Socios.Wpf.ViewModels
                 Id = socio.Id,
                 DisplayMember1 = socio.Nombre,
                 DisplayMember2 = socio.Nif,
-                IconSource = socio.AvatarPath
+                Imagen = socio.ImagenSocio
             };
 
             UltimosSocios.Insert(0, lookupItem);
@@ -210,7 +207,7 @@ namespace Gama.Socios.Wpf.ViewModels
             {
                 socioDesactualizado.DisplayMember1 = socio.Nombre;
                 socioDesactualizado.DisplayMember2 = socio.Nif;
-                socioDesactualizado.IconSource = socio.AvatarPath;
+                socioDesactualizado.Imagen = socio.ImagenSocio;
             }
 
             // Actualizar a cumpleañeros o lista de morosos. Tal vez hay que quitarlo o ponerlo.

@@ -18,7 +18,7 @@ namespace Gama.Cooperacion.Wpf
            : base(container, regionManager)
         {
             this.Entorno = Entorno.Desarrollo;
-            this.UseFaker = false; // A falso no entra en el if this.UseFaker y no crea nada mas
+            this.SeedDatabase = false; // A falso no entra en el if this.UseFaker y no crea nada mas
         }
 
         public override void Initialize()
@@ -30,7 +30,7 @@ namespace Gama.Cooperacion.Wpf
             //ILoggerFacade log = Container.Resolve<ILoggerFacade>();
             //log.Log("ok", Category.Exception, Priority.None);
 
-            if (this.UseFaker)
+            if (this.SeedDatabase)
             {
                 var session = Container.Resolve<ISession>();
                 var cooperanteRepository = Container.Resolve<ICooperanteRepository>();
