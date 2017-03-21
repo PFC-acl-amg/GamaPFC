@@ -17,7 +17,7 @@
     <designData:DashboardViewModelDTD/>
   </d:DataContext>
   <UserControl.Resources>
-    <!--<converters:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>-->
+    <util:BinaryImageConverter x:Key="_BinaryImageConverter" />
     <DataTemplate x:Key="_LookupItemDataTemplate">
       <Grid>
         <Grid.ColumnDefinitions>
@@ -28,8 +28,20 @@
         <Grid.RowDefinitions>
           <RowDefinition/>
         </Grid.RowDefinitions>
-        <Image Margin="{StaticResource Margin}" 
-                   Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>
+
+        <Image Source="{Binding Imagen, 
+                                    Converter={StaticResource _BinaryImageConverter}}" 
+                       Margin="{StaticResource Margin}"
+                                    Stretch="Fill"
+                                    StretchDirection="Both">
+          <Image.BitmapEffect>
+            <DropShadowBitmapEffect Color="Black" />
+          </Image.BitmapEffect>
+        </Image>
+        <!--<Image Margin="{StaticResource Margin}" 
+                   Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>-->
+        
+        
         <StackPanel Grid.Column="1">
           <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
           <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
