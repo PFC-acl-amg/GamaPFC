@@ -32,6 +32,7 @@ namespace Gama.Atenciones.Business
         public virtual string Telefono { get; set; } = "";
         public virtual bool TieneTrabajo { get; set; }
         public virtual string Twitter { get; set; } = "";
+        public virtual byte[] Imagen { get; set; }
         public virtual ViaDeAccesoAGama ViaDeAccesoAGama { get; set; }
         public virtual IList<Cita> Citas { get; set; }
 
@@ -130,7 +131,14 @@ namespace Gama.Atenciones.Business
 
                 if (propertyValue != null)
                 {
-                    propertyInfo.SetValue(this, StringCipher.Encrypt(propertyValue.ToString()));
+                    if (propertyName == nameof(Imagen))
+                    {
+                        propertyInfo.SetValue(this, StringCipher.EncryptImage((byte[])propertyValue));
+                    }
+                    else
+                    {
+                        propertyInfo.SetValue(this, StringCipher.Encrypt(propertyValue.ToString()));
+                    }
                 }
             }
 
@@ -157,15 +165,30 @@ namespace Gama.Atenciones.Business
 
                     if (propertyValue != null)
                     {
-                        propertyInfo.SetValue(this, StringCipher.Decrypt(propertyValue.ToString()));
+                        if (propertyName == nameof(Imagen))
+                        {
+                            try
+                            {
+                                propertyInfo.SetValue(this, StringCipher.DecryptImage((byte[])propertyValue));
+                            }
+                            catch (Exception ex)
+                            {
+                                var ok = ex.Message;
+                                throw;
+                            }
+                        }
+                        else
+                        {
+                            propertyInfo.SetValue(this, StringCipher.Decrypt(propertyValue.ToString()));
+                        }
                     }
                 }
 
                 IsEncrypted = false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
     }
