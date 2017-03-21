@@ -90,17 +90,39 @@ namespace Gama.Socios.Wpf.Services
                 picture.Rotation = 10;
                 picture.SetPictureShape(BasicShapes.cube);
             }
-            MemoryStream ms = new MemoryStream();
-            System.Drawing.Image myImg = System.Drawing.Image.FromFile(@"Images/Silueta.png");
 
-            myImg.Save(ms, myImg.RawFormat);  // Save your picture in a memory stream.
-            ms.Seek(0, SeekOrigin.Begin);
 
-            Novacode.Image img = document.AddImage(ms); // Create image.
+            MemoryStream stream = new MemoryStream(socio.ImagenSocio);
+            Novacode.Image img = document.AddImage(stream); // Create image.
             Picture pic1 = img.CreatePicture();     // Create picture.
+            //pic1.Height = 179;
+            //pic1.Width = 152;
+            // Redimensionamos la imagen para que cuadre en la tabla manteniendo sus proporciones
+            var ratioX = (double)152 / pic1.Width;
+            var ratioY = (double)179 / pic1.Height;
+            double ratio;
+            if (ratioX < ratioY) { ratio = Math.Min(ratioX, ratioY); }
+            else { ratio = Math.Max(ratioX, ratioY); }
+            
+            var newWidth = (int)(pic1.Width * ratio);
+            var newHeight = (int)(pic1.Height * ratio);
+            Picture NewPic = img.CreatePicture(newHeight, newWidth);
+
+            //BitmapImage image = new BitmapImage();
+            //image.BeginInit();
+            //image.StreamSource = stream;
+            //image.EndInit();
+            //MemoryStream ms = new MemoryStream();
+            //System.Drawing.Image myImg = System.Drawing.Image.FromFile(@"Images/Silueta.png");
+
+            //myImg.Save(ms, myImg.RawFormat);  // Save your picture in a memory stream.
+            //ms.Seek(0, SeekOrigin.Begin);
+
+            //Novacode.Image img = document.AddImage(ms); // Create image.
+            //Picture pic1 = img.CreatePicture();     // Create picture.
 
             //Insertando los valores en las celda de TablaDatosDNI
-            DatosDNI.Rows[1].Cells[0].Paragraphs.First().AppendPicture(pic1);
+            DatosDNI.Rows[1].Cells[0].Paragraphs.First().AppendPicture(NewPic);
             DatosDNI.Rows[1].Cells[0].VerticalAlignment = Novacode.VerticalAlignment.Center;
             DatosDNI.MergeCellsInColumn(0, 1, 5);
             DatosDNI.Rows[1].Cells[1].Paragraphs.First().AppendLine(socio.Nombre);
@@ -170,7 +192,7 @@ namespace Gama.Socios.Wpf.Services
                     encoder.Save(fileStream);
                 }
             }
-
+            
             MemoryStream ms = new MemoryStream();
             System.Drawing.Image myImg = System.Drawing.Image.FromFile(@"Images/gama_logo.jpg");
 
@@ -180,12 +202,14 @@ namespace Gama.Socios.Wpf.Services
             Novacode.Image img = document.AddImage(ms); // Create image.
             Picture pic1 = img.CreatePicture();     // Create picture.
 
+
+
             //p0.InsertPicture(pic1, 0); // Insert picture into paragraph.
             //File.Copy(op.FileName, Socio.AvatarPath, true);
 
             // Insert a Paragraph into the odd Header.
             //Paragraph p1 = headers.InsertParagraph();
-           // p1.Append("Listado de Socios Impresos a " + DateTime.Now.ToLongTimeString()).Bold();
+            // p1.Append("Listado de Socios Impresos a " + DateTime.Now.ToLongTimeString()).Bold();
         }
 
         private string GeneratePath(string fileName)
