@@ -57,7 +57,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     Id = a.Id,
                     DisplayMember1 = a.Nombre,
                     DisplayMember2 = a.Nif,
-                    IconSource = a.AvatarPath
+                    IconSource = a.AvatarPath,
+                    Imagen = a.Imagen
                 }));
 
             UltimasAtenciones = new ObservableCollection<LookupItem>(
@@ -70,7 +71,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                      DisplayMember1 = a.Fecha.ToString(),
                      DisplayMember2 = LookupItem.ShortenStringForDisplay(
                          a.Seguimiento, _Settings.DashboardLongitudDeSeguimientos),
-                     IconSource = @"atencion_icon.png"
+                     IconSource = @"atencion_icon.png",
+                     // TODO: Poner imagen desde los recursos
                  }));
 
             ProximasCitas = new ObservableCollection<LookupItem>(
@@ -83,7 +85,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                      Id = c.Id,
                      DisplayMember1 = c.Fecha.ToString(),
                      DisplayMember2 = c.Sala,
-                     IconSource = c.Persona.AvatarPath
+                     IconSource = c.Persona.AvatarPath,
+                     Imagen = c.Persona.Imagen
                  }));
 
             InicializarGraficos();
@@ -178,7 +181,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 Id = persona.Id,
                 DisplayMember1 = persona.Nombre,
                 DisplayMember2 = persona.Nif,
-                IconSource = persona.AvatarPath
+                IconSource = persona.AvatarPath,
+                Imagen = persona.Imagen
             };
 
             UltimasPersonas.Insert(0, lookupItem);
@@ -200,7 +204,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 DisplayMember1 = atencion.Fecha.ToString(),
                 DisplayMember2 = LookupItem.ShortenStringForDisplay(
                          atencion.Seguimiento, _Settings.DashboardLongitudDeSeguimientos),
-                IconSource = @"atencion_icon.png"
+                IconSource = @"atencion_icon.png",
+                // TODO Poner imagen desde recursos y tal
             };
             UltimasAtenciones.Insert(0, lookupItem);
         }
@@ -212,7 +217,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 Id = cita.Id,
                 DisplayMember1 = cita.Fecha.ToString(),
-                DisplayMember2 = cita.Sala
+                DisplayMember2 = cita.Sala,
+                Imagen = cita.Persona.Imagen
             };
 
             if (ProximasCitas.Count > 0)
@@ -252,6 +258,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 personaDesactualizada.DisplayMember1 = persona.Nombre;
                 personaDesactualizada.DisplayMember2 = persona.Nif;
                 personaDesactualizada.IconSource = persona.AvatarPath;
+                personaDesactualizada.Imagen = persona.Imagen;
             }
 
             var citasDesactualizadas = ProximasCitas.Where(x => persona.Citas.Any(c => c.Id == x.Id)).ToList();
@@ -259,6 +266,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             foreach (var citaDesactualizada in citasDesactualizadas)
             {
                 citaDesactualizada.IconSource = persona.AvatarPath;
+                citaDesactualizada.Imagen = persona.Imagen;
             }
         }
 

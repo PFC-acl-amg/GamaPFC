@@ -112,7 +112,7 @@
 
                   <DataGrid.Columns>
                     <DataGridCheckBoxColumn 
-                      Header="Pagado" 
+                      Header="Pagado"  
                       Binding="{Binding EstaPagado, UpdateSourceTrigger=PropertyChanged}"
                       ElementStyle="{DynamicResource MetroDataGridCheckBox}"
                       EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
@@ -145,7 +145,7 @@
                       Binding="{Binding CantidadPagada, UpdateSourceTrigger=PropertyChanged}"
                       MinWidth="100" 
                       Width="*"/>
-                                        <DataGridTextColumn 
+                    <DataGridTextColumn 
                       Header="Comentarios" 
                       Binding="{Binding Comentarios, UpdateSourceTrigger=PropertyChanged}" 
                       MinWidth="400" 
