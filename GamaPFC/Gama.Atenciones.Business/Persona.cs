@@ -55,6 +55,7 @@ namespace Gama.Atenciones.Business
                 nameof(Telefono),
                 nameof(Twitter),
                 nameof(Email),
+                nameof(Imagen)
             });
 
             IsEncrypted = true;
