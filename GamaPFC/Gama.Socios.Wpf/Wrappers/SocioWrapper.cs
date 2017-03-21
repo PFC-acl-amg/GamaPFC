@@ -198,6 +198,11 @@ namespace Gama.Socios.Wpf.Wrappers
                 results.Add(new ValidationResult("El campo de fecha de nacimiento es obligatorio", new[] { nameof(FechaDeNacimiento) }));
             }
 
+            if (ImagenSocio != null && ImagenSocio.Length > 524288)
+            {
+                results.Add(new ValidationResult("La imagen no debe superar los 512 KB", new[] { nameof(ImagenSocio) }));
+            }
+
             var pattern =
                 @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
                 @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
