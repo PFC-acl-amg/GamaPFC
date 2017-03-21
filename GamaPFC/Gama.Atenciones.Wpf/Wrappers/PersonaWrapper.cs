@@ -121,6 +121,15 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool IdentidadSexualIsChanged => GetIsChanged(nameof(IdentidadSexual));
 
+        public byte[] Imagen
+        {
+            get { return GetValue<byte[]>(); }
+            set { SetValue(value); }
+        }
+        public byte[] ImagenOriginalValue => GetOriginalValue<byte[]>(nameof(Imagen));
+
+        public bool ImagenIsChanded => GetIsChanged(nameof(Imagen));
+
         public string LinkedIn
         {
             get { return GetValue<string>(); }
