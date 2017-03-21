@@ -12,9 +12,9 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="535.274" d:DesignWidth="318.493">
-  <!--<UserControl.Resources>
-    <converters:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>
-  </UserControl.Resources>-->
+  <UserControl.Resources>
+    <util:BinaryImageConverter x:Key="_BinaryImageConverter" />
+  </UserControl.Resources>
   <GroupBox Header="Datos Personales">
     <ScrollViewer>
       <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding EdicionHabilitada}">
@@ -35,13 +35,14 @@
 
             <StackPanel>
               <Border MaxHeight="70" MaxWidth="70" BorderBrush="Black" BorderThickness="1" CornerRadius="1">
-                <Image 
-                  x:Name="_AvatarHolder"
+                <Image x:Name="_AvatarHolder"
                   MinHeight="40" MinWidth="40"
-                  MaxHeight="68"
-                  MaxWidth="68"
+                  MaxHeight="68" MaxWidth="68"
                   Stretch="Fill" 
-                  Source="{Binding Persona.AvatarPath, Converter={StaticResource _PathToFullPathConverter}}" >
+                  Source="{Binding Persona.Imagen, Converter={StaticResource _BinaryImageConverter}}">
+                  <Image.BitmapEffect>
+                    <DropShadowBitmapEffect Color="Black" />
+                  </Image.BitmapEffect>
                   <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
                       <prism:InvokeCommandAction Command="{Binding ExaminarAvatarCommand}"/>

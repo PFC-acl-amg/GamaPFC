@@ -39,7 +39,8 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
                     DisplayMember1 = LookupItem.ShortenStringForDisplay(a.Nombre,
                         _Settings.DashboardLongitudDeNombres),
                     DisplayMember2 = a.Nif,
-                    IconSource = a.AvatarPath
+                    IconSource = a.AvatarPath,
+                    Imagen = a.Imagen
                 }));
 
             ProximasCitas = new ObservableCollection<LookupItem>(
@@ -50,7 +51,8 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
                     {
                         Id = c.Id,
                         DisplayMember1 = c.Fecha.ToString(),
-                        DisplayMember2 = c.Sala
+                        DisplayMember2 = c.Sala,
+                        Imagen = c.Persona.Imagen
                     }));
 
             UltimasAtenciones = new ObservableCollection<LookupItem>(
@@ -62,7 +64,8 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
                      Id = a.Id,
                      DisplayMember1 = a.Fecha.ToString(),
                      DisplayMember2 = LookupItem.ShortenStringForDisplay(
-                         a.Seguimiento, _Settings.DashboardLongitudDeSeguimientos)
+                         a.Seguimiento, _Settings.DashboardLongitudDeSeguimientos),
+
                  }));
         }
 

@@ -6,6 +6,7 @@ using Prism.Commands;
 using System;
 using System.IO;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -26,23 +27,46 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnExaminarAvatarCommandExecute()
         {
-            OpenFileDialog op = new OpenFileDialog();
-            op.Title = "Selecciona una imagen";
-            op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            BitmapImage imagenAuxiliar = new BitmapImage();
+            openFileDialog.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
               "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
               "Portable Network Graphic (*.png)|*.png";
-            if (op.ShowDialog() == true)
+            if (openFileDialog.ShowDialog() == true)
             {
-                Persona.AvatarPath = Persona.Id + "-" + DateTime.Now.Ticks +
-                    op.FileName.Substring(
-                        op.FileName.IndexOf(".", op.FileName.Length - 5));
+                imagenAuxiliar.BeginInit();
+                imagenAuxiliar.UriSource = new Uri(openFileDialog.FileName);
+                imagenAuxiliar.EndInit();
 
-                File.Copy(op.FileName, Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-                    + @"\IconsAndImages\" + Persona.AvatarPath, true);
+                string imagenPath = imagenAuxiliar.UriSource.OriginalString;
+                FileStream imagenFileStream = new FileStream(imagenPath, FileMode.Open, FileAccess.Read);
+                byte[] bytes = new byte[imagenFileStream.Length];
+                imagenFileStream.Read(bytes, 0, bytes.Length);
 
-                OnPropertyChanged(nameof(Persona));
+                Persona.Imagen = bytes;
             }
         }
+
+        //Se mantiene comentado porque nos resulta código útil
+        //private void OnExaminarAvatarCommandExecute()
+        //{
+        //    OpenFileDialog op = new OpenFileDialog();
+        //    op.Title = "Selecciona una imagen";
+        //    op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
+        //      "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
+        //      "Portable Network Graphic (*.png)|*.png";
+        //    if (op.ShowDialog() == true)
+        //    {
+        //        Persona.AvatarPath = Persona.Id + "-" + DateTime.Now.Ticks +
+        //            op.FileName.Substring(
+        //                op.FileName.IndexOf(".", op.FileName.Length - 5));
+        //
+        //        File.Copy(op.FileName, Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+        //            + @"\IconsAndImages\" + Persona.AvatarPath, true);
+        //
+        //        OnPropertyChanged(nameof(Persona));
+        //    }
+        //}
 
         public bool EdicionHabilitada
         {
@@ -55,9 +79,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             get { return _Persona; }
             set { SetProperty(ref _Persona, value); }
         }
-
-        public object Socio { get; private set; }
-
+        
         public void Load(PersonaWrapper wrapper)
         {
             EdicionHabilitada = false;

@@ -97,6 +97,7 @@ namespace Gama.Socios.Wpf
 
         private void RegisterViewModels()
         {
+            Container.RegisterType<ContabilidadViewModel>();
             Container.RegisterType<DashboardViewModel>();
             Container.RegisterType<EditarCuotasViewModel>();
             Container.RegisterType<EditarPeriodosDeAltaViewModel>();
@@ -150,6 +151,7 @@ namespace Gama.Socios.Wpf
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
 
             RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<SociosContentView>());
+            RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<ContabilidadView>());
             RegionManager.AddToRegion(RegionNames.SociosTabContentRegion, Container.Resolve<ListadoDeSociosView>());
         }
     }

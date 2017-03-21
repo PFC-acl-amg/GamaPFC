@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cuota.cs" />
+    <Compile Include="GestorDeContabilidad.cs" />
     <Compile Include="PeriodoDeAlta.cs" />
     <Compile Include="Socio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

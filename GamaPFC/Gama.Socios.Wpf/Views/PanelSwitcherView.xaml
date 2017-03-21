@@ -75,7 +75,7 @@
             <controls:Tile 
                 Title="Contabilidad"
                 Command="{Binding NavigateCommand}"
-                CommandParameter="X">
+                CommandParameter="ContabilidadView">
                 <controls:Tile.Style>
                     <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
                         <Style.Triggers>
