@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
+using Xceed.Wpf.DataGrid.Converters;
 
 namespace Gama.Atenciones.Wpf.Converters
 {
@@ -53,6 +54,28 @@ namespace Gama.Atenciones.Wpf.Converters
             System.Globalization.CultureInfo culture)
         {
             throw new Exception("The method or operation is not implemented.");
+        }
+
+        public static byte[] GetBitmapImageFromUriSource(Uri uriSource)
+        {
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.UriSource = uriSource;
+            bitmapImage.EndInit();
+
+            return ImageToByte(bitmapImage);
+        }
+        
+        public static byte[] ImageToByte(BitmapImage imageSource)
+        {
+            var encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(imageSource));
+
+            using (var ms = new MemoryStream())
+            {
+                encoder.Save(ms);
+                return ms.ToArray();
+            }
         }
     }
 }

@@ -9,15 +9,14 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             xmlns:util="clr-namespace:Core.Util;assembly=Core"
-             xmlns:converters="clr-namespace:Gama.Common.Resources.Converters;assembly=Gama.Common"
+             xmlns:converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="638" d:DesignWidth="883">
   <d:DataContext>
     <designData:DashboardViewModelDTD/>
   </d:DataContext>
   <UserControl.Resources>
-    <util:BinaryImageConverter x:Key="_BinaryImageConverter" />
+    <converters:BinaryImageConverter x:Key="_BinaryImageConverter" />
     <DataTemplate x:Key="_LookupItemDataTemplate">
       <Grid>
         <Grid.ColumnDefinitions>

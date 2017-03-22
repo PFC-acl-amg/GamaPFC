@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Regions;
 using Gama.Atenciones.Wpf.UIEvents;
+using Gama.Atenciones.Wpf.Converters;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -72,7 +73,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                      DisplayMember2 = LookupItem.ShortenStringForDisplay(
                          a.Seguimiento, _Settings.DashboardLongitudDeSeguimientos),
                      IconSource = @"atencion_icon.png",
-                     // TODO: Poner imagen desde los recursos
+                     Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
+                         new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png")),
                  }));
 
             ProximasCitas = new ObservableCollection<LookupItem>(
