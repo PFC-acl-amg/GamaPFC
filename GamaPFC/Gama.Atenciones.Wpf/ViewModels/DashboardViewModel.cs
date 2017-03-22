@@ -272,6 +272,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 Id = cita.Id,
                 DisplayMember1 = cita.Fecha.ToString(),
                 DisplayMember2 = cita.Sala,
+                // Ha habido que hacerlo así porque por alguna razón no se estaba
+                // recogiendo bien la imagen desde la persona de dentro de la Cita
                 //Imagen = cita.Persona.Imagen
                 Imagen = persona.Imagen
             };
