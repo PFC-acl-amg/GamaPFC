@@ -9,6 +9,7 @@
              xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
+             xmlns:converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              mc:Ignorable="d" 
              d:DesignHeight="320.497" d:DesignWidth="804.267">
@@ -16,7 +17,7 @@
     <designData:ListadoDePersonasViewModelDTD/>
   </d:DataContext>
   <UserControl.Resources>
-    <util:BinaryImageConverter x:Key="_BinaryImageConverter"/>
+    <converters:BinaryImageConverter x:Key="_BinaryImageConverter"/>
   </UserControl.Resources>
   <Grid>
     <Grid.RowDefinitions>

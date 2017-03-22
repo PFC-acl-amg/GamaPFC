@@ -152,6 +152,7 @@
     <Compile Include="Controls\CustomCalendar.cs" />
     <Compile Include="Controls\Day.cs" />
     <Compile Include="Converters\AppointmentsConverter.cs" />
+    <Compile Include="Converters\BinaryImageConverter.cs" />
     <Compile Include="Converters\DateConverter.cs" />
     <Compile Include="Converters\DayNameConverter.cs" />
     <Compile Include="Converters\MonthNameConverter.cs" />

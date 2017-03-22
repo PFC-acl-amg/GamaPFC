@@ -4,10 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
-namespace Core.Util
+namespace Gama.Atenciones.Wpf.Converters
 {
     public class BinaryImageConverter : IValueConverter
     {
@@ -29,12 +30,20 @@ namespace Core.Util
 
                 return image;
             }
-            
+
+            // Imagen por defecto 
             if (value == null)
             {
-
+                //Image finalImage = new Image();
+                BitmapImage logo = new BitmapImage();
+                logo.BeginInit();
+                logo.UriSource = new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png");
+                logo.EndInit();
+                //finalImage.Source = logo;
+                return logo;
             }
 
+            // No se debería llegar aquí
             return null;
         }
 
