@@ -179,6 +179,8 @@
     <Compile Include="FakeServices\FakeAtencionRepository.cs" />
     <Compile Include="FakeServices\FakeCitaRepository.cs" />
     <Compile Include="FakeServices\FakePersonaRepository.cs" />
+    <Compile Include="Services\AsistenteRepository.cs" />
+    <Compile Include="Services\IAsistenteRepository.cs" />
     <Compile Include="Services\PreferenciasDeAtenciones.cs" />
     <Compile Include="Services\AtencionRepository.cs" />
     <Compile Include="Services\ChartItem.cs" />
