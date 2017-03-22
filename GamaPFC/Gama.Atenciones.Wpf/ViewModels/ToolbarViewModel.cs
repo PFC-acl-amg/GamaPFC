@@ -73,8 +73,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
             if (o.EstaConfirmado)
             {
                 int id = _Persona.Id;
-                _PersonaRepository.Delete(_Persona);
+                // WARNING: Debe hacer antes la publicación del evento porque se recoge
+                // la persona para ver sus citas y atenciones desde otros viewmodels
                 _EventAggregator.GetEvent<PersonaEliminadaEvent>().Publish(id);
+                _PersonaRepository.Delete(_Persona);
             }
         }
 

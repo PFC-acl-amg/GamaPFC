@@ -16,6 +16,7 @@ using System.Windows.Input;
 using Prism.Regions;
 using Gama.Atenciones.Wpf.UIEvents;
 using Gama.Atenciones.Wpf.Converters;
+using Gama.Atenciones.Business;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -192,7 +193,53 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnPersonaEliminadaEvent(int id)
         {
+            //
+            // Últimas personas
+            //
             UltimasPersonas.Remove(UltimasPersonas.First(x => x.Id == id));
+
+            //
+            // Últimas atenciones y próximas citas
+            //
+            Persona persona = _PersonaRepository.GetById(id);
+            var atencionesIds = new List<int>();
+            var citasIds = new List<int>();
+
+            // Recogemos todos los ids de las atenciones para posteriormente
+            // borrarlas
+            foreach (var cita in persona.Citas)
+            {
+                citasIds.Add(cita.Id);
+                if (cita.Atencion != null)
+                {
+                    atencionesIds.Add(cita.Atencion.Id);
+                }
+            }
+            
+            for (int i = 0; i < UltimasAtenciones.Count; i++)
+            {
+                if (atencionesIds.Contains(UltimasAtenciones[i].Id))
+                {
+                    UltimasAtenciones.RemoveAt(i);
+                    i--;
+                }
+            }
+
+            for (int i = 0; i < ProximasCitas.Count; i++)
+            {
+                if (citasIds.Contains(ProximasCitas[i].Id))
+                {
+                    ProximasCitas.RemoveAt(i);
+                    i--;
+                }
+            }
+
+
+
+            //
+            // Próximas citas
+            //
+
             // TODO: Quitar las atenciones de últimas atenciones
             // Quitar las citas de últimas citas
         }
@@ -207,6 +254,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 DisplayMember2 = LookupItem.ShortenStringForDisplay(
                          atencion.Seguimiento, _Settings.DashboardLongitudDeSeguimientos),
                 IconSource = @"atencion_icon.png",
+                Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
+                         new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png")),
+
                 // TODO Poner imagen desde recursos y tal
             };
             UltimasAtenciones.Insert(0, lookupItem);
