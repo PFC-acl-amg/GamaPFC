@@ -263,6 +263,7 @@
     <Compile Include="Views\ToolbarView.xaml.cs">
       <DependentUpon>ToolbarView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Wrappers\AsistenteWrapper.cs" />
     <Compile Include="Wrappers\AtencionWrapper.cs" />
     <Compile Include="Wrappers\CitaWrapper.cs" />
     <Compile Include="Wrappers\DerivacionWrapper.cs" />

@@ -10,6 +10,7 @@ namespace Gama.Atenciones.Business
     {
         public virtual int Id { get; set; }
         public virtual string Nombre { get; set; }
+        public virtual string Email { get; set; }
         public virtual string Telefono { get; set; } = "";
         public virtual byte[] Imagen { get; set; }
 

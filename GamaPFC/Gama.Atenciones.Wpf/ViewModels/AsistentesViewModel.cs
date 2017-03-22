@@ -8,5 +8,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
 {
     public class AsistentesViewModel
     {
+        public AsistentesViewModel()
+        {
+
+        }
     }
 }
