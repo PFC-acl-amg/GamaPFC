@@ -265,12 +265,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnNuevaCitaEvent(int id)
         {
             var cita = _CitaRepository.GetById(id);
+            var persona = _PersonaRepository.GetById(cita.Persona.Id);
+
             var lookupItem = new LookupItem
             {
                 Id = cita.Id,
                 DisplayMember1 = cita.Fecha.ToString(),
                 DisplayMember2 = cita.Sala,
-                Imagen = cita.Persona.Imagen
+                //Imagen = cita.Persona.Imagen
+                Imagen = persona.Imagen
             };
 
             if (ProximasCitas.Count > 0)
@@ -292,11 +295,17 @@ namespace Gama.Atenciones.Wpf.ViewModels
                         index++;
                     }
                 }
+                else
+                {
+                    ProximasCitas.Add(lookupItem);
+                }
             }
             else
             {
                 ProximasCitas.Add(lookupItem);
             }
+
+            OnPropertyChanged(nameof(ProximasCitas));
         }
 
         private void OnPersonaActualizadaEvent(int id)
