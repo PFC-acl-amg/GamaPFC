@@ -63,7 +63,7 @@
               </Grid.RowDefinitions>
 
               <Image Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" 
-                Stretch="Fill" MaxHeight="70" Grid.ColumnSpan="2"
+                Stretch="Uniform" MaxHeight="70" Grid.ColumnSpan="2"
                      Margin="{StaticResource Margin}">
                 <Image.BitmapEffect>
                   <DropShadowBitmapEffect Color="Black" />
