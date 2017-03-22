@@ -9,7 +9,7 @@ namespace Gama.Atenciones.Business
 {
     public class Cita : TimestampedModel
     {
-        public virtual string Asistente { get; set; } = "";
+        public virtual string AsistenteEnTexto { get; set; } = "";
         public virtual DateTime? Fin { get; set; }
         public virtual bool HaTenidoLugar { get; set; }
         public virtual int Id { get; set; }
@@ -17,6 +17,7 @@ namespace Gama.Atenciones.Business
         public virtual string Sala { get; set; } = "";
         public virtual Atencion Atencion { get; set; }
         public virtual Persona Persona { get; set; }
+        public virtual Asistente Asistente { get; set; }
         public virtual int Hora { get; set; }
         public virtual int Minutos { get; set; }
 

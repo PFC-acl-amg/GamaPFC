@@ -29,8 +29,8 @@
         <RowDefinition Height="Auto"/>
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
-        <ColumnDefinition/>
-        <ColumnDefinition/>
+        <ColumnDefinition Width="Auto" SharedSizeGroup="_SharedColumnWidth"/>
+        <ColumnDefinition Width="Auto" SharedSizeGroup="_SharedColumnWidth" />
       </Grid.ColumnDefinitions>
       <Image Margin="{StaticResource Margin}"
              MaxHeight="55"
@@ -60,7 +60,7 @@
 
       <StackPanel Orientation="Vertical" Grid.Row="2">
         <Label Margin="{StaticResource Margin}">Asistente</Label>
-        <TextBox Margin="{StaticResource Margin}" Text="{Binding Cita.Asistente, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Margin="{StaticResource Margin}" Text="{Binding Cita.AsistenteEnTexto, UpdateSourceTrigger=PropertyChanged}"/>
       </StackPanel>
 
       <StackPanel Grid.Column="1" Grid.Row="2">

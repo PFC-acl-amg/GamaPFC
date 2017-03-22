@@ -29,15 +29,15 @@ namespace Gama.Atenciones.Wpf.Wrappers
             }
         }
 
-        public string Asistente
+        public string AsistenteEnTexto
         {
             get { return GetValue<string>(); }
             set { SetValue(value); }
         }
 
-        public string AsistenteOriginalValue => GetOriginalValue<string>(nameof(Asistente));
+        public string AsistenteEnTextoOriginalValue => GetOriginalValue<string>(nameof(AsistenteEnTexto));
 
-        public bool AsistenteIsChanged => GetIsChanged(nameof(Asistente));
+        public bool AsistenteEnTextoIsChanged => GetIsChanged(nameof(AsistenteEnTexto));
 
         public DateTime? Fin
         {
@@ -124,7 +124,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
                 yield return new ValidationResult("El campo de fecha es obligatorio",
                     new[] { nameof(Fecha) });
             }
-            if (string.IsNullOrWhiteSpace(Asistente))
+            if (string.IsNullOrWhiteSpace(AsistenteEnTexto))
             {
                 yield return new ValidationResult("El campo de asistente es obligatorio",
                     new[] { nameof(Asistente) });

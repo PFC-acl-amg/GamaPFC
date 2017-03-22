@@ -83,6 +83,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mappings\AsistenteMap.cs" />
     <Compile Include="Mappings\AtencionMap.cs" />
     <Compile Include="Mappings\CitaMap.cs" />
     <Compile Include="Mappings\DerivacionMap.cs" />
