@@ -34,6 +34,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator = eventAggregator;
 
             NuevaPersonaCommand = new DelegateCommand(OnNuevaPersonaCommandExecute);
+            NuevoAsistenteCommand = new DelegateCommand(OnNuevoAsistenteCommandExecute);
             ExportarCommand = new DelegateCommand(OnExportarCommandExecute);
             EliminarPersonaCommand = new DelegateCommand(OnEliminarPersonaCommandExecute, 
                 () => _Persona != null);
@@ -73,20 +74,31 @@ namespace Gama.Atenciones.Wpf.ViewModels
             if (o.EstaConfirmado)
             {
                 int id = _Persona.Id;
-                // WARNING: Debe hacer antes la publicación del evento porque se recoge
+                // WARNING: Debe hacerse antes la publicación del evento porque se recoge
                 // la persona para ver sus citas y atenciones desde otros viewmodels
+                // Alternativamente, se podría hacer que el parámetro que enviará este
+                // evento fuera el objeto de la persona entero, de forma que no afecte
+                // si se hace antes o después siempre que se guarde una copia 'deep' del modelo
+                // primero
                 _EventAggregator.GetEvent<PersonaEliminadaEvent>().Publish(id);
                 _PersonaRepository.Delete(_Persona);
             }
         }
 
-    public ICommand NuevaPersonaCommand { get; private set; }
+        public ICommand NuevaPersonaCommand { get; private set; }
+        public ICommand NuevoAsistenteCommand { get; private set; }
         public ICommand ExportarCommand { get; private set; }
         public ICommand EliminarPersonaCommand { get; private set; }
 
         private void OnNuevaPersonaCommandExecute()
         {
             var o = new NuevaPersonaView();
+            o.ShowDialog();
+        }
+
+        private void OnNuevoAsistenteCommandExecute()
+        {
+            var o = new NuevoAsistenteView();
             o.ShowDialog();
         }
 
