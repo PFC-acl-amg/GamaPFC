@@ -191,6 +191,7 @@
     <Compile Include="Services\PersonaRepository.cs" />
     <Compile Include="UIEvents\ActiveViewChanged.cs" />
     <Compile Include="ViewModels\AsistentesViewModel.cs" />
+    <Compile Include="ViewModels\AsistenteViewModel.cs" />
     <Compile Include="ViewModels\CitasContentViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\EditarAtencionesViewModel.cs" />
@@ -210,6 +211,9 @@
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="Views\AsistentesView.xaml.cs">
       <DependentUpon>AsistentesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AsistenteView.xaml.cs">
+      <DependentUpon>AsistenteView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CitasContentView.xaml.cs">
       <DependentUpon>CitasContentView.xaml</DependentUpon>
@@ -312,6 +316,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AsistentesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AsistenteView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
