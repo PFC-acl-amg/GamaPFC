@@ -22,6 +22,17 @@
       </StackPanel>
     </Button>
     <Button Background="Transparent" BorderThickness="0"
+            Command="{Binding NuevoAsistenteCommand}">
+      <Button.ToolTip>
+        <ToolTip>
+          <TextBlock>Nueva Persona</TextBlock>
+        </ToolTip>
+      </Button.ToolTip>
+      <StackPanel>
+        <Image Source="{StaticResource IconoNuevoAsistente}" Height="{StaticResource NavigationIconSize}"/>
+      </StackPanel>
+    </Button>
+    <Button Background="Transparent" BorderThickness="0"
             Command="{Binding ExportarCommand}">
       <Button.ToolTip>
         <ToolTip>
