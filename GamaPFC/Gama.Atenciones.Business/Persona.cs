@@ -138,7 +138,11 @@ namespace Gama.Atenciones.Business
                     }
                     else
                     {
-                        propertyInfo.SetValue(this, StringCipher.Encrypt(propertyValue.ToString()));
+                        var value = propertyValue.ToString();
+                        if (!String.IsNullOrWhiteSpace(value))
+                        {
+                            propertyInfo.SetValue(this, StringCipher.Encrypt(value));
+                        }
                     }
                 }
             }
@@ -180,7 +184,11 @@ namespace Gama.Atenciones.Business
                         }
                         else
                         {
-                            propertyInfo.SetValue(this, StringCipher.Decrypt(propertyValue.ToString()));
+                            var value = propertyValue.ToString();
+                            if (!String.IsNullOrWhiteSpace(value))
+                            {
+                                propertyInfo.SetValue(this, StringCipher.Decrypt(value));
+                            }
                         }
                     }
                 }

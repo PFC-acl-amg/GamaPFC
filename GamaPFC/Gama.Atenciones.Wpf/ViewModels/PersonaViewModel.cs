@@ -47,6 +47,27 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
         }
 
+        public bool EdicionHabilitada
+        {
+            get { return _EdicionHabilitada; }
+            set { SetProperty(ref _EdicionHabilitada, value); }
+        }
+
+        public PersonaWrapper Persona
+        {
+            get { return _Persona; }
+            set { SetProperty(ref _Persona, value); }
+        }
+        
+        public void Load(PersonaWrapper wrapper)
+        {
+            EdicionHabilitada = false;
+            Persona = wrapper;
+        }
+    }
+}
+
+
         //Se mantiene comentado porque nos resulta código útil
         //private void OnExaminarAvatarCommandExecute()
         //{
@@ -67,23 +88,3 @@ namespace Gama.Atenciones.Wpf.ViewModels
         //        OnPropertyChanged(nameof(Persona));
         //    }
         //}
-
-        public bool EdicionHabilitada
-        {
-            get { return _EdicionHabilitada; }
-            set { SetProperty(ref _EdicionHabilitada, value); }
-        }
-
-        public PersonaWrapper Persona
-        {
-            get { return _Persona; }
-            set { SetProperty(ref _Persona, value); }
-        }
-        
-        public void Load(PersonaWrapper wrapper)
-        {
-            EdicionHabilitada = false;
-            Persona = wrapper;
-        }
-    }
-}

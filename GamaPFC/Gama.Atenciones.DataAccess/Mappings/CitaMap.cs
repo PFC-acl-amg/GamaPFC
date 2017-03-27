@@ -15,7 +15,7 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Table("Citas");
             Id(c => c.Id).GeneratedBy.Identity();
 
-            Map(c => c.Asistente).Not.Nullable().Default("");
+            Map(c => c.AsistenteEnTexto).Not.Nullable().Default("");
             Map(c => c.Fin);
             Map(c => c.HaTenidoLugar).Not.Nullable().Default("0");
             Map(c => c.Fecha);
@@ -27,6 +27,9 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Map(p => p.UpdatedAt);
 
             References(c => c.Persona)
+                .Not.LazyLoad();
+
+            References(x => x.Asistente)
                 .Not.LazyLoad();
 
             HasOne(c => c.Atencion).PropertyRef(x => x.Cita).Cascade.All();

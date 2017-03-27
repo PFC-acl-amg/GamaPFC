@@ -26,7 +26,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
                 var cita = new Cita()
                 {
                     Id = i + 1,
-                    Asistente = Faker.NameFaker.Name(),
+                    AsistenteEnTexto = Faker.NameFaker.Name(),
                     Atencion = null,
                     Fecha = DateTime.Now.AddDays(i % 7),
                     Fin = DateTime.Now.AddHours(2),

@@ -52,7 +52,7 @@ namespace Gama.Bootstrapper
                 //grant all on gama_atenciones.*to 'gama'@'localhost';
 
                 //-------------
-                bootstrapper = new Bootstrapper(Modulos.GestionDeSocios);
+                bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
                 bootstrapper.Run();
             }
             else

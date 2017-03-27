@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Appointment.cs" />
+    <Compile Include="Asistente.cs" />
     <Compile Include="Atencion.cs" />
     <Compile Include="Cita.cs" />
     <Compile Include="Derivacion.cs" />

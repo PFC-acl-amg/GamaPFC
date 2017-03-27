@@ -6,11 +6,8 @@ using NHibernate;
 using Prism;
 using Prism.Commands;
 using Prism.Events;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Gama.Atenciones.Wpf.ViewModels
@@ -41,7 +38,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     Id = p.Id,
                     DisplayMember1 = LookupItem.ShortenStringForDisplay(p.Nombre, 25),
                     DisplayMember2 = p.Nif,
-                    IconSource = p.AvatarPath
+                    IconSource = p.AvatarPath,
+                    Imagen = p.Imagen
                 }).ToList();
 
             Personas = new PaginatedCollectionView(_Personas,
@@ -97,7 +95,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 Id = persona.Id,
                 DisplayMember1 = LookupItem.ShortenStringForDisplay(persona.Nombre, 25),
                 DisplayMember2 = persona.Nif,
-                IconSource = persona.AvatarPath
+                IconSource = persona.AvatarPath,
+                Imagen = persona.Imagen
             };
 
             Personas.AddItemAt(0, lookupItem);
@@ -120,6 +119,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 personaDesactualizada.DisplayMember1 = persona.Nombre;
                 personaDesactualizada.DisplayMember2 = persona.Nif;
                 personaDesactualizada.IconSource = persona.AvatarPath;
+                personaDesactualizada.Imagen = persona.Imagen;
             }
 
             Personas.Refresh();

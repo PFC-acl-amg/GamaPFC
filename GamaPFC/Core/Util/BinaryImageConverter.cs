@@ -29,6 +29,11 @@ namespace Core.Util
 
                 return image;
             }
+            
+            if (value == null)
+            {
+
+            }
 
             return null;
         }
