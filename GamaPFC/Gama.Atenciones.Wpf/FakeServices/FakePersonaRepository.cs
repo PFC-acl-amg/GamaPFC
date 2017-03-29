@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Gama.Atenciones.Business;
 using Gama.Common.CustomControls;
 using NHibernate;
+using Gama.Atenciones.Wpf.Converters;
 
 namespace Gama.Atenciones.Wpf.FakeServices
 {
@@ -53,7 +54,10 @@ namespace Gama.Atenciones.Wpf.FakeServices
                     TieneTrabajo = true,
                     Twitter = Faker.InternetFaker.Domain(),
                     ViaDeAccesoAGama = ViaDeAccesoAGama.Personal,
-                    CreatedAt = DateTime.Now.AddMonths(createdAt)
+                    CreatedAt = DateTime.Now.AddMonths(createdAt),
+                    Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
+                         new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png")),
+
                 };
 
                 _Personas.Add(persona);

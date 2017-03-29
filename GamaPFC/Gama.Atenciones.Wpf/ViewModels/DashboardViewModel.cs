@@ -27,10 +27,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private IEventAggregator _EventAggregator;
         private IPersonaRepository _PersonaRepository;
         private PreferenciasDeAtenciones _Settings;
-        private int _MesInicialPersonas;
-        private string[] _Labels;
-        private int _MesInicialAtenciones;
-        private string[] _LabelsTotales;
 
         public DashboardViewModel(IPersonaRepository personaRepository,
             ICitaRepository citaRepository,
@@ -48,12 +44,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator = eventAggregator;
             _Settings = settings;
 
-            UltimasPersonas = new ObservableCollection<LookupItem>(
+            Personas = new ObservableCollection<LookupItem>(
                 _PersonaRepository.GetAll()
                     .OrderBy(p => p.Id)
                     //.OrderBy(p => p.CreatedAt)
                     //.OrderBy(p => p.UpdatedAt)
-                    .Take(_Settings.DashboardUltimasPersonas)
+                    //.Take(_Settings.DashboardUltimasPersonas)
                 .Select(a => new LookupItem
                 {
                     Id = a.Id,
@@ -63,10 +59,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     Imagen = a.Imagen
                 }));
 
-            UltimasAtenciones = new ObservableCollection<LookupItem>(
+            Atenciones = new ObservableCollection<LookupItem>(
                 _AtencionRepository.GetAll()
                  .OrderBy(a => a.Fecha)
-                 .Take(_Settings.DashboardUltimasAtenciones)
+                 //.Take(_Settings.DashboardUltimasAtenciones)
                  .Select(a => new LookupItem
                  {
                      Id = a.Id,
@@ -82,7 +78,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 _CitaRepository.GetAll()
                  .OrderBy(c => c.Fecha)
                  .Where(c => c.Fecha >= DateTime.Now.Date)
-                 .Take(_Settings.DashboardUltimasCitas)
+                 //.Take(_Settings.DashboardUltimasCitas)
                  .Select(c => new LookupItem
                  {
                      Id = c.Id,
@@ -92,7 +88,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                      Imagen = c.Persona.Imagen
                  }));
 
-            InicializarGraficos();
+            //InicializarGraficos();
 
             SelectPersonaCommand = new DelegateCommand<LookupItem>(OnSelectPersonaCommandExecute);
             SelectCitaCommand = new DelegateCommand<LookupItem>(OnSelectCitaCommandExecute);
@@ -106,50 +102,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
         }
 
-        public ObservableCollection<LookupItem> UltimasAtenciones { get; private set; }
+        public ObservableCollection<LookupItem> Atenciones { get; private set; }
         public ObservableCollection<LookupItem> ProximasCitas { get; private set; }
-        public ObservableCollection<LookupItem> UltimasPersonas { get; private set; }
-        public ChartValues<int> PersonasNuevasPorMes { get; private set; }
-        public ChartValues<int> AtencionesNuevasPorMes { get; private set; }
-        public ChartValues<int> Totales { get; private set; }
-
-        public string[] PersonasLabels =>
-            _Labels.Skip(_MesInicialPersonas)
-                .Take(_Settings.DashboardMesesAMostrarDePersonasNuevas).ToArray();
-
-        public string[] AtencionesLabels =>
-            _Labels.Skip(_MesInicialAtenciones)
-                .Take(_Settings.DashboardMesesAMostrarDeAtencionesNuevas).ToArray();
-
-        public string[] TotalesLabels => _LabelsTotales;
+        public ObservableCollection<LookupItem> Personas { get; private set; }
 
         public ICommand SelectPersonaCommand { get; private set; }
         public ICommand SelectCitaCommand { get; private set; }
         public ICommand SelectAtencionCommand { get; private set; }
-
-        private void InicializarGraficos()
-        {
-            _Labels = new[] {
-                "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago","Sep","Oct", "Nov", "Dic",
-                "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic", };
-            _LabelsTotales = new[] { "Personas", "Citas", "Atenciones" };
-
-            _MesInicialPersonas = 12 + (DateTime.Now.Month - 1) - _Settings.DashboardMesesAMostrarDePersonasNuevas + 1;
-            _MesInicialAtenciones = 12 + (DateTime.Now.Month - 1) - _Settings.DashboardMesesAMostrarDeAtencionesNuevas + 1;
-
-            PersonasNuevasPorMes = new ChartValues<int>(_PersonaRepository.GetPersonasNuevasPorMes(
-                       _Settings.DashboardMesesAMostrarDePersonasNuevas));
-
-            AtencionesNuevasPorMes = new ChartValues<int>(_AtencionRepository.GetAtencionesNuevasPorMes(
-                       _Settings.DashboardMesesAMostrarDeAtencionesNuevas));
-
-            Totales = new ChartValues<int>(
-                new int[] {
-                    _PersonaRepository.CountAll(),
-                    _CitaRepository.CountAll(),
-                    _AtencionRepository.CountAll()
-                });
-        }
 
         private void OnSelectAtencionCommandExecute(LookupItem atencionLookupItem)
         {
@@ -188,7 +147,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 Imagen = persona.Imagen
             };
 
-            UltimasPersonas.Insert(0, lookupItem);
+            Personas.Insert(0, lookupItem);
         }
 
         private void OnPersonaEliminadaEvent(int id)
@@ -196,7 +155,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             //
             // Últimas personas
             //
-            UltimasPersonas.Remove(UltimasPersonas.First(x => x.Id == id));
+            Personas.Remove(Personas.First(x => x.Id == id));
 
             //
             // Últimas atenciones y próximas citas
@@ -216,11 +175,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 }
             }
             
-            for (int i = 0; i < UltimasAtenciones.Count; i++)
+            for (int i = 0; i < Atenciones.Count; i++)
             {
-                if (atencionesIds.Contains(UltimasAtenciones[i].Id))
+                if (atencionesIds.Contains(Atenciones[i].Id))
                 {
-                    UltimasAtenciones.RemoveAt(i);
+                    Atenciones.RemoveAt(i);
                     i--;
                 }
             }
@@ -233,8 +192,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     i--;
                 }
             }
-
-
 
             //
             // Próximas citas
@@ -259,7 +216,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
                 // TODO Poner imagen desde recursos y tal
             };
-            UltimasAtenciones.Insert(0, lookupItem);
+            Atenciones.Insert(0, lookupItem);
         }
 
         private void OnNuevaCitaEvent(int id)
@@ -315,7 +272,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var persona = _PersonaRepository.GetById(id);
             //_PersonaRepository.Session.Evict(persona);
 
-            var personaDesactualizada = UltimasPersonas.Where(x => x.Id == id).FirstOrDefault();
+            var personaDesactualizada = Personas.Where(x => x.Id == id).FirstOrDefault();
             if (personaDesactualizada != null)
             {
                 personaDesactualizada.DisplayMember1 = persona.Nombre;
@@ -337,5 +294,49 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             _EventAggregator.GetEvent<ActiveViewChanged>().Publish("DashboardView");
         }
+
+        #region Gráficas que no se usan 
+        //private int _MesInicialPersonas;
+        //private string[] _Labels;
+        //private int _MesInicialAtenciones;
+        //private string[] _LabelsTotales;
+        //public ChartValues<int> PersonasNuevasPorMes { get; private set; }
+        //public ChartValues<int> AtencionesNuevasPorMes { get; private set; }
+        //public ChartValues<int> Totales { get; private set; }
+
+        //public string[] PersonasLabels =>
+        //    _Labels.Skip(_MesInicialPersonas)
+        //        .Take(_Settings.DashboardMesesAMostrarDePersonasNuevas).ToArray();
+
+        //public string[] AtencionesLabels =>
+        //    _Labels.Skip(_MesInicialAtenciones)
+        //        .Take(_Settings.DashboardMesesAMostrarDeAtencionesNuevas).ToArray();
+
+        //public string[] TotalesLabels => _LabelsTotales;
+
+        //private void InicializarGraficos()
+        //{
+        //    _Labels = new[] {
+        //        "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago","Sep","Oct", "Nov", "Dic",
+        //        "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic", };
+        //    _LabelsTotales = new[] { "Personas", "Citas", "Atenciones" };
+
+        //    _MesInicialPersonas = 12 + (DateTime.Now.Month - 1) - _Settings.DashboardMesesAMostrarDePersonasNuevas + 1;
+        //    _MesInicialAtenciones = 12 + (DateTime.Now.Month - 1) - _Settings.DashboardMesesAMostrarDeAtencionesNuevas + 1;
+
+        //    PersonasNuevasPorMes = new ChartValues<int>(_PersonaRepository.GetPersonasNuevasPorMes(
+        //               _Settings.DashboardMesesAMostrarDePersonasNuevas));
+
+        //    AtencionesNuevasPorMes = new ChartValues<int>(_AtencionRepository.GetAtencionesNuevasPorMes(
+        //               _Settings.DashboardMesesAMostrarDeAtencionesNuevas));
+
+        //    Totales = new ChartValues<int>(
+        //        new int[] {
+        //            _PersonaRepository.CountAll(),
+        //            _CitaRepository.CountAll(),
+        //            _AtencionRepository.CountAll()
+        //        });
+        //}
+        #endregion
     }
 }

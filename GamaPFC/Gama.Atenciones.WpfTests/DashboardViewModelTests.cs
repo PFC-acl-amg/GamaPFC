@@ -87,14 +87,14 @@ namespace Gama.Atenciones.WpfTests
             _PersonaRepositoryMock.Verify(p => p.GetAll(), Times.Once);
             _CitaRepositoryMock.Verify(c => c.GetAll(), Times.Once);
             _AtencionRepositoryMock.Verify(a => a.GetAll(), Times.Once);
-            Assert.Equal(_Vm.UltimasPersonas.Count, _Settings.DashboardUltimasPersonas);
+            Assert.Equal(_Vm.Personas.Count, _Settings.DashboardUltimasPersonas);
             Assert.Equal(_Vm.ProximasCitas.Count, _Settings.DashboardUltimasCitas);
-            Assert.Equal(_Vm.UltimasAtenciones.Count, _Settings.DashboardUltimasAtenciones);
+            Assert.Equal(_Vm.Atenciones.Count, _Settings.DashboardUltimasAtenciones);
             Assert.NotNull(_Vm.SelectPersonaCommand);
             Assert.NotNull(_Vm.SelectCitaCommand);
             Assert.NotNull(_Vm.SelectAtencionCommand);
-            Assert.NotNull(_Vm.PersonasNuevasPorMes);
-            Assert.NotNull(_Vm.AtencionesNuevasPorMes);
+            //Assert.NotNull(_Vm.PersonasNuevasPorMes);
+            //Assert.NotNull(_Vm.AtencionesNuevasPorMes);
         }
 
         [Fact]
@@ -142,7 +142,7 @@ namespace Gama.Atenciones.WpfTests
 
             eventAggregator.GetEvent<PersonaCreadaEvent>().Publish(persona.Id);
 
-            Assert.Equal(persona.Id, vm.UltimasPersonas.First().Id);
+            Assert.Equal(persona.Id, vm.Personas.First().Id);
         }
 
         [Fact]
@@ -163,7 +163,7 @@ namespace Gama.Atenciones.WpfTests
 
             eventAggregator.GetEvent<AtencionCreadaEvent>().Publish(atencion.Id);
 
-            Assert.Equal(atencion.Id, vm.UltimasAtenciones.First().Id);
+            Assert.Equal(atencion.Id, vm.Atenciones.First().Id);
         }
 
         [Fact]
