@@ -60,7 +60,7 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
                      Id = a.Id,
                      DisplayMember1 = a.Fecha.ToString(),
                      DisplayMember2 = LookupItem.ShortenStringForDisplay(
-                         a.Seguimiento, _Settings.DashboardLongitudDeSeguimientos),
+                         a.Seguimiento, 30),
                      DisplayMember3 = "Nombre de una persona",
 
                  }));

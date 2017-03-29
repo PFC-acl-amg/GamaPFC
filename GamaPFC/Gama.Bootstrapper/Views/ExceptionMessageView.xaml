@@ -6,22 +6,28 @@
         xmlns:local="clr-namespace:Gama.Bootstrapper.Views"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Excepción No Manejada" Width="365" d:DesignHeight="157.319">
+        Title="Excepción No Manejada" Width="764.613" d:DesignHeight="157.319">
   <Grid>
     <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
       <RowDefinition />
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <StackPanel Orientation="Vertical">
-      <TextBlock Margin="4" TextWrapping="Wrap">
+    <TextBlock Text="¡Oops! Parece que algo ha salido mal:"/>
+    <TreeView Grid.Row="1">
+      <TreeView.Items>
+        <TreeViewItem Header="Message" IsExpanded="True">
+          <TextBlock Margin="4" TextWrapping="Wrap" Text="{Binding Message, Mode=OneWay}">
         <Run Text="¡Oops! Parece que algo ha salido mal:"/>
-        <Run Text="{Binding Message, Mode=OneWay}"/>
-      </TextBlock>
-      <TextBlock Margin="4" Text="{Binding InnerException, Mode=OneWay}" TextWrapping="Wrap"
-                 IsHitTestVisible="True"/>
-      <TextBlock Margin="4" Text="{Binding StackTrace, Mode=OneWay}"  TextWrapping="Wrap"/>
-    </StackPanel>
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1">
+        <Run />
+          </TextBlock>
+        </TreeViewItem>
+        <TreeViewItem Header="StackTrace" IsExpanded="True">
+          <TextBlock Margin="4" Text="{Binding StackTrace, Mode=OneWay}"  TextWrapping="Wrap"/>
+        </TreeViewItem>
+      </TreeView.Items>
+    </TreeView>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2">
       <Button x:Name="_CerrarButton" Margin="4" Padding="4">Cerrar</Button>
     </StackPanel>
   </Grid>

@@ -66,8 +66,28 @@
       <GroupBox.Header>
         <Label HorizontalAlignment="Center" Content="PERSONAS" Foreground="White" Padding="0"></Label>
       </GroupBox.Header>
-      <coreControls:UnselectableListBox 
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <!--<Border BorderThickness="1" BorderBrush="Black" Padding="10" Margin="{StaticResource Margin}"
+                Panel.ZIndex="999">
+          <Border.Style>
+            <Style TargetType="{x:Type Border}">
+              <Setter Property="Visibility" Value="Collapsed" />
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=_PersonasListBox, Path=Items.Count}" Value="1">
+                  <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </Border.Style>
+          <TextBlock HorizontalAlignment="Center" FontStyle="Italic" FontSize="10">Está visualizando datos filtrados</TextBlock>
+        </Border>-->
+        <coreControls:UnselectableListBox Grid.Row="1"
                     ItemsSource="{Binding Personas}"
+                    SelectedItem="{Binding PersonaSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     BorderThickness="0"
                     x:Name="_PersonasListBox"
                     HorizontalContentAlignment="Stretch"
@@ -110,17 +130,18 @@
             </Grid>
           </DataTemplate>
         </ListBox.ItemTemplate>
-        <!--<i:Interaction.Triggers>
-          <i:EventTrigger EventName="MouseDoubleClick">
+        <i:Interaction.Triggers>
+          <i:EventTrigger EventName="MouseUp">
             <prism:InvokeCommandAction 
                   Command="{Binding RelativeSource =
                       {RelativeSource FindAncestor,
                           AncestorType={x:Type GroupBox}},
-                          Path=DataContext.SelectPersonaCommand}"
-                  CommandParameter="{Binding ElementName=_PersonasListBox, Path=SelectedItem}"/>
+                          Path=DataContext.FiltrarPorPersonaCommand}"
+                  CommandParameter="{Binding PersonaSeleccionada}"/>
           </i:EventTrigger>
-        </i:Interaction.Triggers>-->
+        </i:Interaction.Triggers>
       </coreControls:UnselectableListBox>
+      </Grid>
     </GroupBox>
 
     <!-- Atenciones -->
@@ -130,6 +151,7 @@
         <Label HorizontalAlignment="Center" Content="ATENCIONES" Foreground="White" Padding="0"></Label>
       </GroupBox.Header>
       <coreControls:UnselectableListBox  
+        HorizontalContentAlignment="Stretch"
         BorderThickness="0"
         ItemsSource="{Binding Atenciones}"
         x:Name="_AtencionesListBox"

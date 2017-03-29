@@ -17,6 +17,7 @@ using Prism.Regions;
 using Gama.Atenciones.Wpf.UIEvents;
 using Gama.Atenciones.Wpf.Converters;
 using Gama.Atenciones.Business;
+using System.ComponentModel;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -27,6 +28,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private IEventAggregator _EventAggregator;
         private IPersonaRepository _PersonaRepository;
         private PreferenciasDeAtenciones _Settings;
+        private List<Persona> _Personas;
+        private List<Atencion> _Atenciones;
+        private List<Cita> _Citas;
 
         public DashboardViewModel(IPersonaRepository personaRepository,
             ICitaRepository citaRepository,
@@ -44,55 +48,31 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator = eventAggregator;
             _Settings = settings;
 
-            Personas = new ObservableCollection<LookupItem>(
-                _PersonaRepository.GetAll()
-                    .OrderBy(p => p.Id)
-                    //.OrderBy(p => p.CreatedAt)
-                    //.OrderBy(p => p.UpdatedAt)
-                    //.Take(_Settings.DashboardUltimasPersonas)
-                .Select(a => new LookupItem
-                {
-                    Id = a.Id,
-                    DisplayMember1 = a.Nombre,
-                    DisplayMember2 = a.Nif,
-                    IconSource = a.AvatarPath,
-                    Imagen = a.Imagen
-                }));
+            _Personas = _PersonaRepository.GetAll();
+            _Atenciones = atencionRepository.GetAll();
+            _Citas = _CitaRepository.GetAll();
 
+            Personas = new ObservableCollection<LookupItem>(
+                _Personas
+                .OrderBy(p => p.Nombre)
+                .Select(_PersonaToLookupItemFunc));
+            
             Atenciones = new ObservableCollection<LookupItem>(
-                _AtencionRepository.GetAll()
+                _Atenciones
                  .OrderBy(a => a.Fecha)
-                 //.Take(_Settings.DashboardUltimasAtenciones)
-                 .Select(a => new LookupItem
-                 {
-                     Id = a.Id,
-                     DisplayMember1 = a.Fecha.ToString(),
-                     DisplayMember2 = LookupItem.ShortenStringForDisplay(
-                         a.Seguimiento, _Settings.DashboardLongitudDeSeguimientos),
-                     IconSource = @"atencion_icon.png",
-                     Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
-                         new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png")),
-                 }));
+                 .Select(_AtencionToLookupItemFunc));
 
             ProximasCitas = new ObservableCollection<LookupItem>(
-                _CitaRepository.GetAll()
+                _Citas
                  .OrderBy(c => c.Fecha)
                  .Where(c => c.Fecha >= DateTime.Now.Date)
-                 //.Take(_Settings.DashboardUltimasCitas)
-                 .Select(c => new LookupItem
-                 {
-                     Id = c.Id,
-                     DisplayMember1 = c.Fecha.ToString(),
-                     DisplayMember2 = c.Sala,
-                     IconSource = c.Persona.AvatarPath,
-                     Imagen = c.Persona.Imagen
-                 }));
-
-            //InicializarGraficos();
+                 .Select(_CitaToLookupItemFunc));
 
             SelectPersonaCommand = new DelegateCommand<LookupItem>(OnSelectPersonaCommandExecute);
             SelectCitaCommand = new DelegateCommand<LookupItem>(OnSelectCitaCommandExecute);
             SelectAtencionCommand = new DelegateCommand<LookupItem>(OnSelectAtencionCommandExecute);
+
+            FiltrarPorPersonaCommand = new DelegateCommand<object>(OnFiltrarPorPersonaCommandExecute);
 
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnPersonaCreadaEvent);
             _EventAggregator.GetEvent<AtencionCreadaEvent>().Subscribe(OnAtencionCreadaEvent);
@@ -102,6 +82,18 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
         }
 
+        private LookupItem _PersonaSeleccionada;
+        public LookupItem PersonaSeleccionada
+        {
+            get { return _PersonaSeleccionada; }
+            set
+            {
+                _PersonaSeleccionada = value;
+                OnPropertyChanged(nameof(PersonaSeleccionada));
+            }
+        }
+
+
         public ObservableCollection<LookupItem> Atenciones { get; private set; }
         public ObservableCollection<LookupItem> ProximasCitas { get; private set; }
         public ObservableCollection<LookupItem> Personas { get; private set; }
@@ -109,6 +101,116 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand SelectPersonaCommand { get; private set; }
         public ICommand SelectCitaCommand { get; private set; }
         public ICommand SelectAtencionCommand { get; private set; }
+        public ICommand FiltrarPorPersonaCommand { get; private set; }
+
+        Func<Persona, LookupItem> _PersonaToLookupItemFunc = persona => new LookupItem
+        {
+            Id = persona.Id,
+            DisplayMember1 = persona.Nombre,
+            DisplayMember2 = persona.Nif,
+            Imagen = persona.Imagen
+        };
+
+        Func<Atencion, LookupItem> _AtencionToLookupItemFunc = atencion => new LookupItem
+        {
+            Id = atencion.Id,
+            DisplayMember1 = atencion.Fecha.ToString(),
+            DisplayMember2 = LookupItem.ShortenStringForDisplay(atencion.Seguimiento, 30),
+            IconSource = @"atencion_icon.png",
+            Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
+                             new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png")),
+        };
+
+        Func<Cita, LookupItem> _CitaToLookupItemFunc = cita => new LookupItem
+        {
+            Id = cita.Id,
+            DisplayMember1 = cita.Fecha.ToString(),
+            DisplayMember2 = cita.Sala,
+            IconSource = cita.Persona.AvatarPath,
+            Imagen = cita.Persona.Imagen
+        };
+
+        private void OnFiltrarPorPersonaCommandExecute(object parameter)
+        {
+            // Workaround: Cuando está una persona sola seleccionada, no se 
+            // envía el SelectedItem adecuado, sino un EventArgs, para cuando eso
+            // pase se refresca todo con todas las personas, que es lo que debe
+            // pasar.
+            var personaSeleccionada = parameter as LookupItem;
+            if (personaSeleccionada != null)
+            {
+                // Cuando solo hay una persona y coincide, es que ya hemos filtrado
+                //if (Personas.Count == 1 && Personas[0].Id == personaSeleccionada.Id)
+                //{
+                //    Personas = new ObservableCollection<LookupItem>(
+                //        _Personas
+                //        .OrderBy(p => p.Nombre)
+                //        .Select(_PersonaToLookupItemFunc));
+
+                //    Atenciones = new ObservableCollection<LookupItem>(
+                //        _Atenciones
+                //        .OrderBy(a => a.Fecha)
+                //        .Select(_AtencionToLookupItemFunc));
+
+                //    ProximasCitas = new ObservableCollection<LookupItem>(
+                //        _Citas
+                //        .OrderBy(c => c.Fecha)
+                //        .Select(_CitaToLookupItemFunc));
+
+                //    //PersonaSeleccionada = null;
+                //}
+                //else
+                //{
+                    Personas = new ObservableCollection<LookupItem>(
+                           _Personas
+                           .Where(p => p.Id == personaSeleccionada.Id)
+                            .OrderBy(p => p.Nombre)
+                           .Select(_PersonaToLookupItemFunc));
+
+                    Atenciones = new ObservableCollection<LookupItem>(
+                        _Atenciones
+                        .Where(a => a.Cita.Persona.Id == personaSeleccionada.Id)
+                        .OrderBy(a => a.Fecha)
+                        .Select(_AtencionToLookupItemFunc));
+
+                    ProximasCitas = new ObservableCollection<LookupItem>(
+                        _Citas
+                        .Where(c => c.Persona.Id == personaSeleccionada.Id)
+                        .OrderBy(c => c.Fecha)
+                        .Select(_CitaToLookupItemFunc));
+
+                    // En este caso siempre quedará solo una persona, pues se está filtrando
+                    // individualmente, por eso seleccionamos el único que hay, para que se
+                    // resalte en la interfaz.
+                    PersonaSeleccionada = Personas[0];
+                //}
+
+                //OnPropertyChanged(nameof(Personas));
+                //OnPropertyChanged(nameof(Atenciones));
+                //OnPropertyChanged(nameof(ProximasCitas));
+            }
+            else
+            {
+                Personas = new ObservableCollection<LookupItem>(
+                           _Personas
+                           .OrderBy(p => p.Nombre)
+                           .Select(_PersonaToLookupItemFunc));
+
+                Atenciones = new ObservableCollection<LookupItem>(
+                    _Atenciones
+                    .OrderBy(a => a.Fecha)
+                    .Select(_AtencionToLookupItemFunc));
+
+                ProximasCitas = new ObservableCollection<LookupItem>(
+                    _Citas
+                    .OrderBy(c => c.Fecha)
+                    .Select(_CitaToLookupItemFunc));
+            }
+
+            OnPropertyChanged(nameof(Personas));
+            OnPropertyChanged(nameof(Atenciones));
+            OnPropertyChanged(nameof(ProximasCitas));
+        }
 
         private void OnSelectAtencionCommandExecute(LookupItem atencionLookupItem)
         {
