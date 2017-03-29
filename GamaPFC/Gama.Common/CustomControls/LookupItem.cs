@@ -26,6 +26,13 @@ namespace Gama.Common.CustomControls
             set { SetProperty(ref _DisplayMember2, value);  }
         }
 
+        private string _DisplayMember3;
+        public string DisplayMember3
+        {
+            get { return _DisplayMember3; }
+            set { SetProperty(ref _DisplayMember3, value); }
+        }
+
 
         private string _IconSource;
         public string IconSource
@@ -39,6 +46,7 @@ namespace Gama.Common.CustomControls
             get { return _Imagen; }
             set { SetProperty(ref _Imagen, value); }
         }
+
         /// <summary>
         /// Selecciona los primeros n caracteres,  y añade "..." si la longitud del título 
         /// es mayor que n.

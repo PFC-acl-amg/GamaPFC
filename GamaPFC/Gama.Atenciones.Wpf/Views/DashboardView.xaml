@@ -12,7 +12,7 @@
              xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
              xmlns:converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="638" d:DesignWidth="883">
+             d:DesignHeight="638" d:DesignWidth="1238.5">
   <d:DataContext>
     <designData:DashboardViewModelDTD/>
   </d:DataContext>
@@ -70,6 +70,7 @@
                     ItemsSource="{Binding Personas}"
                     BorderThickness="0"
                     x:Name="_PersonasListBox"
+                    HorizontalContentAlignment="Stretch"
                     ScrollViewer.VerticalScrollBarVisibility="Auto"
                     ScrollViewer.HorizontalScrollBarVisibility="Auto">
         <ListBox.ItemTemplate>
@@ -97,12 +98,14 @@
               </StackPanel>
 
               <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
-                <Button Content="Ir" HorizontalAlignment="Right"
+                <Button 
+                  Content="Ir" 
+                  Margin="{StaticResource Margin}"
                   Command="{Binding RelativeSource =
                       {RelativeSource FindAncestor,
                           AncestorType={x:Type GroupBox}},
                           Path=DataContext.SelectPersonaCommand}"
-                  CommandParameter="{Binding ElementName=_PersonasListBox, Path=SelectedItem}"/>
+                  CommandParameter="{Binding}"/>
               </StackPanel>
             </Grid>
           </DataTemplate>
@@ -126,23 +129,50 @@
       <GroupBox.Header>
         <Label HorizontalAlignment="Center" Content="ATENCIONES" Foreground="White" Padding="0"></Label>
       </GroupBox.Header>
-      <ListBox ItemsSource="{Binding Atenciones}"
-                 x:Name="_AtencionesListBox"
-                 SelectionMode="Single"
-                    ItemTemplate="{StaticResource _LookupItemDataTemplate}"
-                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
-               ScrollViewer.VerticalScrollBarVisibility="Auto">
-        <i:Interaction.Triggers>
-          <i:EventTrigger EventName="MouseDoubleClick">
-            <prism:InvokeCommandAction 
+      <coreControls:UnselectableListBox  
+        BorderThickness="0"
+        ItemsSource="{Binding Atenciones}"
+        x:Name="_AtencionesListBox"
+        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+        ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="45" />
+                <ColumnDefinition Width="Auto" MinWidth="200"/>
+                <ColumnDefinition/>
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition/>
+              </Grid.RowDefinitions>
+
+              <Image Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" 
+                     Margin="{StaticResource Margin}" Stretch="Fill" StretchDirection="Both">
+                <Image.BitmapEffect>
+                  <DropShadowBitmapEffect Color="Black" />
+                </Image.BitmapEffect>
+              </Image>
+
+              <StackPanel Grid.Column="1">
+                <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+              </StackPanel>
+
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
+                <Button 
+                  Content="Ir" 
+                  Margin="{StaticResource Margin}"
                   Command="{Binding RelativeSource =
                       {RelativeSource FindAncestor,
                           AncestorType={x:Type GroupBox}},
                           Path=DataContext.SelectAtencionCommand}"
-                  CommandParameter="{Binding ElementName=_AtencionesListBox, Path=SelectedItem}"/>
-          </i:EventTrigger>
-        </i:Interaction.Triggers>
-      </ListBox>
+                  CommandParameter="{Binding}"/>
+              </StackPanel>
+            </Grid>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </coreControls:UnselectableListBox >
     </GroupBox>
 
     <!-- Próximas Citas -->

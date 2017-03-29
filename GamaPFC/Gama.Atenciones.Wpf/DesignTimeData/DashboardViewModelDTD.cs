@@ -51,18 +51,19 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
             //            Imagen = c.Persona.Imagen
             //        }));
 
-            //Atenciones = new ObservableCollection<LookupItem>(
-            //    new FakeAtencionRepository().GetAll()
-            //     .OrderBy(a => a.Fecha)
-            //     //.Take(_Settings.DashboardUltimasAtenciones)
-            //     .Select(a => new LookupItem
-            //     {
-            //         Id = a.Id,
-            //         DisplayMember1 = a.Fecha.ToString(),
-            //         DisplayMember2 = LookupItem.ShortenStringForDisplay(
-            //             a.Seguimiento, _Settings.DashboardLongitudDeSeguimientos),
+            Atenciones = new ObservableCollection<LookupItem>(
+                new FakeAtencionRepository().GetAll()
+                 .OrderBy(a => a.Fecha)
+                 //.Take(_Settings.DashboardUltimasAtenciones)
+                 .Select(a => new LookupItem
+                 {
+                     Id = a.Id,
+                     DisplayMember1 = a.Fecha.ToString(),
+                     DisplayMember2 = LookupItem.ShortenStringForDisplay(
+                         a.Seguimiento, _Settings.DashboardLongitudDeSeguimientos),
+                     DisplayMember3 = "Nombre de una persona",
 
-            //     }));
+                 }));
         }
 
         public ObservableCollection<LookupItem> Atenciones { get; private set; }
