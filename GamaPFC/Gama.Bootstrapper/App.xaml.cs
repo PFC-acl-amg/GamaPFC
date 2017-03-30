@@ -70,14 +70,21 @@ namespace Gama.Bootstrapper
                     Application.Current.Shutdown();
                 }
 
+                bool usarNuevoArranque = false;
+
                 switch (vm.ModuloSeleccionado)
                 {
                     case Modulos.Cooperacion:
                         bootstrapper = new Bootstrapper(Modulos.Cooperacion);
                         break;
                     case Modulos.ServicioDeAtenciones:
-                        bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
-                        break;
+                        {
+                            bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
+                            usarNuevoArranque = true;
+                            var atencionesBootstrapper = new Gama.Atenciones.Wpf.Bootstrapper();
+                            atencionesBootstrapper.Run();
+                            break;
+                        }
                     case Modulos.GestionDeSocios:
                         bootstrapper = new Bootstrapper(Modulos.GestionDeSocios);
                         break;
@@ -85,7 +92,10 @@ namespace Gama.Bootstrapper
                         throw new Exception("¡No se ha seleccionado ningún módulo!");
                 }
 
-                bootstrapper.Run();
+                if (!usarNuevoArranque)
+                {
+                    bootstrapper.Run();
+                }
             }
         }
 

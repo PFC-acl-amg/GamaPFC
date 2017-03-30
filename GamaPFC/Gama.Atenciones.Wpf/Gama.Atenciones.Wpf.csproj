@@ -184,7 +184,6 @@
     <Compile Include="FakeServices\FakeAtencionRepository.cs" />
     <Compile Include="FakeServices\FakeCitaRepository.cs" />
     <Compile Include="FakeServices\FakePersonaRepository.cs" />
-    <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Services\AsistenteRepository.cs" />
     <Compile Include="Services\IAsistenteRepository.cs" />
     <Compile Include="Services\PreferenciasDeAtenciones.cs" />
@@ -288,19 +287,11 @@
     <Compile Include="Wrappers\DerivacionWrapper.cs" />
     <Compile Include="Wrappers\PersonaWrapper.cs" />
     <Compile Include="Wrappers\PreferenciasDeAtencionesWrapper.cs" />
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AtencionesModule.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Page Include="Resources\Resources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
