@@ -1,8 +1,8 @@
 ﻿<Application x:Class="Gama.Atenciones.Wpf.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Gama.Atenciones.Wpf"
-             StartupUri="MainWindow.xaml">
+             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:local="clr-namespace:Gama.Atenciones.Wpf">
   <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -14,6 +14,12 @@
         <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Styles/ComboBox.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Styles/DatePicker.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Styles/TextBox.xaml"/>
+        <ResourceDictionary>
+          <Style x:Key="CustomMetroWindowStyle" TargetType="{x:Type mahapps:MetroWindow}">
+            <Setter Property="BorderBrush" Value="#FFB9B9B9" />
+            <Setter Property="BorderThickness" Value="1,1,1,1" />
+          </Style>
+        </ResourceDictionary>
       </ResourceDictionary.MergedDictionaries>
 
     </ResourceDictionary>

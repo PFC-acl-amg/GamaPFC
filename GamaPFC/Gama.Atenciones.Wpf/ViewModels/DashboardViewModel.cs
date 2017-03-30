@@ -31,6 +31,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private List<Persona> _Personas;
         private List<Atencion> _Atenciones;
         private List<Cita> _Citas;
+        private bool _FiltradoEstaActivo = false;
 
         public DashboardViewModel(IPersonaRepository personaRepository,
             ICitaRepository citaRepository,
@@ -132,62 +133,34 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnFiltrarPorPersonaCommandExecute(object parameter)
         {
-            // Workaround: Cuando está una persona sola seleccionada, no se 
-            // envía el SelectedItem adecuado, sino un EventArgs, para cuando eso
-            // pase se refresca todo con todas las personas, que es lo que debe
-            // pasar.
-            var personaSeleccionada = parameter as LookupItem;
-            if (personaSeleccionada != null)
+            if (!_FiltradoEstaActivo)
             {
-                // Cuando solo hay una persona y coincide, es que ya hemos filtrado
-                //if (Personas.Count == 1 && Personas[0].Id == personaSeleccionada.Id)
-                //{
-                //    Personas = new ObservableCollection<LookupItem>(
-                //        _Personas
-                //        .OrderBy(p => p.Nombre)
-                //        .Select(_PersonaToLookupItemFunc));
+                var personaSeleccionada = parameter as LookupItem;
 
-                //    Atenciones = new ObservableCollection<LookupItem>(
-                //        _Atenciones
-                //        .OrderBy(a => a.Fecha)
-                //        .Select(_AtencionToLookupItemFunc));
+                Personas = new ObservableCollection<LookupItem>(
+                              _Personas
+                              .Where(p => p.Id == personaSeleccionada.Id)
+                               .OrderBy(p => p.Nombre)
+                              .Select(_PersonaToLookupItemFunc));
 
-                //    ProximasCitas = new ObservableCollection<LookupItem>(
-                //        _Citas
-                //        .OrderBy(c => c.Fecha)
-                //        .Select(_CitaToLookupItemFunc));
+                Atenciones = new ObservableCollection<LookupItem>(
+                    _Atenciones
+                    .Where(a => a.Cita.Persona.Id == personaSeleccionada.Id)
+                    .OrderBy(a => a.Fecha)
+                    .Select(_AtencionToLookupItemFunc));
 
-                //    //PersonaSeleccionada = null;
-                //}
-                //else
-                //{
-                    Personas = new ObservableCollection<LookupItem>(
-                           _Personas
-                           .Where(p => p.Id == personaSeleccionada.Id)
-                            .OrderBy(p => p.Nombre)
-                           .Select(_PersonaToLookupItemFunc));
+                ProximasCitas = new ObservableCollection<LookupItem>(
+                    _Citas
+                    .Where(c => c.Persona.Id == personaSeleccionada.Id)
+                    .OrderBy(c => c.Fecha)
+                    .Select(_CitaToLookupItemFunc));
 
-                    Atenciones = new ObservableCollection<LookupItem>(
-                        _Atenciones
-                        .Where(a => a.Cita.Persona.Id == personaSeleccionada.Id)
-                        .OrderBy(a => a.Fecha)
-                        .Select(_AtencionToLookupItemFunc));
+                // En este caso siempre quedará solo una persona, pues se está filtrando
+                // individualmente, por eso seleccionamos el único que hay, para que se
+                // resalte en la interfaz.
+                PersonaSeleccionada = Personas[0];
 
-                    ProximasCitas = new ObservableCollection<LookupItem>(
-                        _Citas
-                        .Where(c => c.Persona.Id == personaSeleccionada.Id)
-                        .OrderBy(c => c.Fecha)
-                        .Select(_CitaToLookupItemFunc));
-
-                    // En este caso siempre quedará solo una persona, pues se está filtrando
-                    // individualmente, por eso seleccionamos el único que hay, para que se
-                    // resalte en la interfaz.
-                    PersonaSeleccionada = Personas[0];
-                //}
-
-                //OnPropertyChanged(nameof(Personas));
-                //OnPropertyChanged(nameof(Atenciones));
-                //OnPropertyChanged(nameof(ProximasCitas));
+                _FiltradoEstaActivo = true;
             }
             else
             {
@@ -205,6 +178,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     _Citas
                     .OrderBy(c => c.Fecha)
                     .Select(_CitaToLookupItemFunc));
+
+                _FiltradoEstaActivo = false;
             }
 
             OnPropertyChanged(nameof(Personas));

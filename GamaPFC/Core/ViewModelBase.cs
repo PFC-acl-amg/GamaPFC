@@ -10,13 +10,17 @@ using Prism;
 
 namespace Core
 {
-    public class ViewModelBase : BindableBase, INavigationAware
+    public class ViewModelBase : ObservableObject, INavigationAware
     {
         string _Title;
         public string Title
         {
             get { return _Title; }
-            set { SetProperty(ref _Title, value); }
+            set
+            {
+                _Title = value;
+                OnPropertyChanged(nameof(Title));
+            }
         }
 
         public event EventHandler IsActiveChanged;
