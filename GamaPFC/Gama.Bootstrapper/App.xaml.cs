@@ -74,7 +74,7 @@ namespace Gama.Bootstrapper
                 switch (vm.ModuloSeleccionado)
                 {
                     case Modulos.Cooperacion:
-                        bootstrapper = new Bootstrapper(Modulos.GestionDeSocios);
+                        bootstrapper = new Bootstrapper(Modulos.Cooperacion);
                         break;
                     case Modulos.ServicioDeAtenciones:
                         bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);

@@ -15,15 +15,188 @@
   <d:DataContext>
     <designData:DashboardViewModelDTD />
   </d:DataContext>
-  <UserControl.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"/>
-      </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
-  </UserControl.Resources>
-  <Grid>
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="AccentColor" Color="{StaticResource AccentColor}"/>
+        <!--<ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>-->
+        <ControlTemplate x:Key="ATemplate">
+            <TextBlock Name="Img1" Text="{Binding Text}" Visibility="Visible" FontSize="20" />
+        </ControlTemplate>
+        <ControlTemplate x:Key="BTemplate">
+            <TextBlock>B</TextBlock>
+        </ControlTemplate>
+        <ControlTemplate x:Key="DataItemControlTemplate">
+            <StackPanel Orientation="Horizontal">
+                <!--<TextBlock Name="Img1" Text="{Binding Text}" Visibility="Visible" FontSize="20" />-->
+                
+                <Label Name="Btn1" HorizontalAlignment="Center" Visibility="Visible">
+                    <Hyperlink >
+                        <TextBlock Text="Seleccioname"/>
+                    </Hyperlink>
+                </Label>
+            </StackPanel>
+            <ControlTemplate.Triggers>
+                <DataTrigger Binding="{Binding ElementName=Img1, Path=IsMouseOver}" Value="True">
+                    <Setter TargetName="Btn1" Property="Visibility" Value="Visible" />
+                    <!--<Setter TargetName="Img1" Property="Visibility" Value="Collapsed" />-->
+                    <!--<Setter TargetName="Btn1" Property="Visibility" Value="Visible" />-->
+                </DataTrigger>
+                
+                <!--<DataTrigger Binding="{Binding ElementName=Btn1, Path=IsMouseOver}" Value="True">
+                    <Setter TargetName="Btn1" Property="Visibility" Value="Visible" />
+                </DataTrigger>-->
+                <!--<DataTrigger Binding="{Binding ElementName=Img1, Path=IsMouseOver}" Value="False">
+                    <Setter TargetName="Btn1" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="Img1" Property="Visibility" Value="Visible" />
+                </DataTrigger>-->
+                <!--<DataTrigger Binding="{Binding ElementName=Img1, Path=IsMouseOver}" Value="False">
+                    <Setter TargetName="Btn1" Property="Visibility" Value="Visible" />
+                </DataTrigger>-->
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" MinHeight="60"/>
+                    <RowDefinition Height="*" MinHeight="100"/>
+                    <RowDefinition Height="*" MinHeight="100"/>
+                    <RowDefinition Height="*" MinHeight="100"/>
+                    <RowDefinition Height="*" MinHeight="100"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
+                    <Rectangle  Margin="{StaticResource MarginNoBottom}" Width="70" Height="70" HorizontalAlignment="Center">
+                        <Rectangle.Fill>
+                            <VisualBrush Visual="{StaticResource icon_document_add_01}"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <TextBlock FontSize="12" 
+                               Margin="{StaticResource MarginNoTop}" 
+                               MaxWidth="50" Text="Lista De Actividades" 
+                               TextWrapping="Wrap" 
+                               FontWeight="Light"
+                               TextAlignment="Center"/>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <prism:InvokeCommandAction Command="{Binding NuevaActividadCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </StackPanel>
+                <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center">
+                    <Rectangle  Margin="{StaticResource MarginNoBottom}" Width="70" Height="70" HorizontalAlignment="Center">
+                        <Rectangle.Fill>
+                            <VisualBrush Visual="{StaticResource icon_document_add_01}"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <TextBlock FontSize="12" 
+                               Margin="{StaticResource MarginNoTop}" 
+                               MaxWidth="50" Text="Actividad Nueva" 
+                               TextWrapping="Wrap" 
+                               FontWeight="Light"
+                               TextAlignment="Center"/>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <prism:InvokeCommandAction Command="{Binding NuevaActividadCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </StackPanel>
+                <StackPanel Grid.Row="3" Orientation="Vertical" HorizontalAlignment="Center">
+                    <Rectangle  Margin="{StaticResource MarginNoBottom}" Width="70" Height="70" HorizontalAlignment="Center">
+                        <Rectangle.Fill>
+                            <VisualBrush Visual="{StaticResource icon_document_add_01}"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <TextBlock FontSize="12" 
+                               Margin="{StaticResource MarginNoTop}" 
+                               MaxWidth="50" Text="Cooperantes" 
+                               TextWrapping="Wrap" 
+                               FontWeight="Light"
+                               TextAlignment="Center"/>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <prism:InvokeCommandAction Command="{Binding NuevaActividadCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </StackPanel>
+                <StackPanel Grid.Row="4" Orientation="Vertical" HorizontalAlignment="Center">
+                    <Rectangle  Margin="{StaticResource MarginNoBottom}" Width="70" Height="70" HorizontalAlignment="Center">
+                        <Rectangle.Fill>
+                            <VisualBrush Visual="{StaticResource icon_document_add_01}"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <TextBlock FontSize="12" 
+                               Margin="{StaticResource MarginNoTop}" 
+                               MaxWidth="50" Text="Nuevo Cooperante" 
+                               TextWrapping="Wrap" 
+                               FontWeight="Light"
+                               TextAlignment="Center"/>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <prism:InvokeCommandAction Command="{Binding NuevaActividadCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </StackPanel>
+            </Grid>
+
+        </StackPanel>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border BorderBrush="Gray" BorderThickness="0,0,0,1" Background="White" Padding="4"
+                Margin="{StaticResource MarginHalfNoHorizontal}">
+                <StackPanel Grid.Row="0">
+                    <TextBlock Text="{Binding TituloPrincipal}" FontSize="30" HorizontalAlignment="Left"/>
+                </StackPanel>
+            </Border>
+            <StackPanel Grid.Row="1" Margin="50,0,0,0">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                    <ListBox ItemsSource="{Binding UltimasActividades}"
+                             x:Name="listBox"
+                             SelectionMode="Single"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="35"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Id}" FontSize="16"/>
+                                    <TextBlock Grid.Column="2" Text="{Binding DisplayMember1}" FontSize="16"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <prism:InvokeCommandAction 
+                                    Command="{Binding SelectActividadCommand}"
+                                    CommandParameter="{Binding ElementName=listBox, Path=SelectedItem}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ListBox>
+                </ScrollViewer>
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+    
+    
+    
+    <!--Anterior vista de Actividades-->
+    <!--<Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="*" MinHeight="200" MaxHeight="300"/>
       <RowDefinition Height="*" />
@@ -34,7 +207,7 @@
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
 
-    <!-- Últimas Actividades -->
+    --><!-- Últimas Actividades --><!--
     <GroupBox Grid.Column="0" Grid.Row="0"
                  Margin="{StaticResource Margin}">
       <GroupBox.Header>
@@ -71,7 +244,7 @@
       </ScrollViewer>
     </GroupBox>
 
-    <!-- Últimos Cooperantes -->
+    --><!-- Últimos Cooperantes --><!--
     <GroupBox  Grid.Column="1" Grid.Row="0"
                  Margin="{StaticResource Margin}">
       <GroupBox.Header>
@@ -79,27 +252,70 @@
                Foreground="White"></Label>
       </GroupBox.Header>
       <ScrollViewer HorizontalScrollBarVisibility="Auto">
-        <ListBox ItemsSource="{Binding UltimosCooperantes}"
+        --><!--<ListBox ItemsSource="{Binding UltimosCooperantes}"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
-               DisplayMemberPath="Nombre"/>
-      </ScrollViewer>
+                 DisplayMemberPath="Nombre"/>--><!--
+                <StackPanel Orientation="Vertical">
+                    <Button Command="{Binding PruebaTemplateCommand}"/>
+                    <ListBox Name="lista" ItemsSource="{Binding Items}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <ContentControl Template="{StaticResource ATemplate}" />
+                            <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Img1, Path=IsMouseOver}" Value="True">
+
+                                        <Setter Property="ContentTemplate" Value="{StaticResource BTemplate}"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </ScrollViewer>
     </GroupBox>
     
-    <!-- Últimas Incidencias -->
+    --><!-- Últimas Incidencias --><!--
     <GroupBox Grid.Column="2" Grid.Row="0"
                  Margin="{StaticResource Margin}">
       <GroupBox.Header>
         <Label HorizontalAlignment="Center" Content="ÚLTIMAS INCIDENCIAS" Foreground="White" Padding="0"></Label>
       </GroupBox.Header>
       <ScrollViewer HorizontalScrollBarVisibility="Auto">
-        <ListBox ItemsSource="{Binding UltimasIncidencias}"
+        --><!--<ListBox ItemsSource="{Binding UltimasIncidencias}"
                ScrollViewer.VerticalScrollBarVisibility="Auto"
-               DisplayMemberPath="Contenido"/>
-      </ScrollViewer>
+               DisplayMemberPath="Contenido"/>--><!--
+                <ListBox Name="Churro" ItemsSource="{Binding Items}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Name="TextoItem" Text="{Binding Text}" FontSize="20" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="Background" Value="Gold" />
+                            <Setter Property="Background" Value="Gold" />
+                            <Setter Property="Background" Value="Gold" />
+                            <Style.Triggers>
+
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="Background" Value="Black" />
+                                    
+                                </Trigger>
+                                    <Trigger Property="UIElement.IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Black" />
+                                    <Setter Property="ContentTemplate" Value="{StaticResource DataItemControlTemplate}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+
+
+            </ScrollViewer>
     </GroupBox>
 
-    <!-- ACTIVDADES NUEVAS POR MES-->
-    <!--<GroupBox Header="Actividades nuevas por mes" Grid.Column="0" Grid.Row="1">-->
+    --><!-- ACTIVDADES NUEVAS POR MES-->
+    <!--<GroupBox Header="Actividades nuevas por mes" Grid.Column="0" Grid.Row="1">--><!--
     <lvc:CartesianChart  Grid.Column="0" Grid.Row="1" Margin="{StaticResource MarginDouble}" LegendLocation="Top">
       <lvc:CartesianChart.Series>
         <lvc:LineSeries Values="{Binding ActividadesNuevasPorMes}"
@@ -120,9 +336,9 @@
         </lvc:Axis>
       </lvc:CartesianChart.AxisX>
     </lvc:CartesianChart>
-    <!--</GroupBox>-->
+    --><!--</GroupBox>-->
 
-    <!-- COOPERANTES NUEVOS POR MES-->
+    <!-- COOPERANTES NUEVOS POR MES--><!--
     <lvc:CartesianChart  Grid.Column="1" Grid.Row="1" Margin="{StaticResource MarginDouble}" LegendLocation="Top">
       <lvc:CartesianChart.Series>
         <lvc:LineSeries Values="{Binding CooperantesNuevosPorMes}"
@@ -144,7 +360,7 @@
       </lvc:CartesianChart.AxisX>
     </lvc:CartesianChart>
 
-    <!-- INCIDENCIAS NUEVAS POR MES-->
+    --><!-- INCIDENCIAS NUEVAS POR MES--><!--
     <lvc:CartesianChart  Grid.Column="2" Grid.Row="1" Margin="{StaticResource MarginDouble}" LegendLocation="Top">
       <lvc:CartesianChart.Series>
         <lvc:LineSeries Values="{Binding CooperantesNuevosPorMes}"
@@ -165,5 +381,5 @@
         </lvc:Axis>
       </lvc:CartesianChart.AxisX>
     </lvc:CartesianChart>
-  </Grid>
+  </Grid>-->
 </UserControl>

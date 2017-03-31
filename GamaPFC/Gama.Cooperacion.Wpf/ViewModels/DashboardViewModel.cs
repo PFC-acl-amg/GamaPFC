@@ -28,6 +28,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private string[] _Labels;
         private int _mesInicialCooperantes;
 
+        private readonly int itemCount;
+
         public DashboardViewModel(
             IActividadRepository actividadRepository,
             ICooperanteRepository cooperanteRepository,
@@ -42,6 +44,17 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _eventAggregator = eventAggregator;
             _settings = settings;
 
+
+            this.itemCount = 10;
+            this.Items = new ObservableCollection<Item>();
+
+            for (var i = 0; i < this.itemCount; i++)
+            {
+                this.Items.Add(new Item("Thi is item number " + i));
+            }
+
+
+
             UltimasActividades = new ObservableCollection<LookupItem>(
                 _actividadRepository.GetAll()
                     .OrderBy(a => a.FechaDeFin)
@@ -49,8 +62,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 .Select(a => new LookupItem
                 {
                     Id = a.Id,
-                    DisplayMember1 = LookupItem.ShortenStringForDisplay(a.Titulo,
-                        _settings.DashboardActividadesLongitudDeTitulos),
+                    //DisplayMember1 = LookupItem.ShortenStringForDisplay(a.Titulo,
+                    //    _settings.DashboardActividadesLongitudDeTitulos),
+                    DisplayMember1 = a.Titulo,
                 }));
             UltimosCooperantes = new ObservableCollection<Cooperante>(
                 _cooperanteRepository.GetAll()
@@ -65,8 +79,37 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             SelectActividadCommand = new DelegateCommand<LookupItem>(OnSelectActividadCommand);
             SelectCooperanteCommand = new DelegateCommand<Cooperante>(OnSelectCooperanteCommand);
+            PruebaTemplateCommand = new DelegateCommand(OnPruebaTemplateCommandExecute);
+
         }
 
+        private void OnPruebaTemplateCommandExecute()
+        {
+            PruebaTemplate = !PruebaTemplate;
+        }
+
+        private bool _PruebaTemplate;
+        public bool PruebaTemplate
+        {
+            get { return _PruebaTemplate; }
+            set { _PruebaTemplate = value;  OnPropertyChanged(); }
+        }
+        private string _TituloPrincipal="Lista de Actividades";
+        public string TituloPrincipal
+        {
+            get { return _TituloPrincipal; }
+            set { SetProperty(ref _TituloPrincipal, value); }
+        }
+        public ObservableCollection<Item> Items { get; private set; }
+        public class Item
+        {
+            public string Text { get; private set; }
+
+            public Item(string text)
+            {
+                this.Text = text;
+            }
+        }
         public ObservableCollection<LookupItem> UltimasActividades { get; private set; }
         public ObservableCollection<Cooperante> UltimosCooperantes { get; private set; }
 
@@ -84,6 +127,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         public ICommand SelectActividadCommand { get; set; }
         public ICommand SelectCooperanteCommand { get; set; }
+        public ICommand PruebaTemplateCommand { get; set; }
 
         private void InicializarGraficos()
         {
