@@ -1,8 +1,9 @@
-﻿    using Core;
+﻿using Core;
 using Gama.Common.CustomControls;
 using Gama.Cooperacion.Business;
 using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Services;
+using Gama.Cooperacion.Wpf.Views;
 using LiveCharts;
 using LiveCharts.Wpf;
 using NHibernate;
@@ -80,9 +81,16 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             SelectActividadCommand = new DelegateCommand<LookupItem>(OnSelectActividadCommand);
             SelectCooperanteCommand = new DelegateCommand<Cooperante>(OnSelectCooperanteCommand);
             PruebaTemplateCommand = new DelegateCommand(OnPruebaTemplateCommandExecute);
+            NuevaActividadCommand = new DelegateCommand(OnNuevaActividadCommandExecute);
 
         }
-
+        private void OnNuevaActividadCommandExecute()
+        {
+            TituloPrincipal = "Lanzar Crear Nueva actividad";
+            var o = new NuevaActividadView();
+            o.ShowDialog();
+            
+        }
         private void OnPruebaTemplateCommandExecute()
         {
             PruebaTemplate = !PruebaTemplate;
@@ -128,6 +136,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand SelectActividadCommand { get; set; }
         public ICommand SelectCooperanteCommand { get; set; }
         public ICommand PruebaTemplateCommand { get; set; }
+        public ICommand NuevaActividadCommand { get; set; }
+        
 
         private void InicializarGraficos()
         {
