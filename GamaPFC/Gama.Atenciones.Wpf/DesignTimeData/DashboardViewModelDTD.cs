@@ -39,17 +39,16 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
                     //Imagen = a.Imagen
                 }));
 
-            //ProximasCitas = new ObservableCollection<LookupItem>(
-            //    new FakeCitaRepository().GetAll()
-            //        .OrderBy(c => c.Fecha)
-            //        .Take(_Settings.DashboardUltimasCitas)
-            //        .Select(c => new LookupItem
-            //        {
-            //            Id = c.Id,
-            //            DisplayMember1 = c.Fecha.ToString(),
-            //            DisplayMember2 = c.Sala,
-            //            Imagen = c.Persona.Imagen
-            //        }));
+            ProximasCitas = new ObservableCollection<LookupItem>(
+                new FakeCitaRepository().GetAll()
+                    .OrderBy(c => c.Fecha)
+                    .Take(_Settings.DashboardUltimasCitas)
+                    .Select(c => new LookupItem
+                    {
+                        Id = c.Id,
+                        DisplayMember1 = c.Fecha.ToString(),
+                        DisplayMember2 = c.Sala,
+                    }));
 
             Atenciones = new ObservableCollection<LookupItem>(
                 new FakeAtencionRepository().GetAll()

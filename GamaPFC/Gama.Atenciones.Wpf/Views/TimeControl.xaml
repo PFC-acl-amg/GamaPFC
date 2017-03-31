@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
              xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-    Height="Auto" Width="Auto" x:Name="UserControl">
+    Height="Auto" Width="Auto" x:Name="UserControl" d:DesignWidth="131">
   <Grid x:Name="LayoutRoot" Width="Auto" Height="Auto" VerticalAlignment="Center">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="45"/>
@@ -18,8 +18,10 @@
       <TextBox x:Name="mmTxt" TextWrapping="Wrap" Text="{Binding Path=Hora, ElementName=UserControl, Mode=Default,UpdateSourceTrigger=PropertyChanged}"
                mahapps:TextBoxHelper.Watermark="hora"
                Margin="{StaticResource Margin}"
-               BorderThickness="0"
-                 TextAlignment="Center" VerticalAlignment="Center" FontFamily="Goudy Stout" FontSize="12"/>
+               BorderThickness="1"
+               HorizontalContentAlignment="Right"
+               VerticalContentAlignment="Center"
+                 TextAlignment="Center" VerticalAlignment="Center" FontFamily="Goudy Stout" FontSize="11"/>
     </Grid>
 
     <Grid  Grid.Column="1">
@@ -34,9 +36,11 @@
       <TextBox  x:Name="ddTxt"  TextWrapping="Wrap" Text="{Binding Path=Minutos, ElementName=UserControl, 
         Mode=Default, UpdateSourceTrigger=PropertyChanged}"
                mahapps:TextBoxHelper.Watermark="min"
-               BorderThickness="0"
+               HorizontalContentAlignment="Right"
+               BorderThickness="1"
                Margin="{StaticResource Margin}"
-                  TextAlignment="Center" VerticalAlignment="Center" FontFamily="Goudy Stout" FontSize="12"/>
+               VerticalContentAlignment="Center"
+                  TextAlignment="Center" VerticalAlignment="Center" FontFamily="Goudy Stout" FontSize="11"/>
     </Grid>
   </Grid>
 </UserControl>

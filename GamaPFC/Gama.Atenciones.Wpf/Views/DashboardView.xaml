@@ -11,6 +11,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
              xmlns:converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
+             xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              mc:Ignorable="d" 
              d:DesignHeight="638" d:DesignWidth="1238.5">
   <d:DataContext>
@@ -49,7 +50,7 @@
       </Grid>
     </DataTemplate>
   </UserControl.Resources>
-  <Grid Margin="0,1,0,-1">
+  <Grid x:Name="_Root">
     <Grid.RowDefinitions>
       <RowDefinition Height="*" MinHeight="200" />
       <!--<RowDefinition Height="*" />-->
@@ -93,7 +94,7 @@
                     HorizontalContentAlignment="Stretch"
                     ScrollViewer.VerticalScrollBarVisibility="Auto"
                     ScrollViewer.HorizontalScrollBarVisibility="Auto">
-        <ListBox.ItemTemplate>
+          <ListBox.ItemTemplate>
           <DataTemplate>
             <Grid>
               <Grid.ColumnDefinitions>
@@ -117,16 +118,32 @@
                 <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
               </StackPanel>
 
-              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
-                <Button 
-                  Content="Ir" 
-                  Margin="{StaticResource Margin}"
-                  Command="{Binding RelativeSource =
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
+                  <cc:CircleIconButton
+                    Icon="{StaticResource appbar_arrow_right}"
+                    Width="46"
+                    Height="46"
+                    IconWidth="16"
+                    IconHeight="16"
+                    Margin="{StaticResource Margin}"
+                    Command="{Binding RelativeSource =
                       {RelativeSource FindAncestor,
                           AncestorType={x:Type GroupBox}},
                           Path=DataContext.SelectPersonaCommand}"
-                  CommandParameter="{Binding}"/>
-              </StackPanel>
+                    CommandParameter="{Binding}">
+                    <Button.Style>
+                      <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                        <Setter Property="Opacity" Value="0.5"/>
+                        <Style.Triggers>
+                          <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                          </Trigger>
+                        </Style.Triggers>
+                      </Style>
+                    </Button.Style>
+                  </cc:CircleIconButton>
+                </StackPanel>
             </Grid>
           </DataTemplate>
         </ListBox.ItemTemplate>
@@ -182,14 +199,30 @@
               </StackPanel>
 
               <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
-                <Button 
-                  Content="Ir" 
-                  Margin="{StaticResource Margin}"
-                  Command="{Binding RelativeSource =
+                <cc:CircleIconButton
+                    Icon="{StaticResource appbar_arrow_right}"
+                    Width="46"
+                    Height="46"
+                    IconWidth="16"
+                    IconHeight="16"
+                    Margin="{StaticResource Margin}"
+                    Command="{Binding RelativeSource =
                       {RelativeSource FindAncestor,
                           AncestorType={x:Type GroupBox}},
                           Path=DataContext.SelectAtencionCommand}"
-                  CommandParameter="{Binding}"/>
+                    CommandParameter="{Binding}">
+                  <Button.Style>
+                    <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                      <Setter Property="Opacity" Value="0.5"/>
+                      <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                          <Setter Property="Opacity" Value="1"/>
+                          <Setter Property="Cursor" Value="Hand"/>
+                        </Trigger>
+                      </Style.Triggers>
+                    </Style>
+                  </Button.Style>
+                </cc:CircleIconButton>
               </StackPanel>
             </Grid>
           </DataTemplate>
@@ -206,10 +239,62 @@
       <ListBox ItemsSource="{Binding ProximasCitas}"
                  x:Name="_CitasListBox"
                  SelectionMode="Single"
-                 ItemTemplate="{StaticResource _LookupItemDataTemplate}"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto">
-        <i:Interaction.Triggers>
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="45" />
+                <ColumnDefinition Width="Auto" MinWidth="200"/>
+                <ColumnDefinition/>
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition/>
+              </Grid.RowDefinitions>
+
+              <Image Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" 
+                     Margin="{StaticResource Margin}" Stretch="Fill" StretchDirection="Both">
+                <Image.BitmapEffect>
+                  <DropShadowBitmapEffect Color="Black" />
+                </Image.BitmapEffect>
+              </Image>
+
+              <StackPanel Grid.Column="1">
+                <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+              </StackPanel>
+
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
+                <cc:CircleIconButton
+                    Icon="{StaticResource appbar_arrow_right}"
+                    Width="46"
+                    Height="46"
+                    IconWidth="16"
+                    IconHeight="16"
+                    Margin="{StaticResource Margin}"
+                    Command="{Binding RelativeSource =
+                      {RelativeSource FindAncestor,
+                          AncestorType={x:Type GroupBox}},
+                          Path=DataContext.SelectCitaCommand}"
+                    CommandParameter="{Binding}">
+                  <Button.Style>
+                    <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                      <Setter Property="Opacity" Value="0.5"/>
+                      <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                          <Setter Property="Opacity" Value="1"/>
+                          <Setter Property="Cursor" Value="Hand"/>
+                        </Trigger>
+                      </Style.Triggers>
+                    </Style>
+                  </Button.Style>
+                </cc:CircleIconButton>
+              </StackPanel>
+            </Grid>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+        <!--<i:Interaction.Triggers>
           <i:EventTrigger EventName="MouseDoubleClick">
             <prism:InvokeCommandAction 
                   Command="{Binding RelativeSource =
@@ -218,7 +303,7 @@
                           Path=DataContext.SelectCitaCommand}"
                   CommandParameter="{Binding ElementName=_CitasListBox, Path=SelectedItem}"/>
           </i:EventTrigger>
-        </i:Interaction.Triggers>
+        </i:Interaction.Triggers>-->
       </ListBox>
     </GroupBox>
     
