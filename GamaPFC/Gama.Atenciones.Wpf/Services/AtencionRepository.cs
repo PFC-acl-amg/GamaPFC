@@ -13,6 +13,23 @@ namespace Gama.Atenciones.Wpf.Services
 {
     public class AtencionRepository : NHibernateOneSessionRepository<Atencion, int>, IAtencionRepository
     {
+        public override List<Atencion> GetAll()
+        {
+            try
+            {
+                var atenciones = Session.CreateCriteria<Atencion>()
+                    .SetFetchMode("Cita", NHibernate.FetchMode.Eager).List<Atencion>().ToList();
+
+                Session.Clear();
+
+                return atenciones;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<LookupItem> GetAllForLookup()
         {
             throw new NotImplementedException();

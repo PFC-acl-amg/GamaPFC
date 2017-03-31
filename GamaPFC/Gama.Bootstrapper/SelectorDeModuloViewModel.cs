@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace Gama.Bootstrapper
 {
-    public class SelectorDeModuloViewModel : ViewModelBase
+    public class SelectorDeModuloViewModel : ObservableObject
     {
         private ILoginService _LoginService;
         private bool? _Cerrar; // Debe ser nulo al inicializarse el VM, o hay excepción con DialogCloser
@@ -39,13 +39,20 @@ namespace Gama.Bootstrapper
         public bool? Cerrar
         {
             get { return _Cerrar; }
-            set { SetProperty(ref _Cerrar, value); }
+            set {
+                _Cerrar = value;
+                OnPropertyChanged(nameof(Cerrar));
+            }
         }
 
         public bool MostrarLogin
         {
             get { return _MostrarLogin; }
-            set { SetProperty(ref _MostrarLogin, value); }
+            set
+            {
+                _MostrarLogin = value;
+                OnPropertyChanged(nameof(MostrarLogin));
+            }
         }
 
         public string Usuario { get; set; }

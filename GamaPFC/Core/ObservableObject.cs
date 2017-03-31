@@ -39,6 +39,16 @@ namespace Core
             }
         }
 
+        protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (Equals(storage, value)) return false;
+
+            storage = value;
+            OnPropertyChanged(propertyName);
+
+            return true;
+        }
+
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = _PropertyChanged;

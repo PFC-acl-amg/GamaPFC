@@ -1,9 +1,9 @@
-﻿<Window x:Class="Gama.Bootstrapper.Views.ExceptionMessageView"
+﻿<Window x:Class="Gama.Common.Views.ExceptionMessageView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Gama.Bootstrapper.Views"
+        xmlns:local="clr-namespace:Gama.Common.Views"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="Excepción No Manejada" Width="764.613" d:DesignHeight="157.319">

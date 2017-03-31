@@ -71,7 +71,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             _ResultadoDeBusqueda = Personas.Where(
                 p => p.DisplayMember1.ToLower().Contains(TextoDeBusqueda.Trim().ToLower()));
-            OnPropertyChanged(() => ResultadoDeBusqueda);
+            OnPropertyChanged(nameof(ResultadoDeBusqueda));
         }
 
         private void OnSelectResultCommandExecute()

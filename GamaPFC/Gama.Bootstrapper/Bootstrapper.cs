@@ -3,9 +3,7 @@ using System;
 using Microsoft.Practices.Unity;
 using System.Windows;
 using Prism.Modularity;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Gama.Bootstrapper.Properties;
 
 namespace Gama.Bootstrapper
 {

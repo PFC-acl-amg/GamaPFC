@@ -19,6 +19,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private IEventAggregator _EventAggregator;
         private IRegionManager _RegionManager;
 
+        public PanelSwitcherViewModel() { }
+
         public PanelSwitcherViewModel(IRegionManager regionManager,
             IEventAggregator eventAggregator)
         {

@@ -89,6 +89,9 @@
     <Compile Include="Views\ConfirmarOperacionView.xaml.cs">
       <DependentUpon>ConfirmarOperacionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ExceptionMessageView.xaml.cs">
+      <DependentUpon>ExceptionMessageView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Resources\Constants\Colores.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -168,6 +171,10 @@
     <Page Include="Views\ConfirmarOperacionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExceptionMessageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
