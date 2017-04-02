@@ -21,6 +21,7 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             Map(x => x.Observaciones);
             Map(x => x.CreatedAt);
             Map(x => x.UpdatedAt);
+            Map(x => x.telefono);
 
             HasMany(x => x.ActividadesDeQueEsCoordinador)
                 .LazyLoad()

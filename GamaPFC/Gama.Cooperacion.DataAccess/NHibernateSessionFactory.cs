@@ -28,7 +28,7 @@ namespace Gama.Cooperacion.DataAccess
                     {
                         NHibernate.Cfg.Configuration configuration;
 
-                        //sFile.Delete("nh.cfg");
+                        //File.Delete("nh.cfg");
                         if (File.Exists("nh.cfg"))
                         {
                             var file = File.Open("nh.cfg", FileMode.Open);

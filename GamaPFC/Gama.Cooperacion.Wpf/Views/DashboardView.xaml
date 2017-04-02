@@ -242,7 +242,7 @@
                                             <TextBlock Text="{Binding Nombre}" VerticalAlignment="Center"
                                                        TextWrapping="Wrap"
                                                        HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
-                                            <TextBlock Text="{Binding Apellido}" VerticalAlignment="Center"
+                                                <TextBlock Text="{Binding telefono}" VerticalAlignment="Center"
                                                        TextWrapping="Wrap" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
                                         </StackPanel>
                                     </Grid>
