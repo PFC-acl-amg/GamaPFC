@@ -8,6 +8,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
@@ -16,6 +17,7 @@
     <designData:DashboardViewModelDTD />
   </d:DataContext>
     <UserControl.Resources>
+        <!--<converters:BinaryImageConverter x:Key="imgConverter" />-->
         <SolidColorBrush x:Key="AccentColor" Color="{StaticResource AccentColor}"/>
         <!--<ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -161,7 +163,7 @@
                     <TextBlock Text="{Binding TituloPrincipal}" FontSize="30" HorizontalAlignment="Left"/>
                 </StackPanel>
             </Border>
-            <StackPanel Grid.Row="1" Margin="50,0,0,0">
+            <!--<StackPanel Name="ListaActividades" Grid.Row="1" Margin="50,0,0,0">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto">
                     <ListBox ItemsSource="{Binding UltimasActividades}"
                              x:Name="listBox"
@@ -188,6 +190,96 @@
                         </i:Interaction.Triggers>
                     </ListBox>
                 </ScrollViewer>
+            </StackPanel>-->
+            <StackPanel Name="ListaCooperantes" Grid.Row="1" Margin="50,0,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="190" />
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="400"/>
+                    </Grid.RowDefinitions>
+                    <ItemsControl ItemsSource="{Binding ListaParcialCooperantes}" Grid.Row="0" HorizontalAlignment="Center">
+                        <ItemsControl.Template>
+                            <ControlTemplate TargetType="{x:Type ItemsControl}">
+                                <ScrollViewer BorderThickness="2" VerticalScrollBarVisibility="Auto">
+                                    <WrapPanel IsItemsHost="True" />
+                                </ScrollViewer>
+                            </ControlTemplate>
+                        </ItemsControl.Template>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
+                                            CornerRadius="3"
+                                            Margin="20">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Gray" Opacity=".50" ShadowDepth="16" />
+                                    </Border.Effect> 
+                                <StackPanel>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80" />
+                                            <ColumnDefinition Width="80"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="80"/>
+                                            <RowDefinition  Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <!--<Image Source="{Binding Imagen, 
+                                    Converter={StaticResource imgConverter}}" 
+                                    Stretch="Fill"
+                                       MinHeight="60"
+                                   Grid.ColumnSpan="2"
+                                    StretchDirection="Both">
+                                            <Image.BitmapEffect>
+                                                <DropShadowBitmapEffect Color="Black" />
+                                            </Image.BitmapEffect>
+                                        </Image>-->
+                                        <!--<Image Margin="{StaticResource Margin}"  
+                                Grid.ColumnSpan="2"
+                                MaxHeight="80"
+                                Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>-->
+                                        <StackPanel Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding Nombre}" VerticalAlignment="Center"
+                                                       TextWrapping="Wrap"
+                                                       HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
+                                            <TextBlock Text="{Binding Apellido}" VerticalAlignment="Center"
+                                                       TextWrapping="Wrap" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseDoubleClick">
+                                            <prism:InvokeCommandAction 
+                                      Command="{Binding RelativeSource =
+                                          {RelativeSource FindAncestor,
+                                              AncestorType={x:Type Grid}},
+                                              Path=DataContext.SeleccionarSocioCommand}"
+                                      CommandParameter="{Binding Id}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <!--<Label Grid.Row="0">Zona Datos cooperantes</Label>-->
+                    <!--<Label Grid.Row="1">Botones de navegacion</Label>-->
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <cc:CircleIconButton Margin="{StaticResource Margin}" 
+                                Command="{Binding PaginaAnteriorCommand}"
+                                Icon="{StaticResource appbar_arrow_left}"/>
+
+                        <TextBlock VerticalAlignment="Center" FontStyle="Italic">
+                            <Run Text="Página"/>
+                            <Run Text="{Binding Socios.CurrentPage, Mode=OneWay}" FontWeight="Bold"/>
+                            <Run Text="/"/>
+                            <Run Text="{Binding Socios.PageCount, Mode=OneWay}" FontWeight="Bold"/>
+                        </TextBlock>
+
+                        <cc:CircleIconButton Margin="{StaticResource Margin}" Command="{Binding PaginaSiguienteCommand}"
+                           Icon="{StaticResource appbar_arrow_right}"/>
+                    </StackPanel>
+                    <Label Grid.Row="2">Datos Cooperante seleccionado</Label>
+                </Grid>
             </StackPanel>
         </Grid>
     </Grid>

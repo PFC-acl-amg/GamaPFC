@@ -28,6 +28,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private int _mesInicialActividades;
         private string[] _Labels;
         private int _mesInicialCooperantes;
+        private int _CooperantesMostrados;
 
         private readonly int itemCount;
 
@@ -44,7 +45,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _cooperanteRepository.Session = session;
             _eventAggregator = eventAggregator;
             _settings = settings;
-
+            _CooperantesMostrados = 0;
 
             this.itemCount = 10;
             this.Items = new ObservableCollection<Item>();
@@ -67,12 +68,17 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     //    _settings.DashboardActividadesLongitudDeTitulos),
                     DisplayMember1 = a.Titulo,
                 }));
-            UltimosCooperantes = new ObservableCollection<Cooperante>(
+            ListaCooperantes = new ObservableCollection<Cooperante>(
                 _cooperanteRepository.GetAll()
                 .OrderBy(c => c.Id)
-                .Take(_settings.DashboardCooperantesAMostrar)
                 .ToArray());
-
+            ListaParcialCooperantes = new ObservableCollection<Cooperante>(
+                _cooperanteRepository.GetAll()
+                .GetRange(_CooperantesMostrados, _CooperantesMostrados + 4)
+                //.OrderBy(c => c.Id)
+                .Take(4)
+                .ToArray());
+            _CooperantesMostrados = _CooperantesMostrados + 4;
             InicializarGraficos();
 
             _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
@@ -82,6 +88,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             SelectCooperanteCommand = new DelegateCommand<Cooperante>(OnSelectCooperanteCommand);
             PruebaTemplateCommand = new DelegateCommand(OnPruebaTemplateCommandExecute);
             NuevaActividadCommand = new DelegateCommand(OnNuevaActividadCommandExecute);
+            PaginaSiguienteCommand = new DelegateCommand(OnPaginaSiguienteCommandExecute);
+            PaginaAnteriorCommand = new DelegateCommand(OnPaginaAnteriorCommandExecute);
 
         }
         private void OnNuevaActividadCommandExecute()
@@ -119,7 +127,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             }
         }
         public ObservableCollection<LookupItem> UltimasActividades { get; private set; }
-        public ObservableCollection<Cooperante> UltimosCooperantes { get; private set; }
+        public ObservableCollection<Cooperante> ListaCooperantes { get; private set; }
+        public ObservableCollection<Cooperante> ListaParcialCooperantes { get; private set; }
 
         public ChartValues<int> ActividadesNuevasPorMes { get; private set; }
         public ChartValues<int> CooperantesNuevosPorMes { get; private set; }
@@ -137,8 +146,41 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand SelectCooperanteCommand { get; set; }
         public ICommand PruebaTemplateCommand { get; set; }
         public ICommand NuevaActividadCommand { get; set; }
-        
+        public ICommand PaginaSiguienteCommand { get; set; }
+        public ICommand PaginaAnteriorCommand { get; set; }
 
+        private void OnPaginaSiguienteCommandExecute()
+        {
+            int indiceSuperior;
+            int indiceInferior = _CooperantesMostrados;
+            if (indiceInferior <= ListaCooperantes.Count)
+            {
+                if (_CooperantesMostrados + 4 > ListaCooperantes.Count) indiceSuperior = ListaCooperantes.Count;
+                else indiceSuperior = _CooperantesMostrados + 4;
+                _CooperantesMostrados = _CooperantesMostrados + 4;
+                ListaParcialCooperantes.Clear();
+                for (int i = indiceInferior; i < indiceSuperior; i++)
+                {
+                    ListaParcialCooperantes.Add(ListaCooperantes[i]);
+                }
+            }
+        }
+        private void OnPaginaAnteriorCommandExecute()
+        {
+            int indiceSuperior;
+            int indiceInferior = _CooperantesMostrados-8;
+            if (indiceInferior >= 0)
+            {
+                if (_CooperantesMostrados - 4 > 0) indiceSuperior = _CooperantesMostrados-4;
+                else indiceSuperior = _CooperantesMostrados - 4;
+                _CooperantesMostrados = _CooperantesMostrados - 4;
+                ListaParcialCooperantes.Clear();
+                for (int i = indiceInferior; i < indiceSuperior; i++)
+                {
+                    ListaParcialCooperantes.Add(ListaCooperantes[i]);
+                }
+            }
+        }
         private void InicializarGraficos()
         {
             _Labels = new[] {
