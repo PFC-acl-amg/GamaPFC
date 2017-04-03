@@ -145,7 +145,7 @@
                                TextAlignment="Center"/>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseLeftButtonDown">
-                            <prism:InvokeCommandAction Command="{Binding NuevaActividadCommand}"/>
+                            <prism:InvokeCommandAction Command="{Binding NuevoCooperanteCommand}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </StackPanel>

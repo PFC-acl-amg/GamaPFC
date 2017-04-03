@@ -169,6 +169,7 @@
     <Compile Include="Services\ITareaRepository.cs" />
     <Compile Include="Services\SeguimientoRepository.cs" />
     <Compile Include="Services\TareaRepository.cs" />
+    <Compile Include="ViewModels\AgregarCooperanteViewModel.cs" />
     <Compile Include="ViewModels\CrearNuevaTareaViewModel.cs" />
     <Compile Include="ViewModels\CrearNuevoForoViewModel.cs" />
     <Compile Include="ViewModels\EditarActividadViewModel.cs" />
@@ -184,6 +185,9 @@
     <Compile Include="ViewModels\StatusBarViewModel.cs" />
     <Compile Include="ViewModels\TareasDeActividadViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
+    <Compile Include="Views\AgregarCooperanteView.xaml.cs">
+      <DependentUpon>AgregarCooperanteView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CrearNuevaTareaView.xaml.cs">
       <DependentUpon>CrearNuevaTareaView.xaml</DependentUpon>
     </Compile>
@@ -247,6 +251,10 @@
     <Compile Include="Wrappers\TareaWrapper.cs" />
     <Compile Include="Wrappers\TelefonoWrapper.cs" />
     <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AgregarCooperanteView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -90,7 +90,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             NuevaActividadCommand = new DelegateCommand(OnNuevaActividadCommandExecute);
             PaginaSiguienteCommand = new DelegateCommand(OnPaginaSiguienteCommandExecute);
             PaginaAnteriorCommand = new DelegateCommand(OnPaginaAnteriorCommandExecute);
-
+            NuevoCooperanteCommand = new DelegateCommand(OnNuevoCooperanteCommandExecute);
         }
         private void OnNuevaActividadCommandExecute()
         {
@@ -148,6 +148,14 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand NuevaActividadCommand { get; set; }
         public ICommand PaginaSiguienteCommand { get; set; }
         public ICommand PaginaAnteriorCommand { get; set; }
+        public ICommand NuevoCooperanteCommand { get; set; }
+
+        private void OnNuevoCooperanteCommandExecute()
+        {
+            var o = new AgregarCooperanteView();    // Esta es la vista
+
+            o.ShowDialog();
+        }
 
         private void OnPaginaSiguienteCommandExecute()
         {

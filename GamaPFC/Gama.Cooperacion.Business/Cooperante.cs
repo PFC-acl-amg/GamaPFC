@@ -17,6 +17,7 @@ namespace Gama.Cooperacion.Business
         public virtual int Id { get; set; }
         public virtual string Nombre { get; set; }
         public virtual string telefono { get; set; }
+        public virtual byte[] Foto { get; set; }
         public virtual string Observaciones { get; set; }
         public virtual IList<Telefono> Telefonos { get; protected set; }
 
