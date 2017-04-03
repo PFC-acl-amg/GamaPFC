@@ -18,13 +18,14 @@
     <!---->
     <!-- Listado de asistentes y cuadro de búsqueda -->
     <!---->
-    <Grid>
+    <Grid Margin="{StaticResource Margin}">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto"/>
         <RowDefinition />
       </Grid.RowDefinitions>
       <TextBox />
       <ListBox Grid.Row="1"
+               x:Name="listBox"
         ItemsSource="{Binding Asistentes}"
         DisplayMemberPath="Nombre"/>
     </Grid>
@@ -33,10 +34,11 @@
       <mahapps:MetroTabItem Header="Información"
                             mahapps:ControlsHelper.HeaderFontSize="17">
         <!-- Cuadro con la información del asistente para ver y editar -->
-        
-        <!-- Citas próximas del asistente en formato tabular -->
+    <local:AsistenteView DataContext="{Binding ElementName=listBox, Path=SelectedItem}"/>
+    <!-- Citas próximas del asistente en formato tabular -->
         
         <!-- Citas pasadas del asistente en formato tabular -->
+        
       </mahapps:MetroTabItem>
     </mahapps:MetroAnimatedSingleRowTabControl>
   </Grid>

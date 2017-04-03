@@ -12,7 +12,6 @@ namespace Gama.Atenciones.Wpf.Services
 {
     public class PersonaRepository : NHibernateOneSessionRepository<Persona, int>, IPersonaRepository
     {
-
         public List<LookupItem> GetAllForLookup()
         {
             var personas = Session.CreateCriteria<Persona>().List<Persona>()

@@ -33,6 +33,8 @@ namespace Gama.Atenciones.Business
                 nameof(Email),
                 nameof(Imagen)
             });
+
+            IsEncrypted = true;
         }
 
         public virtual void Encrypt()
