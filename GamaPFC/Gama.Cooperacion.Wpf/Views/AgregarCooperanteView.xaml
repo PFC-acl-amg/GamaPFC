@@ -16,6 +16,6 @@
         actions:DialogCloser.DialogResult="{Binding Cerrar}"
         Title="Nuevo Cooperante" Height="300" Width="600">
     <Grid>
-        <Label>Ventana Para Agregar Cooperantes</Label>
+        <Label>Ventana Para Agregar Cooperantesssss</Label>
     </Grid>
 </metro:MetroWindow>
