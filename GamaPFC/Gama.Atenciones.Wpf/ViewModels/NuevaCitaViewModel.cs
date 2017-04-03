@@ -39,8 +39,20 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ((DelegateCommand)AceptarCommand).RaiseCanExecuteChanged();
         }
 
-        public CitaWrapper Cita { get; private set; }
+        private CitaWrapper _Cita;
+        public CitaWrapper Cita
+        {
+            get { return _Cita; }
+            set
+            {
+                _Cita = value;
+                //Cita.PropertyChanged += Cita_PropertyChanged;
+                OnPropertyChanged(nameof(Cita));
+            }
+        }
         public PersonaWrapper Persona { get; private set; }
+
+        public bool EnEdicionDeCitaExistente { get; set; }
 
         public bool? Cerrar
         {
@@ -65,16 +77,26 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Persona = persona;
             Cita = new CitaWrapper(new Cita() { Persona = Persona.Model });
             Cita.PropertyChanged += Cita_PropertyChanged;
-            //Cita.Persona = persona;
-            OnPropertyChanged(nameof(Cita));
         }
 
         private void OnAceptarCommand_Execute()
         {
-            Persona.Citas.Add(Cita);
+            if (!EnEdicionDeCitaExistente)
+                Persona.Citas.Add(Cita);
+            else
+            {
+                CitaWrapper citaActualizada = Persona.Citas.Where(x => x.Id == Cita.Id).FirstOrDefault();
+                citaActualizada.CopyValuesFrom(Cita.Model);
+            }
+
             _PersonaRepository.Update(Persona.Model);
             Persona.AcceptChanges();
-            _EventAggregator.GetEvent<CitaCreadaEvent>().Publish(Cita.Id);
+
+            if (!EnEdicionDeCitaExistente)
+                _EventAggregator.GetEvent<CitaCreadaEvent>().Publish(Cita.Id);
+            else
+                _EventAggregator.GetEvent<CitaActualizadaEvent>().Publish(Cita.Id);
+
             Cerrar = true;
         }
 

@@ -33,5 +33,17 @@ namespace Gama.Atenciones.Business
             atencion.Cita = this;
             this.Atencion = atencion;
         }
+
+        public virtual void CopyValuesFrom(Cita cita)
+        {
+            Id = cita.Id;
+            AsistenteEnTexto = cita.AsistenteEnTexto;
+            Fin = cita.Fin;
+            HaTenidoLugar = cita.HaTenidoLugar;
+            Fecha = new DateTime(cita.Fecha.Ticks);
+            Sala = cita.Sala;
+            Hora = cita.Hora;
+            Minutos = cita.Minutos;
+        }
     }
 }

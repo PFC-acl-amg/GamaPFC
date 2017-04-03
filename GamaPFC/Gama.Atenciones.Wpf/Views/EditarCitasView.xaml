@@ -8,10 +8,22 @@
              xmlns:CustomControls="clr-namespace:Gama.Atenciones.Wpf.Controls"
              xmlns:Converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
+             xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:prism="http://prismlibrary.com/"
              mc:Ignorable="d" d:DesignWidth="1499.337" d:DesignHeight="1028.796">
   <UserControl.Resources>
+
+    <Style x:Key="_CircleIconButtonStyle"
+      TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+      <Setter Property="Opacity" Value="0.5"/>
+      <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="True">
+          <Setter Property="Opacity" Value="1"/>
+          <Setter Property="Cursor" Value="Hand"/>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
     <Converters:DateConverter x:Key="DateConverter"/>
 
     <Style x:Key="_EditarCitasCalendarStyle" TargetType="{x:Type CustomControls:CustomCalendar}">
@@ -163,7 +175,7 @@
                             <!-- -->
                             <!-- Lista de Appointments -->
                             <!-- -->
-                            <ListBox
+                            <coreControls:UnselectableListBox
                               x:Name="PART_AppointmentsListBox"
                               Grid.Row="1"
                               Background="Transparent"
@@ -199,55 +211,137 @@
                                         </StackPanel>-->
 
                                         <StackPanel Orientation="Vertical" Grid.Column="1">
-                                          <TextBlock Margin="4" 
+                                          <TextBlock Margin="2" 
                                                    HorizontalAlignment="Left" VerticalAlignment="Center">
                                             <Run Text="{Binding Hora}"/>
                                             <Run Text=":" />
                                             <Run Text="{Binding Minutos}"/>
                                           </TextBlock>
-                                          <TextBlock Text="{Binding Sala}" Margin="4"/>
-                                          <Label VerticalAlignment="Center" HorizontalAlignment="Left">
-                                            <Hyperlink 
-                                                Command="{Binding DataContext.NuevaAtencionCommand, 
-                                                RelativeSource={RelativeSource FindAncestor, 
-					                                          AncestorType={x:Type UserControl}}}"
-                                                CommandParameter="{Binding}"
-                                                Foreground="DarkRed">Ir a atención</Hyperlink>
-                                          </Label>
-                                        </StackPanel>
-                                      </Grid>
-
-                                      <!-- Botón de agregar atención -->
-                                      <!--<StackPanel HorizontalAlignment="Right" Grid.Column="1"
-                                                VerticalAlignment="Center">
-                                        <Button Margin="4,2,4,2" VerticalAlignment="Center"
+                                          <TextBlock Text="{Binding Sala}" Margin="2"/>
+                                          <StackPanel HorizontalAlignment="Right" 
+                                                      Grid.Column="1"
+                                                      Orientation="Horizontal"
+                                                      VerticalAlignment="Center">
+                                            <cc:CircleIconButton
+                                              Icon="{StaticResource appbar_archive}"
+                                              Width="28" Height="28"
+                                              IconHeight="8" IconWidth="8"
+                                              Margin="4,2,4,2" VerticalAlignment="Center"
                                               Padding="2,0,2,0"
                                               BorderThickness="0"
                                               FontSize="14"
-                                              Content=">"
                                               Background="#FF3078A5"
                                               Foreground="White"
                                               FontWeight="Bold"
                                               Command="{Binding DataContext.NuevaAtencionCommand, 
                                                 RelativeSource={RelativeSource FindAncestor, 
 					                                          AncestorType={x:Type UserControl}}}"
+                                              CommandParameter="{Binding}"
+                                              Style="{StaticResource _CircleIconButtonStyle}"/>
+                                            <cc:CircleIconButton
+                                              Icon="{StaticResource appbar_edit}"
+                                              Width="28" Height="28"
+                                              IconHeight="8" IconWidth="8"
+                                              Margin="4,2,4,2" VerticalAlignment="Center"
+                                              Padding="2,0,2,0"
+                                              BorderThickness="0"
+                                              FontSize="14"
+                                              Background="#FF3078A5"
+                                              Foreground="White"
+                                              FontWeight="Bold"
+                                              Command="{Binding DataContext.EditarCitaCommand, 
+                                                RelativeSource={RelativeSource FindAncestor, 
+					                                          AncestorType={x:Type UserControl}}}"
+                                              CommandParameter="{Binding}"
+                                              Style="{StaticResource _CircleIconButtonStyle}"/>
+                                          </StackPanel>
+                                          <!--<Label VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <Hyperlink 
+                                                Command="{Binding DataContext.NuevaAtencionCommand, 
+                                                RelativeSource={RelativeSource FindAncestor, 
+					                                          AncestorType={x:Type UserControl}}}"
+                                                CommandParameter="{Binding}"
+                                                Foreground="DarkRed">Ir a atención</Hyperlink>
+                                          </Label>-->
+                                        </StackPanel>
+                                      </Grid>
+
+                                       <!-- Botón de editar cita -->
+                                      <!--<StackPanel HorizontalAlignment="Right" Grid.Column="1"
+                                                VerticalAlignment="Center">
+                                        <cc:CircleIconButton
+                                          Icon="{StaticResource appbar_edit}"
+                                          Width="28" Height="28"
+                                          IconHeight="8" IconWidth="8"
+                                          Margin="4,2,4,2" VerticalAlignment="Center"
+                                              Padding="2,0,2,0"
+                                              BorderThickness="0"
+                                              FontSize="14"
+                                              Background="#FF3078A5"
+                                              Foreground="White"
+                                              FontWeight="Bold"
+                                              Command="{Binding DataContext.EditarCitaCommand, 
+                                                RelativeSource={RelativeSource FindAncestor, 
+					                                          AncestorType={x:Type UserControl}}}"
                                               CommandParameter="{Binding}">
-                                          <Button.Style>
-                                            <Style>
-                                              <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Atencion.Seguimiento}" Value="">
-                                                  <Setter Property="Button.Content" Value="+"/>
-                                                </DataTrigger>
-                                              </Style.Triggers>
-                                            </Style>
-                                          </Button.Style>
-                                        </Button>
+                                        </cc:CircleIconButton>
                                       </StackPanel>-->
                                     </Grid>
                                   </Border>
+                                  <!--<i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseUp">
+                                      <prism:InvokeCommandAction 
+                        Command="{Binding DataContext.NuevaCitaCommand, RelativeSource={RelativeSource FindAncestor, 
+					                              AncestorType={x:Type UserControl}}}" 
+                                    CommandParameter="{Binding}"/>
+                                    </i:EventTrigger>
+                                  </i:Interaction.Triggers>-->
+                                  <!--<Border.InputBindings>
+                                    <MouseBinding MouseAction="LeftDoubleClick"
+                                          Command="{Binding DataContext.EditarCitaCommand, RelativeSource={RelativeSource FindAncestor, 
+					                                  AncestorType={x:Type UserControl}}}" 
+                                          CommandParameter="{Binding}"/>
+                                  </Border.InputBindings>-->
                                 </DataTemplate>
                               </ListBox.ItemTemplate>
-                            </ListBox>
+                              <ListBox.Resources>
+                                <Style TargetType="{x:Type ListBoxItem}">
+                                  <Setter Property="Template">
+                                    <Setter.Value>
+                                      <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                        <Border x:Name="_ListBoxItemBorder"
+                                          BorderBrush="{TemplateBinding BorderBrush}"
+                                          BorderThickness="{TemplateBinding BorderThickness}"
+                                          Background="{TemplateBinding Background}"
+                                          Padding="{TemplateBinding Padding}"
+                                          SnapsToDevicePixels="true">
+                                          <ContentPresenter 
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                          <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                              <Condition Property="Selector.IsSelectionActive" Value="False" />
+                                              <Condition Property="IsSelected" Value="True" />
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="Background" TargetName="_ListBoxItemBorder" Value="DarkOrange" />
+                                          </MultiTrigger>
+                                          <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                              <Condition Property="Selector.IsSelectionActive" Value="True" />
+                                              <Condition Property="IsSelected" Value="True" />
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="Background" TargetName="_ListBoxItemBorder" Value="OrangeRed" />
+                                          </MultiTrigger>
+                                        </ControlTemplate.Triggers>
+                                      </ControlTemplate>
+                                    </Setter.Value>
+                                  </Setter>
+                                </Style>
+                              </ListBox.Resources>
+                            </coreControls:UnselectableListBox>
                             <Grid.InputBindings>
                               <MouseBinding MouseAction="LeftDoubleClick"
                                             Command="{Binding DataContext.NuevaCitaCommand, RelativeSource={RelativeSource FindAncestor, 
@@ -283,6 +377,7 @@
   <Grid>
     <CustomControls:CustomCalendar 
       Style="{StaticResource _EditarCitasCalendarStyle}"
+      Refresh="{Binding Refresh, Mode=TwoWay}"
       Grid.Row="1" Appointments="{Binding Citas}"/>
   </Grid>
 </UserControl>

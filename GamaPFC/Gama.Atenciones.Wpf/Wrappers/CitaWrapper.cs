@@ -117,6 +117,18 @@ namespace Gama.Atenciones.Wpf.Wrappers
             }
         }
 
+        public void CopyValuesFrom(Cita cita)
+        {
+            Id = cita.Id;
+            AsistenteEnTexto = cita.AsistenteEnTexto;
+            Fin = cita.Fin;
+            Fecha = new DateTime(cita.Fecha.Ticks);
+            Sala = cita.Sala;
+            Hora = cita.Hora;
+            Minutos = cita.Minutos;
+            //Model.CopyValuesFrom(cita);
+        }
+
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (Fecha == null)

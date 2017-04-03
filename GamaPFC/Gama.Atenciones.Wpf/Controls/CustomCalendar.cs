@@ -59,12 +59,28 @@ namespace Gama.Atenciones.Wpf.Controls
             BuildCalendar(newValue);
         }
 
+        private static void OnRefreshChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var cc = d as CustomCalendar;
+            if (cc != null)
+            {
+                cc.BuildCalendar(cc.CurrentDate);
+            }
+        }
+
         public static readonly DependencyProperty CurrentDateProperty =
             DependencyProperty.Register(
                 "CurrentDate",
                 typeof(DateTime),
                 typeof(CustomCalendar),
                 new PropertyMetadata(DateTime.Now, OnCurrentDateChanged));
+
+        public static readonly DependencyProperty RefreshProperty =
+            DependencyProperty.Register(
+                "Refresh",
+                typeof(int),
+                typeof(CustomCalendar),
+                new PropertyMetadata(0, OnRefreshChanged));
 
         public static readonly DependencyProperty DaysProperty =
             DependencyProperty.Register(
@@ -88,6 +104,7 @@ namespace Gama.Atenciones.Wpf.Controls
             var cc = d as CustomCalendar;
             if (cc != null)
             {
+               // cc.BuildCalendar(cc.CurrentDate);
                 var items = e.NewValue as ObservableCollection<CitaWrapper>;
                 items.CollectionChanged += new NotifyCollectionChangedEventHandler(cc.AppointmentsChanged);
             }
@@ -102,6 +119,12 @@ namespace Gama.Atenciones.Wpf.Controls
         {
             get { return (DateTime)GetValue(CurrentDateProperty); }
             set { SetValue(CurrentDateProperty, value); }
+        }
+
+        public int Refresh
+        {
+            get { return (int)GetValue(RefreshProperty); }
+            set { SetValue(RefreshProperty, value); }
         }
 
         public ObservableCollection<Day> Days

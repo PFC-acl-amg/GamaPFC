@@ -126,6 +126,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Actions\CloseWindowAction.cs" />
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Converters\ActividadViewToViewModelConverter.cs" />
     <Compile Include="Converters\BooleanToVisivilityConverter.cs" />
     <Compile Include="CooperacionModule.cs" />
@@ -169,7 +170,10 @@
     <Compile Include="Services\ITareaRepository.cs" />
     <Compile Include="Services\SeguimientoRepository.cs" />
     <Compile Include="Services\TareaRepository.cs" />
-    <Compile Include="ViewModels\AgregarCooperanteViewModel.cs" />
+    <Compile Include="Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellViewModel.cs" />
     <Compile Include="ViewModels\CrearNuevaTareaViewModel.cs" />
     <Compile Include="ViewModels\CrearNuevoForoViewModel.cs" />
     <Compile Include="ViewModels\EditarActividadViewModel.cs" />
@@ -185,9 +189,6 @@
     <Compile Include="ViewModels\StatusBarViewModel.cs" />
     <Compile Include="ViewModels\TareasDeActividadViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
-    <Compile Include="Views\AgregarCooperanteView.xaml.cs">
-      <DependentUpon>AgregarCooperanteView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\CrearNuevaTareaView.xaml.cs">
       <DependentUpon>CrearNuevaTareaView.xaml</DependentUpon>
     </Compile>
@@ -250,11 +251,15 @@
     <Compile Include="Wrappers\SeguimientoWrapper.cs" />
     <Compile Include="Wrappers\TareaWrapper.cs" />
     <Compile Include="Wrappers\TelefonoWrapper.cs" />
-    <Page Include="Themes\Generic.xaml">
+    <Page Include="Resources\Resources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AgregarCooperanteView.xaml">
+    <Page Include="Shell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
