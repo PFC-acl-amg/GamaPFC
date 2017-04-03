@@ -172,6 +172,7 @@
     <Compile Include="Eventos\AtencionActualizadaEvent.cs" />
     <Compile Include="Eventos\AtencionCreadaEvent.cs" />
     <Compile Include="Eventos\AtencionSeleccionadaEvent.cs" />
+    <Compile Include="Eventos\CitaActualizadaEvent.cs" />
     <Compile Include="Eventos\CitaSeleccionadaEvent.cs" />
     <Compile Include="Eventos\IdentificadorDeModelosPayload.cs" />
     <Compile Include="Eventos\NuevaAtencionEvent.cs" />

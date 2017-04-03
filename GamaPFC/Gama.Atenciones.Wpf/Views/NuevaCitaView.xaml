@@ -15,9 +15,9 @@
                    xmlns:converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
         BorderBrush="{StaticResource AccentColorBrush}"
         mc:Ignorable="d"
-       ResizeMode="NoResize"
+       ResizeMode="CanResizeWithGrip"
         Title="Nueva Cita" 
-        actions:DialogCloser.DialogResult="{Binding Cerrar}" Width="298" Height="216">
+        actions:DialogCloser.DialogResult="{Binding Cerrar}" Width="298" Height="215">
   <Window.Resources>
     <sys:Double x:Key="_AnchoDeLosCampos">135</sys:Double>
     <converters:BinaryImageConverter x:Key="_BinaryImageConverter"/>
@@ -38,10 +38,10 @@
         <ColumnDefinition Width="Auto" SharedSizeGroup="_SharedColumnWidth"/>
         <ColumnDefinition Width="Auto" SharedSizeGroup="_SharedColumnWidth" />
       </Grid.ColumnDefinitions>
-      <Image Margin="{StaticResource Margin}"
+      <!--<Image Margin="{StaticResource Margin}"
              MaxHeight="55"
              Grid.ColumnSpan="2"
-             Source="{Binding Cita.Persona.Imagen, Converter={StaticResource _BinaryImageConverter}}"/>
+             Source="{Binding Cita.Persona.Imagen, Converter={StaticResource _BinaryImageConverter}}"/>-->
 
       <StackPanel Orientation="Vertical" Grid.Row="1">
         <Label Margin="{StaticResource Margin}">Fecha</Label>
