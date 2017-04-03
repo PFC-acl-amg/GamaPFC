@@ -199,13 +199,13 @@
                                         </StackPanel>-->
 
                                         <StackPanel Orientation="Vertical" Grid.Column="1">
-                                          <TextBlock Margin="4" 
+                                          <TextBlock Margin="1" 
                                                    HorizontalAlignment="Left" VerticalAlignment="Center">
                                             <Run Text="{Binding Hora}"/>
                                             <Run Text=":" />
                                             <Run Text="{Binding Minutos}"/>
                                           </TextBlock>
-                                          <TextBlock Text="{Binding Sala}" Margin="4"/>
+                                          <TextBlock Text="{Binding Sala}" Margin="1"/>
                                           <Label VerticalAlignment="Center" HorizontalAlignment="Left">
                                             <Hyperlink 
                                                 Command="{Binding DataContext.NuevaAtencionCommand, 

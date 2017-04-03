@@ -125,6 +125,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Converters\BinaryImageConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />
@@ -143,6 +144,10 @@
     <Compile Include="Services\LookupItemSocio.cs" />
     <Compile Include="Services\SocioRepository.cs" />
     <Compile Include="Services\PreferenciasDeSocios.cs" />
+    <Compile Include="Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellViewModel.cs" />
     <Compile Include="SociosModule.cs" />
     <Compile Include="ViewModels\ContabilidadViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
@@ -221,6 +226,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Resources\Resources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -70,32 +70,38 @@ namespace Gama.Bootstrapper
                     Application.Current.Shutdown();
                 }
 
-                bool usarNuevoArranque = false;
+                //bool usarNuevoArranque = true;
 
                 switch (vm.ModuloSeleccionado)
                 {
                     case Modulos.Cooperacion:
-                        bootstrapper = new Bootstrapper(Modulos.Cooperacion);
+                        //bootstrapper = new Bootstrapper(Modulos.Cooperacion);
+                        //usarNuevoArranque = true;
+                        var cooperacionBootstrapper = new Gama.Cooperacion.Wpf.Bootstrapper();
+                        cooperacionBootstrapper.Run();
                         break;
                     case Modulos.ServicioDeAtenciones:
                         {
-                            bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
-                            usarNuevoArranque = true;
+                            //bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
+                            //usarNuevoArranque = true;
                             var atencionesBootstrapper = new Gama.Atenciones.Wpf.Bootstrapper();
                             atencionesBootstrapper.Run();
                             break;
                         }
                     case Modulos.GestionDeSocios:
-                        bootstrapper = new Bootstrapper(Modulos.GestionDeSocios);
+                        //bootstrapper = new Bootstrapper(Modulos.GestionDeSocios);
+                        //usarNuevoArranque = true;
+                        var sociosBootstrapper = new Gama.Socios.Wpf.Bootstrapper();
+                        sociosBootstrapper.Run();
                         break;
                     default:
                         throw new Exception("¡No se ha seleccionado ningún módulo!");
                 }
 
-                if (!usarNuevoArranque)
-                {
-                    bootstrapper.Run();
-                }
+                //if (!usarNuevoArranque)
+                //{
+                //    bootstrapper.Run();
+                //}
             }
         }
 
