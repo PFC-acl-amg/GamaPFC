@@ -18,9 +18,9 @@ namespace Gama.Atenciones.Wpf.Views
     /// <summary>
     /// Interaction logic for AsistentesView.xaml
     /// </summary>
-    public partial class AsistentesView : UserControl
+    public partial class AsistentesContentView : UserControl
     {
-        public AsistentesView()
+        public AsistentesContentView()
         {
             InitializeComponent();
         }

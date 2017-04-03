@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
-    public class AsistentesViewModel
+    public class AsistentesContentViewModel
     {
         private IAsistenteRepository _AsistenteRepository;
 
-        public AsistentesViewModel(
+        public AsistentesContentViewModel(
             IAsistenteRepository asistenteRepository,
             ISession session)
         {

@@ -192,6 +192,8 @@ namespace Gama.Atenciones.Wpf
 
         private void RegisterViews()
         {
+            Container.RegisterType<object, AsistentesContentView>("AsistentesContentView");
+            Container.RegisterType<object, AsistenteView>("AsistenteView");
             Container.RegisterType<object, CitasContentView>("CitasContentView");
             Container.RegisterType<object, DashboardView>("DashboardView");
             Container.RegisterType<object, EditarAtencionesView>("EditarAtencionesView");
@@ -209,6 +211,8 @@ namespace Gama.Atenciones.Wpf
 
         private void RegisterViewModels()
         {
+            Container.RegisterType<AsistentesContentViewModel>();
+            Container.RegisterType<AsistenteViewModel>();
             Container.RegisterType<CitasContentViewModel>();
             Container.RegisterType<DashboardViewModel>();
             Container.RegisterType<EditarAtencionesViewModel>();
@@ -233,6 +237,7 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<IPersonaRepository, PersonaRepository>();
             Container.RegisterType<ICitaRepository, CitaRepository>();
             Container.RegisterType<IAtencionRepository, AtencionRepository>();
+            Container.RegisterType<IAsistenteRepository, AsistenteRepository>();
 
             PreferenciasDeAtenciones preferencias;
             string preferenciasPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
