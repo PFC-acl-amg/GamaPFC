@@ -25,11 +25,21 @@ namespace Gama.Atenciones.Wpf
     {
         public static List<string> TodosLosNif { get; set; }
 
+        public static List<string> TodosLosNifDeAsistentes { get; set; }
+
         public static void AddNif(string nif)
         {
             if (!TodosLosNif.Contains(nif))
             {
                 TodosLosNif.Add(nif);
+            }
+        }
+
+        public static void AddNifAAsistente(string nif)
+        {
+            if (!TodosLosNifDeAsistentes.Contains(nif))
+            {
+                TodosLosNifDeAsistentes.Add(nif);
             }
         }
     }
@@ -51,8 +61,10 @@ namespace Gama.Atenciones.Wpf
 
             var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
             var personaRepository = new PersonaRepository();
+            var asistenteRepository = new AsistenteRepository();
             var session = sessionFactory.OpenSession();
             personaRepository.Session = session;
+            asistenteRepository.Session = session;
 
             #region Database Seeding
             try
@@ -117,6 +129,7 @@ namespace Gama.Atenciones.Wpf
             // No lo hacemos en el wrapper directamente para eliminar el acomplamiento
             // del wrapper a los servicios. 
             AtencionesResources.TodosLosNif = personaRepository.GetNifs();
+            AtencionesResources.TodosLosNifDeAsistentes = asistenteRepository.GetNifs();
 
             // Preparamos la estructura de carpeta para la primera vez
             InicializarDirectorios();

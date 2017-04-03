@@ -18,6 +18,10 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Map(x => x.Nombre);
             Map(x => x.Telefono);
             Map(x => x.Imagen);
+            Map(x => x.Nif);
+
+            Map(p => p.CreatedAt);
+            Map(p => p.UpdatedAt);
 
             HasMany(x => x.Citas)
                 .Not.LazyLoad()
