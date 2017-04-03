@@ -32,18 +32,36 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private LookupItem _CooperanteBuscado;
         private LookupItem _CoordinadorBuscado;
         private ISession _Session;
+        private ICooperanteRepository _cooperanteRepositoryNuevaTarea;
 
         public InformacionDeActividadViewModel(
             IActividadRepository actividadRepository,
             ICooperanteRepository cooperanteRepository,
-            IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator,
+            ISession sessionNuevaTarea)
         {
             _ActividadRepository = actividadRepository;
             _CooperanteRepository = cooperanteRepository;
+            _cooperanteRepositoryNuevaTarea = cooperanteRepository;
             _EventAggregator = eventAggregator;
             _MensajeDeEspera = new List<string>() { "Espera por favor..." };
             _EdicionHabilitada = true;
 
+            _cooperanteRepositoryNuevaTarea.Session = sessionNuevaTarea;
+            if (CooperantesDisponibles == null)
+            {
+                CooperantesDisponibles = new ObservableCollection<CooperanteWrapper>(
+                    _cooperanteRepositoryNuevaTarea.GetAll().Select(c => new CooperanteWrapper(c)));
+
+                _ResultadoDeBusqueda = new ObservableCollection<LookupItem>(
+                    CooperantesDisponibles.Select(c => new LookupItem
+                    {
+                        Id = c.Id,
+                        DisplayMember1 = c.NombreCompleto,
+                        DisplayMember2 = c.Dni
+                    }));
+            }
+            sessionNuevaTarea.Close();
             Actividad = new ActividadWrapper(new Actividad() { Titulo = "", Descripcion = "" });
 
             // Añadimos 'Cooperante Dummy' para que se muestre una fila del formulario para añadir el primero
