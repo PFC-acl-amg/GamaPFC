@@ -174,6 +174,7 @@
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShellViewModel.cs" />
+    <Compile Include="ViewModels\AgregarCooperanteViewModel.cs" />
     <Compile Include="ViewModels\CrearNuevaTareaViewModel.cs" />
     <Compile Include="ViewModels\CrearNuevoForoViewModel.cs" />
     <Compile Include="ViewModels\EditarActividadViewModel.cs" />
@@ -189,6 +190,9 @@
     <Compile Include="ViewModels\StatusBarViewModel.cs" />
     <Compile Include="ViewModels\TareasDeActividadViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
+    <Compile Include="Views\AgregarCooperanteView.xaml.cs">
+      <DependentUpon>AgregarCooperanteView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CrearNuevaTareaView.xaml.cs">
       <DependentUpon>CrearNuevaTareaView.xaml</DependentUpon>
     </Compile>
@@ -262,6 +266,10 @@
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AgregarCooperanteView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\CrearNuevaTareaView.xaml">
       <SubType>Designer</SubType>
