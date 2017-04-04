@@ -68,7 +68,11 @@
 
       <StackPanel Orientation="Vertical" Grid.Row="2">
         <Label Margin="{StaticResource Margin}">Asistente</Label>
-        <TextBox Margin="{StaticResource Margin}" Text="{Binding Cita.AsistenteEnTexto, UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox Margin="{StaticResource Margin}"
+          ItemsSource="{Binding Asistentes}"
+                  SelectedItem="{Binding AsistenteSeleccionado}"
+                  DisplayMemberPath="Nombre"/>
+        <!--<TextBox Margin="{StaticResource Margin}" Text="{Binding Cita.AsistenteEnTexto, UpdateSourceTrigger=PropertyChanged}"/>-->
       </StackPanel>
 
       <StackPanel Grid.Column="1" Grid.Row="2">

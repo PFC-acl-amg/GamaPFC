@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace Gama.Atenciones.Wpf.Views
     /// <summary>
     /// Interaction logic for NuevoAsistenteView.xaml
     /// </summary>
-    public partial class NuevoAsistenteView : Window
+    public partial class NuevoAsistenteView : MetroWindow
     {
         public NuevoAsistenteView()
         {

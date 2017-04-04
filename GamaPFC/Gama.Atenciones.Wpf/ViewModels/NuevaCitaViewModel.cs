@@ -21,12 +21,16 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private IPersonaRepository _PersonaRepository;
         private ICitaRepository _CitaRepository;
         private IEventAggregator _EventAggregator;
+        private IAsistenteRepository _AsistenteRepository;
 
         public NuevaCitaViewModel(IPersonaRepository personaRepository, 
-            ICitaRepository citaRepository, IEventAggregator eventAggregator)
+            ICitaRepository citaRepository, 
+            IAsistenteRepository asistenteRepository,
+            IEventAggregator eventAggregator)
         {
             _PersonaRepository = personaRepository;
             _CitaRepository = citaRepository;
+            _AsistenteRepository = asistenteRepository;
             _EventAggregator = eventAggregator;
             
             AceptarCommand = new DelegateCommand(OnAceptarCommand_Execute,
@@ -38,6 +42,19 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             ((DelegateCommand)AceptarCommand).RaiseCanExecuteChanged();
         }
+
+        private Asistente _AsistenteSeleccionado;
+        public Asistente AsistenteSeleccionado
+        {
+            get { return _AsistenteSeleccionado; }
+            set
+            {
+                _AsistenteSeleccionado = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public List<Asistente> Asistentes { get; private set; }
 
         private CitaWrapper _Cita;
         public CitaWrapper Cita
@@ -62,6 +79,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public ICommand AceptarCommand { get; private set; }
         public ICommand CancelarCommand { get; private set; }
+
         public ISession Session
         {
             get { return null; }
@@ -69,6 +87,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 _PersonaRepository.Session = value;
                 _CitaRepository.Session = value;
+                _AsistenteRepository.Session = value;
+
+                Asistentes = new List<Asistente>(_AsistenteRepository.GetAll());
+                OnPropertyChanged(nameof(Asistentes));
             }
         }
 

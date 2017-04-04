@@ -1,0 +1,123 @@
+﻿<UserControl x:Class="Gama.Atenciones.Wpf.Views.AsistentesContentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
+             xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
+             xmlns:converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
+             xmlns:util="clr-namespace:Core.Util;assembly=Core"
+             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="891">
+  <UserControl.Resources>
+    <converters:BinaryImageConverter x:Key="_BinaryImageConverter" />
+    <BooleanToVisibilityConverter x:Key="_BooleanToVisibilityConverter"/>
+  </UserControl.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" MinWidth="150" MaxWidth="250"/>
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+
+    <!---->
+    <!-- Listado de asistentes y cuadro de búsqueda -->
+    <!---->
+    <Grid Margin="{StaticResource Margin}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <TextBox Margin="{StaticResource Margin}"/>
+      <GroupBox Header="Asistentes" Grid.Row="1">
+      <coreControls:UnselectableListBox 
+        HorizontalContentAlignment="Center"
+        SelectedItem="{Binding AsistenteSeleccionado, Mode=TwoWay}"
+        ScrollViewer.VerticalScrollBarVisibility="Auto"
+        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+        ItemsSource="{Binding Asistentes}">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+              </Grid.RowDefinitions>
+              
+              <Image
+                Grid.Row="0"
+                MinHeight="40" MinWidth="40"
+                MaxHeight="68" MaxWidth="68"
+                Margin="{StaticResource Margin}"
+                Stretch="Fill" 
+                Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}">
+                <!--<Image.Style>
+                  <Style TargetType="Image">
+                    <Style.Triggers>
+                      <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Image.BitmapEffect">
+                          <Setter.Value>
+                            <DropShadowBitmapEffect Color="Black" />
+                          </Setter.Value>
+                        </Setter>
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Image.Style>-->
+              </Image>
+
+    <TextBlock Margin="{StaticResource Margin}" Text="{Binding Nombre}" Grid.Row="1"/>
+  </Grid>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </coreControls:UnselectableListBox>
+        </GroupBox>
+    </Grid>
+    
+    <mahapps:MetroAnimatedSingleRowTabControl Grid.Column="1">
+      <mahapps:MetroTabItem Header="Información"
+                            mahapps:ControlsHelper.HeaderFontSize="17">
+        <!-- Cuadro con la información del asistente para ver y editar -->
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto" MaxWidth="450" MinWidth="300"/>
+        </Grid.ColumnDefinitions>
+        
+          <local:AsistenteView Grid.Row="0" Grid.Column="1" DataContext="{Binding AsistenteViewModel}"/>
+        
+          <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right">
+            <!-- Actualizar Button -->
+            <cc:CircleIconButton 
+              Icon="{StaticResource appbar_save}"
+              Visibility="{Binding AsistenteViewModel.Asistente.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+              Command="{Binding ActualizarCommand}"/>
+
+            <!-- Cancelar Button -->
+            <cc:CircleIconButton
+              Icon="{StaticResource appbar_close}"
+              Visibility="{Binding AsistenteViewModel.Asistente.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+              Command="{Binding CancelarEdicionCommand}"/>
+
+            <!-- Habilitar Edición Button -->
+            <cc:CircleIconButton
+              Icon="{StaticResource appbar_edit}"
+              Command="{Binding HabilitarEdicionCommand}"/>
+          </StackPanel>
+      </Grid>
+        
+      <!-- Citas próximas del asistente en formato tabular -->
+
+      <!-- Citas pasadas del asistente en formato tabular -->
+
+    </mahapps:MetroTabItem>
+    </mahapps:MetroAnimatedSingleRowTabControl>
+  </Grid>
+</UserControl>

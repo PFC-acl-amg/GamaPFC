@@ -22,6 +22,8 @@ namespace Gama.Atenciones.Wpf.Services
 
         void Delete(Asistente entity);
 
+        List<string> GetNifs();
+
         int CountAll();
     }
 }
