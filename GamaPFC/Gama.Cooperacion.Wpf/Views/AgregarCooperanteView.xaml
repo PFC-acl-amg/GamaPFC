@@ -4,18 +4,267 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
+        xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
         mc:Ignorable="d"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:actions="clr-namespace:Core.Util;assembly=Core"
         prism:ViewModelLocator.AutoWireViewModel="True"
+        xmlns:util="clr-namespace:Core.Util;assembly=Core"
         WindowStartupLocation="CenterScreen"
         BorderThickness="2"
         BorderBrush="{StaticResource AccentColorBrush}"
       
         actions:DialogCloser.DialogResult="{Binding Cerrar}"
-        Title="Nuevo Cooperante" Height="300" Width="600">
+        Title="Nuevo Cooperante" Height="600" Width="600">
+
+    <Window.Resources>
+        <util:BinaryImageConverter x:Key="BinaryImageConverter"/>
+    </Window.Resources>
+
     <Grid>
-        <Label>Ventana Para Agregar Cooperantesssss</Label>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="160" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
+                                            CornerRadius="3"
+                                            Margin="5">
+            <Border.Effect>
+                <DropShadowEffect Color="Gray" Opacity=".50" ShadowDepth="16" />
+            </Border.Effect>
+            <StackPanel Grid.Row="0"  Height="140">   <!--DATOS DNI-->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="35" />
+                    </Grid.RowDefinitions>
+                    <!--<StackPanel Grid.Column="0" Grid.Row="0">
+                        <Label>dfvadsv</Label>
+                    </StackPanel>-->
+                    <Border Grid.Column="0" Height="105"
+                              Width="200" Grid.Row="0" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="1.5" Background="White" CornerRadius="1">
+                        <!--<Image Grid.Column="0" Grid.Row="0" Source="{Binding Fotito}" Stretch="Fill" StretchDirection="Both">
+                            <Image.BitmapEffect>
+                                <DropShadowBitmapEffect Color="Black" />
+                            </Image.BitmapEffect>
+                        </Image>-->
+                        <Image Source="{Binding NuevoCooperante.Foto, 
+                                    Converter={StaticResource BinaryImageConverter}}" 
+                                    Stretch="Fill"
+                                       MinHeight="50"
+                                    StretchDirection="Both">
+                            <Image.BitmapEffect>
+                                <DropShadowBitmapEffect Color="Black" />
+                            </Image.BitmapEffect>
+                        </Image>
+                    </Border>
+                    <Label Grid.Row="3" Margin="0,-4,0,-2" VerticalAlignment="Bottom" 
+                     VerticalContentAlignment="Bottom" HorizontalAlignment="Right">
+                        <Hyperlink Command="{Binding ExaminarFotoCommand}" FontSize="12">Examinar...</Hyperlink>
+                    </Label>
+                    <TextBox  Name="NombreCooperante"
+                                      Grid.Row="0" Grid.Column="1"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Nombre..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Nombre}"/>
+                    <TextBox  Name="ApellidosCooperante"
+                                      Grid.Row="1" Grid.Column="1"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Apellidos..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Apellidos}"/>
+                    <TextBox  Name="DniCooperante"
+                                      Grid.Row="2" Grid.Column="1"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="DNI/NIE/Pasaporte..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Dni}"/>
+                    <DatePicker HorizontalAlignment="Left" Grid.Row="3" Grid.Column="1"
+                                    SelectedDate="{Binding FechaDeNacimiento, 
+                                    UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    Height="24" />
+                </Grid>
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
+                                            CornerRadius="3"
+                                            Margin="5">
+            <Border.Effect>
+                <DropShadowEffect Color="Gray" Opacity=".50" ShadowDepth="16" />
+            </Border.Effect>
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="35" />
+                    </Grid.RowDefinitions>
+                    <TextBox  Name="XamlProvincia"
+                                      Grid.Row="0" Grid.Column="0"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Provincia..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Provincia}"/>
+                    <TextBox  Name="XamlMunicipio"
+                                      Grid.Row="1" Grid.Column="0"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Municipio..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Municipio}"/>
+                    <TextBox  Name="XamlCP"
+                                      Grid.Row="1" Grid.Column="1"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="CP..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding CodigoPostal}"/>
+                    <TextBox  Name="XamlLocalidad"
+                                      Grid.Row="2" Grid.Column="0"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Localidad..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Localidad}"/>
+                    <TextBox  Name="XamlCalle"
+                                      Grid.Row="3" Grid.Column="0"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Calle/Avenida/..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Calle}"/>
+                    <TextBox  Name="XamlNumero"
+                                      Grid.Row="3" Grid.Column="1"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Número..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Numero}"/>
+                    <TextBox  Name="XamlPortal"
+                                      Grid.Row="3" Grid.Column="2"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Portal..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Portal}"/>
+                    <TextBox  Name="XamlPiso"
+                                      Grid.Row="3" Grid.Column="3"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Piso..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Piso}"/>
+                    <TextBox  Name="XamlPuerta"
+                                      Grid.Row="3" Grid.Column="4"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Puerta..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Puerta}"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
+                                            CornerRadius="3"
+                                            Margin="5">
+            <Border.Effect>
+                <DropShadowEffect Color="Gray" Opacity=".50" ShadowDepth="16" />
+            </Border.Effect>
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="45" />
+                    </Grid.RowDefinitions>
+                    <TextBox  Name="XamlTlfFijo"
+                                      Grid.Row="0" Grid.Column="0"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Telefono Fijo..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding TelefonoFijo}"/>
+                    <TextBox  Name="XamlTlfMovil"
+                                      Grid.Row="1" Grid.Column="0"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Telefono Movil..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding TelefonoMovil}"/>
+                    <TextBox  Name="XamlTlfAlternativo"
+                                      Grid.Row="0" Grid.Column="1"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Telefono Alternativo..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding TelefonoAlternativo}"/>
+                    <TextBox  Name="XamlEmail"
+                                      Grid.Row="2" Grid.Column="0"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Correo Electrónico..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Email}"/>
+                    <TextBox  Name="XamlEmailAlternativo"
+                                      Grid.Row="2" Grid.Column="1"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Correo Electrónico Alternativo..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Email}"/>
+                    <TextBox  Name="XamlOtrosDatos"
+                                      Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Observaciones..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Observaciones}"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+        <StackPanel Grid.Row="3" Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button Content="Aceptar" Command="{Binding AceptarCommand}"  Margin="{StaticResource Margin}"/>
+            <Button Content="Cancelar" Command="{Binding CancelarCommand}"  Margin="{StaticResource Margin}"/>
+        </StackPanel>
+        <!--<StackPanel  Grid.Row="3">
+            --><!--<Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+  
+            </Grid>--><!--
+        </StackPanel>-->
+
     </Grid>
 </metro:MetroWindow>

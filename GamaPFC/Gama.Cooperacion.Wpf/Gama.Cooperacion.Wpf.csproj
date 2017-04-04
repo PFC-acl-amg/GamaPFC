@@ -128,6 +128,7 @@
     <Compile Include="Actions\CloseWindowAction.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Converters\ActividadViewToViewModelConverter.cs" />
+    <Compile Include="Converters\BinaryImageConverter.cs" />
     <Compile Include="Converters\BooleanToVisivilityConverter.cs" />
     <Compile Include="CooperacionModule.cs" />
     <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />

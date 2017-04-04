@@ -211,9 +211,24 @@
                                 <Border BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
                                             CornerRadius="3"
                                             Margin="20">
-                                    <Border.Effect>
-                                        <DropShadowEffect Color="Gray" Opacity=".50" ShadowDepth="16" />
-                                    </Border.Effect> 
+                                    <!--<Border.Effect>
+                                        <DropShadowEffect Color="Blue" Opacity=".50" ShadowDepth="16" />
+                                    </Border.Effect>-->
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True" >
+                                                    <Setter Property="Border.Effect">
+                                                        <Setter.Value>
+                                                            <DropShadowEffect Color="Blue" Opacity=".50" ShadowDepth="16" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter Property="Cursor" Value="Hand">
+                                                    </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
                                 <StackPanel>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
