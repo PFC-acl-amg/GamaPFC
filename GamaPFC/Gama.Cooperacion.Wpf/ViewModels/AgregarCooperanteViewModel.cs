@@ -1,5 +1,6 @@
 ﻿using Core;
 using Gama.Cooperacion.Business;
+using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Services;
 using Gama.Cooperacion.Wpf.Wrappers;
 using Microsoft.Win32;
@@ -38,7 +39,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             NuevoCooperante = new CooperanteWrapper(new Cooperante());
             ExaminarFotoCommand = new DelegateCommand(OnExaminarFotoCommandExecute);
             AceptarCommand = new DelegateCommand(OnAceptarCommand_Execute, OnAceptarCommand_CanExecute);
+
+            
         }
+        
         public ICommand AceptarCommand { get; set; }
         public ICommand ExaminarFotoCommand { get; private set; }
         private void OnExaminarFotoCommandExecute()
@@ -67,8 +71,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             NuevoCooperante.CreatedAt = DateTime.Now;
             _CooperanteRepository.Create(NuevoCooperante.Model);
-           
-            //_EventAggregator.GetEvent<SocioCreadoEvent>().Publish(Socio.Id);
+           _EventAggregator.GetEvent<CooperanteCreadoEvent>().Publish(NuevoCooperante);
             //Cerrar = true;
         }
         private bool OnAceptarCommand_CanExecute()

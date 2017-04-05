@@ -160,6 +160,7 @@
     <Compile Include="Eventos\ActividadActualizadaEvent.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaChangedEvent.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaEvent.cs" />
+    <Compile Include="Eventos\CooperanteCreadoEvent.cs" />
     <Compile Include="Eventos\NuevaActividadEvent.cs" />
     <Compile Include="Eventos\NuevaTareaCreadaEvent.cs" />
     <Compile Include="Eventos\NuevoForoCreadoEvent.cs" />
