@@ -75,23 +75,24 @@
                                       Grid.Row="0" Grid.Column="1"
                                       BorderThickness="1"
                                       metro:TextBoxHelper.Watermark="Nombre..."
-                                      TextWrapping="Wrap"
+                                      TextWrapping="WrapWithOverflow"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding Nombre}"/>
+                                      Text="{Binding NuevoCooperante.Nombre, UpdateSourceTrigger=PropertyChanged}"/>
+                    
                     <TextBox  Name="ApellidosCooperante"
                                       Grid.Row="1" Grid.Column="1"
                                       BorderThickness="1"
                                       metro:TextBoxHelper.Watermark="Apellidos..."
-                                      TextWrapping="Wrap"
+                                      TextWrapping="WrapWithOverflow"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding Apellidos}"/>
+                                      Text="{Binding NuevoCooperante.Apellido,UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBox  Name="DniCooperante"
                                       Grid.Row="2" Grid.Column="1"
                                       BorderThickness="1"
                                       metro:TextBoxHelper.Watermark="DNI/NIE/Pasaporte..."
-                                      TextWrapping="Wrap"
+                                      TextWrapping="WrapWithOverflow"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding Dni}"/>
+                                      Text="{Binding NuevoCooperante.Dni,UpdateSourceTrigger=PropertyChanged}"/>
                     <DatePicker HorizontalAlignment="Left" Grid.Row="3" Grid.Column="1"
                                     SelectedDate="{Binding FechaDeNacimiento, 
                                     UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -211,7 +212,7 @@
                                       metro:TextBoxHelper.Watermark="Telefono Fijo..."
                                       TextWrapping="Wrap"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding TelefonoFijo}"/>
+                                      Text="{Binding NuevoCooperante.telefono,UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBox  Name="XamlTlfMovil"
                                       Grid.Row="1" Grid.Column="0"
                                       BorderThickness="1"
@@ -246,7 +247,7 @@
                                       metro:TextBoxHelper.Watermark="Observaciones..."
                                       TextWrapping="Wrap"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding Observaciones}"/>
+                                      Text="{Binding NuevoCooperante.Observaciones,UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
             </StackPanel>
         </Border>

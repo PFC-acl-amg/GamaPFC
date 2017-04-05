@@ -1,8 +1,11 @@
 ﻿using Core;
 using Gama.Cooperacion.Business;
+using Gama.Cooperacion.Wpf.Services;
 using Gama.Cooperacion.Wpf.Wrappers;
 using Microsoft.Win32;
+using NHibernate;
 using Prism.Commands;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,17 +20,26 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 {
     public class AgregarCooperanteViewModel : ViewModelBase
     {
-        private CooperanteWrapper _NuevoCooperante;
+        private IEventAggregator _EventAggregator;  // para cuando se agrege un nuevo cooperante actualizar las vistas necesarias
+        private ICooperanteRepository _CooperanteRepository; // Para acceder a la BBDD, a la tabla "cooperantes"
+        private CooperanteWrapper _NuevoCooperante; //Contendrá la informacióndel nuevo cooperante
         private double _TamW;
         private double _TamH;
         private BitmapImage _Fotito;
-        public AgregarCooperanteViewModel()
+        private bool? _Cerrar;
+        public AgregarCooperanteViewModel(ICooperanteRepository CooperanteRepository,
+            IEventAggregator eventAggregator,
+            ISession session)
         {
+            _EventAggregator = eventAggregator;
+            _CooperanteRepository = CooperanteRepository;
+            _CooperanteRepository.Session = session;
+
             NuevoCooperante = new CooperanteWrapper(new Cooperante());
-
-
             ExaminarFotoCommand = new DelegateCommand(OnExaminarFotoCommandExecute);
+            AceptarCommand = new DelegateCommand(OnAceptarCommand_Execute, OnAceptarCommand_CanExecute);
         }
+        public ICommand AceptarCommand { get; set; }
         public ICommand ExaminarFotoCommand { get; private set; }
         private void OnExaminarFotoCommandExecute()
         {
@@ -50,6 +62,18 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 TamH = 105;
                 TamW = 200;
             }
+        }
+        private void OnAceptarCommand_Execute()
+        {
+            NuevoCooperante.CreatedAt = DateTime.Now;
+            _CooperanteRepository.Create(NuevoCooperante.Model);
+           
+            //_EventAggregator.GetEvent<SocioCreadoEvent>().Publish(Socio.Id);
+            //Cerrar = true;
+        }
+        private bool OnAceptarCommand_CanExecute()
+        {
+            return true;
         }
         public BitmapImage Fotito
         {
