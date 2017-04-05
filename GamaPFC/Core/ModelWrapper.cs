@@ -117,6 +117,21 @@ namespace Core
             }
         }
 
+        protected void SetValue(object newValue, [CallerMemberName] string propertyName = null)
+        {
+            var propertyInfo = this.Model.GetType().GetProperty(propertyName);
+            var currentValue = propertyInfo.GetValue(Model);
+
+            if (!Equals(currentValue, newValue))
+            {
+                UpdateOriginalValue(currentValue, newValue, propertyName);
+                propertyInfo.SetValue(this.Model, newValue);
+                Validate();
+                OnPropertyChanged(propertyName);
+                OnPropertyChanged(propertyName + "IsChanged");
+            }
+        }
+
         private void Validate()
         {
             ClearErrors();

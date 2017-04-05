@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Encryption;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Business
 {
-    public class Cita : TimestampedModel
+    public class Cita : TimestampedModel, IEncryptable
     {
         public virtual string AsistenteEnTexto { get; set; } = "";
         public virtual DateTime? Fin { get; set; }
@@ -20,6 +21,10 @@ namespace Gama.Atenciones.Business
         public virtual Asistente Asistente { get; set; }
         public virtual int Hora { get; set; }
         public virtual int Minutos { get; set; }
+
+        public virtual List<string> EncryptedFields { get; set; }
+
+        public virtual bool IsEncrypted { get; set; }
 
         public Cita()
         {
@@ -44,6 +49,39 @@ namespace Gama.Atenciones.Business
             Sala = cita.Sala;
             Hora = cita.Hora;
             Minutos = cita.Minutos;
+        }
+
+        public virtual void Encrypt()
+        {
+            if (IsEncrypted)
+                return;
+
+            Asistente.Encrypt();
+
+            IsEncrypted = true;
+        }
+
+        public virtual Cita DecryptFluent()
+        {
+            Asistente.Decrypt();
+            return this;
+        }
+
+        public virtual void Decrypt()
+        {
+            try
+            {
+                if (!IsEncrypted)
+                    return;
+
+                Asistente.Decrypt();
+
+                IsEncrypted = false;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
