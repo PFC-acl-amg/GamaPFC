@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Util;
 using Gama.Atenciones.Business;
 using System;
 using System.Collections.Generic;
@@ -260,12 +261,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
                 results.Add(new ValidationResult("El campo de nombre es obligatorio", new[] { nameof(Nombre) }));
             }
 
-            var pattern = 
-                @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
-                @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
-
-            if (!string.IsNullOrWhiteSpace(Email) &&
-                !Regex.IsMatch(Email, pattern, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
+            if (StringUtility.EmailIsNotEmptyAndIsMatch(Email))
             {
                 results.Add(new ValidationResult("Email inválido", new[] { nameof(Email) }));
             }
