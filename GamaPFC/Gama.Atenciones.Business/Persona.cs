@@ -4,8 +4,8 @@ using Core.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Business
@@ -55,7 +55,7 @@ namespace Gama.Atenciones.Business
                 nameof(Telefono),
                 nameof(Twitter),
                 nameof(Email),
-                //nameof(Imagen)
+                nameof(Imagen)
             });
 
             IsEncrypted = true;
@@ -134,7 +134,7 @@ namespace Gama.Atenciones.Business
                 {
                     if (propertyName == nameof(Imagen))
                     {
-                        propertyInfo.SetValue(this, StringCipher.EncryptImage((byte[])propertyValue));
+                        propertyInfo.SetValue(this, StringCipher.EncryptImage2((byte[])propertyValue));
                     }
                     else
                     {
@@ -179,7 +179,7 @@ namespace Gama.Atenciones.Business
                         {
                             try
                             {
-                                propertyInfo.SetValue(this, StringCipher.DecryptImage((byte[])propertyValue));
+                                propertyInfo.SetValue(this, StringCipher.DecryptImage2((byte[])propertyValue));
                             }
                             catch (Exception ex)
                             {

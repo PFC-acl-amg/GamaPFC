@@ -92,6 +92,117 @@ namespace Core.Encryption
             }
         }
 
+        public static byte[] EncryptImage2(byte[] plainText)
+        {
+            try
+            {
+                using (var des = new RijndaelManaged())
+                {
+                    des.Mode = CipherMode.CBC;
+                    des.Padding = PaddingMode.PKCS7;
+                    des.BlockSize = 256;
+
+                    des.Key = Encoding.UTF8.GetBytes(PassPhrase);
+                    des.IV = Encoding.UTF8.GetBytes(IV);
+
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        var cryptoStream = new CryptoStream(memoryStream,
+                            des.CreateEncryptor(), CryptoStreamMode.Write);
+
+                        cryptoStream.Write(plainText, 0, plainText.Length);
+                        cryptoStream.FlushFinalBlock();
+
+                        return memoryStream.ToArray();
+                    }
+                }
+                //byte[] cipherText;
+                //var rijndael = new RijndaelManaged()
+                //{
+                //    Key = Encoding.ASCII.GetBytes(PassPhrase),
+                //    Mode = CipherMode.CBC,
+                //    BlockSize = 256,
+                //    Padding = PaddingMode.PKCS7,
+                //    IV = Encoding.ASCII.GetBytes(IV)
+                //};
+
+                //ICryptoTransform encryptor = rijndael.CreateEncryptor(rijndael.Key, rijndael.IV);
+
+                //using (var memoryStream = new MemoryStream())
+                //{
+                //    using (var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
+                //    {
+                //        using (var streamWriter = new StreamWriter(cryptoStream))
+                //        {
+                //            streamWriter.Write(plainText);
+                //            streamWriter.Flush();
+                //        }
+                //        cipherText = memoryStream.ToArray();
+                //        //cryptoStream.FlushFinalBlock();
+                //    }
+                //}
+                //return cipherText;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public static byte[] DecryptImage2(byte[] cipherText)
+        {
+            try
+            {
+                using (var des = new RijndaelManaged())
+                {
+                    des.Mode = CipherMode.CBC;
+                    des.Padding = PaddingMode.PKCS7;
+                    des.BlockSize = 256;
+
+                    des.Key = Encoding.UTF8.GetBytes(PassPhrase);
+                    des.IV = Encoding.UTF8.GetBytes(IV);
+
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        var cryptoStream = new CryptoStream(memoryStream,
+                            des.CreateDecryptor(), CryptoStreamMode.Write);
+
+                        cryptoStream.Write(cipherText, 0, cipherText.Length);
+                        cryptoStream.FlushFinalBlock();
+
+                        return memoryStream.ToArray();
+                    }
+                }
+                //byte[] plainText;
+                //byte[] cipherArray = cipherText;
+                //var rijndael = new RijndaelManaged()
+                //{
+                //    Key = Encoding.ASCII.GetBytes(PassPhrase),
+                //    Mode = CipherMode.CBC,
+                //    BlockSize = 256,
+                //    Padding = PaddingMode.PKCS7,
+                //    IV = Encoding.ASCII.GetBytes(IV)
+                //};
+                //ICryptoTransform decryptor = rijndael.CreateDecryptor(rijndael.Key, rijndael.IV);
+
+                //using (var memoryStream = new MemoryStream(cipherArray))
+                //{
+                //    using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
+                //    {
+                //        using (var streamReader = new StreamReader(cryptoStream))
+                //        {
+                //            plainText = Encoding.UTF8.GetBytes(streamReader.ReadToEnd());
+                //        }
+                //    }
+                //}
+                //return plainText;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public static string Decrypt(string cipherText)
         {
             try

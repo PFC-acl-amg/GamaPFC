@@ -112,13 +112,15 @@
               <Grid.RowDefinitions>
                 <RowDefinition/>
               </Grid.RowDefinitions>
-
-                <Ellipse Height="55" Width="55" OpacityMask="{StaticResource _RadialGradientBrush}"
+                <Border BorderThickness="1"
+        CornerRadius="50,50,50,50" BorderBrush="LightGray" Background="#4C797B7D"
                          Margin="{StaticResource Margin}">
+                <Ellipse Height="55" Width="55" OpacityMask="{StaticResource _RadialGradientBrush}">
                   <Ellipse.Fill>
-                    <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Fill"/>
+                    <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
                   </Ellipse.Fill>
-                </Ellipse>
+                  </Ellipse>
+                </Border>
 
                 <!--<Image Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" 
                      Margin="{StaticResource Margin}" Stretch="Fill" StretchDirection="Both">

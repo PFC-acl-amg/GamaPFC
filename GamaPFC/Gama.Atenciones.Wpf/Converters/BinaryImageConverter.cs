@@ -32,7 +32,7 @@ namespace Gama.Atenciones.Wpf.Converters
                 {
                     image.EndInit();
                 }
-                catch (Exception)
+                catch (NotSupportedException ex)
                 {
                     throw;
                     //BitmapImage image2 = new BitmapImage();

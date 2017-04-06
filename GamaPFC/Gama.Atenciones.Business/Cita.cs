@@ -76,6 +76,7 @@ namespace Gama.Atenciones.Business
                 if (!IsEncrypted)
                     return;
 
+                Persona.Decrypt();
                 Asistente.Decrypt();
 
                 IsEncrypted = false;

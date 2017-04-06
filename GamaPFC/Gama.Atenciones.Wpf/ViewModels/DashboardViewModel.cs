@@ -63,10 +63,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
                  .OrderBy(a => a.Fecha)
                  .Select(_AtencionToLookupItemFunc));
 
+            //foreach(var proximaCita in _Citas)
+            //{
+            //    proximaCita.Persona.Imagen = Personas.Where(p => p.Id == proximaCita.Persona.Id).First().Imagen;
+            //}
+
             ProximasCitas = new ObservableCollection<LookupItem>(
                 _Citas
                  .OrderBy(c => c.Fecha)
-                 .Where(c => c.Fecha >= DateTime.Now.Date)
+                 //.Where(c => c.Fecha >= DateTime.Now.Date)
                  .Select(_CitaToLookupItemFunc));
 
             SelectPersonaCommand = new DelegateCommand<LookupItem>(OnSelectPersonaCommandExecute);

@@ -92,6 +92,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
                 Asistentes = new List<Asistente>(_AsistenteRepository.GetAll());
                 OnPropertyChanged(nameof(Asistentes));
+
+                if (EnEdicionDeCitaExistente)
+                {
+                    Cita.Asistente = Asistentes.Find(a => a.Id == Cita.Asistente.Id);
+                }
             }
         }
 
