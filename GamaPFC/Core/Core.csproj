@@ -115,7 +115,7 @@
     <Compile Include="DataAccess\ISessionHelper.cs" />
     <Compile Include="DataAccess\NHibernateOneSessionRepository.cs" />
     <Compile Include="DataAccess\NHibernateRepository.cs" />
-    <Compile Include="Encryption\StringCipher.cs" />
+    <Compile Include="Encryption\Cipher.cs" />
     <Compile Include="IEncryptable.cs" />
     <Compile Include="IValidatableTrackingObject.cs" />
     <Compile Include="ModelWrapper.cs" />
