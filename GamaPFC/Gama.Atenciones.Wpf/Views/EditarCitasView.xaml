@@ -13,7 +13,6 @@
              xmlns:prism="http://prismlibrary.com/"
              mc:Ignorable="d" d:DesignWidth="1499.337" d:DesignHeight="1028.796">
   <UserControl.Resources>
-
     <Style x:Key="_CircleIconButtonStyle"
       TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
       <Setter Property="Opacity" Value="0.5"/>
