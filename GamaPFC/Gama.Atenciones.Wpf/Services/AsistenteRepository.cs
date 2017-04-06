@@ -28,7 +28,8 @@ namespace Gama.Atenciones.Wpf.Services
 
                 foreach (var nif in temp)
                 {
-                    resultado.Add(EncryptionService.Decrypt(nif));
+                    //resultado.Add(EncryptionService.Decrypt(nif));
+                    resultado.Add(nif);
                 }
 
                 Session.Clear();

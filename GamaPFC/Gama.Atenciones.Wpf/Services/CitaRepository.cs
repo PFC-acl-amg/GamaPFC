@@ -12,16 +12,85 @@ namespace Gama.Atenciones.Wpf.Services
 {
     public class CitaRepository : NHibernateOneSessionRepository<Cita, int>, ICitaRepository
     {
+        //public override void Create(Cita entity)
+        //{
+        //    try
+        //    {
+        //        using (var tx = Session.BeginTransaction())
+        //        {
+        //            var encryptableEntity = entity as IEncryptable;
+        //            if (encryptableEntity != null)
+        //            {
+        //                encryptableEntity.IsEncrypted = false;
+        //                encryptableEntity.Encrypt();
+        //            }
+
+        //            entity.Persona.Encrypt();
+
+        //            Session.Save(entity);
+        //            tx.Commit();
+
+        //            Session.Clear();
+
+        //            //if (encryptableEntity != null)
+        //            //{
+        //            //    encryptableEntity.Decrypt();
+        //            //}
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
+
+        public override bool Update(Cita entity)
+        {
+            try
+            {
+                using (var tx = Session.BeginTransaction())
+                {
+                    var encryptableEntity = entity as IEncryptable;
+                    if (encryptableEntity != null)
+                    {
+                        encryptableEntity.IsEncrypted = false;
+                        encryptableEntity.Encrypt();
+                    }
+
+                    Session.Update(entity);
+                    tx.Commit();
+                    Session.Clear();
+
+                    // Volvemos a desencriptar porque el modelo que nos ha llegado
+                    // ha sido por referencia, así que hay que devolverlo adecudamente
+                    // a las capas visuales...
+                    if (encryptableEntity != null)
+                    {
+                        encryptableEntity.Decrypt();
+                    }
+
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public override List<Cita> GetAll()
         {
             try
             {
                 var citas = Session.CreateCriteria<Cita>()
-                    .SetFetchMode("Persona", NHibernate.FetchMode.Eager).List<Cita>().ToList();
+                    .SetFetchMode("Persona", NHibernate.FetchMode.Eager)
+                    .SetFetchMode("Asistente", NHibernate.FetchMode.Eager)
+                    .List<Cita>().ToList();
 
                 foreach (var cita in citas)
                 {
-                    cita.Persona.Decrypt();
+                    cita.Decrypt();
                 }
 
                 Session.Clear();

@@ -31,6 +31,8 @@ namespace Gama.Atenciones.Business
             Fecha = DateTime.Now.Date;
             Hora = 0;
             Minutos = 0;
+
+            IsEncrypted = true;
         }
 
         public virtual void SetAtencion(Atencion atencion)
@@ -63,7 +65,7 @@ namespace Gama.Atenciones.Business
 
         public virtual Cita DecryptFluent()
         {
-            Asistente.Decrypt();
+            Decrypt();
             return this;
         }
 

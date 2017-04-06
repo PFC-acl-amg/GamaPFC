@@ -147,6 +147,11 @@ namespace Gama.Atenciones.Business
                 }
             }
 
+            //foreach (var cita in Citas)
+            //{
+            //    cita.Encrypt();
+            //}
+
             IsEncrypted = true;
         }
 
@@ -192,6 +197,11 @@ namespace Gama.Atenciones.Business
                         }
                     }
                 }
+
+                //foreach (var cita in Citas)
+                //{
+                //    cita.Decrypt();
+                //}
 
                 IsEncrypted = false;
             }

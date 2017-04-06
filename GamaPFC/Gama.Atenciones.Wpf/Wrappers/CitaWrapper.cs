@@ -135,6 +135,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
             Sala = cita.Sala;
             Hora = cita.Hora;
             Minutos = cita.Minutos;
+            Asistente = cita.Asistente;
             //Model.CopyValuesFrom(cita);
         }
 

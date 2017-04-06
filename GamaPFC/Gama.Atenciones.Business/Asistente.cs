@@ -26,13 +26,13 @@ namespace Gama.Atenciones.Business
         {
             EncryptedFields = new List<string>();
 
-            EncryptedFields.AddRange(new[] {
-                nameof(Nombre),
-                nameof(Nif),
-                nameof(Telefono),
-                nameof(Email),
-                nameof(Imagen)
-            });
+            //EncryptedFields.AddRange(new[] {
+            //    nameof(Nombre),
+            //    nameof(Nif),
+            //    nameof(Telefono),
+            //    nameof(Email),
+            //    nameof(Imagen)
+            //});
 
             IsEncrypted = true;
         }
