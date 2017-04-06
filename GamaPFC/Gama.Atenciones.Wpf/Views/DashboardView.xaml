@@ -202,13 +202,16 @@
                 <RowDefinition/>
               </Grid.RowDefinitions>
 
-              <Ellipse Height="55" Width="55" OpacityMask="{StaticResource _RadialGradientBrush}"
+              <Border BorderThickness="1"
+        CornerRadius="50,50,50,50" BorderBrush="LightGray" Background="#4C797B7D"
                          Margin="{StaticResource Margin}">
-                <Ellipse.Fill>
-                  <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Fill"/>
-                </Ellipse.Fill>
-              </Ellipse>
-              
+                <Ellipse Height="55" Width="55" OpacityMask="{StaticResource _RadialGradientBrush}">
+                  <Ellipse.Fill>
+                    <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                  </Ellipse.Fill>
+                </Ellipse>
+              </Border>
+
               <!--<Image Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" 
                      Margin="{StaticResource Margin}" Stretch="Fill" StretchDirection="Both">
                 <Image.BitmapEffect>
@@ -275,13 +278,20 @@
               <Grid.RowDefinitions>
                 <RowDefinition/>
               </Grid.RowDefinitions>
-
+              
               <Ellipse Height="55" Width="55" OpacityMask="{StaticResource _RadialGradientBrush}"
+                         Margin="{StaticResource Margin}">
+                <Ellipse.Fill>
+                  <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                </Ellipse.Fill>
+              </Ellipse>
+
+              <!--<Ellipse Height="55" Width="55" OpacityMask="{StaticResource _RadialGradientBrush}"
                          Margin="{StaticResource Margin}">
                 <Ellipse.Fill>
                   <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Fill"/>
                 </Ellipse.Fill>
-              </Ellipse>
+              </Ellipse>-->
               
               <!--<Image Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" 
                      Margin="{StaticResource Margin}" Stretch="Fill" StretchDirection="Both">

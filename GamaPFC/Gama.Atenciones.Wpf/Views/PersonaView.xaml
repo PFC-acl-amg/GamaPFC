@@ -14,6 +14,10 @@
              d:DesignHeight="535.274" d:DesignWidth="318.493">
   <UserControl.Resources>
     <util:BinaryImageConverter x:Key="_BinaryImageConverter" />
+    <RadialGradientBrush x:Key="_RadialGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9">
+      <GradientStop Color="#ffffffff" Offset="0.5" />
+      <GradientStop Color="#00ffffff" Offset="0.8" />
+    </RadialGradientBrush>
   </UserControl.Resources>
   <GroupBox Header="Datos Personales">
     <ScrollViewer>
@@ -39,8 +43,23 @@
             <!--MinHeight="105" MinWidth="200"
                   MaxHeight="105" MaxWidth="200"
             MaxHeight="70" MaxWidth="70"-->
-            <StackPanel Grid.ColumnSpan="2">
-              <Border  BorderBrush="Black" MinHeight="100" MaxHeight="100" BorderThickness="0" CornerRadius="1">
+            <StackPanel Grid.ColumnSpan="2" >
+              <!--<Border BorderThickness="1"
+                      HorizontalAlignment="Center"
+                      CornerRadius="50,50,50,50" BorderBrush="LightGray" Background="#4C797B7D"
+                         Margin="{StaticResource Margin}">-->
+              <Ellipse Height="135" Width="135" OpacityMask="{StaticResource _RadialGradientBrush}">
+                  <Ellipse.Fill>
+                    <ImageBrush ImageSource="{Binding Persona.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                  </Ellipse.Fill>
+                <i:Interaction.Triggers>
+                  <i:EventTrigger EventName="MouseDoubleClick">
+                    <prism:InvokeCommandAction Command="{Binding ExaminarAvatarCommand}"/>
+                  </i:EventTrigger>
+                </i:Interaction.Triggers>
+                </Ellipse>
+              <!--</Border>-->
+              <!--<Border  BorderBrush="Black" MinHeight="100" MaxHeight="100" BorderThickness="0" CornerRadius="1">
                 <Image x:Name="_AvatarHolder"
                   Stretch="Uniform" 
                        HorizontalAlignment="Center"
@@ -54,7 +73,7 @@
                     </i:EventTrigger>
                   </i:Interaction.Triggers>
                 </Image>
-              </Border>
+              </Border>-->
               <Label Margin="0" VerticalAlignment="Bottom" 
                      VerticalContentAlignment="Bottom" HorizontalAlignment="Center">
                 <Hyperlink Command="{Binding ExaminarAvatarCommand}" FontSize="9">Examinar...</Hyperlink>

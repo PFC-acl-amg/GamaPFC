@@ -14,6 +14,10 @@
              d:DesignHeight="535.274" d:DesignWidth="318.493">
   <UserControl.Resources>
     <util:BinaryImageConverter x:Key="_BinaryImageConverter" />
+    <RadialGradientBrush x:Key="_RadialGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9">
+      <GradientStop Color="#ffffffff" Offset="0.5" />
+      <GradientStop Color="#00ffffff" Offset="0.8" />
+    </RadialGradientBrush>
   </UserControl.Resources>
   <ScrollViewer>
     <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding Asistente.IsInEditionMode}">
@@ -33,22 +37,16 @@
           </Grid.ColumnDefinitions>
 
           <StackPanel Grid.ColumnSpan="2">
-            <Border MaxHeight="76" MaxWidth="76" BorderBrush="Black" BorderThickness="1" CornerRadius="1">
-              <Image x:Name="_AvatarHolder"
-                  MinHeight="40" MinWidth="40"
-                  MaxHeight="74" MaxWidth="74"
-                  Stretch="Fill" 
-                  Source="{Binding Asistente.Imagen, Converter={StaticResource _BinaryImageConverter}}">
-                <Image.BitmapEffect>
-                  <DropShadowBitmapEffect Color="Black" />
-                </Image.BitmapEffect>
-                <i:Interaction.Triggers>
-                  <i:EventTrigger EventName="MouseDoubleClick">
-                    <prism:InvokeCommandAction Command="{Binding ExaminarAvatarCommand}"/>
-                  </i:EventTrigger>
-                </i:Interaction.Triggers>
-              </Image>
-            </Border>
+            <Ellipse Height="135" Width="135" >
+              <Ellipse.Fill>
+                <ImageBrush ImageSource="{Binding Asistente.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+              </Ellipse.Fill>
+              <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                  <prism:InvokeCommandAction Command="{Binding ExaminarAvatarCommand}"/>
+                </i:EventTrigger>
+              </i:Interaction.Triggers>
+            </Ellipse>
             <Label Margin="0" VerticalAlignment="Bottom" 
                      VerticalContentAlignment="Bottom" HorizontalAlignment="Center">
               <Hyperlink Command="{Binding ExaminarAvatarCommand}" FontSize="9">Examinar...</Hyperlink>
