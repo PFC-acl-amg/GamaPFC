@@ -51,14 +51,14 @@ namespace Gama.Atenciones.Business
                 {
                     if (propertyName == nameof(Imagen))
                     {
-                        propertyInfo.SetValue(this, StringCipher.EncryptImage((byte[])propertyValue));
+                        propertyInfo.SetValue(this, Cipher.Encrypt((byte[])propertyValue));
                     }
                     else
                     {
                         var value = propertyValue.ToString();
                         if (!String.IsNullOrWhiteSpace(value))
                         {
-                            propertyInfo.SetValue(this, StringCipher.Encrypt(value));
+                            propertyInfo.SetValue(this, Cipher.Encrypt(value));
                         }
                     }
                 }
@@ -91,7 +91,7 @@ namespace Gama.Atenciones.Business
                         {
                             try
                             {
-                                propertyInfo.SetValue(this, StringCipher.DecryptImage((byte[])propertyValue));
+                                propertyInfo.SetValue(this, Cipher.Decrypt((byte[])propertyValue));
                             }
                             catch (Exception ex)
                             {
@@ -104,7 +104,7 @@ namespace Gama.Atenciones.Business
                             var value = propertyValue.ToString();
                             if (!String.IsNullOrWhiteSpace(value))
                             {
-                                propertyInfo.SetValue(this, StringCipher.Decrypt(value));
+                                propertyInfo.SetValue(this, Cipher.Decrypt(value));
                             }
                         }
                     }

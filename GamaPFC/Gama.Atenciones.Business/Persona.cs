@@ -132,25 +132,20 @@ namespace Gama.Atenciones.Business
 
                 if (propertyValue != null)
                 {
-                    if (propertyName == nameof(Imagen))
+                    if (propertyValue is byte[])
                     {
-                        propertyInfo.SetValue(this, StringCipher.EncryptImage2((byte[])propertyValue));
+                        propertyInfo.SetValue(this, Cipher.Encrypt((byte[])propertyValue));
                     }
-                    else
+                    else if (propertyValue is string)
                     {
-                        var value = propertyValue.ToString();
-                        if (!String.IsNullOrWhiteSpace(value))
+                        string value = propertyValue.ToString();
+                        if (!string.IsNullOrWhiteSpace(value))
                         {
-                            propertyInfo.SetValue(this, StringCipher.Encrypt(value));
+                            propertyInfo.SetValue(this, Cipher.Encrypt(value));
                         }
                     }
                 }
             }
-
-            //foreach (var cita in Citas)
-            //{
-            //    cita.Encrypt();
-            //}
 
             IsEncrypted = true;
         }
@@ -175,33 +170,20 @@ namespace Gama.Atenciones.Business
 
                     if (propertyValue != null)
                     {
-                        if (propertyName == nameof(Imagen))
+                        if (propertyValue is byte[])
                         {
-                            try
-                            {
-                                propertyInfo.SetValue(this, StringCipher.DecryptImage2((byte[])propertyValue));
-                            }
-                            catch (Exception ex)
-                            {
-                                var ok = ex.Message;
-                                throw;
-                            }
+                            propertyInfo.SetValue(this, Cipher.Decrypt((byte[])propertyValue));
                         }
-                        else
+                        else if (propertyValue is string)
                         {
-                            var value = propertyValue.ToString();
-                            if (!String.IsNullOrWhiteSpace(value))
+                            string value = propertyValue.ToString();
+                            if (!string.IsNullOrWhiteSpace(value))
                             {
-                                propertyInfo.SetValue(this, StringCipher.Decrypt(value));
+                                propertyInfo.SetValue(this, Cipher.Decrypt(value));
                             }
                         }
                     }
                 }
-
-                //foreach (var cita in Citas)
-                //{
-                //    cita.Decrypt();
-                //}
 
                 IsEncrypted = false;
             }

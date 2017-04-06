@@ -11,12 +11,12 @@ namespace Core.Util
     {
         public static string Encrypt(string cleanText)
         {
-            return StringCipher.Encrypt(cleanText);
+            return Cipher.Encrypt(cleanText);
         }
 
         public static string Decrypt(string encryptedText)
         {
-            return StringCipher.Decrypt(encryptedText);
+            return Cipher.Decrypt(encryptedText);
         }
     }
 }
