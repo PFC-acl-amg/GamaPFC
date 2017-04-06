@@ -148,6 +148,7 @@
     <Compile Include="Actions\CloseWindowAction.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Converters\ActividadViewToViewModelConverter.cs" />
+    <Compile Include="Converters\BinaryImageConverter.cs" />
     <Compile Include="Converters\BooleanToVisivilityConverter.cs" />
     <Compile Include="CooperacionModule.cs" />
     <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />
@@ -159,6 +160,7 @@
     <Compile Include="Eventos\ActividadActualizadaEvent.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaChangedEvent.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaEvent.cs" />
+    <Compile Include="Eventos\CooperanteCreadoEvent.cs" />
     <Compile Include="Eventos\NuevaActividadEvent.cs" />
     <Compile Include="Eventos\NuevaTareaCreadaEvent.cs" />
     <Compile Include="Eventos\NuevoForoCreadoEvent.cs" />

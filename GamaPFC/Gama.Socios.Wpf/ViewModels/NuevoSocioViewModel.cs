@@ -24,7 +24,7 @@ namespace Gama.Socios.Wpf.ViewModels
         public NuevoSocioViewModel(
             ISocioRepository socioRepository,
             IEventAggregator eventAggregator,
-            SocioViewModel socioViewModel,
+            SocioViewModel socioViewModel, // Lo necesita porque se apoya en el usercontrol SocioView y tiene que poder pasarle informacion
             ISession session)
         {
             _EventAggregator = eventAggregator;

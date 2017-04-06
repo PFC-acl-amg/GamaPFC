@@ -4,6 +4,7 @@ using Gama.Cooperacion.Business;
 using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Services;
 using Gama.Cooperacion.Wpf.Views;
+using Gama.Cooperacion.Wpf.Wrappers;
 using LiveCharts;
 using LiveCharts.Wpf;
 using NHibernate;
@@ -83,6 +84,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
             _eventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
+            _eventAggregator.GetEvent<CooperanteCreadoEvent>().Subscribe(PublicarCooperante);
 
             SelectActividadCommand = new DelegateCommand<LookupItem>(OnSelectActividadCommand);
             SelectCooperanteCommand = new DelegateCommand<Cooperante>(OnSelectCooperanteCommand);
@@ -91,6 +93,15 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             PaginaSiguienteCommand = new DelegateCommand(OnPaginaSiguienteCommandExecute);
             PaginaAnteriorCommand = new DelegateCommand(OnPaginaAnteriorCommandExecute);
             NuevoCooperanteCommand = new DelegateCommand(OnNuevoCooperanteCommandExecute);
+        }
+        private void PublicarCooperante(CooperanteWrapper CooperanteInsertado)
+        {
+            ListaParcialCooperantes.Clear();
+            ListaParcialCooperantes.Add(CooperanteInsertado.Model);
+            ListaCooperantes.Add(CooperanteInsertado.Model);
+            // En la lista de Socios se muestra solo a este socio
+            // En la zona de datos de socio selecionado se muestran los datos del nuevo cooperante creada
+            // Se muestar zona de botones para poder editar datos del socio creado
         }
         private void OnNuevaActividadCommandExecute()
         {
