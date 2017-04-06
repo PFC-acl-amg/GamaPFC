@@ -78,7 +78,7 @@ namespace Gama.Atenciones.DataAccess
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: false,
-                            execute: true,
+                            execute: false,
                             justDrop: false);
                     })
                 .BuildConfiguration();

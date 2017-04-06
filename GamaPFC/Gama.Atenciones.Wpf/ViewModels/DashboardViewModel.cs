@@ -224,6 +224,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 Imagen = persona.Imagen
             };
 
+            _Personas.Add(persona);
             Personas.Insert(0, lookupItem);
         }
 
@@ -347,7 +348,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnPersonaActualizadaEvent(int id)
         {
             var persona = _PersonaRepository.GetById(id);
-            //_PersonaRepository.Session.Evict(persona);
 
             var personaDesactualizada = Personas.Where(x => x.Id == id).FirstOrDefault();
             if (personaDesactualizada != null)
