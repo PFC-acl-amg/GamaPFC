@@ -6,13 +6,13 @@
                     xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
                     xmlns:prism="http://prismlibrary.com/">
   <ResourceDictionary.MergedDictionaries>
-    <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Templates/SearchBox.xaml"/>
+    <ResourceDictionary Source="pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Styles/SearchBox.xaml"/>
     <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Templates/CircleIconButton.xaml"/>
   </ResourceDictionary.MergedDictionaries>
 
   <Converters:DateConverter x:Key="DateConverter"/>
 
-  <Style  TargetType="{x:Type CustomControls:CustomCalendar}">
+  <!--<Style  TargetType="{x:Type CustomControls:CustomCalendar}">
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type  CustomControls:CustomCalendar}">
@@ -43,7 +43,7 @@
                 </StackPanel>
               </Grid>
 
-              <!-- Nombres de los días: Lunes, martes...-->
+              --><!-- Nombres de los días: Lunes, martes...--><!--
               <ItemsControl Grid.Row="1"
                 ItemsSource="{Binding DayNames, RelativeSource={RelativeSource FindAncestor, 
 					        AncestorType={x:Type  CustomControls:CustomCalendar}}}" DockPanel.Dock="Top">
@@ -74,15 +74,15 @@
 					                  AncestorType={x:Type  CustomControls:CustomCalendar}}}">
                 <ItemsControl.ItemTemplate>
                   <DataTemplate>
-                    <!-- -->
+                    --><!-- -->
                     <!-- Box -->
-                    <!-- -->
+                    <!-- --><!--
                     <Border BorderBrush="Black" BorderThickness="1" Padding="0" Margin="2">
                       <Border Name="InnerBorder" BorderBrush="Black" BorderThickness="2">
                         <Border.Style>
                           <Style TargetType="{x:Type Border}">
                             <Style.Triggers>
-                              <!--Current Day-->
+                              --><!--Current Day--><!--
                               <DataTrigger Binding="{Binding IsToday}" Value="true">
                                 <Setter Property="Border.Background">
                                   <Setter.Value>
@@ -115,7 +115,7 @@
                             <RowDefinition />
                           </Grid.RowDefinitions>
 
-                          <!-- Mes en texto (ENE, FEB, ...) -->
+                          --><!-- Mes en texto (ENE, FEB, ...) --><!--
                           <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <TextBlock TextAlignment="Left" VerticalAlignment="Center" Background="#FF307DBB"
                                        Padding="4,2,6,4"
@@ -124,11 +124,11 @@
                                        Text="{Binding Date.Month, Converter={StaticResource MonthNameConverter}}"/>
                           </StackPanel>
 
-                          <!-- -->
+                          --><!-- -->
                           <!-- Nueva Cita y Día del mes -->
-                          <!-- -->
+                          <!-- --><!--
                           <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <!-- Nueva Cita -->
+                            --><!-- Nueva Cita --><!--
                             <Button Background="Transparent" FontWeight="Light" BorderThickness="0"
                                     VerticalContentAlignment="Center"
                                     Margin="0,-4,0,0" FontSize="14"
@@ -139,7 +139,7 @@
                               +
                             </Button>
 
-                            <!-- Día del mes -->
+                            --><!-- Día del mes --><!--
                             <TextBlock TextAlignment="Right" 
                                        Text="{Binding Date, Converter={StaticResource DateConverter}, ConverterParameter=DAY}" 
                                        FontSize="12" Margin="4,2,4,4" >
@@ -155,9 +155,9 @@
                             </TextBlock>
                           </StackPanel>
 
-                          <!-- -->
+                          --><!-- -->
                           <!-- Lista de Appointments -->
-                          <!-- -->
+                          <!-- --><!--
                           <ListBox
                               x:Name="PART_AppointmentsListBox"
                               Grid.Row="1"
@@ -181,7 +181,7 @@
                                       <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <!-- Contenido de cada cita -->
+                                    --><!-- Contenido de cada cita --><!--
                                     <Grid>
                                       <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
@@ -204,7 +204,7 @@
                                       </StackPanel>
                                     </Grid>
 
-                                    <!-- Botón de agregar atención -->
+                                    --><!-- Botón de agregar atención --><!--
                                     <StackPanel HorizontalAlignment="Right" Grid.Column="1"
                                                 VerticalAlignment="Center">
                                       <Button Margin="4,2,4,2" VerticalAlignment="Center"
@@ -261,7 +261,7 @@
         </ControlTemplate>
       </Setter.Value>
     </Setter>
-  </Style>
+  </Style>-->
   
   
  

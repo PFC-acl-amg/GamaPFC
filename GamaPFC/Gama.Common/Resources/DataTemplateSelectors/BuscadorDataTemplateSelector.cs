@@ -16,7 +16,9 @@ namespace Gama.Common.Resources.DataTemplateSelectors
             if (item is string)
                 return App.Current.Resources["EsperarResultadoDataTemplate"] as DataTemplate;
             else if (item is LookupItem)
+            {
                 return App.Current.Resources["ResultadoDataTemplate"] as DataTemplate;
+            }
             else
                 return null;
         }
