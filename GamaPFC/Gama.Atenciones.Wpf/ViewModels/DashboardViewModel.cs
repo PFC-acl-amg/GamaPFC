@@ -86,6 +86,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
 
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
+
+            _EventAggregator.GetEvent<PersonaEnBusquedaEvent>().Subscribe(OnPersonaEnBusquedaEvent);
         }
 
         private LookupItem _PersonaSeleccionada;
@@ -190,6 +192,17 @@ namespace Gama.Atenciones.Wpf.ViewModels
             OnPropertyChanged(nameof(Personas));
             OnPropertyChanged(nameof(Atenciones));
             OnPropertyChanged(nameof(ProximasCitas));
+        }
+
+        private void OnPersonaEnBusquedaEvent(string textoDeBusqueda)
+        {
+            Personas = new ObservableCollection<LookupItem>(
+                              _Personas
+                              .Where(p => p.Nombre.Contains(textoDeBusqueda.Trim()))
+                              .OrderBy(p => p.Nombre)
+                              .Select(_PersonaToLookupItemFunc));
+
+            OnPropertyChanged(nameof(Personas));
         }
 
         private void OnSelectAtencionCommandExecute(LookupItem atencionLookupItem)

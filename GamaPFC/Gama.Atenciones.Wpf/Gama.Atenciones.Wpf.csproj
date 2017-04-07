@@ -224,6 +224,7 @@
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="UIEvents\ActiveViewChanged.cs" />
     <Compile Include="DataTemplateSelectors\ViewModelDataTemplateSelector.cs" />
+    <Compile Include="UIEvents\PersonaEnBusquedaEvent.cs" />
     <Compile Include="ViewModels\AsistentesContentViewModel.cs" />
     <Compile Include="ViewModels\AsistenteViewModel.cs" />
     <Compile Include="ViewModels\CitasContentViewModel.cs" />

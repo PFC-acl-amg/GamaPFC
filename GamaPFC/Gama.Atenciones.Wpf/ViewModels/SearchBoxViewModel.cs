@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Gama.Atenciones.Business;
+using Gama.Atenciones.Wpf.UIEvents;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -69,6 +70,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnSearchCommandExecute()
         {
+            _EventAggregator.GetEvent<PersonaEnBusquedaEvent>().Publish(TextoDeBusqueda);
             _ResultadoDeBusqueda = Personas.Where(
              p => p.DisplayMember1.ToLower().Contains(TextoDeBusqueda.Trim().ToLower()));
 
