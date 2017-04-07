@@ -62,7 +62,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
 
 
-            UltimasActividades = new ObservableCollection<LookupItem>(
+            ListaDeActividades = new ObservableCollection<LookupItem>(
                 _actividadRepository.GetAll()
                     .OrderBy(a => a.FechaDeFin)
                     .Take(_settings.DashboardActividadesAMostrar)
@@ -153,7 +153,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 this.Text = text;
             }
         }
-        public ObservableCollection<LookupItem> UltimasActividades { get; private set; }
+        public ObservableCollection<LookupItem> ListaDeActividades { get; private set; }
         public ObservableCollection<Cooperante> ListaCooperantes { get; private set; }
         public ObservableCollection<Cooperante> ListaParcialCooperantes { get; private set; }
 
@@ -252,23 +252,21 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             var lookupItem = new LookupItem
             {
                 Id = actividad.Id,
-                DisplayMember1 = LookupItem.ShortenStringForDisplay(actividad.Titulo,
-                        _settings.DashboardActividadesLongitudDeTitulos)
+                DisplayMember1 = actividad.Titulo,
             };
-            UltimasActividades.Insert(0, lookupItem);
+            ListaDeActividades.Insert(0, lookupItem);
         }
 
         private void OnActividadActualizadaEvent(int id)
         {
             var actividadActualizada = _actividadRepository.GetById(id);
-            if (UltimasActividades.Any(a => a.Id == id))
+            if (ListaDeActividades.Any(a => a.Id == id))
             {
-                var indice = UltimasActividades.IndexOf(UltimasActividades.Single(a => a.Id == id));
-                UltimasActividades[indice] = new LookupItem
+                var indice = ListaDeActividades.IndexOf(ListaDeActividades.Single(a => a.Id == id));
+                ListaDeActividades[indice] = new LookupItem
                 {
                     Id = actividadActualizada.Id,
-                    DisplayMember1 = LookupItem.ShortenStringForDisplay(actividadActualizada.Titulo,
-                            _settings.DashboardActividadesLongitudDeTitulos)
+                    DisplayMember1=actividadActualizada.Titulo
                 };
             }
         }

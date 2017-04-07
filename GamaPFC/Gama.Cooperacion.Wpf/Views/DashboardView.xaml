@@ -167,7 +167,7 @@
             <StackPanel Name="ListaActividades" Grid.Row="1" Margin="50,0,0,0" Visibility="{Binding VisibleListaActividades, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto">
-                    <ListBox ItemsSource="{Binding UltimasActividades}"
+                    <ListBox ItemsSource="{Binding ListaDeActividades}"
                              x:Name="listBox"
                              SelectionMode="Single"
                              ScrollViewer.VerticalScrollBarVisibility="Auto">

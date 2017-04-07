@@ -77,8 +77,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
         private bool OnAceptarCommand_CanExecute()
         {
-            //var resultado = Actividad.Titulo != null && Actividad.Coordinador.Nombre != null;
-            //return resultado;
             var Activar = NuevoCooperante.Nombre != null && NuevoCooperante.Apellido != null &&
                           NuevoCooperante.Dni != null && NuevoCooperante.telefono != null;
             return Activar;
