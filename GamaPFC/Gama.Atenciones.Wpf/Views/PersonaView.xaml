@@ -14,6 +14,10 @@
              d:DesignHeight="535.274" d:DesignWidth="318.493">
   <UserControl.Resources>
     <util:BinaryImageConverter x:Key="_BinaryImageConverter" />
+    <RadialGradientBrush x:Key="_RadialGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9">
+      <GradientStop Color="#ffffffff" Offset="0.5" />
+      <GradientStop Color="#00ffffff" Offset="0.8" />
+    </RadialGradientBrush>
   </UserControl.Resources>
   <GroupBox Header="Datos Personales">
     <ScrollViewer>
@@ -22,23 +26,43 @@
           <ColumnDefinition Width="*" MaxWidth="300"/>
           <ColumnDefinition Width="*" MaxWidth="300"/>
         </Grid.ColumnDefinitions>
+        
         <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
           <RowDefinition Height="Auto"/>
           <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        
         <StackPanel Grid.ColumnSpan="2">
           <Grid>
             <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto"/>
+              <ColumnDefinition Width="*"/>
               <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel>
-              <Border MaxHeight="70" MaxWidth="70" BorderBrush="Black" BorderThickness="1" CornerRadius="1">
+            <!--MinHeight="105" MinWidth="200"
+                  MaxHeight="105" MaxWidth="200"
+            MaxHeight="70" MaxWidth="70"-->
+            <StackPanel Grid.ColumnSpan="2" >
+              <!--<Border BorderThickness="1"
+                      HorizontalAlignment="Center"
+                      CornerRadius="50,50,50,50" BorderBrush="LightGray" Background="#4C797B7D"
+                         Margin="{StaticResource Margin}">-->
+              <Ellipse Height="135" Width="135" OpacityMask="{StaticResource _RadialGradientBrush}">
+                  <Ellipse.Fill>
+                    <ImageBrush ImageSource="{Binding Persona.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                  </Ellipse.Fill>
+                <i:Interaction.Triggers>
+                  <i:EventTrigger EventName="MouseDoubleClick">
+                    <prism:InvokeCommandAction Command="{Binding ExaminarAvatarCommand}"/>
+                  </i:EventTrigger>
+                </i:Interaction.Triggers>
+                </Ellipse>
+              <!--</Border>-->
+              <!--<Border  BorderBrush="Black" MinHeight="100" MaxHeight="100" BorderThickness="0" CornerRadius="1">
                 <Image x:Name="_AvatarHolder"
-                  MinHeight="40" MinWidth="40"
-                  MaxHeight="68" MaxWidth="68"
-                  Stretch="Fill" 
+                  Stretch="Uniform" 
+                       HorizontalAlignment="Center"
                   Source="{Binding Persona.Imagen, Converter={StaticResource _BinaryImageConverter}}">
                   <Image.BitmapEffect>
                     <DropShadowBitmapEffect Color="Black" />
@@ -49,22 +73,30 @@
                     </i:EventTrigger>
                   </i:Interaction.Triggers>
                 </Image>
-              </Border>
+              </Border>-->
               <Label Margin="0" VerticalAlignment="Bottom" 
-                     VerticalContentAlignment="Bottom" HorizontalAlignment="Right">
+                     VerticalContentAlignment="Bottom" HorizontalAlignment="Center">
                 <Hyperlink Command="{Binding ExaminarAvatarCommand}" FontSize="9">Examinar...</Hyperlink>
               </Label>
             </StackPanel>
 
-            <StackPanel Grid.Column="1">
-              <Label Margin="{DynamicResource Margin}">DNI/NIF</Label>
+            <StackPanel Grid.Column="2">
+              <!--<Label Margin="{DynamicResource Margin}">DNI/NIF</Label>
               <TextBox Margin="{DynamicResource Margin}" 
                        Text="{Binding Persona.Nif, UpdateSourceTrigger=PropertyChanged}"
-                        MinWidth="80"/>
+                        MinWidth="80"/>-->
             </StackPanel>
           </Grid>
         </StackPanel>
-        <StackPanel Grid.Row="1">
+
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+          <Label Margin="{DynamicResource Margin}">DNI/NIF</Label>
+          <TextBox Margin="{DynamicResource Margin}" 
+                       Text="{Binding Persona.Nif, UpdateSourceTrigger=PropertyChanged}"
+                        MinWidth="80"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="0">
           <Label Margin="{DynamicResource Margin}">Nombre</Label>
           <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Nombre, UpdateSourceTrigger=PropertyChanged}"/>
 
@@ -93,7 +125,8 @@
                         ItemsSource="{Binding Source={util:EnumBindingSource {x:Type business:OrientacionSexual}}}"
                         SelectedItem="{Binding Persona.OrientacionSexual, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="1">
+        
+        <StackPanel Grid.Column="1" Grid.Row="2">
           <Label Margin="{DynamicResource Margin}">Email</Label>
           <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Email, UpdateSourceTrigger=PropertyChanged}"/>
 

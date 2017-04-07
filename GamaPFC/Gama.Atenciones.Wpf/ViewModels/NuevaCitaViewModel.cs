@@ -40,6 +40,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void Cita_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            OnPropertyChanged(nameof(Cita.Atencion));
             ((DelegateCommand)AceptarCommand).RaiseCanExecuteChanged();
         }
 
@@ -91,6 +92,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
                 Asistentes = new List<Asistente>(_AsistenteRepository.GetAll());
                 OnPropertyChanged(nameof(Asistentes));
+
+                if (EnEdicionDeCitaExistente)
+                {
+                    Cita.Asistente = Asistentes.Find(a => a.Id == Cita.Asistente.Id);
+                }
             }
         }
 
@@ -111,7 +117,17 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 citaActualizada.CopyValuesFrom(Cita.Model);
             }
 
+            List<Asistente> asistentes = Persona.Citas.Select(x => x.Asistente).Distinct().ToList();
+
+            foreach(var cita in Persona.Citas)
+            {
+                cita.Asistente = asistentes.Where(a => a.Id == cita.Asistente.Id).First();
+            }
+
+            asistentes = new List<Asistente>();
+
             _PersonaRepository.Update(Persona.Model);
+            //_CitaRepository.Create(Cita.Model);
             Persona.AcceptChanges();
 
             if (!EnEdicionDeCitaExistente)

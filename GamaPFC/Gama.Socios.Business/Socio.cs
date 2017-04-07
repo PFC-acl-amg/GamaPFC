@@ -129,11 +129,11 @@ namespace Gama.Socios.Business
                 {
                     if (propertyName == nameof(ImagenSocio))
                     {
-                        propertyInfo.SetValue(this, StringCipher.EncryptImage((byte[])propertyValue));
+                        propertyInfo.SetValue(this, Cipher.Encrypt((byte[])propertyValue));
                     }
                     else
                     {
-                        propertyInfo.SetValue(this, StringCipher.Encrypt(propertyValue.ToString()));
+                        propertyInfo.SetValue(this, Cipher.Encrypt(propertyValue.ToString()));
                     }
                 }
             }
@@ -165,7 +165,7 @@ namespace Gama.Socios.Business
                         {
                             try
                             {
-                                propertyInfo.SetValue(this, StringCipher.DecryptImage((byte[])propertyValue));
+                                propertyInfo.SetValue(this, Cipher.Decrypt((byte[])propertyValue));
                             }
                             catch (Exception ex)
                             {
@@ -175,7 +175,7 @@ namespace Gama.Socios.Business
                         }
                         else
                         {
-                            propertyInfo.SetValue(this, StringCipher.Decrypt(propertyValue.ToString()));
+                            propertyInfo.SetValue(this, Cipher.Decrypt(propertyValue.ToString()));
                         }
                     }
                 }

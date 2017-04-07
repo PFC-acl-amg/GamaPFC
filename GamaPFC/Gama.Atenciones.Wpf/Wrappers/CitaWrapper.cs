@@ -31,7 +31,10 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public string AsistenteEnTexto
         {
-            get { return GetValue<string>(); }
+            get
+            {
+                return Model.Asistente != null ? Model.Asistente.Nombre : "";
+            }
             set { SetValue(value); }
         }
 
@@ -117,6 +120,12 @@ namespace Gama.Atenciones.Wpf.Wrappers
             }
         }
 
+        public Asistente Asistente
+        {
+            get { return GetValue<Asistente>(); }
+            set { SetValue(value); }
+        }
+
         public void CopyValuesFrom(Cita cita)
         {
             Id = cita.Id;
@@ -126,6 +135,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
             Sala = cita.Sala;
             Hora = cita.Hora;
             Minutos = cita.Minutos;
+            Asistente = cita.Asistente;
             //Model.CopyValuesFrom(cita);
         }
 
@@ -136,11 +146,13 @@ namespace Gama.Atenciones.Wpf.Wrappers
                 yield return new ValidationResult("El campo de fecha es obligatorio",
                     new[] { nameof(Fecha) });
             }
-            if (string.IsNullOrWhiteSpace(AsistenteEnTexto))
+
+            if (Model.Asistente == null || string.IsNullOrWhiteSpace(Model.Asistente.Nombre))
             {
                 yield return new ValidationResult("El campo de asistente es obligatorio",
                     new[] { nameof(Asistente) });
             }
+
             if (string.IsNullOrWhiteSpace(Sala))
             {
                 yield return new ValidationResult("El campo de sala es obligatorio",

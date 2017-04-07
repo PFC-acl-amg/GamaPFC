@@ -38,12 +38,20 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 imagenAuxiliar.UriSource = new Uri(openFileDialog.FileName);
                 imagenAuxiliar.EndInit();
 
+                //var imagenAuxiliar2 = new BitmapImage();
+                //imagenAuxiliar2.BeginInit();
+                //imagenAuxiliar2.UriSource = new Uri(openFileDialog.FileName);
+                //imagenAuxiliar2.Width = imagenAuxiliar.Width;
+                //imagenAuxiliar2.EndInit();
+
+
                 string imagenPath = imagenAuxiliar.UriSource.OriginalString;
                 FileStream imagenFileStream = new FileStream(imagenPath, FileMode.Open, FileAccess.Read);
                 byte[] bytes = new byte[imagenFileStream.Length];
                 imagenFileStream.Read(bytes, 0, bytes.Length);
 
-                Persona.Imagen = bytes;
+                Persona.Imagen = bytes; 
+
             }
         }
 

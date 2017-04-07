@@ -32,14 +32,15 @@ namespace Gama.Atenciones.Wpf.Converters
                 {
                     image.EndInit();
                 }
-                catch (Exception)
+                catch (NotSupportedException ex)
                 {
-                    BitmapImage image2 = new BitmapImage();
-                    image2.BeginInit();
+                    throw;
+                    //BitmapImage image2 = new BitmapImage();
+                    //image2.BeginInit();
                     
-                    //image2.UriSource = new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png");
-                    image2.EndInit();
-                    return image2;
+                    ////image2.UriSource = new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png");
+                    //image2.EndInit();
+                    //return image2;
                 }
 
                 return image;

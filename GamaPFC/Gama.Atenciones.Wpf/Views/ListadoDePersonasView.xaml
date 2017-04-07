@@ -9,6 +9,7 @@
              xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
+             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              mc:Ignorable="d" 
@@ -54,28 +55,47 @@
         <DataTemplate>
           <GroupBox>
             <Grid>
+              <Grid.Style>
+                <Style TargetType="Grid">
+                  <Setter Property="Background" Value="Transparent"/>
+                  <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                      <Setter Property="Background" Value="{StaticResource AccentAzulBrush}"/>
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+              </Grid.Style>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80" />
-                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="85" />
+                <ColumnDefinition Width="85"/>
               </Grid.ColumnDefinitions>
               <Grid.RowDefinitions>
-                <RowDefinition Height="80"/>
+                <RowDefinition Height="100"/>
                 <RowDefinition  Height="Auto"/>
               </Grid.RowDefinitions>
 
-              <Image Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" 
+              <Ellipse Height="85" Width="85" Grid.ColumnSpan="2"
+                         Margin="{StaticResource Margin}">
+                <Ellipse.Fill>
+                  <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                </Ellipse.Fill>
+              </Ellipse>
+
+              <!--<Image Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" 
                 Stretch="Uniform" MaxHeight="70" Grid.ColumnSpan="2"
                      Margin="{StaticResource Margin}">
                 <Image.BitmapEffect>
                   <DropShadowBitmapEffect Color="Black" />
                 </Image.BitmapEffect>
-              </Image>
+              </Image>-->
 
               <StackPanel Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center">
                 <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center"
+                           FontSize="13"
                            TextWrapping="Wrap"
                            HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
                 <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center"
+                           FontSize="13"
                            TextWrapping="Wrap" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
               </StackPanel>
             </Grid>

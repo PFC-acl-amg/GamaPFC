@@ -16,6 +16,10 @@
   <UserControl.Resources>
     <converters:BinaryImageConverter x:Key="_BinaryImageConverter" />
     <BooleanToVisibilityConverter x:Key="_BooleanToVisibilityConverter"/>
+    <RadialGradientBrush x:Key="_RadialGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9">
+      <GradientStop Color="#ffffffff" Offset="0.5" />
+      <GradientStop Color="#00ffffff" Offset="0.8" />
+    </RadialGradientBrush>
   </UserControl.Resources>
   <Grid>
     <Grid.ColumnDefinitions>
@@ -47,14 +51,20 @@
                 <RowDefinition Height="Auto"/>
               </Grid.RowDefinitions>
               
-              <Image
+              <Ellipse Height="80" Width="80" OpacityMask="{StaticResource _RadialGradientBrush}">
+              <Ellipse.Fill>
+                <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+              </Ellipse.Fill>
+            </Ellipse>
+              
+              <!--<Image
                 Grid.Row="0"
                 MinHeight="40" MinWidth="40"
                 MaxHeight="68" MaxWidth="68"
                 Margin="{StaticResource Margin}"
                 Stretch="Fill" 
                 Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}">
-                <!--<Image.Style>
+                --><!--<Image.Style>
                   <Style TargetType="Image">
                     <Style.Triggers>
                       <Trigger Property="IsMouseOver" Value="True">
@@ -66,8 +76,8 @@
                       </Trigger>
                     </Style.Triggers>
                   </Style>
-                </Image.Style>-->
-              </Image>
+                </Image.Style>--><!--
+              </Image>-->
 
     <TextBlock Margin="{StaticResource Margin}" Text="{Binding Nombre}" Grid.Row="1"/>
   </Grid>

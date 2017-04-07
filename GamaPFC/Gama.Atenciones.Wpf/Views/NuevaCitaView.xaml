@@ -70,8 +70,8 @@
         <Label Margin="{StaticResource Margin}">Asistente</Label>
         <ComboBox Margin="{StaticResource Margin}"
           ItemsSource="{Binding Asistentes}"
-                  SelectedItem="{Binding AsistenteSeleccionado}"
-                  DisplayMemberPath="Nombre"/>
+          SelectedItem="{Binding Cita.Asistente, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          DisplayMemberPath="Nombre"/>
         <!--<TextBox Margin="{StaticResource Margin}" Text="{Binding Cita.AsistenteEnTexto, UpdateSourceTrigger=PropertyChanged}"/>-->
       </StackPanel>
 

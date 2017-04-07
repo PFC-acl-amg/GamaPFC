@@ -19,6 +19,13 @@
   </d:DataContext>
   <UserControl.Resources>
     <converters:BinaryImageConverter x:Key="_BinaryImageConverter" />
+
+
+    <RadialGradientBrush x:Key="_RadialGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9">
+      <GradientStop Color="#ffffffff" Offset="0.5" />
+      <GradientStop Color="#00ffffff" Offset="0.8" />
+    </RadialGradientBrush>
+
     <DataTemplate x:Key="_LookupItemDataTemplate">
       <Grid>
         <Grid.ColumnDefinitions>
@@ -98,33 +105,42 @@
           <DataTemplate>
             <Grid>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="45" />
+                <ColumnDefinition Width="65" />
                 <ColumnDefinition Width="Auto" MinWidth="200"/>
                 <ColumnDefinition/>
               </Grid.ColumnDefinitions>
               <Grid.RowDefinitions>
                 <RowDefinition/>
               </Grid.RowDefinitions>
+                <Border BorderThickness="1"
+        CornerRadius="50,50,50,50" BorderBrush="LightGray" Background="#4C797B7D"
+                         Margin="{StaticResource Margin}">
+                <Ellipse Height="55" Width="55" OpacityMask="{StaticResource _RadialGradientBrush}">
+                  <Ellipse.Fill>
+                    <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                  </Ellipse.Fill>
+                  </Ellipse>
+                </Border>
 
-              <Image Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" 
+                <!--<Image Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" 
                      Margin="{StaticResource Margin}" Stretch="Fill" StretchDirection="Both">
                 <Image.BitmapEffect>
                   <DropShadowBitmapEffect Color="Black" />
                 </Image.BitmapEffect>
-              </Image>
+              </Image>-->
               
-              <StackPanel Grid.Column="1">
-                <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
-                <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+              <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <TextBlock FontSize="13" Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                <TextBlock FontSize="13" Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
               </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
                   <cc:CircleIconButton
                     Icon="{StaticResource appbar_arrow_right}"
-                    Width="46"
-                    Height="46"
-                    IconWidth="16"
-                    IconHeight="16"
+                    Width="49"
+                    Height="49"
+                    IconWidth="17"
+                    IconHeight="17"
                     Margin="{StaticResource Margin}"
                     Command="{Binding RelativeSource =
                       {RelativeSource FindAncestor,
@@ -178,7 +194,7 @@
           <DataTemplate>
             <Grid>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="45" />
+                <ColumnDefinition Width="65" />
                 <ColumnDefinition Width="Auto" MinWidth="200"/>
                 <ColumnDefinition/>
               </Grid.ColumnDefinitions>
@@ -186,16 +202,26 @@
                 <RowDefinition/>
               </Grid.RowDefinitions>
 
-              <Image Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" 
+              <Border BorderThickness="1"
+        CornerRadius="50,50,50,50" BorderBrush="LightGray" Background="#4C797B7D"
+                         Margin="{StaticResource Margin}">
+                <Ellipse Height="55" Width="55" OpacityMask="{StaticResource _RadialGradientBrush}">
+                  <Ellipse.Fill>
+                    <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                  </Ellipse.Fill>
+                </Ellipse>
+              </Border>
+
+              <!--<Image Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" 
                      Margin="{StaticResource Margin}" Stretch="Fill" StretchDirection="Both">
                 <Image.BitmapEffect>
                   <DropShadowBitmapEffect Color="Black" />
                 </Image.BitmapEffect>
-              </Image>
+              </Image>-->
 
               <StackPanel Grid.Column="1">
-                <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
-                <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                <TextBlock FontSize="13" Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                <TextBlock FontSize="13" Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
               </StackPanel>
 
               <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
@@ -245,24 +271,38 @@
           <DataTemplate>
             <Grid>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="45" />
+                <ColumnDefinition Width="65" />
                 <ColumnDefinition Width="Auto" MinWidth="200"/>
                 <ColumnDefinition/>
               </Grid.ColumnDefinitions>
               <Grid.RowDefinitions>
                 <RowDefinition/>
               </Grid.RowDefinitions>
+              
+              <Ellipse Height="55" Width="55" OpacityMask="{StaticResource _RadialGradientBrush}"
+                         Margin="{StaticResource Margin}">
+                <Ellipse.Fill>
+                  <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                </Ellipse.Fill>
+              </Ellipse>
 
-              <Image Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" 
+              <!--<Ellipse Height="55" Width="55" OpacityMask="{StaticResource _RadialGradientBrush}"
+                         Margin="{StaticResource Margin}">
+                <Ellipse.Fill>
+                  <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Fill"/>
+                </Ellipse.Fill>
+              </Ellipse>-->
+              
+              <!--<Image Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" 
                      Margin="{StaticResource Margin}" Stretch="Fill" StretchDirection="Both">
                 <Image.BitmapEffect>
                   <DropShadowBitmapEffect Color="Black" />
                 </Image.BitmapEffect>
-              </Image>
+              </Image>-->
 
               <StackPanel Grid.Column="1">
-                <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
-                <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                <TextBlock FontSize="13" Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                <TextBlock FontSize="13" Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
               </StackPanel>
 
               <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
