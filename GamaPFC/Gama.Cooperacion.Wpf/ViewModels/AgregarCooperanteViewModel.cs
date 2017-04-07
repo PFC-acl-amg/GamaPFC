@@ -39,11 +39,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             NuevoCooperante = new CooperanteWrapper(new Cooperante());
             ExaminarFotoCommand = new DelegateCommand(OnExaminarFotoCommandExecute);
             AceptarCommand = new DelegateCommand(OnAceptarCommand_Execute, OnAceptarCommand_CanExecute);
+            CancelarCommand = new DelegateCommand(OnCancelarCommand_Execute, OnCancelarCommand_CanExecute);
 
-            
         }
         
         public ICommand AceptarCommand { get; set; }
+        public ICommand CancelarCommand { get; set; }
         public ICommand ExaminarFotoCommand { get; private set; }
         private void OnExaminarFotoCommandExecute()
         {
@@ -72,9 +73,22 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             NuevoCooperante.CreatedAt = DateTime.Now;
             _CooperanteRepository.Create(NuevoCooperante.Model);
            _EventAggregator.GetEvent<CooperanteCreadoEvent>().Publish(NuevoCooperante);
-            //Cerrar = true;
+            Cerrar = true;
         }
         private bool OnAceptarCommand_CanExecute()
+        {
+            //var resultado = Actividad.Titulo != null && Actividad.Coordinador.Nombre != null;
+            //return resultado;
+            var Activar = NuevoCooperante.Nombre != null && NuevoCooperante.Apellido != null &&
+                          NuevoCooperante.Dni != null && NuevoCooperante.telefono != null;
+            return Activar;
+
+        }
+        private void OnCancelarCommand_Execute()
+        {
+            Cerrar = true;
+        }
+        private bool OnCancelarCommand_CanExecute()
         {
             return true;
         }
@@ -87,6 +101,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             get { return _NuevoCooperante; }
             set { SetProperty(ref _NuevoCooperante, value); }
+        }
+        public bool? Cerrar
+        {
+            get { return _Cerrar; }
+            set { SetProperty(ref _Cerrar, value); }
         }
         public double TamW
         {
