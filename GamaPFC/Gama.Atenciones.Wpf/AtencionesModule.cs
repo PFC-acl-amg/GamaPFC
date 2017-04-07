@@ -86,33 +86,33 @@ namespace Gama.Atenciones.Wpf
                     for (int i = 0; i < personas.Count; i++)
                     {
                         var persona = personas[i];
-                        var cita = citas[i];
-                        var atencion = atenciones[i];
-                        var derivacion = new Derivacion
-                        {
-                            Id = 0,
-                            Atencion = atencion,
-                            EsDeFormacion = opciones[random.Next(0, 8)],
-                            EsDeFormacion_Realizada = opciones[random.Next(0, 8)],
-                            EsDeOrientacionLaboral = opciones[random.Next(0, 8)],
-                            EsDeOrientacionLaboral_Realizada = opciones[random.Next(0, 8)],
-                            EsExterna = opciones[random.Next(0, 8)],
-                            EsExterna_Realizada = opciones[random.Next(0, 8)],
-                            EsJuridica = opciones[random.Next(0, 8)],
-                            EsJuridica_Realizada = opciones[random.Next(0, 8)],
-                            EsPsicologica = opciones[random.Next(0, 8)],
-                            EsPsicologica_Realizada = opciones[random.Next(0, 8)],
-                            EsSocial = opciones[random.Next(0, 8)],
-                            EsSocial_Realizada = opciones[random.Next(0, 8)],
-                            Externa = "Externa",
-                            Externa_Realizada = "Externa realizada",
-                            Tipo = "",
-                        };
+                        //var cita = citas[i];
+                        //var atencion = atenciones[i];
+                        //var derivacion = new Derivacion
+                        //{
+                        //    Id = 0,
+                        //    Atencion = atencion,
+                        //    EsDeFormacion = opciones[random.Next(0, 8)],
+                        //    EsDeFormacion_Realizada = opciones[random.Next(0, 8)],
+                        //    EsDeOrientacionLaboral = opciones[random.Next(0, 8)],
+                        //    EsDeOrientacionLaboral_Realizada = opciones[random.Next(0, 8)],
+                        //    EsExterna = opciones[random.Next(0, 8)],
+                        //    EsExterna_Realizada = opciones[random.Next(0, 8)],
+                        //    EsJuridica = opciones[random.Next(0, 8)],
+                        //    EsJuridica_Realizada = opciones[random.Next(0, 8)],
+                        //    EsPsicologica = opciones[random.Next(0, 8)],
+                        //    EsPsicologica_Realizada = opciones[random.Next(0, 8)],
+                        //    EsSocial = opciones[random.Next(0, 8)],
+                        //    EsSocial_Realizada = opciones[random.Next(0, 8)],
+                        //    Externa = "Externa",
+                        //    Externa_Realizada = "Externa realizada",
+                        //    Tipo = "",
+                        //};
 
-                        atencion.Derivacion = derivacion;
+                        //atencion.Derivacion = derivacion;
 
-                        cita.SetAtencion(atencion);
-                        persona.AddCita(citas[i]);
+                        //cita.SetAtencion(atencion);
+                        //persona.AddCita(citas[i]);
 
                         personaRepository.Create(persona);
                     }

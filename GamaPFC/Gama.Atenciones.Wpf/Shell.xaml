@@ -26,16 +26,6 @@
     <sys:Double x:Key="_SocialIconSize">13</sys:Double>
     <sys:Double x:Key="WindowTitleFontSize">14</sys:Double>
     <converters:BooleanToVisivilityConverter x:Key="_BooleanToVisibilityConverter"/>
-    <DataTemplate DataType="{x:Type viewModels:PersonasContentViewModel}">
-      <views:PersonasContentView />
-    </DataTemplate>
-    <DataTemplate  DataType="{x:Type viewModels:DashboardViewModel}">
-      <views:DashboardView />
-    </DataTemplate>
-    <DataTemplate  DataType="{x:Type viewModels:CitasContentViewModel}">
-      <views:CitasContentView />
-    </DataTemplate>
-    <dataTemplateSelectors:ViewModelDataTemplateSelector x:Key="_ViewModelDataTemplateSelector"/>
   </mahapps:MetroWindow.Resources>
 
   <!--#region Icon Template y Windows Commands -->
