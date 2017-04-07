@@ -26,7 +26,7 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<object, EditarAtencionesView>("EditarAtencionesView");
             Container.RegisterType<object, EditarCitasView>("EditarCitasView");
             Container.RegisterType<object, EditarPersonaView>("EditarPersonaView");
-            Container.RegisterType<object, GraficasView>("GraficasView");
+            Container.RegisterType<object, GraficasContentView>("GraficasContentView");
             Container.RegisterType<object, ListadoDePersonasView>("ListadoDePersonasView");
             Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
             Container.RegisterType<object, PersonasContentView>("PersonasContentView");
@@ -41,7 +41,7 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<EditarAtencionesViewModel>();
             Container.RegisterType<EditarCitasViewModel>();
             Container.RegisterType<EditarPersonaViewModel>();
-            Container.RegisterType<GraficasViewModel>();
+            Container.RegisterType<GraficasContentViewModel>();
             Container.RegisterType<ListadoDePersonasViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
             Container.RegisterType<PersonasContentViewModel>(new ContainerControlledLifetimeManager());

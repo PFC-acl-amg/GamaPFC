@@ -271,8 +271,8 @@
     <Compile Include="Views\PreferenciasView.xaml.cs">
       <DependentUpon>PreferenciasView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GraficasView.xaml.cs">
-      <DependentUpon>GraficasView.xaml</DependentUpon>
+    <Compile Include="Views\GraficasContentView.xaml.cs">
+      <DependentUpon>GraficasContentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ListadoDePersonasView.xaml.cs">
       <DependentUpon>ListadoDePersonasView.xaml</DependentUpon>
@@ -382,7 +382,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GraficasView.xaml">
+    <Page Include="Views\GraficasContentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

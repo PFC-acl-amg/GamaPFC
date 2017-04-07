@@ -18,9 +18,9 @@ namespace Gama.Atenciones.Wpf.Views
     /// <summary>
     /// Interaction logic for GraficasView.xaml
     /// </summary>
-    public partial class GraficasView : UserControl
+    public partial class GraficasContentView : UserControl
     {
-        public GraficasView()
+        public GraficasContentView()
         {
             InitializeComponent();
         }

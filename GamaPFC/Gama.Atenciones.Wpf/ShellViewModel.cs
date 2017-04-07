@@ -6,6 +6,7 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -21,30 +22,29 @@ namespace Gama.Atenciones.Wpf
         public ShellViewModel(IEventAggregator eventAggregator,
             PersonasContentViewModel personasContentViewModel,
             DashboardViewModel dashboardViewModel,
-            CitasContentViewModel citasContentViewModel)
+            CitasContentViewModel citasContentViewModel,
+            AsistentesContentViewModel asistentesContentViewModel,
+            GraficasContentViewModel graficasContentViewModel)
         {
             PersonasContentViewModel = personasContentViewModel;
             DashboardViewModel = dashboardViewModel;
-            _CitasContentViewModel = citasContentViewModel;
+            CitasContentViewModel = citasContentViewModel;
+            AsistentesContentViewModel = asistentesContentViewModel;
+            GraficasContentViewModel = graficasContentViewModel;
+
             _EventAggregator = eventAggregator;
-            Title = "Módulo no cargado";
+            Title = "SERVICIO DE ATENCIONES";
             _EventAggregator.GetEvent<AbrirPreferenciasEvent>().Subscribe(OnTogglePreferenciasEvent);
             _EventAggregator.GetEvent<ActiveViewChanged>().Subscribe(OnActiveViewChangedEvent);
 
-            DashboardViewIsVisible = true;
-            PersonasContentViewIsVisible = false;
+            SetVisiblePanel("DashboardView");
         }
-
-        private object _SelectedViewModel;
+        
         public PersonasContentViewModel PersonasContentViewModel { get; set; }
         public DashboardViewModel DashboardViewModel { get; set; }
-        private CitasContentViewModel _CitasContentViewModel;
-
-        public object SelectedViewModel
-        {
-            get { return _SelectedViewModel; }
-            set { SetProperty(ref _SelectedViewModel, value); }
-        }
+        public CitasContentViewModel CitasContentViewModel { get; set; }
+        public AsistentesContentViewModel AsistentesContentViewModel { get; set; }
+        public GraficasContentViewModel GraficasContentViewModel { get; set; }
 
         private bool _DashboardViewIsVisible = true;
         public bool DashboardViewIsVisible
@@ -60,24 +60,48 @@ namespace Gama.Atenciones.Wpf
             set { SetProperty(ref _PersonasContentViewIsVisible, value); }
         }
 
+        private bool _CitasContentViewIsVisible = false;
+        public bool CitasContentViewIsVisible
+        {
+            get { return _CitasContentViewIsVisible; }
+            set { SetProperty(ref _CitasContentViewIsVisible, value); }
+        }
+
+        private bool _AsistentesContentViewIsVisible = false;
+        public bool AsistentesContentViewIsVisible
+        {
+            get { return _AsistentesContentViewIsVisible; }
+            set { SetProperty(ref _AsistentesContentViewIsVisible, value); }
+        }
+
+        private bool _GraficasViewIsVisible = false;
+        public bool GraficasContentViewIsVisible
+        {
+            get { return _GraficasViewIsVisible; }
+            set { SetProperty(ref _GraficasViewIsVisible, value); }
+        }
+
+        private void SetVisiblePanel(string panel)
+        {
+            Dictionary<string, bool> values = new Dictionary<string, bool>();
+            values.Add("DashboardView", false);
+            values.Add("PersonasContentView", false);
+            values.Add("CitasContentView", false);
+            values.Add("AsistentesContentView", false);
+            values.Add("GraficasContentView", false);
+
+            values[panel] = true;
+
+            DashboardViewIsVisible = values["DashboardView"];
+            PersonasContentViewIsVisible = values["PersonasContentView"];
+            CitasContentViewIsVisible = values["CitasContentView"];
+            AsistentesContentViewIsVisible = values["AsistentesContentView"];
+            GraficasContentViewIsVisible = values["GraficasContentView"];
+        }
+
         private void OnActiveViewChangedEvent(string viewName)
         {
-            switch (viewName)
-            {
-                case "DashboardView":
-                    DashboardViewIsVisible = true;
-                    PersonasContentViewIsVisible = false;
-                    //SelectedViewModel = _DashboardViewModel;
-                    break;
-                case "PersonasContentView":
-                    DashboardViewIsVisible = false;
-                    PersonasContentViewIsVisible = true;
-                    //SelectedViewModel = _PersonasContentViewModel;
-                    break;
-                case "CitasContentView":
-                    //SelectedViewModel = _CitasContentViewModel;
-                    break;
-            }
+            SetVisiblePanel(viewName);
         }
 
         private void OnTogglePreferenciasEvent()

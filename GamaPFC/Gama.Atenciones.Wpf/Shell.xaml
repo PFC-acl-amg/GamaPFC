@@ -126,13 +126,31 @@
     <!-- Región de contenido -->
     <ContentControl Grid.Row="1" Grid.ColumnSpan="3">
       <Grid>
-        <views:PersonasContentView DataContext="{Binding PersonasContentViewModel}"
-                                   Visibility="{Binding DataContext.PersonasContentViewIsVisible,
-          ElementName=_Root,
-          Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+        
         <views:DashboardView DataContext="{Binding DashboardViewModel}" 
                              Visibility="{Binding DataContext.DashboardViewIsVisible,
-          ElementName=_Root, Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+                              ElementName=_Root, 
+                              Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+        
+        <views:PersonasContentView DataContext="{Binding PersonasContentViewModel}"
+                                   Visibility="{Binding DataContext.PersonasContentViewIsVisible,
+                                    ElementName=_Root,
+                                    Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+
+        <views:CitasContentView DataContext="{Binding CitasContentViewModel}"
+                                Visibility="{Binding DataContext.CitasContentViewIsVisible,
+                                  ElementName=_Root,
+                                  Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+        
+        <views:AsistentesContentView DataContext="{Binding AsistentesContentViewModel}"
+                                Visibility="{Binding DataContext.AsistentesContentViewIsVisible,
+                                  ElementName=_Root,
+                                  Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+        
+        <views:GraficasContentView DataContext="{Binding GraficasContentViewModel}"
+                                Visibility="{Binding DataContext.GraficasContentViewIsVisible,
+                                  ElementName=_Root,
+                                  Converter={StaticResource _BooleanToVisibilityConverter}}"/>
       </Grid>
     </ContentControl>
     <!--<Grid Grid.Row="1" Grid.ColumnSpan="3" Background="#FFF4ECE2" Panel.ZIndex="-5">

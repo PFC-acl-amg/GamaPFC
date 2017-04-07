@@ -15,13 +15,13 @@ using Gama.Atenciones.Wpf.Eventos;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
-    public class GraficasViewModel : ViewModelBase
+    public class GraficasContentViewModel : ViewModelBase
     {
         private IPersonaRepository _PersonaRepository;
         private IEventAggregator _EventAggregator;
         private List<Persona> _Personas;
 
-        public GraficasViewModel(
+        public GraficasContentViewModel(
             IPersonaRepository personaRepository,
             IEventAggregator eventAggregator,
             ISession session)

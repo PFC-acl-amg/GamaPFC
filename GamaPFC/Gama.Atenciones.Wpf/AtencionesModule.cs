@@ -279,7 +279,7 @@ namespace Gama.Atenciones.Wpf
             RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
             RegionManager.RegisterViewWithRegion(RegionNames.SearchBoxRegion, typeof(SearchBoxView));
             RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
-            RegionManager.RequestNavigate(RegionNames.ContentRegion, "GraficasView");
+            //RegionManager.RequestNavigate(RegionNames.ContentRegion, "GraficasContentView");
             //RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
 
             //RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<PersonasContentView>());
