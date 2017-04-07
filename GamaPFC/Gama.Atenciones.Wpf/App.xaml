@@ -26,6 +26,8 @@
             <Setter Property="BorderBrush" Value="#FFB9B9B9" />
             <Setter Property="BorderThickness" Value="1,1,1,1" />
           </Style>
+
+          <Color x:Key="ParteSuperiorBackground">#EE959595</Color>
         </ResourceDictionary>
       </ResourceDictionary.MergedDictionaries>
 

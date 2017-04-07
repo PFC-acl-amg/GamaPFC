@@ -29,7 +29,7 @@
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
-    <StackPanel Orientation="Horizontal">
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
       <controls:Tile 
                 x:Name="_Title1"
                 Title="Dashboard"
