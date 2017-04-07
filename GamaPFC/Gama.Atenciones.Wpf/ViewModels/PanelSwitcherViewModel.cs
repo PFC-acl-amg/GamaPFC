@@ -50,7 +50,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void Navigate(string viewName)
         {
             ActivePanel = viewName;
-            _RegionManager.RequestNavigate(RegionNames.ContentRegion, viewName);
+            _EventAggregator.GetEvent<ActiveViewChanged>().Publish(viewName);
+
+            //_RegionManager.RequestNavigate(RegionNames.ContentRegion, viewName);
         }
 
     }

@@ -4,7 +4,14 @@ using System;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Microsoft.Practices.Unity;
-
+using Core.DataAccess;
+using NHibernate;
+using Gama.Atenciones.Wpf.Services;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using Gama.Atenciones.DataAccess;
+using Gama.Atenciones.Wpf.ViewModels;
+using Gama.Atenciones.Wpf.Views;
 
 namespace Gama.Atenciones.Wpf
 {
@@ -12,6 +19,62 @@ namespace Gama.Atenciones.Wpf
     {
         protected override DependencyObject CreateShell()
         {
+            Container.RegisterType<object, AsistentesContentView>("AsistentesContentView");
+            Container.RegisterType<object, AsistenteView>("AsistenteView");
+            Container.RegisterType<object, CitasContentView>("CitasContentView");
+            Container.RegisterType<object, DashboardView>("DashboardView");
+            Container.RegisterType<object, EditarAtencionesView>("EditarAtencionesView");
+            Container.RegisterType<object, EditarCitasView>("EditarCitasView");
+            Container.RegisterType<object, EditarPersonaView>("EditarPersonaView");
+            Container.RegisterType<object, GraficasView>("GraficasView");
+            Container.RegisterType<object, ListadoDePersonasView>("ListadoDePersonasView");
+            Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
+            Container.RegisterType<object, PersonasContentView>("PersonasContentView");
+            Container.RegisterType<object, StatusBarView>("StatusBarView");
+            Container.RegisterType<object, ToolbarView>("ToolbarView");
+            Container.RegisterType<object, RightCommandsView>("RightCommandsView");
+            Container.RegisterType<object, PreferenciasView>("PreferenciasView");
+            Container.RegisterType<AsistentesContentViewModel>();
+            Container.RegisterType<AsistenteViewModel>();
+            Container.RegisterType<CitasContentViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<DashboardViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<EditarAtencionesViewModel>();
+            Container.RegisterType<EditarCitasViewModel>();
+            Container.RegisterType<EditarPersonaViewModel>();
+            Container.RegisterType<GraficasViewModel>();
+            Container.RegisterType<ListadoDePersonasViewModel>();
+            Container.RegisterType<PanelSwitcherViewModel>();
+            Container.RegisterType<PersonasContentViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<PreferenciasViewModel>();
+            Container.RegisterType<RightCommandsViewModel>();
+            Container.RegisterType<SearchBoxViewModel>();
+            Container.RegisterType<StatusBarViewModel>();
+            Container.RegisterType<ToolbarViewModel>();
+            Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
+            Container.RegisterType<ISession>(
+                new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
+            Container.RegisterType<IPersonaRepository, PersonaRepository>();
+            Container.RegisterType<ICitaRepository, CitaRepository>();
+            Container.RegisterType<IAtencionRepository, AtencionRepository>();
+            Container.RegisterType<IAsistenteRepository, AsistenteRepository>();
+
+            PreferenciasDeAtenciones preferencias;
+            string preferenciasPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+                + @"\preferencias_de_atenciones.cfg";
+
+            if (File.Exists(preferenciasPath))
+            {
+                var preferenciasFile = File.Open(preferenciasPath, FileMode.Open);
+                preferencias = (PreferenciasDeAtenciones)new BinaryFormatter().Deserialize(preferenciasFile);
+                preferenciasFile.Close();
+            }
+            else
+            {
+                preferencias = new PreferenciasDeAtenciones();
+                new BinaryFormatter().Serialize(File.Create(preferenciasPath), preferencias);
+            }
+
+            Container.RegisterInstance<PreferenciasDeAtenciones>(preferencias);
             return Container.Resolve<Shell>();
         }
 

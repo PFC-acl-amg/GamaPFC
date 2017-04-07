@@ -113,7 +113,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             vm.OnNavigatedTo(navigationContext);
             region.Add(newView);
 
-            _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
+            _EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
+            //_RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
             region.Activate(newView);
         }
 

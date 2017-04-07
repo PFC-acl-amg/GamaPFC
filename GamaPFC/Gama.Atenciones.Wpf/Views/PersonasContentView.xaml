@@ -10,7 +10,7 @@
              xmlns:common="clr-namespace:Gama.Common;assembly=Gama.Common"
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
              xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True"
+             prism:ViewModelLocator.AutoWireViewModel="False"
              mc:Ignorable="d" 
              d:DesignHeight="211.152" d:DesignWidth="490.303">
   <UserControl.Resources>

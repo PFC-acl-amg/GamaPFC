@@ -8,7 +8,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-             prism:ViewModelLocator.AutoWireViewModel="True"
+             prism:ViewModelLocator.AutoWireViewModel="False"
              xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
              xmlns:converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"

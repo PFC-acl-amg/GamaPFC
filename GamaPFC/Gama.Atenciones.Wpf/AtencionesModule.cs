@@ -205,70 +205,70 @@ namespace Gama.Atenciones.Wpf
 
         private void RegisterViews()
         {
-            Container.RegisterType<object, AsistentesContentView>("AsistentesContentView");
-            Container.RegisterType<object, AsistenteView>("AsistenteView");
-            Container.RegisterType<object, CitasContentView>("CitasContentView");
-            Container.RegisterType<object, DashboardView>("DashboardView");
-            Container.RegisterType<object, EditarAtencionesView>("EditarAtencionesView");
-            Container.RegisterType<object, EditarCitasView>("EditarCitasView");
-            Container.RegisterType<object, EditarPersonaView>("EditarPersonaView");
-            Container.RegisterType<object, GraficasView>("GraficasView");
-            Container.RegisterType<object, ListadoDePersonasView>("ListadoDePersonasView");
-            Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
-            Container.RegisterType<object, PersonasContentView>("PersonasContentView");
-            Container.RegisterType<object, StatusBarView>("StatusBarView");
-            Container.RegisterType<object, ToolbarView>("ToolbarView");
-            Container.RegisterType<object, RightCommandsView>("RightCommandsView");
-            Container.RegisterType<object, PreferenciasView>("PreferenciasView");
+            //Container.RegisterType<object, AsistentesContentView>("AsistentesContentView");
+            //Container.RegisterType<object, AsistenteView>("AsistenteView");
+            //Container.RegisterType<object, CitasContentView>("CitasContentView");
+            //Container.RegisterType<object, DashboardView>("DashboardView");
+            //Container.RegisterType<object, EditarAtencionesView>("EditarAtencionesView");
+            //Container.RegisterType<object, EditarCitasView>("EditarCitasView");
+            //Container.RegisterType<object, EditarPersonaView>("EditarPersonaView");
+            //Container.RegisterType<object, GraficasView>("GraficasView");
+            //Container.RegisterType<object, ListadoDePersonasView>("ListadoDePersonasView");
+            //Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
+            //Container.RegisterType<object, PersonasContentView>("PersonasContentView");
+            //Container.RegisterType<object, StatusBarView>("StatusBarView");
+            //Container.RegisterType<object, ToolbarView>("ToolbarView");
+            //Container.RegisterType<object, RightCommandsView>("RightCommandsView");
+            //Container.RegisterType<object, PreferenciasView>("PreferenciasView");
         }
 
         private void RegisterViewModels()
         {
-            Container.RegisterType<AsistentesContentViewModel>();
-            Container.RegisterType<AsistenteViewModel>();
-            Container.RegisterType<CitasContentViewModel>();
-            Container.RegisterType<DashboardViewModel>();
-            Container.RegisterType<EditarAtencionesViewModel>();
-            Container.RegisterType<EditarCitasViewModel>();
-            Container.RegisterType<EditarPersonaViewModel>();
-            Container.RegisterType<GraficasViewModel>();
-            Container.RegisterType<ListadoDePersonasViewModel>();
-            Container.RegisterType<PanelSwitcherViewModel>();
-            Container.RegisterType<PersonasContentViewModel>();
-            Container.RegisterType<PreferenciasViewModel>();
-            Container.RegisterType<RightCommandsViewModel>();
-            Container.RegisterType<SearchBoxViewModel>();
-            Container.RegisterType<StatusBarViewModel>();
-            Container.RegisterType<ToolbarViewModel>();
+            //Container.RegisterType<AsistentesContentViewModel>();
+            //Container.RegisterType<AsistenteViewModel>();
+            //Container.RegisterType<CitasContentViewModel>();
+            //Container.RegisterType<DashboardViewModel>();
+            //Container.RegisterType<EditarAtencionesViewModel>();
+            //Container.RegisterType<EditarCitasViewModel>();
+            //Container.RegisterType<EditarPersonaViewModel>();
+            //Container.RegisterType<GraficasViewModel>();
+            //Container.RegisterType<ListadoDePersonasViewModel>();
+            //Container.RegisterType<PanelSwitcherViewModel>();
+            //Container.RegisterType<PersonasContentViewModel>();
+            //Container.RegisterType<PreferenciasViewModel>();
+            //Container.RegisterType<RightCommandsViewModel>();
+            //Container.RegisterType<SearchBoxViewModel>();
+            //Container.RegisterType<StatusBarViewModel>();
+            //Container.RegisterType<ToolbarViewModel>();
         }
 
         private void RegisterServices()
         {
-            Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
-            Container.RegisterType<ISession>(
-                new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
-            Container.RegisterType<IPersonaRepository, PersonaRepository>();
-            Container.RegisterType<ICitaRepository, CitaRepository>();
-            Container.RegisterType<IAtencionRepository, AtencionRepository>();
-            Container.RegisterType<IAsistenteRepository, AsistenteRepository>();
+            //Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
+            //Container.RegisterType<ISession>(
+            //    new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
+            //Container.RegisterType<IPersonaRepository, PersonaRepository>();
+            //Container.RegisterType<ICitaRepository, CitaRepository>();
+            //Container.RegisterType<IAtencionRepository, AtencionRepository>();
+            //Container.RegisterType<IAsistenteRepository, AsistenteRepository>();
 
-            PreferenciasDeAtenciones preferencias;
-            string preferenciasPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-                + @"\preferencias_de_atenciones.cfg";
+            //PreferenciasDeAtenciones preferencias;
+            //string preferenciasPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+            //    + @"\preferencias_de_atenciones.cfg";
 
-            if (File.Exists(preferenciasPath))
-            {
-                var preferenciasFile = File.Open(preferenciasPath, FileMode.Open);
-                preferencias = (PreferenciasDeAtenciones)new BinaryFormatter().Deserialize(preferenciasFile);
-                preferenciasFile.Close();
-            }
-            else
-            {
-                preferencias = new PreferenciasDeAtenciones();
-                new BinaryFormatter().Serialize(File.Create(preferenciasPath), preferencias);
-            }
+            //if (File.Exists(preferenciasPath))
+            //{
+            //    var preferenciasFile = File.Open(preferenciasPath, FileMode.Open);
+            //    preferencias = (PreferenciasDeAtenciones)new BinaryFormatter().Deserialize(preferenciasFile);
+            //    preferenciasFile.Close();
+            //}
+            //else
+            //{
+            //    preferencias = new PreferenciasDeAtenciones();
+            //    new BinaryFormatter().Serialize(File.Create(preferenciasPath), preferencias);
+            //}
 
-            Container.RegisterInstance<PreferenciasDeAtenciones>(preferencias);
+            //Container.RegisterInstance<PreferenciasDeAtenciones>(preferencias);
         }
 
         private void InitializeNavigation()
@@ -280,9 +280,9 @@ namespace Gama.Atenciones.Wpf
             RegionManager.RegisterViewWithRegion(RegionNames.SearchBoxRegion, typeof(SearchBoxView));
             RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "GraficasView");
-            RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
+            //RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
 
-            RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<PersonasContentView>());
+            //RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<PersonasContentView>());
             RegionManager.AddToRegion(RegionNames.PersonasTabContentRegion, Container.Resolve<ListadoDePersonasView>());
         }
     }
