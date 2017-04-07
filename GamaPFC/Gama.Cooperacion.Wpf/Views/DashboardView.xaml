@@ -296,7 +296,7 @@
                         <cc:CircleIconButton Margin="{StaticResource Margin}" Command="{Binding PaginaSiguienteCommand}"
                            Icon="{StaticResource appbar_arrow_right}"/>
                     </StackPanel>
-                    <Label Grid.Row="2">Datos Cooperante seleccionado</Label>
+                    <Label Grid.Row="2" HorizontalAlignment="Center">Seleccione un Cooperante</Label>
                 </Grid>
             </StackPanel>
         </Grid>

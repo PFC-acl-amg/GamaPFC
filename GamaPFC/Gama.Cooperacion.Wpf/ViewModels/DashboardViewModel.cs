@@ -113,15 +113,16 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             VisibleListaActividades = false;
             VisibleListaCooperantes = true;
+            TituloPrincipal = "Listado de Cooperantes";
         }
         private void OnListaDeActividadesCommandExecute()
         {
+            TituloPrincipal = "Listado de Actividades Disponibles";
             VisibleListaActividades = true;
             VisibleListaCooperantes = false;
         }
         private void OnNuevaActividadCommandExecute()
         {
-            TituloPrincipal = "Lanzar Crear Nueva actividad";
             var o = new NuevaActividadView();
             o.ShowDialog();
             
@@ -137,7 +138,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             get { return _PruebaTemplate; }
             set { _PruebaTemplate = value;  OnPropertyChanged(); }
         }
-        private string _TituloPrincipal="Lista de Actividades";
+        private string _TituloPrincipal="Listado de Actividades";
         public string TituloPrincipal
         {
             get { return _TituloPrincipal; }
