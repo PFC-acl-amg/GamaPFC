@@ -51,7 +51,8 @@
                 <RowDefinition Height="Auto"/>
               </Grid.RowDefinitions>
               
-              <Ellipse Height="80" Width="80" OpacityMask="{StaticResource _RadialGradientBrush}">
+              <Ellipse Height="80" Width="80" OpacityMask="{StaticResource _RadialGradientBrush}"
+                       Margin="{StaticResource Margin}">
               <Ellipse.Fill>
                 <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
               </Ellipse.Fill>
@@ -79,7 +80,7 @@
                 </Image.Style>--><!--
               </Image>-->
 
-    <TextBlock Margin="{StaticResource Margin}" Text="{Binding Nombre}" Grid.Row="1"/>
+    <TextBlock Margin="{StaticResource Margin}" Text="{Binding Nombre}" Grid.Row="1" HorizontalAlignment="Center"/>
   </Grid>
           </DataTemplate>
         </ListBox.ItemTemplate>

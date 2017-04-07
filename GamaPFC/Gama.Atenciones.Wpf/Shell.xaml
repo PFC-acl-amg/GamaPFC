@@ -110,21 +110,23 @@
       <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
 
-
     <!-- Panel Switcher -->
-    <ContentControl Grid.Row="0" Grid.Column="0" Margin="0"
-                    prism:RegionManager.RegionName="{x:Static common:RegionNames.PanelSwitcherRegion}" />
+    <ContentControl Grid.Row="0" Grid.Column="0" Margin="0">
+      <views:PanelSwitcherView />
+    </ContentControl>
 
     <!-- Cuadro de búsqueda -->
-    <ContentControl Grid.Row="0" Grid.Column="1" Margin="0"
-                    prism:RegionManager.RegionName="{x:Static common:RegionNames.SearchBoxRegion}"  />
+    <ContentControl Grid.Row="0" Grid.Column="1" Margin="0">
+      <views:SearchBoxView />
+    </ContentControl>
 
     <!-- Toolbar -->
-    <ContentControl Grid.Row="0" Grid.Column="2" Margin="0"
-                    prism:RegionManager.RegionName="{x:Static common:RegionNames.ToolbarRegion}"  />
+    <ContentControl Grid.Row="0" Grid.Column="2" Margin="0">
+      <views:ToolbarView />
+    </ContentControl>
 
     <!-- Región de contenido -->
-    <ContentControl Grid.Row="1" Grid.ColumnSpan="3">
+    <ContentControl Grid.Row="1" Grid.ColumnSpan="3" Margin="0">
       <Grid>
         
         <views:DashboardView DataContext="{Binding DashboardViewModel}" 

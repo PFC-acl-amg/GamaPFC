@@ -26,13 +26,13 @@
     <!-- Selector para mostrar estado de espera mientras se realiza la búsqueda. -->
     <cc:SearchBoxDataTemplateSelector x:Key="_BuscadorTemplateSelector"/>
   </UserControl.Resources>
-  <Grid Background="#EE959595">
+  <Grid Background="#EE959595" Margin="0,4,0,0">
     <cc:SearchBox 
       VerticalContentAlignment="Center"
       VerticalAlignment="Center"
       HorizontalAlignment="Left"
       HorizontalContentAlignment="Left"
-      Margin="0"
+      Margin="4,0,0,0"
       SearchMode="Delayed"
       MinWidth="250"
       BorderThickness="4"

@@ -9,7 +9,7 @@
              xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              mc:Ignorable="d" d:DesignHeight="76.452" d:DesignWidth="377.055">
-  <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Background="#EE959595">
+  <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Background="#EE959595" Margin="0,4,4,0">
     <Button Background="Transparent" BorderThickness="0"
             Command="{Binding NuevaPersonaCommand}">
       <Button.ToolTip>
