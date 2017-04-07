@@ -23,7 +23,23 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             Map(x => x.Foto);
             Map(x => x.CreatedAt);
             Map(x => x.UpdatedAt);
-            
+            // Campos nuevos
+            Map(x => x.FechaDeNacimiento);
+            Map(x => x.Provincia);
+            Map(x => x.Municipio);
+            Map(x => x.CP);
+            Map(x => x.Localidad);
+            Map(x => x.Calle);
+            Map(x => x.Numero);
+            Map(x => x.Portal);
+            Map(x => x.Piso);
+            Map(x => x.Puerta);
+            Map(x => x.TelefonoMovil);
+            Map(x => x.TelefonoAlternativo);
+            Map(x => x.Email);
+            Map(x => x.EmailAlternativo);
+            // Fin campos nuevos
+
 
             HasMany(x => x.ActividadesDeQueEsCoordinador)
                 .LazyLoad()

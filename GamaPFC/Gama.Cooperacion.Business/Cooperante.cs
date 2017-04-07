@@ -19,6 +19,22 @@ namespace Gama.Cooperacion.Business
         public virtual string telefono { get; set; }
         public virtual byte[] Foto { get; set; }
         public virtual string Observaciones { get; set; }
+        // Campos Nuevos añadidos 05.04.2017
+        public virtual string Provincia { get; set; }
+        public virtual string Municipio { get; set; }
+        public virtual string CP { get; set; }
+        public virtual string Localidad { get; set; }
+        public virtual string Calle { get; set; }
+        public virtual string Numero { get; set; }
+        public virtual string Portal { get; set; }
+        public virtual string Piso { get; set; }
+        public virtual string Puerta { get; set; }
+        public virtual DateTime FechaDeNacimiento { get; set; }
+        public virtual string TelefonoMovil { get; set; }
+        public virtual string TelefonoAlternativo { get; set; }
+        public virtual string Email { get; set; }
+        public virtual string EmailAlternativo { get; set; }
+        // Fin Campos Nuevos
         public virtual IList<Telefono> Telefonos { get; protected set; }
 
         public Cooperante()

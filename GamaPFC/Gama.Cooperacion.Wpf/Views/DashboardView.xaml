@@ -17,6 +17,7 @@
     <designData:DashboardViewModelDTD />
   </d:DataContext>
     <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisivilityConverter"/>
         <!--<converters:BinaryImageConverter x:Key="imgConverter" />-->
         <SolidColorBrush x:Key="AccentColor" Color="{StaticResource AccentColor}"/>
         <!--<ResourceDictionary>
@@ -91,7 +92,7 @@
                                TextAlignment="Center"/>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseLeftButtonDown">
-                            <prism:InvokeCommandAction Command="{Binding NuevaActividadCommand}"/>
+                            <prism:InvokeCommandAction Command="{Binding ListaDeActividadesCommand}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </StackPanel>
@@ -127,7 +128,7 @@
                                TextAlignment="Center"/>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseLeftButtonDown">
-                            <prism:InvokeCommandAction Command="{Binding NuevaActividadCommand}"/>
+                            <prism:InvokeCommandAction Command="{Binding ListaCooperantesCommand}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </StackPanel>
@@ -151,7 +152,7 @@
                 </StackPanel>
             </Grid>
 
-        </StackPanel>
+        </StackPanel>   <!--Botonera-->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
@@ -162,10 +163,11 @@
                 <StackPanel Grid.Row="0">
                     <TextBlock Text="{Binding TituloPrincipal}" FontSize="30" HorizontalAlignment="Left"/>
                 </StackPanel>
-            </Border>
-            <!--<StackPanel Name="ListaActividades" Grid.Row="1" Margin="50,0,0,0">
+            </Border>   <!--Titulo-->
+            <StackPanel Name="ListaActividades" Grid.Row="1" Margin="50,0,0,0" Visibility="{Binding VisibleListaActividades, 
+                                                Converter={StaticResource BooleanToVisivilityConverter}}">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto">
-                    <ListBox ItemsSource="{Binding UltimasActividades}"
+                    <ListBox ItemsSource="{Binding ListaDeActividades}"
                              x:Name="listBox"
                              SelectionMode="Single"
                              ScrollViewer.VerticalScrollBarVisibility="Auto">
@@ -190,8 +192,9 @@
                         </i:Interaction.Triggers>
                     </ListBox>
                 </ScrollViewer>
-            </StackPanel>-->
-            <StackPanel Name="ListaCooperantes" Grid.Row="1" Margin="50,0,0,0">
+            </StackPanel>
+            <StackPanel Name="ListaCooperantes" Grid.Row="1" Margin="50,0,0,0" Visibility="{Binding VisibleListaCooperantes, 
+                                                Converter={StaticResource BooleanToVisivilityConverter}}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="190" />
@@ -293,7 +296,7 @@
                         <cc:CircleIconButton Margin="{StaticResource Margin}" Command="{Binding PaginaSiguienteCommand}"
                            Icon="{StaticResource appbar_arrow_right}"/>
                     </StackPanel>
-                    <Label Grid.Row="2">Datos Cooperante seleccionado</Label>
+                    <Label Grid.Row="2" HorizontalAlignment="Center">Seleccione un Cooperante</Label>
                 </Grid>
             </StackPanel>
         </Grid>

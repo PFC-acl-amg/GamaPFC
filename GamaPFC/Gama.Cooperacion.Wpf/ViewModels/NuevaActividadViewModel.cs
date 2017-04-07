@@ -104,6 +104,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private bool OnAceptarCommand_CanExecute()
         {
+            // Para que el boton de Aceptarse muestre activo tieneque cumpplirse que se haya
+            // escrito un titulo y se haya escogido a un coordinador
             var resultado = Actividad.Titulo != null && Actividad.Coordinador.Nombre != null;
             return resultado;
         }

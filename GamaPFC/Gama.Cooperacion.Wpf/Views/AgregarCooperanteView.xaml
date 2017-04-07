@@ -29,7 +29,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
+        <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4" 
                                             CornerRadius="3"
                                             Margin="5">
             <Border.Effect>
@@ -59,18 +59,18 @@
                         </Image>-->
                         <Image Source="{Binding NuevoCooperante.Foto, 
                                     Converter={StaticResource BinaryImageConverter}}" 
-                                    Stretch="Fill"
-                                       MinHeight="50"
+                                    Stretch="Uniform"
+                                       MinHeight="105" MaxHeight="105"
                                     StretchDirection="Both">
                             <Image.BitmapEffect>
                                 <DropShadowBitmapEffect Color="Black" />
                             </Image.BitmapEffect>
                         </Image>
-                    </Border>
+                    </Border>   <!--Zona Foto -->
                     <Label Grid.Row="3" Margin="0,-4,0,-2" VerticalAlignment="Bottom" 
                      VerticalContentAlignment="Bottom" HorizontalAlignment="Right">
                         <Hyperlink Command="{Binding ExaminarFotoCommand}" FontSize="12">Examinar...</Hyperlink>
-                    </Label>
+                    </Label> <!-- Explorador Archivos-->
                     <TextBox  Name="NombreCooperante"
                                       Grid.Row="0" Grid.Column="1"
                                       BorderThickness="1"
@@ -78,7 +78,6 @@
                                       TextWrapping="WrapWithOverflow"
                                       Margin="{StaticResource Margin}"
                                       Text="{Binding NuevoCooperante.Nombre, UpdateSourceTrigger=PropertyChanged}"/>
-                    
                     <TextBox  Name="ApellidosCooperante"
                                       Grid.Row="1" Grid.Column="1"
                                       BorderThickness="1"
@@ -94,11 +93,11 @@
                                       Margin="{StaticResource Margin}"
                                       Text="{Binding NuevoCooperante.Dni,UpdateSourceTrigger=PropertyChanged}"/>
                     <DatePicker HorizontalAlignment="Left" Grid.Row="3" Grid.Column="1"
-                                    SelectedDate="{Binding FechaDeNacimiento, 
+                                 SelectedDate="{Binding NuevoCooperante.FechaDeNacimiento, 
                                     UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     Height="24" />
                 </Grid>
-            </StackPanel>
+            </StackPanel>                             <!--FIN DATOS DNI-->
         </Border>
         <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
                                             CornerRadius="3"
@@ -106,7 +105,7 @@
             <Border.Effect>
                 <DropShadowEffect Color="Gray" Opacity=".50" ShadowDepth="16" />
             </Border.Effect>
-            <StackPanel>
+            <StackPanel>        <!--DATOS DIRECCION-->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="200" />
@@ -127,65 +126,65 @@
                                       metro:TextBoxHelper.Watermark="Provincia..."
                                       TextWrapping="Wrap"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding Provincia}"/>
+                                      Text="{Binding NuevoCooperante.Provincia}"/>
                     <TextBox  Name="XamlMunicipio"
                                       Grid.Row="1" Grid.Column="0"
                                       BorderThickness="1"
                                       metro:TextBoxHelper.Watermark="Municipio..."
                                       TextWrapping="Wrap"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding Municipio}"/>
+                                      Text="{Binding NuevoCooperante.Municipio}"/>
                     <TextBox  Name="XamlCP"
                                       Grid.Row="1" Grid.Column="1"
                                       BorderThickness="1"
                                       metro:TextBoxHelper.Watermark="CP..."
                                       TextWrapping="Wrap"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding CodigoPostal}"/>
+                                      Text="{Binding NuevoCooperante.CP}"/>
                     <TextBox  Name="XamlLocalidad"
                                       Grid.Row="2" Grid.Column="0"
                                       BorderThickness="1"
                                       metro:TextBoxHelper.Watermark="Localidad..."
                                       TextWrapping="Wrap"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding Localidad}"/>
+                                      Text="{Binding NuevoCooperante.Localidad}"/>
                     <TextBox  Name="XamlCalle"
                                       Grid.Row="3" Grid.Column="0"
                                       BorderThickness="1"
                                       metro:TextBoxHelper.Watermark="Calle/Avenida/..."
                                       TextWrapping="Wrap"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding Calle}"/>
+                                      Text="{Binding NuevoCooperante.Calle}"/>
                     <TextBox  Name="XamlNumero"
                                       Grid.Row="3" Grid.Column="1"
                                       BorderThickness="1"
                                       metro:TextBoxHelper.Watermark="Número..."
                                       TextWrapping="Wrap"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding Numero}"/>
+                                      Text="{Binding NuevoCooperante.Numero}"/>
                     <TextBox  Name="XamlPortal"
                                       Grid.Row="3" Grid.Column="2"
                                       BorderThickness="1"
                                       metro:TextBoxHelper.Watermark="Portal..."
                                       TextWrapping="Wrap"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding Portal}"/>
+                                      Text="{Binding NuevoCooperante.Portal}"/>
                     <TextBox  Name="XamlPiso"
                                       Grid.Row="3" Grid.Column="3"
                                       BorderThickness="1"
                                       metro:TextBoxHelper.Watermark="Piso..."
                                       TextWrapping="Wrap"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding Piso}"/>
+                                      Text="{Binding NuevoCooperante.Piso}"/>
                     <TextBox  Name="XamlPuerta"
                                       Grid.Row="3" Grid.Column="4"
                                       BorderThickness="1"
                                       metro:TextBoxHelper.Watermark="Puerta..."
                                       TextWrapping="Wrap"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding Puerta}"/>
+                                      Text="{Binding NuevoCooperante.Puerta}"/>
                 </Grid>
-            </StackPanel>
+            </StackPanel>       <!--FIN DATOS DIRECCION-->
         </Border>
         <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
                                             CornerRadius="3"
@@ -193,7 +192,7 @@
             <Border.Effect>
                 <DropShadowEffect Color="Gray" Opacity=".50" ShadowDepth="16" />
             </Border.Effect>
-            <StackPanel>
+            <StackPanel>        <!--DATOS CONTACTO-->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -212,35 +211,35 @@
                                       metro:TextBoxHelper.Watermark="Telefono Fijo..."
                                       TextWrapping="Wrap"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding NuevoCooperante.telefono,UpdateSourceTrigger=PropertyChanged}"/>
+                                      Text="{Binding NuevoCooperante.telefono}"/>
                     <TextBox  Name="XamlTlfMovil"
                                       Grid.Row="1" Grid.Column="0"
                                       BorderThickness="1"
                                       metro:TextBoxHelper.Watermark="Telefono Movil..."
                                       TextWrapping="Wrap"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding TelefonoMovil}"/>
+                                      Text="{Binding NuevoCooperante.TelefonoMovil}"/>
                     <TextBox  Name="XamlTlfAlternativo"
                                       Grid.Row="0" Grid.Column="1"
                                       BorderThickness="1"
                                       metro:TextBoxHelper.Watermark="Telefono Alternativo..."
                                       TextWrapping="Wrap"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding TelefonoAlternativo}"/>
+                                      Text="{Binding NuevoCooperante.TelefonoAlternativo}"/>
                     <TextBox  Name="XamlEmail"
                                       Grid.Row="2" Grid.Column="0"
                                       BorderThickness="1"
                                       metro:TextBoxHelper.Watermark="Correo Electrónico..."
                                       TextWrapping="Wrap"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding Email}"/>
+                                      Text="{Binding NuevoCooperante.Email}"/>
                     <TextBox  Name="XamlEmailAlternativo"
                                       Grid.Row="2" Grid.Column="1"
                                       BorderThickness="1"
                                       metro:TextBoxHelper.Watermark="Correo Electrónico Alternativo..."
                                       TextWrapping="Wrap"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding Email}"/>
+                                      Text="{Binding NuevoCooperante.EmailAlternativo}"/>
                     <TextBox  Name="XamlOtrosDatos"
                                       Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                                       BorderThickness="1"
@@ -249,23 +248,12 @@
                                       Margin="{StaticResource Margin}"
                                       Text="{Binding NuevoCooperante.Observaciones,UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
-            </StackPanel>
+            </StackPanel>       <!--fin datos contacto-->
         </Border>
         <StackPanel Grid.Row="3" Orientation="Horizontal"
                     HorizontalAlignment="Right">
             <Button Content="Aceptar" Command="{Binding AceptarCommand}"  Margin="{StaticResource Margin}"/>
             <Button Content="Cancelar" Command="{Binding CancelarCommand}"  Margin="{StaticResource Margin}"/>
         </StackPanel>
-        <!--<StackPanel  Grid.Row="3">
-            --><!--<Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-  
-            </Grid>--><!--
-        </StackPanel>-->
-
     </Grid>
 </metro:MetroWindow>

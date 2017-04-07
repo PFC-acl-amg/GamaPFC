@@ -30,6 +30,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private string[] _Labels;
         private int _mesInicialCooperantes;
         private int _CooperantesMostrados;
+        private bool _VisibleListaCooperantes;
+        private bool _VisibleListaActividades;
 
         private readonly int itemCount;
 
@@ -48,6 +50,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _settings = settings;
             _CooperantesMostrados = 0;
 
+            _VisibleListaActividades = true;
+            _VisibleListaCooperantes = false;
             this.itemCount = 10;
             this.Items = new ObservableCollection<Item>();
 
@@ -58,7 +62,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
 
 
-            UltimasActividades = new ObservableCollection<LookupItem>(
+            ListaDeActividades = new ObservableCollection<LookupItem>(
                 _actividadRepository.GetAll()
                     .OrderBy(a => a.FechaDeFin)
                     .Take(_settings.DashboardActividadesAMostrar)
@@ -90,6 +94,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             SelectCooperanteCommand = new DelegateCommand<Cooperante>(OnSelectCooperanteCommand);
             PruebaTemplateCommand = new DelegateCommand(OnPruebaTemplateCommandExecute);
             NuevaActividadCommand = new DelegateCommand(OnNuevaActividadCommandExecute);
+            ListaDeActividadesCommand = new DelegateCommand(OnListaDeActividadesCommandExecute);
+            ListaCooperantesCommand = new DelegateCommand(OnListaCooperantesCommandExecute);
             PaginaSiguienteCommand = new DelegateCommand(OnPaginaSiguienteCommandExecute);
             PaginaAnteriorCommand = new DelegateCommand(OnPaginaAnteriorCommandExecute);
             NuevoCooperanteCommand = new DelegateCommand(OnNuevoCooperanteCommandExecute);
@@ -103,9 +109,20 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             // En la zona de datos de socio selecionado se muestran los datos del nuevo cooperante creada
             // Se muestar zona de botones para poder editar datos del socio creado
         }
+        private void OnListaCooperantesCommandExecute()
+        {
+            VisibleListaActividades = false;
+            VisibleListaCooperantes = true;
+            TituloPrincipal = "Listado de Cooperantes";
+        }
+        private void OnListaDeActividadesCommandExecute()
+        {
+            TituloPrincipal = "Listado de Actividades Disponibles";
+            VisibleListaActividades = true;
+            VisibleListaCooperantes = false;
+        }
         private void OnNuevaActividadCommandExecute()
         {
-            TituloPrincipal = "Lanzar Crear Nueva actividad";
             var o = new NuevaActividadView();
             o.ShowDialog();
             
@@ -121,7 +138,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             get { return _PruebaTemplate; }
             set { _PruebaTemplate = value;  OnPropertyChanged(); }
         }
-        private string _TituloPrincipal="Lista de Actividades";
+        private string _TituloPrincipal="Listado de Actividades";
         public string TituloPrincipal
         {
             get { return _TituloPrincipal; }
@@ -137,7 +154,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 this.Text = text;
             }
         }
-        public ObservableCollection<LookupItem> UltimasActividades { get; private set; }
+        public ObservableCollection<LookupItem> ListaDeActividades { get; private set; }
         public ObservableCollection<Cooperante> ListaCooperantes { get; private set; }
         public ObservableCollection<Cooperante> ListaParcialCooperantes { get; private set; }
 
@@ -160,7 +177,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand PaginaSiguienteCommand { get; set; }
         public ICommand PaginaAnteriorCommand { get; set; }
         public ICommand NuevoCooperanteCommand { get; set; }
-
+        public ICommand ListaDeActividadesCommand { get; set; }
+        public ICommand ListaCooperantesCommand { get; set; }
         private void OnNuevoCooperanteCommandExecute()
         {
             var o = new AgregarCooperanteView();    // Esta es la vista
@@ -235,25 +253,33 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             var lookupItem = new LookupItem
             {
                 Id = actividad.Id,
-                DisplayMember1 = LookupItem.ShortenStringForDisplay(actividad.Titulo,
-                        _settings.DashboardActividadesLongitudDeTitulos)
+                DisplayMember1 = actividad.Titulo,
             };
-            UltimasActividades.Insert(0, lookupItem);
+            ListaDeActividades.Insert(0, lookupItem);
         }
 
         private void OnActividadActualizadaEvent(int id)
         {
             var actividadActualizada = _actividadRepository.GetById(id);
-            if (UltimasActividades.Any(a => a.Id == id))
+            if (ListaDeActividades.Any(a => a.Id == id))
             {
-                var indice = UltimasActividades.IndexOf(UltimasActividades.Single(a => a.Id == id));
-                UltimasActividades[indice] = new LookupItem
+                var indice = ListaDeActividades.IndexOf(ListaDeActividades.Single(a => a.Id == id));
+                ListaDeActividades[indice] = new LookupItem
                 {
                     Id = actividadActualizada.Id,
-                    DisplayMember1 = LookupItem.ShortenStringForDisplay(actividadActualizada.Titulo,
-                            _settings.DashboardActividadesLongitudDeTitulos)
+                    DisplayMember1=actividadActualizada.Titulo
                 };
             }
+        }
+        public bool VisibleListaActividades
+        {
+            get { return _VisibleListaActividades; }
+            set { SetProperty(ref _VisibleListaActividades, value); }
+        }
+        public bool VisibleListaCooperantes
+        {
+            get { return _VisibleListaCooperantes; }
+            set { SetProperty(ref _VisibleListaCooperantes, value); }
         }
     }
 }
