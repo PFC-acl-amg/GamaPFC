@@ -118,6 +118,7 @@
     <Compile Include="Encryption\Cipher.cs" />
     <Compile Include="IEncryptable.cs" />
     <Compile Include="IValidatableTrackingObject.cs" />
+    <Compile Include="ModelBase.cs" />
     <Compile Include="ModelWrapper.cs" />
     <Compile Include="ModuleBase.cs" />
     <Compile Include="NotifyDataErrorInfoBase.cs" />
