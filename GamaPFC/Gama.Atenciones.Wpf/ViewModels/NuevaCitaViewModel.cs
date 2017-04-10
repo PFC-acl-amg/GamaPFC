@@ -129,7 +129,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             Persona = new PersonaWrapper(persona);
             PersonaSeleccionada = persona;
-            Cita = new CitaWrapper(new Business.Cita() { Persona = persona });
+            Cita = new CitaWrapper(new Cita() { Persona = persona });
             Cita.PropertyChanged += Cita_PropertyChanged;
         }
 

@@ -34,26 +34,31 @@
       <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
 
-    <Grid Margin="{StaticResource Margin}" Grid.RowSpan="2" Background="Beige">
+    <Grid Margin="{StaticResource Margin}" Grid.RowSpan="2" Background="#E4E9E9BF">
       <Grid.RowDefinitions>
         <RowDefinition />
-        <RowDefinition SharedSizeGroup="B" />
+        <RowDefinition Height="Auto"/>
       </Grid.RowDefinitions>
       <Ellipse Height="85" Width="85" OpacityMask="{StaticResource _RadialGradientBrush}"
+               VerticalAlignment="Top"
                Margin="{StaticResource Margin}">
         <Ellipse.Fill>
           <ImageBrush ImageSource="{Binding PersonaSeleccionada.Imagen, 
           Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
         </Ellipse.Fill>
       </Ellipse>
-      
+
+      <StackPanel Orientation="Vertical" Grid.Row="1">
+        <Label FontSize="10">Persona seleccionada</Label>
       <ComboBox Margin="{StaticResource Margin}"
                 Grid.Row="1"
-                VerticalAlignment="Center"
+                VerticalAlignment="Top"
                 VerticalContentAlignment="Center"
+                IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Personas}"
             SelectedItem="{Binding PersonaSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             DisplayMemberPath="Nombre"/>
+      </StackPanel>
     </Grid>
 
     <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.RowSpan="2">
@@ -102,6 +107,7 @@
           <Label Margin="{StaticResource Margin}">Asistente</Label>
           <ComboBox Margin="{StaticResource Margin}"
                     x:Name="_AsistentesComboBox"
+                    IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Asistentes}"
             SelectedItem="{Binding Cita.Asistente, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             DisplayMemberPath="Nombre"/>
