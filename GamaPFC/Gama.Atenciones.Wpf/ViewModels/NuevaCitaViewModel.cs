@@ -44,6 +44,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ((DelegateCommand)AceptarCommand).RaiseCanExecuteChanged();
         }
 
+        public ICommand AceptarCommand { get; private set; }
+        public ICommand CancelarCommand { get; private set; }
+
         private Asistente _AsistenteSeleccionado;
         public Asistente AsistenteSeleccionado
         {
@@ -51,6 +54,17 @@ namespace Gama.Atenciones.Wpf.ViewModels
             set
             {
                 _AsistenteSeleccionado = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Persona _PersonaSeleccionada;
+        public Persona PersonaSeleccionada
+        {
+            get { return _PersonaSeleccionada; }
+            set
+            {
+                _PersonaSeleccionada = value;
                 OnPropertyChanged();
             }
         }
@@ -68,6 +82,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 OnPropertyChanged(nameof(Cita));
             }
         }
+
         public PersonaWrapper Persona { get; private set; }
 
         public bool EnEdicionDeCitaExistente { get; set; }
@@ -77,9 +92,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             get { return _Cerrar; }
             set { SetProperty(ref _Cerrar, value); }
         }
-
-        public ICommand AceptarCommand { get; private set; }
-        public ICommand CancelarCommand { get; private set; }
 
         public ISession Session
         {
@@ -93,6 +105,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 Asistentes = new List<Asistente>(_AsistenteRepository.GetAll());
                 OnPropertyChanged(nameof(Asistentes));
 
+                Personas = new List<Persona>(_PersonaRepository.GetAll());
+                OnPropertyChanged(nameof(Personas));
+
                 if (EnEdicionDeCitaExistente)
                 {
                     Cita.Asistente = Asistentes.Find(a => a.Id == Cita.Asistente.Id);
@@ -100,10 +115,21 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
         }
 
+        public List<Persona> Personas { get; private set; }
+
         public void Load(PersonaWrapper persona)
         {
             Persona = persona;
+            PersonaSeleccionada = persona.Model;
             Cita = new CitaWrapper(new Cita() { Persona = Persona.Model });
+            Cita.PropertyChanged += Cita_PropertyChanged;
+        }
+
+        public void Load(Persona persona)
+        {
+            Persona = new PersonaWrapper(persona);
+            PersonaSeleccionada = persona;
+            Cita = new CitaWrapper(new Business.Cita() { Persona = persona });
             Cita.PropertyChanged += Cita_PropertyChanged;
         }
 

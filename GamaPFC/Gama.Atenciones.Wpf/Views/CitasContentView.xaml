@@ -85,8 +85,9 @@
                 </ItemsControl>
 
                 <ItemsControl Grid.Row="2" 
-                            ItemsSource="{Binding Days, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, 
-					                  AncestorType={x:Type  CustomControls:CustomCalendar}}}">
+                            ItemsSource="{Binding Days, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                              RelativeSource={RelativeSource FindAncestor, 
+					                     AncestorType={x:Type  CustomControls:CustomCalendar}}}">
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
                       <!-- -->
@@ -151,7 +152,8 @@
                                     IconHeight="8" IconWidth="8"
                                     Margin="0,0,0,0" FontSize="14"
                                     Padding="2"
-                                    Command="{Binding DataContext.NuevaCitaCommand, RelativeSource={RelativeSource FindAncestor, 
+                                    Command="{Binding DataContext.NuevaCitaCommand,   
+                                      RelativeSource={RelativeSource FindAncestor, 
 					                              AncestorType={x:Type UserControl}}}" 
                                     CommandParameter="{Binding}">
                                 +
