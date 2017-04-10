@@ -204,19 +204,14 @@
                                           <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <!--<StackPanel Orientation="Vertical">
-                                          <TextBlock Margin="4">Hora</TextBlock>
-                                          <TextBlock Margin="4">Sala</TextBlock>
-                                        </StackPanel>-->
-
                                         <StackPanel Orientation="Vertical" Grid.Column="1">
-                                          <TextBlock Margin="2" 
+                                          <TextBlock Margin="4, 4, 4, 0" 
                                                    HorizontalAlignment="Left" VerticalAlignment="Center">
                                             <Run Text="{Binding Hora}"/>
                                             <Run Text=":" />
                                             <Run Text="{Binding Minutos}"/>
                                           </TextBlock>
-                                          <TextBlock Text="{Binding Sala}" Margin="2"/>
+                                          <TextBlock Text="{Binding Sala}" Margin="4, 4, 4, 0"/>
                                           <StackPanel HorizontalAlignment="Right" 
                                                       Grid.Column="1"
                                                       Orientation="Horizontal"
@@ -234,7 +229,7 @@
                                               FontWeight="Bold"
                                               Command="{Binding DataContext.NuevaAtencionCommand, 
                                                 RelativeSource={RelativeSource FindAncestor, 
-					                                          AncestorType={x:Type UserControl}}}"
+					                                        AncestorType={x:Type UserControl}}}"
                                               CommandParameter="{Binding}"
                                               Style="{StaticResource _CircleIconButtonStyle}"/>
                                             <cc:CircleIconButton
@@ -250,18 +245,10 @@
                                               FontWeight="Bold"
                                               Command="{Binding DataContext.EditarCitaCommand, 
                                                 RelativeSource={RelativeSource FindAncestor, 
-					                                          AncestorType={x:Type UserControl}}}"
+					                                        AncestorType={x:Type UserControl}}}"
                                               CommandParameter="{Binding}"
                                               Style="{StaticResource _CircleIconButtonStyle}"/>
                                           </StackPanel>
-                                          <!--<Label VerticalAlignment="Center" HorizontalAlignment="Left">
-                                            <Hyperlink 
-                                                Command="{Binding DataContext.NuevaAtencionCommand, 
-                                                RelativeSource={RelativeSource FindAncestor, 
-					                                          AncestorType={x:Type UserControl}}}"
-                                                CommandParameter="{Binding}"
-                                                Foreground="DarkRed">Ir a atención</Hyperlink>
-                                          </Label>-->
                                         </StackPanel>
                                       </Grid>
 
@@ -287,20 +274,6 @@
                                       </StackPanel>-->
                                     </Grid>
                                   </Border>
-                                  <!--<i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseUp">
-                                      <prism:InvokeCommandAction 
-                        Command="{Binding DataContext.NuevaCitaCommand, RelativeSource={RelativeSource FindAncestor, 
-					                              AncestorType={x:Type UserControl}}}" 
-                                    CommandParameter="{Binding}"/>
-                                    </i:EventTrigger>
-                                  </i:Interaction.Triggers>-->
-                                  <!--<Border.InputBindings>
-                                    <MouseBinding MouseAction="LeftDoubleClick"
-                                          Command="{Binding DataContext.EditarCitaCommand, RelativeSource={RelativeSource FindAncestor, 
-					                                  AncestorType={x:Type UserControl}}}" 
-                                          CommandParameter="{Binding}"/>
-                                  </Border.InputBindings>-->
                                 </DataTemplate>
                               </ListBox.ItemTemplate>
                               <ListBox.Resources>
@@ -348,14 +321,6 @@
                                     CommandParameter="{Binding}"/>
                             </Grid.InputBindings>
                           </Grid>
-                          <!--<i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseUp">
-                              <prism:InvokeCommandAction 
-                        Command="{Binding DataContext.NuevaCitaCommand, RelativeSource={RelativeSource FindAncestor, 
-					                              AncestorType={x:Type UserControl}}}" 
-                                    CommandParameter="{Binding}"/>
-                            </i:EventTrigger>
-                          </i:Interaction.Triggers>-->
                         </Border>
                       </Border>
                     </DataTemplate>
