@@ -229,6 +229,20 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
         }
 
+        public bool ConfirmNavigationRequest()
+        {
+            if (Persona.IsChanged)
+            {
+                var o = new ConfirmarOperacionView();
+                o.Mensaje = "Si sale se perderán los cambios, ¿Desea salir de todas formas?";
+                o.ShowDialog();
+
+                return o.EstaConfirmado;
+            }
+
+            return true;
+        }
+
         public void ConfirmNavigationRequest(NavigationContext navigationContext,
             Action<bool> continuationCallback)
         {

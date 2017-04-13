@@ -13,7 +13,8 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="False"
              mc:Ignorable="d" 
-             d:DesignHeight="211.152" d:DesignWidth="490.303">
+             d:DesignHeight="211.152" d:DesignWidth="490.303"
+             x:Name="_Root">
   <UserControl.Resources>
     <Style TargetType="metro:MetroTabItem">
       <Setter Property="Header" Value="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
@@ -24,7 +25,8 @@
             <StackPanel Orientation="Horizontal">
               <ContentControl Content="{Binding}"
                                         Margin="{StaticResource Margin}"/>
-              <Button Content="x">
+              <Button Content="x" Command="{Binding ElementName=_Root, Path=DataContext.CloseTabCommand}"
+                      CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}">
                 <Button.Style>
                   <Style TargetType="Button">
                     <Setter Property="Width" Value="20"/>
@@ -72,7 +74,7 @@
   </metro:MetroAnimatedSingleRowTabControl>-->
   <metro:MetroAnimatedSingleRowTabControl
     ItemsSource="{Binding EditarPersonaViewModels}"
-    SelectedItem="{Binding ViewModelSeleccionado,  UpdateSourceTrigger=PropertyChanged}"
+    SelectedItem="{Binding ViewModelSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
     >
   </metro:MetroAnimatedSingleRowTabControl>
 </UserControl>

@@ -4,6 +4,7 @@ using Gama.Atenciones.Wpf.UIEvents;
 using Gama.Atenciones.Wpf.Views;
 using Gama.Common;
 using Microsoft.Practices.Unity;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
 using System;
@@ -12,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -33,12 +35,22 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ViewModelSeleccionado = EditarPersonaViewModels.First();
             SelectedIndex = 0;
 
+            CloseTabCommand = new DelegateCommand<EditarPersonaViewModel>(OnCloseTabCommandExecute);
+
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnPersonaCreadaEvent);
             _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
             _EventAggregator.GetEvent<CitaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
             _EventAggregator.GetEvent<AtencionSeleccionadaEvent>().Subscribe(OnAtencionSeleccionadaEvent);
             _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
         }
+
+        private void OnCloseTabCommandExecute(EditarPersonaViewModel viewModelACerrar)
+        {
+            if (viewModelACerrar.ConfirmNavigationRequest())
+                EditarPersonaViewModels.Remove(viewModelACerrar);
+        }
+
+        public ICommand CloseTabCommand { get; private set; }
 
         private object _ViewModelSeleccionado;
         public object ViewModelSeleccionado
