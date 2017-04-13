@@ -1,23 +1,19 @@
 ﻿using Core;
+using Gama.Atenciones.Business;
+using Gama.Atenciones.Wpf.Converters;
 using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
+using Gama.Atenciones.Wpf.UIEvents;
 using Gama.Common.CustomControls;
-using LiveCharts;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Prism.Regions;
-using Gama.Atenciones.Wpf.UIEvents;
-using Gama.Atenciones.Wpf.Converters;
-using Gama.Atenciones.Business;
-using System.ComponentModel;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -140,9 +136,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnFiltrarPorPersonaCommandExecute(object parameter)
         {
+            //if (parameter == null) return; // Cuando no hay "PersonaSeleccionada"
+
             if (!_FiltradoEstaActivo)
             {
                 var personaSeleccionada = parameter as LookupItem;
+
+                if (personaSeleccionada == null) return;
 
                 Personas = new ObservableCollection<LookupItem>(
                               _Personas

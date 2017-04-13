@@ -103,22 +103,22 @@
                     ScrollViewer.HorizontalScrollBarVisibility="Auto">
           <ListBox.ItemTemplate>
           <DataTemplate>
-            <Grid>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="65" />
-                <ColumnDefinition Width="Auto" MinWidth="200"/>
-                <ColumnDefinition/>
-              </Grid.ColumnDefinitions>
-              <Grid.RowDefinitions>
-                <RowDefinition/>
-              </Grid.RowDefinitions>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="65" />
+                  <ColumnDefinition Width="Auto" MinWidth="200"/>
+                  <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                  <RowDefinition/>
+                </Grid.RowDefinitions>
                 <Border BorderThickness="1"
         CornerRadius="50,50,50,50" BorderBrush="LightGray" Background="#4C797B7D"
                          Margin="{StaticResource Margin}">
-                <Ellipse Height="55" Width="55" OpacityMask="{StaticResource _RadialGradientBrush}">
-                  <Ellipse.Fill>
-                    <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
-                  </Ellipse.Fill>
+                  <Ellipse Height="55" Width="55" OpacityMask="{StaticResource _RadialGradientBrush}">
+                    <Ellipse.Fill>
+                      <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                    </Ellipse.Fill>
                   </Ellipse>
                 </Border>
 
@@ -128,11 +128,11 @@
                   <DropShadowBitmapEffect Color="Black" />
                 </Image.BitmapEffect>
               </Image>-->
-              
-              <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                <TextBlock FontSize="13" Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
-                <TextBlock FontSize="13" Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
-              </StackPanel>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                  <TextBlock FontSize="13" Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                  <TextBlock FontSize="13" Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
                   <cc:CircleIconButton
@@ -160,8 +160,8 @@
                     </Button.Style>
                   </cc:CircleIconButton>
                 </StackPanel>
-            </Grid>
-          </DataTemplate>
+              </Grid>
+            </DataTemplate>
         </ListBox.ItemTemplate>
         <i:Interaction.Triggers>
           <i:EventTrigger EventName="MouseUp">
