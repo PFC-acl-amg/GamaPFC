@@ -27,5 +27,15 @@ namespace Gama.Atenciones.Wpf.Views
             //var vm = new EditarCitasViewModelDTD();
             //DataContext = vm;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _Calendario.Style = FindResource("_ListadoCalendarStyle") as Style;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            _Calendario.Style = FindResource("_EditarCitasCalendarStyle") as Style;
+        }
     }
 }

@@ -25,124 +25,124 @@
     </Style>
     <Converters:DateConverter x:Key="DateConverter"/>
 
-    <Style x:Key="_EditarCitasCalendarStyle" TargetType="{x:Type CustomControls:CustomCalendar}">
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type  CustomControls:CustomCalendar}">
-            <ControlTemplate.Resources>
-              <Converters:AppointmentsConverter x:Key="AppointmentsConverter"/>
-              <Converters:MonthNameConverter x:Key="MonthNameConverter"/>
-            </ControlTemplate.Resources>
+    <ControlTemplate x:Key="_CalendarioCalendarStyle"  TargetType="{x:Type  CustomControls:CustomCalendar}">
+      <ControlTemplate.Resources>
+        <Converters:AppointmentsConverter x:Key="AppointmentsConverter"/>
+        <Converters:MonthNameConverter x:Key="MonthNameConverter"/>
+      </ControlTemplate.Resources>
 
-            <Border Background="{TemplateBinding Background}"
+      <Border Background="{TemplateBinding Background}"
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}">
-              <Grid>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="10"/>
-                  <RowDefinition Height="Auto"/>
-                  <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid>
-                  <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <cc:CircleIconButton Command="{Binding SemanaAnteriorCommand,
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+          </Grid.RowDefinitions>
+
+          <!-- Flechas de Navegación -->
+          <Grid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+              <cc:CircleIconButton Command="{Binding SemanaAnteriorCommand,
                     RelativeSource={RelativeSource AncestorType={x:Type CustomControls:CustomCalendar}}}"
                     Icon="{StaticResource appbar_arrow_left}"
                     Margin="0,-40,0,0"/>
-                    <cc:CircleIconButton Command="{Binding SemanaSiguienteCommand,
+
+              <cc:CircleIconButton Command="{Binding SemanaSiguienteCommand,
                     RelativeSource={RelativeSource AncestorType={x:Type CustomControls:CustomCalendar}}}"
                     Icon="{StaticResource appbar_arrow_right}"
                     Margin="0,-40,0,0" />
-                  </StackPanel>
-                </Grid>
+            </StackPanel>
+          </Grid>
 
-                <!-- Nombres de los días: Lunes, martes...-->
-                <ItemsControl Grid.Row="1"
+          <!-- Nombres de los días: Lunes, martes...-->
+          <ItemsControl Grid.Row="1"
                 ItemsSource="{Binding DayNames, RelativeSource={RelativeSource FindAncestor, 
 					        AncestorType={x:Type  CustomControls:CustomCalendar}}}" DockPanel.Dock="Top">
-                  <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                      <TextBlock TextAlignment="Center" Text="{Binding}" 
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <TextBlock TextAlignment="Center" Text="{Binding}" 
                                Foreground="White" FontWeight="Light" FontSize="13"
                                Margin="0"
                                Padding="4">
-                        <TextBlock.Background>
-                          <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FF171717" Offset="0"/>
-                            <GradientStop Color="#FF040404" Offset="1"/>
-                          </LinearGradientBrush>
-                        </TextBlock.Background>
-                      </TextBlock>
-                    </DataTemplate>
-                  </ItemsControl.ItemTemplate>
-                  <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                      <UniformGrid Rows="1" Columns="7" Margin="4,0,4,0"/>
-                    </ItemsPanelTemplate>
-                  </ItemsControl.ItemsPanel>
-                </ItemsControl>
+                  <TextBlock.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                      <GradientStop Color="#FF171717" Offset="0"/>
+                      <GradientStop Color="#FF040404" Offset="1"/>
+                    </LinearGradientBrush>
+                  </TextBlock.Background>
+                </TextBlock>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <UniformGrid Rows="1" Columns="7" Margin="4,0,4,0"/>
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+          </ItemsControl>
 
-                <ItemsControl Grid.Row="2" 
+          <ItemsControl Grid.Row="2" 
                             ItemsSource="{Binding Days, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, 
 					                  AncestorType={x:Type  CustomControls:CustomCalendar}}}">
-                  <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                      <!-- -->
-                      <!-- Box -->
-                      <!-- -->
-                      <Border BorderBrush="Black" BorderThickness="0.5" Padding="0" Margin="1">
-                        <Border Name="InnerBorder" BorderBrush="Black" BorderThickness="2">
-                          <Border.Style>
-                            <Style TargetType="{x:Type Border}">
-                              <Style.Triggers>
-                                <!--Current Day-->
-                                <DataTrigger Binding="{Binding IsToday}" Value="true">
-                                  <Setter Property="Border.Background">
-                                    <Setter.Value>
-                                      <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                        <GradientStop Color="#FF1EA6C8" Offset="0"/>
-                                        <GradientStop Color="#FF0691B3" Offset="1"/>
-                                      </LinearGradientBrush>
-                                    </Setter.Value>
-                                  </Setter>
-                                </DataTrigger>
-                              </Style.Triggers>
-                            </Style>
-                          </Border.Style>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <!-- -->
+                <!-- Box -->
+                <!-- -->
+                <Border BorderBrush="Black" BorderThickness="0.5" Padding="0" Margin="1">
+                  <Border Name="InnerBorder" BorderBrush="Black" BorderThickness="2">
+                    <Border.Style>
+                      <Style TargetType="{x:Type Border}">
+                        <Style.Triggers>
+                          <!--Current Day-->
+                          <DataTrigger Binding="{Binding IsToday}" Value="true">
+                            <Setter Property="Border.Background">
+                              <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                  <GradientStop Color="#FF1EA6C8" Offset="0"/>
+                                  <GradientStop Color="#FF0691B3" Offset="1"/>
+                                </LinearGradientBrush>
+                              </Setter.Value>
+                            </Setter>
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </Border.Style>
 
-                          <Grid>
-                            <Grid.Style>
-                              <Style TargetType="Grid">
-                                <Style.Triggers>
-                                  <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True">
-                                    <Setter Property="Background" Value="Green"/>
-                                  </DataTrigger>
-                                  <DataTrigger Binding="{Binding IsTargetMonth}" Value="False">
-                                    <Setter Property="Background" Value="LightGray"/>
-                                  </DataTrigger>
-                                </Style.Triggers>
-                              </Style>
-                            </Grid.Style>
-                            <Grid.RowDefinitions>
-                              <RowDefinition Height="Auto"/>
-                              <RowDefinition />
-                            </Grid.RowDefinitions>
+                    <Grid>
+                      <Grid.Style>
+                        <Style TargetType="Grid">
+                          <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True">
+                              <Setter Property="Background" Value="Green"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsTargetMonth}" Value="False">
+                              <Setter Property="Background" Value="LightGray"/>
+                            </DataTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </Grid.Style>
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition />
+                      </Grid.RowDefinitions>
 
-                            <!-- Mes en texto (ENE, FEB, ...) -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                              <TextBlock TextAlignment="Left" VerticalAlignment="Center" Background="#FF307DBB"
+                      <!-- Mes en texto (ENE, FEB, ...) -->
+                      <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBlock TextAlignment="Left" VerticalAlignment="Center" Background="#FF307DBB"
                                        Padding="4,2,6,4"
                                        Margin="2,-4,0,0"
                                        Foreground="White" 
                                        Text="{Binding Date.Month, Converter={StaticResource MonthNameConverter}}"/>
-                            </StackPanel>
+                      </StackPanel>
 
-                            <!-- -->
-                            <!-- Nueva Cita y Día del mes -->
-                            <!-- -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                              <!-- Nueva Cita -->
-                              <!--<cc:CircleIconButton Background="Transparent" FontWeight="Light" BorderThickness="0"
+                      <!-- -->
+                      <!-- Nueva Cita y Día del mes -->
+                      <!-- -->
+                      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <!-- Nueva Cita -->
+                        <!--<cc:CircleIconButton Background="Transparent" FontWeight="Light" BorderThickness="0"
                                     VerticalContentAlignment="Center"
                                     Icon="{StaticResource appbar_add}"
                                     Width="28" Height="28"
@@ -155,77 +155,77 @@
                                 +
                               </cc:CircleIconButton>-->
 
-                              <!-- Día del mes -->
-                              <TextBlock TextAlignment="Right" 
+                        <!-- Día del mes -->
+                        <TextBlock TextAlignment="Right" 
                                        Text="{Binding Date, Converter={StaticResource DateConverter}, ConverterParameter=DAY}" 
                                        FontSize="12" Margin="4,2,4,4" >
-                                <TextBlock.Style>
-                                  <Style TargetType="{x:Type TextBlock}">
-                                    <Style.Triggers>
-                                      <DataTrigger Binding="{Binding IsTargetMonth}" Value="false">
-                                        <Setter Property="TextBlock.Foreground" Value="Gray"></Setter>
-                                      </DataTrigger>
-                                    </Style.Triggers>
-                                  </Style>
-                                </TextBlock.Style>
-                              </TextBlock>
-                            </StackPanel>
+                          <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                              <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsTargetMonth}" Value="false">
+                                  <Setter Property="TextBlock.Foreground" Value="Gray"></Setter>
+                                </DataTrigger>
+                              </Style.Triggers>
+                            </Style>
+                          </TextBlock.Style>
+                        </TextBlock>
+                      </StackPanel>
 
-                            <!-- -->
-                            <!-- Lista de Appointments -->
-                            <!-- -->
-                            <coreControls:UnselectableListBox
+                      <!-- -->
+                      <!-- Lista de Appointments -->
+                      <!-- -->
+                      <coreControls:UnselectableListBox
                               x:Name="PART_AppointmentsListBox"
                               Grid.Row="1"
                               Background="Transparent"
                               BorderBrush="Transparent"
                               HorizontalContentAlignment="Stretch">
-                              <ListBox.ItemsSource>
-                                <MultiBinding Converter="{StaticResource AppointmentsConverter}">
-                                  <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
+                        <ListBox.ItemsSource>
+                          <MultiBinding Converter="{StaticResource AppointmentsConverter}">
+                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
                                   AncestorType={x:Type  CustomControls:CustomCalendar}}" Path="Appointments"/>
-                                  <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext"/>
-                                </MultiBinding>
-                              </ListBox.ItemsSource>
-                              <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                  <Border Background="#FFDFE8F5" 
+                            <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext"/>
+                          </MultiBinding>
+                        </ListBox.ItemsSource>
+                        <ListBox.ItemTemplate>
+                          <DataTemplate>
+                            <Border Background="#FFDFE8F5" 
                                         BorderBrush="#FF5177A8" BorderThickness="0.5" CornerRadius="1" Margin="2">
-                                    <Grid>
-                                      <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="Auto"/>
-                                      </Grid.ColumnDefinitions>
+                              <Grid>
+                                <Grid.ColumnDefinitions>
+                                  <ColumnDefinition />
+                                  <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
 
-                                      <!-- Contenido de cada cita -->
-                                      <Grid>
-                                        <Grid.ColumnDefinitions>
-                                          <ColumnDefinition Width="Auto"/>
-                                          <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                          <RowDefinition SharedSizeGroup="A" Height="Auto"/>
-                                          <RowDefinition SharedSizeGroup="B" Height="Auto"/>
-                                        </Grid.RowDefinitions>
+                                <!-- Contenido de cada cita -->
+                                <Grid>
+                                  <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                  </Grid.ColumnDefinitions>
+                                  <Grid.RowDefinitions>
+                                    <RowDefinition SharedSizeGroup="A" Height="Auto"/>
+                                    <RowDefinition SharedSizeGroup="B" Height="Auto"/>
+                                  </Grid.RowDefinitions>
 
 
-                                        <!--<StackPanel Orientation="Vertical" Grid.Column="0">-->
-                                        <TextBlock Margin="4" FontWeight="Bold" FontSize="11"
+                                  <!--<StackPanel Orientation="Vertical" Grid.Column="0">-->
+                                  <TextBlock Margin="4" FontWeight="Bold" FontSize="11"
                                                    HorizontalAlignment="Left" VerticalAlignment="Center">
                                             <Run Text="{Binding Hora}"/>
                                             <Run Text=":" />
                                             <Run Text="{Binding Minutos}"/>
-                                        </TextBlock>
+                                  </TextBlock>
 
-                                        <TextBlock Text="{Binding Sala}" Margin="4" Grid.Row="1" FontWeight="Bold"
+                                  <TextBlock Text="{Binding Sala}" Margin="4" Grid.Row="1" FontWeight="Bold"
                                                     VerticalAlignment="Center" FontSize="11"/>
-                                        <!--</StackPanel>-->
+                                  <!--</StackPanel>-->
 
-                                        <!--<StackPanel HorizontalAlignment="Right" 
+                                  <!--<StackPanel HorizontalAlignment="Right" 
                                                       Grid.Column="1"
                                                       Orientation="Vertical"
                                                       VerticalAlignment="Center">-->
-                                        <cc:CircleIconButton
+                                  <cc:CircleIconButton
                                             Grid.Column="1"
                                               Icon="{StaticResource appbar_archive}"
                                               Width="28" Height="28"
@@ -244,7 +244,7 @@
 					                                        AncestorType={x:Type UserControl}}}"
                                               CommandParameter="{Binding}"
                                               Style="{StaticResource _CircleIconButtonStyle}"/>
-                                        <cc:CircleIconButton
+                                  <cc:CircleIconButton
                                           Grid.Column="1"
                                           Grid.Row="1"
                                           ToolTip="Editar Cita"
@@ -264,78 +264,121 @@
 					                                    AncestorType={x:Type UserControl}}}"
                                           CommandParameter="{Binding}"
                                           Style="{StaticResource _CircleIconButtonStyle}"/>
-                                        <!--</StackPanel>-->
-                                      </Grid>
-                                    </Grid>
-                                  </Border>
-                                </DataTemplate>
-                              </ListBox.ItemTemplate>
-                              <ListBox.Resources>
-                                <Style TargetType="{x:Type ListBoxItem}">
-                                  <Setter Property="Template">
-                                    <Setter.Value>
-                                      <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                        <Border x:Name="_ListBoxItemBorder"
+                                  <!--</StackPanel>-->
+                                </Grid>
+                              </Grid>
+                            </Border>
+                          </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.Resources>
+                          <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="Template">
+                              <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                  <Border x:Name="_ListBoxItemBorder"
                                           BorderBrush="{TemplateBinding BorderBrush}"
                                           BorderThickness="{TemplateBinding BorderThickness}"
                                           Background="{TemplateBinding Background}"
                                           Padding="{TemplateBinding Padding}"
                                           SnapsToDevicePixels="true">
-                                          <ContentPresenter 
+                                    <ContentPresenter 
                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                          <MultiTrigger>
-                                            <MultiTrigger.Conditions>
-                                              <Condition Property="Selector.IsSelectionActive" Value="False" />
-                                              <Condition Property="IsSelected" Value="True" />
-                                            </MultiTrigger.Conditions>
-                                            <Setter Property="Background" TargetName="_ListBoxItemBorder" Value="DarkOrange" />
-                                          </MultiTrigger>
-                                          <MultiTrigger>
-                                            <MultiTrigger.Conditions>
-                                              <Condition Property="Selector.IsSelectionActive" Value="True" />
-                                              <Condition Property="IsSelected" Value="True" />
-                                            </MultiTrigger.Conditions>
-                                            <Setter Property="Background" TargetName="_ListBoxItemBorder" Value="OrangeRed" />
-                                          </MultiTrigger>
-                                        </ControlTemplate.Triggers>
-                                      </ControlTemplate>
-                                    </Setter.Value>
-                                  </Setter>
-                                </Style>
-                              </ListBox.Resources>
-                            </coreControls:UnselectableListBox>
-                            <Grid.InputBindings>
-                              <MouseBinding MouseAction="LeftDoubleClick"
+                                  </Border>
+                                  <ControlTemplate.Triggers>
+                                    <MultiTrigger>
+                                      <MultiTrigger.Conditions>
+                                        <Condition Property="Selector.IsSelectionActive" Value="False" />
+                                        <Condition Property="IsSelected" Value="True" />
+                                      </MultiTrigger.Conditions>
+                                      <Setter Property="Background" TargetName="_ListBoxItemBorder" Value="DarkOrange" />
+                                    </MultiTrigger>
+                                    <MultiTrigger>
+                                      <MultiTrigger.Conditions>
+                                        <Condition Property="Selector.IsSelectionActive" Value="True" />
+                                        <Condition Property="IsSelected" Value="True" />
+                                      </MultiTrigger.Conditions>
+                                      <Setter Property="Background" TargetName="_ListBoxItemBorder" Value="OrangeRed" />
+                                    </MultiTrigger>
+                                  </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                              </Setter.Value>
+                            </Setter>
+                          </Style>
+                        </ListBox.Resources>
+                      </coreControls:UnselectableListBox>
+                      <Grid.InputBindings>
+                        <MouseBinding MouseAction="LeftDoubleClick"
                                             Command="{Binding DataContext.NuevaCitaCommand, RelativeSource={RelativeSource FindAncestor, 
 					                              AncestorType={x:Type UserControl}}}" 
                                     CommandParameter="{Binding}"/>
-                            </Grid.InputBindings>
-                          </Grid>
-                        </Border>
-                      </Border>
-                    </DataTemplate>
-                  </ItemsControl.ItemTemplate>
-                  <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                      <UniformGrid Rows="3" Columns="7"  Margin="2,0,2,0"/>
-                    </ItemsPanelTemplate>
-                  </ItemsControl.ItemsPanel>
-                </ItemsControl>
-              </Grid>
-            </Border>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
+                      </Grid.InputBindings>
+                    </Grid>
+                  </Border>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <UniformGrid Rows="3" Columns="7"  Margin="2,0,2,0"/>
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+          </ItemsControl>
+        </Grid>
+      </Border>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="_ListadoCalendarStyle"  TargetType="{x:Type  CustomControls:CustomCalendar}">
+      <DataGrid
+        GridLinesVisibility="All"
+        AutoGenerateColumns="False"
+        ItemsSource="{Binding Path=Appointments,
+              RelativeSource={RelativeSource Mode=FindAncestor,
+                                  AncestorType={x:Type  CustomControls:CustomCalendar}}}">
+        <DataGrid.Columns>
+          <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha, StringFormat=d}" Width="120"  IsReadOnly="True"/>
+          <DataGridTemplateColumn Header="Hora"  IsReadOnly="True">
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <TextBlock HorizontalAlignment="Right">
+                  <Run Text="{Binding Hora}"/>
+                  <Run Text=":"/>
+                  <Run Text="{Binding Minutos}"/>
+                </TextBlock>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+          <DataGridTextColumn Header="Minuto" Binding="{Binding Minuto}" IsReadOnly="True"/>
+          <DataGridTextColumn Header="Asistente" Binding="{Binding Asistente.Nombre}" IsReadOnly="True"/>
+          <DataGridTextColumn Header="Sala" Binding="{Binding Sala}" Width="*" IsReadOnly="True"/>
+        </DataGrid.Columns>
+      </DataGrid>
+    </ControlTemplate>
+
+    <Style x:Key="_EditarCitasCalendarStyle" TargetType="{x:Type CustomControls:CustomCalendar}">
+      <Setter Property="Template" Value="{StaticResource _CalendarioCalendarStyle}"/>
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding ElementName=ChkShowDetails,
+                                Path=IsChecked}" Value="True">
+          <Setter Property="Template" Value="{StaticResource _ListadoCalendarStyle}"/>
+        </DataTrigger>
+      </Style.Triggers>
     </Style>
   </UserControl.Resources>
   <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <Button Click="Button_Click" HorizontalAlignment="Right" Width="40" Margin="4,4,200,4" Content="OK"/>
+    <Button Click="Button_Click_1" HorizontalAlignment="Right" Width="40" Margin="4,4,244,4" Content="OK2"/>
+    <CheckBox Margin="4,4,100,4"  HorizontalAlignment="Right"  x:Name="ChkShowDetails">Show Details</CheckBox>
     <CustomControls:CustomCalendar 
+      x:Name="_Calendario"
       Style="{StaticResource _EditarCitasCalendarStyle}"
       Refresh="{Binding Refresh, Mode=TwoWay}"
-      Grid.Row="1" Appointments="{Binding Citas}"/>
+      Grid.Row="1" Appointments="{Binding Citas}">
+    </CustomControls:CustomCalendar>
   </Grid>
 </UserControl>
