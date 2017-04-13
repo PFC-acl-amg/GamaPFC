@@ -71,8 +71,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnSearchCommandExecute()
         {
             _EventAggregator.GetEvent<PersonaEnBusquedaEvent>().Publish(TextoDeBusqueda);
-            _ResultadoDeBusqueda = Personas.Where(
-             p => p.DisplayMember1.ToLower().Contains(TextoDeBusqueda.Trim().ToLower()));
+
+            _ResultadoDeBusqueda =
+                Personas.Where(p => p.DisplayMember1.ToLower().Contains(TextoDeBusqueda.Trim().ToLower()));
 
             OnPropertyChanged(nameof(ResultadoDeBusqueda));
         }

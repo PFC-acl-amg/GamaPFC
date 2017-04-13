@@ -198,9 +198,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             Personas = new ObservableCollection<LookupItem>(
                               _Personas
-                              .Where(p => p.Nombre.Contains(textoDeBusqueda.Trim()))
+                              .Where(p => p.Nombre.ToLower().Contains(textoDeBusqueda.Trim().ToLower()))
                               .OrderBy(p => p.Nombre)
                               .Select(_PersonaToLookupItemFunc));
+
+            if (Personas.Count == 1)
+            {
+                PersonaSeleccionada = Personas.First();
+                OnFiltrarPorPersonaCommandExecute(PersonaSeleccionada);
+            }
 
             OnPropertyChanged(nameof(Personas));
         }

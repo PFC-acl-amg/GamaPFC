@@ -6,6 +6,7 @@
              xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
+             xmlns:viewModels="clr-namespace:Gama.Atenciones.Wpf.ViewModels"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:common="clr-namespace:Gama.Common;assembly=Gama.Common"
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
@@ -15,7 +16,7 @@
              d:DesignHeight="211.152" d:DesignWidth="490.303">
   <UserControl.Resources>
     <Style TargetType="metro:MetroTabItem">
-      <Setter Property="Header" Value="{Binding DataContext.Title, UpdateSourceTrigger=PropertyChanged}"/>
+      <Setter Property="Header" Value="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
       <Setter Property="metro:ControlsHelper.HeaderFontSize" Value="14"/>
       <Setter Property="HeaderTemplate">
         <Setter.Value>
@@ -59,8 +60,22 @@
         </Setter.Value>
       </Setter>
     </Style>
+    <DataTemplate DataType="{x:Type viewModels:EditarPersonaViewModel}">
+      <local:EditarPersonaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:ListadoDePersonasViewModel}">
+      <local:ListadoDePersonasView />
+    </DataTemplate>
   </UserControl.Resources>
-  <metro:MetroAnimatedSingleRowTabControl 
+  <!--<metro:MetroAnimatedSingleRowTabControl 
             prism:RegionManager.RegionName="{x:Static common:RegionNames.PersonasTabContentRegion}">
+  </metro:MetroAnimatedSingleRowTabControl>-->
+  <metro:MetroAnimatedSingleRowTabControl
+    ItemsSource="{Binding EditarPersonaViewModels}"
+    SelectedItem="{Binding ViewModelSeleccionado,  UpdateSourceTrigger=PropertyChanged}"
+    >
   </metro:MetroAnimatedSingleRowTabControl>
 </UserControl>
+
+<!--SelectedItem="{Binding ViewModelSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
+<!--SelectedIndex="{Binding SelectedIndex,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->

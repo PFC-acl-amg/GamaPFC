@@ -184,6 +184,13 @@ namespace Gama.Common.CustomControls
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
+            if ((e.Key == Key.Return || e.Key == Key.Enter)
+                && this._Popup.IsOpen)
+            {
+                SelectedItem = _ListBox.Items[0] as LookupItem;
+                RaiseSelectResultEvent();
+                InternalClosePopup();
+            }
 
             if (e.Key == Key.Escape)
                 Text = "";
@@ -252,6 +259,9 @@ namespace Gama.Common.CustomControls
                 _SearchEventDelayTimer.Start();
             }
             _SuppressEvent = false;
+
+            if (!HasText)
+                InternalClosePopup();
         }
 
         private void IconBorder_MouseLeftButtonDown(object obj, MouseButtonEventArgs e)

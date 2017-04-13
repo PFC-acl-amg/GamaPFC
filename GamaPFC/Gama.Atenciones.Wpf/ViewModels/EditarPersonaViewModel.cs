@@ -153,7 +153,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             return (Persona.Id == id);
         }
 
-        public void NavigateTo(int personaId, int? atencionId = null)
+        public void OnNavigatedTo(int personaId, int? atencionId = null)
         {
             try
             {
@@ -189,7 +189,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            NavigateTo((int)navigationContext.Parameters["Id"], (int?)navigationContext.Parameters["AtencionId"]);
+            OnNavigatedTo((int)navigationContext.Parameters["Id"], (int?)navigationContext.Parameters["AtencionId"]);
         }
 
         private void RefrescarTitulo(string nombre)

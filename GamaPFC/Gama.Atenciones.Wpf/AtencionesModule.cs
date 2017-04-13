@@ -230,7 +230,7 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<object, EditarAtencionesView>("EditarAtencionesView");
             Container.RegisterType<object, EditarCitasView>("EditarCitasView");
             Container.RegisterType<object, EditarPersonaView>("EditarPersonaView");
-            Container.RegisterType<object, GraficasContentView>("GraficasView");
+            Container.RegisterType<object, GraficasContentView>("GraficasContentView");
             Container.RegisterType<object, ListadoDePersonasView>("ListadoDePersonasView");
             Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
             Container.RegisterType<object, PersonasContentView>("PersonasContentView");
@@ -242,22 +242,22 @@ namespace Gama.Atenciones.Wpf
 
         private void RegisterViewModels()
         {
-            Container.RegisterType<AsistentesContentViewModel>();
+            Container.RegisterType<AsistentesContentViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<AsistenteViewModel>();
-            Container.RegisterType<CitasContentViewModel>();
-            Container.RegisterType<DashboardViewModel>();
+            Container.RegisterType<CitasContentViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<DashboardViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<EditarAtencionesViewModel>();
             Container.RegisterType<EditarCitasViewModel>();
             Container.RegisterType<EditarPersonaViewModel>();
-            Container.RegisterType<GraficasContentViewModel>();
-            Container.RegisterType<ListadoDePersonasViewModel>();
-            Container.RegisterType<PanelSwitcherViewModel>();
-            Container.RegisterType<PersonasContentViewModel>();
-            Container.RegisterType<PreferenciasViewModel>();
-            Container.RegisterType<RightCommandsViewModel>();
-            Container.RegisterType<SearchBoxViewModel>();
-            Container.RegisterType<StatusBarViewModel>();
-            Container.RegisterType<ToolbarViewModel>();
+            Container.RegisterType<GraficasContentViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ListadoDePersonasViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<PanelSwitcherViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<PersonasContentViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<PreferenciasViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<RightCommandsViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<SearchBoxViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<StatusBarViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ToolbarViewModel>(new ContainerControlledLifetimeManager());
         }
 
         private void RegisterServices()
@@ -301,7 +301,7 @@ namespace Gama.Atenciones.Wpf
             //RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
 
             //RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<PersonasContentView>());
-            RegionManager.AddToRegion(RegionNames.PersonasTabContentRegion, Container.Resolve<ListadoDePersonasView>());
+            //RegionManager.AddToRegion(RegionNames.PersonasTabContentRegion, Container.Resolve<ListadoDePersonasView>());
         }
     }
 }

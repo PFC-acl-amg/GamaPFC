@@ -61,8 +61,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
             get { return _Citas; }
             set
             {
-                _Citas = value;
-                OnPropertyChanged("Citas");
+                if (_Citas != value)
+                {
+                    _Citas = value;
+                    OnPropertyChanged("Citas");
+                }
             }
         }
 
