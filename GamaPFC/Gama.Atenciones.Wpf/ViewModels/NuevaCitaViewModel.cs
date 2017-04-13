@@ -23,8 +23,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private IEventAggregator _EventAggregator;
         private IAsistenteRepository _AsistenteRepository;
 
-        public NuevaCitaViewModel(IPersonaRepository personaRepository, 
-            ICitaRepository citaRepository, 
+        public NuevaCitaViewModel(IPersonaRepository personaRepository,
+            ICitaRepository citaRepository,
             IAsistenteRepository asistenteRepository,
             IEventAggregator eventAggregator)
         {
@@ -32,7 +32,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _CitaRepository = citaRepository;
             _AsistenteRepository = asistenteRepository;
             _EventAggregator = eventAggregator;
-            
+
             AceptarCommand = new DelegateCommand(OnAceptarCommand_Execute,
                 OnAceptarCommand_CanExecute);
             CancelarCommand = new DelegateCommand(OnCancelarCommand_Execute);
@@ -47,16 +47,16 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand AceptarCommand { get; private set; }
         public ICommand CancelarCommand { get; private set; }
 
-        private Asistente _AsistenteSeleccionado;
-        public Asistente AsistenteSeleccionado
-        {
-            get { return _AsistenteSeleccionado; }
-            set
-            {
-                _AsistenteSeleccionado = value;
-                OnPropertyChanged();
-            }
-        }
+        //private Asistente _AsistenteSeleccionado;
+        //public Asistente AsistenteSeleccionado
+        //{
+        //    get { return _AsistenteSeleccionado; }
+        //    set
+        //    {
+        //        _AsistenteSeleccionado = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
         private Persona _PersonaSeleccionada;
         public Persona PersonaSeleccionada
@@ -78,7 +78,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             set
             {
                 _Cita = value;
-                //Cita.PropertyChanged += Cita_PropertyChanged;
                 OnPropertyChanged(nameof(Cita));
             }
         }
@@ -117,18 +116,27 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public List<Persona> Personas { get; private set; }
 
+        public void LoadWithDefaultPerson()
+        {
+            //Persona = new PersonaWrapper(Personas.First());
+            PersonaSeleccionada = Personas.First();
+            Cita = new CitaWrapper(new Cita() { Persona = PersonaSeleccionada });
+            Cita.PropertyChanged += Cita_PropertyChanged;
+
+        }
+
         public void Load(PersonaWrapper persona)
         {
             Persona = persona;
-            PersonaSeleccionada = persona.Model;
-            Cita = new CitaWrapper(new Cita() { Persona = Persona.Model });
+            PersonaSeleccionada = Personas.Find(x => x.Id == persona.Id);
+            Cita = new CitaWrapper(new Cita() { Persona = PersonaSeleccionada });
             Cita.PropertyChanged += Cita_PropertyChanged;
         }
 
         public void Load(Persona persona)
         {
-            Persona = new PersonaWrapper(persona);
-            PersonaSeleccionada = persona;
+            //Persona = new PersonaWrapper(persona);
+            PersonaSeleccionada = Personas.Find(x => x.Id == persona.Id);
             Cita = new CitaWrapper(new Cita() { Persona = persona });
             Cita.PropertyChanged += Cita_PropertyChanged;
         }
@@ -136,25 +144,58 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnAceptarCommand_Execute()
         {
             if (!EnEdicionDeCitaExistente)
-                Persona.Citas.Add(Cita);
+            {
+                PersonaSeleccionada.AddCita(Cita.Model);
+                if (Persona != null)
+                    Persona.AddCita(Cita);
+            }
             else
             {
-                CitaWrapper citaActualizada = Persona.Citas.Where(x => x.Id == Cita.Id).FirstOrDefault();
+                Cita citaActualizada = PersonaSeleccionada.Citas.Where(x => x.Id == Cita.Id).FirstOrDefault();
                 citaActualizada.CopyValuesFrom(Cita.Model);
+                if (Persona != null)
+                {
+                    CitaWrapper citaActualizada2 = Persona.Citas.Where(x => x.Id == Cita.Id).FirstOrDefault();
+                    citaActualizada2.CopyValuesFrom(Cita.Model);
+                }
             }
 
-            List<Asistente> asistentes = Persona.Citas.Select(x => x.Asistente).Distinct().ToList();
+            #region Evitar problema de multiplicidad de entidades en NHibernate
 
-            foreach(var cita in Persona.Citas)
+            //if (Persona != null)
+            //{
+            //    List<Asistente> asistentes2 = Persona.Citas.Select(x => x.Asistente).Distinct().ToList();
+
+            //    foreach (var cita in Persona.Citas)
+            //    {
+            //        cita.Asistente = asistentes2.Where(a => a.Id == cita.Asistente.Id).First();
+            //    }
+
+            //    asistentes2 = null;
+            //}
+
+            //List<Asistente> asistentes = PersonaSeleccionada.Citas.Select(x => x.Asistente).Distinct().ToList();
+
+            //foreach (var cita in PersonaSeleccionada.Citas)
+            //{
+            //    cita.Asistente = asistentes.Where(a => a.Id == cita.Asistente.Id).First();
+            //}
+
+            //asistentes = null;
+
+            #endregion
+            if (Persona != null)
             {
-                cita.Asistente = asistentes.Where(a => a.Id == cita.Asistente.Id).First();
+                PersonaSeleccionada = null;
+                _PersonaRepository.Update(Persona.Model);
+                Persona.AcceptChanges();
             }
+            else
+                _PersonaRepository.Update(PersonaSeleccionada);
 
-            asistentes = new List<Asistente>();
-
-            _PersonaRepository.Update(Persona.Model);
-            //_CitaRepository.Create(Cita.Model);
-            Persona.AcceptChanges();
+            //if (Persona != null)
+            //    Persona.AcceptChanges();
+            //PersonaSeleccionada.AcceptChanges();
 
             if (!EnEdicionDeCitaExistente)
                 _EventAggregator.GetEvent<CitaCreadaEvent>().Publish(Cita.Id);
@@ -173,7 +214,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnCancelarCommand_Execute()
         {
-            Persona.RejectChanges();
+            //Persona.RejectChanges();
             Cerrar = true;
         }
     }

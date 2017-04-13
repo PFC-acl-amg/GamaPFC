@@ -67,10 +67,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             var o = new NuevaCitaView();
             var vm = (NuevaCitaViewModel)o.DataContext;
-            //vm.Load(Persona);
-            vm.Cita.Fecha = fechaSeleccionada.Date;
             vm.Session = _Session;
+            vm.LoadWithDefaultPerson();
+            vm.Cita.Fecha = fechaSeleccionada.Date;
             o.ShowDialog();
+            Refresh++;
         }
 
         private void OnEditarCitaCommandExecute(CitaWrapper wrapper)

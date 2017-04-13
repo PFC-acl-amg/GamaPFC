@@ -149,6 +149,13 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public string NacionalidadOriginalValue => GetOriginalValue<string>(nameof(Nacionalidad));
 
+        public void AddCita(CitaWrapper cita)
+        {
+            cita.Persona = this;
+            cita.Model.Persona = this.Model;
+            Citas.Add(cita);
+        }
+
         public bool NacionalidadIsChanged => GetIsChanged(nameof(Nacionalidad));
 
         public string Nif

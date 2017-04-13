@@ -10,6 +10,7 @@ using Prism.Events;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using System;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -28,6 +29,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             NuevaCitaCommand = new DelegateCommand<Day>(OnNuevaCitaCommandExecute);
             NuevaAtencionCommand = new DelegateCommand<CitaWrapper>(OnNuevaAtencionCommandExecute);
             EditarCitaCommand = new DelegateCommand<CitaWrapper>(OnEditarCitaCommandExecute);
+
+            _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
         }
 
         public ICommand NuevaCitaCommand { get; private set; }
@@ -78,9 +81,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             var o = new NuevaCitaView();
             var vm = (NuevaCitaViewModel)o.DataContext;
+            vm.Session = _Session;
             vm.Load(Persona);
             vm.Cita.Fecha = fechaSeleccionada.Date;
-            vm.Session = _Session;
             o.ShowDialog();
         }
 
@@ -89,14 +92,23 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var o = new NuevaCitaView();
             o.Title = "Editar Cita";
             var vm = (NuevaCitaViewModel)o.DataContext;
+            vm.Session = _Session;
             vm.Load(Persona);
             vm.EnEdicionDeCitaExistente = true;
             vm.Cita.CopyValuesFrom(wrapper.Model);
-            vm.Session = _Session;
             //CitaWrapper citaActualizada = Citas.Where(x => x.Id == vm.Cita.Id).FirstOrDefault();
             //citaActualizada.CopyValuesFrom(vm.Cita.Model);
             o.ShowDialog();
             Refresh++;
+        }
+
+        private void OnCitaCreadaEvent(int id)
+        {
+            var cita = _CitaRepository.GetById(id);
+            if (cita.Persona.Id == Persona.Id && !Persona.Citas.Any(c => c.Id == id))
+            {
+                Persona.Citas.Add(new CitaWrapper(cita));
+            }
         }
     }
 }
