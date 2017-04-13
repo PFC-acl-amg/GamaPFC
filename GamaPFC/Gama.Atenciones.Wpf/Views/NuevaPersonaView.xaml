@@ -16,6 +16,13 @@
                    BorderThickness="2"
                    BorderBrush="{StaticResource AccentColorBrush}"
                    actions:DialogCloser.DialogResult="{Binding Cerrar}">
+  <!--<metro:MetroWindow.TitleTemplate>
+    <DataTemplate>
+      <Grid Background="Black">
+        <TextBlock Text="{Binding}"/> 
+      </Grid>
+    </DataTemplate>
+  </metro:MetroWindow.TitleTemplate>-->
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition />

@@ -12,6 +12,122 @@
              d:DesignHeight="566.606" d:DesignWidth="1099.96">
   <UserControl.Resources>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <ControlTemplate x:Key="SimpleExpanderButtonTemp" TargetType="{x:Type ToggleButton}">
+      <Border x:Name="ExpanderButtonBorder"
+              Margin="-26,0,0,0"
+            Background="#008D8DA8"
+            Width="25"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="0"
+            Padding="{TemplateBinding Padding}">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+          </Grid.ColumnDefinitions>
+          <Rectangle Fill="#00C62C2C" Grid.ColumnSpan="2"/>
+          <!--<cc:CircleIconButton
+            Foreground="#0F1013"
+            Icon="{StaticResource appbar_arrow_left}"
+            IconHeight="8" IconWidth="8"
+            Height="30" Width="30"
+            VerticalAlignment="Top"
+            Margin="-3,4,0,0"
+            BorderBrush="#0F1013"
+            BorderThickness="1"/>-->
+          <!--<Ellipse x:Name="ellipsebg"
+                   Height="20"
+                   Width="20"
+                   VerticalAlignment="Top"
+                                 Fill="{DynamicResource BlackBrush}"
+                                 StrokeThickness="0"
+                                 Opacity="0" />-->
+          <Ellipse 
+                   Height="20"
+                   Width="20"
+                   Margin="0,4,0,0"
+                   VerticalAlignment="Top"
+                  Stroke="{TemplateBinding BorderBrush}"
+                  StrokeThickness="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}, Path=BorderThickness.Left}" />
+
+          <Rectangle Margin="0,9,0,0"
+                   Height="10"
+                   Width="10"
+                   VerticalAlignment="Top">
+            <Rectangle.Fill>
+              <VisualBrush Visual="{StaticResource appbar_arrow_left}"/>
+            </Rectangle.Fill>
+          </Rectangle>
+
+          <!--<Ellipse Name="Circle" Grid.Column="0" 
+                 Stroke="DarkGray" Width="20" Height="20"
+                 HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          <Path x:Name="Sign"
+              Grid.Column="0"
+              Data="M 0,5 H 10 M 5,0 V 10 Z"
+              Stroke="#FF656565"
+              Width="10"
+              Height="10"
+              StrokeThickness="2"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              RenderTransformOrigin="0.5,0.5"
+              >
+            <Path.RenderTransform>
+              <RotateTransform Angle="0"/>
+            </Path.RenderTransform>
+          </Path>-->
+          <ContentPresenter x:Name="HeaderContent"
+                          Grid.Column="1"
+                          Margin="4,0,0,0"
+                          ContentSource="Content"/>
+        </Grid>
+      </Border>
+      <ControlTemplate.Triggers>
+        <!--Change the sign to minus when toggled-->
+        <Trigger Property="IsChecked" Value="True">
+          <!--<Setter Property="Data" TargetName="Sign" Value="M 0,5 H 10 Z"/>-->
+        </Trigger>
+
+        <!-- MouseOver, Pressed behaviours-->
+        <Trigger Property="IsMouseOver" Value="true">
+          <!--<Setter Property="Stroke" Value="#FF3C7FB1" TargetName="Circle"/>
+          <Setter Property="Stroke" Value="#222" TargetName="Sign"/>-->
+        </Trigger>
+        <Trigger Property="IsPressed" Value="true">
+          <!--<Setter Property="Stroke" Value="#FF526C7B" TargetName="Circle"/>
+          <Setter Property="StrokeThickness"  Value="1.5"  TargetName="Circle"/>
+          <Setter Property="Stroke"  Value="#FF003366"  TargetName="Sign"/>-->
+        </Trigger>
+      </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="SimpleExpanderTemp" TargetType="{x:Type Expander}">
+      <DockPanel>
+          <ToggleButton x:Name="ExpanderButton"
+                      DockPanel.Dock="Right"
+                        VerticalAlignment="Top"
+                      Panel.ZIndex="2"
+                      Template="{StaticResource SimpleExpanderButtonTemp}"
+                      Content="{TemplateBinding Header}"
+                      IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                      OverridesDefaultStyle="True"
+                      Padding="1.5,0">
+          </ToggleButton>
+          <Border DockPanel.Dock="Left" BorderBrush="#413A3A" BorderThickness="0,1.5,1.5,1.5">
+            <ContentPresenter x:Name="ExpanderContent" Visibility="Visible" DockPanel.Dock="Right"/>
+          </Border>
+        </DockPanel>
+        <ControlTemplate.Triggers>
+        <Trigger Property="IsExpanded" Value="True">
+          <Setter TargetName="ExpanderContent" Property="Visibility" Value="Visible"/>
+        </Trigger>
+        <Trigger Property="IsExpanded" Value="False">
+          <Setter TargetName="ExpanderContent" Property="Visibility" Value="Collapsed"/>
+        </Trigger>
+      </ControlTemplate.Triggers>
+    </ControlTemplate>
+
   </UserControl.Resources>
   <Grid x:Name="_MainGrid">
     <Grid.ColumnDefinitions>
@@ -20,6 +136,7 @@
     </Grid.ColumnDefinitions>
 
     <Expander x:Name="_InformacionPersonalExpander" ExpandDirection="Right" IsExpanded="True" 
+              BorderThickness="2"
               Collapsed="_InformacionPersonalExpander_IsExpandedChanged" 
               Expanded="_InformacionPersonalExpander_IsExpandedChanged">
       <Grid>
@@ -31,8 +148,18 @@
           <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <local:PersonaView DataContext="{Binding PersonaVM}"
-          ScrollViewer.VerticalScrollBarVisibility="Auto" />
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition />
+          </Grid.RowDefinitions>
+          <TextBlock FontSize="16" Margin="{StaticResource Margin}"
+                     Foreground="Gray"
+                     FontWeight="Normal" Text="Datos Personales"></TextBlock>
+          <local:PersonaView DataContext="{Binding PersonaVM}"
+                             Grid.Row="1"
+            ScrollViewer.VerticalScrollBarVisibility="Auto" />
+        </Grid>
 
         <Grid Grid.Row="1">
           <Grid.ColumnDefinitions>
@@ -44,7 +171,7 @@
             Command="{Binding EliminarPersonaCommand}"
             Foreground="DarkRed">Eliminar persona</Hyperlink>
           </Label>
-          
+
           <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
             <!-- Actualizar Button -->
             <cc:CircleIconButton 
