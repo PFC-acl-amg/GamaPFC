@@ -82,23 +82,20 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var o = new NuevaCitaView();
             var vm = (NuevaCitaViewModel)o.DataContext;
             vm.Session = _Session;
-            vm.Load(Persona);
-            vm.Cita.Fecha = fechaSeleccionada.Date;
+            vm.LoadForCreation(Persona, fechaSeleccionada.Date);
+            //vm.Cita.Fecha = fechaSeleccionada.Date;
             o.ShowDialog();
         }
 
         private void OnEditarCitaCommandExecute(CitaWrapper wrapper)
         {
-            var o = new NuevaCitaView();
-            o.Title = "Editar Cita";
+            var o = new NuevaCitaView() { Title = "Editar Cita" };
             var vm = (NuevaCitaViewModel)o.DataContext;
             vm.Session = _Session;
-            vm.Load(Persona);
             vm.EnEdicionDeCitaExistente = true;
-            vm.Cita.CopyValuesFrom(wrapper.Model);
-            //CitaWrapper citaActualizada = Citas.Where(x => x.Id == vm.Cita.Id).FirstOrDefault();
-            //citaActualizada.CopyValuesFrom(vm.Cita.Model);
+            vm.LoadForEdition(wrapper);
             o.ShowDialog();
+
             Refresh++;
         }
 

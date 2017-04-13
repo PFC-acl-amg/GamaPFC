@@ -42,29 +42,41 @@ namespace Gama.Atenciones.Wpf
                 TodosLosNifDeAsistentes.Add(nif);
             }
         }
+
+        public static List<Persona> Personas { get; set; }
     }
 
     public class AtencionesModule : ModuleBase
     {
+        public bool ClearDatabase { get; private set; }
+
         public AtencionesModule(IUnityContainer container, IRegionManager regionManager)
            : base(container, regionManager)
         {
             this.Entorno = Entorno.Desarrollo;
-            this.SeedDatabase = true;
+            this.ClearDatabase = false;
+            this.SeedDatabase = false;
         }
 
         public override void Initialize()
         {
             RegisterServices();
-            RegisterViews();
-            RegisterViewModels();
 
             var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
             var personaRepository = new PersonaRepository();
+            var citaRepository = new CitaRepository();
             var asistenteRepository = new AsistenteRepository();
             var session = sessionFactory.OpenSession();
             personaRepository.Session = session;
+            citaRepository.Session = session;
             asistenteRepository.Session = session;
+
+            if (ClearDatabase)
+            {
+                citaRepository.DeleteAll();
+                asistenteRepository.DeleteAll();
+                personaRepository.DeleteAll();
+            }
 
             #region Database Seeding
             try
@@ -128,12 +140,18 @@ namespace Gama.Atenciones.Wpf
             // Recogemos todos los NIF para usarlos en validación
             // No lo hacemos en el wrapper directamente para eliminar el acomplamiento
             // del wrapper a los servicios. 
-            AtencionesResources.TodosLosNif = personaRepository.GetNifs();
+            AtencionesResources.Personas = personaRepository.GetAll();
+
+            AtencionesResources.TodosLosNif = AtencionesResources.Personas.Select(x => x.Nif).ToList();
+
+            //AtencionesResources.TodosLosNif = personaRepository.GetNifs();
             AtencionesResources.TodosLosNifDeAsistentes = asistenteRepository.GetNifs();
 
             // Preparamos la estructura de carpeta para la primera vez
             InicializarDirectorios();
 
+            RegisterViews();
+            RegisterViewModels();
             InitializeNavigation();
         }
 
@@ -205,41 +223,41 @@ namespace Gama.Atenciones.Wpf
 
         private void RegisterViews()
         {
-            //Container.RegisterType<object, AsistentesContentView>("AsistentesContentView");
-            //Container.RegisterType<object, AsistenteView>("AsistenteView");
-            //Container.RegisterType<object, CitasContentView>("CitasContentView");
-            //Container.RegisterType<object, DashboardView>("DashboardView");
-            //Container.RegisterType<object, EditarAtencionesView>("EditarAtencionesView");
-            //Container.RegisterType<object, EditarCitasView>("EditarCitasView");
-            //Container.RegisterType<object, EditarPersonaView>("EditarPersonaView");
-            //Container.RegisterType<object, GraficasView>("GraficasView");
-            //Container.RegisterType<object, ListadoDePersonasView>("ListadoDePersonasView");
-            //Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
-            //Container.RegisterType<object, PersonasContentView>("PersonasContentView");
-            //Container.RegisterType<object, StatusBarView>("StatusBarView");
-            //Container.RegisterType<object, ToolbarView>("ToolbarView");
-            //Container.RegisterType<object, RightCommandsView>("RightCommandsView");
-            //Container.RegisterType<object, PreferenciasView>("PreferenciasView");
+            Container.RegisterType<object, AsistentesContentView>("AsistentesContentView");
+            Container.RegisterType<object, AsistenteView>("AsistenteView");
+            Container.RegisterType<object, CitasContentView>("CitasContentView");
+            Container.RegisterType<object, DashboardView>("DashboardView");
+            Container.RegisterType<object, EditarAtencionesView>("EditarAtencionesView");
+            Container.RegisterType<object, EditarCitasView>("EditarCitasView");
+            Container.RegisterType<object, EditarPersonaView>("EditarPersonaView");
+            Container.RegisterType<object, GraficasContentView>("GraficasView");
+            Container.RegisterType<object, ListadoDePersonasView>("ListadoDePersonasView");
+            Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
+            Container.RegisterType<object, PersonasContentView>("PersonasContentView");
+            Container.RegisterType<object, StatusBarView>("StatusBarView");
+            Container.RegisterType<object, ToolbarView>("ToolbarView");
+            Container.RegisterType<object, RightCommandsView>("RightCommandsView");
+            Container.RegisterType<object, PreferenciasView>("PreferenciasView");
         }
 
         private void RegisterViewModels()
         {
-            //Container.RegisterType<AsistentesContentViewModel>();
-            //Container.RegisterType<AsistenteViewModel>();
-            //Container.RegisterType<CitasContentViewModel>();
-            //Container.RegisterType<DashboardViewModel>();
-            //Container.RegisterType<EditarAtencionesViewModel>();
-            //Container.RegisterType<EditarCitasViewModel>();
-            //Container.RegisterType<EditarPersonaViewModel>();
-            //Container.RegisterType<GraficasViewModel>();
-            //Container.RegisterType<ListadoDePersonasViewModel>();
-            //Container.RegisterType<PanelSwitcherViewModel>();
-            //Container.RegisterType<PersonasContentViewModel>();
-            //Container.RegisterType<PreferenciasViewModel>();
-            //Container.RegisterType<RightCommandsViewModel>();
-            //Container.RegisterType<SearchBoxViewModel>();
-            //Container.RegisterType<StatusBarViewModel>();
-            //Container.RegisterType<ToolbarViewModel>();
+            Container.RegisterType<AsistentesContentViewModel>();
+            Container.RegisterType<AsistenteViewModel>();
+            Container.RegisterType<CitasContentViewModel>();
+            Container.RegisterType<DashboardViewModel>();
+            Container.RegisterType<EditarAtencionesViewModel>();
+            Container.RegisterType<EditarCitasViewModel>();
+            Container.RegisterType<EditarPersonaViewModel>();
+            Container.RegisterType<GraficasContentViewModel>();
+            Container.RegisterType<ListadoDePersonasViewModel>();
+            Container.RegisterType<PanelSwitcherViewModel>();
+            Container.RegisterType<PersonasContentViewModel>();
+            Container.RegisterType<PreferenciasViewModel>();
+            Container.RegisterType<RightCommandsViewModel>();
+            Container.RegisterType<SearchBoxViewModel>();
+            Container.RegisterType<StatusBarViewModel>();
+            Container.RegisterType<ToolbarViewModel>();
         }
 
         private void RegisterServices()

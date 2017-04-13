@@ -182,5 +182,21 @@ namespace Core.DataAccess
                 throw ex;
             }
         }
+
+        public void DeleteAll()
+        {
+            var entities = Session.CreateCriteria<TEntity>().List<TEntity>().ToList();
+            using (var tx = Session.BeginTransaction())
+            {
+                foreach (var entity in entities)
+                {
+                    Session.Delete(entity);
+                }
+
+                tx.Commit();
+                Session.Clear();
+            }
+
+        }
     }
 }

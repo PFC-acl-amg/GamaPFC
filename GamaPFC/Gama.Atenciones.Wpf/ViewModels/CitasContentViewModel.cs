@@ -43,6 +43,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             NuevaCitaCommand = new DelegateCommand<Day>(OnNuevaCitaCommandExecute);
             NuevaAtencionCommand = new DelegateCommand<CitaWrapper>(OnNuevaAtencionCommandExecute);
             EditarCitaCommand = new DelegateCommand<CitaWrapper>(OnEditarCitaCommandExecute);
+
+            _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
         }
 
         public ICommand NuevaCitaCommand { get; private set; }
@@ -79,14 +81,21 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var o = new NuevaCitaView();
             o.Title = "Editar Cita";
             var vm = (NuevaCitaViewModel)o.DataContext;
-            //vm.Load(Persona);
-            vm.EnEdicionDeCitaExistente = true;
-            vm.Cita.CopyValuesFrom(wrapper.Model);
             vm.Session = _Session;
+            vm.EnEdicionDeCitaExistente = true;
+            vm.LoadForEdition(wrapper);
+            //vm.Cita.CopyValuesFrom(wrapper.Model);
             //CitaWrapper citaActualizada = Citas.Where(x => x.Id == vm.Cita.Id).FirstOrDefault();
             //citaActualizada.CopyValuesFrom(vm.Cita.Model);
             o.ShowDialog();
             Refresh++;
+        }
+
+        private void OnCitaCreadaEvent(int id)
+        {
+            Cita cita = _CitaRepository.GetById(id);
+
+            Citas.Add(new CitaWrapper(cita));
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)

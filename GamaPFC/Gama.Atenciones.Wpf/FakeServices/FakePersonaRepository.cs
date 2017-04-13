@@ -41,7 +41,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
                     Email = Faker.InternetFaker.Email(),
                     EstadoCivil = EstadoCivil.Soltera,
                     Facebook = Faker.InternetFaker.Domain(),
-                    FechaDeNacimiento = Faker.DateTimeFaker.BirthDay(),
+                    FechaDeNacimiento = DateTime.Now.AddYears(-20),
                     IdentidadSexual = _IdentidadSexual[_Random.Next(0, 5)],
                     LinkedIn = Faker.InternetFaker.Domain(),
                     Nacionalidad = Faker.LocationFaker.Country(),

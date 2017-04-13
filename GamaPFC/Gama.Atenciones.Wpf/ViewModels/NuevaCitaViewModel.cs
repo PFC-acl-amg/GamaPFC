@@ -92,52 +92,84 @@ namespace Gama.Atenciones.Wpf.ViewModels
             set { SetProperty(ref _Cerrar, value); }
         }
 
+        private ISession _Session;
         public ISession Session
         {
-            get { return null; }
+            get { return _Session; }
             set
             {
+                _Session = value;
                 _PersonaRepository.Session = value;
                 _CitaRepository.Session = value;
                 _AsistenteRepository.Session = value;
-
-                Asistentes = new List<Asistente>(_AsistenteRepository.GetAll());
-                OnPropertyChanged(nameof(Asistentes));
-
-                Personas = new List<Persona>(_PersonaRepository.GetAll());
-                OnPropertyChanged(nameof(Personas));
-
-                if (EnEdicionDeCitaExistente)
-                {
-                    Cita.Asistente = Asistentes.Find(a => a.Id == Cita.Asistente.Id);
-                }
             }
         }
 
         public List<Persona> Personas { get; private set; }
 
+        private void InicializarColecciones(bool incluirPersonas, Persona personaSeleccionada = null)
+        {
+            Asistentes = new List<Asistente>(_AsistenteRepository.GetAll());
+            OnPropertyChanged(nameof(Asistentes));
+
+            if (incluirPersonas)
+            {
+                //Personas = new List<Persona>(_PersonaRepository.GetAll());
+                Personas = AtencionesResources.Personas;
+                OnPropertyChanged(nameof(Personas));
+            }
+            else
+            {
+                Personas = new List<Persona>() { personaSeleccionada };
+                OnPropertyChanged(nameof(Personas));
+            }
+
+            if (EnEdicionDeCitaExistente)
+            {
+                Cita.Asistente = Asistentes.Find(a => a.Id == Cita.Asistente.Id);
+            }
+        }
+
         public void LoadWithDefaultPerson()
         {
+            InicializarColecciones(incluirPersonas: true);
             //Persona = new PersonaWrapper(Personas.First());
             PersonaSeleccionada = Personas.First();
             Cita = new CitaWrapper(new Cita() { Persona = PersonaSeleccionada });
             Cita.PropertyChanged += Cita_PropertyChanged;
-
         }
 
-        public void Load(PersonaWrapper persona)
+        /// <summary>
+        /// Este Load se usa para editar una cita existente.
+        /// </summary>
+        /// <param name="citaExistente">Cita existente a editar.</param>
+        public void LoadForEdition(CitaWrapper citaExistente)
         {
-            Persona = persona;
-            PersonaSeleccionada = Personas.Find(x => x.Id == persona.Id);
-            Cita = new CitaWrapper(new Cita() { Persona = PersonaSeleccionada });
+            Cita = citaExistente;
             Cita.PropertyChanged += Cita_PropertyChanged;
+            Persona = new PersonaWrapper(citaExistente.Persona);
+            InicializarColecciones(incluirPersonas: false, personaSeleccionada: citaExistente.Persona);
+            PersonaSeleccionada = Personas.Find(x => x.Id == Persona.Id);
         }
 
-        public void Load(Persona persona)
+        /// <summary>
+        /// Este Load se usa para crear una nueva cita.
+        /// </summary>
+        /// <param name="persona">Persona a la que asignarle la nueva cita.</param>
+        /// <param name="fechaSeleccionada">Fecha seleccionada inicial (se puede modificar).</param>
+        public void LoadForCreation(PersonaWrapper persona, DateTime fechaSeleccionada)
         {
-            //Persona = new PersonaWrapper(persona);
-            PersonaSeleccionada = Personas.Find(x => x.Id == persona.Id);
-            Cita = new CitaWrapper(new Cita() { Persona = persona });
+            InicializarColecciones(incluirPersonas: false, personaSeleccionada: persona.Model);
+            Persona = persona;
+            //PersonaSeleccionada = Personas.Find(x => x.Id == persona.Id);
+            PersonaSeleccionada = persona.Model;
+
+            Cita = new CitaWrapper(new Cita()
+            {
+                Persona = persona.Model,
+                Fecha = fechaSeleccionada
+            });
+
             Cita.PropertyChanged += Cita_PropertyChanged;
         }
 
@@ -147,7 +179,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 PersonaSeleccionada.AddCita(Cita.Model);
                 if (Persona != null)
-                    Persona.AddCita(Cita);
+                    Persona.AddCita(Cita.Model);
             }
             else
             {
@@ -214,7 +246,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnCancelarCommand_Execute()
         {
-            //Persona.RejectChanges();
+            Cita.RejectChanges();
             Cerrar = true;
         }
     }
