@@ -59,6 +59,7 @@
   </UserControl.Resources>
   <Grid x:Name="_Root">
     <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
       <RowDefinition Height="*" MinHeight="200" />
       <!--<RowDefinition Height="*" />-->
     </Grid.RowDefinitions>
@@ -68,8 +69,58 @@
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
 
+    <Grid Grid.ColumnSpan="3" Panel.ZIndex="2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Button x:Name="_ToggleDateFilterButton" Click="Button_Click" HorizontalAlignment="Right" Margin="4,4,4,4" 
+              BorderThickness="0"
+              BorderBrush="Transparent"
+              Foreground="Black"
+              Background="Transparent"
+              >
+        <Rectangle Width="20" Height="20" Stroke="Black" >
+          <Rectangle.Fill>
+            <VisualBrush Visual="{StaticResource appbar_3d_3ds}" Stretch="Uniform"/>
+            <!--<VisualBrush Visual="{StaticResource appbar_3d_obj}" Stretch="Uniform"/>-->
+          </Rectangle.Fill>
+        </Rectangle>
+      </Button>
+
+      <StackPanel x:Name="_DateFilterStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="Visible" Grid.Column="1">
+        <cc:CircleIconButton
+                    Icon="{StaticResource appbar_refresh}"
+                    Width="31"
+                    Height="31"
+                    IconWidth="12"
+                    IconHeight="12"
+                    ToolTip="Resetear Fechas"
+                    Command="{Binding ResetearFechasCommand}">
+          <Button.Style>
+            <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+              <Setter Property="Opacity" Value="0.5"/>
+              <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                  <Setter Property="Opacity" Value="1"/>
+                  <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+              </Style.Triggers>
+            </Style>
+          </Button.Style>
+        </cc:CircleIconButton>
+        <DatePicker Margin="{StaticResource Margin}" VerticalAlignment="Center"
+                    SelectedDate="{Binding FechaDeInicio, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    ToolTip="Fecha de inicio del filtro (no actúa si está vacío)"/>
+        <TextBlock FontFamily="Courier" FontSize="16" VerticalAlignment="Center">-</TextBlock>
+        <DatePicker Margin="{StaticResource Margin}" VerticalAlignment="Center" SelectedDate="{Binding FechaDeFin, 
+            UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    ToolTip="Fecha de fin del filtro (no actúa si está vacío)"/>
+      </StackPanel>
+    </Grid>
+
     <!-- Personas -->
-    <GroupBox Grid.Column="0" Grid.Row="0"
+    <GroupBox Grid.Column="0" Grid.Row="1"
                  Margin="{StaticResource Margin}">
       <GroupBox.Header>
         <Label HorizontalAlignment="Center" Content="PERSONAS" Foreground="White" Padding="0"></Label>
@@ -178,7 +229,7 @@
     </GroupBox>
 
     <!-- Atenciones -->
-    <GroupBox Grid.Column="1" Grid.Row="0"
+    <GroupBox Grid.Column="1" Grid.Row="1"
                  Margin="{StaticResource Margin}">
       <GroupBox.Header>
         <Label HorizontalAlignment="Center" Content="ATENCIONES" Foreground="White" Padding="0"></Label>
@@ -257,7 +308,7 @@
     </GroupBox>
 
     <!-- Próximas Citas -->
-    <GroupBox Grid.Column="2" Grid.Row="0"
+    <GroupBox Grid.Column="2" Grid.Row="1"
                  Margin="{StaticResource Margin}">
       <GroupBox.Header>
         <Label HorizontalAlignment="Center" Content="PRÓXIMAS CITAS" Foreground="White" Padding="0"></Label>

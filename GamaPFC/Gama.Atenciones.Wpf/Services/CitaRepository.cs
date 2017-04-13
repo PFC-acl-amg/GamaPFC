@@ -36,41 +36,6 @@ namespace Gama.Atenciones.Wpf.Services
             }
         }
 
-        public override bool Update(Cita entity)
-        {
-            try
-            {
-                using (var tx = Session.BeginTransaction())
-                {
-                    var encryptableEntity = entity as IEncryptable;
-                    if (encryptableEntity != null)
-                    {
-                        encryptableEntity.IsEncrypted = false;
-                        encryptableEntity.Encrypt();
-                    }
-
-                    Session.Update(entity);
-                    tx.Commit();
-                    Session.Clear();
-
-                    // Volvemos a desencriptar porque el modelo que nos ha llegado
-                    // ha sido por referencia, así que hay que devolverlo adecudamente
-                    // a las capas visuales...
-                    if (encryptableEntity != null)
-                    {
-                        encryptableEntity.Decrypt();
-                    }
-
-                }
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
         public List<LookupItem> GetAllForLookup()
         {
             throw new NotImplementedException();

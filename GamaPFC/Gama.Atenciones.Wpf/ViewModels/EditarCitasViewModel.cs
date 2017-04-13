@@ -88,6 +88,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             vm.LoadForCreation(Persona, fechaSeleccionada.Date);
             //vm.Cita.Fecha = fechaSeleccionada.Date;
             o.ShowDialog();
+            Persona.AcceptChanges();
         }
 
         private void OnEditarCitaCommandExecute(CitaWrapper wrapper)
@@ -98,7 +99,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             vm.EnEdicionDeCitaExistente = true;
             vm.LoadForEdition(wrapper);
             o.ShowDialog();
-
+            Persona.AcceptChanges();
             Refresh++;
         }
 
