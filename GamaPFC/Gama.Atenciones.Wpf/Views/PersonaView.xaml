@@ -53,11 +53,18 @@
               <Ellipse.Fill>
                 <ImageBrush ImageSource="{Binding Persona.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
               </Ellipse.Fill>
-              <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDoubleClick">
-                  <prism:InvokeCommandAction Command="{Binding ExaminarAvatarCommand}"/>
-                </i:EventTrigger>
-              </i:Interaction.Triggers>
+                <Ellipse.Style>
+                  <Style TargetType="Ellipse">
+                    <Style.Triggers>
+                      <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Cursor" Value="Hand"/>
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Ellipse.Style>
+                <Ellipse.InputBindings>
+                  <MouseBinding MouseAction="LeftClick" Command="{Binding ExaminarAvatarCommand}"/>
+                </Ellipse.InputBindings>
             </Ellipse>
             <!--</Border>-->
             <!--<Border  BorderBrush="Black" MinHeight="100" MaxHeight="100" BorderThickness="0" CornerRadius="1">
@@ -75,10 +82,10 @@
                   </i:Interaction.Triggers>
                 </Image>
               </Border>-->
-            <Label Margin="0" VerticalAlignment="Bottom" 
+            <!--<Label Margin="0" VerticalAlignment="Bottom" 
                      VerticalContentAlignment="Bottom" HorizontalAlignment="Center">
               <Hyperlink Command="{Binding ExaminarAvatarCommand}" FontSize="9">Examinar...</Hyperlink>
-            </Label>
+            </Label>-->
           </StackPanel>
 
           <StackPanel Grid.Column="2">
