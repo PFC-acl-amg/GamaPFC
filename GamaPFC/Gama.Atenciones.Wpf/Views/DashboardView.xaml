@@ -86,6 +86,19 @@
             <!--<VisualBrush Visual="{StaticResource appbar_3d_obj}" Stretch="Uniform"/>-->
           </Rectangle.Fill>
         </Rectangle>
+        <Button.Style>
+          <Style TargetType="Button">
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                  <Border Background="Transparent">
+                    <ContentPresenter/>
+                  </Border>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </Button.Style>
       </Button>
 
       <StackPanel x:Name="_DateFilterStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="Visible" Grid.Column="1">
