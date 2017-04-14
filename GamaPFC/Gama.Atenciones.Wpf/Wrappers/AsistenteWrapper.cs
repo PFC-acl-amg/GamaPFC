@@ -70,6 +70,67 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool TelefonoIsChanged => GetIsChanged(nameof(Telefono));
 
+        public string Facebook
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string FacebookOriginalValue => GetOriginalValue<string>(nameof(Facebook));
+
+        public bool FacebookIsChanged => GetIsChanged(nameof(Facebook));
+
+        public string LinkedIn
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string LinkedInOriginalValue => GetOriginalValue<string>(nameof(LinkedIn));
+
+        public bool LinkedInIsChanded => GetIsChanged(nameof(LinkedIn));
+
+        public NivelAcademico NivelAcademico
+        {
+            get { return GetValue<NivelAcademico>(); }
+            set { SetValue(value); }
+        }
+
+        public NivelAcademico NivelAcademicoOriginalValue => GetOriginalValue<NivelAcademico>(nameof(NivelAcademico));
+
+        public bool NivelAcademicoIsChanged => GetIsChanged(nameof(NivelAcademico));
+
+
+        public EstadoCivil EstadoCivil
+        {
+            get { return GetValue<EstadoCivil>(); }
+            set { SetValue(value); }
+        }
+
+        public EstadoCivil EstadoCivilOriginalValue => GetOriginalValue<EstadoCivil>(nameof(EstadoCivil));
+
+        public bool EstadoCivilIsChanged => GetIsChanged(nameof(EstadoCivil));
+
+        public DateTime? FechaDeNacimiento
+        {
+            get { return GetValue<DateTime?>(); }
+            set { SetValue(value); }
+        }
+
+        public DateTime? FechaDeNacimientoOriginalValue => GetOriginalValue<DateTime?>(nameof(FechaDeNacimiento));
+
+        public bool FechaDeNacimientoIsChanged => GetIsChanged(nameof(FechaDeNacimiento));
+
+        public ComoConocioAGama ComoConocioAGama
+        {
+            get { return GetValue<ComoConocioAGama>(); }
+            set { SetValue(value); }
+        }
+
+        public ComoConocioAGama ComoConocioAGamaOriginalValue => GetOriginalValue<ComoConocioAGama>(nameof(ComoConocioAGama));
+
+        public bool ComoConocioAGamaIsChanged => GetIsChanged(nameof(ComoConocioAGama));
+
         public byte[] Imagen
         {
             get { return GetValue<byte[]>(); }

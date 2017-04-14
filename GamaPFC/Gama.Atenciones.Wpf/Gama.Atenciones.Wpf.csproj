@@ -184,6 +184,7 @@
     <Compile Include="Converters\DateConverter.cs" />
     <Compile Include="Converters\DayNameConverter.cs" />
     <Compile Include="Converters\MonthNameConverter.cs" />
+    <Compile Include="DesignTimeData\AsistenteViewModelDTD.cs" />
     <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />
     <Compile Include="DesignTimeData\EditarAtencionesViewModelDTD.cs" />
     <Compile Include="DesignTimeData\EditarCitasViewModelDTD.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="Eventos\PersonaEliminadaEvent.cs" />
     <Compile Include="Eventos\PersonaSeleccionadaChangedEvent.cs" />
     <Compile Include="Eventos\PersonaSeleccionadaEvent.cs" />
+    <Compile Include="FakeServices\FakeAsistenteRepository.cs" />
     <Compile Include="FakeServices\FakeAtencionRepository.cs" />
     <Compile Include="FakeServices\FakeCitaRepository.cs" />
     <Compile Include="FakeServices\FakePersonaRepository.cs" />
