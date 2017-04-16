@@ -10,13 +10,13 @@
                    xmlns:actions="clr-namespace:Core.Util;assembly=Core"
                    mc:Ignorable="d"
                    Title="Nuevo Asistente"
-                   d:DesignWidth="550" d:DesignHeight="515.781"
+                   d:DesignWidth="550"
                    prism:ViewModelLocator.AutoWireViewModel="True"
                    WindowStartupLocation="CenterScreen"
                    MaxWidth="550"
                    BorderThickness="2"
                    BorderBrush="{StaticResource AccentColorBrush}"
-                   actions:DialogCloser.DialogResult="{Binding Cerrar}">
+                   actions:DialogCloser.DialogResult="{Binding Cerrar}" Height="578.781">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition />
