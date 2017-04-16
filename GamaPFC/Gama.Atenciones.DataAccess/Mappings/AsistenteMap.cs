@@ -18,7 +18,19 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Map(x => x.Nombre);
             Map(x => x.Telefono);
             Map(x => x.Imagen);
-            Map(x => x.Nif);
+            Map(x => x.Nif); 
+            Map(p => p.ComoConocioAGama);
+            Map(p => p.Email).Length(128);
+            Map(p => p.FechaDeNacimiento);
+            Map(p => p.Facebook).Not.Nullable().Default("").Length(128);
+            Map(p => p.LinkedIn).Not.Nullable().Default("").Length(128);
+            Map(x => x.Nif).Not.Nullable().Unique().Length(128);
+            Map(p => p.NivelAcademico);
+            Map(p => p.Nombre).Length(60).Not.Nullable().Length(128);
+            Map(p => p.Ocupacion).Not.Nullable().Default("");
+            Map(p => p.Telefono).Not.Nullable().Default("").Length(128);
+            Map(p => p.Twitter).Not.Nullable().Default("").Length(128);
+            Map(p => p.Imagen);
 
             Map(p => p.CreatedAt);
             Map(p => p.UpdatedAt);

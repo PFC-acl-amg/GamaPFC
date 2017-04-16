@@ -137,39 +137,39 @@
           <TextBox 
             Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
             mahapps:TextBoxHelper.Watermark="Provincia..."
-            Text="{Binding NuevoCooperante.Provincia}"/>
+            Text="{Binding Asistente.Provincia, UpdateSourceTrigger=PropertyChanged}"/>
           <TextBox  
               Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"
               mahapps:TextBoxHelper.Watermark="Municipio..."
-              Text="{Binding Asistente.Municipio}"/>
+              Text="{Binding Asistente.Municipio, UpdateSourceTrigger=PropertyChanged}"/>
           <TextBox 
               Grid.Row="2" Grid.Column="3"  Grid.ColumnSpan="2"
-              mahapps:TextBoxHelper.Watermark="CP..."
-              Text="{Binding Asistente.CP}"/>
+              mahapps:TextBoxHelper.Watermark="Código Postal.."
+              Text="{Binding Asistente.CodigoPostal, UpdateSourceTrigger=PropertyChanged}"/>
           <TextBox  
               Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
               mahapps:TextBoxHelper.Watermark="Localidad..."
-              Text="{Binding Asistente.Localidad}"/>
+              Text="{Binding Asistente.Localidad, UpdateSourceTrigger=PropertyChanged}"/>
           <TextBox 
               Grid.Row="3" Grid.Column="0"
               mahapps:TextBoxHelper.Watermark="Calle/Avenida/..."
-              Text="{Binding Asistente.Calle}"/>
+              Text="{Binding Asistente.Calle, UpdateSourceTrigger=PropertyChanged}"/>
           <TextBox 
               Grid.Row="3" Grid.Column="1"
               mahapps:TextBoxHelper.Watermark="Número..."
-              Text="{Binding Asistente.Numero}"/>
+              Text="{Binding Asistente.Numero, UpdateSourceTrigger=PropertyChanged}"/>
           <TextBox 
               Grid.Row="3" Grid.Column="2"
               mahapps:TextBoxHelper.Watermark="Portal..."
-              Text="{Binding Asistente.Portal}"/>
+              Text="{Binding Asistente.Portal, UpdateSourceTrigger=PropertyChanged}"/>
           <TextBox  
               Grid.Row="3" Grid.Column="3"
               mahapps:TextBoxHelper.Watermark="Piso..."
-              Text="{Binding Asistente.Piso}"/>
+              Text="{Binding Asistente.Piso, UpdateSourceTrigger=PropertyChanged}"/>
           <TextBox  Name="XamlPuerta"
               Grid.Row="3" Grid.Column="4"
               mahapps:TextBoxHelper.Watermark="Puerta..."
-              Text="{Binding Asistente.Puerta}"/>
+              Text="{Binding Asistente.Puerta, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
       </Border>
       
@@ -190,28 +190,28 @@
           <!-- TELÉFONOS -->
           <TextBox Grid.Row="0" Grid.Column="0"
             mahapps:TextBoxHelper.Watermark="Telefono Fijo..."
-            Text="{Binding NuevoCooperante.telefono, UpdateSourceTrigger=PropertyChanged}"/>
+            Text="{Binding Asistente.TelefonoFijo, UpdateSourceTrigger=PropertyChanged}"/>
           <TextBox Grid.Row="0" Grid.Column="1"
           mahapps:TextBoxHelper.Watermark="Telefono Movil..."
-          Text="{Binding NuevoCooperante.TelefonoMovil, UpdateSourceTrigger=PropertyChanged}"/>
+          Text="{Binding Asistente.TelefonoMovil, UpdateSourceTrigger=PropertyChanged}"/>
           <TextBox  Grid.Row="0" Grid.Column="2"
           mahapps:TextBoxHelper.Watermark="Telefono Alternativo..."
-          Text="{Binding NuevoCooperante.TelefonoAlternativo, UpdateSourceTrigger=PropertyChanged}"/>
+          Text="{Binding Asistente.TelefonoAlternativo, UpdateSourceTrigger=PropertyChanged}"/>
 
           <!-- EMAILS -->
           <TextBox Grid.Row="1" Grid.Column="0"
-          mahapps:TextBoxHelper.Watermark="Correo Electrónico..."
-          Text="{Binding NuevoCooperante.Email}"/>
+          mahapps:TextBoxHelper.Watermark="Email..."
+          Text="{Binding Asistente.Email}"/>
           <TextBox  Grid.Row="1" Grid.Column="1"
-            mahapps:TextBoxHelper.Watermark="Correo Electrónico Alternativo..."
-            Text="{Binding NuevoCooperante.EmailAlternativo, UpdateSourceTrigger=PropertyChanged}"/>
+            mahapps:TextBoxHelper.Watermark="Email Alternativo..."
+            Text="{Binding Asistente.EmailAlternativo, UpdateSourceTrigger=PropertyChanged}"/>
 
           <!-- OBSERVACIONES -->
           <TextBox  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
                     MinLines="4"
             mahapps:TextBoxHelper.Watermark="Observaciones..."
             Margin="{StaticResource Margin}"
-            Text="{Binding NuevoCooperante.Observaciones,UpdateSourceTrigger=PropertyChanged}"/>
+            Text="{Binding Asistente.Observaciones,UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
       </Border>
     </Grid>
