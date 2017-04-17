@@ -53,7 +53,7 @@
       </ItemsControl.Template>
       <ItemsControl.ItemTemplate>
         <DataTemplate>
-          <GroupBox>
+          <GroupBox Width="Auto" HorizontalAlignment="Left">
             <Grid>
               <Grid.Style>
                 <Style TargetType="Grid">
@@ -66,30 +66,20 @@
                 </Style>
               </Grid.Style>
               <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="85" />
-                <ColumnDefinition Width="85"/>
+                <ColumnDefinition Width="170" />
               </Grid.ColumnDefinitions>
               <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
                 <RowDefinition  Height="Auto"/>
               </Grid.RowDefinitions>
 
-              <Ellipse Height="85" Width="85" Grid.ColumnSpan="2"
-                         Margin="{StaticResource Margin}">
+              <Ellipse Height="85" Width="85" Margin="{StaticResource Margin}">
                 <Ellipse.Fill>
                   <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
                 </Ellipse.Fill>
               </Ellipse>
 
-              <!--<Image Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" 
-                Stretch="Uniform" MaxHeight="70" Grid.ColumnSpan="2"
-                     Margin="{StaticResource Margin}">
-                <Image.BitmapEffect>
-                  <DropShadowBitmapEffect Color="Black" />
-                </Image.BitmapEffect>
-              </Image>-->
-
-              <StackPanel Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center">
+              <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                 <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center"
                            FontSize="13"
                            TextWrapping="Wrap"
@@ -99,15 +89,13 @@
                            TextWrapping="Wrap" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
               </StackPanel>
             </Grid>
-            <i:Interaction.Triggers>
-              <i:EventTrigger EventName="MouseDoubleClick">
-                <prism:InvokeCommandAction 
+            <GroupBox.InputBindings>
+              <MouseBinding MouseAction="LeftDoubleClick"
                   Command="{Binding RelativeSource = 
                     {RelativeSource FindAncestor,AncestorType={x:Type Grid}},
                     Path=DataContext.SeleccionarPersonaCommand}"
                     CommandParameter="{Binding Id}"/>
-              </i:EventTrigger>
-            </i:Interaction.Triggers>
+            </GroupBox.InputBindings>
           </GroupBox>
         </DataTemplate>
       </ItemsControl.ItemTemplate>
