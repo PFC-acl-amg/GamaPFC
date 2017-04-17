@@ -32,7 +32,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
                     Fin = DateTime.Now.AddHours(2),
                     Sala = "Sala B",
                     HaTenidoLugar = true,
-                    Persona = null,
+                    Persona = new Persona { Id = 0, Nombre = Faker.NameFaker.FirstName() },
                     CreatedAt = DateTime.Now.AddMonths(createdAt)
                 };
 

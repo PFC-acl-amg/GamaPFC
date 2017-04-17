@@ -10,8 +10,11 @@
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:prism="http://prismlibrary.com/"
-             mc:Ignorable="d" d:DesignWidth="1499.337" d:DesignHeight="1028.796">
+             xmlns:prism="http://prismlibrary.com/"           
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=designData:EditarCitasViewModelDTD, IsDesignTimeCreatable=True}"  
+             d:DesignWidth="1499.337" 
+             d:DesignHeight="1028.796">
   <UserControl.Resources>
     <Style x:Key="_CircleIconButtonStyle"
       TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
@@ -359,21 +362,38 @@
     <Style x:Key="_EditarCitasCalendarStyle" TargetType="{x:Type CustomControls:CustomCalendar}">
       <Setter Property="Template" Value="{StaticResource _CalendarioCalendarStyle}"/>
       <Style.Triggers>
-        <DataTrigger Binding="{Binding ElementName=ChkShowDetails,
-                                Path=IsChecked}" Value="True">
+        <DataTrigger Binding="{Binding ElementName=_ToggleCalendarStyleCheckbox,Path=IsChecked}" Value="True">
           <Setter Property="Template" Value="{StaticResource _ListadoCalendarStyle}"/>
         </DataTrigger>
       </Style.Triggers>
     </Style>
   </UserControl.Resources>
   <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition />
-    </Grid.RowDefinitions>
-    <Button Click="Button_Click" HorizontalAlignment="Right" Width="40" Margin="4,4,200,4" Content="OK"/>
-    <Button Click="Button_Click_1" HorizontalAlignment="Right" Width="40" Margin="4,4,244,4" Content="OK2"/>
-    <CheckBox Margin="4,4,100,4"  HorizontalAlignment="Right"  x:Name="ChkShowDetails">Show Details</CheckBox>
+    <CheckBox Margin="4,4,100,4"  HorizontalAlignment="Right" IsChecked="True"
+              x:Name="_ToggleCalendarStyleCheckbox" 
+              Visibility="Hidden">f</CheckBox>
+    <cc:CircleIconButton Click="CircleIconButton_Click" >
+      <cc:CircleIconButton.Style>
+        <!-- appbar_lines_horizontal_4-->
+        <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+          <Setter Property="Foreground" Value="#645C5C"/>
+          <Setter Property="Icon" Value="{StaticResource appbar_lines_horizontal_4}"/>
+          <Setter Property="Margin" Value="4,-30,100,0"/>
+          <Setter Property="HorizontalAlignment" Value="Right"/>
+          <Setter Property="BorderThickness" Value="0"/>
+          <Setter Property="IconWidth" Value="22"/>
+          <Setter Property="IconHeight" Value="22"/>
+          <Setter Property="Height" Value="35"/>
+          <Setter Property="Width" Value="35"/>
+          <Setter Property="VerticalAlignment" Value="Top"/>
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=_ToggleCalendarStyleCheckbox, Path=IsChecked}" Value="True">
+              <Setter Property="Icon" Value="{StaticResource appbar_calendar}"/>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </cc:CircleIconButton.Style>
+    </cc:CircleIconButton>
     <CustomControls:CustomCalendar 
       x:Name="_Calendario"
       Style="{StaticResource _EditarCitasCalendarStyle}"

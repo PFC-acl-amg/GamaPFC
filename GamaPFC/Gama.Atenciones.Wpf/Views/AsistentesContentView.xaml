@@ -13,10 +13,8 @@
              xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:wrappers="clr-namespace:Gama.Atenciones.Wpf.Wrappers"
              xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
-             mc:Ignorable="d" d:DesignWidth="905.5" d:DesignHeight="566">
-  <UserControl.DataContext>
-    <designData:AsistenteViewModelDTD/>
-  </UserControl.DataContext>
+             mc:Ignorable="d" d:DesignWidth="905.5" d:DesignHeight="566"
+             d:DataContext="{d:DesignInstance Type=designData:AsistenteViewModelDTD, IsDesignTimeCreatable=True}"  >
   <UserControl.Resources>
     <converters:BinaryImageConverter x:Key="_BinaryImageConverter" />
     <BooleanToVisibilityConverter x:Key="_BooleanToVisibilityConverter"/>

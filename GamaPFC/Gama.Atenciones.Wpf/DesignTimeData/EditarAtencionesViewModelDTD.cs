@@ -15,6 +15,7 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
         private FakeAtencionRepository _AtencionRepository;
         private FakeCitaRepository _CitaRepository;
         private FakePersonaRepository _PersonaRepository;
+        private List<Persona> _Personas;
 
         public EditarAtencionesViewModelDTD()
         {
@@ -22,8 +23,8 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
             _AtencionRepository = new FakeAtencionRepository();
             _PersonaRepository = new FakePersonaRepository();
             _Atenciones = _AtencionRepository.GetAll();
-
-            Persona = new  PersonaWrapper(_PersonaRepository.GetById(1));
+            _Personas = _PersonaRepository.GetAll();
+            Persona = new PersonaWrapper(_Personas.First());
 
             int i = 0;
             foreach (var cita in Persona.Citas)
