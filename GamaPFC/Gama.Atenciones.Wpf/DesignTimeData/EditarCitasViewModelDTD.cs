@@ -18,7 +18,7 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
         {
             //Citas = new ObservableCollection<CitaWrapper>(
             //    new FakeServices.FakeCitaRepository().GetAll().Select(c => new CitaWrapper(c)));
-            Citas = new ObservableCollection<Cita>(new FakeServices.FakeCitaRepository().GetAll());
+            Citas = new ObservableCollection<CitaWrapper>(new FakeServices.FakeCitaRepository().GetAll().Select(x => new CitaWrapper(x)));
             Appointments = new ObservableCollection<Appointment>();
 
             Appointments.Add(new Appointment() { Sala = "Sala A", Date = DateTime.Now, Subject = string.Format("{0} {1}", Faker.NameFaker.FirstName(), Faker.NameFaker.LastName()) });
@@ -42,7 +42,7 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
         }
 
         public ObservableCollection<Appointment> Appointments { get; private set; }
-        public ObservableCollection<Cita> Citas { get; private set; }
+        public ObservableCollection<CitaWrapper> Citas { get; private set; }
         public ICommand NuevaCitaCommand { get; private set; }
 
         private DateTime _CurrentDate;

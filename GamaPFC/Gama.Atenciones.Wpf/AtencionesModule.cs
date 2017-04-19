@@ -42,29 +42,41 @@ namespace Gama.Atenciones.Wpf
                 TodosLosNifDeAsistentes.Add(nif);
             }
         }
+
+        public static List<Persona> Personas { get; set; }
     }
 
     public class AtencionesModule : ModuleBase
     {
+        public bool ClearDatabase { get; private set; }
+
         public AtencionesModule(IUnityContainer container, IRegionManager regionManager)
            : base(container, regionManager)
         {
             this.Entorno = Entorno.Desarrollo;
+            this.ClearDatabase = false;
             this.SeedDatabase = false;
         }
 
         public override void Initialize()
         {
             RegisterServices();
-            RegisterViews();
-            RegisterViewModels();
 
             var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
             var personaRepository = new PersonaRepository();
+            var citaRepository = new CitaRepository();
             var asistenteRepository = new AsistenteRepository();
             var session = sessionFactory.OpenSession();
             personaRepository.Session = session;
+            citaRepository.Session = session;
             asistenteRepository.Session = session;
+
+            if (ClearDatabase)
+            {
+                citaRepository.DeleteAll();
+                asistenteRepository.DeleteAll();
+                personaRepository.DeleteAll();
+            }
 
             #region Database Seeding
             try
@@ -86,33 +98,33 @@ namespace Gama.Atenciones.Wpf
                     for (int i = 0; i < personas.Count; i++)
                     {
                         var persona = personas[i];
-                        var cita = citas[i];
-                        var atencion = atenciones[i];
-                        var derivacion = new Derivacion
-                        {
-                            Id = 0,
-                            Atencion = atencion,
-                            EsDeFormacion = opciones[random.Next(0, 8)],
-                            EsDeFormacion_Realizada = opciones[random.Next(0, 8)],
-                            EsDeOrientacionLaboral = opciones[random.Next(0, 8)],
-                            EsDeOrientacionLaboral_Realizada = opciones[random.Next(0, 8)],
-                            EsExterna = opciones[random.Next(0, 8)],
-                            EsExterna_Realizada = opciones[random.Next(0, 8)],
-                            EsJuridica = opciones[random.Next(0, 8)],
-                            EsJuridica_Realizada = opciones[random.Next(0, 8)],
-                            EsPsicologica = opciones[random.Next(0, 8)],
-                            EsPsicologica_Realizada = opciones[random.Next(0, 8)],
-                            EsSocial = opciones[random.Next(0, 8)],
-                            EsSocial_Realizada = opciones[random.Next(0, 8)],
-                            Externa = "Externa",
-                            Externa_Realizada = "Externa realizada",
-                            Tipo = "",
-                        };
+                        //var cita = citas[i];
+                        //var atencion = atenciones[i];
+                        //var derivacion = new Derivacion
+                        //{
+                        //    Id = 0,
+                        //    Atencion = atencion,
+                        //    EsDeFormacion = opciones[random.Next(0, 8)],
+                        //    EsDeFormacion_Realizada = opciones[random.Next(0, 8)],
+                        //    EsDeOrientacionLaboral = opciones[random.Next(0, 8)],
+                        //    EsDeOrientacionLaboral_Realizada = opciones[random.Next(0, 8)],
+                        //    EsExterna = opciones[random.Next(0, 8)],
+                        //    EsExterna_Realizada = opciones[random.Next(0, 8)],
+                        //    EsJuridica = opciones[random.Next(0, 8)],
+                        //    EsJuridica_Realizada = opciones[random.Next(0, 8)],
+                        //    EsPsicologica = opciones[random.Next(0, 8)],
+                        //    EsPsicologica_Realizada = opciones[random.Next(0, 8)],
+                        //    EsSocial = opciones[random.Next(0, 8)],
+                        //    EsSocial_Realizada = opciones[random.Next(0, 8)],
+                        //    Externa = "Externa",
+                        //    Externa_Realizada = "Externa realizada",
+                        //    Tipo = "",
+                        //};
 
-                        atencion.Derivacion = derivacion;
+                        //atencion.Derivacion = derivacion;
 
-                        cita.SetAtencion(atencion);
-                        persona.AddCita(citas[i]);
+                        //cita.SetAtencion(atencion);
+                        //persona.AddCita(citas[i]);
 
                         personaRepository.Create(persona);
                     }
@@ -128,12 +140,18 @@ namespace Gama.Atenciones.Wpf
             // Recogemos todos los NIF para usarlos en validación
             // No lo hacemos en el wrapper directamente para eliminar el acomplamiento
             // del wrapper a los servicios. 
-            AtencionesResources.TodosLosNif = personaRepository.GetNifs();
+            AtencionesResources.Personas = personaRepository.GetAll();
+
+            AtencionesResources.TodosLosNif = AtencionesResources.Personas.Select(x => x.Nif).ToList();
+
+            //AtencionesResources.TodosLosNif = personaRepository.GetNifs();
             AtencionesResources.TodosLosNifDeAsistentes = asistenteRepository.GetNifs();
 
             // Preparamos la estructura de carpeta para la primera vez
             InicializarDirectorios();
 
+            RegisterViews();
+            RegisterViewModels();
             InitializeNavigation();
         }
 
@@ -212,7 +230,7 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<object, EditarAtencionesView>("EditarAtencionesView");
             Container.RegisterType<object, EditarCitasView>("EditarCitasView");
             Container.RegisterType<object, EditarPersonaView>("EditarPersonaView");
-            Container.RegisterType<object, GraficasView>("GraficasView");
+            Container.RegisterType<object, GraficasContentView>("GraficasContentView");
             Container.RegisterType<object, ListadoDePersonasView>("ListadoDePersonasView");
             Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
             Container.RegisterType<object, PersonasContentView>("PersonasContentView");
@@ -224,66 +242,66 @@ namespace Gama.Atenciones.Wpf
 
         private void RegisterViewModels()
         {
-            Container.RegisterType<AsistentesContentViewModel>();
+            Container.RegisterType<AsistentesContentViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<AsistenteViewModel>();
-            Container.RegisterType<CitasContentViewModel>();
-            Container.RegisterType<DashboardViewModel>();
+            Container.RegisterType<CitasContentViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<DashboardViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<EditarAtencionesViewModel>();
             Container.RegisterType<EditarCitasViewModel>();
             Container.RegisterType<EditarPersonaViewModel>();
-            Container.RegisterType<GraficasViewModel>();
-            Container.RegisterType<ListadoDePersonasViewModel>();
-            Container.RegisterType<PanelSwitcherViewModel>();
-            Container.RegisterType<PersonasContentViewModel>();
-            Container.RegisterType<PreferenciasViewModel>();
-            Container.RegisterType<RightCommandsViewModel>();
-            Container.RegisterType<SearchBoxViewModel>();
-            Container.RegisterType<StatusBarViewModel>();
-            Container.RegisterType<ToolbarViewModel>();
+            Container.RegisterType<GraficasContentViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ListadoDePersonasViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<PanelSwitcherViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<PersonasContentViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<PreferenciasViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<RightCommandsViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<SearchBoxViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<StatusBarViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ToolbarViewModel>(new ContainerControlledLifetimeManager());
         }
 
         private void RegisterServices()
         {
-            Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
-            Container.RegisterType<ISession>(
-                new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
-            Container.RegisterType<IPersonaRepository, PersonaRepository>();
-            Container.RegisterType<ICitaRepository, CitaRepository>();
-            Container.RegisterType<IAtencionRepository, AtencionRepository>();
-            Container.RegisterType<IAsistenteRepository, AsistenteRepository>();
+            //Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
+            //Container.RegisterType<ISession>(
+            //    new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
+            //Container.RegisterType<IPersonaRepository, PersonaRepository>();
+            //Container.RegisterType<ICitaRepository, CitaRepository>();
+            //Container.RegisterType<IAtencionRepository, AtencionRepository>();
+            //Container.RegisterType<IAsistenteRepository, AsistenteRepository>();
 
-            PreferenciasDeAtenciones preferencias;
-            string preferenciasPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-                + @"\preferencias_de_atenciones.cfg";
+            //PreferenciasDeAtenciones preferencias;
+            //string preferenciasPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+            //    + @"\preferencias_de_atenciones.cfg";
 
-            if (File.Exists(preferenciasPath))
-            {
-                var preferenciasFile = File.Open(preferenciasPath, FileMode.Open);
-                preferencias = (PreferenciasDeAtenciones)new BinaryFormatter().Deserialize(preferenciasFile);
-                preferenciasFile.Close();
-            }
-            else
-            {
-                preferencias = new PreferenciasDeAtenciones();
-                new BinaryFormatter().Serialize(File.Create(preferenciasPath), preferencias);
-            }
+            //if (File.Exists(preferenciasPath))
+            //{
+            //    var preferenciasFile = File.Open(preferenciasPath, FileMode.Open);
+            //    preferencias = (PreferenciasDeAtenciones)new BinaryFormatter().Deserialize(preferenciasFile);
+            //    preferenciasFile.Close();
+            //}
+            //else
+            //{
+            //    preferencias = new PreferenciasDeAtenciones();
+            //    new BinaryFormatter().Serialize(File.Create(preferenciasPath), preferencias);
+            //}
 
-            Container.RegisterInstance<PreferenciasDeAtenciones>(preferencias);
+            //Container.RegisterInstance<PreferenciasDeAtenciones>(preferencias);
         }
 
         private void InitializeNavigation()
         {
             RegionManager.RegisterViewWithRegion(RegionNames.PreferenciasRegion, typeof(PreferenciasView));
             RegionManager.RegisterViewWithRegion(RegionNames.RightCommandsRegion, typeof(RightCommandsView));
-            RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
-            RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
-            RegionManager.RegisterViewWithRegion(RegionNames.SearchBoxRegion, typeof(SearchBoxView));
+            //RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
+            //RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
+            //RegionManager.RegisterViewWithRegion(RegionNames.SearchBoxRegion, typeof(SearchBoxView));
             RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
-            RegionManager.RequestNavigate(RegionNames.ContentRegion, "GraficasView");
-            RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
+            //RegionManager.RequestNavigate(RegionNames.ContentRegion, "GraficasContentView");
+            //RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
 
-            RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<PersonasContentView>());
-            RegionManager.AddToRegion(RegionNames.PersonasTabContentRegion, Container.Resolve<ListadoDePersonasView>());
+            //RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<PersonasContentView>());
+            //RegionManager.AddToRegion(RegionNames.PersonasTabContentRegion, Container.Resolve<ListadoDePersonasView>());
         }
     }
 }

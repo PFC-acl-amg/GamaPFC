@@ -24,5 +24,17 @@ namespace Gama.Atenciones.Wpf.Views
         {
             InitializeComponent();
         }
+
+        private void _InformacionPersonalExpander_IsExpandedChanged(object sender, RoutedEventArgs e)
+        {
+            if (_InformacionPersonalExpander.IsExpanded)
+            {
+                _MainGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
+            }
+            else
+            {
+                _MainGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Auto);
+            }
+        }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Core;
+using Core.Util;
 using Gama.Atenciones.Business;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -24,6 +26,14 @@ namespace Gama.Atenciones.Wpf.Wrappers
             _SavedNif = model.Nif;
         }
 
+        protected override void InitializeCollectionProperties(Asistente model)
+        {
+            // No hace falta registrar la colección en este caso porque desde un asistente
+            // no se modificarán (añadir, editar o eliminar) citas, así que nos basta
+            // con tener acceso a dichas citas.
+            Citas = new ObservableCollection<Cita>(model.Citas);
+        }
+
         public int Id
         {
             get { return GetValue<int>(); }
@@ -40,6 +50,16 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool NombreIsChanged => GetIsChanged(nameof(Nombre));
 
+        public string Apellidos
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string ApellidosOriginalValue => GetOriginalValue<string>(nameof(Apellidos));
+
+        public bool ApellidosIsChanged => GetIsChanged(nameof(Apellidos));
+
         public string Nif
         {
             get { return GetValue<string>(); }
@@ -49,6 +69,129 @@ namespace Gama.Atenciones.Wpf.Wrappers
         public string NifOriginalValue => GetOriginalValue<string>(nameof(Nif));
 
         public bool NifIsChanged => GetIsChanged(nameof(Nif));
+
+        public string Ocupacion
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string OcupacionOriginalValue => GetOriginalValue<string>(nameof(Ocupacion));
+
+        public bool OcupacionIsChanged => GetIsChanged(nameof(Ocupacion));
+
+        public string Facebook
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string FacebookOriginalValue => GetOriginalValue<string>(nameof(Facebook));
+
+        public bool FacebookIsChanged => GetIsChanged(nameof(Facebook));
+
+        public string LinkedIn
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string LinkedInOriginalValue => GetOriginalValue<string>(nameof(LinkedIn));
+
+        public bool LinkedInIsChanded => GetIsChanged(nameof(LinkedIn));
+
+        public NivelAcademico NivelAcademico
+        {
+            get { return GetValue<NivelAcademico>(); }
+            set { SetValue(value); }
+        }
+
+        public NivelAcademico NivelAcademicoOriginalValue => GetOriginalValue<NivelAcademico>(nameof(NivelAcademico));
+
+        public bool NivelAcademicoIsChanged => GetIsChanged(nameof(NivelAcademico));
+
+
+        public EstadoCivil EstadoCivil
+        {
+            get { return GetValue<EstadoCivil>(); }
+            set { SetValue(value); }
+        }
+
+        public EstadoCivil EstadoCivilOriginalValue => GetOriginalValue<EstadoCivil>(nameof(EstadoCivil));
+
+        public bool EstadoCivilIsChanged => GetIsChanged(nameof(EstadoCivil));
+
+        public DateTime? FechaDeNacimiento
+        {
+            get { return GetValue<DateTime?>(); }
+            set { SetValue(value); }
+        }
+
+        public DateTime? FechaDeNacimientoOriginalValue => GetOriginalValue<DateTime?>(nameof(FechaDeNacimiento));
+
+        public bool FechaDeNacimientoIsChanged => GetIsChanged(nameof(FechaDeNacimiento));
+
+        public ComoConocioAGama ComoConocioAGama
+        {
+            get { return GetValue<ComoConocioAGama>(); }
+            set { SetValue(value); }
+        }
+
+        public ComoConocioAGama ComoConocioAGamaOriginalValue => GetOriginalValue<ComoConocioAGama>(nameof(ComoConocioAGama));
+
+        public bool ComoConocioAGamaIsChanged => GetIsChanged(nameof(ComoConocioAGama));
+
+        public byte[] Imagen
+        {
+            get { return GetValue<byte[]>(); }
+            set { SetValue(value); }
+        }
+        public byte[] ImagenOriginalValue => GetOriginalValue<byte[]>(nameof(Imagen));
+
+        public bool ImagenIsChanded => GetIsChanged(nameof(Imagen));
+
+        public string Observaciones
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string ObservacionesOriginalValue => GetOriginalValue<string>(nameof(Observaciones));
+
+        public bool ObservacionesIsChanged => GetIsChanged(nameof(Observaciones));
+
+        public string TelefonoFijo
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string TelefonoFijoOriginalValue => GetOriginalValue<string>(nameof(TelefonoFijo));
+
+        public bool TelefonoFijoIsChanged => GetIsChanged(nameof(TelefonoFijo));
+
+
+        public string TelefonoMovil
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string TelefonoMovilOriginalValue => GetOriginalValue<string>(nameof(TelefonoMovil));
+
+        public bool TelefonoMovilIsChanged => GetIsChanged(nameof(TelefonoMovil));
+
+
+        public string TelefonoAlternativo
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string TelefonoAlternativoOriginalValue => GetOriginalValue<string>(nameof(TelefonoAlternativo));
+
+        public bool TelefonoAlternativoIsChanged => GetIsChanged(nameof(TelefonoAlternativo));
+
 
         public string Email
         {
@@ -60,24 +203,117 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool EmailIsChanged => GetIsChanged(nameof(Email));
 
-        public string Telefono
+
+        public string EmailAlternativo
         {
             get { return GetValue<string>(); }
             set { SetValue(value); }
         }
 
-        public string TelefonoOriginalValue => GetOriginalValue<string>(nameof(Telefono));
+        public string EmailAlternativoOriginalValue => GetOriginalValue<string>(nameof(EmailAlternativo));
 
-        public bool TelefonoIsChanged => GetIsChanged(nameof(Telefono));
+        public bool EmailAlternativoIsChanged => GetIsChanged(nameof(EmailAlternativo));
 
-        public byte[] Imagen
+
+        public string Puerta
         {
-            get { return GetValue<byte[]>(); }
+            get { return GetValue<string>(); }
             set { SetValue(value); }
         }
-        public byte[] ImagenOriginalValue => GetOriginalValue<byte[]>(nameof(Imagen));
 
-        public bool ImagenIsChanded => GetIsChanged(nameof(Imagen));
+        public string PuertaOriginalValue => GetOriginalValue<string>(nameof(Puerta));
+
+        public bool PuertaIsChanged => GetIsChanged(nameof(Puerta));
+
+
+        public string Piso
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string PisoOriginalValue => GetOriginalValue<string>(nameof(Piso));
+
+        public bool PisoIsChanged => GetIsChanged(nameof(Piso));
+
+
+        public string Portal
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string PortalOriginalValue => GetOriginalValue<string>(nameof(Portal));
+
+        public bool PortalIsChanged => GetIsChanged(nameof(Portal));
+
+
+        public string Numero
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string NumeroOriginalValue => GetOriginalValue<string>(nameof(Numero));
+
+        public bool NumeroIsChanged => GetIsChanged(nameof(Numero));
+
+
+        public string Calle
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string CalleOriginalValue => GetOriginalValue<string>(nameof(Calle));
+
+        public bool CalleIsChanged => GetIsChanged(nameof(Calle));
+
+
+        public string CodigoPostal
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string CodigoPostalOriginalValue => GetOriginalValue<string>(nameof(CodigoPostal));
+
+        public bool CodigoPostalIsChanged => GetIsChanged(nameof(CodigoPostal));
+
+
+        public string Localidad
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string LocalidadOriginalValue => GetOriginalValue<string>(nameof(Localidad));
+
+        public bool LocalidadIsChanged => GetIsChanged(nameof(Localidad));
+
+
+        public string Municipio
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string MunicipioOriginalValue => GetOriginalValue<string>(nameof(Municipio));
+
+        public bool MunicipioIsChanged => GetIsChanged(nameof(Municipio));
+
+
+        public string Provincia
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string ProvinciaOriginalValue => GetOriginalValue<string>(nameof(Provincia));
+
+        public bool ProvinciaIsChanged => GetIsChanged(nameof(Provincia));
+
+        public ObservableCollection<Cita> Citas { get; private set; }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -97,14 +333,19 @@ namespace Gama.Atenciones.Wpf.Wrappers
                 results.Add(new ValidationResult("El campo de nombre es obligatorio", new[] { nameof(Nombre) }));
             }
 
-            var pattern =
-                @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
-                @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
+            if (string.IsNullOrWhiteSpace(TelefonoMovil))
+            {
+                results.Add(new ValidationResult("El campo de nombre es obligatorio", new[] { nameof(TelefonoMovil) }));
+            }
 
-            if (!string.IsNullOrWhiteSpace(Email) &&
-                !Regex.IsMatch(Email, pattern, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
+            if (!string.IsNullOrWhiteSpace(Email) && StringUtility.EmailIsNotEmptyAndIsMatch(Email))
             {
                 results.Add(new ValidationResult("Email inválido", new[] { nameof(Email) }));
+            }
+
+            if (!string.IsNullOrWhiteSpace(Email) && StringUtility.EmailIsNotEmptyAndIsMatch(Email))
+            {
+                results.Add(new ValidationResult("Email alternativo inválido", new[] { nameof(EmailAlternativo) }));
             }
 
             return results;

@@ -48,6 +48,9 @@ namespace Gama.Atenciones.Wpf.Converters
                 if (values == null)
                     return new List<CitaWrapper>();
 
+                if (values[0] == null)
+                    return new List<CitaWrapper>();
+
                 Day day = values[1] as Day;
                 DateTime date;
 
@@ -58,7 +61,7 @@ namespace Gama.Atenciones.Wpf.Converters
 
                 ObservableCollection<CitaWrapper> appointments = new ObservableCollection<CitaWrapper>();
 
-                if (values[0] != DependencyProperty.UnsetValue)
+                if (values[0] != DependencyProperty.UnsetValue && values[0] != null)
                 {
 
                     foreach (CitaWrapper appointment in (ObservableCollection<CitaWrapper>)values[0])

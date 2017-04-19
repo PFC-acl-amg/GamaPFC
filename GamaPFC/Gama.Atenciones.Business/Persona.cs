@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Business
 {
-    public class Persona : TimestampedModel, IEncryptable
+    public class Persona : TimestampedModel
     {
         public virtual string AvatarPath { get; set; }
         public virtual ComoConocioAGama ComoConocioAGama { get; set; }
@@ -35,10 +35,6 @@ namespace Gama.Atenciones.Business
         public virtual byte[] Imagen { get; set; }
         public virtual ViaDeAccesoAGama ViaDeAccesoAGama { get; set; }
         public virtual IList<Cita> Citas { get; set; }
-
-        public virtual List<string> EncryptedFields { get; set; }
-
-        public virtual bool IsEncrypted { get; set; }
 
         public Persona()
         {
@@ -102,7 +98,7 @@ namespace Gama.Atenciones.Business
                             result = difference.Year;
                     } catch (ArgumentOutOfRangeException)
                     {
-                        result = null;
+                        throw;
                     }
                 }
                 else
@@ -118,79 +114,6 @@ namespace Gama.Atenciones.Business
         {
             cita.Persona = this;
             this.Citas.Add(cita);
-        }
-
-        public virtual void Encrypt()
-        {
-            if (IsEncrypted)
-                return;
-
-            foreach (var propertyName in EncryptedFields)
-            {
-                var propertyInfo = this.GetType().GetProperty(propertyName);
-                var propertyValue = propertyInfo.GetValue(this, null);
-
-                if (propertyValue != null)
-                {
-                    if (propertyValue is byte[])
-                    {
-                        propertyInfo.SetValue(this, Cipher.Encrypt((byte[])propertyValue));
-                    }
-                    else if (propertyValue is string)
-                    {
-                        string value = propertyValue.ToString();
-                        if (!string.IsNullOrWhiteSpace(value))
-                        {
-                            propertyInfo.SetValue(this, Cipher.Encrypt(value));
-                        }
-                    }
-                }
-            }
-
-            IsEncrypted = true;
-        }
-
-        public virtual Persona DecryptFluent()
-        {
-            Decrypt();
-            return this;
-        }
-
-        public virtual void Decrypt()
-        {
-            try
-            {
-                if (!IsEncrypted)
-                    return;
-
-                foreach (var propertyName in EncryptedFields)
-                {
-                    var propertyInfo = this.GetType().GetProperty(propertyName);
-                    var propertyValue = propertyInfo.GetValue(this, null);
-
-                    if (propertyValue != null)
-                    {
-                        if (propertyValue is byte[])
-                        {
-                            propertyInfo.SetValue(this, Cipher.Decrypt((byte[])propertyValue));
-                        }
-                        else if (propertyValue is string)
-                        {
-                            string value = propertyValue.ToString();
-                            if (!string.IsNullOrWhiteSpace(value))
-                            {
-                                propertyInfo.SetValue(this, Cipher.Decrypt(value));
-                            }
-                        }
-                    }
-                }
-
-                IsEncrypted = false;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
         }
     }
 

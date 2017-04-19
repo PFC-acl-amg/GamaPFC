@@ -180,9 +180,11 @@
     <Compile Include="Controls\Day.cs" />
     <Compile Include="Converters\AppointmentsConverter.cs" />
     <Compile Include="Converters\BinaryImageConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\DateConverter.cs" />
     <Compile Include="Converters\DayNameConverter.cs" />
     <Compile Include="Converters\MonthNameConverter.cs" />
+    <Compile Include="DesignTimeData\AsistenteViewModelDTD.cs" />
     <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />
     <Compile Include="DesignTimeData\EditarAtencionesViewModelDTD.cs" />
     <Compile Include="DesignTimeData\EditarCitasViewModelDTD.cs" />
@@ -204,6 +206,7 @@
     <Compile Include="Eventos\PersonaEliminadaEvent.cs" />
     <Compile Include="Eventos\PersonaSeleccionadaChangedEvent.cs" />
     <Compile Include="Eventos\PersonaSeleccionadaEvent.cs" />
+    <Compile Include="FakeServices\FakeAsistenteRepository.cs" />
     <Compile Include="FakeServices\FakeAtencionRepository.cs" />
     <Compile Include="FakeServices\FakeCitaRepository.cs" />
     <Compile Include="FakeServices\FakePersonaRepository.cs" />
@@ -222,6 +225,8 @@
     </Compile>
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="UIEvents\ActiveViewChanged.cs" />
+    <Compile Include="DataTemplateSelectors\ViewModelDataTemplateSelector.cs" />
+    <Compile Include="UIEvents\PersonaEnBusquedaEvent.cs" />
     <Compile Include="ViewModels\AsistentesContentViewModel.cs" />
     <Compile Include="ViewModels\AsistenteViewModel.cs" />
     <Compile Include="ViewModels\CitasContentViewModel.cs" />
@@ -269,8 +274,8 @@
     <Compile Include="Views\PreferenciasView.xaml.cs">
       <DependentUpon>PreferenciasView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GraficasView.xaml.cs">
-      <DependentUpon>GraficasView.xaml</DependentUpon>
+    <Compile Include="Views\GraficasContentView.xaml.cs">
+      <DependentUpon>GraficasContentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ListadoDePersonasView.xaml.cs">
       <DependentUpon>ListadoDePersonasView.xaml</DependentUpon>
@@ -332,6 +337,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\Styles\SearchBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Styles\TextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -380,7 +389,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GraficasView.xaml">
+    <Page Include="Views\GraficasContentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

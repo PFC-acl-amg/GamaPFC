@@ -93,16 +93,17 @@ namespace Core.DataAccess
                         encryptableEntity.IsEncrypted = false;
                         encryptableEntity.Encrypt();
                     }
+
+                    var timeStampedEntity = entity as TimestampedModel;
+                    if (timeStampedEntity != null)
+                    {
+                        timeStampedEntity.CreatedAt = DateTime.Now;
+                    }
                   
                     Session.Save(entity);
                     tx.Commit();
 
                     Session.Clear();
-                    
-                    //if (encryptableEntity != null)
-                    //{
-                    //    encryptableEntity.Decrypt();
-                    //}
                 }
             }
             catch (Exception)
@@ -124,6 +125,11 @@ namespace Core.DataAccess
                         encryptableEntity.Encrypt();
                     }
 
+                    var timeStampedEntity = entity as TimestampedModel;
+                    if (timeStampedEntity != null)
+                    {
+                        timeStampedEntity.UpdatedAt = DateTime.Now;
+                    }
 
                     Session.Clear();
                     Session.Update(entity);
@@ -181,6 +187,22 @@ namespace Core.DataAccess
             {
                 throw ex;
             }
+        }
+
+        public void DeleteAll()
+        {
+            var entities = Session.CreateCriteria<TEntity>().List<TEntity>().ToList();
+            using (var tx = Session.BeginTransaction())
+            {
+                foreach (var entity in entities)
+                {
+                    Session.Delete(entity);
+                }
+
+                tx.Commit();
+                Session.Clear();
+            }
+
         }
     }
 }

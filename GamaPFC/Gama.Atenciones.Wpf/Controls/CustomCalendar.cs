@@ -106,7 +106,13 @@ namespace Gama.Atenciones.Wpf.Controls
             {
                // cc.BuildCalendar(cc.CurrentDate);
                 var items = e.NewValue as ObservableCollection<CitaWrapper>;
-                items.CollectionChanged += new NotifyCollectionChangedEventHandler(cc.AppointmentsChanged);
+                if (items == null)
+                    items = new ObservableCollection<CitaWrapper>();
+
+                if (items != null)
+                    items.CollectionChanged += new NotifyCollectionChangedEventHandler(cc.AppointmentsChanged);
+                //else
+                //    throw new Exception("problemón");
             }
         }
 

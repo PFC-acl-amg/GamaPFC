@@ -6,7 +6,10 @@
                   xmlns:prism="http://prismlibrary.com/"
                   xmlns:common="clr-namespace:Gama.Common;assembly=Gama.Common"
                   xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-                     xmlns:views="clr-namespace:Gama.Atenciones.Wpf.Views"
+                  xmlns:views="clr-namespace:Gama.Atenciones.Wpf.Views"
+                  xmlns:viewModels="clr-namespace:Gama.Atenciones.Wpf.ViewModels"
+                     xmlns:dataTemplateSelectors="clr-namespace:Gama.Atenciones.Wpf.DataTemplateSelectors"
+                     xmlns:converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
                   xmlns:sys="clr-namespace:System;assembly=mscorlib"
                   mc:Ignorable="d"
                   prism:ViewModelLocator.AutoWireViewModel="True"
@@ -16,13 +19,16 @@
                   WindowTitleBrush="{StaticResource AccentColorBrush}"
                   Style="{StaticResource CustomMetroWindowStyle}"
                   Title="{Binding Title}" 
+                     x:Name="_Root"
                   Icon="{Binding IconSource}"
-                   Height="350" Width="525">
+                   Height="350" Width="887">
   <mahapps:MetroWindow.Resources>
     <sys:Double x:Key="_SocialIconSize">13</sys:Double>
     <sys:Double x:Key="WindowTitleFontSize">14</sys:Double>
+    <converters:BooleanToVisivilityConverter x:Key="_BooleanToVisibilityConverter"/>
   </mahapps:MetroWindow.Resources>
 
+  <!--#region Icon Template y Windows Commands -->
   <mahapps:MetroWindow.IconTemplate>
     <DataTemplate>
       <Viewbox Margin="{StaticResource Margin}">
@@ -67,6 +73,7 @@
       </Button>
     </mahapps:WindowCommands>
   </mahapps:MetroWindow.LeftWindowCommands>
+  
   <mahapps:MetroWindow.RightWindowCommands>
     <mahapps:WindowCommands>
       <ContentControl prism:RegionManager.RegionName="{x:Static common:RegionNames.RightCommandsRegion}" />
@@ -79,6 +86,8 @@
       </mahapps:Flyout>
     </mahapps:FlyoutsControl>
   </mahapps:MetroWindow.Flyouts>
+  <!--#endregion-->
+  
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" MaxHeight="60"/>
@@ -91,21 +100,51 @@
       <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
 
-
     <!-- Panel Switcher -->
-    <ContentControl Grid.Row="0" Grid.Column="0" Margin="0"
-                    prism:RegionManager.RegionName="{x:Static common:RegionNames.PanelSwitcherRegion}" />
+    <ContentControl Grid.Row="0" Grid.Column="0" Margin="0">
+      <views:PanelSwitcherView />
+    </ContentControl>
 
     <!-- Cuadro de búsqueda -->
-    <ContentControl Grid.Row="0" Grid.Column="1" Margin="0"
-                    prism:RegionManager.RegionName="{x:Static common:RegionNames.SearchBoxRegion}"  />
+    <ContentControl Grid.Row="0" Grid.Column="1" Margin="0">
+      <views:SearchBoxView />
+    </ContentControl>
 
     <!-- Toolbar -->
-    <ContentControl Grid.Row="0" Grid.Column="2" Margin="0"
-                    prism:RegionManager.RegionName="{x:Static common:RegionNames.ToolbarRegion}"  />
+    <ContentControl Grid.Row="0" Grid.Column="2" Margin="0">
+      <views:ToolbarView />
+    </ContentControl>
 
     <!-- Región de contenido -->
-    <ContentControl Grid.Row="1" Grid.ColumnSpan="3" prism:RegionManager.RegionName="{x:Static common:RegionNames.ContentRegion}" />
+    <ContentControl Grid.Row="1" Grid.ColumnSpan="3" Margin="0">
+      <Grid>
+        
+        <views:DashboardView DataContext="{Binding DashboardViewModel}" 
+                             Visibility="{Binding DataContext.DashboardViewIsVisible,
+                              ElementName=_Root, 
+                              Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+        
+        <views:PersonasContentView DataContext="{Binding PersonasContentViewModel}"
+                                   Visibility="{Binding DataContext.PersonasContentViewIsVisible,
+                                    ElementName=_Root,
+                                    Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+
+        <views:CitasContentView DataContext="{Binding CitasContentViewModel}"
+                                Visibility="{Binding DataContext.CitasContentViewIsVisible,
+                                  ElementName=_Root,
+                                  Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+        
+        <views:AsistentesContentView DataContext="{Binding AsistentesContentViewModel}"
+                                Visibility="{Binding DataContext.AsistentesContentViewIsVisible,
+                                  ElementName=_Root,
+                                  Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+        
+        <views:GraficasContentView DataContext="{Binding GraficasContentViewModel}"
+                                Visibility="{Binding DataContext.GraficasContentViewIsVisible,
+                                  ElementName=_Root,
+                                  Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+      </Grid>
+    </ContentControl>
     <!--<Grid Grid.Row="1" Grid.ColumnSpan="3" Background="#FFF4ECE2" Panel.ZIndex="-5">
       <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
                  FontSize="26" FontWeight="Thin" FontStretch="UltraCondensed"

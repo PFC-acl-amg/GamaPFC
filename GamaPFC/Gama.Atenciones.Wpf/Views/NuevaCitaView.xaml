@@ -8,6 +8,7 @@
         xmlns:prism="http://prismlibrary.com/"
         xmlns:actions="clr-namespace:Core.Util;assembly=Core"
         xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
         prism:ViewModelLocator.AutoWireViewModel="True"
         WindowStartupLocation="CenterScreen"
                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -15,77 +16,130 @@
                    xmlns:converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
         BorderBrush="{StaticResource AccentColorBrush}"
         mc:Ignorable="d"
-       ResizeMode="CanResizeWithGrip"
+       ResizeMode="CanMinimize"
         Title="Nueva Cita" 
-        actions:DialogCloser.DialogResult="{Binding Cerrar}" Width="298" Height="215">
+        actions:DialogCloser.DialogResult="{Binding Cerrar}" Width="425" Height="225">
   <Window.Resources>
     <sys:Double x:Key="_AnchoDeLosCampos">135</sys:Double>
     <converters:BinaryImageConverter x:Key="_BinaryImageConverter"/>
   </Window.Resources>
-  <Grid>
+  <Grid Grid.IsSharedSizeScope="True">
     <Grid.RowDefinitions>
-      <RowDefinition Height="Auto"/>
+      <RowDefinition SharedSizeGroup="FilaUno"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <Grid Grid.IsSharedSizeScope="True">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="120" />
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
+
+    <Grid Margin="{StaticResource Margin}" Grid.RowSpan="2" Background="#E4E9E9BF">
       <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" SharedSizeGroup="A"/>
-        <RowDefinition Height="Auto" SharedSizeGroup="B"/>
-        <RowDefinition Height="Auto" SharedSizeGroup="B"/>
+        <RowDefinition />
         <RowDefinition Height="Auto"/>
       </Grid.RowDefinitions>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto" SharedSizeGroup="_SharedColumnWidth"/>
-        <ColumnDefinition Width="Auto" SharedSizeGroup="_SharedColumnWidth" />
-      </Grid.ColumnDefinitions>
-      <!--<Image Margin="{StaticResource Margin}"
-             MaxHeight="55"
-             Grid.ColumnSpan="2"
-             Source="{Binding Cita.Persona.Imagen, Converter={StaticResource _BinaryImageConverter}}"/>-->
+      <Ellipse Height="85" Width="85" OpacityMask="{StaticResource _RadialGradientBrush}"
+               VerticalAlignment="Top"
+               Margin="{StaticResource Margin}">
+        <Ellipse.Fill>
+          <ImageBrush ImageSource="{Binding PersonaSeleccionada.Imagen, 
+          Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+        </Ellipse.Fill>
+      </Ellipse>
 
       <StackPanel Orientation="Vertical" Grid.Row="1">
-        <Label Margin="{StaticResource Margin}">Fecha</Label>
-        <DatePicker Margin="{StaticResource Margin}" 
+        <Label FontSize="10">Persona seleccionada</Label>
+      <ComboBox Margin="{StaticResource Margin}"
+                Grid.Row="1"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Personas}"
+            SelectedItem="{Binding PersonaSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            DisplayMemberPath="Nombre"/>
+      </StackPanel>
+    </Grid>
+
+    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.RowSpan="2">
+      <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+    </StackPanel>
+
+    <Grid Grid.Column="2">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <Grid Grid.IsSharedSizeScope="True">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" SharedSizeGroup="B"/>
+          <RowDefinition Height="Auto" SharedSizeGroup="B"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="_SharedColumnWidth"/>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="_SharedColumnWidth" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Vertical" Grid.Row="0">
+          <Label Margin="{StaticResource Margin}">Fecha</Label>
+          <DatePicker Margin="{StaticResource Margin}" 
                     Width="{StaticResource _AnchoDeLosCampos}"
                                 SelectedDate="{Binding Cita.Fecha, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                 Height="18"/>
-      </StackPanel>
+        </StackPanel>
 
-      <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1">
-        <Label Margin="{StaticResource Margin}">Hora</Label>
-        <!--<Grid>
+        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="1">
+          <Label Margin="{StaticResource Margin}">Hora</Label>
+          <!--<Grid>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="20"/>
           </Grid.ColumnDefinitions>
         </Grid>-->
-        <local:TimeControl 
+          <local:TimeControl 
                     Width="{StaticResource _AnchoDeLosCampos}"
           Hora="{Binding Cita.Hora, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
           Minutos="{Binding Cita.Minutos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></local:TimeControl>
-      </StackPanel>
+        </StackPanel>
 
-      <StackPanel Orientation="Vertical" Grid.Row="2">
-        <Label Margin="{StaticResource Margin}">Asistente</Label>
-        <ComboBox Margin="{StaticResource Margin}"
-          ItemsSource="{Binding Asistentes}"
-          SelectedItem="{Binding Cita.Asistente, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-          DisplayMemberPath="Nombre"/>
-        <!--<TextBox Margin="{StaticResource Margin}" Text="{Binding Cita.AsistenteEnTexto, UpdateSourceTrigger=PropertyChanged}"/>-->
-      </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="1">
+          <Label Margin="{StaticResource Margin}">Asistente</Label>
+          <ComboBox Margin="{StaticResource Margin}"
+                    x:Name="_AsistentesComboBox"
+                    IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Asistentes}"
+            SelectedItem="{Binding Cita.Asistente, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            DisplayMemberPath="Nombre"/>
+          <!--<TextBox Margin="{StaticResource Margin}" Text="{Binding Cita.AsistenteEnTexto, UpdateSourceTrigger=PropertyChanged}"/>-->
+        </StackPanel>
 
-      <StackPanel Grid.Column="1" Grid.Row="2">
-        <Label Margin="{StaticResource Margin}">Sala</Label>
-        <TextBox Margin="{StaticResource Margin}" Text="{Binding Cita.Sala, UpdateSourceTrigger=PropertyChanged}"
+        <StackPanel Grid.Column="1" Grid.Row="1">
+          <Label Margin="{StaticResource Margin}">Sala</Label>
+          <TextBox Margin="{StaticResource Margin}" Text="{Binding Cita.Sala, UpdateSourceTrigger=PropertyChanged}"
                  />
-      </StackPanel>
+        </StackPanel>
+      </Grid>
     </Grid>
-    <StackPanel Grid.Row="3" Orientation="Horizontal"
-                    HorizontalAlignment="Center">
-      <Button Content="Aceptar" Command="{Binding AceptarCommand}"  Margin="{StaticResource Margin}"
+    
+    <StackPanel Grid.Row="1" Orientation="Horizontal"
+                Grid.ColumnSpan="3"
+                    HorizontalAlignment="Right">
+      <!-- Actualizar Button -->
+      <cc:CircleIconButton 
+              Icon="{StaticResource appbar_save}"
+        Width="56" Height="56" IconHeight="20" IconWidth="20"
+              Command="{Binding AceptarCommand}"/>
+
+      <!-- Cancelar Button -->
+      <cc:CircleIconButton
+        Icon="{StaticResource appbar_close}"
+        Width="56" Height="56" IconHeight="20" IconWidth="20"
+        Command="{Binding CancelarCommand}"/>
+
+      <!--<Button Content="Aceptar" Command="{Binding AceptarCommand}"  Margin="{StaticResource Margin}"
               Padding="8"/>
-      <Button Content="Cancelar" Command="{Binding CancelarCommand}"  Margin="{StaticResource Margin}"/>
+      <Button Content="Cancelar" Command="{Binding CancelarCommand}"  Margin="{StaticResource Margin}"/>-->
     </StackPanel>
   </Grid>
 </metro:MetroWindow>

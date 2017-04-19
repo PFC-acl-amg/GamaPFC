@@ -109,21 +109,20 @@ namespace Gama.Atenciones.Wpf.Wrappers
             }
         }
 
-        private PersonaWrapper _Persona;
-        public PersonaWrapper Persona
-        {
-            get { return _Persona; }
-            set
-            {
-                _Persona = value;
-                Model.Persona = value.Model;
-            }
-        }
-
         public Asistente Asistente
         {
             get { return GetValue<Asistente>(); }
             set { SetValue(value); }
+        }
+
+        private Persona _Persona;
+        public Persona Persona
+        {
+            get { return Model.Persona; }
+            set
+            {
+                Model.Persona = value;
+            }
         }
 
         public void CopyValuesFrom(Cita cita)

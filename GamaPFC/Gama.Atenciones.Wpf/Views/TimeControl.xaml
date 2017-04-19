@@ -19,6 +19,7 @@
                mahapps:TextBoxHelper.Watermark="hora"
                Margin="{StaticResource Margin}"
                BorderThickness="1"
+                HorizontalAlignment="Stretch"
                HorizontalContentAlignment="Right"
                VerticalContentAlignment="Center"
                  TextAlignment="Center" VerticalAlignment="Center" FontFamily="Goudy Stout" FontSize="11"/>
@@ -40,6 +41,7 @@
                BorderThickness="1"
                Margin="{StaticResource Margin}"
                VerticalContentAlignment="Center"
+                HorizontalAlignment="Stretch"
                   TextAlignment="Center" VerticalAlignment="Center" FontFamily="Goudy Stout" FontSize="11"/>
     </Grid>
   </Grid>

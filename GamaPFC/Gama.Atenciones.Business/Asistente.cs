@@ -13,17 +13,41 @@ namespace Gama.Atenciones.Business
         public virtual int Id { get; set; }
         public virtual string Nif { get; set; }
         public virtual string Nombre { get; set; }
-        public virtual string Email { get; set; }
+        public virtual string Apellidos { get; set; }
         public virtual string Telefono { get; set; } = "";
+        public virtual DateTime? FechaDeNacimiento { get; set; }
         public virtual byte[] Imagen { get; set; }
 
+        public virtual string LinkedIn { get; set; } = "";
+        public virtual string Twitter { get; set; } = "";
+        public virtual string Facebook { get; set; } = "";
+
+        public virtual ComoConocioAGama ComoConocioAGama { get; set; }
+        public virtual NivelAcademico NivelAcademico { get; set; }
+
+        public virtual string Ocupacion { get; set; } = "";
+
+        public virtual string Provincia { get; set; }
+        public virtual string Municipio { get; set; }
+        public virtual string Localidad { get; set; }
+        public virtual string CodigoPostal { get; set; }
+        public virtual string Calle { get; set; }
+        public virtual string Numero { get; set; }
+        public virtual string Portal { get; set; }
+        public virtual string Piso { get; set; }
+        public virtual string Puerta { get; set; }
+        public virtual string TelefonoFijo { get; set; }
+        public virtual string TelefonoMovil { get; set; }
+        public virtual string TelefonoAlternativo { get; set; }
+        public virtual string Email { get; set; }
+        public virtual string EmailAlternativo { get; set; }
+        public virtual string Observaciones { get; set; }
+
         public virtual IList<Cita> Citas { get; set; }
-
-        public virtual List<string> EncryptedFields { get; set; }
-        public virtual bool IsEncrypted { get; set; }
-
+        
         public Asistente()
         {
+            Citas = new List<Cita>();
             EncryptedFields = new List<string>();
 
             //EncryptedFields.AddRange(new[] {
@@ -35,87 +59,6 @@ namespace Gama.Atenciones.Business
             //});
 
             IsEncrypted = true;
-        }
-
-        public virtual void Encrypt()
-        {
-            if (IsEncrypted)
-                return;
-
-            foreach (var propertyName in EncryptedFields)
-            {
-                var propertyInfo = this.GetType().GetProperty(propertyName);
-                var propertyValue = propertyInfo.GetValue(this, null);
-
-                if (propertyValue != null)
-                {
-                    if (propertyName == nameof(Imagen))
-                    {
-                        propertyInfo.SetValue(this, Cipher.Encrypt((byte[])propertyValue));
-                    }
-                    else
-                    {
-                        var value = propertyValue.ToString();
-                        if (!String.IsNullOrWhiteSpace(value))
-                        {
-                            propertyInfo.SetValue(this, Cipher.Encrypt(value));
-                        }
-                    }
-                }
-            }
-
-            IsEncrypted = true;
-        }
-
-        public virtual Asistente DecryptFluent()
-        {
-            Decrypt();
-            return this;
-        }
-
-        public virtual void Decrypt()
-        {
-            try
-            {
-                if (!IsEncrypted)
-                    return;
-
-                foreach (var propertyName in EncryptedFields)
-                {
-                    var propertyInfo = this.GetType().GetProperty(propertyName);
-                    var propertyValue = propertyInfo.GetValue(this, null);
-
-                    if (propertyValue != null)
-                    {
-                        if (propertyName == nameof(Imagen))
-                        {
-                            try
-                            {
-                                propertyInfo.SetValue(this, Cipher.Decrypt((byte[])propertyValue));
-                            }
-                            catch (Exception ex)
-                            {
-                                var ok = ex.Message;
-                                throw;
-                            }
-                        }
-                        else
-                        {
-                            var value = propertyValue.ToString();
-                            if (!String.IsNullOrWhiteSpace(value))
-                            {
-                                propertyInfo.SetValue(this, Cipher.Decrypt(value));
-                            }
-                        }
-                    }
-                }
-
-                IsEncrypted = false;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
         }
     }
 }

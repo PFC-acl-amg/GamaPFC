@@ -26,7 +26,7 @@ namespace Gama.Atenciones.Wpf.Services
                         Id = x.Id,
                         DisplayMember1 = x.Nombre,
                         DisplayMember2 = x.Nif,
-                        IconSource = x.AvatarPath
+                        Imagen = x.Imagen
                     }).ToList();
 
             Session.Clear();

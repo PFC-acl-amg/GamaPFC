@@ -12,34 +12,36 @@
   <UserControl.Resources>
     <!-- Colleción de personas buscables. Se corresponde al total
              de personas activas en la base de datos. -->
-    <CollectionViewSource x:Key="_PersonasBuscables">
-      <CollectionViewSource.Source>
+    <CollectionViewSource x:Key="_PersonasBuscables" Source="{Binding ResultadoDeBusqueda}">
+      <!--<CollectionViewSource.Source>
         <PriorityBinding>
           <Binding 
               Path="ResultadoDeBusqueda"
               IsAsync="True"/>
           <Binding Path="MensajeDeEspera"/>
         </PriorityBinding>
-      </CollectionViewSource.Source>
+      </CollectionViewSource.Source>-->
     </CollectionViewSource>
 
     <!-- Selector para mostrar estado de espera mientras se realiza la búsqueda. -->
     <cc:SearchBoxDataTemplateSelector x:Key="_BuscadorTemplateSelector"/>
   </UserControl.Resources>
-  <Grid Background="#EE959595">
-    <cc:SearchBox VerticalContentAlignment="Center"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Left"
-            HorizontalContentAlignment="Left"
-            Margin="0"
-            SearchMode="Delayed"
-            MinWidth="250"
-                  Height="32"
-            Text="{Binding TextoDeBusqueda, UpdateSourceTrigger=PropertyChanged}"
-            ItemsSource="{Binding Source={StaticResource _PersonasBuscables}}" 
-            ItemTemplateSelector="{StaticResource _BuscadorTemplateSelector}"
-            SelectedItem="{Binding UltimaPersonaSeleccionada}"
-            MaxCompletions="5">
+  <Grid Background="#EE959595" Margin="0,4,0,0">
+    <cc:SearchBox 
+      VerticalContentAlignment="Center"
+      VerticalAlignment="Center"
+      HorizontalAlignment="Left"
+      HorizontalContentAlignment="Left"
+      Margin="4,0,0,0"
+      SearchMode="Delayed"
+      MinWidth="250"
+      BorderThickness="4"
+      Height="32"
+      Text="{Binding TextoDeBusqueda, UpdateSourceTrigger=PropertyChanged}"
+      ItemsSource="{Binding Source={StaticResource _PersonasBuscables}}" 
+      ItemTemplateSelector="{StaticResource _BuscadorTemplateSelector}"
+      SelectedItem="{Binding UltimaPersonaSeleccionada}"
+      MaxCompletions="7">
       <i:Interaction.Triggers>
         <i:EventTrigger EventName="Search">
           <prism:InvokeCommandAction Command="{Binding SearchCommand}" />

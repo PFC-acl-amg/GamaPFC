@@ -1,4 +1,5 @@
 ﻿using Core;
+using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.Wrappers;
@@ -152,13 +153,14 @@ namespace Gama.Atenciones.Wpf.ViewModels
             return (Persona.Id == id);
         }
 
-        public void NavigateTo(int personaId, int? atencionId = null)
+        public void OnNavigatedTo(int personaId, int? atencionId = null)
         {
             try
             {
                 if (Persona.Nombre == null)
                 {
                     var persona = new PersonaWrapper(
+                        (Persona)
                         _PersonaRepository.GetById(personaId)
                         .DecryptFluent());
 
@@ -187,7 +189,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            NavigateTo((int)navigationContext.Parameters["Id"], (int?)navigationContext.Parameters["AtencionId"]);
+            OnNavigatedTo((int)navigationContext.Parameters["Id"], (int?)navigationContext.Parameters["AtencionId"]);
         }
 
         private void RefrescarTitulo(string nombre)
@@ -225,6 +227,20 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     }
                 };
             }
+        }
+
+        public bool ConfirmNavigationRequest()
+        {
+            if (Persona.IsChanged)
+            {
+                var o = new ConfirmarOperacionView();
+                o.Mensaje = "Si sale se perderán los cambios, ¿Desea salir de todas formas?";
+                o.ShowDialog();
+
+                return o.EstaConfirmado;
+            }
+
+            return true;
         }
 
         public void ConfirmNavigationRequest(NavigationContext navigationContext,

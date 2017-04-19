@@ -19,7 +19,7 @@ namespace Gama.Atenciones.Wpf.Controls
             set
             {
                 isToday = value;
-                if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("IsToday"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsToday"));
             }
         }
 
@@ -29,7 +29,7 @@ namespace Gama.Atenciones.Wpf.Controls
             set
             {
                 isTargetMonth = value;
-                if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("IsTargetMonth"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsTargetMonth"));
             }
         }
 
@@ -39,7 +39,7 @@ namespace Gama.Atenciones.Wpf.Controls
             set
             {
                 enabled = value;
-                if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("Enabled"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Enabled"));
             }
         }
 
@@ -49,7 +49,7 @@ namespace Gama.Atenciones.Wpf.Controls
             set
             {
                 notes = value;
-                if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("Notes"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Notes"));
             }
         }
 
@@ -59,7 +59,7 @@ namespace Gama.Atenciones.Wpf.Controls
             set
             {
                 date = value;
-                if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("Date"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Date"));
             }
         }
     }

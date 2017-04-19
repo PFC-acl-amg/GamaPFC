@@ -6,16 +6,18 @@
              xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
+             xmlns:viewModels="clr-namespace:Gama.Atenciones.Wpf.ViewModels"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:common="clr-namespace:Gama.Common;assembly=Gama.Common"
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
              xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True"
+             prism:ViewModelLocator.AutoWireViewModel="False"
              mc:Ignorable="d" 
-             d:DesignHeight="211.152" d:DesignWidth="490.303">
+             d:DesignHeight="211.152" d:DesignWidth="490.303"
+             x:Name="_Root">
   <UserControl.Resources>
     <Style TargetType="metro:MetroTabItem">
-      <Setter Property="Header" Value="{Binding DataContext.Title, UpdateSourceTrigger=PropertyChanged}"/>
+      <Setter Property="Header" Value="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
       <Setter Property="metro:ControlsHelper.HeaderFontSize" Value="14"/>
       <Setter Property="HeaderTemplate">
         <Setter.Value>
@@ -23,7 +25,8 @@
             <StackPanel Orientation="Horizontal">
               <ContentControl Content="{Binding}"
                                         Margin="{StaticResource Margin}"/>
-              <Button Content="x">
+              <Button Content="x" Command="{Binding ElementName=_Root, Path=DataContext.CloseTabCommand}"
+                      CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}">
                 <Button.Style>
                   <Style TargetType="Button">
                     <Setter Property="Width" Value="20"/>
@@ -59,8 +62,22 @@
         </Setter.Value>
       </Setter>
     </Style>
+    <DataTemplate DataType="{x:Type viewModels:EditarPersonaViewModel}">
+      <local:EditarPersonaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:ListadoDePersonasViewModel}">
+      <local:ListadoDePersonasView />
+    </DataTemplate>
   </UserControl.Resources>
-  <metro:MetroAnimatedSingleRowTabControl 
+  <!--<metro:MetroAnimatedSingleRowTabControl 
             prism:RegionManager.RegionName="{x:Static common:RegionNames.PersonasTabContentRegion}">
+  </metro:MetroAnimatedSingleRowTabControl>-->
+  <metro:MetroAnimatedSingleRowTabControl
+    ItemsSource="{Binding EditarPersonaViewModels}"
+    SelectedItem="{Binding ViewModelSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    >
   </metro:MetroAnimatedSingleRowTabControl>
 </UserControl>
+
+<!--SelectedItem="{Binding ViewModelSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
+<!--SelectedIndex="{Binding SelectedIndex,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->

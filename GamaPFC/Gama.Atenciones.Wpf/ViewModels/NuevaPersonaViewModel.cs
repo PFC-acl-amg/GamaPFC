@@ -1,4 +1,5 @@
 ﻿using Core;
+using Gama.Atenciones.Wpf.Converters;
 using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.Wrappers;
@@ -37,6 +38,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             CancelarCommand = new DelegateCommand(OnCancelarCommand_Execute);
 
             Persona.PropertyChanged += Persona_PropertyChanged;
+            Persona.Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png"));
         }
 
         private void Persona_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

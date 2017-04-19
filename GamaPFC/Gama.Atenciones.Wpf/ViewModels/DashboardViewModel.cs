@@ -1,26 +1,46 @@
 ﻿using Core;
+using Gama.Atenciones.Business;
+using Gama.Atenciones.Wpf.Converters;
 using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
+using Gama.Atenciones.Wpf.UIEvents;
 using Gama.Common.CustomControls;
-using LiveCharts;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Prism.Regions;
-using Gama.Atenciones.Wpf.UIEvents;
-using Gama.Atenciones.Wpf.Converters;
-using Gama.Atenciones.Business;
-using System.ComponentModel;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
+    public static class ExtensionMethods
+    {
+        public static bool IsBetween(this DateTime date, DateTime? initialDate, DateTime? finalDate)
+        {
+            bool result = true;
+            
+            if (initialDate.HasValue && initialDate > date)
+                result = false;
+
+            if (finalDate.HasValue && finalDate < date)
+                result = false;
+
+            return result;
+        }
+
+        public static bool IsBetween(this DateTime? date, DateTime? initialDate, DateTime? finalDate)
+        {
+            if (!date.HasValue)
+                return false;
+
+            return IsBetween(date.Value, initialDate, finalDate);
+        }
+    }
+
     public class DashboardViewModel : ViewModelBase
     {
         private IAtencionRepository _AtencionRepository;
@@ -77,8 +97,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
             SelectPersonaCommand = new DelegateCommand<LookupItem>(OnSelectPersonaCommandExecute);
             SelectCitaCommand = new DelegateCommand<LookupItem>(OnSelectCitaCommandExecute);
             SelectAtencionCommand = new DelegateCommand<LookupItem>(OnSelectAtencionCommandExecute);
-
             FiltrarPorPersonaCommand = new DelegateCommand<object>(OnFiltrarPorPersonaCommandExecute);
+            ResetearFechasCommand = new DelegateCommand(() =>
+            {
+                FechaDeInicio = null;
+                FechaDeFin = null;
+            });
+
 
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnPersonaCreadaEvent);
             _EventAggregator.GetEvent<AtencionCreadaEvent>().Subscribe(OnAtencionCreadaEvent);
@@ -86,6 +111,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
 
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
+
+            _EventAggregator.GetEvent<PersonaEnBusquedaEvent>().Subscribe(OnPersonaEnBusquedaEvent);
         }
 
         private LookupItem _PersonaSeleccionada;
@@ -99,6 +126,19 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
         }
 
+        private DateTime? _FechaDeInicio;
+        public DateTime? FechaDeInicio
+        {
+            get { return _FechaDeInicio; }
+            set { SetProperty(ref _FechaDeInicio, value); FiltrarPorFecha(); }
+        }
+
+        private DateTime? _FechaDeFin;
+        public DateTime? FechaDeFin
+        {
+            get { return _FechaDeFin; }
+            set { SetProperty(ref _FechaDeFin, value); FiltrarPorFecha(); }
+        }
 
         public ObservableCollection<LookupItem> Atenciones { get; private set; }
         public ObservableCollection<LookupItem> ProximasCitas { get; private set; }
@@ -108,6 +148,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand SelectCitaCommand { get; private set; }
         public ICommand SelectAtencionCommand { get; private set; }
         public ICommand FiltrarPorPersonaCommand { get; private set; }
+        public ICommand ResetearFechasCommand { get; private set; }
 
         Func<Persona, LookupItem> _PersonaToLookupItemFunc = persona => new LookupItem
         {
@@ -136,11 +177,44 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Imagen = cita.Persona.Imagen
         };
 
+        private void FiltrarPorFecha()
+        {
+            var fechaDeInicio = FechaDeInicio ?? DateTime.Now.AddYears(-100);
+            var fechaDeFin = FechaDeFin ?? DateTime.Now.AddYears(10);
+
+            Personas = new ObservableCollection<LookupItem>(
+                _Personas
+                .Where(p => p.CreatedAt.IsBetween(FechaDeInicio, FechaDeFin) 
+                    || p.UpdatedAt.IsBetween(FechaDeInicio, FechaDeFin))
+                .OrderBy(p => p.Nombre)
+                .Select(_PersonaToLookupItemFunc));
+
+            Atenciones = new ObservableCollection<LookupItem>(
+                _Atenciones
+                .Where(x => x.Fecha.IsBetween(FechaDeInicio, FechaDeFin))
+                .OrderBy(a => a.Fecha)
+                .Select(_AtencionToLookupItemFunc));
+
+            ProximasCitas = new ObservableCollection<LookupItem>(
+                _Citas
+                .Where(x => x.Fecha.IsBetween(FechaDeInicio, FechaDeFin))
+                .OrderBy(c => c.Fecha)
+                .Select(_CitaToLookupItemFunc));
+
+            OnPropertyChanged(nameof(Personas));
+            OnPropertyChanged(nameof(Atenciones));
+            OnPropertyChanged(nameof(ProximasCitas));
+        }
+
         private void OnFiltrarPorPersonaCommandExecute(object parameter)
         {
+            //if (parameter == null) return; // Cuando no hay "PersonaSeleccionada"
+
             if (!_FiltradoEstaActivo)
             {
                 var personaSeleccionada = parameter as LookupItem;
+
+                if (personaSeleccionada == null) return;
 
                 Personas = new ObservableCollection<LookupItem>(
                               _Personas
@@ -192,6 +266,23 @@ namespace Gama.Atenciones.Wpf.ViewModels
             OnPropertyChanged(nameof(ProximasCitas));
         }
 
+        private void OnPersonaEnBusquedaEvent(string textoDeBusqueda)
+        {
+            Personas = new ObservableCollection<LookupItem>(
+                              _Personas
+                              .Where(p => p.Nombre.ToLower().Contains(textoDeBusqueda.Trim().ToLower()))
+                              .OrderBy(p => p.Nombre)
+                              .Select(_PersonaToLookupItemFunc));
+
+            if (Personas.Count == 1)
+            {
+                PersonaSeleccionada = Personas.First();
+                OnFiltrarPorPersonaCommandExecute(PersonaSeleccionada);
+            }
+
+            OnPropertyChanged(nameof(Personas));
+        }
+
         private void OnSelectAtencionCommandExecute(LookupItem atencionLookupItem)
         {
             var atencion = _AtencionRepository.GetById(atencionLookupItem.Id);
@@ -229,7 +320,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 Imagen = persona.Imagen
             };
 
-            _Personas.Add(persona);
+            _Personas.Insert(0, persona);
             Personas.Insert(0, lookupItem);
         }
 
@@ -300,6 +391,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 // TODO Poner imagen desde recursos y tal
             };
             Atenciones.Insert(0, lookupItem);
+            _Atenciones.Insert(0, atencion);
         }
 
         private void OnNuevaCitaEvent(int id)
@@ -347,6 +439,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 ProximasCitas.Add(lookupItem);
             }
 
+            _Citas.Insert(0, cita);
             OnPropertyChanged(nameof(ProximasCitas));
         }
 

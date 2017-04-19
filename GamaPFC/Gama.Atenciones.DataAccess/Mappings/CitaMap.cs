@@ -30,6 +30,7 @@ namespace Gama.Atenciones.DataAccess.Mappings
                 .Not.LazyLoad();
 
             References(x => x.Asistente)
+                .Cascade.None()
                 .Not.LazyLoad();
 
             HasOne(c => c.Atencion).PropertyRef(x => x.Cita).Cascade.All();

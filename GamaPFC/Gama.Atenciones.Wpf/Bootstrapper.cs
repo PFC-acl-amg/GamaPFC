@@ -4,7 +4,14 @@ using System;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Microsoft.Practices.Unity;
-
+using Core.DataAccess;
+using NHibernate;
+using Gama.Atenciones.Wpf.Services;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using Gama.Atenciones.DataAccess;
+using Gama.Atenciones.Wpf.ViewModels;
+using Gama.Atenciones.Wpf.Views;
 
 namespace Gama.Atenciones.Wpf
 {
@@ -12,6 +19,31 @@ namespace Gama.Atenciones.Wpf
     {
         protected override DependencyObject CreateShell()
         {
+            Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
+            Container.RegisterType<ISession>(
+                new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
+            Container.RegisterType<IPersonaRepository, PersonaRepository>();
+            Container.RegisterType<ICitaRepository, CitaRepository>();
+            Container.RegisterType<IAtencionRepository, AtencionRepository>();
+            Container.RegisterType<IAsistenteRepository, AsistenteRepository>();
+
+            PreferenciasDeAtenciones preferencias;
+            string preferenciasPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+                + @"\preferencias_de_atenciones.cfg";
+
+            if (File.Exists(preferenciasPath))
+            {
+                var preferenciasFile = File.Open(preferenciasPath, FileMode.Open);
+                preferencias = (PreferenciasDeAtenciones)new BinaryFormatter().Deserialize(preferenciasFile);
+                preferenciasFile.Close();
+            }
+            else
+            {
+                preferencias = new PreferenciasDeAtenciones();
+                new BinaryFormatter().Serialize(File.Create(preferenciasPath), preferencias);
+            }
+
+            Container.RegisterInstance<PreferenciasDeAtenciones>(preferencias);
             return Container.Resolve<Shell>();
         }
 

@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Gama.Atenciones.Business;
+using Gama.Atenciones.Wpf.UIEvents;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -69,8 +70,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnSearchCommandExecute()
         {
-            _ResultadoDeBusqueda = Personas.Where(
-                p => p.DisplayMember1.ToLower().Contains(TextoDeBusqueda.Trim().ToLower()));
+            _EventAggregator.GetEvent<PersonaEnBusquedaEvent>().Publish(TextoDeBusqueda);
+
+            _ResultadoDeBusqueda =
+                Personas.Where(p => p.DisplayMember1.ToLower().Contains(TextoDeBusqueda.Trim().ToLower()));
+
             OnPropertyChanged(nameof(ResultadoDeBusqueda));
         }
 
@@ -82,13 +86,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnPersonaCreadaEvent(int id)
         {
             var persona = _PersonaRepository.GetById(id);
-            _PersonaRepository.Session.Evict(persona);
+            //_PersonaRepository.Session.Evict(persona);
 
             Personas.Add(new LookupItem
             {
                 DisplayMember1 = persona.Nombre,
                 DisplayMember2 = persona.Nif,
-                IconSource = persona.AvatarPath
+                Imagen = persona.Imagen
             });
         }
 
@@ -103,7 +107,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 personaDesactualizada.DisplayMember1 = persona.Nombre;
                 personaDesactualizada.DisplayMember2 = persona.Nif;
-                personaDesactualizada.IconSource = persona.AvatarPath;
+                personaDesactualizada.Imagen = persona.Imagen;
             }
         }
     }

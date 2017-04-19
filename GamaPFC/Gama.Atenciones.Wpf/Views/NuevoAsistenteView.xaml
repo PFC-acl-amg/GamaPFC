@@ -1,32 +1,45 @@
 ﻿<mahapps:MetroWindow 
   x:Class="Gama.Atenciones.Wpf.Views.NuevoAsistenteView"
- xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                   xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
-                   xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-                   xmlns:prism="http://prismlibrary.com/"
-                   xmlns:actions="clr-namespace:Core.Util;assembly=Core"
-                   mc:Ignorable="d"
-                   Title="Nuevo Asistente"
-                   d:DesignWidth="550" d:DesignHeight="515.781"
-                   prism:ViewModelLocator.AutoWireViewModel="True"
-                   WindowStartupLocation="CenterScreen"
-                   MaxWidth="550"
-                   BorderThickness="2"
-                   BorderBrush="{StaticResource AccentColorBrush}"
-                   actions:DialogCloser.DialogResult="{Binding Cerrar}">
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
+  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+  xmlns:prism="http://prismlibrary.com/"
+  xmlns:actions="clr-namespace:Core.Util;assembly=Core"
+  xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
+  mc:Ignorable="d"
+  Title="Nuevo Asistente"
+  d:DesignWidth="550"
+  prism:ViewModelLocator.AutoWireViewModel="True"
+  WindowStartupLocation="CenterScreen"
+  MaxWidth="550"
+  BorderThickness="2"
+  BorderBrush="{StaticResource AccentColorBrush}"
+  actions:DialogCloser.DialogResult="{Binding Cerrar}" Height="578.781">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition />
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     <local:AsistenteView DataContext="{Binding AsistenteViewModel}" Margin="{StaticResource Margin}"/>
+
     <StackPanel Grid.Row="1" Orientation="Horizontal"
-                    HorizontalAlignment="Right">
-      <Button Content="Aceptar" Command="{Binding AceptarCommand}"  Margin="{StaticResource Margin}"/>
-      <Button Content="Cancelar" Command="{Binding CancelarCommand}"  Margin="{StaticResource Margin}"/>
+                HorizontalAlignment="Right">
+      <!-- Actualizar Button -->
+      <cc:CircleIconButton 
+        Icon="{StaticResource appbar_save}"
+        Width="56" Height="56" IconHeight="20" IconWidth="20"
+        Margin="{StaticResource Margin}"
+        Command="{Binding AceptarCommand}"/>
+
+      <!-- Cancelar Button -->
+      <cc:CircleIconButton
+        Icon="{StaticResource appbar_close}"
+        Width="56" Height="56" IconHeight="20" IconWidth="20"
+        Margin="{StaticResource Margin}"
+        Command="{Binding CancelarCommand}"/>
     </StackPanel>
   </Grid>
 </mahapps:MetroWindow>
