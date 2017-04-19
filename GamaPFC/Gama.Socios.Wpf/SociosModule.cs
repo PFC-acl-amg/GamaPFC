@@ -38,7 +38,7 @@ namespace Gama.Socios.Wpf
            : base(container, regionManager)
         {
             this.Entorno = Entorno.Desarrollo;
-            this.SeedDatabase = false;
+            this.SeedDatabase = true;
         }
 
         public override void Initialize()

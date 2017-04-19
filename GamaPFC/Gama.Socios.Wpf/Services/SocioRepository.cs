@@ -55,6 +55,8 @@ namespace Gama.Socios.Wpf.Services
                 {
                     resultado.Add(EncryptionService.Decrypt(nif));
                 }
+
+                Session.Clear();
             }
             catch (Exception ex)
             {
@@ -67,7 +69,7 @@ namespace Gama.Socios.Wpf.Services
         public List<LookupItem> GetAllForLookup()
         {
             var socios = Session.CreateCriteria<Socio>().List<Socio>()
-                .Select(x => x.DecryptFluent())
+                .Select(x => (Socio)x.DecryptFluent())
                 .Select(
                 x => new LookupItem
                 {

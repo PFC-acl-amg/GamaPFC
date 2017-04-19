@@ -28,6 +28,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private double _TamH;
         private BitmapImage _Fotito;
         private bool? _Cerrar;
+        private bool _VisibleFotoSeleccionada;
         public AgregarCooperanteViewModel(ICooperanteRepository CooperanteRepository,
             IEventAggregator eventAggregator,
             ISession session)
@@ -35,6 +36,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _EventAggregator = eventAggregator;
             _CooperanteRepository = CooperanteRepository;
             _CooperanteRepository.Session = session;
+
+            _VisibleFotoSeleccionada = false;
 
             NuevoCooperante = new CooperanteWrapper(new Cooperante());
             ExaminarFotoCommand = new DelegateCommand(OnExaminarFotoCommandExecute);
@@ -67,6 +70,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 TamH = 105;
                 TamW = 200;
             }
+            if (NuevoCooperante.Foto != null) VisibleFotoSeleccionada = true;
+            else VisibleFotoSeleccionada = false;
         }
         private void OnAceptarCommand_Execute()
         {
@@ -114,6 +119,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             get { return _TamH; }
             set { SetProperty(ref _TamH, value); }
+        }
+        public bool VisibleFotoSeleccionada
+        {
+            get { return _VisibleFotoSeleccionada; }
+            set { SetProperty(ref _VisibleFotoSeleccionada, value); }
         }
     }
 }

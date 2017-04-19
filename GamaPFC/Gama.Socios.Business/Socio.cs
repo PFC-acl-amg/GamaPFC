@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Socios.Business
 {
-    public class Socio : TimestampedModel, IEncryptable
+    public class Socio : TimestampedModel
     {
         public virtual string DireccionPostal { get; set; } = "";
         public virtual string Email { get; set; } = "";
@@ -28,10 +28,6 @@ namespace Gama.Socios.Business
         
 
         public virtual IList<PeriodoDeAlta> PeriodosDeAlta { get; set; }
-
-        public virtual List<string> EncryptedFields { get; set; }
-
-        public virtual bool IsEncrypted { get; set; }
 
         public Socio()
         {
@@ -115,77 +111,6 @@ namespace Gama.Socios.Business
             PeriodosDeAlta.Add(periodoDeAlta);
         }
 
-        public virtual void Encrypt()
-        {
-            if (IsEncrypted)
-                return;
-
-            foreach (var propertyName in EncryptedFields)
-            {
-                var propertyInfo = this.GetType().GetProperty(propertyName);
-                var propertyValue = propertyInfo.GetValue(this, null);
-
-                if (propertyValue != null)
-                {
-                    if (propertyName == nameof(ImagenSocio))
-                    {
-                        propertyInfo.SetValue(this, Cipher.Encrypt((byte[])propertyValue));
-                    }
-                    else
-                    {
-                        propertyInfo.SetValue(this, Cipher.Encrypt(propertyValue.ToString()));
-                    }
-                }
-            }
-
-            IsEncrypted = true;
-        }
-
-        public virtual Socio DecryptFluent()
-        {
-            Decrypt();
-            return this;
-        }
-
-        public virtual void Decrypt()
-        {
-            try
-            {
-                if (!IsEncrypted)
-                    return;
-
-                foreach (var propertyName in EncryptedFields)
-                {
-                    var propertyInfo = this.GetType().GetProperty(propertyName);
-                    var propertyValue = propertyInfo.GetValue(this, null);
-
-                    if (propertyValue != null)
-                    {
-                        if (propertyName == nameof(ImagenSocio))
-                        {
-                            try
-                            {
-                                propertyInfo.SetValue(this, Cipher.Decrypt((byte[])propertyValue));
-                            }
-                            catch (Exception ex)
-                            {
-                                var ok = ex.Message;
-                                throw;
-                            }
-                        }
-                        else
-                        {
-                            propertyInfo.SetValue(this, Cipher.Decrypt(propertyValue.ToString()));
-                        }
-                    }
-                }
-
-                IsEncrypted = false;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+       
     }
 }
