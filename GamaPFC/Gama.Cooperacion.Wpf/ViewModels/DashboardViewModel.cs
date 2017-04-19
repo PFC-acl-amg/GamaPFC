@@ -26,6 +26,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private IEventAggregator _eventAggregator;
         private ICooperanteRepository _cooperanteRepository;
         private ICooperacionSettings _settings;
+        private CooperanteWrapper _NuevoCooperante;
         private int _mesInicialActividades;
         private string[] _Labels;
         private int _mesInicialCooperantes;
@@ -154,6 +155,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 this.Text = text;
             }
         }
+        public CooperanteWrapper NuevoCooperante
+        {
+            get { return _NuevoCooperante; }
+            set { SetProperty(ref _NuevoCooperante, value); }
+        }
         public ObservableCollection<LookupItem> ListaDeActividades { get; private set; }
         public ObservableCollection<Cooperante> ListaCooperantes { get; private set; }
         public ObservableCollection<Cooperante> ListaParcialCooperantes { get; private set; }
@@ -239,7 +245,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnSelectCooperanteCommand(Cooperante obj)
         {
-            throw new NotImplementedException();
+            var cooperanteSeleccionado = ListaParcialCooperantes.Where(x => x.Id == obj.Id).FirstOrDefault();
+            
         }
 
         private void OnSelectActividadCommand(LookupItem lookup)

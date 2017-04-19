@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
         mc:Ignorable="d"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
@@ -19,7 +20,12 @@
         Title="Nuevo Cooperante" Height="600" Width="600">
 
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisivilityConverter"/>
         <util:BinaryImageConverter x:Key="BinaryImageConverter"/>
+        <RadialGradientBrush x:Key="_RadialGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9">
+            <GradientStop Color="#ffffffff" Offset="0.5" />
+            <GradientStop Color="#00ffffff" Offset="0.8" />
+        </RadialGradientBrush>
     </Window.Resources>
 
     <Grid>
@@ -50,14 +56,35 @@
                     <!--<StackPanel Grid.Column="0" Grid.Row="0">
                         <Label>dfvadsv</Label>
                     </StackPanel>-->
-                    <Border Grid.Column="0" Height="105"
-                              Width="200" Grid.Row="0" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="1.5" Background="White" CornerRadius="1">
+                    <!--<StackPanel Grid.Column="0" Grid.RowSpan="4">
+                        <Button Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Margin="0,50,0,-7" Command="{Binding ExaminarFotoCommand}" HorizontalAlignment="Center">
+                            <Rectangle Width="18" Height="18" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_camera_switch}" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Button>
+                    </StackPanel>-->
+
+                    <Border Grid.Column="0"
+                              Width="200" Height="105" Grid.Row="0" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="1.5" Background="Beige" CornerRadius="1">
                         <!--<Image Grid.Column="0" Grid.Row="0" Source="{Binding Fotito}" Stretch="Fill" StretchDirection="Both">
                             <Image.BitmapEffect>
                                 <DropShadowBitmapEffect Color="Black" />
                             </Image.BitmapEffect>
                         </Image>-->
-                        <Image Source="{Binding NuevoCooperante.Foto, 
+                        
+                        <Ellipse Height="100" Width="100" OpacityMask="{StaticResource _RadialGradientBrush}">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding NuevoCooperante.Foto, Converter={StaticResource BinaryImageConverter}}" Stretch="Uniform"/>
+                            </Ellipse.Fill>
+                            <!--<i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <prism:InvokeCommandAction Command="{Binding ExaminarFotoCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>-->
+                        </Ellipse>
+                        <!--<Image Source="{Binding NuevoCooperante.Foto, 
                                     Converter={StaticResource BinaryImageConverter}}" 
                                     Stretch="Uniform"
                                        MinHeight="105" MaxHeight="105"
@@ -65,7 +92,7 @@
                             <Image.BitmapEffect>
                                 <DropShadowBitmapEffect Color="Black" />
                             </Image.BitmapEffect>
-                        </Image>
+                        </Image>-->
                     </Border>   <!--Zona Foto -->
                     <Label Grid.Row="3" Margin="0,-4,0,-2" VerticalAlignment="Bottom" 
                      VerticalContentAlignment="Bottom" HorizontalAlignment="Right">
