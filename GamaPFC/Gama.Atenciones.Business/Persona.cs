@@ -26,7 +26,6 @@ namespace Gama.Atenciones.Business
         public virtual string Nif { get; set; } = "";
         public virtual NivelAcademico NivelAcademico { get; set; }
         public virtual string Nombre { get; set; }
-        public virtual int NumeroDeAtendido { get; set; }
         public virtual string Ocupacion { get; set; } = "";
         public virtual OrientacionSexual OrientacionSexual { get; set; }
         public virtual string Telefono { get; set; } = "";

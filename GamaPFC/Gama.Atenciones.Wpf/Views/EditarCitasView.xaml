@@ -362,7 +362,7 @@
     <Style x:Key="_EditarCitasCalendarStyle" TargetType="{x:Type CustomControls:CustomCalendar}">
       <Setter Property="Template" Value="{StaticResource _CalendarioCalendarStyle}"/>
       <Style.Triggers>
-        <DataTrigger Binding="{Binding ElementName=_ToggleCalendarStyleCheckbox,Path=IsChecked}" Value="True">
+        <DataTrigger Binding="{Binding ElementName=_ToggleCalendarStyleCheckbox,Path=IsChecked}" Value="False">
           <Setter Property="Template" Value="{StaticResource _ListadoCalendarStyle}"/>
         </DataTrigger>
       </Style.Triggers>

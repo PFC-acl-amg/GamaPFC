@@ -12,6 +12,12 @@ namespace Core.Encryption
 {
     public static class Cipher
     {
+        static Cipher()
+        {
+            _PassPhrase = @"560A18CD-GAMA-4CF0-2017-671F9B6B";
+            _IV = @"741952hheeyy66#cs!9hjv887mxx7@8y";
+        }
+
         private static string _PassPhrase = "";
         public static string PassPhrase
         {
@@ -28,6 +34,7 @@ namespace Core.Encryption
 
                 return _PassPhrase;
             }
+            set { _PassPhrase = value; }
         }
 
         private static string _IV = "";
@@ -46,6 +53,7 @@ namespace Core.Encryption
 
                 return _IV;
             }
+            set { _IV = value; }
         }
 
         // This constant is used to determine the keysize of the encryption algorithm in bits.
@@ -55,8 +63,14 @@ namespace Core.Encryption
         // This constant determines the number of iterations for the password bytes generation function.
         private const int DerivationIterations = 1000;
 
-        public static string Encrypt(string plainText)
+        public static string Encrypt(string plainText, string passPhrase = null, string iv = null)
         {
+            if (passPhrase != null && iv != null)
+            {
+                _PassPhrase = passPhrase;
+                IV = iv;
+            }
+
             try
             {
                 string cipherText;
@@ -92,8 +106,14 @@ namespace Core.Encryption
             }
         }
 
-        public static string Decrypt(string cipherText)
+        public static string Decrypt(string cipherText, string passPhrase = null, string iv = null)
         {
+            if (passPhrase != null && iv != null)
+            {
+                _PassPhrase = passPhrase;
+                _IV = iv;
+            }
+
             try
             {
                 string plainText;
@@ -126,8 +146,14 @@ namespace Core.Encryption
             }
         }
 
-        public static byte[] Encrypt(byte[] plainText)
+        public static byte[] Encrypt(byte[] plainText, string passPhrase = null, string iv = null)
         {
+            if (passPhrase != null && iv != null)
+            {
+                _PassPhrase = passPhrase;
+                IV = iv;
+            }
+
             try
             {
                 using (var des = new RijndaelManaged())
@@ -157,8 +183,14 @@ namespace Core.Encryption
             }
         }
 
-        public static byte[] Decrypt(byte[] cipherText)
+        public static byte[] Decrypt(byte[] cipherText, string passPhrase = null, string iv = null)
         {
+            if (passPhrase != null && iv != null)
+            {
+                _PassPhrase = passPhrase;
+                IV = iv;
+            }
+
             try
             {
                 using (var des = new RijndaelManaged())

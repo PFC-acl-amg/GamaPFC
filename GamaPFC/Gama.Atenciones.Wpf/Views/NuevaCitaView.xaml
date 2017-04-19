@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+          xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:actions="clr-namespace:Core.Util;assembly=Core"
         xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
@@ -22,6 +23,8 @@
   <Window.Resources>
     <sys:Double x:Key="_AnchoDeLosCampos">135</sys:Double>
     <converters:BinaryImageConverter x:Key="_BinaryImageConverter"/>
+    <SolidColorBrush x:Key="_BackgroundColor">#AB68C8E9</SolidColorBrush>
+    <!--<SolidColorBrush x:Key="_BackgrougdfghmjkkgfgdndColor">#E4E9E9BF</SolidColorBrush>-->
   </Window.Resources>
   <Grid Grid.IsSharedSizeScope="True">
     <Grid.RowDefinitions>
@@ -33,8 +36,7 @@
       <ColumnDefinition Width="Auto"/>
       <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
-
-    <Grid Margin="{StaticResource Margin}" Grid.RowSpan="2" Background="#E4E9E9BF">
+    <Grid Margin="{StaticResource Margin}" Grid.RowSpan="2" Background="{StaticResource _BackgroundColor}">
       <Grid.RowDefinitions>
         <RowDefinition />
         <RowDefinition Height="Auto"/>
