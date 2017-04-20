@@ -15,9 +15,9 @@
   xmlns:wrappers="clr-namespace:Gama.Atenciones.Wpf.Wrappers"
   xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
   mc:Ignorable="d"
-  d:DesignHeight="638" d:DesignWidth="1238.5"
+  d:DesignHeight="638"
   d:DataContext="{d:DesignInstance Type=designData:AsistenteViewModelDTD, IsDesignTimeCreatable=True}" 
-  x:Name="_Root" >
+  x:Name="_Root" d:DesignWidth="1153" >
   <UserControl.Resources>
     <converters:BinaryImageConverter x:Key="_BinaryImageConverter" />
     <BooleanToVisibilityConverter x:Key="_BooleanToVisibilityConverter"/>
@@ -25,6 +25,22 @@
       <GradientStop Color="#ffffffff" Offset="0.5" />
       <GradientStop Color="#00ffffff" Offset="0.8" />
     </RadialGradientBrush>
+    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Margin" Value="{StaticResource Margin}"/>
+      <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+    </Style>
+
+    <SolidColorBrush x:Key="_BackgroundColor">#AB255C6F</SolidColorBrush>
+
+    <Style TargetType="Border">
+      <Setter Property="Background" Value="{StaticResource _BackgroundColor}"/>
+      <Setter Property="BorderBrush" Value="Gray"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Padding" Value="2"/>
+      <Setter Property="CornerRadius" Value="2"/>
+      <Setter Property="Margin" Value="{StaticResource Margin}"/>
+    </Style>
 
     <DataTemplate x:Key="_FotoCellTemplate">
       <Ellipse Height="35" Width="35" OpacityMask="{StaticResource _RadialGradientBrush}"
@@ -105,7 +121,7 @@
     <!---->
     <!-- Listado de asistentes -->
     <!---->
-    <Grid  Width="180" Margin="{StaticResource Margin}">
+    <Grid  Width="180" >
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto"/>
         <RowDefinition Height="Auto"/>
@@ -119,7 +135,7 @@
     <coreControls:UnselectableListBox 
         ItemsSource="{Binding Asistentes}"
         SelectedItem="{Binding AsistenteSeleccionado, Mode=TwoWay}"
-        HorizontalContentAlignment="Center"
+        HorizontalContentAlignment="Left"
         BorderThickness="0"
         ScrollViewer.VerticalScrollBarVisibility="Auto"
         ScrollViewer.HorizontalScrollBarVisibility="Auto">
@@ -131,42 +147,14 @@
               <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Ellipse Height="95" Width="95" OpacityMask="{StaticResource _RadialGradientBrush}"
-                       Margin="{StaticResource Margin}">
-              <Ellipse.Fill>
-                <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
-              </Ellipse.Fill>
-            </Ellipse>
-
-            <!--<Image
-                Grid.Row="0"
-                MinHeight="40" MinWidth="40"
-                MaxHeight="68" MaxWidth="68"
-                Margin="{StaticResource Margin}"
-                Stretch="Fill" 
-                Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}">
-                -->
-    <!--<Image.Style>
-                  <Style TargetType="Image">
-                    <Style.Triggers>
-                      <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Image.BitmapEffect">
-                          <Setter.Value>
-                            <DropShadowBitmapEffect Color="Black" />
-                          </Setter.Value>
-                        </Setter>
-                      </Trigger>
-                    </Style.Triggers>
-                  </Style>
-                </Image.Style>-->
-    <!--
-              </Image>-->
-
-    <TextBlock Margin="{StaticResource Margin}" Text="{Binding Nombre}" Grid.Row="1" HorizontalAlignment="Center"/>
-  </Grid>
-  </DataTemplate>
-  </ListBox.ItemTemplate>
-  </coreControls:UnselectableListBox>
+            <TextBlock FontSize="14" Margin="{StaticResource Margin}"  Grid.Row="1" HorizontalAlignment="Left">
+              <Run Text="{Binding Nombre}"/>
+              <Run Text="{Binding Apellidos}"/>
+            </TextBlock>
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </coreControls:UnselectableListBox>
   </Grid>
   <!--</GroupBox>-->
   </Grid>
@@ -174,18 +162,229 @@
   <!-- Cuadro con la información del asistente para ver y editar -->
   <Grid Grid.Column="1" Margin="0">
     <Grid.RowDefinitions>
-      <RowDefinition />
       <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition />
-      <ColumnDefinition Width="Auto" MaxWidth="550" MinWidth="400"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
 
-    <Grid Margin="{StaticResource Margin}">
+    <Grid Grid.Row="0" Grid.ColumnSpan="2" >
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto"/>
-        <RowDefinition />
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock FontSize="16" Margin="{StaticResource Margin}"
+                     Foreground="Gray"
+                     FontWeight="Normal" Text="Datos Personales"/>
+      </Grid>
+      <!--<local:AsistenteView  Grid.Row="1" DataContext="{Binding AsistenteViewModel}"/>-->
+    </Grid>
+
+      <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Auto">
+        <Grid  DataContext="{Binding AsistenteViewModel}"
+               ScrollViewer.CanContentScroll="True"
+          IsHitTestVisible="{Binding Asistente.IsInEditionMode}"
+          Grid.IsSharedSizeScope="True">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
+          </Grid.ColumnDefinitions>
+
+          <!--              -->
+          <!-- PRIMERA FILA -->
+          <!--              -->
+
+          <!-- Imagen y datos de identificación (DNI, NOMBRE, APELLIDOS, FECHA DE NACIMIENTO) -->
+          <Border >
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MaxWidth="200"/>
+                <ColumnDefinition Width="*"/>
+              </Grid.ColumnDefinitions>
+
+              <!-- FOTO DE PERFIL -->
+              <Ellipse Height="125" Width="125" Margin="{StaticResource Margin}" OpacityMask="{StaticResource _RadialGradientBrush}" >
+                <Ellipse.Fill>
+                  <ImageBrush ImageSource="{Binding Asistente.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                </Ellipse.Fill>
+                <Ellipse.Style>
+                  <Style TargetType="Ellipse">
+                    <Style.Triggers>
+                      <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Cursor" Value="Hand"/>
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Ellipse.Style>
+                <Ellipse.InputBindings>
+                  <MouseBinding MouseAction="LeftClick" Command="{Binding ExaminarAvatarCommand}"/>
+                </Ellipse.InputBindings>
+              </Ellipse>
+
+              <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="35" />
+                  <RowDefinition Height="35" />
+                  <RowDefinition Height="35" />
+                  <RowDefinition Height="35" />
+                </Grid.RowDefinitions>
+                <TextBox Grid.Row="0"
+              mahapps:TextBoxHelper.Watermark="Nombre..."
+              Text="{Binding Asistente.Nombre, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Grid.Row="1"
+              mahapps:TextBoxHelper.Watermark="Apellidos..."
+              Text="{Binding Asistente.Apellidos, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox  Grid.Row="2"
+              mahapps:TextBoxHelper.Watermark="Nif..."
+              Text="{Binding Asistente.Nif, UpdateSourceTrigger=PropertyChanged}"/>
+                <DatePicker Grid.Row="3"
+                  Margin="{DynamicResource Margin}" 
+                  BorderThickness="1"
+                  VerticalContentAlignment="Center"
+                  mahapps:TextBoxHelper.Watermark="Fecha de nacimiento..."
+                  SelectedDate="{Binding Asistente.FechaDeNacimiento, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                  Height="26"/>
+              </Grid>
+            </Grid>
+          </Border>
+
+          <!--              -->
+          <!-- SEGUNDA FILA -->
+          <!--              -->
+
+          <Border Grid.Column="2" >
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition MaxWidth="200" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+              </Grid.RowDefinitions>
+              <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
+                mahapps:TextBoxHelper.Watermark="Provincia..."
+                Text="{Binding Asistente.Provincia, UpdateSourceTrigger=PropertyChanged}"/>
+              <TextBox  
+                Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"
+                mahapps:TextBoxHelper.Watermark="Municipio..."
+                Text="{Binding Asistente.Municipio, UpdateSourceTrigger=PropertyChanged}"/>
+              <TextBox 
+                Grid.Row="2" Grid.Column="3"  Grid.ColumnSpan="2"
+                mahapps:TextBoxHelper.Watermark="Código Postal.."
+                Text="{Binding Asistente.CodigoPostal, UpdateSourceTrigger=PropertyChanged}"/>
+              <TextBox  
+                Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+                mahapps:TextBoxHelper.Watermark="Localidad..."
+                Text="{Binding Asistente.Localidad, UpdateSourceTrigger=PropertyChanged}"/>
+              <TextBox 
+                Grid.Row="3" Grid.Column="0"
+                mahapps:TextBoxHelper.Watermark="Calle/Avenida/..."
+                Text="{Binding Asistente.Calle, UpdateSourceTrigger=PropertyChanged}"/>
+              <TextBox 
+                Grid.Row="3" Grid.Column="1"
+                mahapps:TextBoxHelper.Watermark="Número..."
+                Text="{Binding Asistente.Numero, UpdateSourceTrigger=PropertyChanged}"/>
+              <TextBox 
+                Grid.Row="3" Grid.Column="2"
+                mahapps:TextBoxHelper.Watermark="Portal..."
+                Text="{Binding Asistente.Portal, UpdateSourceTrigger=PropertyChanged}"/>
+              <TextBox  
+                Grid.Row="3" Grid.Column="3"
+                mahapps:TextBoxHelper.Watermark="Piso..."
+                Text="{Binding Asistente.Piso, UpdateSourceTrigger=PropertyChanged}"/>
+              <TextBox  Name="XamlPuerta"
+                Grid.Row="3" Grid.Column="4"
+                mahapps:TextBoxHelper.Watermark="Puerta..."
+                Text="{Binding Asistente.Puerta, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+          </Border>
+
+          <!--              -->
+          <!-- TERCERA FILA -->
+          <!--              -->
+          <Border Grid.Column="1">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="*" />
+                <!--<RowDefinition Height="45" />-->
+              </Grid.RowDefinitions>
+
+              <!-- TELÉFONOS -->
+              <TextBox Grid.Row="0" Grid.Column="0"
+            mahapps:TextBoxHelper.Watermark="Telefono Fijo..."
+            Text="{Binding Asistente.TelefonoFijo, UpdateSourceTrigger=PropertyChanged}"/>
+              <TextBox Grid.Row="0" Grid.Column="1"
+            mahapps:TextBoxHelper.Watermark="Telefono Movil..."
+            Text="{Binding Asistente.TelefonoMovil, UpdateSourceTrigger=PropertyChanged}"/>
+              <TextBox  Grid.Row="0" Grid.Column="2"
+            mahapps:TextBoxHelper.Watermark="Telefono Alternativo..."
+            Text="{Binding Asistente.TelefonoAlternativo, UpdateSourceTrigger=PropertyChanged}"/>
+
+              <!-- EMAILS -->
+              <TextBox Grid.Row="1" Grid.Column="0"
+            mahapps:TextBoxHelper.Watermark="Email..."
+            Text="{Binding Asistente.Email, UpdateSourceTrigger=PropertyChanged}"/>
+              <TextBox  Grid.Row="1" Grid.Column="1"
+            mahapps:TextBoxHelper.Watermark="Email Alternativo..."
+            Text="{Binding Asistente.EmailAlternativo, UpdateSourceTrigger=PropertyChanged}"/>
+
+              <!-- OBSERVACIONES -->
+              <TextBox  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+                    MinLines="4"
+            mahapps:TextBoxHelper.Watermark="Observaciones..."
+            Margin="{StaticResource Margin}"
+            Text="{Binding Asistente.Observaciones,UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+          </Border>
+        </Grid>
+      </ScrollViewer>
+
+    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top">
+      <!-- Actualizar Button -->
+      <cc:CircleIconButton 
+            Icon="{StaticResource appbar_save}"
+            Visibility="{Binding AsistenteSeleccionado.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+            Command="{Binding ActualizarCommand}"/>
+
+      <!-- Cancelar Button -->
+      <cc:CircleIconButton
+            Icon="{StaticResource appbar_close}"
+            Visibility="{Binding AsistenteSeleccionado.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+            Command="{Binding CancelarEdicionCommand}"/>
+
+      <!-- Habilitar Edición Button -->
+      <cc:CircleIconButton
+            Icon="{StaticResource appbar_edit}"
+            Command="{Binding HabilitarEdicionCommand}"/>
+    </StackPanel>
+
+    <Grid Grid.Row="3" Grid.Column="0" Margin="{StaticResource Margin}">
+      <Grid.RowDefinitions>
         <RowDefinition Height="Auto"/>
         <RowDefinition />
       </Grid.RowDefinitions>
@@ -194,7 +393,7 @@
         FontSize="16" Margin="{StaticResource Margin}"
         Foreground="Gray"
         FontWeight="Normal" Text="Próximas Citas"/>
-      
+
       <!-- Citas próximas del asistente en formato tabular -->
       <DataGrid
         Grid.Row="1"
@@ -211,9 +410,15 @@
           <DataGridTemplateColumn Header="Ir" CellTemplate="{StaticResource _IrButtonCellTemplate}"/>
         </DataGrid.Columns>
       </DataGrid>
+    </Grid>
 
+    <Grid Margin="{StaticResource Margin}" Grid.Row="3" Grid.Column="1">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition />
+      </Grid.RowDefinitions>
       <TextBlock 
-        Grid.Row="2"
+        Grid.Row="0"
         FontSize="16" Margin="{StaticResource Margin}"
         Foreground="Gray"
         FontWeight="Normal" Text="Citas Pasadas"/>
@@ -228,42 +433,12 @@
           <DataGridTemplateColumn Header="Foto" CellTemplate="{StaticResource _FotoCellTemplate}"/>
           <DataGridTextColumn Header="Fecha"  FontSize="13" Binding="{Binding Fecha, StringFormat=d}" />
           <DataGridTemplateColumn Header="Hora" CellTemplate="{StaticResource _HoraCellTemplate}"/>
-          <DataGridTemplateColumn Header="Sala" CellTemplate="{StaticResource _SalaCellTemplate}"/>
+          <DataGridTemplateColumn Width="*" Header="Sala" CellTemplate="{StaticResource _SalaCellTemplate}"/>
           <DataGridTemplateColumn Header="Editar" CellTemplate="{StaticResource _EditarButtonCellTemplate}"/>
-          <DataGridTemplateColumn Header="Ir" Width="*" CellTemplate="{StaticResource _IrButtonCellTemplate}"/>
+          <DataGridTemplateColumn Header="Ir"  CellTemplate="{StaticResource _IrButtonCellTemplate}"/>
         </DataGrid.Columns>
       </DataGrid>
     </Grid>
-
-    <Grid Grid.Row="0" Grid.Column="1" >
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-      </Grid.RowDefinitions>
-      <TextBlock FontSize="16" Margin="8,4,4,4"
-                     Foreground="Gray"
-                     FontWeight="Normal" Text="Datos Personales"/>
-      <local:AsistenteView  Grid.Row="1" DataContext="{Binding AsistenteViewModel}"/>
-    </Grid>
-
-    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right">
-      <!-- Actualizar Button -->
-      <cc:CircleIconButton 
-              Icon="{StaticResource appbar_save}"
-              Visibility="{Binding AsistenteSeleccionado.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
-              Command="{Binding ActualizarCommand}"/>
-
-      <!-- Cancelar Button -->
-      <cc:CircleIconButton
-              Icon="{StaticResource appbar_close}"
-              Visibility="{Binding AsistenteSeleccionado.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
-              Command="{Binding CancelarEdicionCommand}"/>
-
-      <!-- Habilitar Edición Button -->
-      <cc:CircleIconButton
-              Icon="{StaticResource appbar_edit}"
-              Command="{Binding HabilitarEdicionCommand}"/>
-    </StackPanel>
   </Grid>
   </Grid>
 </UserControl>
