@@ -106,43 +106,43 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void NavegarAPersona(int personaId, int? atencionId = null)
         {
             NavegarAPersona2(personaId, atencionId);
-            return;
-            //ISSUE Workaround porque al crear una persona por alguna razón, la navegación no funciona
-            // el RequestNavigate
+            //return;
+            ////ISSUE Workaround porque al crear una persona por alguna razón, la navegación no funciona
+            //// el RequestNavigate
 
-            var region = _RegionManager.Regions[RegionNames.PersonasTabContentRegion];
-            var navigationContext = new NavigationContext(region.NavigationService, null);
-            navigationContext.Parameters.Add("Id", personaId);
-            if (atencionId.HasValue)
-            {
-                navigationContext.Parameters.Add("AtencionId", atencionId.Value);
-            }
+            //var region = _RegionManager.Regions[RegionNames.PersonasTabContentRegion];
+            //var navigationContext = new NavigationContext(region.NavigationService, null);
+            //navigationContext.Parameters.Add("Id", personaId);
+            //if (atencionId.HasValue)
+            //{
+            //    navigationContext.Parameters.Add("AtencionId", atencionId.Value);
+            //}
 
-            var views = region.Views;
-            foreach (var existingView in views)
-            {
-                var editarPersonaView = existingView as EditarPersonaView;
-                if (editarPersonaView != null)
-                {
-                    var editarPersonaViewModel = (EditarPersonaViewModel)editarPersonaView.DataContext;
-                    if (editarPersonaViewModel.IsNavigationTarget(navigationContext))
-                    {
-                        editarPersonaViewModel.OnNavigatedTo(navigationContext);
-                        region.Activate(existingView);
-                        _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
-                        return;
-                    }
-                }
-            }
+            //var views = region.Views;
+            //foreach (var existingView in views)
+            //{
+            //    var editarPersonaView = existingView as EditarPersonaView;
+            //    if (editarPersonaView != null)
+            //    {
+            //        var editarPersonaViewModel = (EditarPersonaViewModel)editarPersonaView.DataContext;
+            //        if (editarPersonaViewModel.IsNavigationTarget(navigationContext))
+            //        {
+            //            editarPersonaViewModel.OnNavigatedTo(navigationContext);
+            //            region.Activate(existingView);
+            //            _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
+            //            return;
+            //        }
+            //    }
+            //}
             
-            var newView = _Container.Resolve<EditarPersonaView>();
-            var vm = (EditarPersonaViewModel)newView.DataContext;
-            vm.OnNavigatedTo(navigationContext);
-            region.Add(newView);
+            //var newView = _Container.Resolve<EditarPersonaView>();
+            //var vm = (EditarPersonaViewModel)newView.DataContext;
+            //vm.OnNavigatedTo(navigationContext);
+            //region.Add(newView);
 
-            _EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
-            //_RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
-            region.Activate(newView);
+            //_EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
+            ////_RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
+            //region.Activate(newView);
         }
 
         private void OnPersonaEliminadaEvent(int id)

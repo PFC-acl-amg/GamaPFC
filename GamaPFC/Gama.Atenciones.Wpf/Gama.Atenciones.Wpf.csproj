@@ -190,6 +190,7 @@
     <Compile Include="DesignTimeData\EditarCitasViewModelDTD.cs" />
     <Compile Include="DesignTimeData\GraficasViewModelDTD.cs" />
     <Compile Include="DesignTimeData\ListadoDePersonasViewModelDTD.cs" />
+    <Compile Include="DesignTimeData\PersonaViewModelDTD.cs" />
     <Compile Include="DesignTimeData\StatusBarViewModelDTD.cs" />
     <Compile Include="Eventos\AsistenteActualizadoEvent.cs" />
     <Compile Include="Eventos\AsistenteCreadoEvent.cs" />

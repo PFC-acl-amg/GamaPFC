@@ -18,7 +18,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public PersonaViewModel()
         {
             _EdicionHabilitada = true;
-            Persona = new PersonaWrapper(new Persona());
+            Persona = new PersonaWrapper(new Persona()
+            {
+                EstadoCivil = EstadoCivil.NoProporcionado.ToString(),
+                ComoConocioAGama = ComoConocioAGama.NoProporcionado.ToString(),
+                ViaDeAccesoAGama = ViaDeAccesoAGama.NoProporcionado.ToString(),
+                OrientacionSexual = OrientacionSexual.NoProporcionado.ToString(),
+                IdentidadSexual = IdentidadSexual.NoProporcionado.ToString(),
+                NivelAcademico = NivelAcademico.NoProporcionado.ToString(),
+            });
 
             ExaminarAvatarCommand = new DelegateCommand(OnExaminarAvatarCommandExecute);
         }

@@ -82,18 +82,15 @@ namespace Gama.Atenciones.Wpf.Services
 
         public override void Create(Persona entity)
         {
-            entity.CreatedAt = DateTime.Now;
             base.Create(entity);
-            Personas.Add(entity);
             entity.Decrypt();
+            Personas.Add(entity);
             AtencionesResources.AddNif(entity.Nif);
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Publish(entity.Id);
         }
 
         public override bool Update(Persona entity)
         {
-            entity.UpdatedAt = DateTime.Now;
-
             if (base.Update(entity))
             {
                 entity.Decrypt();

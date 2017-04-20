@@ -49,6 +49,14 @@ namespace Core.Util
             if (actualEnumType == this._enumType)
                 return enumValues;
 
+            List<string> result = new List<string>(enumValues.Length);
+            foreach (string enumValue in enumValues)
+            {
+                result.Add(enumValue);
+            }
+
+            return result;
+
             Array tempArray = Array.CreateInstance(actualEnumType, enumValues.Length + 1);
             enumValues.CopyTo(tempArray, 1);
             return tempArray;

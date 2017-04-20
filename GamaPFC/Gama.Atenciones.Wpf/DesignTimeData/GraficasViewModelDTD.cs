@@ -76,12 +76,12 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
 
             var personas = rep.GetAll();
 
-            HombreCisexualCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.HombreCisexual);
-            HombreTransexualCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.HombreTransexual);
-            MujerCisexualCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.MujerCisexual);
-            MujerTransexualCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.MujerTransexual);
-            NoProporcionadoCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.NoProporcionado);
-            OtraIdentidadCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.Otra);
+            HombreCisexualCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.HombreCisexual.ToString());
+            HombreTransexualCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.HombreTransexual.ToString());
+            MujerCisexualCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.MujerCisexual.ToString());
+            MujerTransexualCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.MujerTransexual.ToString());
+            NoProporcionadoCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.NoProporcionado.ToString());
+            OtraIdentidadCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.Otra.ToString());
 
             Valores = new ObservableCollection<ChartItem>();
             Valores.Add(new ChartItem { Title = "Hombre Cisexual", Value = HombreCisexualCount });

@@ -12,6 +12,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using Gama.Atenciones.DataAccess;
 using Gama.Atenciones.Wpf.ViewModels;
 using Gama.Atenciones.Wpf.Views;
+using System.Linq;
+using Prism.Events;
 
 namespace Gama.Atenciones.Wpf
 {
@@ -26,6 +28,22 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<ICitaRepository, CitaRepository>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IAtencionRepository, AtencionRepository>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IAsistenteRepository, AsistenteRepository>(new ContainerControlledLifetimeManager());
+
+            var session = Container.Resolve<ISession>();
+            var personaRepository = Container.Resolve<IPersonaRepository>();
+            var asistenteRepository = Container.Resolve<IAsistenteRepository>();
+            personaRepository.Session = session;
+            asistenteRepository.Session = session;
+
+            // Recogemos todos los NIF para usarlos en validación
+            // No lo hacemos en el wrapper directamente para eliminar el acomplamiento
+            // del wrapper a los servicios. 
+            AtencionesResources.Personas = personaRepository.GetAll();
+
+            AtencionesResources.TodosLosNif = AtencionesResources.Personas.Select(x => x.Nif).ToList();
+
+            //AtencionesResources.TodosLosNif = personaRepository.GetNifs();
+            AtencionesResources.TodosLosNifDeAsistentes = asistenteRepository.GetNifs();
 
             PreferenciasDeAtenciones preferencias;
             string preferenciasPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)

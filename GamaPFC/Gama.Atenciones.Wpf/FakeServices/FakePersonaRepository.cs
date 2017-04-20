@@ -58,24 +58,24 @@ namespace Gama.Atenciones.Wpf.FakeServices
                     var persona = new Persona()
                     {
                         Id = i + 1,
-                        ComoConocioAGama = ComoConocioAGama.Difusion,
+                        ComoConocioAGama = ComoConocioAGama.Difusion.ToString(),
                         DireccionPostal = Faker.LocationFaker.Street(),
                         Email = Faker.InternetFaker.Email(),
-                        EstadoCivil = EstadoCivil.Soltera,
+                        EstadoCivil = EstadoCivil.Soltera.ToString(),
                         Facebook = Faker.InternetFaker.Domain(),
                         FechaDeNacimiento = DateTime.Now.AddYears(-20),
-                        IdentidadSexual = _IdentidadSexual[_Random.Next(0, 5)],
+                        IdentidadSexual = _IdentidadSexual[_Random.Next(0, 5)].ToString(),
                         LinkedIn = Faker.InternetFaker.Domain(),
                         Nacionalidad = Faker.LocationFaker.Country(),
                         Nif = Faker.StringFaker.AlphaNumeric(8),
-                        NivelAcademico = NivelAcademico.EstudioDePostgradoOMaster,
+                        NivelAcademico = NivelAcademico.EstudioDePostgradoOMaster.ToString(),
                         Nombre = Faker.NameFaker.Name(),
                         Ocupacion = Faker.TextFaker.Sentence(),
-                        OrientacionSexual = OrientacionSexual.Heterosexual,
+                        OrientacionSexual = OrientacionSexual.Heterosexual.ToString(),
                         Telefono = Faker.PhoneFaker.Phone(),
                         TieneTrabajo = true,
                         Twitter = Faker.InternetFaker.Domain(),
-                        ViaDeAccesoAGama = ViaDeAccesoAGama.Personal,
+                        ViaDeAccesoAGama = ViaDeAccesoAGama.Personal.ToString(),
                         CreatedAt = DateTime.Now.AddMonths(createdAt),
                         Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
                              new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png")),
@@ -97,6 +97,11 @@ namespace Gama.Atenciones.Wpf.FakeServices
             }
         }
 
+        public List<Persona> GetAll()
+        {
+            return Personas;
+        }
+
         public int CountAll()
         {
             return Personas.Count;
@@ -110,11 +115,6 @@ namespace Gama.Atenciones.Wpf.FakeServices
         public void Delete(Persona entity)
         {
             throw new NotImplementedException();
-        }
-
-        public List<Persona> GetAll()
-        {
-            return Personas;
         }
 
         public List<LookupItem> GetAllForLookup()
@@ -148,6 +148,11 @@ namespace Gama.Atenciones.Wpf.FakeServices
         }
 
         public List<Atencion> GetAtenciones()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteAll()
         {
             throw new NotImplementedException();
         }

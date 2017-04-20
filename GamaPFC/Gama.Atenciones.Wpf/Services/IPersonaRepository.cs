@@ -54,5 +54,6 @@ namespace Gama.Atenciones.Wpf.Services
         List<string> GetNifs();
 
         List<Atencion> GetAtenciones();
+        void DeleteAll();
     }
 }

@@ -64,9 +64,9 @@ namespace Gama.Atenciones.Wpf
             RegisterServices();
 
             var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
-            var personaRepository = new PersonaRepository(Container.Resolve<IEventAggregator>());
-            var citaRepository = new CitaRepository();
-            var asistenteRepository = new AsistenteRepository();
+            var personaRepository = Container.Resolve <IPersonaRepository>();
+            var citaRepository = Container.Resolve<ICitaRepository>();
+            var asistenteRepository = Container.Resolve<IAsistenteRepository>();
             var session = sessionFactory.OpenSession();
             personaRepository.Session = session;
             citaRepository.Session = session;
@@ -134,19 +134,9 @@ namespace Gama.Atenciones.Wpf
             catch (Exception ex)
             {
                 var message = ex.Message;
-                throw ex;
+                throw;
             }
             #endregion
-
-            // Recogemos todos los NIF para usarlos en validación
-            // No lo hacemos en el wrapper directamente para eliminar el acomplamiento
-            // del wrapper a los servicios. 
-            AtencionesResources.Personas = personaRepository.GetAll();
-
-            AtencionesResources.TodosLosNif = AtencionesResources.Personas.Select(x => x.Nif).ToList();
-
-            //AtencionesResources.TodosLosNif = personaRepository.GetNifs();
-            AtencionesResources.TodosLosNifDeAsistentes = asistenteRepository.GetNifs();
 
             // Preparamos la estructura de carpeta para la primera vez
             InicializarDirectorios();

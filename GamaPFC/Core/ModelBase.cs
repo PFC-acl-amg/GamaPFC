@@ -37,6 +37,14 @@ namespace Core
                             propertyInfo.SetValue(this, Cipher.Encrypt(value));
                         }
                     }
+                    else if (propertyValue is Enum)
+                    {
+                        string enumValue = propertyValue.ToString();
+                        if (!string.IsNullOrWhiteSpace(enumValue))
+                        {
+                            propertyInfo.SetValue(this, Cipher.Encrypt(enumValue));
+                        }
+                    }
                 }
             }
 
@@ -61,10 +69,18 @@ namespace Core
                     }
                     else if (propertyValue is string)
                     {
-                        string value = propertyValue.ToString();
-                        if (!string.IsNullOrWhiteSpace(value))
+                        string stringValue = propertyValue.ToString();
+                        if (!string.IsNullOrWhiteSpace(stringValue))
                         {
-                            propertyInfo.SetValue(this, Cipher.Decrypt(value));
+                            propertyInfo.SetValue(this, Cipher.Decrypt(stringValue));
+                        }
+                    }
+                    else if (propertyValue is Enum)
+                    {
+                        string enumValue = propertyValue.ToString();
+                        if (!string.IsNullOrWhiteSpace(enumValue))
+                        {
+                            propertyInfo.SetValue(this, Cipher.Decrypt(enumValue));
                         }
                     }
                 }

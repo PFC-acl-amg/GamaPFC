@@ -79,5 +79,10 @@ namespace Gama.Atenciones.Wpf.FakeServices
         {
             return _Citas.Count;
         }
+
+        public void DeleteAll()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
