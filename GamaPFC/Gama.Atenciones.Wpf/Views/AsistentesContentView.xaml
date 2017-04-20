@@ -457,12 +457,13 @@
       <!-- Citas próximas del asistente en formato tabular -->
       <DataGrid
         Grid.Row="1"
-        ItemsSource="{Binding AsistenteSeleccionado.Citas}" AutoGenerateColumns="False"
+        ItemsSource="{Binding AsistenteSeleccionado.CitasProximas}" AutoGenerateColumns="False"
         AlternatingRowBackground="#B99BA5AB" 
         Margin="{StaticResource Margin}"
         IsReadOnly="True">
         <DataGrid.Columns>
           <DataGridTemplateColumn Header="Foto" CellTemplate="{StaticResource _FotoCellTemplate}"/>
+          <DataGridTextColumn Header="Nombre"  FontSize="13" Binding="{Binding Persona.Nombre}" />
           <DataGridTextColumn Header="Fecha"  FontSize="13" Binding="{Binding Fecha, StringFormat=d}" />
           <DataGridTemplateColumn Header="Hora" CellTemplate="{StaticResource _HoraCellTemplate}"/>
           <DataGridTemplateColumn Width="*" Header="Sala" CellTemplate="{StaticResource _SalaCellTemplate}"/>
@@ -486,11 +487,13 @@
       <!-- Citas pasadas del asistente en formato tabular -->
       <DataGrid
         Grid.Row="3"
-        ItemsSource="{Binding AsistenteSeleccionado.Citas}" AutoGenerateColumns="False"
+        ItemsSource="{Binding AsistenteSeleccionado.CitasPasadas}" 
+        AutoGenerateColumns="False"
         AlternatingRowBackground="#B99BA5AB" Margin="{StaticResource Margin}"
         IsReadOnly="True">
         <DataGrid.Columns>
           <DataGridTemplateColumn Header="Foto" CellTemplate="{StaticResource _FotoCellTemplate}"/>
+          <DataGridTextColumn Header="Nombre"  FontSize="13" Binding="{Binding Persona.Nombre}" />
           <DataGridTextColumn Header="Fecha"  FontSize="13" Binding="{Binding Fecha, StringFormat=d}" />
           <DataGridTemplateColumn Header="Hora" CellTemplate="{StaticResource _HoraCellTemplate}"/>
           <DataGridTemplateColumn Width="*" Header="Sala" CellTemplate="{StaticResource _SalaCellTemplate}"/>

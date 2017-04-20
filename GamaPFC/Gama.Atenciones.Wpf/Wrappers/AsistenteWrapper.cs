@@ -315,6 +315,9 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public ObservableCollection<Cita> Citas { get; private set; }
 
+        public List<Cita> CitasPasadas => Citas.Where(x => x.Fecha < DateTime.Now).ToList();
+        public List<Cita> CitasProximas => Citas.Where(x => x.Fecha >= DateTime.Now).ToList();
+
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var results = new List<ValidationResult>();
