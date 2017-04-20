@@ -35,9 +35,9 @@ namespace Gama.Atenciones.Business
         public virtual string Numero { get; set; }
         public virtual string Portal { get; set; }
         public virtual string Piso { get; set; }
-        public virtual string Puerta { get; set; }
-        public virtual string TelefonoFijo { get; set; }
-        public virtual string TelefonoMovil { get; set; }
+        public virtual string Puerta { get; set; } = "";
+        public virtual string TelefonoFijo { get; set; } = "";
+        public virtual string TelefonoMovil { get; set; } = "";
         public virtual string TelefonoAlternativo { get; set; }
         public virtual string Email { get; set; }
         public virtual string EmailAlternativo { get; set; }
