@@ -3,6 +3,7 @@ using Gama.Atenciones.DataAccess;
 using Gama.Atenciones.Wpf.FakeServices;
 using Gama.Atenciones.Wpf.Services;
 using LiveCharts;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,7 +22,7 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
 
             #region seeder
             var sessionFactory = new NHibernateSessionFactory();
-            var rep = new PersonaRepository();
+            var rep = new PersonaRepository(new EventAggregator());
             rep.Session = sessionFactory.OpenSession();
 
             if (false)

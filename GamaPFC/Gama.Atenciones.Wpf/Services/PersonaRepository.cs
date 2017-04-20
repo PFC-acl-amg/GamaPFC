@@ -7,19 +7,50 @@ using System.Text;
 using System.Threading.Tasks;
 using Gama.Common.CustomControls;
 using Core.Util;
+using Prism.Events;
+using Gama.Atenciones.Wpf.Eventos;
 
 namespace Gama.Atenciones.Wpf.Services
 {
     public class PersonaRepository : NHibernateOneSessionRepository<Persona, int>, IPersonaRepository
     {
+        private List<Persona> _Personas;
+        private IEventAggregator _EventAggregator;
+
+        public List<Persona> Personas
+        {
+            get
+            {
+                if (_Personas != null)
+                    return _Personas;
+
+                _Personas = base.GetAll();
+                return _Personas;
+            }
+            set
+            {
+                _Personas = value;
+            }
+        }
+
+        public PersonaRepository(IEventAggregator eventAggregator)
+        {
+            _EventAggregator = eventAggregator;
+        }
+
+        public override Persona GetById(int id)
+        {
+            return Personas.Find(x => x.Id == id);
+        }
+
+        public override List<Persona> GetAll()
+        {
+            return Personas;
+        }
+
         public List<LookupItem> GetAllForLookup()
         {
-            var personas = Session.CreateCriteria<Persona>().List<Persona>()
-                .Select(x => {
-                    x.IsEncrypted = true;
-                    x.DecryptFluent();
-                    return x;
-                })
+            return Personas
                 .Select(
                     x => new LookupItem
                     {
@@ -29,9 +60,34 @@ namespace Gama.Atenciones.Wpf.Services
                         Imagen = x.Imagen
                     }).ToList();
 
-            Session.Clear();
+            //var personas = Session.CreateCriteria<Persona>().List<Persona>()
+            //    .Select(x => {
+            //        x.IsEncrypted = true;
+            //        x.DecryptFluent();
+            //        return x;
+            //    })
+            //    .Select(
+            //        x => new LookupItem
+            //        {
+            //            Id = x.Id,
+            //            DisplayMember1 = x.Nombre,
+            //            DisplayMember2 = x.Nif,
+            //            Imagen = x.Imagen
+            //        }).ToList();
 
-            return personas;
+            //Session.Clear();
+
+            //return personas;
+        }
+
+        public override void Create(Persona entity)
+        {
+            entity.CreatedAt = DateTime.Now;
+            base.Create(entity);
+            Personas.Add(entity);
+            entity.Decrypt();
+            AtencionesResources.AddNif(entity.Nif);
+            _EventAggregator.GetEvent<PersonaCreadaEvent>().Publish(entity.Id);
         }
 
         public IEnumerable<int> GetPersonasNuevasPorMes(int numeroDeMeses)
@@ -63,29 +119,31 @@ namespace Gama.Atenciones.Wpf.Services
 
         public List<string> GetNifs()
         {
-            List<string> temp;
-            List<string> resultado = new List<string>();
+            return Personas.Select(x => x.Nif).ToList();
 
-            try
-            {
-                temp = Session.QueryOver<Persona>()
-                    .Select(x => x.Nif)
-                    .List<string>()
-                    .ToList();
+            //List<string> temp;
+            //List<string> resultado = new List<string>();
 
-                foreach (var nif in temp)
-                {
-                    resultado.Add(EncryptionService.Decrypt(nif));
-                }
+            //try
+            //{
+            //    temp = Session.QueryOver<Persona>()
+            //        .Select(x => x.Nif)
+            //        .List<string>()
+            //        .ToList();
 
-                Session.Clear();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            //    foreach (var nif in temp)
+            //    {
+            //        resultado.Add(EncryptionService.Decrypt(nif));
+            //    }
 
-            return resultado;
+            //    Session.Clear();
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw ex;
+            //}
+
+            //return resultado;
         }
 
         public List<Atencion> GetAtenciones()

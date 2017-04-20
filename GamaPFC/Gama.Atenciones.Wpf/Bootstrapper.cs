@@ -22,9 +22,9 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
             Container.RegisterType<ISession>(
                 new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
-            Container.RegisterType<IPersonaRepository, PersonaRepository>();
-            Container.RegisterType<ICitaRepository, CitaRepository>();
-            Container.RegisterType<IAtencionRepository, AtencionRepository>();
+            Container.RegisterType<IPersonaRepository, PersonaRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ICitaRepository, CitaRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IAtencionRepository, AtencionRepository>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IAsistenteRepository, AsistenteRepository>(new ContainerControlledLifetimeManager());
 
             PreferenciasDeAtenciones preferencias;

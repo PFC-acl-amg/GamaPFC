@@ -9,6 +9,7 @@ using Gama.Atenciones.Wpf.Views;
 using Gama.Common;
 using Microsoft.Practices.Unity;
 using NHibernate;
+using Prism.Events;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
@@ -63,7 +64,7 @@ namespace Gama.Atenciones.Wpf
             RegisterServices();
 
             var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
-            var personaRepository = new PersonaRepository();
+            var personaRepository = new PersonaRepository(Container.Resolve<IEventAggregator>());
             var citaRepository = new CitaRepository();
             var asistenteRepository = new AsistenteRepository();
             var session = sessionFactory.OpenSession();
