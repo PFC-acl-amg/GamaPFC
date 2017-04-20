@@ -32,8 +32,28 @@
     </Style>
 
     <SolidColorBrush x:Key="_BackgroundColor">#AB255C6F</SolidColorBrush>
+    <!-- No se ve en tiempo de diseño, pero hace que la fila que el foreground de la fuente no 
+          se vuelva blanco, sino el color que indiquemos a´quí. Estamos sobrescribiendo el estilo 
+          para este UserControl en particular-->
+      <SolidColorBrush x:Key="MetroDataGrid.HighlightTextBrush" Color="#0B0A0A"/>
 
-    <Style TargetType="Border">
+    <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
+      <Style.Triggers>
+        <DataTrigger 
+            Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Items.Count}" 
+            Value="0">
+          <Setter Property="Template">
+            <Setter.Value>
+              <ControlTemplate>
+                <TextBlock>No hay citas para mostrar.</TextBlock>
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+
+      <Style TargetType="Border">
       <Setter Property="Background" Value="{StaticResource _BackgroundColor}"/>
       <Setter Property="BorderBrush" Value="Gray"/>
       <Setter Property="BorderThickness" Value="1"/>
@@ -459,6 +479,7 @@
         Grid.Row="1"
         ItemsSource="{Binding AsistenteSeleccionado.CitasProximas}" AutoGenerateColumns="False"
         AlternatingRowBackground="#B99BA5AB" 
+        SelectedIndex="0"
         Margin="{StaticResource Margin}"
         IsReadOnly="True">
         <DataGrid.Columns>
