@@ -194,7 +194,8 @@
         HorizontalContentAlignment="Left"
         BorderThickness="0"
         Cursor="Hand"
-      
+        Background="#DC212136"
+        Foreground="#E9E1D0"
         ScrollViewer.VerticalScrollBarVisibility="Auto"
         ScrollViewer.HorizontalScrollBarVisibility="Hidden">
         <ListBox.Resources>
@@ -240,7 +241,7 @@
   </Grid>
 
   <!-- Cuadro con la información del asistente para ver y editar -->
-  <Grid Grid.Column="1" Margin="0">
+  <Grid Grid.Column="1" Background="AntiqueWhite">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>

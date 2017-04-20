@@ -44,7 +44,7 @@ namespace Gama.Atenciones.Wpf.Views
             {
                 _ListadoDeAsistentesGrid.Width = 190.0; // para "Auto"
                 _ListadoDeAsistentesGrid.Visibility = Visibility.Visible;
-                _ToggleDateFilterButton.Margin = new Thickness(4);
+                _ToggleDateFilterButton.Margin = new Thickness(4, 4, 4, 4);
 
                 var da = new DoubleAnimation(0, 180, new Duration(TimeSpan.FromSeconds(0.1)));
                 var rt = new RotateTransform();

@@ -14,6 +14,7 @@ namespace Gama.Atenciones.Wpf.Services
         NHibernateOneSessionRepository<Asistente, int>,
         IAsistenteRepository
     {
+        List<Asistente> _Asistentes;
 
         public override Asistente GetById(int id)
         {
@@ -39,16 +40,19 @@ namespace Gama.Atenciones.Wpf.Services
 
         public override List<Asistente> GetAll()
         {
+            if (_Asistentes != null)
+                return _Asistentes;
+            
             try
             {
-                var atenciones = Session.CreateCriteria<Asistente>()
+                var asistentes = Session.CreateCriteria<Asistente>()
                     .SetFetchMode("Citas", NHibernate.FetchMode.Eager)
                     .List<Asistente>().ToList();
 
-                foreach (var atencion in atenciones)
+                foreach (var asistente in asistentes)
                 {
-                    atencion.Decrypt();
-                    foreach (var cita in atencion.Citas)
+                    asistente.Decrypt();
+                    foreach (var cita in asistente.Citas)
                     {
                         cita.Persona.Decrypt();
                     }
@@ -56,7 +60,8 @@ namespace Gama.Atenciones.Wpf.Services
 
                 Session.Clear();
 
-                return atenciones;
+                _Asistentes = asistentes;
+                return _Asistentes;
             }
             catch (Exception ex)
             {

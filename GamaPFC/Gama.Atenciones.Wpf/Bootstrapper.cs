@@ -25,7 +25,7 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<IPersonaRepository, PersonaRepository>();
             Container.RegisterType<ICitaRepository, CitaRepository>();
             Container.RegisterType<IAtencionRepository, AtencionRepository>();
-            Container.RegisterType<IAsistenteRepository, AsistenteRepository>();
+            Container.RegisterType<IAsistenteRepository, AsistenteRepository>(new ContainerControlledLifetimeManager());
 
             PreferenciasDeAtenciones preferencias;
             string preferenciasPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
