@@ -173,7 +173,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Id = cita.Id,
             DisplayMember1 = cita.Fecha.ToString(),
             DisplayMember2 = cita.Sala,
-            IconSource = cita.Persona.AvatarPath,
             Imagen = cita.Persona.Imagen
         };
 
@@ -316,7 +315,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 Id = persona.Id,
                 DisplayMember1 = persona.Nombre,
                 DisplayMember2 = persona.Nif,
-                IconSource = persona.AvatarPath,
                 Imagen = persona.Imagen
             };
 
@@ -452,7 +450,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 personaDesactualizada.DisplayMember1 = persona.Nombre;
                 personaDesactualizada.DisplayMember2 = persona.Nif;
-                personaDesactualizada.IconSource = persona.AvatarPath;
                 personaDesactualizada.Imagen = persona.Imagen;
             }
 
@@ -460,7 +457,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             foreach (var citaDesactualizada in citasDesactualizadas)
             {
-                citaDesactualizada.IconSource = persona.AvatarPath;
                 citaDesactualizada.Imagen = persona.Imagen;
             }
         }

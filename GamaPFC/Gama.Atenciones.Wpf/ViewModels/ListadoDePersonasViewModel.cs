@@ -38,7 +38,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     Id = p.Id,
                     DisplayMember1 = LookupItem.ShortenStringForDisplay(p.Nombre, 25),
                     DisplayMember2 = p.Nif,
-                    IconSource = p.AvatarPath,
                     Imagen = p.Imagen
                 }).ToList();
 
@@ -95,7 +94,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 Id = persona.Id,
                 DisplayMember1 = LookupItem.ShortenStringForDisplay(persona.Nombre, 25),
                 DisplayMember2 = persona.Nif,
-                IconSource = persona.AvatarPath,
                 Imagen = persona.Imagen
             };
 
@@ -118,7 +116,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 personaDesactualizada.DisplayMember1 = persona.Nombre;
                 personaDesactualizada.DisplayMember2 = persona.Nif;
-                personaDesactualizada.IconSource = persona.AvatarPath;
                 personaDesactualizada.Imagen = persona.Imagen;
             }
 

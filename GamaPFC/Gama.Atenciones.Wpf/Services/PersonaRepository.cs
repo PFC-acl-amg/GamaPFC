@@ -90,6 +90,29 @@ namespace Gama.Atenciones.Wpf.Services
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Publish(entity.Id);
         }
 
+        public override bool Update(Persona entity)
+        {
+            entity.UpdatedAt = DateTime.Now;
+
+            if (base.Update(entity))
+            {
+                entity.Decrypt();
+                Personas.Remove(Personas.Find(x => x.Id == entity.Id));
+                Personas.Add(entity);
+                if (entity._SavedNif != entity.Nif)
+                {
+                    AtencionesResources.TodosLosNif.Remove(entity._SavedNif);
+                    AtencionesResources.TodosLosNif.Add(entity.Nif);
+                    entity._SavedNif = entity.Nif;
+                }
+                _EventAggregator.GetEvent<PersonaActualizadaEvent>().Publish(entity.Id);
+
+                return true;
+            }
+
+            return false;
+        }
+
         public IEnumerable<int> GetPersonasNuevasPorMes(int numeroDeMeses)
         {
             List<int> resultado;

@@ -21,7 +21,7 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
                 {
                     DisplayMember1 = p.Nombre,
                     DisplayMember2 = p.Nif,
-                    IconSource = p.AvatarPath
+                    Imagen = p.Imagen
                 }).ToList();
             Personas = new PaginatedCollectionView(personas, 30);
         }

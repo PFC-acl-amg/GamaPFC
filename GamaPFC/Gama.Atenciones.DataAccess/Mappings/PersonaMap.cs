@@ -14,8 +14,7 @@ namespace Gama.Atenciones.DataAccess.Mappings
         {
             Table("Personas");
             Id(p => p.Id).GeneratedBy.Identity();
-
-            Map(x => x.AvatarPath);
+            
             Map(p => p.ComoConocioAGama);
             Map(p => p.DireccionPostal).Not.Nullable().Default("").Length(128);
             Map(p => p.Email).Length(128);

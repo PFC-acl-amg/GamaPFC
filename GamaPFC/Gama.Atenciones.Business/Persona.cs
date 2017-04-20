@@ -12,7 +12,9 @@ namespace Gama.Atenciones.Business
 {
     public class Persona : TimestampedModel
     {
-        public virtual string AvatarPath { get; set; }
+        public virtual string Nif { get; set; } = "";
+        public virtual string _SavedNif { get; set; } = "";
+
         public virtual ComoConocioAGama ComoConocioAGama { get; set; }
         public virtual string DireccionPostal { get; set; } = "";
         public virtual string Email { get; set; }
@@ -23,7 +25,6 @@ namespace Gama.Atenciones.Business
         public virtual IdentidadSexual IdentidadSexual { get; set; }
         public virtual string LinkedIn { get; set; } = "";
         public virtual string Nacionalidad { get; set; } = "";
-        public virtual string Nif { get; set; } = "";
         public virtual NivelAcademico NivelAcademico { get; set; }
         public virtual string Nombre { get; set; }
         public virtual string Ocupacion { get; set; } = "";

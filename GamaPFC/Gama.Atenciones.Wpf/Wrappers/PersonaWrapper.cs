@@ -13,7 +13,21 @@ namespace Gama.Atenciones.Wpf.Wrappers
 {
     public class PersonaWrapper : TimestampedModelWrapper<Persona>
     {
-        public string _SavedNif;
+        public string _SavedNif
+        {
+            get { return Model._SavedNif; }
+            set { Model._SavedNif = value; }
+        }
+
+        public string Nif
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string NifOriginalValue => GetOriginalValue<string>(nameof(Nif));
+
+        public bool NifIsChanged => GetIsChanged(nameof(Nif));
 
         public PersonaWrapper(Persona model) : base(model)
         {
@@ -21,7 +35,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         protected override void InitializeUniqueProperties(Persona model)
         {
-            _SavedNif = model.Nif;
+            model._SavedNif = model.Nif;
         }
 
         protected override void InitializeCollectionProperties(Persona model)
@@ -157,16 +171,6 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool NacionalidadIsChanged => GetIsChanged(nameof(Nacionalidad));
 
-        public string Nif
-        {
-            get { return GetValue<string>(); }
-            set { SetValue(value); }
-        }
-
-        public string NifOriginalValue => GetOriginalValue<string>(nameof(Nif));
-
-        public bool NifIsChanged => GetIsChanged(nameof(Nif));
-
         public NivelAcademico NivelAcademico
         {
             get { return GetValue<NivelAcademico>(); }
@@ -257,7 +261,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
             {
                 results.Add(new ValidationResult("El campo de NIF es obligatorio", new[] { nameof(Nif) }));
             }
-            else if (Nif != _SavedNif && AtencionesResources.TodosLosNif.Contains(Nif))
+            else if (Nif != Model._SavedNif && AtencionesResources.TodosLosNif.Contains(Nif))
             {
                 results.Add(new ValidationResult("El NIF introducido ya existe", new[] { nameof(Nif) }));
             }
