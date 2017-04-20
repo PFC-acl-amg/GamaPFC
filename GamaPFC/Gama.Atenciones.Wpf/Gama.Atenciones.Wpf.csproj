@@ -250,6 +250,9 @@
     <Compile Include="Views\AsistentesContentView.xaml.cs">
       <DependentUpon>AsistentesContentView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AsistentesContentViewOld.xaml.cs">
+      <DependentUpon>AsistentesContentViewOld.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AsistenteView.xaml.cs">
       <DependentUpon>AsistenteView.xaml</DependentUpon>
     </Compile>
@@ -354,6 +357,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AsistentesContentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AsistentesContentViewOld.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

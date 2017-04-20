@@ -1,4 +1,5 @@
-﻿using Gama.Atenciones.Business;
+﻿using Gama.Atenciones.Wpf.Converters;
+using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.FakeServices;
 using Gama.Atenciones.Wpf.ViewModels;
 using Gama.Atenciones.Wpf.Wrappers;
@@ -19,6 +20,9 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
         {
             _Asistentes = new FakeAsistenteRepository().Asistentes;
             AsistenteSeleccionado = new AsistenteWrapper(_Asistentes.First());
+            AsistenteSeleccionado.Imagen = 
+                BinaryImageConverter.GetBitmapImageFromUriSource(
+                             new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png"));
 
             AsistenteSeleccionado.Citas.Add(new Cita { Fecha = DateTime.Now, Sala = "Sala B" });
             AsistenteSeleccionado.Citas.Add(new Cita { Fecha = DateTime.Now.AddDays(2), Sala = "Sala A" });

@@ -1,6 +1,5 @@
-﻿<UserControl
-  x:Class="Gama.Atenciones.Wpf.Views.AsistentesContentView"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<UserControl x:Class="Gama.Atenciones.Wpf.Views.AsistentesContentViewOld"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
@@ -103,7 +102,7 @@
     </Grid.ColumnDefinitions>
 
     <!---->
-    <!-- Listado de asistentes -->
+    <!-- Listado de asistentes y cuadro de búsqueda -->
     <!---->
     <Grid  Width="180" Margin="{StaticResource Margin}">
       <Grid.RowDefinitions>
@@ -194,7 +193,7 @@
         FontSize="16" Margin="{StaticResource Margin}"
         Foreground="Gray"
         FontWeight="Normal" Text="Próximas Citas"/>
-      
+
       <!-- Citas próximas del asistente en formato tabular -->
       <DataGrid
         Grid.Row="1"

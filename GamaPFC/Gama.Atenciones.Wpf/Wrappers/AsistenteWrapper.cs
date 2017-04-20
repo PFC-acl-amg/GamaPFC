@@ -343,7 +343,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
                 results.Add(new ValidationResult("Email inválido", new[] { nameof(Email) }));
             }
 
-            if (!string.IsNullOrWhiteSpace(Email) && StringUtility.EmailIsNotEmptyAndIsMatch(Email))
+            if (!string.IsNullOrWhiteSpace(EmailAlternativo) && StringUtility.EmailIsNotEmptyAndIsMatch(EmailAlternativo))
             {
                 results.Add(new ValidationResult("Email alternativo inválido", new[] { nameof(EmailAlternativo) }));
             }
