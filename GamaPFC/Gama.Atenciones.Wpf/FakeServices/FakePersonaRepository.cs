@@ -29,44 +29,6 @@ namespace Gama.Atenciones.Wpf.FakeServices
 
         public FakePersonaRepository()
         {
-            _Personas = new List<Persona>();
-            int createdAt = 0;
-            for (int i = 0; i < 50; i++)
-            {
-                var persona = new Persona()
-                {
-                    Id = i + 1,
-                    ComoConocioAGama = ComoConocioAGama.Difusion,
-                    DireccionPostal = Faker.LocationFaker.Street(),
-                    Email = Faker.InternetFaker.Email(),
-                    EstadoCivil = EstadoCivil.Soltera,
-                    Facebook = Faker.InternetFaker.Domain(),
-                    FechaDeNacimiento = DateTime.Now.AddYears(-20),
-                    IdentidadSexual = _IdentidadSexual[_Random.Next(0, 5)],
-                    LinkedIn = Faker.InternetFaker.Domain(),
-                    Nacionalidad = Faker.LocationFaker.Country(),
-                    Nif = Faker.StringFaker.AlphaNumeric(8),
-                    NivelAcademico = NivelAcademico.EstudioDePostgradoOMaster,
-                    Nombre = Faker.NameFaker.Name(),
-                    Ocupacion = Faker.TextFaker.Sentence(),
-                    OrientacionSexual = OrientacionSexual.Heterosexual,
-                    Telefono = Faker.PhoneFaker.Phone(),
-                    TieneTrabajo = true,
-                    Twitter = Faker.InternetFaker.Domain(),
-                    ViaDeAccesoAGama = ViaDeAccesoAGama.Personal,
-                    CreatedAt = DateTime.Now.AddMonths(createdAt),
-                    Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
-                         new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png")),
-
-                };
-
-                _Personas.Add(persona);
-
-                if (i % 5 == 0)
-                {
-                    createdAt--;
-                }
-            }
         }
 
         public ISession Session
@@ -82,9 +44,62 @@ namespace Gama.Atenciones.Wpf.FakeServices
             }
         }
 
+        public List<Persona> Personas
+        {
+            get
+            {
+                if (_Personas != null)
+                    return _Personas;
+
+                _Personas = new List<Persona>();
+                int createdAt = 0;
+                for (int i = 0; i < 50; i++)
+                {
+                    var persona = new Persona()
+                    {
+                        Id = i + 1,
+                        ComoConocioAGama = ComoConocioAGama.Difusion,
+                        DireccionPostal = Faker.LocationFaker.Street(),
+                        Email = Faker.InternetFaker.Email(),
+                        EstadoCivil = EstadoCivil.Soltera,
+                        Facebook = Faker.InternetFaker.Domain(),
+                        FechaDeNacimiento = DateTime.Now.AddYears(-20),
+                        IdentidadSexual = _IdentidadSexual[_Random.Next(0, 5)],
+                        LinkedIn = Faker.InternetFaker.Domain(),
+                        Nacionalidad = Faker.LocationFaker.Country(),
+                        Nif = Faker.StringFaker.AlphaNumeric(8),
+                        NivelAcademico = NivelAcademico.EstudioDePostgradoOMaster,
+                        Nombre = Faker.NameFaker.Name(),
+                        Ocupacion = Faker.TextFaker.Sentence(),
+                        OrientacionSexual = OrientacionSexual.Heterosexual,
+                        Telefono = Faker.PhoneFaker.Phone(),
+                        TieneTrabajo = true,
+                        Twitter = Faker.InternetFaker.Domain(),
+                        ViaDeAccesoAGama = ViaDeAccesoAGama.Personal,
+                        CreatedAt = DateTime.Now.AddMonths(createdAt),
+                        Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
+                             new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png")),
+
+                    };
+
+                    _Personas.Add(persona);
+
+                    if (i % 5 == 0)
+                    {
+                        createdAt--;
+                    }
+                }
+                return _Personas;
+            }
+            set
+            {
+                _Personas = value;
+            }
+        }
+
         public int CountAll()
         {
-            return _Personas.Count;
+            return Personas.Count;
         }
 
         public void Create(Persona entity)
@@ -99,7 +114,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
 
         public List<Persona> GetAll()
         {
-            return _Personas;
+            return Personas;
         }
 
         public List<LookupItem> GetAllForLookup()
