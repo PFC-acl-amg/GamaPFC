@@ -77,7 +77,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 if (_AsistenteSeleccionado != null)
                 {
                     _AsistenteViewModel.Load(_AsistenteSeleccionado);
-                } 
+                }
                 else
                 {
                     _AsistenteSeleccionado = new AsistenteWrapper(new Business.Asistente());
@@ -87,11 +87,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 _AsistenteSeleccionado.PropertyChanged += (s, e) => InvalidateCommands();
                 OnPropertyChanged();
             }
-        }
-
-        private void AsistenteSeleccionado_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            InvalidateCommands();
         }
 
         public ICommand HabilitarEdicionCommand { get; private set; }

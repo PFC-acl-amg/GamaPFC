@@ -7,7 +7,29 @@
              xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+  <UserControl.Resources>
+    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Margin" Value="{StaticResource Margin}"/>
+      <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+    </Style>
 
+    <SolidColorBrush x:Key="_BackgroundColor">#AB255C6F</SolidColorBrush>
+
+    <Style TargetType="Border">
+      <Setter Property="Background" Value="{StaticResource _BackgroundColor}"/>
+      <Setter Property="BorderBrush" Value="Gray"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Padding" Value="2"/>
+      <Setter Property="CornerRadius" Value="2"/>
+      <Setter Property="Margin" Value="{StaticResource Margin}"/>
+      <!--<Setter Property="Effect">
+        <Setter.Value>
+          <DropShadowEffect BlurRadius="5" ShadowDepth="1"/>
+        </Setter.Value>
+      </Setter>-->
+    </Style>
+  </UserControl.Resources>
   <Border >
     <Grid>
       <Grid.ColumnDefinitions>
