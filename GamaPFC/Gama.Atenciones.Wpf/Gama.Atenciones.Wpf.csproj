@@ -251,11 +251,17 @@
     <Compile Include="Views\AsistentesContentView.xaml.cs">
       <DependentUpon>AsistentesContentView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AsistentesContentViewOld.xaml.cs">
-      <DependentUpon>AsistentesContentViewOld.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\AsistenteView.xaml.cs">
       <DependentUpon>AsistenteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Asistente\DatosDeContacto.xaml.cs">
+      <DependentUpon>DatosDeContacto.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Asistente\DatosPersonales.xaml.cs">
+      <DependentUpon>DatosPersonales.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Asistente\DireccionPostal.xaml.cs">
+      <DependentUpon>DireccionPostal.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CitasContentView.xaml.cs">
       <DependentUpon>CitasContentView.xaml</DependentUpon>
@@ -361,11 +367,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AsistentesContentViewOld.xaml">
+    <Page Include="Views\AsistenteView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AsistenteView.xaml">
+    <Page Include="Views\Asistente\DatosDeContacto.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Asistente\DatosPersonales.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Asistente\DireccionPostal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

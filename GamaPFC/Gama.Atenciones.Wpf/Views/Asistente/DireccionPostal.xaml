@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="Gama.Atenciones.Wpf.Views.Asistente.DireccionPostal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views.Asistente"
+             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+  <Border >
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="200" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="35" />
+        <RowDefinition Height="35" />
+        <RowDefinition Height="35" />
+        <RowDefinition Height="35" />
+      </Grid.RowDefinitions>
+      <TextBox 
+            Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
+            mahapps:TextBoxHelper.Watermark="Provincia..."
+            Text="{Binding Asistente.Provincia, UpdateSourceTrigger=PropertyChanged}"/>
+      <TextBox  
+              Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"
+              mahapps:TextBoxHelper.Watermark="Municipio..."
+              Text="{Binding Asistente.Municipio, UpdateSourceTrigger=PropertyChanged}"/>
+      <TextBox 
+              Grid.Row="2" Grid.Column="3"  Grid.ColumnSpan="2"
+              mahapps:TextBoxHelper.Watermark="Código Postal.."
+              Text="{Binding Asistente.CodigoPostal, UpdateSourceTrigger=PropertyChanged}"/>
+      <TextBox  
+              Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+              mahapps:TextBoxHelper.Watermark="Localidad..."
+              Text="{Binding Asistente.Localidad, UpdateSourceTrigger=PropertyChanged}"/>
+      <TextBox 
+              Grid.Row="3" Grid.Column="0"
+              mahapps:TextBoxHelper.Watermark="Calle/Avenida/..."
+              Text="{Binding Asistente.Calle, UpdateSourceTrigger=PropertyChanged}"/>
+      <TextBox 
+              Grid.Row="3" Grid.Column="1"
+              mahapps:TextBoxHelper.Watermark="Número..."
+              Text="{Binding Asistente.Numero, UpdateSourceTrigger=PropertyChanged}"/>
+      <TextBox 
+              Grid.Row="3" Grid.Column="2"
+              mahapps:TextBoxHelper.Watermark="Portal..."
+              Text="{Binding Asistente.Portal, UpdateSourceTrigger=PropertyChanged}"/>
+      <TextBox  
+              Grid.Row="3" Grid.Column="3"
+              mahapps:TextBoxHelper.Watermark="Piso..."
+              Text="{Binding Asistente.Piso, UpdateSourceTrigger=PropertyChanged}"/>
+      <TextBox  Name="XamlPuerta"
+              Grid.Row="3" Grid.Column="4"
+              mahapps:TextBoxHelper.Watermark="Puerta..."
+              Text="{Binding Asistente.Puerta, UpdateSourceTrigger=PropertyChanged}"/>
+    </Grid>
+  </Border>
+</UserControl>

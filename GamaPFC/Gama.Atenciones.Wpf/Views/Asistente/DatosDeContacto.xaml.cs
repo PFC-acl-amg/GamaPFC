@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Gama.Atenciones.Wpf.Views
+namespace Gama.Atenciones.Wpf.Views.Asistente
 {
     /// <summary>
-    /// Interaction logic for AsistentesContentViewOld.xaml
+    /// Interaction logic for DatosDeContacto.xaml
     /// </summary>
-    public partial class AsistentesContentViewOld : UserControl
+    public partial class DatosDeContacto : UserControl
     {
-        public AsistentesContentViewOld()
+        public DatosDeContacto()
         {
             InitializeComponent();
         }
