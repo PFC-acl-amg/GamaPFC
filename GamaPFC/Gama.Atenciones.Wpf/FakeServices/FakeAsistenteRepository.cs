@@ -10,7 +10,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
 {
     public class FakeAsistenteRepository 
     {
-        public List<Asistente> Asistentes;
+        public List<Asistente> Asistentes { get; set; }
 
         public FakeAsistenteRepository()
         {
@@ -24,6 +24,19 @@ namespace Gama.Atenciones.Wpf.FakeServices
                     Nif = Faker.StringFaker.AlphaNumeric(8),
                     Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png")),
                     FechaDeNacimiento = DateTime.Now.AddYears(-28),
+                    ComoConocioAGama = ComoConocioAGama.Difusion.ToString(),
+                    Provincia = Faker.LocationFaker.Street(),
+                    Municipio = Faker.LocationFaker.Street(),
+                    Localidad = Faker.LocationFaker.Street(),
+                    Email = Faker.InternetFaker.Email(),
+                    Facebook = Faker.InternetFaker.Domain(),
+                    LinkedIn = Faker.InternetFaker.Domain(),
+                    NivelAcademico = NivelAcademico.EstudioDePostgradoOMaster.ToString(),
+                    Ocupacion = Faker.TextFaker.Sentence(),
+                    TelefonoFijo = Faker.PhoneFaker.Phone(),
+                    TelefonoMovil = Faker.PhoneFaker.Phone(),
+                    Twitter = Faker.InternetFaker.Domain(),
+                    CreatedAt = DateTime.Now,
                 };
 
                 Asistentes.Add(asistente);

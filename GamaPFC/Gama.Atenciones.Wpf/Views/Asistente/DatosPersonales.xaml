@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views.Asistente"
              xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=designData:AsistenteViewModelDTD, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300">
   <UserControl.Resources>
     <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
@@ -38,9 +40,17 @@
       </Grid.ColumnDefinitions>
 
       <!-- FOTO DE PERFIL -->
-      <Ellipse Height="139" Width="139" Margin="{StaticResource Margin}" OpacityMask="{StaticResource _RadialGradientBrush}" >
+      <Ellipse Height="139"
+               Width="139" 
+               Margin="{StaticResource Margin}" 
+               OpacityMask="{StaticResource _RadialGradientBrush}" 
+               AllowDrop="True"
+               
+               DragEnter="Ellipse_DragEnter" 
+               DragLeave="Ellipse_DragLeave"
+               Drop="Ellipse_Drop">
         <Ellipse.Fill>
-          <ImageBrush ImageSource="{Binding Asistente.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+          <ImageBrush x:Name="_ImagenImageBrush" ImageSource="{Binding Asistente.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
         </Ellipse.Fill>
         <Ellipse.Style>
           <Style TargetType="Ellipse">

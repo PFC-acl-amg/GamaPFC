@@ -14,8 +14,7 @@
              xmlns:asistenteViews="clr-namespace:Gama.Atenciones.Wpf.Views.Asistente"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance Type=designData:AsistenteViewModelDTD, IsDesignTimeCreatable=True}"
-             d:DesignHeight="534.274" d:DesignWidth="496.993">
+             d:DataContext="{d:DesignInstance Type=designData:AsistenteViewModelDTD, IsDesignTimeCreatable=True}">
   <UserControl.Resources>
     <converters:BinaryImageConverter x:Key="_BinaryImageConverter" />
     <RadialGradientBrush x:Key="_RadialGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9">
@@ -52,8 +51,8 @@
       Grid.IsSharedSizeScope="True">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" SharedSizeGroup="A"/>
-        <RowDefinition Height="Auto" SharedSizeGroup="A"/>
-        <RowDefinition Height="Auto" SharedSizeGroup="A"/>
+        <RowDefinition Height="Auto" SharedSizeGroup="B"/>
+        <RowDefinition Height="Auto" SharedSizeGroup="C"/>
       </Grid.RowDefinitions>
 
       <asistenteViews:DatosPersonales Grid.Row="0"/>

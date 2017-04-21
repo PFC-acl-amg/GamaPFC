@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views.Asistente"
              xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300">
   <UserControl.Resources>
     <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
       <Setter Property="BorderThickness" Value="1"/>
@@ -36,8 +36,12 @@
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
       <Grid.RowDefinitions>
+        <RowDefinition Height="35" />
         <RowDefinition Height="35" />
         <RowDefinition Height="35" />
         <RowDefinition Height="*" />
@@ -45,26 +49,37 @@
       </Grid.RowDefinitions>
 
       <!-- TELÉFONOS -->
-      <TextBox Grid.Row="0" Grid.Column="0"
+      <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
             mahapps:TextBoxHelper.Watermark="Telefono Fijo..."
             Text="{Binding Asistente.TelefonoFijo, UpdateSourceTrigger=PropertyChanged}"/>
-      <TextBox Grid.Row="0" Grid.Column="1"
+      <TextBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"
             mahapps:TextBoxHelper.Watermark="Telefono Movil..."
             Text="{Binding Asistente.TelefonoMovil, UpdateSourceTrigger=PropertyChanged}"/>
-      <TextBox  Grid.Row="0" Grid.Column="2"
+      <TextBox  Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2"
             mahapps:TextBoxHelper.Watermark="Telefono Alternativo..."
             Text="{Binding Asistente.TelefonoAlternativo, UpdateSourceTrigger=PropertyChanged}"/>
 
       <!-- EMAILS -->
-      <TextBox Grid.Row="1" Grid.Column="0"
+      <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
             mahapps:TextBoxHelper.Watermark="Email..."
             Text="{Binding Asistente.Email, UpdateSourceTrigger=PropertyChanged}"/>
-      <TextBox  Grid.Row="1" Grid.Column="1"
+      <TextBox  Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3"
             mahapps:TextBoxHelper.Watermark="Email Alternativo..."
             Text="{Binding Asistente.EmailAlternativo, UpdateSourceTrigger=PropertyChanged}"/>
 
+      <!-- REDES SOCIALES -->
+      <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+            mahapps:TextBoxHelper.Watermark="Facebook..."
+            Text="{Binding Asistente.Facebook, UpdateSourceTrigger=PropertyChanged}"/>
+      <TextBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2"
+            mahapps:TextBoxHelper.Watermark="Twitter..."
+            Text="{Binding Asistente.Twitter, UpdateSourceTrigger=PropertyChanged}"/>
+      <TextBox  Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2"
+            mahapps:TextBoxHelper.Watermark="LinkedIn..."
+            Text="{Binding Asistente.LinkedIn, UpdateSourceTrigger=PropertyChanged}"/>
+
       <!-- OBSERVACIONES -->
-      <TextBox  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+      <TextBox  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6"
                     MinLines="4"
             mahapps:TextBoxHelper.Watermark="Observaciones..."
             Margin="{StaticResource Margin}"

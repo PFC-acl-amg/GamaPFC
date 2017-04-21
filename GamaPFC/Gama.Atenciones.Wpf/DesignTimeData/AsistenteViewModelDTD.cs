@@ -34,7 +34,6 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
 
             AsistenteViewModel = new AsistenteViewModel();
             AsistenteViewModel.Load(Asistentes.First());
-
         }
         
         public ObservableCollection<AsistenteWrapper> Asistentes { get; private set; }

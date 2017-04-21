@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views.Asistente"
              xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" >
   <UserControl.Resources>
     <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
       <Setter Property="BorderThickness" Value="1"/>
@@ -33,7 +33,7 @@
   <Border >
     <Grid>
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="200" />
+        <ColumnDefinition Width="*" />
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="*" />

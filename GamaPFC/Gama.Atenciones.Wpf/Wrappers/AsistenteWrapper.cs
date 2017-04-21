@@ -100,26 +100,15 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool LinkedInIsChanded => GetIsChanged(nameof(LinkedIn));
 
-        public NivelAcademico NivelAcademico
+        public string NivelAcademico
         {
-            get { return GetValue<NivelAcademico>(); }
+            get { return GetValue<string>(); }
             set { SetValue(value); }
         }
 
-        public NivelAcademico NivelAcademicoOriginalValue => GetOriginalValue<NivelAcademico>(nameof(NivelAcademico));
+        public string NivelAcademicoOriginalValue => GetOriginalValue<string>(nameof(NivelAcademico));
 
         public bool NivelAcademicoIsChanged => GetIsChanged(nameof(NivelAcademico));
-
-
-        public EstadoCivil EstadoCivil
-        {
-            get { return GetValue<EstadoCivil>(); }
-            set { SetValue(value); }
-        }
-
-        public EstadoCivil EstadoCivilOriginalValue => GetOriginalValue<EstadoCivil>(nameof(EstadoCivil));
-
-        public bool EstadoCivilIsChanged => GetIsChanged(nameof(EstadoCivil));
 
         public DateTime? FechaDeNacimiento
         {
@@ -131,13 +120,13 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool FechaDeNacimientoIsChanged => GetIsChanged(nameof(FechaDeNacimiento));
 
-        public ComoConocioAGama ComoConocioAGama
+        public string ComoConocioAGama
         {
-            get { return GetValue<ComoConocioAGama>(); }
+            get { return GetValue<string>(); }
             set { SetValue(value); }
         }
 
-        public ComoConocioAGama ComoConocioAGamaOriginalValue => GetOriginalValue<ComoConocioAGama>(nameof(ComoConocioAGama));
+        public string ComoConocioAGamaOriginalValue => GetOriginalValue<string>(nameof(ComoConocioAGama));
 
         public bool ComoConocioAGamaIsChanged => GetIsChanged(nameof(ComoConocioAGama));
 

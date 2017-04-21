@@ -18,7 +18,7 @@ namespace Gama.Atenciones.DataAccess.Mappings
 
             Map(a => a.NumeroDeExpediente);
             Map(a => a.Fecha);
-            Map(a => a.Seguimiento).Not.Nullable().Default("");
+            Map(a => a.Seguimiento).Not.Nullable().Default("").CustomSqlType("MEDIUMTEXT");
 
             Map(a => a.EsDeAcogida);
             Map(a => a.EsDeFormacion);

@@ -67,7 +67,7 @@ namespace Gama.Atenciones.Wpf.Converters
             object parameter,
             System.Globalization.CultureInfo culture)
         {
-            throw new Exception("The method or operation is not implemented.");
+            return ImageToByte(value as BitmapImage);
         }
 
         public static byte[] GetBitmapImageFromUriSource(Uri uriSource)
