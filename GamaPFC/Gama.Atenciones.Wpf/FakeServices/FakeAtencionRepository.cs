@@ -16,6 +16,14 @@ namespace Gama.Atenciones.Wpf.FakeServices
 
         public ISession Session { get; set; }
 
+        public List<Atencion> Atenciones
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public FakeAtencionRepository()
         {
             _Atenciones = new List<Atencion>();

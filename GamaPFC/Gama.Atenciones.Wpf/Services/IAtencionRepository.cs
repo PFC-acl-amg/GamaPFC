@@ -12,17 +12,11 @@ namespace Gama.Atenciones.Wpf.Services
     public interface IAtencionRepository
     {
         ISession Session { get; set; }
-
+        List<Atencion> Atenciones { get; }
         Atencion GetById(int id);
-
         List<Atencion> GetAll();
-
-        List<LookupItem> GetAllForLookup();
-
         void Create(Atencion entity);
-
         bool Update(Atencion entity);
-
         void Delete(Atencion entity);
         IEnumerable<int> GetAtencionesNuevasPorMes(int numeroDeMeses);
         int CountAll();

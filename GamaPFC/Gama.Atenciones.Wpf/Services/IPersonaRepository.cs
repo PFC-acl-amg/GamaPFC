@@ -12,7 +12,7 @@ namespace Gama.Atenciones.Wpf.Services
     public interface IPersonaRepository
     {
         ISession Session { get; set; }
-        List<Persona> Personas { get; set; }
+        List<Persona> Personas { get; }
 
         /// <summary>
         /// Devuelve la persona cuyo Id coincide con el que se ha pasado por parámetro.

@@ -40,7 +40,7 @@ namespace Gama.Atenciones.DataAccess.Mappings
 
             HasMany(x => x.Citas)
                 .Not.LazyLoad()
-                .Cascade.All()
+                .Cascade.None()
                 .Inverse();
         }
     }

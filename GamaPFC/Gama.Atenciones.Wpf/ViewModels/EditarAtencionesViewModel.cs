@@ -79,7 +79,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             if (e.PropertyName == nameof(AtencionSeleccionada))
             {
                 InvalidateCommands();
-                //OnPropertyChanged(nameof(AtencionSeleccionada.IsInEditionMode));
                 AtencionSeleccionada.PropertyChanged += (s, ea) => { InvalidateCommands(); };
             }
             else if (e.PropertyName == nameof(CitaSeleccionada))
@@ -102,25 +101,23 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnNuevaAtencionEvent(CitaWrapper cita)
         {
-            if (cita.Atencion == null)
+            if (cita.Atencion == null) // atención nueva a crear
             {
-                var atencion = new AtencionWrapper(new Atencion());
-                atencion.CreatedAt = DateTime.Now;
-                atencion.Cita = cita.Model;
-                atencion.Fecha = DateTime.Now;
-                atencion.AcceptChanges();
+                var atencion = new AtencionWrapper(new Atencion()
+                {
+                    Cita = cita.Model,
+                    Fecha = DateTime.Now,
+                    CreatedAt = DateTime.Now
+                });
 
                 cita.Atencion = atencion;
+                _AtencionRepository.Create(atencion.Model);
                 Atenciones.Add(atencion);
-                AtencionSeleccionada = atencion;
-                _PersonaRepository.Update(Persona.Model);
-                _EventAggregator.GetEvent<AtencionCreadaEvent>().Publish(atencion.Id);
             }
             else // ya existe
             {
                 AtencionSeleccionada = cita.Atencion;
             }
-
 
             // Navegamos a la pestaña de atenciones
             VerAtenciones = true;
@@ -136,15 +133,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnActualizarCommand()
         {
-            AtencionSeleccionada.UpdatedAt = DateTime.Now;
-            //_AtencionRepository.Update(AtencionSeleccionada.Model);
-            _PersonaRepository.Update(Persona.Model);
+            _AtencionRepository.Update(AtencionSeleccionada.Model);
             AtencionSeleccionada.AcceptChanges();
             CitaSeleccionada.AcceptChanges();
             EdicionHabilitada = false;
             AtencionSeleccionada.IsInEditionMode = false;
             CitaSeleccionada.IsInEditionMode = false;
-            _EventAggregator.GetEvent<AtencionActualizadaEvent>().Publish(AtencionSeleccionada.Id);
         }
 
         private void OnHabilitarEdicionCommand()

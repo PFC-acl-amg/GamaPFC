@@ -34,9 +34,15 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Map(p => p.CreatedAt);
             Map(p => p.UpdatedAt);
 
-            References(a => a.Cita, "Cita_id").Unique();
+            References(a => a.Cita, "Cita_id")
+                .Unique()
+                .Not.LazyLoad()
+                .Cascade.None();
 
-            HasOne(a => a.Derivacion).PropertyRef(c => c.Atencion).Cascade.All();
+            HasOne(a => a.Derivacion)
+                .PropertyRef(c => c.Atencion)
+                .Not.LazyLoad()
+                .Cascade.All();
         }
     }
 }

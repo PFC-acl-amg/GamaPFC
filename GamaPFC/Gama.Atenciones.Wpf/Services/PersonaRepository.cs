@@ -15,27 +15,18 @@ namespace Gama.Atenciones.Wpf.Services
     public class PersonaRepository : NHibernateOneSessionRepository<Persona, int>, IPersonaRepository
     {
         private List<Persona> _Personas;
-        private IEventAggregator _EventAggregator;
+
+        public PersonaRepository(IEventAggregator eventAggregator) : base(eventAggregator) { }
 
         public List<Persona> Personas
         {
             get
             {
-                if (_Personas != null)
-                    return _Personas;
+                if (_Personas == null)
+                    _Personas = base.GetAll();
 
-                _Personas = base.GetAll();
                 return _Personas;
             }
-            set
-            {
-                _Personas = value;
-            }
-        }
-
-        public PersonaRepository(IEventAggregator eventAggregator)
-        {
-            _EventAggregator = eventAggregator;
         }
 
         public override Persona GetById(int id)
@@ -59,31 +50,11 @@ namespace Gama.Atenciones.Wpf.Services
                         DisplayMember2 = x.Nif,
                         Imagen = x.Imagen
                     }).ToList();
-
-            //var personas = Session.CreateCriteria<Persona>().List<Persona>()
-            //    .Select(x => {
-            //        x.IsEncrypted = true;
-            //        x.DecryptFluent();
-            //        return x;
-            //    })
-            //    .Select(
-            //        x => new LookupItem
-            //        {
-            //            Id = x.Id,
-            //            DisplayMember1 = x.Nombre,
-            //            DisplayMember2 = x.Nif,
-            //            Imagen = x.Imagen
-            //        }).ToList();
-
-            //Session.Clear();
-
-            //return personas;
         }
 
         public override void Create(Persona entity)
         {
             base.Create(entity);
-            entity.Decrypt();
             Personas.Add(entity);
             AtencionesResources.AddNif(entity.Nif);
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Publish(entity.Id);
@@ -93,7 +64,6 @@ namespace Gama.Atenciones.Wpf.Services
         {
             if (base.Update(entity))
             {
-                entity.Decrypt();
                 Personas.Remove(Personas.Find(x => x.Id == entity.Id));
                 Personas.Add(entity);
                 if (entity._SavedNif != entity.Nif)
@@ -140,30 +110,6 @@ namespace Gama.Atenciones.Wpf.Services
         public List<string> GetNifs()
         {
             return Personas.Select(x => x.Nif).ToList();
-
-            //List<string> temp;
-            //List<string> resultado = new List<string>();
-
-            //try
-            //{
-            //    temp = Session.QueryOver<Persona>()
-            //        .Select(x => x.Nif)
-            //        .List<string>()
-            //        .ToList();
-
-            //    foreach (var nif in temp)
-            //    {
-            //        resultado.Add(EncryptionService.Decrypt(nif));
-            //    }
-
-            //    Session.Clear();
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
-
-            //return resultado;
         }
 
         public List<Atencion> GetAtenciones()
@@ -178,3 +124,48 @@ namespace Gama.Atenciones.Wpf.Services
         }
     }
 }
+
+
+
+//List<string> temp;
+//List<string> resultado = new List<string>();
+
+//try
+//{
+//    temp = Session.QueryOver<Persona>()
+//        .Select(x => x.Nif)
+//        .List<string>()
+//        .ToList();
+
+//    foreach (var nif in temp)
+//    {
+//        resultado.Add(EncryptionService.Decrypt(nif));
+//    }
+
+//    Session.Clear();
+//}
+//catch (Exception ex)
+//{
+//    throw ex;
+//}
+
+//return resultado;
+
+//var personas = Session.CreateCriteria<Persona>().List<Persona>()
+//    .Select(x => {
+//        x.IsEncrypted = true;
+//        x.DecryptFluent();
+//        return x;
+//    })
+//    .Select(
+//        x => new LookupItem
+//        {
+//            Id = x.Id,
+//            DisplayMember1 = x.Nombre,
+//            DisplayMember2 = x.Nif,
+//            Imagen = x.Imagen
+//        }).ToList();
+
+//Session.Clear();
+
+//return personas;

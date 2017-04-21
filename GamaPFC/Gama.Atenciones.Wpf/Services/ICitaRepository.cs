@@ -12,17 +12,10 @@ namespace Gama.Atenciones.Wpf.Services
     public interface ICitaRepository
     {
         ISession Session { get; set; }
-
         Cita GetById(int id);
-
         List<Cita> GetAll();
-
-        List<LookupItem> GetAllForLookup();
-
         void Create(Cita entity);
-
         bool Update(Cita entity);
-
         void Delete(Cita entity);
         int CountAll();
         void DeleteAll();
