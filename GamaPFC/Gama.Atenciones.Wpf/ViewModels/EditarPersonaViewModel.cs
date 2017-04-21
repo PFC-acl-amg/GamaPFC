@@ -172,6 +172,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 
                 if (atencionId.HasValue)
                 {
+                    _AtencionesVM.EdicionHabilitada = false;
                     _AtencionesVM.AtencionSeleccionada = _AtencionesVM.Atenciones.Where(x => x.Id == atencionId.Value).First();
                     _AtencionesVM.VerAtenciones = true;
                 }

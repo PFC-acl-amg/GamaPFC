@@ -31,36 +31,88 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public EditarAtencionesViewModel(IAtencionRepository atencionRepository,
             IEventAggregator eventAggregator, IPersonaRepository personaRepository,
+            ICitaRepository citaRepository,
             IRegionManager regionManager)
         {
             _EdicionHabilitada = true;
             Persona = new PersonaWrapper(new Persona());
             _AtencionRepository = atencionRepository;
             _PersonaRepository = personaRepository;
+            _CitaRepository = citaRepository;
             _EventAggregator = eventAggregator;
             _RegionManager = regionManager;
 
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
-                () => AtencionSeleccionada != null && !AtencionSeleccionada.IsInEditionMode);
+                () => AtencionSeleccionada != null);
 
             ActualizarCommand = new DelegateCommand(
                 OnActualizarCommand,
                 () => 
-                      AtencionSeleccionada != null
-                   && ((AtencionSeleccionada.IsInEditionMode
-                   && AtencionSeleccionada.IsChanged
-                   && AtencionSeleccionada.IsValid)
-                   || (CitaSeleccionada.IsChanged
-                    && CitaSeleccionada.IsValid)));
+                      (AtencionSeleccionada != null && AtencionSeleccionada.IsChanged && AtencionSeleccionada.IsValid)
+                   || (CitaSeleccionada     != null && CitaSeleccionada.IsChanged     && CitaSeleccionada.IsValid));
 
-            CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand,
-                () => AtencionSeleccionada != null && AtencionSeleccionada.IsInEditionMode);
+            CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand);
 
             PropertyChanged += EditarAtencionesViewModel_PropertyChanged;
 
             _EventAggregator.GetEvent<NuevaAtencionEvent>().Subscribe(OnNuevaAtencionEvent);
         }
+
+        public ICommand HabilitarEdicionCommand { get; private set; }
+        public ICommand ActualizarCommand { get; private set; }
+        public ICommand CancelarEdicionCommand { get; private set; }
+
+        public ISession Session
+        {
+            get { return _Session; }
+            set
+            {
+                _Session = value;
+                _AtencionRepository.Session = _Session;
+                _PersonaRepository.Session = _Session;
+                _CitaRepository.Session = _Session;
+            }
+        }
+
+        public bool VerAtenciones
+        {
+            get { return _VerAtenciones; }
+            set { SetProperty(ref _VerAtenciones, value); }
+        }
+
+        public PersonaWrapper Persona
+        {
+            get { return _Persona; }
+            set { SetProperty(ref _Persona, value); }
+        }
+
+        public AtencionWrapper AtencionSeleccionada
+        {
+            get { return _AtencionSeleccionada; }
+            set
+            {
+                SetProperty(ref _AtencionSeleccionada, value);
+                CitaSeleccionada = new CitaWrapper(_AtencionSeleccionada.Cita);
+            }
+        }
+
+        private CitaWrapper _CitaSeleccionada;
+        private ICitaRepository _CitaRepository;
+
+        public CitaWrapper CitaSeleccionada
+        {
+            get { return _CitaSeleccionada; }
+            set { SetProperty(ref _CitaSeleccionada, value); }
+        }
+
+        public bool EdicionHabilitada
+        {
+            get { return _EdicionHabilitada; }
+            set { SetProperty(ref _EdicionHabilitada, value); }
+        }
+
+        public ObservableCollection<AtencionWrapper> Atenciones { get; private set; }
 
         public void Load(PersonaWrapper wrapper)
         {
@@ -123,81 +175,32 @@ namespace Gama.Atenciones.Wpf.ViewModels
             VerAtenciones = true;
         }
 
-        private void OnCancelarEdicionCommand()
+        private void OnHabilitarEdicionCommand()
         {
-            AtencionSeleccionada.RejectChanges();
-            EdicionHabilitada = false;
-            AtencionSeleccionada.IsInEditionMode = false;
-            CitaSeleccionada.IsInEditionMode = false;
+            EdicionHabilitada = true;
         }
 
         private void OnActualizarCommand()
         {
-            _AtencionRepository.Update(AtencionSeleccionada.Model);
+            if (AtencionSeleccionada != null && AtencionSeleccionada.IsChanged && AtencionSeleccionada.IsValid)
+            {
+                _AtencionRepository.Update(AtencionSeleccionada.Model);
             AtencionSeleccionada.AcceptChanges();
-            CitaSeleccionada.AcceptChanges();
+            }
+
+            if (CitaSeleccionada != null && CitaSeleccionada.IsChanged && CitaSeleccionada.IsValid)
+            {
+                _CitaRepository.Update(CitaSeleccionada.Model);
+                CitaSeleccionada.AcceptChanges();
+            }
+
             EdicionHabilitada = false;
-            AtencionSeleccionada.IsInEditionMode = false;
-            CitaSeleccionada.IsInEditionMode = false;
         }
 
-        private void OnHabilitarEdicionCommand()
+        private void OnCancelarEdicionCommand()
         {
-            EdicionHabilitada = true;
-            AtencionSeleccionada.IsInEditionMode = true;
-            CitaSeleccionada.IsInEditionMode = true;
+            AtencionSeleccionada.RejectChanges();
+            EdicionHabilitada = false;
         }
-
-        public ICommand HabilitarEdicionCommand { get; private set; }
-        public ICommand ActualizarCommand { get; private set; }
-        public ICommand CancelarEdicionCommand { get; private set; }
-
-        public ISession Session
-        {
-            get { return _Session; }
-            set
-            {
-                _Session = value;
-                _AtencionRepository.Session = _Session;
-                _PersonaRepository.Session = _Session;
-            }
-        }
-
-        public bool VerAtenciones
-        {
-            get { return _VerAtenciones; }
-            set { SetProperty(ref _VerAtenciones, value); }
-        }
-
-        public PersonaWrapper Persona
-        {
-            get { return _Persona; }
-            set { SetProperty(ref _Persona, value); }
-        }
-
-        public AtencionWrapper AtencionSeleccionada
-        {
-            get { return _AtencionSeleccionada; }
-            set
-            {
-                SetProperty(ref _AtencionSeleccionada, value);
-                CitaSeleccionada = new CitaWrapper(_AtencionSeleccionada.Cita);
-            }
-        }
-
-        private CitaWrapper _CitaSeleccionada;
-        public CitaWrapper CitaSeleccionada
-        {
-            get { return _CitaSeleccionada;  }
-            set { SetProperty(ref _CitaSeleccionada, value); }
-        }
-
-        public bool EdicionHabilitada
-        {
-            get { return _EdicionHabilitada; }
-            set { SetProperty(ref _EdicionHabilitada, value); }
-        }
-
-        public ObservableCollection<AtencionWrapper> Atenciones { get; private set; }
     }
 }

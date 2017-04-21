@@ -25,7 +25,7 @@
   <mahapps:MetroWindow.Resources>
     <sys:Double x:Key="_SocialIconSize">13</sys:Double>
     <sys:Double x:Key="WindowTitleFontSize">14</sys:Double>
-    <converters:BooleanToVisivilityConverter x:Key="_BooleanToVisibilityConverter"/>
+    <converters:BooleanToVisibilityConverter x:Key="_BooleanToVisibilityConverter"/>
   </mahapps:MetroWindow.Resources>
 
   <!--#region Icon Template y Windows Commands -->
