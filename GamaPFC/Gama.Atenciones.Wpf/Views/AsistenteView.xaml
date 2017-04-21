@@ -57,7 +57,7 @@
       </Grid.RowDefinitions>
 
       <asistenteViews:DatosPersonales Grid.Row="0"/>
-      <asistenteViews:DatosDeContacto Grid.Row="1"/>
+      <asistenteViews:DireccionPostal Grid.Row="1"/>
       <asistenteViews:DatosDeContacto Grid.Row="2"/>
     </Grid>
 

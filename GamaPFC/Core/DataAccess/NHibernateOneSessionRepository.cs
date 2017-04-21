@@ -15,7 +15,7 @@ namespace Core.DataAccess
         private ISession _Session;
         protected IEventAggregator _EventAggregator;
 
-        public NHibernateOneSessionRepository(IEventAggregator eventAggregator)
+        public NHibernateOneSessionRepository(IEventAggregator eventAggregator = null)
         {
             _EventAggregator = eventAggregator;
         }

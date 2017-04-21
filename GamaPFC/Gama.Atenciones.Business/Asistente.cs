@@ -50,13 +50,9 @@ namespace Gama.Atenciones.Business
             Citas = new List<Cita>();
             EncryptedFields = new List<string>();
 
-            //EncryptedFields.AddRange(new[] {
-            //    nameof(Nombre),
-            //    nameof(Nif),
-            //    nameof(Telefono),
-            //    nameof(Email),
-            //    nameof(Imagen)
-            //});
+            EncryptedFields.AddRange(new[] {
+                nameof(Citas)
+            });
 
             IsEncrypted = true;
         }

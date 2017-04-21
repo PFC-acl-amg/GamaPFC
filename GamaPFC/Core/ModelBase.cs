@@ -1,5 +1,6 @@
 ﻿using Core.Encryption;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,78 +16,105 @@ namespace Core
 
         public virtual void Encrypt()
         {
-            if (IsEncrypted || EncryptedFields == null)
+            if (IsEncrypted)
                 return;
 
-            foreach (var propertyName in EncryptedFields)
-            {
-                var propertyInfo = this.GetType().GetProperty(propertyName);
-                var propertyValue = propertyInfo.GetValue(this, null);
+            IsEncrypted = true;
 
-                if (propertyValue != null)
+            if (EncryptedFields != null)
+            {
+                foreach (var propertyName in EncryptedFields)
                 {
-                    if (propertyValue is byte[])
+                    var propertyInfo = this.GetType().GetProperty(propertyName);
+                    var propertyValue = propertyInfo.GetValue(this, null);
+
+                    if (propertyValue != null)
                     {
-                        propertyInfo.SetValue(this, Cipher.Encrypt((byte[])propertyValue));
-                    }
-                    else if (propertyValue is string)
-                    {
-                        string value = propertyValue.ToString();
-                        if (!string.IsNullOrWhiteSpace(value))
+                        if (propertyValue is byte[])
                         {
-                            propertyInfo.SetValue(this, Cipher.Encrypt(value));
+                            propertyInfo.SetValue(this, Cipher.Encrypt((byte[])propertyValue));
                         }
-                    }
-                    else if (propertyValue is Enum)
-                    {
-                        string enumValue = propertyValue.ToString();
-                        if (!string.IsNullOrWhiteSpace(enumValue))
+                        else if (propertyValue is string)
                         {
-                            propertyInfo.SetValue(this, Cipher.Encrypt(enumValue));
+                            string value = propertyValue.ToString();
+                            if (!string.IsNullOrWhiteSpace(value))
+                            {
+                                propertyInfo.SetValue(this, Cipher.Encrypt(value));
+                            }
+                        }
+                        else if (propertyValue is Enum)
+                        {
+                            string enumValue = propertyValue.ToString();
+                            if (!string.IsNullOrWhiteSpace(enumValue))
+                            {
+                                propertyInfo.SetValue(this, Cipher.Encrypt(enumValue));
+                            }
+                        }
+                        else if (propertyValue is IEncryptable)
+                        {
+                            var encryptableValue = propertyValue as IEncryptable;
+                            encryptableValue.Encrypt();
                         }
                     }
                 }
             }
-
-            IsEncrypted = true;
         }
 
         public virtual void Decrypt()
         {
-            if (!IsEncrypted || EncryptedFields == null)
+            if (!IsEncrypted)
                 return;
 
-            foreach (var propertyName in EncryptedFields)
-            {
-                var propertyInfo = this.GetType().GetProperty(propertyName);
-                var propertyValue = propertyInfo.GetValue(this, null);
+            IsEncrypted = false;
 
-                if (propertyValue != null)
+            if (EncryptedFields != null)
+            {
+                foreach (var propertyName in EncryptedFields)
                 {
-                    if (propertyValue is byte[])
+                    var propertyInfo = this.GetType().GetProperty(propertyName);
+                    var propertyValue = propertyInfo.GetValue(this, null);
+
+                    if (propertyValue != null)
                     {
-                        propertyInfo.SetValue(this, Cipher.Decrypt((byte[])propertyValue));
-                    }
-                    else if (propertyValue is string)
-                    {
-                        string stringValue = propertyValue.ToString();
-                        if (!string.IsNullOrWhiteSpace(stringValue))
+                        if (propertyValue is byte[])
                         {
-                            propertyInfo.SetValue(this, Cipher.Decrypt(stringValue));
+                            propertyInfo.SetValue(this, Cipher.Decrypt((byte[])propertyValue));
                         }
-                    }
-                    else if (propertyValue is Enum)
-                    {
-                        string enumValue = propertyValue.ToString();
-                        if (!string.IsNullOrWhiteSpace(enumValue))
+                        else if (propertyValue is string)
                         {
-                            propertyInfo.SetValue(this, Cipher.Decrypt(enumValue));
+                            string stringValue = propertyValue.ToString();
+                            if (!string.IsNullOrWhiteSpace(stringValue))
+                            {
+                                propertyInfo.SetValue(this, Cipher.Decrypt(stringValue));
+                            }
+                        }
+                        else if (propertyValue is Enum)
+                        {
+                            string enumValue = propertyValue.ToString();
+                            if (!string.IsNullOrWhiteSpace(enumValue))
+                            {
+                                propertyInfo.SetValue(this, Cipher.Decrypt(enumValue));
+                            }
+                        }
+                        else if (propertyValue is IEncryptable)
+                        {
+                            var encryptableValue = propertyValue as IEncryptable;
+                            encryptableValue.Decrypt();
+                        }
+                        else if (propertyValue is IEnumerable)
+                        {
+                            var list = propertyValue as IEnumerable;
+                            foreach (var item in list)
+                            {
+                                if (item is IEncryptable)
+                                    ((IEncryptable)item).Decrypt();
+                                else
+                                    break;
+                            }
                         }
                     }
                 }
             }
-
-            IsEncrypted = false;
         }
 
         public virtual object DecryptFluent()

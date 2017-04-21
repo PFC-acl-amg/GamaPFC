@@ -165,7 +165,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public void AddCita(Cita cita)
         {
-            cita.Persona = this.Model;
+            Model.AddCita(cita);
             Citas.Add(new CitaWrapper(cita));
         }
 

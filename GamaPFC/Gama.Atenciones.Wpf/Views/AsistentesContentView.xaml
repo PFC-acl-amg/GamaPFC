@@ -286,7 +286,7 @@
 
         <asistenteViews:DatosPersonales Grid.Column="0"/>
         <asistenteViews:DatosDeContacto Grid.Column="1"/>
-        <asistenteViews:DatosDeContacto Grid.Column="2"/>
+        <asistenteViews:DireccionPostal Grid.Column="2"/>
       </Grid>
     </ScrollViewer>
 

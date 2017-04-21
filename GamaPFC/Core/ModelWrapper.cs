@@ -41,7 +41,7 @@ namespace Core
 
         public T Model { get; private set; }
 
-        public virtual bool IsChanged => _originalValues.Count > 0 || _trackingObjects.Any(to => to.IsChanged);
+        public virtual bool IsChanged =>_originalValues.Count > 0 || _trackingObjects.Any(to => to.IsChanged);
 
         public bool IsValid => !HasErrors && _trackingObjects.All(t => t.IsValid);
 

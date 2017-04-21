@@ -41,6 +41,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
             _EventAggregator.GetEvent<CitaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
             _EventAggregator.GetEvent<AtencionSeleccionadaEvent>().Subscribe(OnAtencionSeleccionadaEvent);
+            _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
             _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
         }
 
@@ -134,7 +135,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             //        }
             //    }
             //}
-            
+
             //var newView = _Container.Resolve<EditarPersonaView>();
             //var vm = (EditarPersonaViewModel)newView.DataContext;
             //vm.OnNavigatedTo(navigationContext);
@@ -143,6 +144,21 @@ namespace Gama.Atenciones.Wpf.ViewModels
             //_EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
             ////_RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
             //region.Activate(newView);
+        }
+
+        private void OnCitaCreadaEvent(int id)
+        {
+            foreach (var viewModel in EditarPersonaViewModels)
+            {
+                var editarPersonaViewModel = viewModel as EditarPersonaViewModel;
+                if (editarPersonaViewModel != null)
+                {
+                    if (editarPersonaViewModel.Persona.Citas.Any(c => c.Id == id))
+                    {
+                        editarPersonaViewModel.Persona.Citas.AcceptChanges();
+                    }
+                }
+            }
         }
 
         private void OnPersonaEliminadaEvent(int id)
