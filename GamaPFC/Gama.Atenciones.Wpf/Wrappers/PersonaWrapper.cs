@@ -1,6 +1,7 @@
 ﻿using Core;
 using Core.Util;
 using Gama.Atenciones.Business;
+using Gama.Atenciones.Wpf.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -261,7 +262,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
             {
                 results.Add(new ValidationResult("El campo de NIF es obligatorio", new[] { nameof(Nif) }));
             }
-            else if (Nif != Model._SavedNif && AtencionesResources.TodosLosNif.Contains(Nif))
+            else if (Nif != Model._SavedNif && PersonaRepository.Nifs.Contains(Nif))
             {
                 results.Add(new ValidationResult("El NIF introducido ya existe", new[] { nameof(Nif) }));
             }

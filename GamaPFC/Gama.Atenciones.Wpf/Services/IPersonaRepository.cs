@@ -51,8 +51,6 @@ namespace Gama.Atenciones.Wpf.Services
 
         int CountAll();
 
-        List<string> GetNifs();
-
         List<Atencion> GetAtenciones();
         void DeleteAll();
     }

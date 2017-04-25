@@ -23,7 +23,12 @@ namespace Core.DataAccess
         public ISession Session
         {
             get { return _Session; }
-            set { _Session = value; }
+            set { _Session = value; Initialize(); }
+        }
+
+        public virtual void Initialize()
+        {
+
         }
 
         public virtual TEntity GetById(int id)
@@ -161,7 +166,7 @@ namespace Core.DataAccess
             }
         }
 
-        public void Delete(TEntity entity)
+        public virtual void Delete(TEntity entity)
         {
             _Session.Delete(entity);
             _Session.Flush();

@@ -163,31 +163,38 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnPersonaEliminadaEvent(int id)
         {
-            var region = _RegionManager.Regions[RegionNames.PersonasTabContentRegion];
-            var navigationContext = new NavigationContext(region.NavigationService, null);
-            var views = region.Views;
-            foreach (var existingView in views)
+            var editarPersonaViewModel = ViewModelSeleccionado as EditarPersonaViewModel;
+            if (editarPersonaViewModel != null)
             {
-                var editarPersonaView = existingView as EditarPersonaView;
-                if (editarPersonaView != null)
-                {
-                    var editarPersonaViewModel = (EditarPersonaViewModel)editarPersonaView.DataContext;
-                    if (editarPersonaViewModel.Persona.Id == id)
-                    {
-                        region.Remove(editarPersonaView);
-                        break;
-                    }
-                }
+                EditarPersonaViewModels.Remove(editarPersonaViewModel);
+                // Ver qué hacemos con las citas y demás
             }
 
-            foreach (var existingView in views)
-            {
-                var listadoDePersonasView = existingView as ListadoDePersonasView;
-                if (listadoDePersonasView != null)
-                {
-                    region.Activate(listadoDePersonasView);
-                }
-            }
+            //var region = _RegionManager.Regions[RegionNames.PersonasTabContentRegion];
+            //var navigationContext = new NavigationContext(region.NavigationService, null);
+            //var views = region.Views;
+            //foreach (var existingView in views)
+            //{
+            //    var editarPersonaView = existingView as EditarPersonaView;
+            //    if (editarPersonaView != null)
+            //    {
+            //        var editarPersonaViewModel = (EditarPersonaViewModel)editarPersonaView.DataContext;
+            //        if (editarPersonaViewModel.Persona.Id == id)
+            //        {
+            //            region.Remove(editarPersonaView);
+            //            break;
+            //        }
+            //    }
+            //}
+
+            //foreach (var existingView in views)
+            //{
+            //    var listadoDePersonasView = existingView as ListadoDePersonasView;
+            //    if (listadoDePersonasView != null)
+            //    {
+            //        region.Activate(listadoDePersonasView);
+            //    }
+            //}
         }
 
         private void OnAtencionSeleccionadaEvent(IdentificadorDeModelosPayload payload)

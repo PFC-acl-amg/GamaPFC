@@ -86,17 +86,17 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnActualizarCommand()
         {
-            Persona.UpdatedAt = DateTime.Now;
+            //Persona.UpdatedAt = DateTime.Now;
             _PersonaRepository.Update(Persona.Model);
             _PersonaVM.Persona.AcceptChanges();
             _PersonaVM.EdicionHabilitada = false;
             RefrescarTitulo(Persona.Nombre);
-            if (Persona._SavedNif != Persona.Nif)
-            {
-                AtencionesResources.TodosLosNif.Remove(Persona._SavedNif);
-                AtencionesResources.TodosLosNif.Add(Persona.Nif);
-                Persona._SavedNif = Persona.Nif;
-            }
+            //if (Persona._SavedNif != Persona.Nif)
+            //{
+            //    AtencionesResources.TodosLosNif.Remove(Persona._SavedNif);
+            //    AtencionesResources.TodosLosNif.Add(Persona.Nif);
+            //    Persona._SavedNif = Persona.Nif;
+            //}
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Publish(Persona.Id);
         }
 
@@ -122,7 +122,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 int id = Persona.Id;
                 // WARNING: Debe hacer antes la publicación del evento porque se recoge
                 // la persona para ver sus citas y atenciones desde otros viewmodels
-                _EventAggregator.GetEvent<PersonaEliminadaEvent>().Publish(id);
+                //_EventAggregator.GetEvent<PersonaEliminadaEvent>().Publish(id);
                 _PersonaRepository.Delete(Persona.Model);
             }
         }

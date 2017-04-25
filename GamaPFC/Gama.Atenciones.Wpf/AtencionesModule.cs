@@ -24,17 +24,7 @@ namespace Gama.Atenciones.Wpf
 {
     public static class AtencionesResources
     {
-        public static List<string> TodosLosNif { get; set; }
-
         public static List<string> TodosLosNifDeAsistentes { get; set; }
-
-        public static void AddNif(string nif)
-        {
-            if (!TodosLosNif.Contains(nif))
-            {
-                TodosLosNif.Add(nif);
-            }
-        }
 
         public static void AddNifAAsistente(string nif)
         {

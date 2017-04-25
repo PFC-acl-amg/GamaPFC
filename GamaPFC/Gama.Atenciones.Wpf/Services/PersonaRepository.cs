@@ -16,7 +16,10 @@ namespace Gama.Atenciones.Wpf.Services
     {
         private List<Persona> _Personas;
 
-        public PersonaRepository(IEventAggregator eventAggregator) : base(eventAggregator) { }
+        public PersonaRepository(IEventAggregator eventAggregator) : base(eventAggregator)
+        {
+            
+        }
 
         public List<Persona> Personas
         {
@@ -27,6 +30,15 @@ namespace Gama.Atenciones.Wpf.Services
 
                 return _Personas;
             }
+        }
+
+        public static List<string> Nifs { get; set; }
+
+        // Se llama al establecerse la propiedad 'Session'
+        public override void Initialize()
+        {
+            // Generará las personas Y los nifs
+            Nifs = Personas.Select(x => x.Nif).ToList();
         }
 
         public override Persona GetById(int id)
@@ -56,7 +68,7 @@ namespace Gama.Atenciones.Wpf.Services
         {
             base.Create(entity);
             Personas.Add(entity);
-            AtencionesResources.AddNif(entity.Nif);
+            AddNif(entity.Nif);
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Publish(entity.Id);
         }
 
@@ -68,8 +80,7 @@ namespace Gama.Atenciones.Wpf.Services
                 Personas.Add(entity);
                 if (entity._SavedNif != entity.Nif)
                 {
-                    AtencionesResources.TodosLosNif.Remove(entity._SavedNif);
-                    AtencionesResources.TodosLosNif.Add(entity.Nif);
+                    ReplaceNif(entity._SavedNif, entity.Nif);
                     entity._SavedNif = entity.Nif;
                 }
                 _EventAggregator.GetEvent<PersonaActualizadaEvent>().Publish(entity.Id);
@@ -78,6 +89,16 @@ namespace Gama.Atenciones.Wpf.Services
             }
 
             return false;
+        }
+
+        public override void Delete(Persona entity)
+        {
+            // WARNING: Debe hacer antes la publicación del evento porque se recoge
+            // la persona para ver sus citas y atenciones desde otros viewmodels
+            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Publish(entity.Id);
+            base.Delete(entity);
+            Personas.Remove(Personas.Find(x => x.Id == entity.Id));
+            Nifs.Remove(entity.Nif);
         }
 
         public IEnumerable<int> GetPersonasNuevasPorMes(int numeroDeMeses)
@@ -107,9 +128,18 @@ namespace Gama.Atenciones.Wpf.Services
             return resultado;
         }
 
-        public List<string> GetNifs()
+        public void AddNif(string nif)
         {
-            return Personas.Select(x => x.Nif).ToList();
+            if (!Nifs.Contains(nif))
+            {
+                Nifs.Add(nif);
+            }
+        }
+
+        public void ReplaceNif(string remove, string add)
+        {
+            Nifs.Remove(remove);
+            Nifs.Add(add);
         }
 
         public List<Atencion> GetAtenciones()

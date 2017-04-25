@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Util;
 using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Converters;
 using Gama.Atenciones.Wpf.Eventos;
@@ -17,29 +18,6 @@ using System.Windows.Input;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
-    public static class ExtensionMethods
-    {
-        public static bool IsBetween(this DateTime date, DateTime? initialDate, DateTime? finalDate)
-        {
-            bool result = true;
-            
-            if (initialDate.HasValue && initialDate > date)
-                result = false;
-
-            if (finalDate.HasValue && finalDate < date)
-                result = false;
-
-            return result;
-        }
-
-        public static bool IsBetween(this DateTime? date, DateTime? initialDate, DateTime? finalDate)
-        {
-            if (!date.HasValue)
-                return false;
-
-            return IsBetween(date.Value, initialDate, finalDate);
-        }
-    }
 
     public class DashboardViewModel : ViewModelBase
     {
@@ -49,8 +27,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private IPersonaRepository _PersonaRepository;
         private PreferenciasDeAtenciones _Settings;
         private List<Persona> _Personas;
-        private List<Atencion> _Atenciones;
         private List<Cita> _Citas;
+        private List<Atencion> _Atenciones;
         private bool _FiltradoEstaActivo = false;
 
         public DashboardViewModel(IPersonaRepository personaRepository,
@@ -104,15 +82,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 FechaDeFin = null;
             });
 
-
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnPersonaCreadaEvent);
+            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
+            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
+            _EventAggregator.GetEvent<PersonaEnBusquedaEvent>().Subscribe(OnPersonaEnBusquedaEvent);
+
             _EventAggregator.GetEvent<AtencionCreadaEvent>().Subscribe(OnAtencionCreadaEvent);
             _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnNuevaCitaEvent);
-            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
-
-            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
-
-            _EventAggregator.GetEvent<PersonaEnBusquedaEvent>().Subscribe(OnPersonaEnBusquedaEvent);
         }
 
         private LookupItem _PersonaSeleccionada;
@@ -140,6 +116,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
             set { SetProperty(ref _FechaDeFin, value); FiltrarPorFecha(); }
         }
 
+        // Estas listas son dinámicas en tanto que según el filtro de fecha que se aplique
+        // (a través de FechaDeInicio y FechaDeFin) contendrán un conjunto diferentes de 
+        // elementos. Las listas que contienen todos los elementos son las privadas 
+        // (_Personas, _Citas y _Atenciones)
         public ObservableCollection<LookupItem> Atenciones { get; private set; }
         public ObservableCollection<LookupItem> ProximasCitas { get; private set; }
         public ObservableCollection<LookupItem> Personas { get; private set; }
@@ -164,7 +144,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             DisplayMember1 = atencion.Fecha.ToString(),
             DisplayMember2 = LookupItem.ShortenStringForDisplay(atencion.Seguimiento, 30),
             IconSource = @"atencion_icon.png",
-            Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
+            Imagen = Converters.BinaryImageConverter.GetBitmapImageFromUriSource(
                              new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png")),
         };
 
@@ -383,7 +363,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 DisplayMember2 = LookupItem.ShortenStringForDisplay(
                          atencion.Seguimiento, _Settings.DashboardLongitudDeSeguimientos),
                 IconSource = @"atencion_icon.png",
-                Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
+                Imagen = Converters.BinaryImageConverter.GetBitmapImageFromUriSource(
                          new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png")),
 
                 // TODO Poner imagen desde recursos y tal

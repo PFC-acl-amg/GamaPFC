@@ -35,13 +35,6 @@ namespace Gama.Atenciones.Wpf
             personaRepository.Session = session;
             asistenteRepository.Session = session;
 
-            // Recogemos todos los NIF para usarlos en validación
-            // No lo hacemos en el wrapper directamente para eliminar el acomplamiento
-            // del wrapper a los servicios. 
-            AtencionesResources.Personas = personaRepository.GetAll();
-
-            AtencionesResources.TodosLosNif = AtencionesResources.Personas.Select(x => x.Nif).ToList();
-
             //AtencionesResources.TodosLosNif = personaRepository.GetNifs();
             AtencionesResources.TodosLosNifDeAsistentes = asistenteRepository.GetNifs();
 
