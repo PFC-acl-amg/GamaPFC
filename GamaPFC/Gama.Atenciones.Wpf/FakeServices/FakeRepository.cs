@@ -15,9 +15,9 @@ namespace Gama.Atenciones.Wpf.FakeServices
 
         public FakeRepository()
         {
-            var Personas = new FakePersonaRepository().GetAll();
-            var Citas = new FakeCitaRepository().GetAll();
-            var Atenciones = new FakeAtencionRepository().GetAll();
+            Personas = new FakePersonaRepository().GetAll();
+            Citas = new FakeCitaRepository().GetAll();
+            Atenciones = new FakeAtencionRepository().GetAll();
 
             var randomNumberGenerator = new Random();
 

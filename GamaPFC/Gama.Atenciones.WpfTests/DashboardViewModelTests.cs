@@ -56,9 +56,11 @@ namespace Gama.Atenciones.WpfTests
             _Settings = new PreferenciasDeAtenciones();
             _SessionMock = new Mock<ISession>();
 
-            _Personas = new FakePersonaRepository().GetAll();
-            _Citas = new FakeCitaRepository().GetAll();
-            _Atenciones = new FakeAtencionRepository().GetAll();
+            var fakeRepository = new FakeRepository();
+
+            _Personas = fakeRepository.Personas;
+            _Citas = fakeRepository.Citas;
+            _Atenciones = fakeRepository.Atenciones;
 
             _PersonaRepositoryMock.Setup(p => p.GetAll()).Returns(_Personas);
             _CitaRepositoryMock.Setup(c => c.GetAll()).Returns(_Citas);
@@ -108,16 +110,19 @@ namespace Gama.Atenciones.WpfTests
         [Fact]
         private void ShouldInitializeItsProperties()
         {
+            /// 
+            /// Assert
+            ///
+
             Assert.Null(_Vm.FechaDeInicio);
             Assert.Null(_Vm.FechaDeFin);
+            Assert.NotNull(_Vm.SelectPersonaCommand);
+            Assert.NotNull(_Vm.SelectCitaCommand);
+            Assert.NotNull(_Vm.SelectAtencionCommand);
 
             _PersonaRepositoryMock.Verify(p => p.GetAll(), Times.Once);
             _CitaRepositoryMock.Verify(c => c.GetAll(), Times.Once);
             _AtencionRepositoryMock.Verify(a => a.GetAll(), Times.Once);
-
-            Assert.NotNull(_Vm.SelectPersonaCommand);
-            Assert.NotNull(_Vm.SelectCitaCommand);
-            Assert.NotNull(_Vm.SelectAtencionCommand);
         }
 
         /// 
@@ -127,47 +132,95 @@ namespace Gama.Atenciones.WpfTests
         [Fact]
         private void ShouldFiltrarPorPersonaSeleccionadaYSoloMostrarAtencionesYCitasSuyas()
         {
-            _Vm.FiltrarPorPersonaCommand.Execute(new LookupItem { Id = 1 });
+            ///
+            /// Arrange
+            /// 
+            int expectedId = 1;
+            int expectedCount = 1;
 
-            Assert.True(_Vm.Personas.Count == 1);
-            Assert.True(_Vm.Personas.First().Id == 1);
+            ///
+            /// Act
+            /// 
+            _Vm.FiltrarPorPersonaCommand.Execute(_Personas.Find(x => x.Id == expectedId));
 
-            _PersonaSeleccionadaEventMock.Verify(e => e.Publish(1), Times.Once);
+            /// 
+            /// Assert
+            /// 
+            Assert.Equal(_Vm.Personas.Count, expectedCount);
+            Assert.Equal(_Vm.Personas.First().Id, expectedId);
+            Assert.True(_Vm.ProximasCitas.All(x => x.Persona.Id == expectedId));
+            Assert.True(_Vm.Atenciones.All(x => x.Cita.Persona.Id == expectedId));
+
+            // Si se vuelve a ejecutar ese comando, desactivará el filtro, por lo que 
+            // se debe volver al estado inicial. Pasamos null como parámetro para que de
+            // error en caso de meterse por donde no debe. En este caso, al volverse
+            // al estado inicial, no debe accederse a ese parámetro.
+
+            ///
+            /// Arrange
+            ///
+            expectedCount = _Personas.Count;
+
+            ///
+            /// Act
+            /// 
+            _Vm.FiltrarPorPersonaCommand.Execute(null);
+
+            /// 
+            /// Assert
+            /// 
+            Assert.Equal(_Vm.Personas.Count, expectedCount);
         }
 
 
         [Fact]
         private void ShouldPublishPersonaSeleccionadaEventWhenUnaPersonaIsSelected()
         {
-            _Vm.SelectPersonaCommand.Execute(new LookupItem { Id = 1 });
-            _PersonaSeleccionadaEventMock.Verify(e => e.Publish(1), Times.Once);
+            /// Arrange
+            Persona persona = _Personas.First();
+
+            /// Act
+            _Vm.SelectPersonaCommand.Execute(persona);
+
+            /// Assert
+            _PersonaSeleccionadaEventMock.Verify(e => e.Publish(persona.Id), Times.Once);
         }
 
         [Fact]
         private void ShouldPublishCitaSeleccionadaEventWhenUnaCitaIsSelected()
         {
-            _Vm.SelectCitaCommand.Execute(new LookupItem { Id = 1 });
-            _CitaSeleccionadaEventMock.Verify(e => e.Publish(1), Times.Once);
+            /// Arrange
+            Cita cita = _Citas.First();
+
+            /// Act
+            _Vm.SelectCitaCommand.Execute(cita);
+
+            /// Assert
+            _CitaSeleccionadaEventMock.Verify(e => e.Publish(cita.Persona.Id), Times.Once);
         }
 
         [Fact]
         private void ShouldPublishAtencionSeleccionadaEventWhenUnaAtencionIsSelected()
         {
-            _Vm.SelectAtencionCommand.Execute(new LookupItem { Id = 1 });
-            _AtencionSeleccionadaEventMock.Verify(e => e.Publish(
-                new IdentificadorDeModelosPayload
-                {
-                    AtencionId = 1,
-                    PersonaId = It.IsAny<int>(),
-                     CitaId = It.IsAny<int?>(),
-                }), Times.Once);
+            /// Arrange
+            Atencion atencion = _Atenciones.First();
+
+            /// Act
+            _Vm.SelectAtencionCommand.Execute(atencion);
+
+            /// Assert
+            _AtencionSeleccionadaEventMock.Verify(e => e.Publish(It.IsAny<IdentificadorDeModelosPayload>()),
+                Times.Once);
         }
 
         [Fact]
-        private void NuevaPersonaShouldSetLaPersonaEnPrimeraPosicionDeLasUltimasPersonasMostradas()
+        private void NuevaPersonaShouldAddLaPersona()
         {
-            var persona = new Persona { Id = int.MaxValue, Nombre = "Nombre", Nif = "" };
-            _PersonaRepositoryMock.Setup(p => p.GetById(It.IsAny<int>())).Returns(persona);
+            ///
+            /// Arrange
+            ///
+            var persona = new Persona { Id = int.MaxValue };
+            _PersonaRepositoryMock.Setup(p => p.GetById(persona.Id)).Returns(persona);
 
             var eventAggregator = new EventAggregator();
 
@@ -179,16 +232,28 @@ namespace Gama.Atenciones.WpfTests
                 _Settings,
                 _SessionMock.Object);
 
+            int expectedCount = _Personas.Count + 1;
+
+            /// 
+            /// Act
+            /// 
             eventAggregator.GetEvent<PersonaCreadaEvent>().Publish(persona.Id);
 
-            Assert.Equal(persona.Id, vm.Personas.First().Id);
+            ///
+            /// Assert
+            /// 
+            Assert.Equal(vm.Personas.Count, expectedCount);
+            Assert.True(vm.Personas.Where(x => x.Id == persona.Id).ToList().Count == 1);
         }
 
         [Fact]
-        private void NuevaAtencionShouldSetLaAtencionEnPrimeraPosicionDeLasUltimasAtencionesMostradas()
+        private void NuevaAtencionShouldAddLaAtencion()
         {
-            var atencion = new Atencion { Id = int.MaxValue, Fecha = DateTime.Now, Seguimiento = "Seguimiento" };
-            _AtencionRepositoryMock.Setup(p => p.GetById(It.IsAny<int>())).Returns(atencion);
+            ///
+            /// Arrange
+            ///
+            var atencion = new Atencion { Id = int.MaxValue };
+            _AtencionRepositoryMock.Setup(p => p.GetById(atencion.Id)).Returns(atencion);
 
             var eventAggregator = new EventAggregator();
 
@@ -200,32 +265,27 @@ namespace Gama.Atenciones.WpfTests
                 _Settings,
                 _SessionMock.Object);
 
+            int expectedCount = _Atenciones.Count + 1;
+
+            /// 
+            /// Act
+            /// 
             eventAggregator.GetEvent<AtencionCreadaEvent>().Publish(atencion.Id);
 
-            Assert.Equal(atencion.Id, vm.Atenciones.First().Id);
+            ///
+            /// Assert
+            /// 
+            Assert.Equal(vm.Atenciones.Count, expectedCount);
+            Assert.True(vm.Atenciones.Where(x => x.Id == atencion.Id).ToList().Count == 1);
         }
 
         [Fact]
-        private void NuevaCitaShouldAddLaCitaNuevaEnLaListaDeCitas()
+        private void NuevaCitaShouldAddLaCita()
         {
             //
             // Arrange
             //
-            var persona = new Persona
-            {
-                Id = int.MaxValue,
-                Nombre = "Nombre",
-                Nif = ""
-            };
-
-            _PersonaRepositoryMock.Setup(p => p.GetById(It.IsAny<int>())).Returns(persona);
-
-            var cita = new Cita {
-                Id = int.MaxValue,
-                Fecha = DateTime.Now.AddYears(-10),
-                Sala = "Sala B",
-                Persona = persona,
-            };
+            var cita = new Cita { Id = int.MaxValue };
 
             _CitaRepositoryMock.Setup(p => p.GetById(It.IsAny<int>())).Returns(cita);
 
@@ -239,7 +299,7 @@ namespace Gama.Atenciones.WpfTests
                 _Settings,
                 _SessionMock.Object);
 
-            int citasCount = vm.ProximasCitas.Count;
+            int expectedCount = vm.ProximasCitas.Count + 1;
 
             //
             // Act
@@ -249,8 +309,8 @@ namespace Gama.Atenciones.WpfTests
             //
             // Assert
             //
-            Assert.Equal(citasCount + 1, vm.ProximasCitas.Count);
-            Assert.True(vm.ProximasCitas.Any(x => x.Id == cita.Id));
+            Assert.Equal(expectedCount, vm.ProximasCitas.Count);
+            Assert.True(vm.ProximasCitas.Where(x => x.Id == cita.Id).ToList().Count == 1);
         }
     }
 }
