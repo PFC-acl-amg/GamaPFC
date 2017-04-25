@@ -14,7 +14,7 @@ namespace Gama.Atenciones.Wpf.Services
 {
     public class CitaRepository : NHibernateOneSessionRepository<Cita, int>, ICitaRepository
     {
-        private List<Cita> _Atenciones;
+        private List<Cita> _Citas;
 
         public CitaRepository(IEventAggregator eventAggregator) : base(eventAggregator) { }
 
@@ -22,10 +22,10 @@ namespace Gama.Atenciones.Wpf.Services
         {
             get
             {
-                if (_Atenciones == null)
-                    _Atenciones = base.GetAll();
+                if (_Citas == null)
+                    _Citas = base.GetAll();
 
-                return _Atenciones;
+                return _Citas;
             }
         }
 

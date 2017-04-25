@@ -13,10 +13,12 @@ using Xunit;
 using Gama.Atenciones.Business;
 using Gama.Common.CustomControls;
 using Gama.Atenciones.Wpf.Eventos;
+using System.IO.Packaging;
+using Gama.Atenciones.Wpf.UIEvents;
 
 namespace Gama.Atenciones.WpfTests
 {
-    public class DashboardViewModelTests
+    public class DashboardViewModelTests : BaseTestClass
     {
         private List<Atencion> _Atenciones;
         private Mock<IAtencionRepository> _AtencionRepositoryMock;
@@ -25,10 +27,13 @@ namespace Gama.Atenciones.WpfTests
         private List<Cita> _Citas;
         private Mock<CitaSeleccionadaEvent> _CitaSeleccionadaEventMock;
         private Mock<IEventAggregator> _EventAggregatorMock;
-        private Mock<PersonaCreadaEvent> _NuevaPersonaEventMock;
+        private Mock<PersonaCreadaEvent> _PersonaCreadaEventMock;
+        private Mock<PersonaActualizadaEvent> _PersonaActualizadaEventMock;
+        private Mock<PersonaEliminadaEvent> _PersonaEliminadaEventMock;
+        private Mock<PersonaEnBusquedaEvent> _PersonaEnBusquedaEventMock;
+        private Mock<PersonaSeleccionadaEvent> _PersonaSeleccionadaEventMock;
         private Mock<IPersonaRepository> _PersonaRepositoryMock;
         private List<Persona> _Personas;
-        private Mock<PersonaSeleccionadaEvent> _PersonaSeleccionadaEventMock;
         private Mock<ISession> _SessionMock;
         private PreferenciasDeAtenciones _Settings;
         DashboardViewModel _Vm;
@@ -52,25 +57,28 @@ namespace Gama.Atenciones.WpfTests
             _CitaRepositoryMock.Setup(c => c.GetAll()).Returns(_Citas);
             _AtencionRepositoryMock.Setup(a => a.GetAll()).Returns(_Atenciones);
 
+            _PersonaCreadaEventMock = new Mock<PersonaCreadaEvent>();
+            _PersonaActualizadaEventMock = new Mock<PersonaActualizadaEvent>();
+            _PersonaEliminadaEventMock = new Mock<PersonaEliminadaEvent>();
+            _PersonaEnBusquedaEventMock = new Mock<PersonaEnBusquedaEvent>();
             _PersonaSeleccionadaEventMock = new Mock<PersonaSeleccionadaEvent>();
+
             _CitaSeleccionadaEventMock = new Mock<CitaSeleccionadaEvent>();
             _AtencionSeleccionadaEventMock = new Mock<AtencionSeleccionadaEvent>();
-            _NuevaPersonaEventMock = new Mock<PersonaCreadaEvent>();
             _NuevaCitaEventMock = new Mock<CitaCreadaEvent>();
             _AtencionCreadaEventMock = new Mock<AtencionCreadaEvent>();
 
-            _EventAggregatorMock.Setup(e => e.GetEvent<PersonaSeleccionadaEvent>()).Returns(
-                _PersonaSeleccionadaEventMock.Object);
-            _EventAggregatorMock.Setup(e => e.GetEvent<CitaSeleccionadaEvent>()).Returns(
-                _CitaSeleccionadaEventMock.Object);
-            _EventAggregatorMock.Setup(e => e.GetEvent<AtencionSeleccionadaEvent>()).Returns(
-                _AtencionSeleccionadaEventMock.Object);
-            _EventAggregatorMock.Setup(e => e.GetEvent<PersonaCreadaEvent>()).Returns(
-                _NuevaPersonaEventMock.Object);
-            _EventAggregatorMock.Setup(e => e.GetEvent<CitaCreadaEvent>()).Returns(
-                _NuevaCitaEventMock.Object);
-            _EventAggregatorMock.Setup(e => e.GetEvent<AtencionCreadaEvent>()).Returns(
-                _AtencionCreadaEventMock.Object);
+            _EventAggregatorMock.Setup(e => e.GetEvent<PersonaCreadaEvent>()).Returns(_PersonaCreadaEventMock.Object);
+            _EventAggregatorMock.Setup(e => e.GetEvent<PersonaActualizadaEvent>()).Returns(_PersonaActualizadaEventMock.Object);
+            _EventAggregatorMock.Setup(e => e.GetEvent<PersonaEliminadaEvent>()).Returns(_PersonaEliminadaEventMock.Object);
+            _EventAggregatorMock.Setup(e => e.GetEvent<PersonaSeleccionadaEvent>()).Returns(_PersonaSeleccionadaEventMock.Object);
+            _EventAggregatorMock.Setup(e => e.GetEvent<PersonaEnBusquedaEvent>()).Returns(_PersonaEnBusquedaEventMock.Object);
+
+
+            _EventAggregatorMock.Setup(e => e.GetEvent<CitaSeleccionadaEvent>()).Returns(_CitaSeleccionadaEventMock.Object);
+            _EventAggregatorMock.Setup(e => e.GetEvent<AtencionSeleccionadaEvent>()).Returns(_AtencionSeleccionadaEventMock.Object);
+            _EventAggregatorMock.Setup(e => e.GetEvent<CitaCreadaEvent>()).Returns(_NuevaCitaEventMock.Object);
+            _EventAggregatorMock.Setup(e => e.GetEvent<AtencionCreadaEvent>()).Returns(_AtencionCreadaEventMock.Object);
 
             _Vm = new DashboardViewModel(
                 personaRepository: _PersonaRepositoryMock.Object,
@@ -87,14 +95,9 @@ namespace Gama.Atenciones.WpfTests
             _PersonaRepositoryMock.Verify(p => p.GetAll(), Times.Once);
             _CitaRepositoryMock.Verify(c => c.GetAll(), Times.Once);
             _AtencionRepositoryMock.Verify(a => a.GetAll(), Times.Once);
-            Assert.Equal(_Vm.Personas.Count, _Settings.DashboardUltimasPersonas);
-            Assert.Equal(_Vm.ProximasCitas.Count, _Settings.DashboardUltimasCitas);
-            Assert.Equal(_Vm.Atenciones.Count, _Settings.DashboardUltimasAtenciones);
             Assert.NotNull(_Vm.SelectPersonaCommand);
             Assert.NotNull(_Vm.SelectCitaCommand);
             Assert.NotNull(_Vm.SelectAtencionCommand);
-            //Assert.NotNull(_Vm.PersonasNuevasPorMes);
-            //Assert.NotNull(_Vm.AtencionesNuevasPorMes);
         }
 
         [Fact]
@@ -169,7 +172,14 @@ namespace Gama.Atenciones.WpfTests
         [Fact]
         private void NuevaCitaShouldSetLaCitaEnPrimeraPosicionDeLasProximasCitasMostradas()
         {
-            var cita = new Cita { Id = int.MaxValue, Fecha = DateTime.Now.AddYears(-10), Sala = "Sala B"};
+            var persona = new Persona { Id = int.MaxValue, Nombre = "Nombre", Nif = "" };
+            _PersonaRepositoryMock.Setup(p => p.GetById(It.IsAny<int>())).Returns(persona);
+            var cita = new Cita {
+                Id = int.MaxValue,
+                Fecha = DateTime.Now.AddYears(-10),
+                Sala = "Sala B",
+                Persona = persona,
+            };
             _CitaRepositoryMock.Setup(p => p.GetById(It.IsAny<int>())).Returns(cita);
 
             var eventAggregator = new EventAggregator();

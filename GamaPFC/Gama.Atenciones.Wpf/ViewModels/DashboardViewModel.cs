@@ -18,7 +18,6 @@ using System.Windows.Input;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
-
     public class DashboardViewModel : ViewModelBase
     {
         private IAtencionRepository _AtencionRepository;
@@ -130,31 +129,31 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand FiltrarPorPersonaCommand { get; private set; }
         public ICommand ResetearFechasCommand { get; private set; }
 
-        Func<Persona, LookupItem> _PersonaToLookupItemFunc = persona => new LookupItem
-        {
-            Id = persona.Id,
-            DisplayMember1 = persona.Nombre,
-            DisplayMember2 = persona.Nif,
-            Imagen = persona.Imagen
-        };
+        Func<Persona, LookupItem> _PersonaToLookupItemFunc = 
+            persona => new LookupItem  {
+                Id = persona.Id,
+                DisplayMember1 = persona.Nombre,
+                DisplayMember2 = persona.Nif,
+                Imagen = persona.Imagen
+            };
 
-        Func<Atencion, LookupItem> _AtencionToLookupItemFunc = atencion => new LookupItem
-        {
-            Id = atencion.Id,
-            DisplayMember1 = atencion.Fecha.ToString(),
-            DisplayMember2 = LookupItem.ShortenStringForDisplay(atencion.Seguimiento, 30),
-            IconSource = @"atencion_icon.png",
-            Imagen = Converters.BinaryImageConverter.GetBitmapImageFromUriSource(
-                             new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png")),
-        };
+        Func<Atencion, LookupItem> _AtencionToLookupItemFunc = 
+            atencion => new LookupItem {
+                Id = atencion.Id,
+                DisplayMember1 = atencion.Fecha.ToString(),
+                DisplayMember2 = LookupItem.ShortenStringForDisplay(atencion.Seguimiento, 30),
+                IconSource = @"atencion_icon.png",
+                Imagen = Converters.BinaryImageConverter.GetBitmapImageFromUriSource(
+                                 new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png")),
+            };
 
-        Func<Cita, LookupItem> _CitaToLookupItemFunc = cita => new LookupItem
-        {
-            Id = cita.Id,
-            DisplayMember1 = cita.Fecha.ToString(),
-            DisplayMember2 = cita.Sala,
-            Imagen = cita.Persona.Imagen
-        };
+        Func<Cita, LookupItem> _CitaToLookupItemFunc = 
+            cita => new LookupItem {
+                Id = cita.Id,
+                DisplayMember1 = cita.Fecha.ToString(),
+                DisplayMember2 = cita.Sala,
+                Imagen = cita.Persona.Imagen
+            };
 
         private void FiltrarPorFecha()
         {
@@ -187,19 +186,18 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnFiltrarPorPersonaCommandExecute(object parameter)
         {
-            //if (parameter == null) return; // Cuando no hay "PersonaSeleccionada"
-
             if (!_FiltradoEstaActivo)
             {
                 var personaSeleccionada = parameter as LookupItem;
-
-                if (personaSeleccionada == null) return;
+                
+                // Ocurre cuando se hace click en la lista pero no sobre una persona
+                if (personaSeleccionada == null) return; 
 
                 Personas = new ObservableCollection<LookupItem>(
-                              _Personas
-                              .Where(p => p.Id == personaSeleccionada.Id)
-                               .OrderBy(p => p.Nombre)
-                              .Select(_PersonaToLookupItemFunc));
+                    _Personas
+                    .Where(p => p.Id == personaSeleccionada.Id)
+                    .OrderBy(p => p.Nombre)
+                    .Select(_PersonaToLookupItemFunc));
 
                 Atenciones = new ObservableCollection<LookupItem>(
                     _Atenciones
@@ -223,9 +221,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
             else
             {
                 Personas = new ObservableCollection<LookupItem>(
-                           _Personas
-                           .OrderBy(p => p.Nombre)
-                           .Select(_PersonaToLookupItemFunc));
+                    _Personas
+                    .OrderBy(p => p.Nombre)
+                    .Select(_PersonaToLookupItemFunc));
 
                 Atenciones = new ObservableCollection<LookupItem>(
                     _Atenciones
@@ -248,10 +246,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnPersonaEnBusquedaEvent(string textoDeBusqueda)
         {
             Personas = new ObservableCollection<LookupItem>(
-                              _Personas
-                              .Where(p => p.Nombre.ToLower().Contains(textoDeBusqueda.Trim().ToLower()))
-                              .OrderBy(p => p.Nombre)
-                              .Select(_PersonaToLookupItemFunc));
+                _Personas
+                .Where(p => p.Nombre.ToLower().Contains(textoDeBusqueda.Trim().ToLower()))
+                .OrderBy(p => p.Nombre)
+                .Select(_PersonaToLookupItemFunc));
 
             if (Personas.Count == 1)
             {
