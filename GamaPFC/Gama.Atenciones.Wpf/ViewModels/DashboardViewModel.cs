@@ -47,9 +47,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _CitaRepository.Session = session;
             _AtencionRepository.Session = session;
 
-            _Personas = _PersonaRepository.GetAll();
-            _Atenciones = atencionRepository.GetAll();
-            _Citas = _CitaRepository.GetAll();
+            _Personas = new List<Persona>(_PersonaRepository.GetAll());
+            _Atenciones = new List<Atencion>(atencionRepository.GetAll());
+            _Citas = new List<Cita>(_CitaRepository.GetAll());
 
             Personas = new ObservableCollection<LookupItem>(
                 _Personas
@@ -308,16 +308,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnPersonaCreadaEvent(int id)
         {
             var persona = _PersonaRepository.GetById(id);
-            var lookupItem = new LookupItem
-            {
-                Id = persona.Id,
-                DisplayMember1 = persona.Nombre,
-                DisplayMember2 = persona.Nif,
-                Imagen = persona.Imagen
-            };
-
-            _Personas.Insert(0, persona);
-            Personas.Insert(0, lookupItem);
+            _Personas.Add(persona);
+            FiltrarPorFecha();
         }
 
         private void OnPersonaEliminadaEvent(int id)
@@ -393,7 +385,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnCitaCreadaEvent(int id)
         {
             var cita = _CitaRepository.GetById(id);
-            //_Citas.Add(cita);
+            _Citas.Add(cita);
             FiltrarPorFecha();
             //var lookupItem = new LookupItem
             //{

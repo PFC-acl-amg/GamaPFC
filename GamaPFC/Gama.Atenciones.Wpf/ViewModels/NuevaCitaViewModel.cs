@@ -161,6 +161,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnAceptarCommand_Execute()
         {
+            Cita.Fecha = Cita.Fecha.Value.AddHours(Cita.Hora).AddMinutes(Cita.Minutos);
             if (!EnEdicionDeCitaExistente)
             {
                 PersonaSeleccionada.AddCita(Cita.Model);

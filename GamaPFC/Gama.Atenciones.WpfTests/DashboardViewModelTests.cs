@@ -190,7 +190,7 @@ namespace Gama.Atenciones.WpfTests
         }
 
         [Fact]
-        private void NuevaCitaShouldSetLaCitaEnPrimeraPosicionDeLasProximasCitasMostradas()
+        private void NuevaCitaShouldAddLaCitaNuevaEnLaListaDeCitas()
         {
             //
             // Arrange
@@ -223,6 +223,8 @@ namespace Gama.Atenciones.WpfTests
                 _Settings,
                 _SessionMock.Object);
 
+            int citasCount = vm.ProximasCitas.Count;
+
             //
             // Act
             //
@@ -231,7 +233,8 @@ namespace Gama.Atenciones.WpfTests
             //
             // Assert
             //
-            Assert.Equal(cita.Id, vm.ProximasCitas.First().Id);
+            Assert.Equal(citasCount + 1, vm.ProximasCitas.Count);
+            Assert.True(vm.ProximasCitas.Any(x => x.Id == cita.Id));
         }
     }
 }

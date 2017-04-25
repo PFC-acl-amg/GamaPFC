@@ -47,7 +47,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
 
         public void Create(Cita entity)
         {
-            throw new NotImplementedException();
+            //_Citas.Add(entity);
         }
 
         public void Delete(Cita entity)
