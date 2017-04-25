@@ -14,9 +14,9 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
     public class DashboardViewModelDTD
     {
         private PreferenciasDeAtenciones _Settings;
-        private IAtencionRepository _AtencionRepository;
-        private ICitaRepository _CitaRepository;
-        private IPersonaRepository _PersonaRepository;
+        private FakeAtencionRepository _AtencionRepository;
+        private FakeCitaRepository _CitaRepository;
+        private FakePersonaRepository _PersonaRepository;
 
         public DashboardViewModelDTD()
         {

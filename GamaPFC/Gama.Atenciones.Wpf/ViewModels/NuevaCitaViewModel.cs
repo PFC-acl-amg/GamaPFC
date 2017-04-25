@@ -162,24 +162,20 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnAceptarCommand_Execute()
         {
             Cita.Fecha = Cita.Fecha.Value.AddHours(Cita.Hora).AddMinutes(Cita.Minutos);
+
             if (!EnEdicionDeCitaExistente)
             {
                 PersonaSeleccionada.AddCita(Cita.Model);
+                _CitaRepository.Create(Cita.Model);
             }
             else
             {
                 Cita citaActualizada = PersonaSeleccionada.Citas.Where(x => x.Id == Cita.Id).FirstOrDefault().Model;
                 citaActualizada.CopyValuesFrom(Cita.Model);
-            }
-
-            if (!EnEdicionDeCitaExistente)
-            {
-                _CitaRepository.Create(Cita.Model);
-            }
-            else
-            {
                 _CitaRepository.Update(Cita.Model);
             }
+
+            Cita.AcceptChanges();
 
             Cerrar = true;
         }

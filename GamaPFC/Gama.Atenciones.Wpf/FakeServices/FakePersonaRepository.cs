@@ -11,9 +11,9 @@ using Gama.Atenciones.Wpf.Converters;
 
 namespace Gama.Atenciones.Wpf.FakeServices
 {
-    public class FakePersonaRepository : IPersonaRepository
+    public class FakePersonaRepository 
     {
-        List<Persona> _Personas;
+        public List<Persona> Personas { get; set; }
 
         IdentidadSexual[] _IdentidadSexual = new IdentidadSexual[]
         {
@@ -29,71 +29,43 @@ namespace Gama.Atenciones.Wpf.FakeServices
 
         public FakePersonaRepository()
         {
-        }
-
-        public ISession Session
-        {
-            get
+            Personas = new List<Persona>();
+            int createdAt = 0;
+            for (int i = 0; i < 50; i++)
             {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public List<Persona> Personas
-        {
-            get
-            {
-                if (_Personas != null)
-                    return _Personas;
-
-                _Personas = new List<Persona>();
-                int createdAt = 0;
-                for (int i = 0; i < 50; i++)
+                var persona = new Persona()
                 {
-                    var persona = new Persona()
-                    {
-                        Id = i + 1,
-                        ComoConocioAGama = ComoConocioAGama.Difusion.ToString(),
-                        DireccionPostal = Faker.LocationFaker.Street(),
-                        Email = Faker.InternetFaker.Email(),
-                        EstadoCivil = EstadoCivil.Soltera.ToString(),
-                        Facebook = Faker.InternetFaker.Domain(),
-                        FechaDeNacimiento = DateTime.Now.AddYears(-20),
-                        IdentidadSexual = _IdentidadSexual[_Random.Next(0, 5)].ToString(),
-                        LinkedIn = Faker.InternetFaker.Domain(),
-                        Nacionalidad = Faker.LocationFaker.Country(),
-                        Nif = Faker.StringFaker.AlphaNumeric(8),
-                        NivelAcademico = NivelAcademico.EstudioDePostgradoOMaster.ToString(),
-                        Nombre = Faker.NameFaker.Name(),
-                        Ocupacion = Faker.TextFaker.Sentence(),
-                        OrientacionSexual = OrientacionSexual.Heterosexual.ToString(),
-                        Telefono = Faker.PhoneFaker.Phone(),
-                        TieneTrabajo = true,
-                        Twitter = Faker.InternetFaker.Domain(),
-                        ViaDeAccesoAGama = ViaDeAccesoAGama.Personal.ToString(),
-                        CreatedAt = DateTime.Now.AddMonths(createdAt),
-                        Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
-                             new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png")),
+                    Id = i + 1,
+                    ComoConocioAGama = ComoConocioAGama.Difusion.ToString(),
+                    DireccionPostal = Faker.LocationFaker.Street(),
+                    Email = Faker.InternetFaker.Email(),
+                    EstadoCivil = EstadoCivil.Soltera.ToString(),
+                    Facebook = Faker.InternetFaker.Domain(),
+                    FechaDeNacimiento = DateTime.Now.AddYears(-20),
+                    IdentidadSexual = _IdentidadSexual[_Random.Next(0, 5)].ToString(),
+                    LinkedIn = Faker.InternetFaker.Domain(),
+                    Nacionalidad = Faker.LocationFaker.Country(),
+                    Nif = Faker.StringFaker.AlphaNumeric(8),
+                    NivelAcademico = NivelAcademico.EstudioDePostgradoOMaster.ToString(),
+                    Nombre = Faker.NameFaker.Name(),
+                    Ocupacion = Faker.TextFaker.Sentence(),
+                    OrientacionSexual = OrientacionSexual.Heterosexual.ToString(),
+                    Telefono = Faker.PhoneFaker.Phone(),
+                    TieneTrabajo = true,
+                    Twitter = Faker.InternetFaker.Domain(),
+                    ViaDeAccesoAGama = ViaDeAccesoAGama.Personal.ToString(),
+                    CreatedAt = DateTime.Now.AddMonths(createdAt),
+                    Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
+                         new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png")),
 
-                    };
+                };
 
-                    _Personas.Add(persona);
+                Personas.Add(persona);
 
-                    if (i % 5 == 0)
-                    {
-                        createdAt--;
-                    }
+                if (i % 5 == 0)
+                {
+                    createdAt--;
                 }
-                return _Personas;
-            }
-            set
-            {
-                _Personas = value;
             }
         }
 
@@ -107,26 +79,6 @@ namespace Gama.Atenciones.Wpf.FakeServices
             return Personas.Count;
         }
 
-        public void Create(Persona entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(Persona entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<LookupItem> GetAllForLookup()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Persona GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<int> GetPersonasNuevasPorMes(int numeroDeMeses)
         {
             var resultado = new List<int>(numeroDeMeses);
@@ -135,26 +87,6 @@ namespace Gama.Atenciones.Wpf.FakeServices
                 resultado.Add(i + 2);
 
             return resultado;
-        }
-
-        public bool Update(Persona entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<string> GetNifs()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Atencion> GetAtenciones()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteAll()
-        {
-            throw new NotImplementedException();
         }
     }
 }

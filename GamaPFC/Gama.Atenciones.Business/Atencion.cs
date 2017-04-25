@@ -24,6 +24,7 @@ namespace Gama.Atenciones.Business
         public virtual bool EsDeParticipacion { get; set; }
         public virtual bool EsOtra { get; set; }
         public virtual string Otra { get; set; } = "";
+        public virtual byte[] Imagen { get; set; }
 
         public virtual Cita Cita { get; set; }
 

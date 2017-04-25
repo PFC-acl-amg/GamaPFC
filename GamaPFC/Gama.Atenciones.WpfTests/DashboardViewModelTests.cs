@@ -120,6 +120,22 @@ namespace Gama.Atenciones.WpfTests
             Assert.NotNull(_Vm.SelectAtencionCommand);
         }
 
+        /// 
+        ///  TESTS DE LOS COMANDOS
+        /// 
+
+        [Fact]
+        private void ShouldFiltrarPorPersonaSeleccionadaYSoloMostrarAtencionesYCitasSuyas()
+        {
+            _Vm.FiltrarPorPersonaCommand.Execute(new LookupItem { Id = 1 });
+
+            Assert.True(_Vm.Personas.Count == 1);
+            Assert.True(_Vm.Personas.First().Id == 1);
+
+            _PersonaSeleccionadaEventMock.Verify(e => e.Publish(1), Times.Once);
+        }
+
+
         [Fact]
         private void ShouldPublishPersonaSeleccionadaEventWhenUnaPersonaIsSelected()
         {
