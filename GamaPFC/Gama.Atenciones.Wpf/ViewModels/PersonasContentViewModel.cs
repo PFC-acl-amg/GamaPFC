@@ -148,17 +148,17 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnCitaCreadaEvent(int id)
         {
-            foreach (var viewModel in EditarPersonaViewModels)
-            {
-                var editarPersonaViewModel = viewModel as EditarPersonaViewModel;
-                if (editarPersonaViewModel != null)
-                {
-                    if (editarPersonaViewModel.Persona.Citas.Any(c => c.Id == id))
-                    {
-                        editarPersonaViewModel.Persona.Citas.AcceptChanges();
-                    }
-                }
-            }
+            //foreach (var viewModel in EditarPersonaViewModels)
+            //{
+            //    var editarPersonaViewModel = viewModel as EditarPersonaViewModel;
+            //    if (editarPersonaViewModel != null)
+            //    {
+            //        if (editarPersonaViewModel.Persona.Citas.Any(c => c.Id == id))
+            //        {
+            //            editarPersonaViewModel.Persona.Citas.AcceptChanges();
+            //        }
+            //    }
+            //}
         }
 
         private void OnPersonaEliminadaEvent(int id)

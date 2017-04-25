@@ -40,11 +40,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _PersonaRepository = personaRepository;
             _CitaRepository = citaRepository;
             _AtencionRepository = atencionRepository;
-            _AtencionRepository.Session = session;
-            _PersonaRepository.Session = session;
-            _CitaRepository.Session = session;
             _EventAggregator = eventAggregator;
             _Settings = settings;
+
+            _PersonaRepository.Session = session;
+            _CitaRepository.Session = session;
+            _AtencionRepository.Session = session;
 
             _Personas = _PersonaRepository.GetAll();
             _Atenciones = atencionRepository.GetAll();
@@ -60,15 +61,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
                  .OrderBy(a => a.Fecha)
                  .Select(_AtencionToLookupItemFunc));
 
-            //foreach(var proximaCita in _Citas)
-            //{
-            //    proximaCita.Persona.Imagen = Personas.Where(p => p.Id == proximaCita.Persona.Id).First().Imagen;
-            //}
-
             ProximasCitas = new ObservableCollection<LookupItem>(
                 _Citas
                  .OrderBy(c => c.Fecha)
-                 //.Where(c => c.Fecha >= DateTime.Now.Date)
                  .Select(_CitaToLookupItemFunc));
 
             SelectPersonaCommand = new DelegateCommand<LookupItem>(OnSelectPersonaCommandExecute);
@@ -86,8 +81,33 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
             _EventAggregator.GetEvent<PersonaEnBusquedaEvent>().Subscribe(OnPersonaEnBusquedaEvent);
 
+            _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
+            _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
+            _EventAggregator.GetEvent<CitaEliminadaEvent>().Subscribe(OnCitaEliminadaEvent);
+
             _EventAggregator.GetEvent<AtencionCreadaEvent>().Subscribe(OnAtencionCreadaEvent);
-            _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnNuevaCitaEvent);
+            _EventAggregator.GetEvent<AtencionActualizadaEvent>().Subscribe(OnAtencionActualizadaEvent);
+            _EventAggregator.GetEvent<AtencionEliminadaEvent>().Subscribe(OnAtencionEliminadaEvent);
+        }
+
+        private void OnAtencionEliminadaEvent(int atencionId)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnAtencionActualizadaEvent(int atencionId)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnCitaEliminadaEvent(int citaId)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnCitaActualizadaEvent(int citaId)
+        {
+            throw new NotImplementedException();
         }
 
         private LookupItem _PersonaSeleccionada;
@@ -129,7 +149,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand FiltrarPorPersonaCommand { get; private set; }
         public ICommand ResetearFechasCommand { get; private set; }
 
-        Func<Persona, LookupItem> _PersonaToLookupItemFunc = 
+        private Func<Persona, LookupItem> _PersonaToLookupItemFunc = 
             persona => new LookupItem  {
                 Id = persona.Id,
                 DisplayMember1 = persona.Nombre,
@@ -137,7 +157,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 Imagen = persona.Imagen
             };
 
-        Func<Atencion, LookupItem> _AtencionToLookupItemFunc = 
+        private Func<Atencion, LookupItem> _AtencionToLookupItemFunc = 
             atencion => new LookupItem {
                 Id = atencion.Id,
                 DisplayMember1 = atencion.Fecha.ToString(),
@@ -147,7 +167,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                                  new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png")),
             };
 
-        Func<Cita, LookupItem> _CitaToLookupItemFunc = 
+        private Func<Cita, LookupItem> _CitaToLookupItemFunc = 
             cita => new LookupItem {
                 Id = cita.Id,
                 DisplayMember1 = cita.Fecha.ToString(),
@@ -370,53 +390,50 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _Atenciones.Insert(0, atencion);
         }
 
-        private void OnNuevaCitaEvent(int id)
+        private void OnCitaCreadaEvent(int id)
         {
             var cita = _CitaRepository.GetById(id);
-            var persona = _PersonaRepository.GetById(cita.Persona.Id);
+            //_Citas.Add(cita);
+            FiltrarPorFecha();
+            //var lookupItem = new LookupItem
+            //{
+            //    Id = cita.Id,
+            //    DisplayMember1 = cita.Fecha.ToString(),
+            //    DisplayMember2 = cita.Sala,
+            //    Imagen = cita.Persona.Imagen
+            //};
 
-            var lookupItem = new LookupItem
-            {
-                Id = cita.Id,
-                DisplayMember1 = cita.Fecha.ToString(),
-                DisplayMember2 = cita.Sala,
-                // Ha habido que hacerlo así porque por alguna razón no se estaba
-                // recogiendo bien la imagen desde la persona de dentro de la Cita
-                //Imagen = cita.Persona.Imagen
-                Imagen = persona.Imagen
-            };
+            //if (ProximasCitas.Count > 0)
+            //{
+            //    var last = DateTime.Parse(ProximasCitas.Last().DisplayMember1);
+            //    if (cita.Fecha < last) // es antes
+            //    {
+            //        int index = 0;
+            //        foreach (var lookup in ProximasCitas)
+            //        {
+            //            var next = DateTime.Parse(lookup.DisplayMember1);
+            //            if (cita.Fecha < next)
+            //            {
+            //                //ProximasCitas.Insert(index, lookupItem);
+            //                ProximasCitas.Add(lookupItem);
+            //                break;
+            //            }
 
-            if (ProximasCitas.Count > 0)
-            {
-                var last = DateTime.Parse(ProximasCitas.Last().DisplayMember1);
-                if (cita.Fecha < last) // es antes
-                {
-                    int index = 0;
-                    foreach (var lookup in ProximasCitas)
-                    {
-                        var next = DateTime.Parse(lookup.DisplayMember1);
-                        if (cita.Fecha < next)
-                        {
-                            //ProximasCitas.Insert(index, lookupItem);
-                            ProximasCitas.Add(lookupItem);
-                            break;
-                        }
+            //            index++;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        ProximasCitas.Add(lookupItem);
+            //    }
+            //}
+            //else
+            //{
+            //    ProximasCitas.Add(lookupItem);
+            //}
 
-                        index++;
-                    }
-                }
-                else
-                {
-                    ProximasCitas.Add(lookupItem);
-                }
-            }
-            else
-            {
-                ProximasCitas.Add(lookupItem);
-            }
-
-            _Citas.Insert(0, cita);
-            OnPropertyChanged(nameof(ProximasCitas));
+            //_Citas.Insert(0, cita);
+            //OnPropertyChanged(nameof(ProximasCitas));
         }
 
         private void OnPersonaActualizadaEvent(int id)

@@ -20,25 +20,32 @@ namespace Gama.Atenciones.WpfTests
 {
     public class DashboardViewModelTests : BaseTestClass
     {
+        private List<Persona> _Personas;
+        private List<Cita> _Citas;
         private List<Atencion> _Atenciones;
         private Mock<IAtencionRepository> _AtencionRepositoryMock;
-        private Mock<AtencionSeleccionadaEvent> _AtencionSeleccionadaEventMock;
         private Mock<ICitaRepository> _CitaRepositoryMock;
-        private List<Cita> _Citas;
-        private Mock<CitaSeleccionadaEvent> _CitaSeleccionadaEventMock;
         private Mock<IEventAggregator> _EventAggregatorMock;
+        private Mock<IPersonaRepository> _PersonaRepositoryMock;
+        private Mock<ISession> _SessionMock;
+        private PreferenciasDeAtenciones _Settings;
+        DashboardViewModel _Vm;
+
         private Mock<PersonaCreadaEvent> _PersonaCreadaEventMock;
         private Mock<PersonaActualizadaEvent> _PersonaActualizadaEventMock;
         private Mock<PersonaEliminadaEvent> _PersonaEliminadaEventMock;
         private Mock<PersonaEnBusquedaEvent> _PersonaEnBusquedaEventMock;
         private Mock<PersonaSeleccionadaEvent> _PersonaSeleccionadaEventMock;
-        private Mock<IPersonaRepository> _PersonaRepositoryMock;
-        private List<Persona> _Personas;
-        private Mock<ISession> _SessionMock;
-        private PreferenciasDeAtenciones _Settings;
-        DashboardViewModel _Vm;
-        private Mock<CitaCreadaEvent> _NuevaCitaEventMock;
+
+        private Mock<CitaCreadaEvent> _CitaCreadaEventMock;
+        private Mock<CitaActualizadaEvent> _CitaActualizadaEventMock;
+        private Mock<CitaEliminadaEvent> _CitaEliminadaEventMock;
+        private Mock<CitaSeleccionadaEvent> _CitaSeleccionadaEventMock;
+
         private Mock<AtencionCreadaEvent> _AtencionCreadaEventMock;
+        private Mock<AtencionActualizadaEvent> _AtencionActualizadaEventMock;
+        private Mock<AtencionEliminadaEvent> _AtencionEliminadaEventMock;
+        private Mock<AtencionSeleccionadaEvent> _AtencionSeleccionadaEventMock;
 
         public DashboardViewModelTests()
         {
@@ -63,10 +70,15 @@ namespace Gama.Atenciones.WpfTests
             _PersonaEnBusquedaEventMock = new Mock<PersonaEnBusquedaEvent>();
             _PersonaSeleccionadaEventMock = new Mock<PersonaSeleccionadaEvent>();
 
+            _CitaCreadaEventMock = new Mock<CitaCreadaEvent>();
+            _CitaActualizadaEventMock = new Mock<CitaActualizadaEvent>();
+            _CitaEliminadaEventMock = new Mock<CitaEliminadaEvent>();
             _CitaSeleccionadaEventMock = new Mock<CitaSeleccionadaEvent>();
-            _AtencionSeleccionadaEventMock = new Mock<AtencionSeleccionadaEvent>();
-            _NuevaCitaEventMock = new Mock<CitaCreadaEvent>();
+
             _AtencionCreadaEventMock = new Mock<AtencionCreadaEvent>();
+            _AtencionActualizadaEventMock = new Mock<AtencionActualizadaEvent>();
+            _AtencionEliminadaEventMock = new Mock<AtencionEliminadaEvent>();
+            _AtencionSeleccionadaEventMock = new Mock<AtencionSeleccionadaEvent>();
 
             _EventAggregatorMock.Setup(e => e.GetEvent<PersonaCreadaEvent>()).Returns(_PersonaCreadaEventMock.Object);
             _EventAggregatorMock.Setup(e => e.GetEvent<PersonaActualizadaEvent>()).Returns(_PersonaActualizadaEventMock.Object);
@@ -74,12 +86,16 @@ namespace Gama.Atenciones.WpfTests
             _EventAggregatorMock.Setup(e => e.GetEvent<PersonaSeleccionadaEvent>()).Returns(_PersonaSeleccionadaEventMock.Object);
             _EventAggregatorMock.Setup(e => e.GetEvent<PersonaEnBusquedaEvent>()).Returns(_PersonaEnBusquedaEventMock.Object);
 
-
+            _EventAggregatorMock.Setup(e => e.GetEvent<CitaCreadaEvent>()).Returns(_CitaCreadaEventMock.Object);
+            _EventAggregatorMock.Setup(e => e.GetEvent<CitaActualizadaEvent>()).Returns(_CitaActualizadaEventMock.Object);
+            _EventAggregatorMock.Setup(e => e.GetEvent<CitaEliminadaEvent>()).Returns(_CitaEliminadaEventMock.Object);
             _EventAggregatorMock.Setup(e => e.GetEvent<CitaSeleccionadaEvent>()).Returns(_CitaSeleccionadaEventMock.Object);
-            _EventAggregatorMock.Setup(e => e.GetEvent<AtencionSeleccionadaEvent>()).Returns(_AtencionSeleccionadaEventMock.Object);
-            _EventAggregatorMock.Setup(e => e.GetEvent<CitaCreadaEvent>()).Returns(_NuevaCitaEventMock.Object);
+     
             _EventAggregatorMock.Setup(e => e.GetEvent<AtencionCreadaEvent>()).Returns(_AtencionCreadaEventMock.Object);
-
+            _EventAggregatorMock.Setup(e => e.GetEvent<AtencionActualizadaEvent>()).Returns(_AtencionActualizadaEventMock.Object);
+            _EventAggregatorMock.Setup(e => e.GetEvent<AtencionEliminadaEvent>()).Returns(_AtencionEliminadaEventMock.Object);
+            _EventAggregatorMock.Setup(e => e.GetEvent<AtencionSeleccionadaEvent>()).Returns(_AtencionSeleccionadaEventMock.Object);
+     
             _Vm = new DashboardViewModel(
                 personaRepository: _PersonaRepositoryMock.Object,
                 citaRepository:_CitaRepositoryMock.Object,
@@ -92,9 +108,13 @@ namespace Gama.Atenciones.WpfTests
         [Fact]
         private void ShouldInitializeItsProperties()
         {
+            Assert.Null(_Vm.FechaDeInicio);
+            Assert.Null(_Vm.FechaDeFin);
+
             _PersonaRepositoryMock.Verify(p => p.GetAll(), Times.Once);
             _CitaRepositoryMock.Verify(c => c.GetAll(), Times.Once);
             _AtencionRepositoryMock.Verify(a => a.GetAll(), Times.Once);
+
             Assert.NotNull(_Vm.SelectPersonaCommand);
             Assert.NotNull(_Vm.SelectCitaCommand);
             Assert.NotNull(_Vm.SelectAtencionCommand);
@@ -172,14 +192,25 @@ namespace Gama.Atenciones.WpfTests
         [Fact]
         private void NuevaCitaShouldSetLaCitaEnPrimeraPosicionDeLasProximasCitasMostradas()
         {
-            var persona = new Persona { Id = int.MaxValue, Nombre = "Nombre", Nif = "" };
+            //
+            // Arrange
+            //
+            var persona = new Persona
+            {
+                Id = int.MaxValue,
+                Nombre = "Nombre",
+                Nif = ""
+            };
+
             _PersonaRepositoryMock.Setup(p => p.GetById(It.IsAny<int>())).Returns(persona);
+
             var cita = new Cita {
                 Id = int.MaxValue,
                 Fecha = DateTime.Now.AddYears(-10),
                 Sala = "Sala B",
                 Persona = persona,
             };
+
             _CitaRepositoryMock.Setup(p => p.GetById(It.IsAny<int>())).Returns(cita);
 
             var eventAggregator = new EventAggregator();
@@ -192,7 +223,14 @@ namespace Gama.Atenciones.WpfTests
                 _Settings,
                 _SessionMock.Object);
 
+            //
+            // Act
+            //
             eventAggregator.GetEvent<CitaCreadaEvent>().Publish(cita.Id);
+
+            //
+            // Assert
+            //
             Assert.Equal(cita.Id, vm.ProximasCitas.First().Id);
         }
     }
