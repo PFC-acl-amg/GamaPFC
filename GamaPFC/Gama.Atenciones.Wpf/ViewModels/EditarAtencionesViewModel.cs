@@ -78,7 +78,14 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public bool VerAtenciones
         {
             get { return _VerAtenciones; }
-            set { SetProperty(ref _VerAtenciones, value); }
+            set
+            {
+                SetProperty(ref _VerAtenciones, value);
+                if (AtencionSeleccionada == null && Atenciones.Count > 0)
+                {
+                    AtencionSeleccionada = Atenciones.First();
+                }
+            }
         }
 
         public PersonaWrapper Persona
