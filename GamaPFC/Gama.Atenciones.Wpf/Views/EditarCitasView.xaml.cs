@@ -1,4 +1,5 @@
 ﻿using Gama.Atenciones.Wpf.DesignTimeData;
+using Gama.Common.CustomControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +26,15 @@ namespace Gama.Atenciones.Wpf.Views
         public EditarCitasView()
         {
             InitializeComponent();
-            //var vm = new EditarCitasViewModelDTD();
-            //DataContext = vm;
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+            {
+                runtimeConstructor();
+            }
+        }
+
+        private void runtimeConstructor()
+        {
+            CircleIconButton x = new CircleIconButton();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

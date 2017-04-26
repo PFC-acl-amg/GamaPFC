@@ -52,7 +52,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                    && Persona.IsChanged
                    && Persona.IsValid
                    );
-
+            
             CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand,
                 () => _PersonaVM.EdicionHabilitada);
 
@@ -86,17 +86,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnActualizarCommand()
         {
-            //Persona.UpdatedAt = DateTime.Now;
             _PersonaRepository.Update(Persona.Model);
             _PersonaVM.Persona.AcceptChanges();
             _PersonaVM.EdicionHabilitada = false;
             RefrescarTitulo(Persona.Nombre);
-            //if (Persona._SavedNif != Persona.Nif)
-            //{
-            //    AtencionesResources.TodosLosNif.Remove(Persona._SavedNif);
-            //    AtencionesResources.TodosLosNif.Add(Persona.Nif);
-            //    Persona._SavedNif = Persona.Nif;
-            //}
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Publish(Persona.Id);
         }
 

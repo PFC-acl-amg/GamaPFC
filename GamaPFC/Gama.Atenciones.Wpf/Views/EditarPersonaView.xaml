@@ -10,6 +10,9 @@
              prism:ViewModelLocator.AutoWireViewModel="False"
              mc:Ignorable="d" 
              d:DesignHeight="566.606" d:DesignWidth="1099.96">
+  <!-- 
+    RESOURCES
+  -->
   <UserControl.Resources>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <ControlTemplate x:Key="SimpleExpanderButtonTemp" TargetType="{x:Type ToggleButton}">
@@ -129,6 +132,15 @@
     </ControlTemplate>
 
   </UserControl.Resources>
+  
+  <!--
+    INPUT BINDINGDS
+  -->
+  <UserControl.InputBindings>
+    <KeyBinding Command="{Binding ActualizarCommand}" Key="S" Modifiers="Ctrl"/>
+    <KeyBinding Command="{Binding ActualizarCommand}" Key="Return" Modifiers="Ctrl"/>
+  </UserControl.InputBindings>
+  
   <Grid x:Name="_MainGrid">
     <Grid.ColumnDefinitions>
       <ColumnDefinition MaxWidth="400"/>
