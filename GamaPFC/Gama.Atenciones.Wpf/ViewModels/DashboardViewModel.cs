@@ -154,7 +154,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Personas = new ObservableCollection<Persona>(
                 _Personas
                 .Where(p => p.CreatedAt.IsBetween(FechaDeInicio, FechaDeFin) 
-                    || p.UpdatedAt.IsBetween(FechaDeInicio, FechaDeFin))
+                    || p.UpdatedAt.IsBetween(FechaDeInicio, FechaDeFin)
+                    || p.Citas.Any(c => c.Fecha.IsBetween(FechaDeInicio, FechaDeFin)))
                 .OrderBy(p => p.Nombre)
                 .ToList());
 

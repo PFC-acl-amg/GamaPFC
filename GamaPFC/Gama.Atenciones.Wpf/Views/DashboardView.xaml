@@ -294,9 +294,10 @@
       <GroupBox.Header>
         <Label HorizontalAlignment="Center" Content="PRÓXIMAS CITAS" Foreground="White" Padding="0"></Label>
       </GroupBox.Header>
-      <ListBox ItemsSource="{Binding ProximasCitas}"
+      <coreControls:UnselectableListBox ItemsSource="{Binding ProximasCitas}"
                  x:Name="_CitasListBox"
-                 SelectionMode="Single"
+                  HorizontalContentAlignment="Stretch"
+                  BorderThickness="0"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto">
         <ListBox.ItemTemplate>
@@ -376,7 +377,7 @@
                   CommandParameter="{Binding ElementName=_CitasListBox, Path=SelectedItem}"/>
           </i:EventTrigger>
         </i:Interaction.Triggers>-->
-      </ListBox>
+      </coreControls:UnselectableListBox>
     </GroupBox>
     
  
