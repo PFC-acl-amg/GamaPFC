@@ -7,14 +7,11 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using Gama.Atenciones.Business;
-using Gama.Common.CustomControls;
 using Gama.Atenciones.Wpf.Eventos;
-using System.IO.Packaging;
 using Gama.Atenciones.Wpf.UIEvents;
+using Core.Util;
 
 namespace Gama.Atenciones.WpfTests
 {
@@ -92,19 +89,19 @@ namespace Gama.Atenciones.WpfTests
             _EventAggregatorMock.Setup(e => e.GetEvent<CitaActualizadaEvent>()).Returns(_CitaActualizadaEventMock.Object);
             _EventAggregatorMock.Setup(e => e.GetEvent<CitaEliminadaEvent>()).Returns(_CitaEliminadaEventMock.Object);
             _EventAggregatorMock.Setup(e => e.GetEvent<CitaSeleccionadaEvent>()).Returns(_CitaSeleccionadaEventMock.Object);
-     
+
             _EventAggregatorMock.Setup(e => e.GetEvent<AtencionCreadaEvent>()).Returns(_AtencionCreadaEventMock.Object);
             _EventAggregatorMock.Setup(e => e.GetEvent<AtencionActualizadaEvent>()).Returns(_AtencionActualizadaEventMock.Object);
             _EventAggregatorMock.Setup(e => e.GetEvent<AtencionEliminadaEvent>()).Returns(_AtencionEliminadaEventMock.Object);
             _EventAggregatorMock.Setup(e => e.GetEvent<AtencionSeleccionadaEvent>()).Returns(_AtencionSeleccionadaEventMock.Object);
-     
+
             _Vm = new DashboardViewModel(
                 personaRepository: _PersonaRepositoryMock.Object,
-                citaRepository:_CitaRepositoryMock.Object,
-                atencionRepository:_AtencionRepositoryMock.Object,
-                eventAggregator:_EventAggregatorMock.Object,
+                citaRepository: _CitaRepositoryMock.Object,
+                atencionRepository: _AtencionRepositoryMock.Object,
+                eventAggregator: _EventAggregatorMock.Object,
                 settings: _Settings,
-                session:_SessionMock.Object);
+                session: _SessionMock.Object);
         }
 
         [Fact]
@@ -123,6 +120,27 @@ namespace Gama.Atenciones.WpfTests
             _PersonaRepositoryMock.Verify(p => p.GetAll(), Times.Once);
             _CitaRepositoryMock.Verify(c => c.GetAll(), Times.Once);
             _AtencionRepositoryMock.Verify(a => a.GetAll(), Times.Once);
+        }
+
+        [Fact]
+        private void ShouldFiltrarPersonasAtencionesYCitasPorFecha()
+        {
+            ///
+            /// Arrange && Act
+            /// 
+            // Modificar las fechas ya debe efectuar el cambio, no hay comando
+            // a través del cual se haga
+            _Vm.FechaDeInicio = DateTime.Now.AddDays(-5);
+            _Vm.FechaDeFin = DateTime.Now.AddDays(2);
+
+            /// 
+            /// Assert
+            /// 
+            Assert.True(_Vm.Personas.All(
+               p => p.CreatedAt.IsBetween(_Vm.FechaDeInicio, _Vm.FechaDeFin)
+                    || p.UpdatedAt.IsBetween(_Vm.FechaDeInicio, _Vm.FechaDeFin)));
+            Assert.True(_Vm.Atenciones.All(x => x.Fecha.IsBetween(_Vm.FechaDeInicio, _Vm.FechaDeFin)));
+            Assert.True(_Vm.ProximasCitas.All(x => x.Fecha.IsBetween(_Vm.FechaDeInicio, _Vm.FechaDeFin)));
         }
 
         /// 
@@ -213,6 +231,38 @@ namespace Gama.Atenciones.WpfTests
                 Times.Once);
         }
 
+        /// 
+        ///  TESTS DE LOS EVENTOS
+        /// 
+
+        [Fact]
+        private void PersonaEnBusquedaEventShouldFiltrarLasPersonasDisponiblesPorNombre()
+        {
+            ///
+            /// Arrange
+            /// 
+            var eventAggregator = new EventAggregator();
+
+            var vm = new DashboardViewModel(
+                _PersonaRepositoryMock.Object,
+                _CitaRepositoryMock.Object,
+                _AtencionRepositoryMock.Object,
+                eventAggregator,
+                _Settings,
+                _SessionMock.Object);
+
+            /// 
+            /// Act
+            /// 
+            eventAggregator.GetEvent<PersonaEnBusquedaEvent>().Publish("ard");
+
+            ///
+            /// Assert
+            /// 
+            if (vm.Personas.Count != 0)
+                Assert.True(vm.Personas.All(x => x.Nombre.Contains("ard")));
+        }
+
         [Fact]
         private void NuevaPersonaShouldAddLaPersona()
         {
@@ -227,8 +277,8 @@ namespace Gama.Atenciones.WpfTests
             var vm = new DashboardViewModel(
                 _PersonaRepositoryMock.Object,
                 _CitaRepositoryMock.Object,
-                _AtencionRepositoryMock.Object, 
-                eventAggregator, 
+                _AtencionRepositoryMock.Object,
+                eventAggregator,
                 _Settings,
                 _SessionMock.Object);
 
@@ -244,6 +294,86 @@ namespace Gama.Atenciones.WpfTests
             /// 
             Assert.Equal(vm.Personas.Count, expectedCount);
             Assert.True(vm.Personas.Where(x => x.Id == persona.Id).ToList().Count == 1);
+        }
+
+        [Fact]
+        private void PersonaActualizadaEventShouldUpdateLaPersona()
+        {
+            ///
+            /// Arrange
+            ///
+            var personaAntesDeActualizar = _Personas.First();
+            var personaActualizada = new Persona { Id = personaAntesDeActualizar.Id };
+            personaActualizada.CopyValuesFrom(personaAntesDeActualizar);
+            _PersonaRepositoryMock.Setup(p => p.GetById(personaAntesDeActualizar.Id)).Returns(personaActualizada);
+
+            var eventAggregator = new EventAggregator();
+
+            var vm = new DashboardViewModel(
+                _PersonaRepositoryMock.Object,
+                _CitaRepositoryMock.Object,
+                _AtencionRepositoryMock.Object,
+                eventAggregator,
+                _Settings,
+                _SessionMock.Object);
+
+            string expectedName = "Otro nombre";
+            string expectedNif = "Otro Nif";
+            byte[] expectedImage = Gama.Atenciones.Wpf.Converters.BinaryImageConverter.GetBitmapImageFromUriSource(
+                                 new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png"));
+
+            /// 
+            /// Act
+            /// 
+            personaActualizada.Nombre = expectedName;
+            personaActualizada.Nif = expectedNif;
+            personaActualizada.Imagen = expectedImage;
+            eventAggregator.GetEvent<PersonaActualizadaEvent>().Publish(personaActualizada.Id);
+
+            ///
+            /// Assert
+            /// 
+            var personaSupuestamenteActualizada = vm.Personas.Where(x => x.Id == personaActualizada.Id).First();
+            Assert.Equal(personaSupuestamenteActualizada.Nombre, personaActualizada.Nombre);
+            Assert.Equal(expectedName, personaSupuestamenteActualizada.Nombre);
+            Assert.Equal(personaSupuestamenteActualizada.Nif, personaActualizada.Nif);
+            Assert.Equal(expectedNif, personaSupuestamenteActualizada.Nif);
+            Assert.Equal(personaSupuestamenteActualizada.Imagen, personaActualizada.Imagen);
+            Assert.Equal(expectedImage, personaSupuestamenteActualizada.Imagen);
+        }
+
+        [Fact]
+        private void PersonaEliminadaEventShouldEliminarLaPersonaYTodasSusCitasYAtenciones()
+        {
+            ///
+            /// Arrange
+            ///
+            var persona = _Personas.First();
+
+            var eventAggregator = new EventAggregator();
+
+            var vm = new DashboardViewModel(
+                _PersonaRepositoryMock.Object,
+                _CitaRepositoryMock.Object,
+                _AtencionRepositoryMock.Object,
+                eventAggregator,
+                _Settings,
+                _SessionMock.Object);
+
+            int expectedCount = _Personas.Count - 1;
+
+            /// 
+            /// Act
+            /// 
+            eventAggregator.GetEvent<PersonaEliminadaEvent>().Publish(persona.Id);
+
+            ///
+            /// Assert
+            /// 
+            Assert.Equal(vm.Personas.Count, expectedCount);
+            Assert.True(vm.Personas.Where(x => x.Id == persona.Id).ToList().Count == 0);
+            Assert.True(vm.ProximasCitas.All(x => x.Persona.Id != persona.Id));
+            Assert.True(vm.Atenciones.All(x => x.Cita.Persona.Id != persona.Id));
         }
 
         [Fact]
@@ -280,6 +410,79 @@ namespace Gama.Atenciones.WpfTests
         }
 
         [Fact]
+        private void AtencionActualizadaEventShouldUpdateLaAtencion()
+        {
+            ///
+            /// Arrange
+            ///
+            var atencionAntesDeActualizar = _Atenciones.First();
+            var atencionActualizada = new Atencion { Id = atencionAntesDeActualizar.Id };
+            atencionActualizada.CopyValuesFrom(atencionAntesDeActualizar);
+            _AtencionRepositoryMock.Setup(p => p.GetById(atencionAntesDeActualizar.Id)).Returns(atencionActualizada);
+
+            var eventAggregator = new EventAggregator();
+
+            var vm = new DashboardViewModel(
+                _PersonaRepositoryMock.Object,
+                _CitaRepositoryMock.Object,
+                _AtencionRepositoryMock.Object,
+                eventAggregator,
+                _Settings,
+                _SessionMock.Object);
+
+            string expectedSeguimiento = "Otro seguimiento";
+            bool expectedEsSocial = true;
+
+            /// 
+            /// Act
+            /// 
+            atencionActualizada.Seguimiento = expectedSeguimiento;
+            atencionActualizada.EsSocial = expectedEsSocial;
+            eventAggregator.GetEvent<AtencionActualizadaEvent>().Publish(atencionActualizada.Id);
+
+            ///
+            /// Assert
+            /// 
+            var atencionSupuestamenteActualizada = vm.Atenciones.Where(x => x.Id == atencionActualizada.Id).First();
+            Assert.Equal(atencionSupuestamenteActualizada.Seguimiento, atencionActualizada.Seguimiento);
+            Assert.Equal(expectedSeguimiento, atencionSupuestamenteActualizada.Seguimiento);
+            Assert.Equal(atencionSupuestamenteActualizada.EsSocial, atencionActualizada.EsSocial);
+            Assert.Equal(expectedEsSocial, atencionSupuestamenteActualizada.EsSocial);
+        }
+
+        [Fact]
+        private void AtencionEliminadaEventShouldEliminarLaAtencion()
+        {
+            ///
+            /// Arrange
+            ///
+            var atencion = _Atenciones.First();
+
+            var eventAggregator = new EventAggregator();
+
+            var vm = new DashboardViewModel(
+                _PersonaRepositoryMock.Object,
+                _CitaRepositoryMock.Object,
+                _AtencionRepositoryMock.Object,
+                eventAggregator,
+                _Settings,
+                _SessionMock.Object);
+
+            int expectedCount = _Citas.Count - 1;
+
+            /// 
+            /// Act
+            /// 
+            eventAggregator.GetEvent<AtencionEliminadaEvent>().Publish(atencion.Id);
+
+            ///
+            /// Assert
+            /// 
+            Assert.Equal(vm.Atenciones.Count, expectedCount);
+            Assert.True(vm.Atenciones.Where(x => x.Id == atencion.Id).ToList().Count == 0);
+        }
+
+        [Fact]
         private void NuevaCitaShouldAddLaCita()
         {
             //
@@ -311,6 +514,80 @@ namespace Gama.Atenciones.WpfTests
             //
             Assert.Equal(expectedCount, vm.ProximasCitas.Count);
             Assert.True(vm.ProximasCitas.Where(x => x.Id == cita.Id).ToList().Count == 1);
+        }
+
+        [Fact]
+        private void CitaActualizadaEventShouldUpdateLaCita()
+        {
+            ///
+            /// Arrange
+            ///
+            var citaAntesDeActualizar = _Citas.First();
+            var citaActualizada = new Cita { Id = citaAntesDeActualizar.Id };
+            citaActualizada.CopyValuesFrom(citaAntesDeActualizar);
+            _CitaRepositoryMock.Setup(p => p.GetById(citaAntesDeActualizar.Id)).Returns(citaActualizada);
+
+            var eventAggregator = new EventAggregator();
+
+            var vm = new DashboardViewModel(
+                _PersonaRepositoryMock.Object,
+                _CitaRepositoryMock.Object,
+                _AtencionRepositoryMock.Object,
+                eventAggregator,
+                _Settings,
+                _SessionMock.Object);
+
+            string expectedSala = "Otro sala";
+            DateTime expectedFecha = DateTime.Now.AddDays(4);
+
+            /// 
+            /// Act
+            /// 
+            citaActualizada.Sala = expectedSala;
+            citaActualizada.Fecha = expectedFecha;
+            eventAggregator.GetEvent<CitaActualizadaEvent>().Publish(citaActualizada.Id);
+
+            ///
+            /// Assert
+            /// 
+            var citaSupuestamenteActualizada = vm.ProximasCitas.Where(x => x.Id == citaActualizada.Id).First();
+            Assert.Equal(citaSupuestamenteActualizada.Sala, citaActualizada.Sala);
+            Assert.Equal(expectedSala, citaSupuestamenteActualizada.Sala);
+            Assert.Equal(citaSupuestamenteActualizada.Fecha, citaActualizada.Fecha);
+            Assert.Equal(expectedFecha, citaSupuestamenteActualizada.Fecha);
+        }
+
+        [Fact]
+        private void CitaEliminadaEventShouldEliminarLaCitaYLaAtencionAsociada()
+        {
+            ///
+            /// Arrange
+            ///
+            var cita = _Citas.First();
+
+            var eventAggregator = new EventAggregator();
+
+            var vm = new DashboardViewModel(
+                _PersonaRepositoryMock.Object,
+                _CitaRepositoryMock.Object,
+                _AtencionRepositoryMock.Object,
+                eventAggregator,
+                _Settings,
+                _SessionMock.Object);
+
+            int expectedCount = _Citas.Count - 1;
+
+            /// 
+            /// Act
+            /// 
+            eventAggregator.GetEvent<CitaEliminadaEvent>().Publish(cita.Id);
+
+            ///
+            /// Assert
+            /// 
+            Assert.Equal(vm.ProximasCitas.Count, expectedCount);
+            Assert.True(vm.ProximasCitas.Where(x => x.Id == cita.Id).ToList().Count == 0);
+            Assert.True(vm.Atenciones.All(x => x.Cita.Id != cita.Id));
         }
     }
 }

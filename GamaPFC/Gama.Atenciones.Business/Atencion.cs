@@ -35,5 +35,23 @@ namespace Gama.Atenciones.Business
             Derivacion = new Derivacion();
             Derivacion.Atencion = this;
         }
+
+        public virtual void CopyValuesFrom(Atencion other)
+        {
+            Fecha = other.Fecha;
+            Seguimiento = other.Seguimiento;
+            EsSocial = other.EsSocial;
+            EsJuridica = other.EsJuridica;
+            EsPsicologica = other.EsPsicologica;
+            EsDeAcogida = other.EsDeAcogida;
+            EsDeOrientacionLaboral = other.EsDeOrientacionLaboral;
+            EsDePrevencionParaLaSalud = other.EsDePrevencionParaLaSalud;
+            EsDeFormacion = other.EsDeFormacion;
+            EsDeParticipacion = other.EsDeParticipacion;
+            EsOtra = other.EsOtra;
+            Otra = other.Otra;
+            Imagen = other.Imagen;
+            Derivacion = other.Derivacion;
+        }
     }
 }

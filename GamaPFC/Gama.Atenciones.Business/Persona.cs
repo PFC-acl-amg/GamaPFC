@@ -14,7 +14,6 @@ namespace Gama.Atenciones.Business
     {
         public virtual string Nif { get; set; } = "";
         public virtual string _SavedNif { get; set; } = "";
-
         public virtual string ComoConocioAGama { get; set; }
         public virtual string DireccionPostal { get; set; } = "";
         public virtual string Email { get; set; }
@@ -121,6 +120,29 @@ namespace Gama.Atenciones.Business
         {
             cita.Persona = this;
             this.Citas.Add(cita);
+        }
+
+        public virtual void CopyValuesFrom(Persona other)
+        {
+            Nif = other.Nif;
+            _SavedNif = other._SavedNif;
+            ComoConocioAGama = other.ComoConocioAGama;
+            DireccionPostal = other.DireccionPostal;
+            Email = other.Email;
+            EstadoCivil = other.EstadoCivil;
+            FechaDeNacimiento = other.FechaDeNacimiento;
+            Facebook = other.Facebook;
+            IdentidadSexual = other.IdentidadSexual;
+            LinkedIn = other.LinkedIn;
+            Nacionalidad = other.Nacionalidad;
+            NivelAcademico = other.NivelAcademico;
+            Nombre = other.Nombre;
+            Ocupacion = other.Ocupacion;
+            OrientacionSexual = other.OrientacionSexual;
+            Telefono = other.Telefono;
+            Twitter = other.Twitter;
+            Imagen = other.Imagen;
+            ViaDeAccesoAGama = other.ViaDeAccesoAGama;
         }
     }
 
