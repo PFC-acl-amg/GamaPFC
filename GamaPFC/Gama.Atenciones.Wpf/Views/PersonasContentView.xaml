@@ -20,11 +20,11 @@
   <UserControl.Resources>
     <Style TargetType="metro:MetroTabItem">
       <Setter Property="Header" Value="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
-      <Setter Property="metro:ControlsHelper.HeaderFontSize" Value="15"/>
+      <Setter Property="metro:ControlsHelper.HeaderFontSize" Value="14"/>
       <Setter Property="HeaderTemplate">
         <Setter.Value>
           <DataTemplate>
-              <Border BorderBrush="#59636D" BorderThickness="0">
+            <Border BorderBrush="#BFC1C3" BorderThickness="1" Cursor="Hand" CornerRadius="2">
               <Border.Style>
                 <Style TargetType="Border">
                   <Setter Property="Background" Value="Black"/>
@@ -44,6 +44,9 @@
                     <Style TargetType="ContentControl">
                       <Setter Property="Foreground" Value="Wheat"/>
                       <Style.Triggers>
+                        <DataTrigger Binding="{Binding}" Value="Todas">
+                          
+                        </DataTrigger>
                         <DataTrigger Binding="{Binding}" Value="CITAS">
                           <Setter Property="Foreground" Value="Black"/>
                         </DataTrigger>
@@ -54,9 +57,13 @@
                     </Style>
                   </ContentControl.Style>
                 </ContentControl>
-                <Button Content="x" Foreground="White"
-                        Command="{Binding ElementName=_Root, Path=DataContext.CloseTabCommand}"
-                      CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}">
+                <Button 
+                    Content="x" 
+                  Margin="0, -2, 2, 0"
+                    VerticalAlignment="Center"
+                    Foreground="White"
+                    Command="{Binding ElementName=_Root, Path=DataContext.CloseTabCommand}"
+                    CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}">
                 <Button.Style>
                   <Style TargetType="Button">
                     <Setter Property="Width" Value="20"/>
