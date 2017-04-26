@@ -10,9 +10,9 @@ using NHibernate;
 
 namespace Gama.Atenciones.Wpf.FakeServices
 {
-    public class FakeAtencionRepository
+    public class FakeAtencionRepository : IAtencionRepository
     {
-        public List<Atencion> Atenciones;
+        public List<Atencion> Atenciones { get; set; }
 
         public ISession Session { get; set; }
 

@@ -275,9 +275,9 @@
 
     <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Auto">
       <Grid  DataContext="{Binding AsistenteViewModel}"
-               ScrollViewer.CanContentScroll="True"
-          IsHitTestVisible="{Binding Asistente.IsInEditionMode}"
-          Grid.IsSharedSizeScope="True">
+            ScrollViewer.CanContentScroll="True"
+            IsHitTestVisible="{Binding Asistente.IsInEditionMode}"
+            Grid.IsSharedSizeScope="True">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
           <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>

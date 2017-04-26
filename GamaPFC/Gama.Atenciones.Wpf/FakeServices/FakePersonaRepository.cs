@@ -11,9 +11,16 @@ using Gama.Atenciones.Wpf.Converters;
 
 namespace Gama.Atenciones.Wpf.FakeServices
 {
-    public class FakePersonaRepository 
+    public class FakePersonaRepository : IPersonaRepository
     {
         public List<Persona> Personas { get; set; }
+
+        private ISession _Session = null;
+        public ISession Session
+        {
+            get { return _Session; }
+            set { _Session = value; }
+        }
 
         IdentidadSexual[] _IdentidadSexual = new IdentidadSexual[]
         {
@@ -87,6 +94,41 @@ namespace Gama.Atenciones.Wpf.FakeServices
                 resultado.Add(i + 2);
 
             return resultado;
+        }
+
+        public Persona GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<LookupItem> GetAllForLookup()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Create(Persona entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Update(Persona entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(Persona entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Atencion> GetAtenciones()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteAll()
+        {
+            throw new NotImplementedException();
         }
     }
 }

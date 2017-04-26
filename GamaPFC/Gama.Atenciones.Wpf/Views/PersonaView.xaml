@@ -43,14 +43,7 @@
               <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!--MinHeight="105" MinWidth="200"
-                  MaxHeight="105" MaxWidth="200"
-            MaxHeight="70" MaxWidth="70"-->
-            <StackPanel Grid.ColumnSpan="2" >
-              <!--<Border BorderThickness="1"
-                      HorizontalAlignment="Center"
-                      CornerRadius="50,50,50,50" BorderBrush="LightGray" Background="#4C797B7D"
-                         Margin="{StaticResource Margin}">-->
+            <StackPanel Grid.ColumnSpan="2">
               <Ellipse Height="139" Width="139" OpacityMask="{StaticResource _RadialGradientBrush}" Margin="{StaticResource Margin}">
                 <Ellipse.Fill>
                   <ImageBrush ImageSource="{Binding Persona.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>

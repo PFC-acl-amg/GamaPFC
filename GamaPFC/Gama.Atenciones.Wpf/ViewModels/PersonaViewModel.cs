@@ -52,14 +52,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 //imagenAuxiliar2.Width = imagenAuxiliar.Width;
                 //imagenAuxiliar2.EndInit();
 
-
                 string imagenPath = imagenAuxiliar.UriSource.OriginalString;
                 FileStream imagenFileStream = new FileStream(imagenPath, FileMode.Open, FileAccess.Read);
                 byte[] bytes = new byte[imagenFileStream.Length];
                 imagenFileStream.Read(bytes, 0, bytes.Length);
 
                 Persona.Imagen = bytes; 
-
             }
         }
 

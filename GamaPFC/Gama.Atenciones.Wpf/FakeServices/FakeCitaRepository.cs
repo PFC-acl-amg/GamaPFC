@@ -10,7 +10,7 @@ using NHibernate;
 
 namespace Gama.Atenciones.Wpf.FakeServices
 {
-    public class FakeCitaRepository
+    public class FakeCitaRepository : ICitaRepository
     {
         private List<Cita> Citas { get; set; }
 
@@ -52,6 +52,31 @@ namespace Gama.Atenciones.Wpf.FakeServices
         public int CountAll()
         {
             return Citas.Count;
+        }
+
+        public Cita GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Create(Cita entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Update(Cita entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(Cita entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteAll()
+        {
+            throw new NotImplementedException();
         }
     }
 }

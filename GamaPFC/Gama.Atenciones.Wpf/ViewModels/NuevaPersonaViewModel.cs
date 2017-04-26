@@ -67,10 +67,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnAceptarCommand_Execute()
         {
-            //Persona.CreatedAt = DateTime.Now;
             _PersonaRepository.Create(Persona.Model);
-            //AtencionesResources.AddNif(Persona.Nif);
-            //_EventAggregator.GetEvent<PersonaCreadaEvent>().Publish(Persona.Id);
             Cerrar = true;
         }
 

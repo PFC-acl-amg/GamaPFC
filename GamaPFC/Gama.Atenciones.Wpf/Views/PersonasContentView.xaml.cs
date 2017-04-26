@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gama.Common.CustomControls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,15 @@ namespace Gama.Atenciones.Wpf.Views
         public PersonasContentView()
         {
             InitializeComponent();
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+            {
+                runtimeConstructor();
+            }
+        }
+
+        private void runtimeConstructor()
+        {
+            CircleIconButton x = new CircleIconButton();
         }
     }
 }
