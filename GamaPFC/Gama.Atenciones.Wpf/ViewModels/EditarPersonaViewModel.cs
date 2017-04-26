@@ -168,6 +168,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     _AtencionesVM.Load(_PersonaVM.Persona);
                     _CitasVM.Load(_PersonaVM.Persona);
                     RefrescarTitulo(persona.Nombre);
+                    _AtencionesVM.VerAtenciones = false;
                 }
                 
                 if (atencionId.HasValue)
