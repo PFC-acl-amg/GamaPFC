@@ -207,12 +207,7 @@
                                           <ColumnDefinition Width="Auto"/>
                                           <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-
-                                        <!--<StackPanel Orientation="Vertical">
-                                          <TextBlock Margin="4">Hora</TextBlock>
-                                          <TextBlock Margin="4">Sala</TextBlock>
-                                        </StackPanel>-->
-
+                                        
                                         <StackPanel Orientation="Vertical" Grid.Column="1">
                                           <TextBlock Margin="2" 
                                                    HorizontalAlignment="Left" VerticalAlignment="Center">
@@ -258,53 +253,10 @@
                                               CommandParameter="{Binding}"
                                               Style="{StaticResource _CircleIconButtonStyle}"/>
                                           </StackPanel>
-                                          <!--<Label VerticalAlignment="Center" HorizontalAlignment="Left">
-                                            <Hyperlink 
-                                                Command="{Binding DataContext.NuevaAtencionCommand, 
-                                                RelativeSource={RelativeSource FindAncestor, 
-					                                          AncestorType={x:Type UserControl}}}"
-                                                CommandParameter="{Binding}"
-                                                Foreground="DarkRed">Ir a atención</Hyperlink>
-                                          </Label>-->
                                         </StackPanel>
                                       </Grid>
-
-                                      <!-- Botón de editar cita -->
-                                      <!--<StackPanel HorizontalAlignment="Right" Grid.Column="1"
-                                                VerticalAlignment="Center">
-                                        <cc:CircleIconButton
-                                          Icon="{StaticResource appbar_edit}"
-                                          Width="28" Height="28"
-                                          IconHeight="8" IconWidth="8"
-                                          Margin="4,2,4,2" VerticalAlignment="Center"
-                                              Padding="2,0,2,0"
-                                              BorderThickness="0"
-                                              FontSize="14"
-                                              Background="#FF3078A5"
-                                              Foreground="White"
-                                              FontWeight="Bold"
-                                              Command="{Binding DataContext.EditarCitaCommand, 
-                                                RelativeSource={RelativeSource FindAncestor, 
-					                                          AncestorType={x:Type UserControl}}}"
-                                              CommandParameter="{Binding}">
-                                        </cc:CircleIconButton>
-                                      </StackPanel>-->
                                     </Grid>
                                   </Border>
-                                  <!--<i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseUp">
-                                      <prism:InvokeCommandAction 
-                        Command="{Binding DataContext.NuevaCitaCommand, RelativeSource={RelativeSource FindAncestor, 
-					                              AncestorType={x:Type UserControl}}}" 
-                                    CommandParameter="{Binding}"/>
-                                    </i:EventTrigger>
-                                  </i:Interaction.Triggers>-->
-                                  <!--<Border.InputBindings>
-                                    <MouseBinding MouseAction="LeftDoubleClick"
-                                          Command="{Binding DataContext.EditarCitaCommand, RelativeSource={RelativeSource FindAncestor, 
-					                                  AncestorType={x:Type UserControl}}}" 
-                                          CommandParameter="{Binding}"/>
-                                  </Border.InputBindings>-->
                                 </DataTemplate>
                               </ListBox.ItemTemplate>
                               <ListBox.Resources>
@@ -352,194 +304,9 @@
                                     CommandParameter="{Binding}"/>
                             </Grid.InputBindings>
                           </Grid>
-                          <!--<i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseUp">
-                              <prism:InvokeCommandAction 
-                        Command="{Binding DataContext.NuevaCitaCommand, RelativeSource={RelativeSource FindAncestor, 
-					                              AncestorType={x:Type UserControl}}}" 
-                                    CommandParameter="{Binding}"/>
-                            </i:EventTrigger>
-                          </i:Interaction.Triggers>-->
                         </Border>
                       </Border>
                     </DataTemplate>
-                    <!--<DataTemplate>
-                      --><!-- -->
-                      <!-- Box -->
-                      <!-- --><!--
-                      <Border BorderBrush="Black" BorderThickness="1" Padding="0" Margin="2">
-                        <Border Name="InnerBorder" BorderBrush="Black" BorderThickness="2">
-                          <Border.Style>
-                            <Style TargetType="{x:Type Border}">
-                              <Style.Triggers>
-                                --><!--Current Day--><!--
-                                <DataTrigger Binding="{Binding IsToday}" Value="true">
-                                  <Setter Property="Border.Background">
-                                    <Setter.Value>
-                                      <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                        <GradientStop Color="#FF1EA6C8" Offset="0"/>
-                                        <GradientStop Color="#FF0691B3" Offset="1"/>
-                                      </LinearGradientBrush>
-                                    </Setter.Value>
-                                  </Setter>
-                                </DataTrigger>
-                              </Style.Triggers>
-                            </Style>
-                          </Border.Style>
-
-                          <Grid>
-                            <Grid.Style>
-                              <Style TargetType="Grid">
-                                <Style.Triggers>
-                                  <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True">
-                                    <Setter Property="Background" Value="Green"/>
-                                  </DataTrigger>
-                                  <DataTrigger Binding="{Binding IsTargetMonth}" Value="False">
-                                    <Setter Property="Background" Value="LightGray"/>
-                                  </DataTrigger>
-                                </Style.Triggers>
-                              </Style>
-                            </Grid.Style>
-                            <Grid.RowDefinitions>
-                              <RowDefinition Height="Auto"/>
-                              <RowDefinition />
-                            </Grid.RowDefinitions>
-
-                            --><!-- Mes en texto (ENE, FEB, ...) --><!--
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                              <TextBlock TextAlignment="Left" VerticalAlignment="Center" Background="#FF307DBB"
-                                       Padding="4,2,6,4"
-                                       Margin="2,-4,0,0"
-                                       Foreground="White" 
-                                       Text="{Binding Date.Month, Converter={StaticResource MonthNameConverter}}"/>
-                            </StackPanel>
-
-                            --><!-- -->
-                            <!-- Nueva Cita y Día del mes -->
-                            <!-- --><!--
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                              --><!-- Nueva Cita --><!--
-                              <Button Background="Transparent" FontWeight="Light" BorderThickness="0"
-                                    VerticalContentAlignment="Center"
-                                    Margin="0,-4,0,0" FontSize="14"
-                                    Padding="2"
-                                    Command="{Binding DataContext.NuevaCitaCommand, RelativeSource={RelativeSource FindAncestor, 
-					                              AncestorType={x:Type UserControl}}}" 
-                                    CommandParameter="{Binding}">
-                                +
-                              </Button>
-
-                              --><!-- Día del mes --><!--
-                              <TextBlock TextAlignment="Right" 
-                                       Text="{Binding Date, Converter={StaticResource DateConverter}, ConverterParameter=DAY}" 
-                                       FontSize="12" Margin="4,2,4,4" >
-                                <TextBlock.Style>
-                                  <Style TargetType="{x:Type TextBlock}">
-                                    <Style.Triggers>
-                                      <DataTrigger Binding="{Binding IsTargetMonth}" Value="false">
-                                        <Setter Property="TextBlock.Foreground" Value="Gray"></Setter>
-                                      </DataTrigger>
-                                    </Style.Triggers>
-                                  </Style>
-                                </TextBlock.Style>
-                              </TextBlock>
-                            </StackPanel>
-
-                            --><!-- -->
-                            <!-- Lista de Appointments -->
-                            <!-- --><!--
-                            <ListBox
-                              x:Name="PART_AppointmentsListBox"
-                              Grid.Row="1"
-                              Background="Transparent"
-                              BorderBrush="Transparent"
-                              HorizontalContentAlignment="Stretch">
-                              <ListBox.ItemsSource>
-                                <MultiBinding Converter="{StaticResource AppointmentsConverter}">
-                                  <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
-                                  AncestorType={x:Type  CustomControls:CustomCalendar}}" Path="Appointments"/>
-                                  <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext"/>
-                                </MultiBinding>
-                              </ListBox.ItemsSource>
-                              <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                  <Border Background="#FFDFE8F5" 
-                                        BorderBrush="#FF5177A8" BorderThickness="0.5" CornerRadius="1" Margin="2">
-                                    <Grid>
-                                      <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="Auto"/>
-                                      </Grid.ColumnDefinitions>
-
-                                      --><!-- Contenido de cada cita --><!--
-                                      <Grid>
-                                        <Grid.ColumnDefinitions>
-                                          <ColumnDefinition Width="Auto"/>
-                                          <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <StackPanel Orientation="Vertical">
-                                          <TextBlock Margin="4" Text="{Binding Model.Persona.Nombre}"/>
-                                          <TextBlock Margin="4">Hora</TextBlock>
-                                          <TextBlock Margin="4">Sala</TextBlock>
-                                        </StackPanel>
-
-                                        <StackPanel Orientation="Vertical" Grid.Column="1">
-                                          <TextBlock Margin="4" 
-                                                   HorizontalAlignment="Left" VerticalAlignment="Center">
-                                          <Run Text="{Binding Hora}"/>
-                                          <Run Text=":" />
-                                          <Run Text="{Binding Minutos}"/>
-                                          </TextBlock>
-                                          <TextBlock Text="{Binding Sala}" Margin="4"/>
-                                        </StackPanel>
-                                      </Grid>
-
-                                      --><!-- Botón de agregar atención --><!--
-                                      <StackPanel HorizontalAlignment="Right" Grid.Column="1"
-                                                VerticalAlignment="Center">
-                                        <Button Margin="4,2,4,2" VerticalAlignment="Center"
-                                              Padding="2,0,2,0"
-                                              BorderThickness="0"
-                                              FontSize="14"
-                                              Content=">"
-                                              Background="#FF3078A5"
-                                              Foreground="White"
-                                              FontWeight="Bold"
-                                              Command="{Binding DataContext.NuevaAtencionCommand, 
-                                                RelativeSource={RelativeSource FindAncestor, 
-					                                          AncestorType={x:Type UserControl}}}"
-                                              CommandParameter="{Binding}">
-                                          <Button.Style>
-                                            <Style>
-                                              <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Atencion.Seguimiento}" Value="">
-                                                  <Setter Property="Button.Content" Value="+"/>
-                                                </DataTrigger>
-                                              </Style.Triggers>
-                                            </Style>
-                                          </Button.Style>
-                                        </Button>
-                                      </StackPanel>
-                                      <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseDoubleClick">
-                                          <prism:InvokeCommandAction 
-                                      Command="{Binding RelativeSource =
-                                          {RelativeSource FindAncestor,
-                                              AncestorType={x:Type UserControl}},
-                                              Path=DataContext.NuevaAtencionCommand}"
-                                      CommandParameter="{Binding}"/>
-                                        </i:EventTrigger>
-                                      </i:Interaction.Triggers>
-                                    </Grid>
-                                  </Border>
-                                </DataTemplate>
-                              </ListBox.ItemTemplate>
-                            </ListBox>
-                          </Grid>
-                        </Border>
-                      </Border>
-                    </DataTemplate>-->
                   </ItemsControl.ItemTemplate>
                   <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
