@@ -207,20 +207,24 @@
                                           <ColumnDefinition Width="Auto"/>
                                           <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-                                        
-                                        <StackPanel Orientation="Vertical" Grid.Column="1">
-                                          <TextBlock Margin="2" 
-                                                   HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <Grid.RowDefinitions>
+                                          <RowDefinition SharedSizeGroup="A" Height="Auto"/>
+                                          <RowDefinition SharedSizeGroup="B" Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                          <TextBlock Grid.Row="0"
+                                            Margin="2" 
+                                            HorizontalAlignment="Left" 
+                                            VerticalAlignment="Center">
                                             <Run Text="{Binding Hora}"/>
                                             <Run Text=":" />
                                             <Run Text="{Binding Minutos}"/>
                                           </TextBlock>
-                                          <TextBlock Text="{Binding Sala}" Margin="2"/>
-                                          <StackPanel HorizontalAlignment="Right" 
-                                                      Grid.Column="1"
-                                                      Orientation="Horizontal"
-                                                      VerticalAlignment="Center">
-                                            <cc:CircleIconButton
+                                          
+                                          <TextBlock Grid.Row="1" Text="{Binding Persona.Nombre}" Margin="2"/>
+
+                                          <cc:CircleIconButton
+                                              Grid.Column="1"
                                               Icon="{StaticResource appbar_archive}"
                                               Width="28" Height="28"
                                               IconHeight="8" IconWidth="8"
@@ -236,7 +240,9 @@
 					                                          AncestorType={x:Type UserControl}}}"
                                               CommandParameter="{Binding}"
                                               Style="{StaticResource _CircleIconButtonStyle}"/>
-                                            <cc:CircleIconButton
+                                        <cc:CircleIconButton
+                                            Grid.Column="1"
+                                            Grid.Row="1"
                                               Icon="{StaticResource appbar_edit}"
                                               Width="28" Height="28"
                                               IconHeight="8" IconWidth="8"
@@ -252,8 +258,6 @@
 					                                          AncestorType={x:Type UserControl}}}"
                                               CommandParameter="{Binding}"
                                               Style="{StaticResource _CircleIconButtonStyle}"/>
-                                          </StackPanel>
-                                        </StackPanel>
                                       </Grid>
                                     </Grid>
                                   </Border>

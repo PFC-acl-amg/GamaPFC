@@ -212,22 +212,16 @@
                                   </Grid.RowDefinitions>
 
 
-                                  <!--<StackPanel Orientation="Vertical" Grid.Column="0">-->
                                   <TextBlock Margin="4" FontWeight="Bold" FontSize="11"
-                                                   HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            HorizontalAlignment="Left" VerticalAlignment="Center">
                                             <Run Text="{Binding Hora}"/>
                                             <Run Text=":" />
                                             <Run Text="{Binding Minutos}"/>
                                   </TextBlock>
 
                                   <TextBlock Text="{Binding Sala}" Margin="4" Grid.Row="1" FontWeight="Bold"
-                                                    VerticalAlignment="Center" FontSize="11"/>
-                                  <!--</StackPanel>-->
+                                            VerticalAlignment="Center" FontSize="11"/>
 
-                                  <!--<StackPanel HorizontalAlignment="Right" 
-                                                      Grid.Column="1"
-                                                      Orientation="Vertical"
-                                                      VerticalAlignment="Center">-->
                                   <cc:CircleIconButton
                                             Grid.Column="1"
                                               Icon="{StaticResource appbar_archive}"
@@ -267,7 +261,6 @@
 					                                    AncestorType={x:Type UserControl}}}"
                                           CommandParameter="{Binding}"
                                           Style="{StaticResource _CircleIconButtonStyle}"/>
-                                  <!--</StackPanel>-->
                                 </Grid>
                               </Grid>
                             </Border>
