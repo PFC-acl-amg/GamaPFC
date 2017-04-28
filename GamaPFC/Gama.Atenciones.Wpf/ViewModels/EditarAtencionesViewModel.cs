@@ -2,6 +2,7 @@
 using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
+using Gama.Atenciones.Wpf.Views;
 using Gama.Atenciones.Wpf.Wrappers;
 using NHibernate;
 using Prism.Commands;
@@ -43,16 +44,18 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _RegionManager = regionManager;
 
             HabilitarEdicionCommand = new DelegateCommand(
-                OnHabilitarEdicionCommand,
+                OnHabilitarEdicionCommandExecute,
                 () => AtencionSeleccionada != null);
 
             ActualizarCommand = new DelegateCommand(
-                OnActualizarCommand,
+                OnActualizarCommandExecute,
                 () => 
                       (AtencionSeleccionada != null && AtencionSeleccionada.IsChanged && AtencionSeleccionada.IsValid)
                    || (CitaSeleccionada     != null && CitaSeleccionada.IsChanged     && CitaSeleccionada.IsValid));
 
-            CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand);
+            CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommandExecute);
+
+            EditarCitaCommand = new DelegateCommand(OnEditarCitaCommandExecute);
 
             PropertyChanged += EditarAtencionesViewModel_PropertyChanged;
 
@@ -62,6 +65,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand HabilitarEdicionCommand { get; private set; }
         public ICommand ActualizarCommand { get; private set; }
         public ICommand CancelarEdicionCommand { get; private set; }
+        public ICommand EditarCitaCommand { get; private set; }
 
         public ISession Session
         {
@@ -182,12 +186,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
             VerAtenciones = true;
         }
 
-        private void OnHabilitarEdicionCommand()
+        private void OnHabilitarEdicionCommandExecute()
         {
             EdicionHabilitada = true;
         }
 
-        private void OnActualizarCommand()
+        private void OnActualizarCommandExecute()
         {
             if (AtencionSeleccionada != null && AtencionSeleccionada.IsChanged && AtencionSeleccionada.IsValid)
             {
@@ -204,10 +208,21 @@ namespace Gama.Atenciones.Wpf.ViewModels
             EdicionHabilitada = false;
         }
 
-        private void OnCancelarEdicionCommand()
+        private void OnCancelarEdicionCommandExecute()
         {
             AtencionSeleccionada.RejectChanges();
             EdicionHabilitada = false;
+        }
+
+        private void OnEditarCitaCommandExecute()
+        {
+            var o = new NuevaCitaView() { Title = "Editar Cita" };
+            var vm = (NuevaCitaViewModel)o.DataContext;
+            vm.Session = _Session;
+            vm.EnEdicionDeCitaExistente = true;
+            vm.LoadForEdition(CitaSeleccionada);
+            o.ShowDialog();
+            Persona.AcceptChanges();
         }
     }
 }

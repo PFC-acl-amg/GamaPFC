@@ -18,7 +18,7 @@
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
-      
+
       <Border BorderThickness="1" BorderBrush="Black" Padding="10" Margin="{StaticResource Margin}"
                 Panel.ZIndex="999">
         <Border.Style>
@@ -33,7 +33,7 @@
         </Border.Style>
         <TextBlock HorizontalAlignment="Center" Margin="4,33,19,4" Width="157" FontSize="10">No hay atenciones para mostrar.</TextBlock>
       </Border>
-      
+
       <!-- Listado de atenciones -->
       <GroupBox Header="Atenciones">
         <ScrollViewer>
@@ -54,7 +54,7 @@
         </ScrollViewer>
       </GroupBox>
 
-      <!-- Detalle de la cita -->
+
       <Grid Grid.Column="1">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto"/>
@@ -62,43 +62,53 @@
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Grid.ColumnSpan="1" DataContext="{Binding CitaSeleccionada}"
-               IsHitTestVisible="{Binding DataContext.EdicionHabilitada, ElementName=_Root}">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
-            <ColumnDefinition Width="Auto"/>
-          </Grid.ColumnDefinitions>
+        <!-- Detalle de la cita -->
+        <Border BorderBrush="#D4385C7A" BorderThickness="1.3" Grid.Row="0" Grid.ColumnSpan="1"
+                CornerRadius="2" Margin="{StaticResource Margin}">
+          <Grid DataContext="{Binding CitaSeleccionada}">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
+              <ColumnDefinition Width="Auto"/>
+              <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+              <StackPanel>
+                <Label Margin="{DynamicResource Margin}">Atención</Label>
+                <Label Margin="{DynamicResource Margin}">Fecha</Label>
+              </StackPanel>
 
-          <StackPanel Orientation="Horizontal">
-            <StackPanel>
-              <Label Margin="{DynamicResource Margin}">Atención</Label>
-              <Label Margin="{DynamicResource Margin}">Fecha</Label>
+              <StackPanel>
+                <Label Margin="{DynamicResource Margin}" Content="{Binding Id}"></Label>
+                <Label Margin="{DynamicResource Margin}" Content="{Binding Fecha.Date}"></Label>
+              </StackPanel>
             </StackPanel>
 
-            <StackPanel>
-              <Label Margin="{DynamicResource Margin}" Content="{Binding Id}"></Label>
-              <Label Margin="{DynamicResource Margin}" Content="{Binding Fecha.Date}"></Label>
-            </StackPanel>
-          </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+              <StackPanel>
+                <Label Margin="{DynamicResource Margin}">Sala</Label>
+                <Label Margin="{DynamicResource Margin}">Hora</Label>
+              </StackPanel>
 
-          <StackPanel Grid.Column="1" Orientation="Horizontal">
-            <StackPanel>
-              <Label Margin="{DynamicResource Margin}">Sala</Label>
-              <Label Margin="{DynamicResource Margin}">Hora</Label>
-            </StackPanel>
+              <StackPanel Grid.Column="2" >
+                <TextBox Margin="{DynamicResource Margin}" Text="{Binding Sala, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <StackPanel Grid.Column="2" >
-              <TextBox Margin="{DynamicResource Margin}" Text="{Binding Sala, UpdateSourceTrigger=PropertyChanged}"/>
-
-              <local:TimeControl 
+                <local:TimeControl 
                   VerticalAlignment="Center"
                   VerticalContentAlignment="Center"
                   Margin="{DynamicResource Margin}"
                   Hora="{Binding Hora, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                   Minutos="{Binding Minutos, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></local:TimeControl>
+              </StackPanel>
             </StackPanel>
-          </StackPanel>
-        </Grid>
+
+            <Label VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                   Margin="{StaticResource Margin}" Grid.Column="2">
+              <Hyperlink 
+                Command="{Binding DataContext.EditarCitaCommand, ElementName=_Root}"
+                Foreground="DarkRed">Editar</Hyperlink>
+            </Label>
+          </Grid>
+        </Border>
 
         <!-- Detalle de la atención -->
         <Grid Grid.IsSharedSizeScope="True" Grid.Row="1" DataContext="{Binding AtencionSeleccionada}"
@@ -183,7 +193,7 @@
             </ScrollViewer>
           </Border>
         </Grid>
-        
+
         <Grid Grid.Row="2">
           <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
             <!-- Guardar Button -->
