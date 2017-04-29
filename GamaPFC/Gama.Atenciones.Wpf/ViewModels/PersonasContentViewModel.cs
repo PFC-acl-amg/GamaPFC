@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Gama.Atenciones.Wpf.Wrappers;
+using Prism;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -31,9 +32,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _RegionManager = regionManager;
             _Container = container;
 
-            EditarPersonaViewModels = new ObservableCollection<object>();
-            EditarPersonaViewModels.Add(_Container.Resolve<ListadoDePersonasViewModel>());
-            ViewModelSeleccionado = EditarPersonaViewModels.First();
+            ViewModels = new ObservableCollection<object>();
+            ViewModels.Add(_Container.Resolve<ListadoDePersonasViewModel>());
+            ViewModelSeleccionado = ViewModels.First();
             SelectedIndex = 0;
 
             CloseTabCommand = new DelegateCommand<EditarPersonaViewModel>(OnCloseTabCommandExecute);
@@ -50,7 +51,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnCloseTabCommandExecute(EditarPersonaViewModel viewModelACerrar)
         {
             if (viewModelACerrar.ConfirmNavigationRequest())
-                EditarPersonaViewModels.Remove(viewModelACerrar);
+                ViewModels.Remove(viewModelACerrar);
         }
 
         public ICommand CloseTabCommand { get; private set; }
@@ -59,7 +60,26 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public object ViewModelSeleccionado
         {
             get { return _ViewModelSeleccionado; }
-            set { SetProperty(ref _ViewModelSeleccionado, value); }
+            set
+            {
+                SetProperty(ref _ViewModelSeleccionado, value);
+                SetActiveTab();
+            }
+        }
+
+        private void SetActiveTab()
+        {
+            foreach (var viewModel in ViewModels)
+            {
+                var activeAwareViewModel = viewModel as IActiveAware;
+                if (activeAwareViewModel != null)
+                {
+                    if (activeAwareViewModel == ViewModelSeleccionado)
+                        activeAwareViewModel.IsActive = true;
+                    else
+                        activeAwareViewModel.IsActive = false;
+                }
+            }
         }
 
         private int _SelectedIndex;
@@ -69,11 +89,27 @@ namespace Gama.Atenciones.Wpf.ViewModels
             set { SetProperty(ref _SelectedIndex, value); }
         }
 
-        public ObservableCollection<object> EditarPersonaViewModels { get; private set; }
+        public ObservableCollection<object> ViewModels { get; private set; }
+
+        private void NavegarAPersona(int personaId, int? atencionId = null)
+        {
+            if (!PersonaEstaAbierta(personaId, atencionId))
+            {
+                var newViewModel = _Container.Resolve<EditarPersonaViewModel>();
+
+                ViewModels.Add(newViewModel);
+
+                newViewModel.OnNavigatedTo(personaId, atencionId);
+
+                ViewModelSeleccionado = newViewModel;
+            }
+
+            _EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
+        }
 
         private bool PersonaEstaAbierta(int personaId, int? atencionId)
         {
-            foreach (var viewModel in EditarPersonaViewModels)
+            foreach (var viewModel in ViewModels)
             {
                 var editarPersonaViewModel = viewModel as EditarPersonaViewModel;
                 if (editarPersonaViewModel != null)
@@ -101,23 +137,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 var newViewModel = _Container.Resolve<EditarPersonaViewModel>();
 
-                EditarPersonaViewModels.Add(newViewModel);
-
-                newViewModel.OnNavigatedTo(personaId, atencionId);
-
-                ViewModelSeleccionado = newViewModel;
-            }
-
-            _EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
-        }
-
-        private void NavegarAPersona(int personaId, int? atencionId = null)
-        {
-            if (!PersonaEstaAbierta(personaId, atencionId))
-            {
-                var newViewModel = _Container.Resolve<EditarPersonaViewModel>();
-
-                EditarPersonaViewModels.Add(newViewModel);
+                ViewModels.Add(newViewModel);
 
                 newViewModel.OnNavigatedTo(personaId, atencionId);
 
@@ -136,7 +156,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var editarPersonaViewModel = ViewModelSeleccionado as EditarPersonaViewModel;
             if (editarPersonaViewModel != null)
             {
-                EditarPersonaViewModels.Remove(editarPersonaViewModel);
+                ViewModels.Remove(editarPersonaViewModel);
                 // Ver qué hacemos con las citas y demás
             }
         }
