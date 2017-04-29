@@ -128,23 +128,30 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnNuevaAtencionEvent(CitaWrapper wrapper)
         {
-            int personaId = wrapper.Persona.Id;
-            int? atencionId = null;
-            if (wrapper.Atencion != null)
-                atencionId = wrapper.Atencion.Id;
-
-            if (!PersonaEstaAbierta(personaId, atencionId))
+            try
             {
-                var newViewModel = _Container.Resolve<EditarPersonaViewModel>();
+                int personaId = wrapper.Persona.Id;
+                int? atencionId = null;
+                if (wrapper.Atencion != null)
+                    atencionId = wrapper.Atencion.Id;
 
-                ViewModels.Add(newViewModel);
+                if (!PersonaEstaAbierta(personaId, atencionId))
+                {
+                    var newViewModel = _Container.Resolve<EditarPersonaViewModel>();
 
-                newViewModel.OnNavigatedTo(personaId, atencionId);
+                    ViewModels.Add(newViewModel);
 
-                ViewModelSeleccionado = newViewModel;
+                    newViewModel.OnNavigatedTo(personaId, atencionId);
+
+                    ViewModelSeleccionado = newViewModel;
+                }
+
+                _EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
             }
-
-            _EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void OnCitaCreadaEvent(int id)

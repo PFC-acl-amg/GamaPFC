@@ -41,6 +41,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _CitasVM = citasVM;
             _CitasVM.Session = session;
 
+            CitasIsVisible = true;
+            AtencionesIsVisible = false;
+
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
                 () => !_PersonaVM.EdicionHabilitada);
@@ -58,7 +61,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             EliminarPersonaCommand = new DelegateCommand(OnEliminarPersonaCommandExecute);
 
+            ActivarVistaCommand = new DelegateCommand<string>(OnActivarVistaCommandExecute);
+
             _PersonaVM.PropertyChanged += _PersonaVM_PropertyChanged;
+        }
+
+        private void OnActivarVistaCommandExecute(string param)
+        {
+            CitasIsVisible = param == "citas";
+            AtencionesIsVisible = param == "atenciones";
         }
 
         public PersonaViewModel PersonaVM               => _PersonaVM;
@@ -70,6 +81,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand ActualizarCommand { get; private set; }
         public ICommand CancelarEdicionCommand { get; private set; }
         public ICommand EliminarPersonaCommand { get; private set; }
+        public ICommand ActivarVistaCommand { get; private set; }
         
         private bool _IsActive;
         public bool IsActive
@@ -82,6 +94,20 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 if (_IsActive)
                     _EventAggregator.GetEvent<PersonaSeleccionadaChangedEvent>().Publish(Persona.Id);
             }
+        }
+
+        private bool _CitasIsVisible;
+        public bool CitasIsVisible
+        {
+            get { return _CitasIsVisible; }
+            set { SetProperty(ref _CitasIsVisible, value); }
+        }
+
+        private bool _AtencionesIsVisible;
+        public bool AtencionesIsVisible
+        {
+            get { return _AtencionesIsVisible; }
+            set { SetProperty(ref _AtencionesIsVisible, value); }
         }
 
         private void OnActualizarCommand()
@@ -168,7 +194,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 {
                     _AtencionesVM.EdicionHabilitada = false;
                     _AtencionesVM.AtencionSeleccionada = _AtencionesVM.Atenciones.Where(x => x.Id == atencionId.Value).FirstOrDefault();
-                    _AtencionesVM.VerAtenciones = true;
+                    AtencionesIsVisible = true;
+                    CitasIsVisible = false;
                 }
             }
             catch (Exception ex)

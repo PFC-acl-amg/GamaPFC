@@ -334,7 +334,7 @@
               </Image>-->
 
               <StackPanel Grid.Column="1">
-                <TextBlock FontSize="13" Text="{Binding Fecha.ToString()}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                <TextBlock FontSize="13" Text="{Binding Fecha}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
                 <TextBlock FontSize="13" Text="{Binding Sala}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
               </StackPanel>
 

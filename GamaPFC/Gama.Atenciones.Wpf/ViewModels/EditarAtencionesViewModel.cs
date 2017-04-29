@@ -5,6 +5,7 @@ using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.Views;
 using Gama.Atenciones.Wpf.Wrappers;
 using NHibernate;
+using Prism;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -18,7 +19,7 @@ using System.Windows.Input;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
-    public class EditarAtencionesViewModel : ViewModelBase
+    public class EditarAtencionesViewModel : ViewModelBase, IActiveAware
     {
         private bool _VerAtenciones = false;
         private bool _EdicionHabilitada;
@@ -89,7 +90,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 {
                     AtencionSeleccionada = Atenciones.First();
                 }
+                IsActive = _VerAtenciones;
             }
+        }
+
+        private bool _IsActive;
+        public bool IsActive
+        {
+            get { return _IsActive; }
+            set { SetProperty(ref _IsActive, value); }
         }
 
         public PersonaWrapper Persona

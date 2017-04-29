@@ -9,6 +9,7 @@
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              prism:ViewModelLocator.AutoWireViewModel="False"
              mc:Ignorable="d" 
+             x:Name="_Root"
              d:DesignHeight="566.606" d:DesignWidth="1099.96">
   <!-- 
     RESOURCES
@@ -206,16 +207,34 @@
       </Grid>
     </Expander>
 
-    <controls:MetroAnimatedSingleRowTabControl Grid.Column="1">
-      <controls:MetroTabItem Header="CITAS"
-                                   controls:ControlsHelper.HeaderFontSize="17">
-        <local:EditarCitasView DataContext="{Binding CitasVM}"/>
-      </controls:MetroTabItem>
-      <controls:MetroTabItem Header="ATENCIONES" IsSelected="{Binding AtencionesVM.VerAtenciones}"
-                                   controls:ControlsHelper.HeaderFontSize="17">
-        <local:EditarAtencionesView DataContext="{Binding AtencionesVM}"/>
-      </controls:MetroTabItem>
-    </controls:MetroAnimatedSingleRowTabControl>
+    <Grid Grid.Column="1">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition />
+      </Grid.RowDefinitions>
 
+      <StackPanel Orientation="Horizontal">
+        <Label Content="CITAS" FontSize="17">
+          <Label.InputBindings>
+            <MouseBinding MouseAction="LeftClick" Command="{Binding ActivarVistaCommand}" CommandParameter="citas"/>
+          </Label.InputBindings>
+        </Label>
+        <Label Content="ATENCIONES" FontSize="17">
+          <Label.InputBindings>
+            <MouseBinding MouseAction="LeftClick" Command="{Binding ActivarVistaCommand}" CommandParameter="atenciones"/>
+          </Label.InputBindings>
+        </Label>
+      </StackPanel>
+
+      <local:EditarCitasView 
+        Grid.Row="1"
+        DataContext="{Binding CitasVM}"
+        Visibility="{Binding DataContext.CitasIsVisible, ElementName=_Root, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+      <local:EditarAtencionesView
+        Grid.Row="1"
+        DataContext="{Binding AtencionesVM}"
+        Visibility="{Binding DataContext.AtencionesIsVisible, ElementName=_Root, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+    </Grid>
   </Grid>
 </UserControl>
