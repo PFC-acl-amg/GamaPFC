@@ -58,15 +58,15 @@ namespace Gama.Atenciones.Wpf.Views
             CircleIconButton x = new CircleIconButton();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            _Calendario.Style = FindResource("_ListadoCalendarStyle") as Style;
-        }
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    _Calendario.Style = FindResource("_ListadoCalendarStyle") as Style;
+        //}
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            _Calendario.Style = FindResource("_EditarCitasCalendarStyle") as Style;
-        }
+        //private void Button_Click_1(object sender, RoutedEventArgs e)
+        //{
+        //    _Calendario.Style = FindResource("_EditarCitasCalendarStyle") as Style;
+        //}
 
         private void CircleIconButton_Click(object sender, RoutedEventArgs e)
         {
