@@ -61,7 +61,14 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             EditarCitaCommand = new DelegateCommand<CitaWrapper>(OnEditarCitaCommandExecute);
 
+            SeleccionarPersonaCommand = new DelegateCommand<CitaWrapper>(OnSeleccionarPersonaCommand);
+
             _EventAggregator.GetEvent<AsistenteCreadoEvent>().Subscribe(OnAsistenteCreadoEvent);
+        }
+
+        private void OnSeleccionarPersonaCommand(CitaWrapper wrapper)
+        {
+            _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Publish(wrapper.Persona.Id);
         }
 
         public ObservableCollection<AsistenteWrapper> Asistentes { get; private set; }
@@ -99,6 +106,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand ActualizarCommand { get; private set; }
         public ICommand CancelarEdicionCommand { get; private set; }
         public ICommand EditarCitaCommand { get; private set; }
+        public ICommand SeleccionarPersonaCommand { get; private set; }
 
         private void OnActualizarCommand()
         {
