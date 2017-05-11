@@ -70,19 +70,25 @@
                      <Run Text=" " /> <!-- space -->
                      <Run Text="{Binding DisplayMember1}" />
                 </TextBlock>
-                <Label Name="Enlace" Visibility="Hidden" >
-                    <Hyperlink Foreground="Blue">
+                <Label Name="Enlace" Visibility="Hidden">
+                    <Hyperlink Foreground="Blue" Command="{Binding DataContext.SelectActividadCommand, ElementName=_Root}" CommandParameter="{Binding}">
                         <TextBlock Text="{Binding Id}" FontSize="16"/>
                         <TextBlock Text=" " FontSize="16"/>
                         <TextBlock Text="{Binding DisplayMember1}" FontSize="16"/>
                     </Hyperlink>
-                </Label>
-                
-                
-            </Grid>
+        </Label>
+      </Grid>
 
+      <!--<i:Interaction.Triggers>
+        <i:EventTrigger EventName="MouseDoubleClick">
+          <prism:InvokeCommandAction 
+                                   
+                                    Command="{Binding SelectActividadCommand}"
+                                    CommandParameter="{Binding ElementName=listBox, Path=SelectedItem}"/>
+        </i:EventTrigger>
+      </i:Interaction.Triggers>-->
 
-            <!--<StackPanel Orientation="Horizontal">
+      <!--<StackPanel Orientation="Horizontal">
                 <TextBlock Name="Img1" Text="{Binding Text}" />
                 <Button Name="Btn1" Visibility="Hidden" Content="Click me!"/>
             </StackPanel>-->
@@ -92,11 +98,17 @@
                     <Setter TargetName="Enlace" Property="Visibility" Value="Visible" />
                     <Setter TargetName="SinEnlace" Property="Visibility" Value="Hidden" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=DatoOriginal, Path=IsMouseOver}" Value="False">
-                    <!--<Setter TargetName="DatoModificado" Property="Visibility" Value="Visible" />-->
-                    <!--<Setter TargetName="DatoOriginal" Property="Visibility" Value="Visible" />-->
-                </DataTrigger>
-            </ControlTemplate.Triggers>
+        <DataTrigger Binding="{Binding ElementName=DatoOriginal, Path=IsMouseOver}" Value="False">
+          <!--<Setter TargetName="DatoModificado" Property="Visibility" Value="Visible" />-->
+          <!--<Setter TargetName="DatoOriginal" Property="Visibility" Value="Visible" />-->
+        </DataTrigger>
+        <!--<EventTrigger RoutedEvent="MouseDoubleClick">
+          <prism:InvokeCommandAction 
+                                   
+                                    Command="{Binding SelectActividadCommand}"
+                                    CommandParameter="{Binding ElementName=listBox, Path=SelectedItem}"/>
+        </EventTrigger>-->
+      </ControlTemplate.Triggers>
         </ControlTemplate>
         <!--<ControlTemplate x:Key="DataItemControlTemplate">
             <StackPanel Orientation="Horizontal">
