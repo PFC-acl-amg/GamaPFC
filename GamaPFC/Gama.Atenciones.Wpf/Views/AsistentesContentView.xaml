@@ -78,9 +78,9 @@
 
     <DataTemplate x:Key="_HoraCellTemplate">
       <TextBlock Margin="{StaticResource Margin}" HorizontalAlignment="Right" FontSize="13">
-                      <Run Text="{Binding Hora}"/>
-                      <Run Text=":"/>
-                      <Run Text="{Binding Minutos}"/>
+        <Run Text="{Binding Hora}"/>
+        <Run Text=":"/>
+        <Run Text="{Binding Minutos}"/>
       </TextBlock>
     </DataTemplate>
 

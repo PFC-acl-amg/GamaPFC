@@ -54,39 +54,5 @@ namespace Gama.Atenciones.Business
             Hora = cita.Hora;
             Minutos = cita.Minutos;
         }
-
-        //public virtual void Encrypt()
-        //{
-        //    if (IsEncrypted)
-        //        return;
-
-        //    Asistente.Encrypt();
-
-        //    IsEncrypted = true;
-        //}
-
-        //public virtual Cita DecryptFluent()
-        //{
-        //    Decrypt();
-        //    return this;
-        //}
-
-        //public virtual void Decrypt()
-        //{
-        //    try
-        //    {
-        //        if (!IsEncrypted)
-        //            return;
-
-        //        Persona.Decrypt();
-        //        Asistente.Decrypt();
-
-        //        IsEncrypted = false;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-        //}
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Core;
+using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
+using Gama.Atenciones.Wpf.Views;
 using Gama.Atenciones.Wpf.Wrappers;
 using NHibernate;
 using Prism.Commands;
@@ -19,6 +21,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
     {
         private IAsistenteRepository _AsistenteRepository;
         private IEventAggregator _EventAggregator;
+        private ISession _Session;
 
         public AsistentesContentViewModel(
             IEventAggregator eventAggregator,
@@ -30,6 +33,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _AsistenteRepository = asistenteRepository;
             _AsistenteRepository.Session = session;
             _AsistenteViewModel = asistenteViewModel;
+            _Session = session;
 
             AsistenteSeleccionado = new AsistenteWrapper(new Business.Asistente());
 
@@ -54,6 +58,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand,
                 () => _AsistenteViewModel.Asistente.IsInEditionMode);
+
+            EditarCitaCommand = new DelegateCommand<CitaWrapper>(OnEditarCitaCommandExecute);
 
             _EventAggregator.GetEvent<AsistenteCreadoEvent>().Subscribe(OnAsistenteCreadoEvent);
         }
@@ -92,6 +98,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand HabilitarEdicionCommand { get; private set; }
         public ICommand ActualizarCommand { get; private set; }
         public ICommand CancelarEdicionCommand { get; private set; }
+        public ICommand EditarCitaCommand { get; private set; }
 
         private void OnActualizarCommand()
         {
@@ -118,6 +125,17 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             _AsistenteViewModel.Asistente.RejectChanges();
             _AsistenteViewModel.Asistente.IsInEditionMode = false;
+        }
+
+        private void OnEditarCitaCommandExecute(CitaWrapper cita)
+        {
+            var o = new NuevaCitaView() { Title = "Editar Cita" };
+            var vm = (NuevaCitaViewModel)o.DataContext;
+            vm.Session = _Session;
+            vm.EnEdicionDeCitaExistente = true;
+            vm.LoadForEdition(cita);
+            o.ShowDialog();
+            cita.AcceptChanges();
         }
 
         private void OnAsistenteCreadoEvent(int id)
