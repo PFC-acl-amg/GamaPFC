@@ -7,19 +7,53 @@ using System.Text;
 using System.Threading.Tasks;
 using Gama.Common.CustomControls;
 using Core.Util;
+using Prism.Events;
+using Gama.Atenciones.Wpf.Eventos;
 
 namespace Gama.Atenciones.Wpf.Services
 {
     public class PersonaRepository : NHibernateOneSessionRepository<Persona, int>, IPersonaRepository
     {
+        private List<Persona> _Personas;
+
+        public PersonaRepository(IEventAggregator eventAggregator) : base(eventAggregator)
+        {
+            
+        }
+
+        public List<Persona> Personas
+        {
+            get
+            {
+                if (_Personas == null)
+                    _Personas = base.GetAll();
+
+                return _Personas;
+            }
+        }
+
+        public static List<string> Nifs { get; set; }
+
+        // Se llama al establecerse la propiedad 'Session'
+        public override void Initialize()
+        {
+            // Generará las personas Y los nifs
+            Nifs = Personas.Select(x => x.Nif).ToList();
+        }
+
+        public override Persona GetById(int id)
+        {
+            return Personas.Find(x => x.Id == id);
+        }
+
+        public override List<Persona> GetAll()
+        {
+            return Personas;
+        }
+
         public List<LookupItem> GetAllForLookup()
         {
-            var personas = Session.CreateCriteria<Persona>().List<Persona>()
-                .Select(x => {
-                    x.IsEncrypted = true;
-                    x.DecryptFluent();
-                    return x;
-                })
+            return Personas
                 .Select(
                     x => new LookupItem
                     {
@@ -28,10 +62,43 @@ namespace Gama.Atenciones.Wpf.Services
                         DisplayMember2 = x.Nif,
                         Imagen = x.Imagen
                     }).ToList();
+        }
 
-            Session.Clear();
+        public override void Create(Persona entity)
+        {
+            base.Create(entity);
+            Personas.Add(entity);
+            AddNif(entity.Nif);
+            _EventAggregator.GetEvent<PersonaCreadaEvent>().Publish(entity.Id);
+        }
 
-            return personas;
+        public override bool Update(Persona entity)
+        {
+            if (base.Update(entity))
+            {
+                Personas.Remove(Personas.Find(x => x.Id == entity.Id));
+                Personas.Add(entity);
+                if (entity._SavedNif != entity.Nif)
+                {
+                    ReplaceNif(entity._SavedNif, entity.Nif);
+                    entity._SavedNif = entity.Nif;
+                }
+                _EventAggregator.GetEvent<PersonaActualizadaEvent>().Publish(entity.Id);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public override void Delete(Persona entity)
+        {
+            // WARNING: Debe hacer antes la publicación del evento porque se recoge
+            // la persona para ver sus citas y atenciones desde otros viewmodels
+            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Publish(entity.Id);
+            base.Delete(entity);
+            Personas.Remove(Personas.Find(x => x.Id == entity.Id));
+            Nifs.Remove(entity.Nif);
         }
 
         public IEnumerable<int> GetPersonasNuevasPorMes(int numeroDeMeses)
@@ -61,31 +128,18 @@ namespace Gama.Atenciones.Wpf.Services
             return resultado;
         }
 
-        public List<string> GetNifs()
+        public void AddNif(string nif)
         {
-            List<string> temp;
-            List<string> resultado = new List<string>();
-
-            try
+            if (!Nifs.Contains(nif))
             {
-                temp = Session.QueryOver<Persona>()
-                    .Select(x => x.Nif)
-                    .List<string>()
-                    .ToList();
-
-                foreach (var nif in temp)
-                {
-                    resultado.Add(EncryptionService.Decrypt(nif));
-                }
-
-                Session.Clear();
+                Nifs.Add(nif);
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+        }
 
-            return resultado;
+        public void ReplaceNif(string remove, string add)
+        {
+            Nifs.Remove(remove);
+            Nifs.Add(add);
         }
 
         public List<Atencion> GetAtenciones()
@@ -100,3 +154,48 @@ namespace Gama.Atenciones.Wpf.Services
         }
     }
 }
+
+
+
+//List<string> temp;
+//List<string> resultado = new List<string>();
+
+//try
+//{
+//    temp = Session.QueryOver<Persona>()
+//        .Select(x => x.Nif)
+//        .List<string>()
+//        .ToList();
+
+//    foreach (var nif in temp)
+//    {
+//        resultado.Add(EncryptionService.Decrypt(nif));
+//    }
+
+//    Session.Clear();
+//}
+//catch (Exception ex)
+//{
+//    throw ex;
+//}
+
+//return resultado;
+
+//var personas = Session.CreateCriteria<Persona>().List<Persona>()
+//    .Select(x => {
+//        x.IsEncrypted = true;
+//        x.DecryptFluent();
+//        return x;
+//    })
+//    .Select(
+//        x => new LookupItem
+//        {
+//            Id = x.Id,
+//            DisplayMember1 = x.Nombre,
+//            DisplayMember2 = x.Nif,
+//            Imagen = x.Imagen
+//        }).ToList();
+
+//Session.Clear();
+
+//return personas;

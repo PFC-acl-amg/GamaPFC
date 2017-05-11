@@ -15,6 +15,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="211.152" d:DesignWidth="490.303"
              x:Name="_Root">
+  <!--d:DataContext="{d:DesignInstance Type=designData:PersonasContentViewModelDTD, IsDesignTimeCreatable=True}"-->
   <UserControl.Resources>
     <Style TargetType="metro:MetroTabItem">
       <Setter Property="Header" Value="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
@@ -22,11 +23,51 @@
       <Setter Property="HeaderTemplate">
         <Setter.Value>
           <DataTemplate>
+            <Border BorderBrush="#BFC1C3" BorderThickness="1" Cursor="Hand" CornerRadius="2">
+              <Border.Style>
+                <Style TargetType="Border">
+                  <Setter Property="Background" Value="Black"/>
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding}" Value="CITAS">
+                      <Setter Property="Background" Value="Transparent"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding}" Value="ATENCIONES">
+                      <Setter Property="Background" Value="Transparent"/>
+                    </DataTrigger>
+                    <DataTrigger 
+                        Binding="{Binding DataContext.IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}"
+                        Value="True">
+                      <Setter Property="Background" Value="#1D66B3"/>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </Border.Style>
             <StackPanel Orientation="Horizontal">
-              <ContentControl Content="{Binding}"
-                                        Margin="{StaticResource Margin}"/>
-              <Button Content="x" Command="{Binding ElementName=_Root, Path=DataContext.CloseTabCommand}"
-                      CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}">
+                <ContentControl Content="{Binding}" Margin="{StaticResource Margin}">
+                  <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                      <Setter Property="Foreground" Value="Wheat"/>
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding}" Value="Todas">
+
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding}" Value="CITAS">
+                          <Setter Property="Foreground" Value="Black"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding}" Value="ATENCIONES">
+                          <Setter Property="Foreground" Value="Black"/>
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </ContentControl.Style>
+                </ContentControl>
+                <Button 
+                    Content="x" 
+                    Margin="0, -2, 2, 0"
+                    VerticalAlignment="Center"
+                    Foreground="White"
+                    Command="{Binding ElementName=_Root, Path=DataContext.CloseTabCommand}"
+                    CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}">
                 <Button.Style>
                   <Style TargetType="Button">
                     <Setter Property="Width" Value="20"/>
@@ -56,8 +97,9 @@
                     <util:CloseTabAction/>
                   </i:EventTrigger>
                 </i:Interaction.Triggers>
-              </Button>
+                </Button>
             </StackPanel>
+              </Border>
           </DataTemplate>
         </Setter.Value>
       </Setter>
@@ -73,10 +115,8 @@
             prism:RegionManager.RegionName="{x:Static common:RegionNames.PersonasTabContentRegion}">
   </metro:MetroAnimatedSingleRowTabControl>-->
   <metro:MetroAnimatedSingleRowTabControl
-    ItemsSource="{Binding EditarPersonaViewModels}"
-    SelectedItem="{Binding ViewModelSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-    >
-  </metro:MetroAnimatedSingleRowTabControl>
+    ItemsSource="{Binding ViewModels}"
+    SelectedItem="{Binding ViewModelSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 </UserControl>
 
 <!--SelectedItem="{Binding ViewModelSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->

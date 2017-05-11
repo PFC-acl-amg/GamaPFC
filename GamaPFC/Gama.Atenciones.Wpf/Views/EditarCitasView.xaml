@@ -26,6 +26,7 @@
         </Trigger>
       </Style.Triggers>
     </Style>
+    
     <Converters:DateConverter x:Key="DateConverter"/>
 
     <ControlTemplate x:Key="_CalendarioCalendarStyle"  TargetType="{x:Type  CustomControls:CustomCalendar}">
@@ -212,22 +213,16 @@
                                   </Grid.RowDefinitions>
 
 
-                                  <!--<StackPanel Orientation="Vertical" Grid.Column="0">-->
                                   <TextBlock Margin="4" FontWeight="Bold" FontSize="11"
-                                                   HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            HorizontalAlignment="Left" VerticalAlignment="Center">
                                             <Run Text="{Binding Hora}"/>
                                             <Run Text=":" />
                                             <Run Text="{Binding Minutos}"/>
                                   </TextBlock>
 
                                   <TextBlock Text="{Binding Sala}" Margin="4" Grid.Row="1" FontWeight="Bold"
-                                                    VerticalAlignment="Center" FontSize="11"/>
-                                  <!--</StackPanel>-->
+                                            VerticalAlignment="Center" FontSize="11"/>
 
-                                  <!--<StackPanel HorizontalAlignment="Right" 
-                                                      Grid.Column="1"
-                                                      Orientation="Vertical"
-                                                      VerticalAlignment="Center">-->
                                   <cc:CircleIconButton
                                             Grid.Column="1"
                                               Icon="{StaticResource appbar_archive}"
@@ -267,7 +262,6 @@
 					                                    AncestorType={x:Type UserControl}}}"
                                           CommandParameter="{Binding}"
                                           Style="{StaticResource _CircleIconButtonStyle}"/>
-                                  <!--</StackPanel>-->
                                 </Grid>
                               </Grid>
                             </Border>
@@ -369,9 +363,9 @@
     </Style>
   </UserControl.Resources>
   <Grid>
-    <CheckBox Margin="4,4,100,4"  HorizontalAlignment="Right" IsChecked="True"
-              x:Name="_ToggleCalendarStyleCheckbox" 
-              Visibility="Hidden">f</CheckBox>
+    <CheckBox x:Name="_ToggleCalendarStyleCheckbox" Margin="4,4,100,4" 
+              HorizontalAlignment="Right" IsChecked="True" Visibility="Hidden"/>
+
     <cc:CircleIconButton Click="CircleIconButton_Click" >
       <cc:CircleIconButton.Style>
         <!-- appbar_lines_horizontal_4-->
@@ -394,11 +388,13 @@
         </Style>
       </cc:CircleIconButton.Style>
     </cc:CircleIconButton>
+    
     <CustomControls:CustomCalendar 
       x:Name="_Calendario"
       Style="{StaticResource _EditarCitasCalendarStyle}"
       Refresh="{Binding Refresh, Mode=TwoWay}"
-      Grid.Row="1" Appointments="{Binding Citas}">
+      Grid.Row="1"
+      Appointments="{Binding Citas}">
     </CustomControls:CustomCalendar>
   </Grid>
 </UserControl>

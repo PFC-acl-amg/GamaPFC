@@ -27,6 +27,7 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Map(p => p.UpdatedAt);
 
             References(c => c.Persona)
+                .Cascade.None()
                 .Not.LazyLoad();
 
             References(x => x.Asistente)

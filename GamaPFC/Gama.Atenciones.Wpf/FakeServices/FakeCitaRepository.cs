@@ -12,13 +12,13 @@ namespace Gama.Atenciones.Wpf.FakeServices
 {
     public class FakeCitaRepository : ICitaRepository
     {
-        private List<Cita> _Citas;
+        private List<Cita> Citas { get; set; }
 
         public ISession Session { get; set; }
 
         public FakeCitaRepository()
         {
-            _Citas = new List<Cita>();
+            Citas = new List<Cita>();
 
             int createdAt = 0;
             for (int i = 0; i < 50; i++)
@@ -36,7 +36,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
                     CreatedAt = DateTime.Now.AddMonths(createdAt)
                 };
 
-                _Citas.Add(cita);
+                Citas.Add(cita);
 
                 if (i % 5 == 0)
                 {
@@ -45,27 +45,21 @@ namespace Gama.Atenciones.Wpf.FakeServices
             }
         }
 
-        public void Create(Cita entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(Cita entity)
-        {
-            throw new NotImplementedException();
-        }
-
         public List<Cita> GetAll()
         {
-            return _Citas;
+            return Citas;
         }
-
-        public List<LookupItem> GetAllForLookup()
+        public int CountAll()
         {
-            throw new NotImplementedException();
+            return Citas.Count;
         }
 
         public Cita GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Create(Cita entity)
         {
             throw new NotImplementedException();
         }
@@ -75,9 +69,14 @@ namespace Gama.Atenciones.Wpf.FakeServices
             throw new NotImplementedException();
         }
 
-        public int CountAll()
+        public void Delete(Cita entity)
         {
-            return _Citas.Count;
+            throw new NotImplementedException();
+        }
+
+        public void DeleteAll()
+        {
+            throw new NotImplementedException();
         }
     }
 }

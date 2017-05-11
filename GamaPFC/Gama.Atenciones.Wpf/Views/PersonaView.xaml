@@ -9,9 +9,11 @@
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
              xmlns:business="clr-namespace:Gama.Atenciones.Business;assembly=Gama.Atenciones.Business"
              xmlns:converters="clr-namespace:Gama.Common.Resources.Converters;assembly=Gama.Common"
+             xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="535.274" d:DesignWidth="318.493">
+             d:DataContext="{d:DesignInstance Type=designData:PersonaViewModelDTD, IsDesignTimeCreatable=True}"
+             d:DesignHeight="715.274" d:DesignWidth="318.493">
   <UserControl.Resources>
     <util:BinaryImageConverter x:Key="_BinaryImageConverter" />
     <RadialGradientBrush x:Key="_RadialGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9">
@@ -23,36 +25,29 @@
   <Border BorderBrush="#CC104F6A" BorderThickness="0" Margin="{StaticResource Margin}">
     <ScrollViewer >
       <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding EdicionHabilitada}">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" MaxWidth="300"/>
-        <ColumnDefinition Width="*" MaxWidth="300"/>
-      </Grid.ColumnDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" MaxWidth="300"/>
+          <ColumnDefinition Width="*" MaxWidth="300"/>
+        </Grid.ColumnDefinitions>
 
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="*"/>
-      </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-      <StackPanel Grid.ColumnSpan="2">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-          </Grid.ColumnDefinitions>
+        <StackPanel Grid.ColumnSpan="2">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-          <!--MinHeight="105" MinWidth="200"
-                  MaxHeight="105" MaxWidth="200"
-            MaxHeight="70" MaxWidth="70"-->
-          <StackPanel Grid.ColumnSpan="2" >
-            <!--<Border BorderThickness="1"
-                      HorizontalAlignment="Center"
-                      CornerRadius="50,50,50,50" BorderBrush="LightGray" Background="#4C797B7D"
-                         Margin="{StaticResource Margin}">-->
-            <Ellipse Height="139" Width="139" OpacityMask="{StaticResource _RadialGradientBrush}" Margin="{StaticResource Margin}">
-              <Ellipse.Fill>
-                <ImageBrush ImageSource="{Binding Persona.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
-              </Ellipse.Fill>
+            <StackPanel Grid.ColumnSpan="2">
+              <Ellipse Height="139" Width="139" OpacityMask="{StaticResource _RadialGradientBrush}" Margin="{StaticResource Margin}">
+                <Ellipse.Fill>
+                  <ImageBrush ImageSource="{Binding Persona.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                </Ellipse.Fill>
                 <Ellipse.Style>
                   <Style TargetType="Ellipse">
                     <Style.Triggers>
@@ -65,9 +60,9 @@
                 <Ellipse.InputBindings>
                   <MouseBinding MouseAction="LeftClick" Command="{Binding ExaminarAvatarCommand}"/>
                 </Ellipse.InputBindings>
-            </Ellipse>
-            <!--</Border>-->
-            <!--<Border  BorderBrush="Black" MinHeight="100" MaxHeight="100" BorderThickness="0" CornerRadius="1">
+              </Ellipse>
+              <!--</Border>-->
+              <!--<Border  BorderBrush="Black" MinHeight="100" MaxHeight="100" BorderThickness="0" CornerRadius="1">
                 <Image x:Name="_AvatarHolder"
                   Stretch="Uniform" 
                        HorizontalAlignment="Center"
@@ -82,87 +77,93 @@
                   </i:Interaction.Triggers>
                 </Image>
               </Border>-->
-            <!--<Label Margin="0" VerticalAlignment="Bottom" 
+              <!--<Label Margin="0" VerticalAlignment="Bottom" 
                      VerticalContentAlignment="Bottom" HorizontalAlignment="Center">
               <Hyperlink Command="{Binding ExaminarAvatarCommand}" FontSize="9">Examinar...</Hyperlink>
             </Label>-->
-          </StackPanel>
+            </StackPanel>
 
-          <StackPanel Grid.Column="2">
-            <!--<Label Margin="{DynamicResource Margin}">DNI/NIF</Label>
+            <StackPanel Grid.Column="2">
+              <!--<Label Margin="{DynamicResource Margin}">DNI/NIF</Label>
               <TextBox Margin="{DynamicResource Margin}" 
                        Text="{Binding Persona.Nif, UpdateSourceTrigger=PropertyChanged}"
                         MinWidth="80"/>-->
-          </StackPanel>
-        </Grid>
-      </StackPanel>
+            </StackPanel>
+          </Grid>
+        </StackPanel>
 
-      <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
-        <Label Margin="{DynamicResource Margin}">DNI/NIF</Label>
-        <TextBox Margin="{DynamicResource Margin}" 
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+          <Label Margin="{DynamicResource Margin}">DNI/NIF</Label>
+          <TextBox Margin="{DynamicResource Margin}" 
                        Text="{Binding Persona.Nif, UpdateSourceTrigger=PropertyChanged}"
                         MinWidth="80"/>
-      </StackPanel>
+        </StackPanel>
 
-      <StackPanel Grid.Row="2" Grid.Column="0">
-        <Label Margin="{DynamicResource Margin}">Nombre</Label>
-        <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Nombre, UpdateSourceTrigger=PropertyChanged}"/>
+        <StackPanel Grid.Row="2" Grid.Column="0">
+          <Label Margin="{StaticResource Margin}">Nombre</Label>
+          <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.Nombre, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Margin="{DynamicResource Margin}">Fecha de Nacimiento</Label>
-        <DatePicker Margin="{DynamicResource Margin}" 
+          <Label Margin="{StaticResource Margin}">Fecha de Nacimiento</Label>
+          <DatePicker Margin="{StaticResource Margin}" 
                                 SelectedDate="{Binding Persona.FechaDeNacimiento, 
             UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                 Height="18"/>
 
-        <Label Margin="{DynamicResource Margin}">Teléfono</Label>
-        <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Telefono, UpdateSourceTrigger=PropertyChanged}"/>
+          <Label Margin="{StaticResource Margin}">Teléfono</Label>
+          <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.Telefono, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Margin="{DynamicResource Margin}">Dirección</Label>
-        <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.DireccionPostal, UpdateSourceTrigger=PropertyChanged}"/>
+          <Label Margin="{StaticResource Margin}">Dirección</Label>
+          <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.DireccionPostal, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Margin="{DynamicResource Margin}">Nacionalidad</Label>
-        <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Nacionalidad, UpdateSourceTrigger=PropertyChanged}"/>
+          <Label Margin="{StaticResource Margin}">Nacionalidad</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Nacionalidad, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Margin="{DynamicResource Margin}">Identidad Sexual</Label>
-        <ComboBox Margin="{DynamicResource Margin}" 
-                        ItemsSource="{Binding Source={util:EnumBindingSource {x:Type business:IdentidadSexual}}}"
-                        SelectedItem="{Binding Persona.IdentidadSexual, UpdateSourceTrigger=PropertyChanged}"/>
+          <Label Margin="{StaticResource Margin}">Identidad Sexual</Label>
+          <ComboBox Margin="{DynamicResource Margin}" 
+                    IsEditable="False"
+            ItemsSource="{Binding Source={util:EnumBindingSource {x:Type business:IdentidadSexual}}}"
+            Text="{Binding Persona.IdentidadSexual, UpdateSourceTrigger=PropertyChanged}"
+            SelectedItem="{Binding Persona.IdentidadSexual, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Margin="{DynamicResource Margin}">Orientación Sexual</Label>
-        <ComboBox Margin="{DynamicResource Margin}" 
-                        ItemsSource="{Binding Source={util:EnumBindingSource {x:Type business:OrientacionSexual}}}"
-                        SelectedItem="{Binding Persona.OrientacionSexual, UpdateSourceTrigger=PropertyChanged}"/>
-      </StackPanel>
+          <Label Margin="{StaticResource Margin}">Orientación Sexual</Label>
+          <ComboBox Margin="{StaticResource Margin}" 
+                ItemsSource="{Binding Source={util:EnumBindingSource {x:Type business:OrientacionSexual}}}"
+                Text="{Binding Persona.OrientacionSexual, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding Persona.OrientacionSexual, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
 
-      <StackPanel Grid.Column="1" Grid.Row="2">
-        <Label Margin="{DynamicResource Margin}">Email</Label>
-        <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Email, UpdateSourceTrigger=PropertyChanged}"/>
+        <StackPanel Grid.Column="1" Grid.Row="2">
+          <Label Margin="{DynamicResource Margin}">Email</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Email, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Margin="{DynamicResource Margin}">Nivel Académico</Label>
-        <ComboBox Margin="{DynamicResource Margin}" 
+          <Label Margin="{DynamicResource Margin}">Nivel Académico</Label>
+          <ComboBox Margin="{DynamicResource Margin}" 
                         ItemsSource="{Binding Source={util:EnumBindingSource {x:Type business:NivelAcademico}}}"
+                        Text="{Binding Persona.NivelAcademico, UpdateSourceTrigger=PropertyChanged}"
                         SelectedItem="{Binding Persona.NivelAcademico, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Margin="{DynamicResource Margin}">Ocupación</Label>
-        <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Ocupacion, UpdateSourceTrigger=PropertyChanged}"/>
+          <Label Margin="{DynamicResource Margin}">Ocupación</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Ocupacion, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Margin="{DynamicResource Margin}">Facebook</Label>
-        <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Facebook, UpdateSourceTrigger=PropertyChanged}"/>
+          <Label Margin="{DynamicResource Margin}">Facebook</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Facebook, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Margin="{DynamicResource Margin}">Twitter</Label>
-        <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Twitter, UpdateSourceTrigger=PropertyChanged}"/>
+          <Label Margin="{DynamicResource Margin}">Twitter</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Twitter, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Margin="{DynamicResource Margin}">Cómo conoció a Gamá</Label>
-        <ComboBox Margin="{DynamicResource Margin}" 
+          <Label Margin="{DynamicResource Margin}">Cómo conoció a Gamá</Label>
+          <ComboBox Margin="{DynamicResource Margin}" 
                         ItemsSource="{Binding Source={util:EnumBindingSource {x:Type business:ComoConocioAGama}}}"
+                        Text="{Binding Persona.ComoConocioAGama, UpdateSourceTrigger=PropertyChanged}"
                         SelectedItem="{Binding Persona.ComoConocioAGama, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Margin="{DynamicResource Margin}">Vía de acceso a Gamá</Label>
-        <ComboBox Margin="{DynamicResource Margin}" 
+          <Label Margin="{DynamicResource Margin}">Vía de acceso a Gamá</Label>
+          <ComboBox Margin="{DynamicResource Margin}" 
                         ItemsSource="{Binding Source={util:EnumBindingSource {x:Type business:ViaDeAccesoAGama}}}"
+                        Text="{Binding Persona.ViaDeAccesoAGama, UpdateSourceTrigger=PropertyChanged}"
                         SelectedItem="{Binding Persona.ViaDeAccesoAGama, UpdateSourceTrigger=PropertyChanged}"/>
-      </StackPanel>
-    </Grid>
+        </StackPanel>
+      </Grid>
     </ScrollViewer>
   </Border>
   <!--</GroupBox>-->

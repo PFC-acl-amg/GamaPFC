@@ -1,6 +1,7 @@
 ﻿using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Exceptions;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,16 +13,22 @@ namespace Core.DataAccess
     public class NHibernateOneSessionRepository<TEntity, TKey> where TEntity : class
     {
         private ISession _Session;
+        protected IEventAggregator _EventAggregator;
 
-        public NHibernateOneSessionRepository()
+        public NHibernateOneSessionRepository(IEventAggregator eventAggregator = null)
         {
-
+            _EventAggregator = eventAggregator;
         }
-
+   
         public ISession Session
         {
             get { return _Session; }
-            set { _Session = value; }
+            set { _Session = value; Initialize(); }
+        }
+
+        public virtual void Initialize()
+        {
+
         }
 
         public virtual TEntity GetById(int id)
@@ -103,6 +110,11 @@ namespace Core.DataAccess
                     Session.Save(entity);
                     tx.Commit();
 
+                    if (encryptableEntity != null)
+                    {
+                        encryptableEntity.Decrypt();
+                    }
+
                     Session.Clear();
                 }
             }
@@ -143,6 +155,7 @@ namespace Core.DataAccess
                         encryptableEntity.Decrypt();
                     }
 
+                    Session.Clear();
                 }
 
                 return true;
@@ -153,7 +166,7 @@ namespace Core.DataAccess
             }
         }
 
-        public void Delete(TEntity entity)
+        public virtual void Delete(TEntity entity)
         {
             _Session.Delete(entity);
             _Session.Flush();

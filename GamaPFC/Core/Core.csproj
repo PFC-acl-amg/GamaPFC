@@ -135,6 +135,7 @@
     <Compile Include="Util\EncryptionService.cs" />
     <Compile Include="Util\EnumBindingSourceExtension.cs" />
     <Compile Include="Util\EnumDescriptionTypeConverter.cs" />
+    <Compile Include="Util\ExtensionMethods.cs" />
     <Compile Include="Util\NullableValueConverter.cs" />
     <Compile Include="Util\PasswordHelper.cs" />
     <Compile Include="Util\StringUtility.cs" />

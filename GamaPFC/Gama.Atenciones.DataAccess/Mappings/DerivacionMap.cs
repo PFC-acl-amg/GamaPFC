@@ -31,7 +31,7 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Map(x => x.EsExterna_Realizada);
             Map(x => x.Externa_Realizada).Not.Nullable().Default("");
 
-            References(x => x.Atencion, "Atencion_id").Unique();
+            References(x => x.Atencion, "Atencion_id").Unique().Cascade.All();
         }
     }
 }

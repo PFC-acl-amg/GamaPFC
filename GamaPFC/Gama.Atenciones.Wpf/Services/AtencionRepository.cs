@@ -8,58 +8,70 @@ using System.Threading.Tasks;
 using Gama.Common.CustomControls;
 using Core;
 using NHibernate.Criterion;
+using Prism.Events;
+using Gama.Atenciones.Wpf.Eventos;
 
 namespace Gama.Atenciones.Wpf.Services
 {
     public class AtencionRepository : NHibernateOneSessionRepository<Atencion, int>, IAtencionRepository
     {
-        public override List<Atencion> GetAll()
+        private List<Atencion> _Atenciones;
+
+        public AtencionRepository(IEventAggregator eventAggregator) : base(eventAggregator) { }
+
+        public List<Atencion> Atenciones
         {
-            try
+            get
             {
-                var atenciones = Session.CreateCriteria<Atencion>()
-                    .SetFetchMode("Cita", NHibernate.FetchMode.Eager).List<Atencion>().ToList();
+                if (_Atenciones == null)
+                    _Atenciones = base.GetAll();
 
-                Session.Clear();
-
-                return atenciones;
+                return _Atenciones;
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public List<LookupItem> GetAllForLookup()
-        {
-            throw new NotImplementedException();
         }
 
         public override Atencion GetById(int id)
         {
-            try
-            {
-                var entity = Session.Get<Atencion>((object)id);
-                
-                var encryptableEntity = entity as IEncryptable;
-                if (encryptableEntity != null)
-                {
-                    //encryptableEntity.IsEncrypted = true;
-                    //encryptableEntity.Decrypt();
-                    if (encryptableEntity.IsEncrypted)
-                    {
-                        encryptableEntity.Decrypt();
-                    }
-                }
+            return Atenciones.Find(x => x.Id == id);
+        }
 
-                //Session.Clear();
+        public override List<Atencion> GetAll()
+        {
+            return Atenciones;
+            //try
+            //{
+            //    var atenciones = Session.CreateCriteria<Atencion>()
+            //        .SetFetchMode("Cita", NHibernate.FetchMode.Eager).List<Atencion>().ToList();
 
-                return entity;
-            }
-            catch (Exception ex)
+            //    Session.Clear();
+
+            //    return atenciones;
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw ex;
+            //}
+        }
+
+        public override void Create(Atencion entity)
+        {
+            base.Create(entity);
+            Atenciones.Add(entity);
+            _EventAggregator.GetEvent<AtencionCreadaEvent>().Publish(entity.Id);
+        }
+
+        public override bool Update(Atencion entity)
+        {
+            if (base.Update(entity))
             {
-                throw ex;
+                entity.Decrypt();
+                Atenciones.Remove(Atenciones.Find(x => x.Id == entity.Id));
+                Atenciones.Add(entity);
+                _EventAggregator.GetEvent<AtencionActualizadaEvent>().Publish(entity.Id);
+                return true;
             }
+
+            return false;
         }
 
         public IEnumerable<int> GetAtencionesNuevasPorMes(int numeroDeMeses)
@@ -88,5 +100,32 @@ namespace Gama.Atenciones.Wpf.Services
 
             return resultado;
         }
+
+        //public override Atencion GetById(int id)
+        //{
+        //    try
+        //    {
+        //        var entity = Session.Get<Atencion>((object)id);
+
+        //        var encryptableEntity = entity as IEncryptable;
+        //        if (encryptableEntity != null)
+        //        {
+        //            //encryptableEntity.IsEncrypted = true;
+        //            //encryptableEntity.Decrypt();
+        //            if (encryptableEntity.IsEncrypted)
+        //            {
+        //                encryptableEntity.Decrypt();
+        //            }
+        //        }
+
+        //        //Session.Clear();
+
+        //        return entity;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
     }
 }

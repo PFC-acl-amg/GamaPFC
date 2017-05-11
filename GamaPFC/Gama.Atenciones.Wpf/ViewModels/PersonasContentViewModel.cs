@@ -14,6 +14,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Gama.Atenciones.Wpf.Wrappers;
+using Prism;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -30,9 +32,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _RegionManager = regionManager;
             _Container = container;
 
-            EditarPersonaViewModels = new ObservableCollection<object>();
-            EditarPersonaViewModels.Add(_Container.Resolve<ListadoDePersonasViewModel>());
-            ViewModelSeleccionado = EditarPersonaViewModels.First();
+            ViewModels = new ObservableCollection<object>();
+            ViewModels.Add(_Container.Resolve<ListadoDePersonasViewModel>());
+            ViewModelSeleccionado = ViewModels.First();
             SelectedIndex = 0;
 
             CloseTabCommand = new DelegateCommand<EditarPersonaViewModel>(OnCloseTabCommandExecute);
@@ -41,13 +43,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
             _EventAggregator.GetEvent<CitaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
             _EventAggregator.GetEvent<AtencionSeleccionadaEvent>().Subscribe(OnAtencionSeleccionadaEvent);
+            _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
             _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
+            _EventAggregator.GetEvent<NuevaAtencionEvent>().Subscribe(OnNuevaAtencionEvent);
         }
 
         private void OnCloseTabCommandExecute(EditarPersonaViewModel viewModelACerrar)
         {
             if (viewModelACerrar.ConfirmNavigationRequest())
-                EditarPersonaViewModels.Remove(viewModelACerrar);
+                ViewModels.Remove(viewModelACerrar);
         }
 
         public ICommand CloseTabCommand { get; private set; }
@@ -56,7 +60,26 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public object ViewModelSeleccionado
         {
             get { return _ViewModelSeleccionado; }
-            set { SetProperty(ref _ViewModelSeleccionado, value); }
+            set
+            {
+                SetProperty(ref _ViewModelSeleccionado, value);
+                SetActiveTab();
+            }
+        }
+
+        private void SetActiveTab()
+        {
+            foreach (var viewModel in ViewModels)
+            {
+                var activeAwareViewModel = viewModel as IActiveAware;
+                if (activeAwareViewModel != null)
+                {
+                    if (activeAwareViewModel == ViewModelSeleccionado)
+                        activeAwareViewModel.IsActive = true;
+                    else
+                        activeAwareViewModel.IsActive = false;
+                }
+            }
         }
 
         private int _SelectedIndex;
@@ -66,27 +89,27 @@ namespace Gama.Atenciones.Wpf.ViewModels
             set { SetProperty(ref _SelectedIndex, value); }
         }
 
-        public ObservableCollection<object> EditarPersonaViewModels { get; private set; }
+        public ObservableCollection<object> ViewModels { get; private set; }
 
-        private void NavegarAPersona2(int personaId, int? atencionId = null)
+        private void NavegarAPersona(int personaId, int? atencionId = null)
         {
             if (!PersonaEstaAbierta(personaId, atencionId))
             {
                 var newViewModel = _Container.Resolve<EditarPersonaViewModel>();
 
-                EditarPersonaViewModels.Add(newViewModel);
+                ViewModels.Add(newViewModel);
 
                 newViewModel.OnNavigatedTo(personaId, atencionId);
 
                 ViewModelSeleccionado = newViewModel;
             }
-            
+
             _EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
         }
 
         private bool PersonaEstaAbierta(int personaId, int? atencionId)
         {
-            foreach (var viewModel in EditarPersonaViewModels)
+            foreach (var viewModel in ViewModels)
             {
                 var editarPersonaViewModel = viewModel as EditarPersonaViewModel;
                 if (editarPersonaViewModel != null)
@@ -103,74 +126,45 @@ namespace Gama.Atenciones.Wpf.ViewModels
             return false;
         }
 
-        private void NavegarAPersona(int personaId, int? atencionId = null)
+        private void OnNuevaAtencionEvent(CitaWrapper wrapper)
         {
-            NavegarAPersona2(personaId, atencionId);
-            return;
-            //ISSUE Workaround porque al crear una persona por alguna razón, la navegación no funciona
-            // el RequestNavigate
-
-            var region = _RegionManager.Regions[RegionNames.PersonasTabContentRegion];
-            var navigationContext = new NavigationContext(region.NavigationService, null);
-            navigationContext.Parameters.Add("Id", personaId);
-            if (atencionId.HasValue)
+            try
             {
-                navigationContext.Parameters.Add("AtencionId", atencionId.Value);
-            }
+                int personaId = wrapper.Persona.Id;
+                int? atencionId = null;
+                if (wrapper.Atencion != null)
+                    atencionId = wrapper.Atencion.Id;
 
-            var views = region.Views;
-            foreach (var existingView in views)
-            {
-                var editarPersonaView = existingView as EditarPersonaView;
-                if (editarPersonaView != null)
+                if (!PersonaEstaAbierta(personaId, atencionId))
                 {
-                    var editarPersonaViewModel = (EditarPersonaViewModel)editarPersonaView.DataContext;
-                    if (editarPersonaViewModel.IsNavigationTarget(navigationContext))
-                    {
-                        editarPersonaViewModel.OnNavigatedTo(navigationContext);
-                        region.Activate(existingView);
-                        _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
-                        return;
-                    }
-                }
-            }
-            
-            var newView = _Container.Resolve<EditarPersonaView>();
-            var vm = (EditarPersonaViewModel)newView.DataContext;
-            vm.OnNavigatedTo(navigationContext);
-            region.Add(newView);
+                    var newViewModel = _Container.Resolve<EditarPersonaViewModel>();
 
-            _EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
-            //_RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
-            region.Activate(newView);
+                    ViewModels.Add(newViewModel);
+
+                    newViewModel.OnNavigatedTo(personaId, atencionId);
+
+                    ViewModelSeleccionado = newViewModel;
+                }
+
+                _EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void OnCitaCreadaEvent(int id)
+        {
         }
 
         private void OnPersonaEliminadaEvent(int id)
         {
-            var region = _RegionManager.Regions[RegionNames.PersonasTabContentRegion];
-            var navigationContext = new NavigationContext(region.NavigationService, null);
-            var views = region.Views;
-            foreach (var existingView in views)
+            var editarPersonaViewModel = ViewModelSeleccionado as EditarPersonaViewModel;
+            if (editarPersonaViewModel != null)
             {
-                var editarPersonaView = existingView as EditarPersonaView;
-                if (editarPersonaView != null)
-                {
-                    var editarPersonaViewModel = (EditarPersonaViewModel)editarPersonaView.DataContext;
-                    if (editarPersonaViewModel.Persona.Id == id)
-                    {
-                        region.Remove(editarPersonaView);
-                        break;
-                    }
-                }
-            }
-
-            foreach (var existingView in views)
-            {
-                var listadoDePersonasView = existingView as ListadoDePersonasView;
-                if (listadoDePersonasView != null)
-                {
-                    region.Activate(listadoDePersonasView);
-                }
+                ViewModels.Remove(editarPersonaViewModel);
+                // Ver qué hacemos con las citas y demás
             }
         }
 
@@ -200,3 +194,69 @@ namespace Gama.Atenciones.Wpf.ViewModels
     }
 }
 
+
+//return;
+////ISSUE Workaround porque al crear una persona por alguna razón, la navegación no funciona
+//// el RequestNavigate
+
+//var region = _RegionManager.Regions[RegionNames.PersonasTabContentRegion];
+//var navigationContext = new NavigationContext(region.NavigationService, null);
+//navigationContext.Parameters.Add("Id", personaId);
+//if (atencionId.HasValue)
+//{
+//    navigationContext.Parameters.Add("AtencionId", atencionId.Value);
+//}
+
+//var views = region.Views;
+//foreach (var existingView in views)
+//{
+//    var editarPersonaView = existingView as EditarPersonaView;
+//    if (editarPersonaView != null)
+//    {
+//        var editarPersonaViewModel = (EditarPersonaViewModel)editarPersonaView.DataContext;
+//        if (editarPersonaViewModel.IsNavigationTarget(navigationContext))
+//        {
+//            editarPersonaViewModel.OnNavigatedTo(navigationContext);
+//            region.Activate(existingView);
+//            _RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
+//            return;
+//        }
+//    }
+//}
+
+//var newView = _Container.Resolve<EditarPersonaView>();
+//var vm = (EditarPersonaViewModel)newView.DataContext;
+//vm.OnNavigatedTo(navigationContext);
+//region.Add(newView);
+
+//_EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
+////_RegionManager.RequestNavigate(RegionNames.ContentRegion, "PersonasContentView");
+//region.Activate(newView);
+
+
+
+//var region = _RegionManager.Regions[RegionNames.PersonasTabContentRegion];
+//var navigationContext = new NavigationContext(region.NavigationService, null);
+//var views = region.Views;
+//foreach (var existingView in views)
+//{
+//    var editarPersonaView = existingView as EditarPersonaView;
+//    if (editarPersonaView != null)
+//    {
+//        var editarPersonaViewModel = (EditarPersonaViewModel)editarPersonaView.DataContext;
+//        if (editarPersonaViewModel.Persona.Id == id)
+//        {
+//            region.Remove(editarPersonaView);
+//            break;
+//        }
+//    }
+//}
+
+//foreach (var existingView in views)
+//{
+//    var listadoDePersonasView = existingView as ListadoDePersonasView;
+//    if (listadoDePersonasView != null)
+//    {
+//        region.Activate(listadoDePersonasView);
+//    }
+//}

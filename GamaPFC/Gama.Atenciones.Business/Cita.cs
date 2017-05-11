@@ -22,15 +22,17 @@ namespace Gama.Atenciones.Business
         public virtual int Hora { get; set; }
         public virtual int Minutos { get; set; }
 
-        public virtual List<string> EncryptedFields { get; set; }
-
-        public virtual bool IsEncrypted { get; set; }
-
         public Cita()
         {
             Fecha = DateTime.Now.Date;
             Hora = 0;
             Minutos = 0;
+            EncryptedFields = new List<string>();
+
+            EncryptedFields.AddRange(new[] {
+                nameof(Persona),
+                nameof(Asistente)
+            });
 
             IsEncrypted = true;
         }
@@ -51,40 +53,6 @@ namespace Gama.Atenciones.Business
             Sala = cita.Sala;
             Hora = cita.Hora;
             Minutos = cita.Minutos;
-        }
-
-        public virtual void Encrypt()
-        {
-            if (IsEncrypted)
-                return;
-
-            Asistente.Encrypt();
-
-            IsEncrypted = true;
-        }
-
-        public virtual Cita DecryptFluent()
-        {
-            Decrypt();
-            return this;
-        }
-
-        public virtual void Decrypt()
-        {
-            try
-            {
-                if (!IsEncrypted)
-                    return;
-
-                Persona.Decrypt();
-                Asistente.Decrypt();
-
-                IsEncrypted = false;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
         }
     }
 }

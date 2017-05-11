@@ -1,6 +1,8 @@
-﻿using Core.DataAccess;
+﻿using Core;
+using Core.DataAccess;
 using Core.Util;
 using Gama.Atenciones.Business;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,120 @@ namespace Gama.Atenciones.Wpf.Services
         NHibernateOneSessionRepository<Asistente, int>,
         IAsistenteRepository
     {
+        private List<Asistente> _Asistentes;
+
+        public AsistenteRepository(IEventAggregator eventAggregator) : base(eventAggregator) { }
+
+        public List<Asistente> Asistentes
+        {
+            get
+            {
+                if (_Asistentes == null)
+                    _Asistentes = base.GetAll();
+
+                return _Asistentes;
+            }
+        }
+
+        public override Asistente GetById(int id)
+        {
+            return Asistentes.Find(x => x.Id == id);
+        }
+
+        public override List<Asistente> GetAll()
+        {
+            return Asistentes;
+            //try
+            //{
+            //    var atenciones = Session.CreateCriteria<Atencion>()
+            //        .SetFetchMode("Cita", NHibernate.FetchMode.Eager).List<Atencion>().ToList();
+
+            //    Session.Clear();
+
+            //    return atenciones;
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw ex;
+            //}
+        }
+
+        public override void Create(Asistente entity)
+        {
+            base.Create(entity);
+            Asistentes.Add(entity);
+            //_EventAggregator.GetEvent<AsistenteCreadoEvent>().Publish(entity.Id);
+        }
+
+        public override bool Update(Asistente entity)
+        {
+            if (base.Update(entity))
+            {
+                entity.Decrypt();
+                Asistentes.Remove(Asistentes.Find(x => x.Id == entity.Id));
+                Asistentes.Add(entity);
+                //_EventAggregator.GetEvent<AsistenteActualizadoEvent>().Publish(entity.Id);
+                //return true;
+            }
+
+            return false;
+        }
+        //List<Asistente> _Asistentes;
+
+        //public AsistenteRepository(IEventAggregator eventAggregator) : base(eventAggregator) { }
+
+        //public override Asistente GetById(int id)
+        //{
+        //    try
+        //    {
+        //        var entity = Session.Get<Asistente>((object)id);
+
+        //        entity.Decrypt();
+        //        foreach (var cita in entity.Citas)
+        //        {
+        //            cita.Persona.Decrypt();
+        //        }
+
+        //        Session.Clear();
+
+        //        return entity;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
+        //public override List<Asistente> GetAll()
+        //{
+        //    if (_Asistentes != null)
+        //        return _Asistentes;
+
+        //    try
+        //    {
+        //        var asistentes = Session.CreateCriteria<Asistente>()
+        //            .SetFetchMode("Citas", NHibernate.FetchMode.Eager)
+        //            .List<Asistente>().ToList();
+
+        //        foreach (var asistente in asistentes)
+        //        {
+        //            asistente.Decrypt();
+        //            foreach (var cita in asistente.Citas)
+        //            {
+        //                cita.Persona.Decrypt();
+        //            }
+        //        }
+
+        //        Session.Clear();
+
+        //        _Asistentes = asistentes;
+        //        return _Asistentes;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
         public List<string> GetNifs()
         {

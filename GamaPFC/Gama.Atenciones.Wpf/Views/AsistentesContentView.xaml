@@ -1,20 +1,24 @@
-﻿<UserControl x:Class="Gama.Atenciones.Wpf.Views.AsistentesContentView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
-             xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True"
-             xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
-             xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
-             xmlns:converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
-             xmlns:util="clr-namespace:Core.Util;assembly=Core"
-             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:wrappers="clr-namespace:Gama.Atenciones.Wpf.Wrappers"
-             xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
-             mc:Ignorable="d" d:DesignWidth="905.5" d:DesignHeight="566"
-             d:DataContext="{d:DesignInstance Type=designData:AsistenteViewModelDTD, IsDesignTimeCreatable=True}"  >
+﻿<UserControl
+  x:Class="Gama.Atenciones.Wpf.Views.AsistentesContentView"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+  xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
+  xmlns:prism="http://prismlibrary.com/"
+  prism:ViewModelLocator.AutoWireViewModel="True"
+  xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
+  xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
+  xmlns:converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
+  xmlns:util="clr-namespace:Core.Util;assembly=Core"
+  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+  xmlns:wrappers="clr-namespace:Gama.Atenciones.Wpf.Wrappers"
+  xmlns:asistenteViews="clr-namespace:Gama.Atenciones.Wpf.Views.Asistente"
+  xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
+  mc:Ignorable="d"
+  d:DesignHeight="638"
+  d:DataContext="{d:DesignInstance Type=designData:AsistenteViewModelDTD, IsDesignTimeCreatable=True}" 
+  x:Name="_Root" d:DesignWidth="1153" >
   <UserControl.Resources>
     <converters:BinaryImageConverter x:Key="_BinaryImageConverter" />
     <BooleanToVisibilityConverter x:Key="_BooleanToVisibilityConverter"/>
@@ -22,29 +26,201 @@
       <GradientStop Color="#ffffffff" Offset="0.5" />
       <GradientStop Color="#00ffffff" Offset="0.8" />
     </RadialGradientBrush>
+    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Margin" Value="{StaticResource Margin}"/>
+      <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+    </Style>
+
+    <SolidColorBrush x:Key="_BackgroundColor">#AB255C6F</SolidColorBrush>
+    <!-- No se ve en tiempo de diseño, pero hace que la fila que el foreground de la fuente no 
+          se vuelva blanco, sino el color que indiquemos a´quí. Estamos sobrescribiendo el estilo 
+          para este UserControl en particular-->
+      <SolidColorBrush x:Key="MetroDataGrid.HighlightTextBrush" Color="#0B0A0A"/>
+
+    <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
+      <Style.Triggers>
+        <DataTrigger 
+            Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Items.Count}" 
+            Value="0">
+          <Setter Property="Template">
+            <Setter.Value>
+              <ControlTemplate>
+                <TextBlock>No hay citas para mostrar.</TextBlock>
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+
+      <Style TargetType="Border">
+      <Setter Property="Background" Value="{StaticResource _BackgroundColor}"/>
+      <Setter Property="BorderBrush" Value="Gray"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Padding" Value="2"/>
+      <Setter Property="CornerRadius" Value="2"/>
+      <Setter Property="Margin" Value="{StaticResource Margin}"/>
+    </Style>
+
+    <DataTemplate x:Key="_FotoCellTemplate">
+      <Ellipse Height="35" Width="35" OpacityMask="{StaticResource _RadialGradientBrush}"
+                       Margin="{StaticResource Margin}" HorizontalAlignment="Center">
+        <Ellipse.Fill>
+          <ImageBrush ImageSource="{Binding Persona.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+        </Ellipse.Fill>
+      </Ellipse>
+    </DataTemplate>
+
+    <DataTemplate x:Key="_SalaCellTemplate">
+      <TextBlock Text="{Binding Sala}" FontSize="13" Margin="15,4,4,4" HorizontalAlignment="Left"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="_HoraCellTemplate">
+      <TextBlock Margin="{StaticResource Margin}" HorizontalAlignment="Right" FontSize="13">
+        <Run Text="{Binding Hora}"/>
+        <Run Text=":"/>
+        <Run Text="{Binding Minutos}"/>
+      </TextBlock>
+    </DataTemplate>
+
+    <DataTemplate x:Key="_EditarButtonCellTemplate">
+      <cc:CircleIconButton
+                      Icon="{StaticResource appbar_edit}"
+                      Width="36"
+                      Height="36"
+                      IconWidth="13"
+                      IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.EditarCitaCommand}"
+                      CommandParameter="{Binding}">
+        <Button.Style>
+          <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+            <Setter Property="Opacity" Value="0.5"/>
+            <Style.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1"/>
+                <Setter Property="Cursor" Value="Hand"/>
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+        </Button.Style>
+      </cc:CircleIconButton>
+    </DataTemplate>
+
+    <DataTemplate x:Key="_IrButtonCellTemplate">
+      <cc:CircleIconButton
+                      HorizontalAlignment="Left"
+                      Icon="{StaticResource appbar_arrow_right}"
+                      Width="36"
+                      Height="36"
+                      IconWidth="13"
+                      IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.SeleccionarPersonaCommand}"
+                      CommandParameter="{Binding}">
+        <Button.Style>
+          <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+            <Setter Property="Opacity" Value="0.5"/>
+            <Style.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1"/>
+                <Setter Property="Cursor" Value="Hand"/>
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+        </Button.Style>
+      </cc:CircleIconButton>
+    </DataTemplate>
   </UserControl.Resources>
-  <Grid>
+  <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto" MinWidth="150" MaxWidth="250"/>
+      <ColumnDefinition Width="Auto" MaxWidth="250"/>
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
 
+    <Button x:Name="_ToggleDateFilterButton"
+              Click="_ToggleDateFilterButton_Click"
+              VerticalAlignment="Top"
+              HorizontalAlignment="Right" Margin="{StaticResource Margin}" 
+              BorderThickness="0"
+              BorderBrush="Transparent"
+              Foreground="Black"
+              Background="Transparent"
+              RenderTransformOrigin="0.5,0.5"
+              >
+      <Rectangle Width="20" Height="20" Stroke="Black" >
+        <Rectangle.Fill>
+          <VisualBrush Visual="{StaticResource appbar_3d_3ds}" Stretch="Uniform">
+          </VisualBrush>
+          <!--<VisualBrush Visual="{StaticResource appbar_3d_obj}" Stretch="Uniform"/>-->
+        </Rectangle.Fill>
+      </Rectangle>
+      <Button.RenderTransform>
+        <RotateTransform Angle="180"  />
+      </Button.RenderTransform>
+      <Button.Style>
+        <Style TargetType="Button">
+          <Setter Property="Template">
+            <Setter.Value>
+              <ControlTemplate TargetType="Button">
+                <Border Background="Transparent">
+                  <ContentPresenter/>
+                </Border>
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+        </Style>
+      </Button.Style>
+    </Button>
     <!---->
-    <!-- Listado de asistentes y cuadro de búsqueda -->
+    <!-- Listado de asistentes -->
     <!---->
-    <Grid Margin="{StaticResource Margin}">
+    <Grid  Width="190" x:Name="_ListadoDeAsistentesGrid" >
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto"/>
         <RowDefinition />
       </Grid.RowDefinitions>
-      <TextBox Margin="{StaticResource Margin}"/>
-      <GroupBox Header="Asistentes" Grid.Row="1">
+      
+      <StackPanel Orientation="Horizontal">
+        <TextBlock FontSize="16" Margin="{StaticResource Margin}"
+                     Foreground="Gray"
+                     FontWeight="Normal" Text="Listado de Asistentes"/>
+      </StackPanel>
+    <Grid Grid.Row="1">
+
       <coreControls:UnselectableListBox 
         ItemsSource="{Binding Asistentes}"
         SelectedItem="{Binding AsistenteSeleccionado, Mode=TwoWay}"
-        HorizontalContentAlignment="Center"
+        HorizontalContentAlignment="Left"
+        BorderThickness="0"
+        Cursor="Hand"
+        Background="#DC212136"
+        Foreground="#E9E1D0"
         ScrollViewer.VerticalScrollBarVisibility="Auto"
-        ScrollViewer.HorizontalScrollBarVisibility="Auto">
+        ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+        <ListBox.Resources>
+          <!-- Style used if item is selected and listbox has keyboard focus -->
+          <Style x:Key="NoFocusVisualStyle" TargetType="Control">
+            <Setter Property="BorderBrush" Value="Transparent" />
+          </Style>
+          <!-- Apply this style -->
+          <Style x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource NoFocusVisualStyle}" />
+          </Style>
+          <!-- Color used if item is selected and listbox has focus -->
+          <SolidColorBrush
+             x:Key="{x:Static SystemColors.HighlightBrushKey}"
+             Color="Transparent"/>
+          <!-- Color used if item is selected and listbox does not have focus -->
+          <SolidColorBrush
+             x:Key="{x:Static SystemColors.ControlBrushKey}"
+             Color="Transparent"/>
+          <!-- Font color used if item is selected and listbox has focus -->
+          <SolidColorBrush
+             x:Key="{x:Static SystemColors.HighlightTextBrushKey}" 
+             Color="Black" />
+        </ListBox.Resources>
         <ListBox.ItemTemplate>
           <DataTemplate>
             <Grid>
@@ -52,97 +228,147 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto"/>
               </Grid.RowDefinitions>
-              
-              <Ellipse Height="80" Width="80" OpacityMask="{StaticResource _RadialGradientBrush}"
-                       Margin="{StaticResource Margin}">
-              <Ellipse.Fill>
-                <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
-              </Ellipse.Fill>
-            </Ellipse>
-              
-              <!--<Image
-                Grid.Row="0"
-                MinHeight="40" MinWidth="40"
-                MaxHeight="68" MaxWidth="68"
-                Margin="{StaticResource Margin}"
-                Stretch="Fill" 
-                Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}">
-                -->
-    <!--<Image.Style>
-                  <Style TargetType="Image">
-                    <Style.Triggers>
-                      <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Image.BitmapEffect">
-                          <Setter.Value>
-                            <DropShadowBitmapEffect Color="Black" />
-                          </Setter.Value>
-                        </Setter>
-                      </Trigger>
-                    </Style.Triggers>
-                  </Style>
-                </Image.Style>-->
-    <!--
-              </Image>-->
 
-    <TextBlock Margin="{StaticResource Margin}" Text="{Binding Nombre}" Grid.Row="1" HorizontalAlignment="Center"/>
-  </Grid>
-  </DataTemplate>
-  </ListBox.ItemTemplate>
-  </coreControls:UnselectableListBox>
-  </GroupBox>
+              <TextBlock FontSize="14" Margin="{StaticResource Margin}"  Grid.Row="1" HorizontalAlignment="Left">
+                  <Run Text="{Binding Nombre}"/>
+                  <Run Text="{Binding Apellidos}"/>
+              </TextBlock>
+            </Grid>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </coreControls:UnselectableListBox>
+    </Grid>
+    <!--</GroupBox>-->
   </Grid>
 
-  <mahapps:MetroAnimatedSingleRowTabControl Grid.Column="1">
-    <mahapps:MetroTabItem Header="Información"
-                            mahapps:ControlsHelper.HeaderFontSize="17">
-      <!-- Cuadro con la información del asistente para ver y editar -->
+  <!-- Cuadro con la información del asistente para ver y editar -->
+  <Grid Grid.Column="1" Background="AntiqueWhite">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <Grid Grid.Row="0" Grid.ColumnSpan="2" >
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
       <Grid>
-        <Grid.RowDefinitions>
-          <RowDefinition />
-          <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
           <ColumnDefinition />
-          <ColumnDefinition Width="Auto" MaxWidth="550" MinWidth="400"/>
+          <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Grid>
-          <ListBox ItemsSource="{Binding AsistenteSeleccionado.Citas}">
-            <ListBox.ItemTemplate>
-              <DataTemplate DataType="{x:Type wrappers:CitaWrapper}">
-                <TextBlock Text="{Binding Fecha}"/>
-              </DataTemplate>
-            </ListBox.ItemTemplate>
-          </ListBox>
-        </Grid>
-
-        <local:AsistenteView Grid.Row="0" Grid.Column="1" DataContext="{Binding AsistenteViewModel}"/>
-
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right">
-          <!-- Actualizar Button -->
-          <cc:CircleIconButton 
-              Icon="{StaticResource appbar_save}"
-              Visibility="{Binding AsistenteSeleccionado.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
-              Command="{Binding ActualizarCommand}"/>
-
-          <!-- Cancelar Button -->
-          <cc:CircleIconButton
-              Icon="{StaticResource appbar_close}"
-              Visibility="{Binding AsistenteSeleccionado.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
-              Command="{Binding CancelarEdicionCommand}"/>
-
-          <!-- Habilitar Edición Button -->
-          <cc:CircleIconButton
-              Icon="{StaticResource appbar_edit}"
-              Command="{Binding HabilitarEdicionCommand}"/>
-        </StackPanel>
+        <TextBlock FontSize="16" Margin="{StaticResource Margin}"
+                     Foreground="Gray"
+                     FontWeight="Normal" Text="Datos Personales"/>
       </Grid>
+      <!--<local:AsistenteView  Grid.Row="1" DataContext="{Binding AsistenteViewModel}"/>-->
+    </Grid>
+
+    <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Auto">
+      <Grid  DataContext="{Binding AsistenteViewModel}"
+            ScrollViewer.CanContentScroll="True"
+            IsHitTestVisible="{Binding Asistente.IsInEditionMode}"
+            Grid.IsSharedSizeScope="True">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="A"/>
+        </Grid.ColumnDefinitions>
+
+        <asistenteViews:DatosPersonales Grid.Column="0"/>
+        <asistenteViews:DireccionPostal Grid.Column="1"/>
+        <asistenteViews:DatosDeContacto Grid.Column="2"/>
+      </Grid>
+    </ScrollViewer>
+
+    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top">
+      <!-- Actualizar Button -->
+      <cc:CircleIconButton 
+            Icon="{StaticResource appbar_save}"
+            Visibility="{Binding AsistenteSeleccionado.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+            Command="{Binding ActualizarCommand}"/>
+
+      <!-- Cancelar Button -->
+      <cc:CircleIconButton
+            Icon="{StaticResource appbar_close}"
+            Visibility="{Binding AsistenteSeleccionado.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+            Command="{Binding CancelarEdicionCommand}"/>
+
+      <!-- Habilitar Edición Button -->
+      <cc:CircleIconButton
+            Icon="{StaticResource appbar_edit}"
+            Command="{Binding HabilitarEdicionCommand}"/>
+    </StackPanel>
+
+    <Grid Grid.Row="3" Grid.Column="0" Margin="{StaticResource Margin}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition />
+      </Grid.RowDefinitions>
+
+      <TextBlock 
+        FontSize="16" Margin="{StaticResource Margin}"
+        Foreground="Gray"
+        FontWeight="Normal" Text="Próximas Citas"/>
 
       <!-- Citas próximas del asistente en formato tabular -->
+      <DataGrid
+        Grid.Row="1"
+        ItemsSource="{Binding AsistenteSeleccionado.CitasProximas}" AutoGenerateColumns="False"
+        AlternatingRowBackground="#B99BA5AB" 
+        SelectedIndex="0"
+        Margin="{StaticResource Margin}"
+        IsReadOnly="True">
+        <DataGrid.Columns>
+          <DataGridTemplateColumn Header="Foto" CellTemplate="{StaticResource _FotoCellTemplate}"/>
+          <DataGridTextColumn Header="Nombre"  FontSize="13" Binding="{Binding Persona.Nombre}" />
+          <DataGridTextColumn Header="Fecha"  FontSize="13" Binding="{Binding Fecha, StringFormat=d}" />
+          <DataGridTemplateColumn Header="Hora" CellTemplate="{StaticResource _HoraCellTemplate}"/>
+          <DataGridTemplateColumn Width="*" Header="Sala" CellTemplate="{StaticResource _SalaCellTemplate}"/>
+          <DataGridTemplateColumn Header="Editar" CellTemplate="{StaticResource _EditarButtonCellTemplate}"/>
+          <DataGridTemplateColumn Header="Ir" CellTemplate="{StaticResource _IrButtonCellTemplate}"/>
+        </DataGrid.Columns>
+      </DataGrid>
+    </Grid>
+
+    <Grid Margin="{StaticResource Margin}" Grid.Row="3" Grid.Column="1">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <TextBlock 
+        Grid.Row="0"
+        FontSize="16" Margin="{StaticResource Margin}"
+        Foreground="Gray"
+        FontWeight="Normal" Text="Citas Pasadas"/>
 
       <!-- Citas pasadas del asistente en formato tabular -->
-
-    </mahapps:MetroTabItem>
-  </mahapps:MetroAnimatedSingleRowTabControl>
+      <DataGrid
+        Grid.Row="3"
+        ItemsSource="{Binding AsistenteSeleccionado.CitasPasadas}" 
+        AutoGenerateColumns="False"
+        AlternatingRowBackground="#B99BA5AB" Margin="{StaticResource Margin}"
+        IsReadOnly="True">
+        <DataGrid.Columns>
+          <DataGridTemplateColumn Header="Foto" CellTemplate="{StaticResource _FotoCellTemplate}"/>
+          <DataGridTextColumn Header="Nombre"  FontSize="13" Binding="{Binding Persona.Nombre}" />
+          <DataGridTextColumn Header="Fecha"  FontSize="13" Binding="{Binding Fecha, StringFormat=d}" />
+          <DataGridTemplateColumn Header="Hora" CellTemplate="{StaticResource _HoraCellTemplate}"/>
+          <DataGridTemplateColumn Width="*" Header="Sala" CellTemplate="{StaticResource _SalaCellTemplate}"/>
+          <DataGridTemplateColumn Header="Editar" CellTemplate="{StaticResource _EditarButtonCellTemplate}"/>
+          <DataGridTemplateColumn Header="Ir"  CellTemplate="{StaticResource _IrButtonCellTemplate}"/>
+        </DataGrid.Columns>
+      </DataGrid>
+    </Grid>
+  </Grid>
   </Grid>
 </UserControl>

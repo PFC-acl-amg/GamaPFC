@@ -11,12 +11,10 @@
              xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
              xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
+             xmlns:asistenteViews="clr-namespace:Gama.Atenciones.Wpf.Views.Asistente"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="534.274" d:DesignWidth="496.993">
-  <d:DataContext>
-    <designData:AsistenteViewModelDTD />
-  </d:DataContext>
+             d:DataContext="{d:DesignInstance Type=designData:AsistenteViewModelDTD, IsDesignTimeCreatable=True}">
   <UserControl.Resources>
     <converters:BinaryImageConverter x:Key="_BinaryImageConverter" />
     <RadialGradientBrush x:Key="_RadialGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9">
@@ -30,7 +28,7 @@
       <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
     </Style>
 
-    <SolidColorBrush x:Key="_BackgroundColor">#AB68C8E9</SolidColorBrush>
+    <SolidColorBrush x:Key="_BackgroundColor">#AB255C6F</SolidColorBrush>
 
     <Style TargetType="Border">
       <Setter Property="Background" Value="{StaticResource _BackgroundColor}"/>
@@ -39,261 +37,23 @@
       <Setter Property="Padding" Value="2"/>
       <Setter Property="CornerRadius" Value="2"/>
       <Setter Property="Margin" Value="{StaticResource Margin}"/>
-      <Setter Property="Effect">
-        <Setter.Value>
-          <DropShadowEffect BlurRadius="20" ShadowDepth="5"/>
-        </Setter.Value>
-      </Setter>
     </Style>
   </UserControl.Resources>
   <ScrollViewer>
-
     <Grid 
       ScrollViewer.VerticalScrollBarVisibility="Hidden" 
       IsHitTestVisible="{Binding Asistente.IsInEditionMode}"
       Grid.IsSharedSizeScope="True">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" SharedSizeGroup="A"/>
-        <RowDefinition Height="Auto" SharedSizeGroup="A"/>
-        <RowDefinition Height="*" SharedSizeGroup="A"/>
+        <RowDefinition Height="Auto" SharedSizeGroup="B"/>
+        <RowDefinition Height="Auto" SharedSizeGroup="C"/>
       </Grid.RowDefinitions>
 
-      <!--              -->
-      <!-- PRIMERA FILA -->
-      <!--              -->
-
-      <!-- Imagen y datos de identificación (DNI, NOMBRE, APELLIDOS, FECHA DE NACIMIENTO) -->
-      <Border >
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" MaxWidth="200"/>
-            <ColumnDefinition Width="*"/>
-          </Grid.ColumnDefinitions>
-
-          <!-- FOTO DE PERFIL -->
-          <Ellipse Height="139" Width="139" Margin="{StaticResource Margin}" OpacityMask="{StaticResource _RadialGradientBrush}" >
-            <Ellipse.Fill>
-              <ImageBrush ImageSource="{Binding Asistente.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
-            </Ellipse.Fill>
-            <Ellipse.Style>
-              <Style TargetType="Ellipse">
-                <Style.Triggers>
-                  <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Cursor" Value="Hand"/>
-                  </Trigger>
-                </Style.Triggers>
-              </Style>
-            </Ellipse.Style>
-            <Ellipse.InputBindings>
-              <MouseBinding MouseAction="LeftClick" Command="{Binding ExaminarAvatarCommand}"/>
-            </Ellipse.InputBindings>
-          </Ellipse>
-
-          <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Stretch">
-            <TextBox  
-              mahapps:TextBoxHelper.Watermark="Nombre..."
-              Text="{Binding Asistente.Nombre, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox
-              mahapps:TextBoxHelper.Watermark="Apellidos..."
-              Text="{Binding Asistente.Apellidos, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox  
-              mahapps:TextBoxHelper.Watermark="Nombre..."
-              Text="{Binding Asistente.Nif, UpdateSourceTrigger=PropertyChanged}"/>
-            <DatePicker 
-              Margin="{DynamicResource Margin}" 
-              BorderThickness="1"
-              VerticalContentAlignment="Center"
-              mahapps:TextBoxHelper.Watermark="Fecha de nacimiento..."
-              SelectedDate="{Binding Asistente.FechaDeNacimiento, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-              Height="26"/>
-          </StackPanel>
-        </Grid>
-      </Border>
-
-      <!--              -->
-      <!-- SEGUNDA FILA -->
-      <!--              -->
-
-      <!-- Imagen y datos de identificación (DNI, NOMBRE, APELLIDOS, FECHA DE NACIMIENTO) -->
-      <Border Grid.Row="1" >
-        <Border.Effect>
-          <DropShadowEffect BlurRadius="20" ShadowDepth="5"/>
-        </Border.Effect>
-
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="35" />
-            <RowDefinition Height="35" />
-            <RowDefinition Height="35" />
-            <RowDefinition Height="35" />
-          </Grid.RowDefinitions>
-          <TextBox 
-            Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
-            mahapps:TextBoxHelper.Watermark="Provincia..."
-            Text="{Binding Asistente.Provincia, UpdateSourceTrigger=PropertyChanged}"/>
-          <TextBox  
-              Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"
-              mahapps:TextBoxHelper.Watermark="Municipio..."
-              Text="{Binding Asistente.Municipio, UpdateSourceTrigger=PropertyChanged}"/>
-          <TextBox 
-              Grid.Row="2" Grid.Column="3"  Grid.ColumnSpan="2"
-              mahapps:TextBoxHelper.Watermark="Código Postal.."
-              Text="{Binding Asistente.CodigoPostal, UpdateSourceTrigger=PropertyChanged}"/>
-          <TextBox  
-              Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
-              mahapps:TextBoxHelper.Watermark="Localidad..."
-              Text="{Binding Asistente.Localidad, UpdateSourceTrigger=PropertyChanged}"/>
-          <TextBox 
-              Grid.Row="3" Grid.Column="0"
-              mahapps:TextBoxHelper.Watermark="Calle/Avenida/..."
-              Text="{Binding Asistente.Calle, UpdateSourceTrigger=PropertyChanged}"/>
-          <TextBox 
-              Grid.Row="3" Grid.Column="1"
-              mahapps:TextBoxHelper.Watermark="Número..."
-              Text="{Binding Asistente.Numero, UpdateSourceTrigger=PropertyChanged}"/>
-          <TextBox 
-              Grid.Row="3" Grid.Column="2"
-              mahapps:TextBoxHelper.Watermark="Portal..."
-              Text="{Binding Asistente.Portal, UpdateSourceTrigger=PropertyChanged}"/>
-          <TextBox  
-              Grid.Row="3" Grid.Column="3"
-              mahapps:TextBoxHelper.Watermark="Piso..."
-              Text="{Binding Asistente.Piso, UpdateSourceTrigger=PropertyChanged}"/>
-          <TextBox  Name="XamlPuerta"
-              Grid.Row="3" Grid.Column="4"
-              mahapps:TextBoxHelper.Watermark="Puerta..."
-              Text="{Binding Asistente.Puerta, UpdateSourceTrigger=PropertyChanged}"/>
-        </Grid>
-      </Border>
-      
-      <Border Grid.Row="2">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="35" />
-            <RowDefinition Height="35" />
-            <RowDefinition Height="*" />
-            <!--<RowDefinition Height="45" />-->
-          </Grid.RowDefinitions>
-
-          <!-- TELÉFONOS -->
-          <TextBox Grid.Row="0" Grid.Column="0"
-            mahapps:TextBoxHelper.Watermark="Telefono Fijo..."
-            Text="{Binding Asistente.TelefonoFijo, UpdateSourceTrigger=PropertyChanged}"/>
-          <TextBox Grid.Row="0" Grid.Column="1"
-          mahapps:TextBoxHelper.Watermark="Telefono Movil..."
-          Text="{Binding Asistente.TelefonoMovil, UpdateSourceTrigger=PropertyChanged}"/>
-          <TextBox  Grid.Row="0" Grid.Column="2"
-          mahapps:TextBoxHelper.Watermark="Telefono Alternativo..."
-          Text="{Binding Asistente.TelefonoAlternativo, UpdateSourceTrigger=PropertyChanged}"/>
-
-          <!-- EMAILS -->
-          <TextBox Grid.Row="1" Grid.Column="0"
-          mahapps:TextBoxHelper.Watermark="Email..."
-          Text="{Binding Asistente.Email}"/>
-          <TextBox  Grid.Row="1" Grid.Column="1"
-            mahapps:TextBoxHelper.Watermark="Email Alternativo..."
-            Text="{Binding Asistente.EmailAlternativo, UpdateSourceTrigger=PropertyChanged}"/>
-
-          <!-- OBSERVACIONES -->
-          <TextBox  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
-                    MinLines="4"
-            mahapps:TextBoxHelper.Watermark="Observaciones..."
-            Margin="{StaticResource Margin}"
-            Text="{Binding Asistente.Observaciones,UpdateSourceTrigger=PropertyChanged}"/>
-        </Grid>
-      </Border>
+      <asistenteViews:DatosPersonales Grid.Row="0"/>
+      <asistenteViews:DireccionPostal Grid.Row="1"/>
+      <asistenteViews:DatosDeContacto Grid.Row="2"/>
     </Grid>
-
-    <!--<Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding Asistente.IsInEditionMode}">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" MaxWidth="300"/>
-        <ColumnDefinition Width="*" MaxWidth="300"/>
-      </Grid.ColumnDefinitions>
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="*"/>
-      </Grid.RowDefinitions>
-      <StackPanel Grid.ColumnSpan="2">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-          </Grid.ColumnDefinitions>
-
-          <StackPanel Grid.ColumnSpan="2">
-            <Ellipse Height="135" Width="135" >
-              <Ellipse.Fill>
-                <ImageBrush ImageSource="{Binding Asistente.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
-              </Ellipse.Fill>
-              <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDoubleClick">
-                  <prism:InvokeCommandAction Command="{Binding ExaminarAvatarCommand}"/>
-                </i:EventTrigger>
-              </i:Interaction.Triggers>
-            </Ellipse>
-            <Label Margin="0" VerticalAlignment="Bottom" 
-                     VerticalContentAlignment="Bottom" HorizontalAlignment="Center">
-              <Hyperlink Command="{Binding ExaminarAvatarCommand}" FontSize="9">Examinar...</Hyperlink>
-            </Label>
-          </StackPanel>
-
-          <StackPanel Grid.Column="1">
-          </StackPanel>
-        </Grid>
-      </StackPanel>
-      <StackPanel Grid.Row="1">
-        <Label Margin="{DynamicResource Margin}">Nombre</Label>
-        <TextBox Margin="{DynamicResource Margin}" Text="{Binding Asistente.Nombre, UpdateSourceTrigger=PropertyChanged}"/>
-
-        <Label Margin="{DynamicResource Margin}">Teléfono</Label>
-        <TextBox Margin="{DynamicResource Margin}" Text="{Binding Asistente.Telefono, UpdateSourceTrigger=PropertyChanged}"/>
-
-        <Label Margin="{DynamicResource Margin}">Nacionalidad</Label>
-        <TextBox Margin="{DynamicResource Margin}" Text="{Binding Asistente.Nacionalidad, UpdateSourceTrigger=PropertyChanged}"/>
-
-      </StackPanel>
-
-      <StackPanel Grid.Column="1" Grid.Row="1">
-        <Label Margin="{DynamicResource Margin}">DNI/NIF</Label>
-        <TextBox Margin="{DynamicResource Margin}" 
-                       Text="{Binding Asistente.Nif, UpdateSourceTrigger=PropertyChanged}"
-                        MinWidth="80"/>
-        <Label Margin="{DynamicResource Margin}">Email</Label>
-        <TextBox Margin="{DynamicResource Margin}" Text="{Binding Asistente.Email, UpdateSourceTrigger=PropertyChanged}"/>
-        -->
-    <!--<Label Margin="{DynamicResource Margin}">Nivel Académico</Label>
-        <ComboBox Margin="{DynamicResource Margin}" 
-                        ItemsSource="{Binding Source={util:EnumBindingSource {x:Type business:NivelAcademico}}}"
-                        SelectedItem="{Binding Asistente.NivelAcademico, UpdateSourceTrigger=PropertyChanged}"/>
-
-        <Label Margin="{DynamicResource Margin}">Ocupación</Label>
-        <TextBox Margin="{DynamicResource Margin}" Text="{Binding Asistente.Ocupacion, UpdateSourceTrigger=PropertyChanged}"/>
-
-        <Label Margin="{DynamicResource Margin}">Facebook</Label>
-        <TextBox Margin="{DynamicResource Margin}" Text="{Binding Asistente.Facebook, UpdateSourceTrigger=PropertyChanged}"/>
-
-        <Label Margin="{DynamicResource Margin}">Twitter</Label>
-        <TextBox Margin="{DynamicResource Margin}" Text="{Binding Asistente.Twitter, UpdateSourceTrigger=PropertyChanged}"/>
-
-        <Label Margin="{DynamicResource Margin}">Cómo conoció a Gamá</Label>
-        <ComboBox Margin="{DynamicResource Margin}" 
-                        ItemsSource="{Binding Source={util:EnumBindingSource {x:Type business:ComoConocioAGama}}}"
-                        SelectedItem="{Binding Asistente.ComoConocioAGama, UpdateSourceTrigger=PropertyChanged}"/>-->
-    <!--
-      </StackPanel>
-    </Grid>-->
   </ScrollViewer>
 </UserControl>
 

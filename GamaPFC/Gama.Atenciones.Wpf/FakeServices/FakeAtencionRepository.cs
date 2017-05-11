@@ -12,13 +12,13 @@ namespace Gama.Atenciones.Wpf.FakeServices
 {
     public class FakeAtencionRepository : IAtencionRepository
     {
-        private List<Atencion> _Atenciones;
+        public List<Atencion> Atenciones { get; set; }
 
         public ISession Session { get; set; }
 
         public FakeAtencionRepository()
         {
-            _Atenciones = new List<Atencion>();
+            Atenciones = new List<Atencion>();
 
             var opciones = new bool[] { true, false };
 
@@ -61,7 +61,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
                     }
                 };
 
-                _Atenciones.Add(atencion);
+                Atenciones.Add(atencion);
 
                 if (i % 5 == 0)
                 {
@@ -72,7 +72,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
 
         public int CountAll()
         {
-            return _Atenciones.Count;
+            return Atenciones.Count;
         }
 
         public void Create(Atencion entity)
@@ -87,7 +87,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
 
         public List<Atencion> GetAll()
         {
-            return _Atenciones;
+            return Atenciones;
         }
 
         public List<LookupItem> GetAllForLookup()

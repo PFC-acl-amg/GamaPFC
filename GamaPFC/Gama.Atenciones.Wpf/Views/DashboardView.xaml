@@ -20,13 +20,12 @@
   <UserControl.Resources>
     <converters:BinaryImageConverter x:Key="_BinaryImageConverter" />
 
-
     <RadialGradientBrush x:Key="_RadialGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9">
       <GradientStop Color="#ffffffff" Offset="0.5" />
       <GradientStop Color="#00ffffff" Offset="0.8" />
     </RadialGradientBrush>
 
-    <DataTemplate x:Key="_LookupItemDataTemplate">
+    <!--<DataTemplate x:Key="_LookupItemDataTemplate">
       <Grid>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="45" />
@@ -46,8 +45,8 @@
             <DropShadowBitmapEffect Color="Black" />
           </Image.BitmapEffect>
         </Image>
-        <!--<Image Margin="{StaticResource Margin}" 
-                   Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>-->
+        --><!--<Image Margin="{StaticResource Margin}" 
+                   Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>--><!--
         
         
         <StackPanel Grid.Column="1">
@@ -55,7 +54,7 @@
           <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
         </StackPanel>
       </Grid>
-    </DataTemplate>
+    </DataTemplate>-->
   </UserControl.Resources>
   <Grid x:Name="_Root">
     <Grid.RowDefinitions>
@@ -126,8 +125,8 @@
                     SelectedDate="{Binding FechaDeInicio, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                     ToolTip="Fecha de inicio del filtro (no actúa si está vacío)"/>
         <TextBlock FontFamily="Courier" FontSize="16" VerticalAlignment="Center">-</TextBlock>
-        <DatePicker Margin="{StaticResource Margin}" VerticalAlignment="Center" SelectedDate="{Binding FechaDeFin, 
-            UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+        <DatePicker Margin="{StaticResource Margin}" VerticalAlignment="Center" 
+                    SelectedDate="{Binding FechaDeFin, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                     ToolTip="Fecha de fin del filtro (no actúa si está vacío)"/>
       </StackPanel>
     </Grid>
@@ -143,20 +142,6 @@
           <RowDefinition Height="Auto"/>
           <RowDefinition />
         </Grid.RowDefinitions>
-        <!--<Border BorderThickness="1" BorderBrush="Black" Padding="10" Margin="{StaticResource Margin}"
-                Panel.ZIndex="999">
-          <Border.Style>
-            <Style TargetType="{x:Type Border}">
-              <Setter Property="Visibility" Value="Collapsed" />
-              <Style.Triggers>
-                <DataTrigger Binding="{Binding ElementName=_PersonasListBox, Path=Items.Count}" Value="1">
-                  <Setter Property="Visibility" Value="Visible" />
-                </DataTrigger>
-              </Style.Triggers>
-            </Style>
-          </Border.Style>
-          <TextBlock HorizontalAlignment="Center" FontStyle="Italic" FontSize="10">Está visualizando datos filtrados</TextBlock>
-        </Border>-->
         <coreControls:UnselectableListBox Grid.Row="1"
                     ItemsSource="{Binding Personas}"
                     SelectedItem="{Binding PersonaSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -176,8 +161,7 @@
                 <Grid.RowDefinitions>
                   <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Border BorderThickness="1"
-        CornerRadius="50,50,50,50" BorderBrush="LightGray" Background="#4C797B7D"
+                <Border BorderThickness="1" CornerRadius="50,50,50,50" BorderBrush="LightGray" Background="#4C797B7D"
                          Margin="{StaticResource Margin}">
                   <Ellipse Height="55" Width="55" OpacityMask="{StaticResource _RadialGradientBrush}">
                     <Ellipse.Fill>
@@ -186,16 +170,9 @@
                   </Ellipse>
                 </Border>
 
-                <!--<Image Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" 
-                     Margin="{StaticResource Margin}" Stretch="Fill" StretchDirection="Both">
-                <Image.BitmapEffect>
-                  <DropShadowBitmapEffect Color="Black" />
-                </Image.BitmapEffect>
-              </Image>-->
-
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                  <TextBlock FontSize="13" Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
-                  <TextBlock FontSize="13" Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                  <TextBlock FontSize="13" Text="{Binding Nombre}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                  <TextBlock FontSize="13" Text="{Binding Nif}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
@@ -266,9 +243,7 @@
                 <RowDefinition/>
               </Grid.RowDefinitions>
 
-              <Border BorderThickness="1"
-        CornerRadius="50,50,50,50" BorderBrush="LightGray" Background="#4C797B7D"
-                         Margin="{StaticResource Margin}">
+              <Border BorderThickness="1" CornerRadius="50,50,50,50" BorderBrush="LightGray" Background="#4C797B7D" Margin="{StaticResource Margin}">
                 <Ellipse Height="55" Width="55" OpacityMask="{StaticResource _RadialGradientBrush}">
                   <Ellipse.Fill>
                     <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
@@ -276,16 +251,9 @@
                 </Ellipse>
               </Border>
 
-              <!--<Image Source="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" 
-                     Margin="{StaticResource Margin}" Stretch="Fill" StretchDirection="Both">
-                <Image.BitmapEffect>
-                  <DropShadowBitmapEffect Color="Black" />
-                </Image.BitmapEffect>
-              </Image>-->
-
               <StackPanel Grid.Column="1">
-                <TextBlock FontSize="13" Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
-                <TextBlock FontSize="13" Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                <TextBlock FontSize="13" Text="{Binding Fecha}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                <TextBlock FontSize="13" Text="{Binding Seguimiento}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
               </StackPanel>
 
               <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
@@ -326,9 +294,10 @@
       <GroupBox.Header>
         <Label HorizontalAlignment="Center" Content="PRÓXIMAS CITAS" Foreground="White" Padding="0"></Label>
       </GroupBox.Header>
-      <ListBox ItemsSource="{Binding ProximasCitas}"
+      <coreControls:UnselectableListBox ItemsSource="{Binding ProximasCitas}"
                  x:Name="_CitasListBox"
-                 SelectionMode="Single"
+                  HorizontalContentAlignment="Stretch"
+                  BorderThickness="0"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto">
         <ListBox.ItemTemplate>
@@ -346,7 +315,7 @@
               <Ellipse Height="55" Width="55" OpacityMask="{StaticResource _RadialGradientBrush}"
                          Margin="{StaticResource Margin}">
                 <Ellipse.Fill>
-                  <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                  <ImageBrush ImageSource="{Binding Persona.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
                 </Ellipse.Fill>
               </Ellipse>
 
@@ -365,8 +334,8 @@
               </Image>-->
 
               <StackPanel Grid.Column="1">
-                <TextBlock FontSize="13" Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
-                <TextBlock FontSize="13" Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                <TextBlock FontSize="13" Text="{Binding Fecha}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                <TextBlock FontSize="13" Text="{Binding Sala}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
               </StackPanel>
 
               <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
@@ -408,7 +377,7 @@
                   CommandParameter="{Binding ElementName=_CitasListBox, Path=SelectedItem}"/>
           </i:EventTrigger>
         </i:Interaction.Triggers>-->
-      </ListBox>
+      </coreControls:UnselectableListBox>
     </GroupBox>
     
  

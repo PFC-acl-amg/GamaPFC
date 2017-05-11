@@ -1,6 +1,7 @@
 ﻿using Core;
 using Core.Util;
 using Gama.Atenciones.Business;
+using Gama.Atenciones.Wpf.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,7 +14,21 @@ namespace Gama.Atenciones.Wpf.Wrappers
 {
     public class PersonaWrapper : TimestampedModelWrapper<Persona>
     {
-        public string _SavedNif;
+        public string _SavedNif
+        {
+            get { return Model._SavedNif; }
+            set { Model._SavedNif = value; }
+        }
+
+        public string Nif
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string NifOriginalValue => GetOriginalValue<string>(nameof(Nif));
+
+        public bool NifIsChanged => GetIsChanged(nameof(Nif));
 
         public PersonaWrapper(Persona model) : base(model)
         {
@@ -21,7 +36,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         protected override void InitializeUniqueProperties(Persona model)
         {
-            _SavedNif = model.Nif;
+            model._SavedNif = model.Nif;
         }
 
         protected override void InitializeCollectionProperties(Persona model)
@@ -52,13 +67,13 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool AvatarPathIsChanged => GetIsChanged(nameof(AvatarPath));
 
-        public ComoConocioAGama ComoConocioAGama
+        public string ComoConocioAGama
         {
-            get { return GetValue<ComoConocioAGama>(); }
+            get { return GetValue<string>(); }
             set { SetValue(value); }
         }
 
-        public ComoConocioAGama ComoConocioAGamaOriginalValue => GetOriginalValue<ComoConocioAGama>(nameof(ComoConocioAGama));
+        public string ComoConocioAGamaOriginalValue => GetOriginalValue<string>(nameof(ComoConocioAGama));
 
         public bool ComoConocioAGamaIsChanged => GetIsChanged(nameof(ComoConocioAGama));
 
@@ -82,13 +97,13 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool EmailIsChanged => GetIsChanged(nameof(Email));
 
-        public EstadoCivil EstadoCivil
+        public string EstadoCivil
         {
-            get { return GetValue<EstadoCivil>(); }
+            get { return GetValue<string>(); }
             set { SetValue(value); }
         }
 
-        public EstadoCivil EstadoCivilOriginalValue => GetOriginalValue<EstadoCivil>(nameof(EstadoCivil));
+        public string EstadoCivilOriginalValue => GetOriginalValue<string>(nameof(EstadoCivil));
 
         public bool EstadoCivilIsChanged => GetIsChanged(nameof(EstadoCivil));
 
@@ -112,13 +127,13 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool FacebookIsChanged => GetIsChanged(nameof(Facebook));
 
-        public IdentidadSexual IdentidadSexual
+        public string IdentidadSexual
         {
-            get { return GetValue<IdentidadSexual>(); }
+            get { return GetValue<string>(); }
             set { SetValue(value); }
         }
 
-        public IdentidadSexual IdentidadSexualOriginalValue => GetOriginalValue<IdentidadSexual>(nameof(IdentidadSexual));
+        public string IdentidadSexualOriginalValue => GetOriginalValue<string>(nameof(IdentidadSexual));
 
         public bool IdentidadSexualIsChanged => GetIsChanged(nameof(IdentidadSexual));
 
@@ -151,29 +166,19 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public void AddCita(Cita cita)
         {
-            cita.Persona = this.Model;
+            Model.AddCita(cita);
             Citas.Add(new CitaWrapper(cita));
         }
 
         public bool NacionalidadIsChanged => GetIsChanged(nameof(Nacionalidad));
 
-        public string Nif
+        public string NivelAcademico
         {
             get { return GetValue<string>(); }
             set { SetValue(value); }
         }
 
-        public string NifOriginalValue => GetOriginalValue<string>(nameof(Nif));
-
-        public bool NifIsChanged => GetIsChanged(nameof(Nif));
-
-        public NivelAcademico NivelAcademico
-        {
-            get { return GetValue<NivelAcademico>(); }
-            set { SetValue(value); }
-        }
-
-        public NivelAcademico NivelAcademicoOriginalValue => GetOriginalValue<NivelAcademico>(nameof(NivelAcademico));
+        public string NivelAcademicoOriginalValue => GetOriginalValue<string>(nameof(NivelAcademico));
 
         public bool NivelAcademicoIsChanged => GetIsChanged(nameof(NivelAcademico));
 
@@ -197,13 +202,13 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool OcupacionIsChanged => GetIsChanged(nameof(Ocupacion));
 
-        public OrientacionSexual OrientacionSexual
+        public string OrientacionSexual
         {
-            get { return GetValue<OrientacionSexual>(); }
+            get { return GetValue<string>(); }
             set { SetValue(value); }
         }
 
-        public OrientacionSexual OrientacionSexualOriginalValue => GetOriginalValue<OrientacionSexual>(nameof(OrientacionSexual));
+        public string OrientacionSexualOriginalValue => GetOriginalValue<string>(nameof(OrientacionSexual));
 
         public bool OrientacionSexualIsChanged => GetIsChanged(nameof(OrientacionSexual));
 
@@ -237,13 +242,13 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool TwitterIsChanged => GetIsChanged(nameof(Twitter));
 
-        public ViaDeAccesoAGama ViaDeAccesoAGama
+        public string ViaDeAccesoAGama
         {
-            get { return GetValue<ViaDeAccesoAGama>(); }
+            get { return GetValue<string>(); }
             set { SetValue(value); }
         }
 
-        public ViaDeAccesoAGama ViaDeAccesoAGamaOriginalValue => GetOriginalValue<ViaDeAccesoAGama>(nameof(ViaDeAccesoAGama));
+        public string ViaDeAccesoAGamaOriginalValue => GetOriginalValue<string>(nameof(ViaDeAccesoAGama));
 
         public bool ViaDeAccesoAGamaIsChanged => GetIsChanged(nameof(ViaDeAccesoAGama));
 
@@ -257,7 +262,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
             {
                 results.Add(new ValidationResult("El campo de NIF es obligatorio", new[] { nameof(Nif) }));
             }
-            else if (Nif != _SavedNif && AtencionesResources.TodosLosNif.Contains(Nif))
+            else if (Nif != Model._SavedNif && PersonaRepository.Nifs.Contains(Nif))
             {
                 results.Add(new ValidationResult("El NIF introducido ya existe", new[] { nameof(Nif) }));
             }

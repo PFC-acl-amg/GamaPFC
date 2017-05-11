@@ -29,11 +29,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private IEnumerable _ResultadoDeBusqueda;
 
         public SearchBoxViewModel(
-            IPersonaRepository PersonaRepository,
+            IPersonaRepository personaRepository,
             IEventAggregator eventAggregator,
             ISession session)
         {
-            _PersonaRepository = PersonaRepository;
+            _PersonaRepository = personaRepository;
             _PersonaRepository.Session = session;
             _EventAggregator = eventAggregator;
             _MensajeDeEspera = new List<string>() { "Espera por favor..." };
@@ -41,7 +41,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             SearchCommand = new DelegateCommand(OnSearchCommandExecute);
             SelectResultCommand = new DelegateCommand(OnSelectResultCommandExecute);
 
-            Personas = new ObservableCollection<LookupItem>(PersonaRepository.GetAllForLookup());
+            Personas = new ObservableCollection<LookupItem>(personaRepository.GetAllForLookup());
 
             //_PersonaRepository.Session.Clear();
 

@@ -12,6 +12,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using Gama.Atenciones.DataAccess;
 using Gama.Atenciones.Wpf.ViewModels;
 using Gama.Atenciones.Wpf.Views;
+using System.Linq;
+using Prism.Events;
 
 namespace Gama.Atenciones.Wpf
 {
@@ -22,10 +24,19 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
             Container.RegisterType<ISession>(
                 new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
-            Container.RegisterType<IPersonaRepository, PersonaRepository>();
-            Container.RegisterType<ICitaRepository, CitaRepository>();
-            Container.RegisterType<IAtencionRepository, AtencionRepository>();
-            Container.RegisterType<IAsistenteRepository, AsistenteRepository>();
+            Container.RegisterType<IPersonaRepository, PersonaRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ICitaRepository, CitaRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IAtencionRepository, AtencionRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IAsistenteRepository, AsistenteRepository>(new ContainerControlledLifetimeManager());
+
+            var session = Container.Resolve<ISession>();
+            var personaRepository = Container.Resolve<IPersonaRepository>();
+            var asistenteRepository = Container.Resolve<IAsistenteRepository>();
+            personaRepository.Session = session;
+            asistenteRepository.Session = session;
+
+            //AtencionesResources.TodosLosNif = personaRepository.GetNifs();
+            AtencionesResources.TodosLosNifDeAsistentes = asistenteRepository.GetNifs();
 
             PreferenciasDeAtenciones preferencias;
             string preferenciasPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)

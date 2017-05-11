@@ -9,6 +9,7 @@ using Gama.Atenciones.Wpf.Views;
 using Gama.Common;
 using Microsoft.Practices.Unity;
 using NHibernate;
+using Prism.Events;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
@@ -23,17 +24,7 @@ namespace Gama.Atenciones.Wpf
 {
     public static class AtencionesResources
     {
-        public static List<string> TodosLosNif { get; set; }
-
         public static List<string> TodosLosNifDeAsistentes { get; set; }
-
-        public static void AddNif(string nif)
-        {
-            if (!TodosLosNif.Contains(nif))
-            {
-                TodosLosNif.Add(nif);
-            }
-        }
 
         public static void AddNifAAsistente(string nif)
         {
@@ -63,9 +54,9 @@ namespace Gama.Atenciones.Wpf
             RegisterServices();
 
             var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
-            var personaRepository = new PersonaRepository();
-            var citaRepository = new CitaRepository();
-            var asistenteRepository = new AsistenteRepository();
+            var personaRepository = Container.Resolve <IPersonaRepository>();
+            var citaRepository = Container.Resolve<ICitaRepository>();
+            var asistenteRepository = Container.Resolve<IAsistenteRepository>();
             var session = sessionFactory.OpenSession();
             personaRepository.Session = session;
             citaRepository.Session = session;
@@ -133,19 +124,9 @@ namespace Gama.Atenciones.Wpf
             catch (Exception ex)
             {
                 var message = ex.Message;
-                throw ex;
+                throw;
             }
             #endregion
-
-            // Recogemos todos los NIF para usarlos en validación
-            // No lo hacemos en el wrapper directamente para eliminar el acomplamiento
-            // del wrapper a los servicios. 
-            AtencionesResources.Personas = personaRepository.GetAll();
-
-            AtencionesResources.TodosLosNif = AtencionesResources.Personas.Select(x => x.Nif).ToList();
-
-            //AtencionesResources.TodosLosNif = personaRepository.GetNifs();
-            AtencionesResources.TodosLosNifDeAsistentes = asistenteRepository.GetNifs();
 
             // Preparamos la estructura de carpeta para la primera vez
             InicializarDirectorios();

@@ -17,7 +17,7 @@
     <Grid x:Name="hour" Focusable="True" KeyDown="Down">
       <TextBox x:Name="mmTxt" TextWrapping="Wrap" Text="{Binding Path=Hora, ElementName=UserControl, Mode=Default,UpdateSourceTrigger=PropertyChanged}"
                mahapps:TextBoxHelper.Watermark="hora"
-               Margin="{StaticResource Margin}"
+               Margin="{DynamicResource Margin}"
                BorderThickness="1"
                 HorizontalAlignment="Stretch"
                HorizontalContentAlignment="Right"
@@ -39,7 +39,7 @@
                mahapps:TextBoxHelper.Watermark="min"
                HorizontalContentAlignment="Right"
                BorderThickness="1"
-               Margin="{StaticResource Margin}"
+               Margin="{DynamicResource Margin}"
                VerticalContentAlignment="Center"
                 HorizontalAlignment="Stretch"
                   TextAlignment="Center" VerticalAlignment="Center" FontFamily="Goudy Stout" FontSize="11"/>

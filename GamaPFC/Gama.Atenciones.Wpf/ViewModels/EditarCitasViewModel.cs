@@ -11,10 +11,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using System;
+using Prism;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
-    public class EditarCitasViewModel : ViewModelBase
+    public class EditarCitasViewModel : ViewModelBase, IActiveAware
     {
         private ICitaRepository _CitaRepository;
         private ISession _Session;
@@ -54,6 +55,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
         }
 
+        private bool _IsActive;
+        public bool IsActive
+        {
+            get { return _IsActive; }
+            set { SetProperty(ref _IsActive, value); }
+        }
+
         public PersonaWrapper Persona { get; set; }
 
         public ObservableCollection<CitaWrapper> Citas
@@ -86,7 +94,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var vm = (NuevaCitaViewModel)o.DataContext;
             vm.Session = _Session;
             vm.LoadForCreation(Persona, fechaSeleccionada.Date);
-            //vm.Cita.Fecha = fechaSeleccionada.Date;
             o.ShowDialog();
             Persona.AcceptChanges();
         }

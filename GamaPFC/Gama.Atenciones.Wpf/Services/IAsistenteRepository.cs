@@ -25,5 +25,6 @@ namespace Gama.Atenciones.Wpf.Services
         List<string> GetNifs();
 
         int CountAll();
+        void DeleteAll();
     }
 }

@@ -3,6 +3,7 @@ using Gama.Atenciones.DataAccess;
 using Gama.Atenciones.Wpf.FakeServices;
 using Gama.Atenciones.Wpf.Services;
 using LiveCharts;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,7 +22,7 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
 
             #region seeder
             var sessionFactory = new NHibernateSessionFactory();
-            var rep = new PersonaRepository();
+            var rep = new PersonaRepository(new EventAggregator());
             rep.Session = sessionFactory.OpenSession();
 
             if (false)
@@ -75,12 +76,12 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
 
             var personas = rep.GetAll();
 
-            HombreCisexualCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.HombreCisexual);
-            HombreTransexualCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.HombreTransexual);
-            MujerCisexualCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.MujerCisexual);
-            MujerTransexualCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.MujerTransexual);
-            NoProporcionadoCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.NoProporcionado);
-            OtraIdentidadCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.Otra);
+            HombreCisexualCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.HombreCisexual.ToString());
+            HombreTransexualCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.HombreTransexual.ToString());
+            MujerCisexualCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.MujerCisexual.ToString());
+            MujerTransexualCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.MujerTransexual.ToString());
+            NoProporcionadoCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.NoProporcionado.ToString());
+            OtraIdentidadCount = personas.Count(p => p.IdentidadSexual == IdentidadSexual.Otra.ToString());
 
             Valores = new ObservableCollection<ChartItem>();
             Valores.Add(new ChartItem { Title = "Hombre Cisexual", Value = HombreCisexualCount });

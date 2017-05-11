@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="Gama.Atenciones.Wpf.Views.Asistente.DatosDeContacto"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views.Asistente"
+             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300">
+  <UserControl.Resources>
+    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Margin" Value="{StaticResource Margin}"/>
+      <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+    </Style>
+
+    <SolidColorBrush x:Key="_BackgroundColor">#AB255C6F</SolidColorBrush>
+
+    <Style TargetType="Border">
+      <Setter Property="Background" Value="{StaticResource _BackgroundColor}"/>
+      <Setter Property="BorderBrush" Value="Gray"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Padding" Value="2"/>
+      <Setter Property="CornerRadius" Value="2"/>
+      <Setter Property="Margin" Value="{StaticResource Margin}"/>
+      <!--<Setter Property="Effect">
+        <Setter.Value>
+          <DropShadowEffect BlurRadius="5" ShadowDepth="1"/>
+        </Setter.Value>
+      </Setter>-->
+    </Style>
+  </UserControl.Resources>
+  <Border >
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="35" />
+        <RowDefinition Height="35" />
+        <RowDefinition Height="35" />
+        <RowDefinition Height="*" />
+        <!--<RowDefinition Height="45" />-->
+      </Grid.RowDefinitions>
+
+      <!-- TELÉFONOS -->
+      <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+            mahapps:TextBoxHelper.Watermark="Telefono Fijo..."
+            Text="{Binding Asistente.TelefonoFijo, UpdateSourceTrigger=PropertyChanged}"/>
+      <TextBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"
+            mahapps:TextBoxHelper.Watermark="Telefono Movil..."
+            Text="{Binding Asistente.TelefonoMovil, UpdateSourceTrigger=PropertyChanged}"/>
+      <TextBox  Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2"
+            mahapps:TextBoxHelper.Watermark="Telefono Alternativo..."
+            Text="{Binding Asistente.TelefonoAlternativo, UpdateSourceTrigger=PropertyChanged}"/>
+
+      <!-- EMAILS -->
+      <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+            mahapps:TextBoxHelper.Watermark="Email..."
+            Text="{Binding Asistente.Email, UpdateSourceTrigger=PropertyChanged}"/>
+      <TextBox  Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3"
+            mahapps:TextBoxHelper.Watermark="Email Alternativo..."
+            Text="{Binding Asistente.EmailAlternativo, UpdateSourceTrigger=PropertyChanged}"/>
+
+      <!-- REDES SOCIALES -->
+      <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+            mahapps:TextBoxHelper.Watermark="Facebook..."
+            Text="{Binding Asistente.Facebook, UpdateSourceTrigger=PropertyChanged}"/>
+      <TextBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2"
+            mahapps:TextBoxHelper.Watermark="Twitter..."
+            Text="{Binding Asistente.Twitter, UpdateSourceTrigger=PropertyChanged}"/>
+      <TextBox  Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2"
+            mahapps:TextBoxHelper.Watermark="LinkedIn..."
+            Text="{Binding Asistente.LinkedIn, UpdateSourceTrigger=PropertyChanged}"/>
+
+      <!-- OBSERVACIONES -->
+      <TextBox  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6"
+                    MinLines="4"
+            mahapps:TextBoxHelper.Watermark="Observaciones..."
+            Margin="{StaticResource Margin}"
+            Text="{Binding Asistente.Observaciones,UpdateSourceTrigger=PropertyChanged}"/>
+    </Grid>
+  </Border>
+</UserControl>

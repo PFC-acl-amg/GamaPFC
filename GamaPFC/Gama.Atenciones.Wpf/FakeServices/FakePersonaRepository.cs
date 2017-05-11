@@ -13,7 +13,14 @@ namespace Gama.Atenciones.Wpf.FakeServices
 {
     public class FakePersonaRepository : IPersonaRepository
     {
-        List<Persona> _Personas;
+        public List<Persona> Personas { get; set; }
+
+        private ISession _Session = null;
+        public ISession Session
+        {
+            get { return _Session; }
+            set { _Session = value; }
+        }
 
         IdentidadSexual[] _IdentidadSexual = new IdentidadSexual[]
         {
@@ -29,38 +36,38 @@ namespace Gama.Atenciones.Wpf.FakeServices
 
         public FakePersonaRepository()
         {
-            _Personas = new List<Persona>();
+            Personas = new List<Persona>();
             int createdAt = 0;
             for (int i = 0; i < 50; i++)
             {
                 var persona = new Persona()
                 {
                     Id = i + 1,
-                    ComoConocioAGama = ComoConocioAGama.Difusion,
+                    ComoConocioAGama = ComoConocioAGama.Difusion.ToString(),
                     DireccionPostal = Faker.LocationFaker.Street(),
                     Email = Faker.InternetFaker.Email(),
-                    EstadoCivil = EstadoCivil.Soltera,
+                    EstadoCivil = EstadoCivil.Soltera.ToString(),
                     Facebook = Faker.InternetFaker.Domain(),
                     FechaDeNacimiento = DateTime.Now.AddYears(-20),
-                    IdentidadSexual = _IdentidadSexual[_Random.Next(0, 5)],
+                    IdentidadSexual = _IdentidadSexual[_Random.Next(0, 5)].ToString(),
                     LinkedIn = Faker.InternetFaker.Domain(),
                     Nacionalidad = Faker.LocationFaker.Country(),
                     Nif = Faker.StringFaker.AlphaNumeric(8),
-                    NivelAcademico = NivelAcademico.EstudioDePostgradoOMaster,
+                    NivelAcademico = NivelAcademico.EstudioDePostgradoOMaster.ToString(),
                     Nombre = Faker.NameFaker.Name(),
                     Ocupacion = Faker.TextFaker.Sentence(),
-                    OrientacionSexual = OrientacionSexual.Heterosexual,
+                    OrientacionSexual = OrientacionSexual.Heterosexual.ToString(),
                     Telefono = Faker.PhoneFaker.Phone(),
                     TieneTrabajo = true,
                     Twitter = Faker.InternetFaker.Domain(),
-                    ViaDeAccesoAGama = ViaDeAccesoAGama.Personal,
+                    ViaDeAccesoAGama = ViaDeAccesoAGama.Personal.ToString(),
                     CreatedAt = DateTime.Now.AddMonths(createdAt),
                     Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
                          new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png")),
 
                 };
 
-                _Personas.Add(persona);
+                Personas.Add(persona);
 
                 if (i % 5 == 0)
                 {
@@ -69,47 +76,14 @@ namespace Gama.Atenciones.Wpf.FakeServices
             }
         }
 
-        public ISession Session
+        public List<Persona> GetAll()
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
+            return Personas;
         }
 
         public int CountAll()
         {
-            return _Personas.Count;
-        }
-
-        public void Create(Persona entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(Persona entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Persona> GetAll()
-        {
-            return _Personas;
-        }
-
-        public List<LookupItem> GetAllForLookup()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Persona GetById(int id)
-        {
-            throw new NotImplementedException();
+            return Personas.Count;
         }
 
         public IEnumerable<int> GetPersonasNuevasPorMes(int numeroDeMeses)
@@ -122,17 +96,37 @@ namespace Gama.Atenciones.Wpf.FakeServices
             return resultado;
         }
 
+        public Persona GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<LookupItem> GetAllForLookup()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Create(Persona entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool Update(Persona entity)
         {
             throw new NotImplementedException();
         }
 
-        public List<string> GetNifs()
+        public void Delete(Persona entity)
         {
             throw new NotImplementedException();
         }
 
         public List<Atencion> GetAtenciones()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteAll()
         {
             throw new NotImplementedException();
         }
