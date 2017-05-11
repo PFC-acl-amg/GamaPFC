@@ -6,4 +6,5 @@
   <BitmapImage x:Key="IconoDashboard" UriSource="/Gama.Common;component/Resources/Images/icono_dashboard.png"/>
   <BitmapImage x:Key="IconoGraficas" UriSource="/Gama.Common;component/Resources/Images/icono_graficas.png"/>
   <BitmapImage x:Key="IconoExportar" UriSource="/Gama.Common;component/Resources/Images/icono_exportar.png"/>
+  <BitmapImage x:Key="IconoDedoAcusador" UriSource="/Gama.Common;component/Resources/Images/DedoAcusador.jpg"/>
 </ResourceDictionary>
