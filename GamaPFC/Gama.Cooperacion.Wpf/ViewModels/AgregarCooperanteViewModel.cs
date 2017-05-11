@@ -40,12 +40,22 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _VisibleFotoSeleccionada = false;
 
             NuevoCooperante = new CooperanteWrapper(new Cooperante());
+
+            NuevoCooperante.PropertyChanged += (s, e) => InvalidateCommands();
+
+
             ExaminarFotoCommand = new DelegateCommand(OnExaminarFotoCommandExecute);
             AceptarCommand = new DelegateCommand(OnAceptarCommand_Execute, OnAceptarCommand_CanExecute);
             CancelarCommand = new DelegateCommand(OnCancelarCommand_Execute, OnCancelarCommand_CanExecute);
 
         }
-        
+
+        private void InvalidateCommands()
+        {
+            ((DelegateCommand)AceptarCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)CancelarCommand).RaiseCanExecuteChanged();
+        }
+
         public ICommand AceptarCommand { get; set; }
         public ICommand CancelarCommand { get; set; }
         public ICommand ExaminarFotoCommand { get; private set; }

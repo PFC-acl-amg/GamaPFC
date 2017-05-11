@@ -22,7 +22,7 @@ namespace Gama.Cooperacion.Wpf
             string title = "";
             BitmapImage icon = new BitmapImage();
 
-            title = "SERVICIO DE ATENCIONES";
+            title = "COOPERACIÓN";
             icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/icono_modulo_cooperacion.png"));
 
             ((ShellViewModel)((FrameworkElement)Shell).DataContext).Title = title;

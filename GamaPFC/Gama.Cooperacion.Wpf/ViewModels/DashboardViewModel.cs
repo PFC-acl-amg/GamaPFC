@@ -110,7 +110,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 .ToArray());
             ListaParcialCooperantes = new ObservableCollection<Cooperante>(
                 _cooperanteRepository.GetAll()
-                .GetRange(_CooperantesMostrados, _CooperantesMostrados + 4)
+                //.GetRange(_CooperantesMostrados, _CooperantesMostrados + 4)
                 //.OrderBy(c => c.Id)
                 .Take(4)
                 .ToArray());
