@@ -11,6 +11,7 @@ namespace Gama.Common.CustomControls
     public class LookupItem : BindableBase
     {
         public int Id { get; set; }
+        public int Id_Coordinador { get; set; }
 
         private string _DisplayMember1;
         public string DisplayMember1

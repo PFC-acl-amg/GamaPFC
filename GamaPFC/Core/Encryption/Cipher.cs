@@ -76,7 +76,7 @@ namespace Core.Encryption
                 string cipherText;
                 var rijndael = new RijndaelManaged()
                 {
-                    Key = Encoding.ASCII.GetBytes(PassPhrase),
+                    Key = Encoding.UTF8.GetBytes(PassPhrase),
                     Mode = CipherMode.CBC,
                     BlockSize = 256,
                     Padding = PaddingMode.PKCS7,
@@ -120,7 +120,7 @@ namespace Core.Encryption
                 byte[] cipherArray = Convert.FromBase64String(cipherText);
                 var rijndael = new RijndaelManaged()
                 {
-                    Key = Encoding.ASCII.GetBytes(PassPhrase),
+                    Key = Encoding.UTF8.GetBytes(PassPhrase),
                     Mode = CipherMode.CBC,
                     BlockSize = 256,
                     Padding = PaddingMode.PKCS7,

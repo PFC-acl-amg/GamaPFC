@@ -15,7 +15,7 @@ namespace Gama.Cooperacion.DataAccess
 {
     public class NHibernateSessionFactory : INHibernateSessionFactory
     {
-        private static string _connectionString = ConfigurationManager.ConnectionStrings["GamaMySql"].ConnectionString;
+        private static string _connectionString = ConfigurationManager.ConnectionStrings["GamaCooperacionMySql"].ConnectionString;
 
         private ISessionFactory _sessionFactory = null;
         public ISessionFactory SessionFactory

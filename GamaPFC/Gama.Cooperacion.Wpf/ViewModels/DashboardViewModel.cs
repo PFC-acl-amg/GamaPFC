@@ -27,12 +27,21 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private ICooperanteRepository _cooperanteRepository;
         private ICooperacionSettings _settings;
         private CooperanteWrapper _NuevoCooperante;
+        private Cooperante _CooperanteSeleccionado;
         private int _mesInicialActividades;
         private string[] _Labels;
         private int _mesInicialCooperantes;
         private int _CooperantesMostrados;
         private bool _VisibleListaCooperantes;
         private bool _VisibleListaActividades;
+        private bool _VisibleListaActividadesCooperante;
+        private bool _VisibleDatosDNI;
+        private bool _VisibleContacto;
+        private bool _VisibleDireccion;
+        private bool _VisibleCooperanteSeleccionado;
+        private bool _VisibleListaTodosCooperantes;
+        private bool _VisibleImagenSeleccionCooperante;
+        private bool _VisibleDatosCooperanteSeleccionado;
 
         private readonly int itemCount;
 
@@ -53,6 +62,14 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             _VisibleListaActividades = true;
             _VisibleListaCooperantes = false;
+            _VisibleDatosDNI = false;
+            _VisibleListaActividadesCooperante = false;
+            _VisibleContacto = false;
+            _VisibleDireccion = false;
+            _VisibleCooperanteSeleccionado = false;
+            _VisibleListaTodosCooperantes = true;
+            _VisibleImagenSeleccionCooperante = true;
+            _VisibleDatosCooperanteSeleccionado = false;
             this.itemCount = 10;
             this.Items = new ObservableCollection<Item>();
 
@@ -60,9 +77,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 this.Items.Add(new Item("Thi is item number " + i));
             }
-
-
-
+            ListaCompletaActividades = new ObservableCollection<Actividad>(_actividadRepository.GetAll());
             ListaDeActividades = new ObservableCollection<LookupItem>(
                 _actividadRepository.GetAll()
                     .OrderBy(a => a.FechaDeFin)
@@ -73,7 +88,22 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     //DisplayMember1 = LookupItem.ShortenStringForDisplay(a.Titulo,
                     //    _settings.DashboardActividadesLongitudDeTitulos),
                     DisplayMember1 = a.Titulo,
+                    Id_Coordinador = a.Coordinador.Id,
                 }));
+            ListaDeActividadesCooperante = new ObservableCollection<LookupItem>();
+            ListaDeActividadesCoordina = new ObservableCollection<LookupItem>();
+            //ListaDeActividadesCooperante = new ObservableCollection<LookupItem>(
+            //    ListaCompletaActividades
+            //        .OrderBy(a => a.FechaDeFin)
+            //        .Take(_settings.DashboardActividadesAMostrar)
+            //    .Select(a => new LookupItem
+            //    {
+            //        Id = a.Id,
+            //        //DisplayMember1 = LookupItem.ShortenStringForDisplay(a.Titulo,
+            //        //    _settings.DashboardActividadesLongitudDeTitulos),
+            //        DisplayMember1 = a.Titulo,
+            //        Id_Coordinador = a.Coordinador.Id,
+            //    }));
             ListaCooperantes = new ObservableCollection<Cooperante>(
                 _cooperanteRepository.GetAll()
                 .OrderBy(c => c.Id)
@@ -91,7 +121,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _eventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
             _eventAggregator.GetEvent<CooperanteCreadoEvent>().Subscribe(PublicarCooperante);
 
-            SelectActividadCommand = new DelegateCommand<LookupItem>(OnSelectActividadCommand);
+            SelectActividadCommand = new DelegateCommand<object>(OnSelectActividadCommand);
             SelectCooperanteCommand = new DelegateCommand<Cooperante>(OnSelectCooperanteCommand);
             PruebaTemplateCommand = new DelegateCommand(OnPruebaTemplateCommandExecute);
             NuevaActividadCommand = new DelegateCommand(OnNuevaActividadCommandExecute);
@@ -160,7 +190,18 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             get { return _NuevoCooperante; }
             set { SetProperty(ref _NuevoCooperante, value); }
         }
+        public Cooperante CooperanteSeleccionado
+        {
+            get { return _CooperanteSeleccionado; }
+            set
+            {
+                SetProperty(ref _CooperanteSeleccionado, value);
+            }
+        }
+        public ObservableCollection<Actividad> ListaCompletaActividades { get; private set; }
         public ObservableCollection<LookupItem> ListaDeActividades { get; private set; }
+        public ObservableCollection<LookupItem> ListaDeActividadesCooperante { get; private set; }
+        public ObservableCollection<LookupItem> ListaDeActividadesCoordina { get; private set; }
         public ObservableCollection<Cooperante> ListaCooperantes { get; private set; }
         public ObservableCollection<Cooperante> ListaParcialCooperantes { get; private set; }
 
@@ -245,13 +286,49 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnSelectCooperanteCommand(Cooperante obj)
         {
-            var cooperanteSeleccionado = ListaParcialCooperantes.Where(x => x.Id == obj.Id).FirstOrDefault();
-            
+            //ListaCooperantes.Clear();
+            //ListaCooperantes.Add(obj);
+            //ListaCooperantes = ListaParcialCooperantes;
+            VisibleListaActividadesCooperante = true;
+            VisibleDatosCooperanteSeleccionado = true;
+            VisibleImagenSeleccionCooperante = false;
+            VisibleListaTodosCooperantes = false;
+            VisibleCooperanteSeleccionado = true;
+            CooperanteSeleccionado = ListaCooperantes.Where(x => x.Id == obj.Id).FirstOrDefault();
+            ListaParcialCooperantes.Clear();
+            ListaParcialCooperantes.Add(CooperanteSeleccionado);
+            ListaDeActividadesCoordina.Clear();
+            ListaDeActividadesCooperante.Clear();
+            foreach (var actividadCoordina in ListaDeActividades)
+            {
+                if (actividadCoordina.Id_Coordinador == obj.Id)
+                {
+                    ListaDeActividadesCoordina.Add(actividadCoordina);
+                }
+            }
+           foreach (var actividadCoopera in ListaCompletaActividades)
+            {
+                foreach (var CooperanteActividadCoopera in actividadCoopera.Cooperantes)
+                {
+                    if (CooperanteActividadCoopera.Id == obj.Id)
+                    {
+                        var ItemCooperante = new LookupItem()
+                        {
+                            Id = actividadCoopera.Id,
+                            DisplayMember1 = actividadCoopera.Titulo,
+                            Id_Coordinador = actividadCoopera.Coordinador.Id,
+                        };
+                        ListaDeActividadesCooperante.Add(ItemCooperante);
+                    }
+                }
+            }
         }
 
-        private void OnSelectActividadCommand(LookupItem lookup)
+        private void OnSelectActividadCommand(object param)
         {
-            _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish(lookup.Id);
+            var lookup = param as LookupItem;
+            if (lookup != null)  _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish(lookup.Id);
+
         }
 
         private void OnNuevaActividadEvent(int id)
@@ -283,10 +360,50 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             get { return _VisibleListaActividades; }
             set { SetProperty(ref _VisibleListaActividades, value); }
         }
+        public bool VisibleListaActividadesCooperante
+        {
+            get { return _VisibleListaActividadesCooperante; }
+            set { SetProperty(ref _VisibleListaActividadesCooperante, value); }
+        }
         public bool VisibleListaCooperantes
         {
             get { return _VisibleListaCooperantes; }
             set { SetProperty(ref _VisibleListaCooperantes, value); }
+        }
+        public bool VisibleDatosDNI
+        {
+            get { return _VisibleDatosDNI; }
+            set { SetProperty(ref _VisibleDatosDNI, value); }
+        }
+        public bool VisibleContacto
+        {
+            get { return _VisibleContacto; }
+            set { SetProperty(ref _VisibleContacto, value); }
+        }
+        public bool VisibleDireccion
+        {
+            get { return _VisibleDireccion; }
+            set { SetProperty(ref _VisibleDireccion, value); }
+        }
+        public bool VisibleCooperanteSeleccionado
+        {
+            get { return _VisibleCooperanteSeleccionado; }
+            set { SetProperty(ref _VisibleCooperanteSeleccionado, value); }
+        }
+        public bool VisibleListaTodosCooperantes
+        {
+            get { return _VisibleListaTodosCooperantes; }
+            set { SetProperty(ref _VisibleListaTodosCooperantes, value); }
+        }
+        public bool VisibleImagenSeleccionCooperante
+        {
+            get { return _VisibleImagenSeleccionCooperante; }
+            set { SetProperty(ref _VisibleImagenSeleccionCooperante, value); }
+        }
+        public bool VisibleDatosCooperanteSeleccionado
+        {
+            get { return _VisibleDatosCooperanteSeleccionado; }
+            set { SetProperty(ref _VisibleDatosCooperanteSeleccionado, value); }
         }
     }
 }
