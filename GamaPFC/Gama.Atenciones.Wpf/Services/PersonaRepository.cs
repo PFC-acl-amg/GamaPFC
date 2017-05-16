@@ -9,16 +9,32 @@ using Gama.Common.CustomControls;
 using Core.Util;
 using Prism.Events;
 using Gama.Atenciones.Wpf.Eventos;
+using NHibernate;
 
 namespace Gama.Atenciones.Wpf.Services
 {
     public class PersonaRepository : NHibernateOneSessionRepository<Persona, int>, IPersonaRepository
     {
         private List<Persona> _Personas;
+        private ICitaRepository _CitaRepository;
 
-        public PersonaRepository(IEventAggregator eventAggregator) : base(eventAggregator)
+        public PersonaRepository(IEventAggregator eventAggregator,
+            ICitaRepository citaRepository, ISession session) : base(eventAggregator)
         {
-            
+            eventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
+            _CitaRepository = citaRepository;
+        }
+
+        private void OnCitaActualizadaEvent(int citaId)
+        {
+            Cita cita = _CitaRepository.GetById(citaId);
+            List<Cita> citas = _Personas
+                .Select(p => p.Citas)
+                .First(x => x.Any(c => c.Id == citaId))
+                .ToList();
+
+            Cita citaDesactualizada = citas.First(c => c.Id == citaId);
+            citaDesactualizada.CopyValuesFrom(cita);
         }
 
         public List<Persona> Personas

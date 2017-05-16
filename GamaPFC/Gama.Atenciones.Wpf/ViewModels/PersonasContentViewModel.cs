@@ -182,9 +182,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 {
                     if (editarPersonaViewModel.Persona.Id == personaId)
                     {
-                        var citaDesactualizada = editarPersonaViewModel.Persona.Citas.First(x => x.Id == citaId);
-                        citaDesactualizada.CopyValuesFrom(cita);
-                        OnPropertyChanged(nameof(editarPersonaViewModel.Persona));
+                        editarPersonaViewModel.ActualizarCita(cita);
                     }
                 }
             }

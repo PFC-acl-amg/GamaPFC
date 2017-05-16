@@ -25,9 +25,11 @@ namespace Gama.Atenciones.WpfTests
             _EventAggregatorMock = new Mock<IEventAggregator>();
             _ContainerMock = new Mock<IUnityContainer>();
             _Vm = new PersonasContentViewModel(
+                null, 
                 _EventAggregatorMock.Object,
                 _RegionManagerMock.Object, 
-                new Mock<IUnityContainer>().Object);
+                new Mock<IUnityContainer>().Object,
+                null);
         }
     }
 }

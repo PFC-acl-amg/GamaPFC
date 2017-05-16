@@ -200,6 +200,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
         }
 
+        public void ActualizarCita(Cita cita)
+        {
+            var citaDesactualizada = Persona.Citas.First(x => x.Id == cita.Id);
+            citaDesactualizada.CopyValuesFrom(cita);
+            Persona.AcceptChanges();
+        }
+
         public override bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return IsNavigationTarget((int)navigationContext.Parameters["Id"]);
