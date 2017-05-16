@@ -69,6 +69,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             _EventAggregator.GetEvent<AsistenteCreadoEvent>().Subscribe(OnAsistenteCreadoEvent);
             _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
+            _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
         }
 
         private void OnSeleccionarPersonaCommand(CitaWrapper wrapper)
@@ -170,6 +171,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
             // Si no se pone esta línea, al deseleccionar y volver a seleccionar al asistente
             // afectado, la vista se refresca con la nueva cita.
             AsistenteSeleccionado = AsistenteSeleccionado; 
+        }
+
+        private void OnCitaActualizadaEvent(int id)
+        {
+            Cita cita = _CitaRepository.GetById(id);
+            AsistenteWrapper asistente = Asistentes.First(x => x.Id == cita.Asistente.Id);
+            Cita citaDesactualizada = asistente.Citas.First(x => x.Id == id);
+
+            citaDesactualizada.CopyValuesFrom(cita);
         }
 
         private void InvalidateCommands()
