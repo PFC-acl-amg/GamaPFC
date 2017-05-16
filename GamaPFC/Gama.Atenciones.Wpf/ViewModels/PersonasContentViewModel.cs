@@ -162,9 +162,22 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
         }
 
-        private void OnCitaCreadaEvent(int id)
+        private void OnCitaCreadaEvent(int citaId)
         {
+            var cita = _CitaRepository.GetById(citaId);
+            int personaId = cita.Persona.Id;
 
+            foreach (var viewModel in ViewModels)
+            {
+                var editarPersonaViewModel = viewModel as EditarPersonaViewModel;
+                if (editarPersonaViewModel != null)
+                {
+                    if (editarPersonaViewModel.Persona.Id == personaId)
+                    {
+                        editarPersonaViewModel.AddCita(cita);
+                    }
+                }
+            }
         }
 
         private void OnCitaActualizadaEvent(int citaId)
@@ -179,7 +192,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 {
                     if (editarPersonaViewModel.Persona.Id == personaId)
                     {
-                        editarPersonaViewModel.ActualizarCita(cita);
+                        editarPersonaViewModel.CitasVM.ActualizarCita(cita);
                     }
                 }
             }

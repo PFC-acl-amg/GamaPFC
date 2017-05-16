@@ -70,7 +70,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             var o = new NuevaCitaView();
             var vm = (NuevaCitaViewModel)o.DataContext;
-            vm.Session = _Session;
+            //vm.Session = _Session;
             vm.LoadWithDefaultPerson();
             vm.Cita.Fecha = fechaSeleccionada.Date;
             o.ShowDialog();
@@ -82,7 +82,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var o = new NuevaCitaView();
             o.Title = "Editar Cita";
             var vm = (NuevaCitaViewModel)o.DataContext;
-            vm.Session = _Session;
+            //vm.Session = _Session;
             vm.EnEdicionDeCitaExistente = true;
             vm.LoadForEdition(wrapper);
             o.ShowDialog();

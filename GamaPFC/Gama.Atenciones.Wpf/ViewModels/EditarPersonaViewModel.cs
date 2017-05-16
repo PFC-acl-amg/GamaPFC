@@ -200,10 +200,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
         }
 
-        public void ActualizarCita(Cita cita)
+        public void AddCita(Cita cita)
         {
-            var citaDesactualizada = Persona.Citas.First(x => x.Id == cita.Id);
-            citaDesactualizada.CopyValuesFrom(cita);
+            //Persona.Citas.Add(new CitaWrapper(cita));
             Persona.AcceptChanges();
         }
 

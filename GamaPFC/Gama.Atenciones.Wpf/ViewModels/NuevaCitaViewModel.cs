@@ -27,12 +27,14 @@ namespace Gama.Atenciones.Wpf.ViewModels
             IPersonaRepository personaRepository,
             ICitaRepository citaRepository,
             IAsistenteRepository asistenteRepository,
-            IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator,
+            ISession session)
         {
             _PersonaRepository = personaRepository;
             _CitaRepository = citaRepository;
             _AsistenteRepository = asistenteRepository;
             _EventAggregator = eventAggregator;
+            Session = session;
 
             AceptarCommand = new DelegateCommand(OnAceptarCommand_Execute,
                 OnAceptarCommand_CanExecute);
