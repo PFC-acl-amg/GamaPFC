@@ -134,7 +134,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             Cita = citaExistente;
             Cita.PropertyChanged += Cita_PropertyChanged;
-            //Persona = new PersonaWrapper(citaExistente.Persona);
             InicializarColecciones(incluirPersonas: false, personaSeleccionada: citaExistente.Persona);
             PersonaSeleccionada = Personas.Find(x => x.Id == citaExistente.Persona.Id);
         }

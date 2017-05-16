@@ -49,7 +49,8 @@ namespace Gama.Atenciones.Business
             AsistenteEnTexto = cita.AsistenteEnTexto;
             Fin = cita.Fin;
             HaTenidoLugar = cita.HaTenidoLugar;
-            Fecha = new DateTime(cita.Fecha.Ticks);
+            Fecha = new DateTime(cita.Fecha.Year, cita.Fecha.Month, cita.Fecha.Day,
+                cita.Fecha.Hour, cita.Fecha.Minute, cita.Fecha.Second);
             Sala = cita.Sala;
             Hora = cita.Hora;
             Minutos = cita.Minutos;
