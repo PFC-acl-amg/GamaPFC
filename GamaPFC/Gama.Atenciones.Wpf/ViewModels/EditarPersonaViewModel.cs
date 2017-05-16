@@ -47,7 +47,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
                 () => !_PersonaVM.EdicionHabilitada);
-
             ActualizarCommand = new DelegateCommand(
                 OnActualizarCommand,
                 () =>
@@ -55,12 +54,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
                    && Persona.IsChanged
                    && Persona.IsValid
                    );
-            
             CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand,
                 () => _PersonaVM.EdicionHabilitada);
-
             EliminarPersonaCommand = new DelegateCommand(OnEliminarPersonaCommandExecute);
-
             ActivarVistaCommand = new DelegateCommand<string>(OnActivarVistaCommandExecute);
 
             _PersonaVM.PropertyChanged += _PersonaVM_PropertyChanged;

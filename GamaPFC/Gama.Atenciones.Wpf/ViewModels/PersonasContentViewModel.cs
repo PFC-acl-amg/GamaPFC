@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Gama.Atenciones.Wpf.Wrappers;
 using Prism;
+using Gama.Atenciones.Wpf.Services;
+using NHibernate;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -25,9 +27,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private IRegionManager _RegionManager;
         private IUnityContainer _Container;
 
-        public PersonasContentViewModel(IEventAggregator eventAggregator,
-            IRegionManager regionManager, IUnityContainer container)
+        public PersonasContentViewModel(
+            ICitaRepository citaRepository,
+            IEventAggregator eventAggregator,
+            IRegionManager regionManager, 
+            IUnityContainer container,
+            ISession session)
         {
+            _CitaRepository = citaRepository;
+            _CitaRepository.Session = session;
             _EventAggregator = eventAggregator;
             _RegionManager = regionManager;
             _Container = container;
@@ -44,6 +52,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<CitaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
             _EventAggregator.GetEvent<AtencionSeleccionadaEvent>().Subscribe(OnAtencionSeleccionadaEvent);
             _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
+            _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
             _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
             _EventAggregator.GetEvent<NuevaAtencionEvent>().Subscribe(OnNuevaAtencionEvent);
         }
@@ -83,6 +92,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
         }
 
         private int _SelectedIndex;
+        private ICitaRepository _CitaRepository;
+
         public int SelectedIndex
         {
             get { return _SelectedIndex; }
@@ -156,6 +167,27 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnCitaCreadaEvent(int id)
         {
+
+        }
+
+        private void OnCitaActualizadaEvent(int citaId)
+        {
+            var cita = _CitaRepository.GetById(citaId);
+            int personaId = cita.Persona.Id;
+
+            foreach (var viewModel in ViewModels)
+            {
+                var editarPersonaViewModel = viewModel as EditarPersonaViewModel;
+                if (editarPersonaViewModel != null)
+                {
+                    if (editarPersonaViewModel.Persona.Id == personaId)
+                    {
+                        var citaDesactualizada = editarPersonaViewModel.Persona.Citas.First(x => x.Id == citaId);
+                        citaDesactualizada.CopyValuesFrom(cita);
+                        OnPropertyChanged(nameof(editarPersonaViewModel.Persona));
+                    }
+                }
+            }
         }
 
         private void OnPersonaEliminadaEvent(int id)

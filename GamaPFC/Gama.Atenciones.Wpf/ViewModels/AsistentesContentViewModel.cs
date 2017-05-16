@@ -180,6 +180,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Cita citaDesactualizada = asistente.Citas.First(x => x.Id == id);
 
             citaDesactualizada.CopyValuesFrom(cita);
+            OnPropertyChanged(nameof(AsistenteSeleccionado));
         }
 
         private void InvalidateCommands()

@@ -45,6 +45,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             EditarCitaCommand = new DelegateCommand<CitaWrapper>(OnEditarCitaCommandExecute);
 
             _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
+            _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
         }
 
         public ICommand NuevaCitaCommand { get; private set; }
@@ -96,6 +97,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Cita cita = _CitaRepository.GetById(id);
 
             Citas.Add(new CitaWrapper(cita));
+        }
+
+        private void OnCitaActualizadaEvent(int citaId)
+        {
+            Cita cita = _CitaRepository.GetById(citaId);
+
+            Cita citaDesactualizada = Citas.Select(x => x.Model).First(x => x.Id == citaId);
+            citaDesactualizada.CopyValuesFrom(cita);
+            OnPropertyChanged(nameof(Citas));
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
