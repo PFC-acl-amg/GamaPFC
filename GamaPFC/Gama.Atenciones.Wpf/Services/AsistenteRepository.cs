@@ -2,6 +2,7 @@
 using Core.DataAccess;
 using Core.Util;
 using Gama.Atenciones.Business;
+using Gama.Atenciones.Wpf.Eventos;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -57,7 +58,7 @@ namespace Gama.Atenciones.Wpf.Services
         {
             base.Create(entity);
             Asistentes.Add(entity);
-            //_EventAggregator.GetEvent<AsistenteCreadoEvent>().Publish(entity.Id);
+            _EventAggregator.GetEvent<AsistenteCreadoEvent>().Publish(entity.Id);
         }
 
         public override bool Update(Asistente entity)
@@ -67,8 +68,7 @@ namespace Gama.Atenciones.Wpf.Services
                 entity.Decrypt();
                 Asistentes.Remove(Asistentes.Find(x => x.Id == entity.Id));
                 Asistentes.Add(entity);
-                //_EventAggregator.GetEvent<AsistenteActualizadoEvent>().Publish(entity.Id);
-                //return true;
+                _EventAggregator.GetEvent<AsistenteActualizadoEvent>().Publish(entity.Id);
             }
 
             return false;

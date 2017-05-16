@@ -23,9 +23,20 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             _EventAggregator = eventAggregator;
 
-            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
-            _EventAggregator.GetEvent<AtencionActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
-            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
+            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(
+                (id) => MostrarMensaje("La persona se ha actualizado con éxito."));
+
+            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(
+                (id) => MostrarMensaje("La persona y todos sus registros han sido eliminados con éxito."));
+
+            _EventAggregator.GetEvent<AtencionActualizadaEvent>().Subscribe(
+                (id) => MostrarMensaje("La atención se ha actualizado con éxito"));
+
+            _EventAggregator.GetEvent<AsistenteCreadoEvent>().Subscribe(
+                (id) => MostrarMensaje("El asistente se ha creado con éxito"));
+
+            _EventAggregator.GetEvent<AsistenteActualizadoEvent>().Subscribe(
+                (id) => MostrarMensaje("El asistente se ha actualizado con éxito"));
 
             Mensaje = DefaultMensaje;
             _Timer = new DispatcherTimer();
@@ -45,27 +56,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
             set { SetProperty(ref _ActivarFondo, value); }
         }
 
-        private void OnPersonaActualizadaEvent(int obj)
+        private void MostrarMensaje(string mensaje)
         {
-            Mensaje = "La persona se ha actualizado con éxito.";
+            Mensaje = mensaje;
             ActivarFondo = true;
             _Timer.Start();
         }
-
-        private void OnPersonaEliminadaEvent(int obj)
-        {
-            Mensaje = "La persona y todos sus registros han sido eliminados con éxito.";
-            ActivarFondo = true;
-            _Timer.Start();
-        }
-
-        private void OnAtencionActualizadaEvent(int obj)
-        {
-            Mensaje = "La atención se ha actualizado con éxito";
-            ActivarFondo = true;
-            _Timer.Start();
-        }
-
+        
         private void _timer_Tick(object sender, EventArgs e)
         {
             ActivarFondo = false;
