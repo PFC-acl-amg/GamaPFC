@@ -85,9 +85,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             vm.Session = _Session;
             vm.EnEdicionDeCitaExistente = true;
             vm.LoadForEdition(wrapper);
-            //vm.Cita.CopyValuesFrom(wrapper.Model);
-            //CitaWrapper citaActualizada = Citas.Where(x => x.Id == vm.Cita.Id).FirstOrDefault();
-            //citaActualizada.CopyValuesFrom(vm.Cita.Model);
             o.ShowDialog();
             Refresh++;
         }

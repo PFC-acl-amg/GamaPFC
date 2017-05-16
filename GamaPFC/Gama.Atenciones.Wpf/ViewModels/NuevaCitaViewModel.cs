@@ -23,7 +23,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private IEventAggregator _EventAggregator;
         private IAsistenteRepository _AsistenteRepository;
 
-        public NuevaCitaViewModel(IPersonaRepository personaRepository,
+        public NuevaCitaViewModel(
+            IPersonaRepository personaRepository,
             ICitaRepository citaRepository,
             IAsistenteRepository asistenteRepository,
             IEventAggregator eventAggregator)
@@ -164,7 +165,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             if (!EnEdicionDeCitaExistente)
             {
-                PersonaSeleccionada.AddCita(Cita.Model);
+                //PersonaSeleccionada.AddCita(Cita.Model);
                 _CitaRepository.Create(Cita.Model);
             }
             else

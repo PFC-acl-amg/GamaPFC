@@ -149,11 +149,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 if (!PersonaEstaAbierta(personaId, atencionId))
                 {
                     var newViewModel = _Container.Resolve<EditarPersonaViewModel>();
-
                     ViewModels.Add(newViewModel);
-
                     newViewModel.OnNavigatedTo(personaId, atencionId);
-
                     ViewModelSeleccionado = newViewModel;
                 }
 
