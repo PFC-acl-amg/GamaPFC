@@ -105,7 +105,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             if (incluirPersonas)
             {
                 //Personas = new List<Persona>(_PersonaRepository.GetAll());
-                Personas = _PersonaRepository.Personas.Select(x => new PersonaWrapper(x)).ToList();
+                Personas = new List<PersonaWrapper>(_PersonaRepository.Personas.Select(x => new PersonaWrapper(x)).ToList());
                 OnPropertyChanged(nameof(Personas));
             }
             else
@@ -161,13 +161,31 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Cita.PropertyChanged += Cita_PropertyChanged;
         }
 
+        //public void LoadForCreation(int personaId, DateTime fechaSeleccionada)
+        //{
+        //    Persona persona = _PersonaRepository.GetById(personaId);
+
+        //    InicializarColecciones(incluirPersonas: false, personaSeleccionada: persona);
+        //    //Persona = persona;
+        //    PersonaSeleccionada = new PersonaWrapper(persona);
+
+        //    Cita = new CitaWrapper(new Cita()
+        //    {
+        //        Persona = persona,
+        //        Fecha = fechaSeleccionada
+        //    });
+
+        //    Cita.PropertyChanged += Cita_PropertyChanged;
+        //}
+
         private void OnAceptarCommand_Execute()
         {
             Cita.Fecha = Cita.Fecha.Value.AddHours(Cita.Hora).AddMinutes(Cita.Minutos);
 
             if (!EnEdicionDeCitaExistente)
             {
-                //PersonaSeleccionada.AddCita(Cita.Model);
+                Cita.Persona = PersonaSeleccionada.Model;
+                    //PersonaSeleccionada.AddCita(Cita.Model);
                 _CitaRepository.Create(Cita.Model);
             }
             else
