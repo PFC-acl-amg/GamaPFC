@@ -174,7 +174,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 {
                     if (editarPersonaViewModel.Persona.Id == personaId)
                     {
-                        editarPersonaViewModel.AddCita(cita);
+                        editarPersonaViewModel.Persona.AcceptChanges();
                         break;
                     }
                 }
