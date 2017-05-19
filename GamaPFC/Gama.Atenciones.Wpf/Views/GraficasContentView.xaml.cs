@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -23,6 +24,46 @@ namespace Gama.Atenciones.Wpf.Views
         public GraficasContentView()
         {
             InitializeComponent();
+        }
+
+        private void _ToggleVisibilityButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_PanelDeNavegacion.Visibility == Visibility.Visible)
+            {
+                _PanelDeNavegacion.Width = double.NaN; // para "Auto"
+                _PanelDeNavegacion.Visibility = Visibility.Collapsed;
+                _ToggleVisibilityButton.Margin = new Thickness(-8, 4, 4, 4);
+
+                var da = new DoubleAnimation(180, 0, new Duration(TimeSpan.FromSeconds(0.1)));
+                var rt = new RotateTransform();
+                _ToggleVisibilityButton.RenderTransform = rt;
+                _ToggleVisibilityButton.RenderTransformOrigin = new Point(0.5, 0.5);
+                rt.BeginAnimation(RotateTransform.AngleProperty, da);
+            }
+            else
+            {
+                _PanelDeNavegacion.Width = 190.0; // para "Auto"
+                _PanelDeNavegacion.Visibility = Visibility.Visible;
+                _ToggleVisibilityButton.Margin = new Thickness(4, 4, 4, 4);
+
+                var da = new DoubleAnimation(0, 180, new Duration(TimeSpan.FromSeconds(0.1)));
+                var rt = new RotateTransform();
+                _ToggleVisibilityButton.RenderTransform = rt;
+                _ToggleVisibilityButton.RenderTransformOrigin = new Point(0.5, 0.5);
+                rt.BeginAnimation(RotateTransform.AngleProperty, da);
+            }
+        }
+
+        private void DatosPersonalesListBoxItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _DatosPersonalesGrafivasView.Visibility = Visibility.Visible;
+            _AtencionesGraficasView.Visibility = Visibility.Hidden;
+        }
+
+        private void AtencionesListBoxItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _DatosPersonalesGrafivasView.Visibility = Visibility.Hidden;
+            _AtencionesGraficasView.Visibility = Visibility.Visible;
         }
     }
 }
