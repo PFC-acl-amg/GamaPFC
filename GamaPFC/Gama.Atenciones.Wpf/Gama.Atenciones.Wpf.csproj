@@ -250,7 +250,7 @@
     <Compile Include="ViewModels\EditarPersonaViewModel.cs" />
     <Compile Include="ViewModels\NuevoAsistenteViewModel.cs" />
     <Compile Include="ViewModels\PreferenciasViewModel.cs" />
-    <Compile Include="ViewModels\GraficasViewModel.cs" />
+    <Compile Include="ViewModels\GraficasContentViewModel.cs" />
     <Compile Include="ViewModels\ListadoDePersonasViewModel.cs" />
     <Compile Include="ViewModels\NuevaCitaViewModel.cs" />
     <Compile Include="ViewModels\NuevaPersonaViewModel.cs" />
