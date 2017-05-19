@@ -18,21 +18,27 @@ namespace Gama.Atenciones.Wpf.ViewModels
     public class GraficasContentViewModel : ViewModelBase
     {
         private IPersonaRepository _PersonaRepository;
+        private IAtencionRepository _AtencionRepository;
         private IEventAggregator _EventAggregator;
         private List<Persona> _Personas;
 
         public GraficasContentViewModel(
             IPersonaRepository personaRepository,
+            IAtencionRepository atencionRepository,
             IEventAggregator eventAggregator,
             ISession session)
         {
             _PersonaRepository = personaRepository;
             _PersonaRepository.Session = session;
+            _AtencionRepository = atencionRepository;
+            _AtencionRepository.Session = session;
             _EventAggregator = eventAggregator;
 
             _Personas = _PersonaRepository.GetAll();
 
-            _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnPersonaCreadaEvent);
+            _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe((id) => Refresh());
+            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe((id) => Refresh());
+            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe((id) => Refresh());
 
             InicializarIdentidadSexual();
             InicializarRangosDeEdad();
@@ -41,6 +47,24 @@ namespace Gama.Atenciones.Wpf.ViewModels
             InicializarComoConocioAGama();
             InicializarViaDeAccesoAGama();
             InicializarAtencionSolicitada();
+            InicializarDerivaciones();
+        }
+
+        private void Refresh()
+        {
+            InicializarIdentidadSexual();
+            InicializarRangosDeEdad();
+            InicializarEstadoCivil();
+            InicializarOrientacionSexual();
+            InicializarComoConocioAGama();
+            InicializarViaDeAccesoAGama();
+            InicializarAtencionSolicitada();
+            InicializarDerivaciones();
+        }
+
+        private void OnPersonaActualizadaEvent(int obj)
+        {
+            Refresh();
         }
 
         private void OnPersonaCreadaEvent(int id)
@@ -69,6 +93,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ObservableCollection<ChartItem> ValoresDeComoConocioAGama { get; private set; }
         public ObservableCollection<ChartItem> ValoresDeViaDeAccesoAGama { get; private set; }
         public ObservableCollection<ChartItem> ValoresDeAtencionSolicitada { get; private set; }
+        public ObservableCollection<ChartItem> ValoresDeDerivaciones { get; private set; }
 
         private int _HombreCisexualCount;
         private int _HombreTransexualCount;
@@ -92,12 +117,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _MujerTransexualCount = _Personas.Count(p => p.IdentidadSexual == IdentidadSexual.MujerTransexual.ToString());
             _NoProporcionadoCount = _Personas.Count(p => p.IdentidadSexual == IdentidadSexual.NoProporcionado.ToString());
             _OtraIdentidadCount = _Personas.Count(p => p.IdentidadSexual == IdentidadSexual.Otra.ToString());
+
             ValoresDeIdentidadSexual.Add(NewChartItem("HombreCisexual", "Hombre Cisexual", _HombreCisexualCount));
             ValoresDeIdentidadSexual.Add(NewChartItem("HombreTransexual", "Hombre Transexual", _HombreTransexualCount));
             ValoresDeIdentidadSexual.Add(NewChartItem("MujerCisexual", "Mujer Cisexual", _MujerCisexualCount));
             ValoresDeIdentidadSexual.Add(NewChartItem("MujerTransexual", "Mujer Transexual",  _MujerTransexualCount));
             ValoresDeIdentidadSexual.Add(NewChartItem("NoProporcionado", "No Proporcionado", _NoProporcionadoCount));
             ValoresDeIdentidadSexual.Add(NewChartItem("Otra", "Otra", _OtraIdentidadCount));
+
+            OnPropertyChanged(nameof(ValoresDeIdentidadSexual));
         }
 
         private int _From0To19;
@@ -121,6 +149,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ValoresDeEdad.Add(NewChartItem("39", "30 a 39", _From30To39 ));
             ValoresDeEdad.Add(NewChartItem("40", "40 o más", _From40 ));
             ValoresDeEdad.Add(NewChartItem("NoProporcionado", "No Proporcionado", _EdadNoProporcionada ));
+
+            OnPropertyChanged(nameof(ValoresDeEdad));
         }
 
         private int _Soltero;
@@ -144,6 +174,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ValoresDeEstadoCivil.Add(new ChartItem { Title = "Separada/o", Value = _Separado });
             ValoresDeEstadoCivil.Add(new ChartItem { Title = "Divorciada/o", Value = _Divorciado });
             ValoresDeEstadoCivil.Add(new ChartItem { Title = "No Proporcionado", Value = _EstadoCivilNoProporcionado });
+
+            OnPropertyChanged(nameof(ValoresDeEstadoCivil));
         }
 
         private int _Heterosexual;
@@ -167,6 +199,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ValoresDeOrientacionSexual.Add(new ChartItem { Title = "Lesbiana", Value = _Lesbiana });
             ValoresDeOrientacionSexual.Add(new ChartItem { Title = "Bisexual", Value = _Bisexual });
             ValoresDeOrientacionSexual.Add(new ChartItem { Title = "No Proporcionado", Value = _OrientacionSexualNoProporcionada });
+
+            OnPropertyChanged(nameof(ValoresDeOrientacionSexual));
         }
 
         private int _RedFormal;
@@ -187,6 +221,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ValoresDeComoConocioAGama.Add(new ChartItem { Title = "Red Informal", Value = _RedInformal });
             ValoresDeComoConocioAGama.Add(new ChartItem { Title = "Difusión", Value = _Difusion });
             ValoresDeComoConocioAGama.Add(new ChartItem { Title = "No Proporcionado", Value = _ComoConocioAGamaNoProporcionado });
+
+            OnPropertyChanged(nameof(ValoresDeComoConocioAGama));
         }
 
         private int _Personal;
@@ -207,6 +243,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ValoresDeViaDeAccesoAGama.Add(new ChartItem { Title = "Telefónica", Value = _Telefonica });
             ValoresDeViaDeAccesoAGama.Add(new ChartItem { Title = "Email", Value = _Email });
             ValoresDeViaDeAccesoAGama.Add(new ChartItem { Title = "No Proporcionado", Value = _ViaDeAccesoNoProporcionada });
+
+            OnPropertyChanged(nameof(ValoresDeViaDeAccesoAGama));
         }
 
         private int _Psicologica;
@@ -218,7 +256,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private int _EducacionFormacion;
         private int _ParticipacionEnGama;
         private int _OtraAtencion;
-
 
         private void InicializarAtencionSolicitada()
         {
@@ -245,6 +282,57 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Educación/Formación", Value = _EducacionFormacion });
             ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Participación en Gamá", Value = _ParticipacionEnGama });
             ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Otra", Value = _OtraAtencion });
+
+            OnPropertyChanged(nameof(ValoresDeAtencionSolicitada));
+        }
+
+        private int _DerivacionSocial;
+        private int _DerivacionJuridica;
+        private int _DerivacionPsicologica;
+        private int _DerivacionDeFormacion;
+        private int _DerivacionDeOrientacionLaboral;
+        private int _DerivacionExterna;
+        private int _DerivacionSocial_Realizada;
+        private int _DerivacionJuridica_Realizada;
+        private int _DerivacionPsicologica_Realizada;
+        private int _DerivacionDeFormacion_Realizada;
+        private int _DerivacionDeOrientacionLaboral_Realizada;
+        private int _DerivacionExterna_Realizada;
+
+        private void InicializarDerivaciones()
+        {
+            ValoresDeDerivaciones = new ObservableCollection<ChartItem>();
+
+            List<Derivacion> derivaciones = _AtencionRepository.GetAll().Select(x => x.Derivacion).ToList();
+
+            _DerivacionSocial = derivaciones.Count(x => x.EsSocial);
+            _DerivacionJuridica = derivaciones.Count(x => x.EsJuridica);
+            _DerivacionPsicologica = derivaciones.Count(x => x.EsPsicologica);
+            _DerivacionDeFormacion = derivaciones.Count(x => x.EsDeFormacion);
+            _DerivacionDeOrientacionLaboral = derivaciones.Count(x => x.EsDeOrientacionLaboral);
+            _DerivacionExterna = derivaciones.Count(x => x.EsExterna);
+
+            _DerivacionSocial_Realizada = derivaciones.Count(x => x.EsSocial_Realizada);
+            _DerivacionJuridica_Realizada = derivaciones.Count(x => x.EsJuridica_Realizada);
+            _DerivacionPsicologica_Realizada = derivaciones.Count(x => x.EsPsicologica_Realizada);
+            _DerivacionDeFormacion_Realizada = derivaciones.Count(x => x.EsDeFormacion_Realizada);
+            _DerivacionDeOrientacionLaboral_Realizada = derivaciones.Count(x => x.EsDeOrientacionLaboral_Realizada);
+            _DerivacionExterna_Realizada = derivaciones.Count(x => x.EsExterna_Realizada);
+
+            ValoresDeDerivaciones.Add(new ChartItem { Title = "Psicológica", Value = _DerivacionPsicologica });
+            ValoresDeDerivaciones.Add(new ChartItem { Title = "Psicológica Realizada", Value = _DerivacionPsicologica_Realizada });
+            ValoresDeDerivaciones.Add(new ChartItem { Title = "Jurídica", Value = _DerivacionJuridica });
+            ValoresDeDerivaciones.Add(new ChartItem { Title = "Jurídica Realizada", Value = _DerivacionJuridica_Realizada });
+            ValoresDeDerivaciones.Add(new ChartItem { Title = "Social", Value = _DerivacionSocial });
+            ValoresDeDerivaciones.Add(new ChartItem { Title = "Social Realizada", Value = _DerivacionSocial_Realizada });
+            ValoresDeDerivaciones.Add(new ChartItem { Title = "Orientación Formativa/Laboral", Value = _DerivacionDeOrientacionLaboral });
+            ValoresDeDerivaciones.Add(new ChartItem { Title = "Orientación Formativa/Laboral Realizada", Value = _DerivacionDeOrientacionLaboral_Realizada });
+            ValoresDeDerivaciones.Add(new ChartItem { Title = "Educación/Formación", Value = _DerivacionDeFormacion });
+            ValoresDeDerivaciones.Add(new ChartItem { Title = "Educación/Formación Realizada", Value = _DerivacionDeFormacion_Realizada });
+            ValoresDeDerivaciones.Add(new ChartItem { Title = "Externa", Value = _DerivacionExterna });
+            ValoresDeDerivaciones.Add(new ChartItem { Title = "Externa Realizada", Value = _DerivacionExterna_Realizada });
+
+            OnPropertyChanged(nameof(ValoresDeDerivaciones));
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)

@@ -148,7 +148,7 @@
 
   <Grid Grid.Column="1">
     <graficasViews:DatosPersonalesGraficasView x:Name="_DatosPersonalesGrafivasView"/>
-    <TextBlock x:Name="_AtencionesGraficasView" Visibility="Hidden">AUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU</TextBlock>
+    <graficasViews:AtencionesGraficasView x:Name="_AtencionesGraficasView" Visibility="Hidden"/>
   </Grid>
   </Grid>
 </UserControl>

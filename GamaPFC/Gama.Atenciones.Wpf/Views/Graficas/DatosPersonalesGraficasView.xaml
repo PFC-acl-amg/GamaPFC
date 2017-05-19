@@ -109,22 +109,6 @@
                             ItemsSource="{Binding Path=ValoresDeViaDeAccesoAGama}" />
         </charts:PieChart.Series>
       </charts:PieChart>
-
-      <!-- Atención Solicitada -->
-      <charts:PieChart
-                Margin="{StaticResource Margin}"
-                Grid.Column="1"
-                Palette="{StaticResource MyColorPalette}"
-                ChartTitle="Atención Solicitada"
-                ChartSubTitle="El subtítulo de este gráfico" >
-        <charts:PieChart.Series>
-          <charts:ChartSeries
-                            SeriesTitle="Atención Solicitada"
-                            DisplayMember="Title"
-                            ValueMember="Value"
-                            ItemsSource="{Binding Path=ValoresDeAtencionSolicitada}" />
-        </charts:PieChart.Series>
-      </charts:PieChart>
     </UniformGrid>
   </ScrollViewer>
 </UserControl>
