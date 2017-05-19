@@ -31,7 +31,6 @@
     </Grid.ColumnDefinitions>
     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
       <controls:Tile 
-                x:Name="_Title1"
                 Title="Dashboard"
                 Command="{Binding NavigateCommand}"
                 CommandParameter="DashboardView">
@@ -46,7 +45,6 @@
         </controls:Tile.Style>
       </controls:Tile>
       <controls:Tile 
-                x:Name="_Title2"
                 Title="Personas"
                 Command="{Binding NavigateCommand}"
                 CommandParameter="PersonasContentView">
@@ -89,7 +87,6 @@
         </controls:Tile.Style>
       </controls:Tile>
       <controls:Tile 
-                x:Name="_Title3"
                 Title="Gráficas"
                 Command="{Binding NavigateCommand}"
                 CommandParameter="GraficasContentView">

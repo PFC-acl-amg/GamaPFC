@@ -18,6 +18,7 @@ namespace Gama.Atenciones.Wpf
         private IEventAggregator _EventAggregator;
         private ImageSource _IconSource;
         private bool _PreferenciasFlyoutIsOpen = false;
+        Dictionary<string, bool> _Panels = new Dictionary<string, bool>();
 
         public ShellViewModel(IEventAggregator eventAggregator,
             PersonasContentViewModel personasContentViewModel,
@@ -36,6 +37,12 @@ namespace Gama.Atenciones.Wpf
             Title = "SERVICIO DE ATENCIONES";
             _EventAggregator.GetEvent<AbrirPreferenciasEvent>().Subscribe(OnTogglePreferenciasEvent);
             _EventAggregator.GetEvent<ActiveViewChanged>().Subscribe(OnActiveViewChangedEvent);
+
+            _Panels.Add("DashboardView", false);
+            _Panels.Add("PersonasContentView", false);
+            _Panels.Add("CitasContentView", false);
+            _Panels.Add("AsistentesContentView", false);
+            _Panels.Add("GraficasContentView", false);
 
             SetVisiblePanel("DashboardView");
         }
@@ -83,20 +90,19 @@ namespace Gama.Atenciones.Wpf
 
         private void SetVisiblePanel(string panel)
         {
-            Dictionary<string, bool> values = new Dictionary<string, bool>();
-            values.Add("DashboardView", false);
-            values.Add("PersonasContentView", false);
-            values.Add("CitasContentView", false);
-            values.Add("AsistentesContentView", false);
-            values.Add("GraficasContentView", false);
+            _Panels["DashboardView"] = false;
+            _Panels["PersonasContentView"] = false;
+            _Panels["CitasContentView"] = false;
+            _Panels["AsistentesContentView"] = false;
+            _Panels["GraficasContentView"] = false;
 
-            values[panel] = true;
+            _Panels[panel] = true;
 
-            DashboardViewIsVisible = values["DashboardView"];
-            PersonasContentViewIsVisible = values["PersonasContentView"];
-            CitasContentViewIsVisible = values["CitasContentView"];
-            AsistentesContentViewIsVisible = values["AsistentesContentView"];
-            GraficasContentViewIsVisible = values["GraficasContentView"];
+            DashboardViewIsVisible = _Panels["DashboardView"];
+            PersonasContentViewIsVisible = _Panels["PersonasContentView"];
+            CitasContentViewIsVisible = _Panels["CitasContentView"];
+            AsistentesContentViewIsVisible = _Panels["AsistentesContentView"];
+            GraficasContentViewIsVisible = _Panels["GraficasContentView"];
         }
 
         private void OnActiveViewChangedEvent(string viewName)
