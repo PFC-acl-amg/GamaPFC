@@ -30,6 +30,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             IEventAggregator eventAggregator,
             ICitaRepository citaRepository,
             IPersonaRepository personaRepository,
+            IAsistenteRepository asistenteRepository,
             ISession session)
         {
             _EventAggregator = eventAggregator;
@@ -37,6 +38,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _CitaRepository.Session = session;
             _PersonaRepository = personaRepository;
             _PersonaRepository.Session = session;
+            _AsistenteRepository = asistenteRepository;
+            _AsistenteRepository.Session = session;
             _Session = session;
 
             Citas = new ObservableCollection<CitaWrapper>(
@@ -53,6 +56,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
             _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
+
+            _EventAggregator.GetEvent<AsistenteActualizadoEvent>().Subscribe(OnAsistenteActualizadoEvent);
         }
 
         public ICommand NuevaCitaCommand { get; private set; }
@@ -61,6 +66,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private int _Refresh;
         private IPersonaRepository _PersonaRepository;
+        private IAsistenteRepository _AsistenteRepository;
 
         public int Refresh
         {
@@ -140,6 +146,18 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             foreach (var wrapper in citas)
                 Citas.Remove(wrapper);
+
+            Refresh++;
+        }
+
+        private void OnAsistenteActualizadoEvent(int asistenteId)
+        {
+            Asistente asistente = _AsistenteRepository.GetById(asistenteId);
+
+            var citas = Citas.Where(x => x.Asistente.Id == asistenteId).ToList();
+
+            foreach (var wrapper in citas)
+                wrapper.Asistente.CopyValuesFrom(asistente);
 
             Refresh++;
         }

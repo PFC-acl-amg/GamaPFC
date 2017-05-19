@@ -80,5 +80,38 @@ namespace Gama.Atenciones.Business
 
             IsEncrypted = true;
         }
+
+        public virtual void CopyValuesFrom(Asistente other)
+        {
+            Nif = other.Nif;
+            Nombre = other.Nombre;
+            Apellidos = other.Apellidos;
+            FechaDeNacimiento = other.FechaDeNacimiento;
+            Imagen = other.Imagen;
+
+            ComoConocioAGama = other.ComoConocioAGama;
+            NivelAcademico = other.NivelAcademico;
+            Ocupacion = other.Ocupacion;
+
+            Provincia = other.Provincia;
+            Municipio = other.Municipio;
+            Localidad = other.Localidad;
+            CodigoPostal = other.CodigoPostal;
+            Calle = other.Calle;
+            Numero = other.Numero;
+            Portal = other.Portal;
+            Piso = other.Piso;
+            Puerta = other.Puerta;
+
+            TelefonoFijo = other.TelefonoFijo;
+            TelefonoMovil = other.TelefonoMovil;
+            TelefonoAlternativo = other.TelefonoAlternativo;
+            Email = other.Email;
+            EmailAlternativo = other.EmailAlternativo;
+            LinkedIn = other.LinkedIn;
+            Twitter = other.Twitter;
+            Facebook = other.Facebook;
+            Observaciones = other.Observaciones;
+        }
     }
 }
