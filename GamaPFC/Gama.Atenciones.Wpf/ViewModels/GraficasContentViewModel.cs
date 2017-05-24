@@ -12,6 +12,8 @@ using Gama.Atenciones.Wpf.UIEvents;
 using Prism.Regions;
 using Prism.Events;
 using Gama.Atenciones.Wpf.Eventos;
+using System.Windows.Input;
+using Prism.Commands;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -36,9 +38,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             _Personas = _PersonaRepository.GetAll();
 
-            _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe((id) => Refresh());
-            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe((id) => Refresh());
-            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe((id) => Refresh());
+            _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe((id) => EstadoSinActualizar());
+            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe((id) => EstadoSinActualizar());
+            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe((id) => EstadoSinActualizar());
+
+            RefrescarCommand = new DelegateCommand(() => Refresh(), () => HayCambios);
 
             InicializarIdentidadSexual();
             InicializarRangosDeEdad();
@@ -48,6 +52,21 @@ namespace Gama.Atenciones.Wpf.ViewModels
             InicializarViaDeAccesoAGama();
             InicializarAtencionSolicitada();
             InicializarDerivaciones();
+        }
+
+        public ICommand RefrescarCommand { get; private set; }
+
+        private bool _HayCambios;
+        public bool HayCambios
+        {
+            get { return _HayCambios; }
+            set { SetProperty(ref _HayCambios, value); }
+        }
+
+        private void EstadoSinActualizar()
+        {
+            HayCambios = true;
+            ((DelegateCommand)RefrescarCommand).RaiseCanExecuteChanged();
         }
 
         private void Refresh()
@@ -60,6 +79,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
             InicializarViaDeAccesoAGama();
             InicializarAtencionSolicitada();
             InicializarDerivaciones();
+
+            HayCambios = false;
+            ((DelegateCommand)RefrescarCommand).RaiseCanExecuteChanged();
         }
 
         private void OnPersonaActualizadaEvent(int obj)

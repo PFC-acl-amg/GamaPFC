@@ -46,7 +46,7 @@ namespace Gama.Atenciones.Wpf
         {
             this.Entorno = Entorno.Desarrollo;
             this.ClearDatabase = false;
-            this.SeedDatabase = true;
+            this.SeedDatabase = false;
         }
 
         public override void Initialize()

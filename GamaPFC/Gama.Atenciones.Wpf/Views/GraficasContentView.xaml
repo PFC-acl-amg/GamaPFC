@@ -9,6 +9,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:graficasViews="clr-namespace:Gama.Atenciones.Wpf.Views.Graficas"
              xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
+             xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="617.457" d:DesignWidth="942.692">
@@ -16,6 +17,7 @@
     <designData:GraficasViewModelDTD/>
   </d:DataContext>
   <UserControl.Resources>
+    <BooleanToVisibilityConverter x:Key="_BooleanToVisibilityConverter"/>
     <charts:ResourceDictionaryCollection x:Key="MyColorPalette">
       <ResourceDictionary>
         <SolidColorBrush x:Key="Brush1" Color="#FFFF2900" />
@@ -57,22 +59,24 @@
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
 
-    <Button x:Name="_ToggleVisibilityButton"
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+      <Button x:Name="_ToggleVisibilityButton"
               Click="_ToggleVisibilityButton_Click"
               VerticalAlignment="Top"
-              HorizontalAlignment="Right" Margin="{StaticResource Margin}" 
+              HorizontalAlignment="Right"
+              Margin="4,9,4,4" 
               BorderThickness="0"
               BorderBrush="Transparent"
               Foreground="Black"
               Background="Transparent"
               RenderTransformOrigin="0.5,0.5"
               >
-      <Rectangle Width="20" Height="20" Stroke="Black" >
-        <Rectangle.Fill>
-          <VisualBrush Visual="{StaticResource appbar_3d_3ds}" Stretch="Uniform"/>
-        </Rectangle.Fill>
-      </Rectangle>
-      <Button.RenderTransform>
+        <Rectangle Width="20" Height="20" Stroke="Black" >
+          <Rectangle.Fill>
+            <VisualBrush Visual="{StaticResource appbar_3d_3ds}" Stretch="Uniform"/>
+          </Rectangle.Fill>
+        </Rectangle>
+        <Button.RenderTransform>
         <RotateTransform Angle="180"  />
       </Button.RenderTransform>
       <Button.Style>
@@ -89,11 +93,38 @@
         </Style>
       </Button.Style>
     </Button>
-
+      
+      <cc:CircleIconButton
+        Margin="0,3,0,0"
+                    Icon="{StaticResource appbar_refresh}"
+                    Width="31"
+              VerticalAlignment="Top"
+              HorizontalAlignment="Right"
+                    Height="31"
+                    IconWidth="12"
+                    IconHeight="12"
+                    ToolTip="Resetear Fechas"
+                    Command="{Binding RefrescarCommand}">
+        <Button.Style>
+          <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+            <Setter Property="Opacity" Value="0.5"/>
+            <Style.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1"/>
+                <Setter Property="Cursor" Value="Hand"/>
+              </Trigger>
+              <DataTrigger Binding="{Binding HayCambios}" Value="True">
+                <Setter Property="Foreground" Value="Red"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </Button.Style>
+      </cc:CircleIconButton>
+    </StackPanel>
     <!---->
     <!-- Panel de navegación -->
     <!---->
-      <Grid  Width="190" x:Name="_PanelDeNavegacion" >
+      <Grid  Width="210" x:Name="_PanelDeNavegacion" Margin="{StaticResource Margin}">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto"/>
           <RowDefinition />
@@ -147,8 +178,21 @@
   </Grid>
 
   <Grid Grid.Column="1">
-    <graficasViews:DatosPersonalesGraficasView x:Name="_DatosPersonalesGrafivasView"/>
-    <graficasViews:AtencionesGraficasView x:Name="_AtencionesGraficasView" Visibility="Hidden"/>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition />
+      </Grid.RowDefinitions>
+
+      <TextBlock 
+        Text="Los datos no están actualizados, haga click en el icono de refrescar para actualizarlos."
+        Margin="{StaticResource Margin}"
+        Foreground="#D40B0B"
+        Visibility="{Binding HayCambios, Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+
+      <graficasViews:DatosPersonalesGraficasView x:Name="_DatosPersonalesGrafivasView" Grid.Row="1"/>
+      <graficasViews:AtencionesGraficasView x:Name="_AtencionesGraficasView" Visibility="Hidden" Grid.Row="1"/>
+    </Grid>
   </Grid>
   </Grid>
 </UserControl>
