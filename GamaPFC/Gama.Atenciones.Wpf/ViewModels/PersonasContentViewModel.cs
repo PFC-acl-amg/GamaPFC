@@ -120,20 +120,27 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private bool PersonaEstaAbierta(int personaId, int? atencionId)
         {
-            foreach (var viewModel in ViewModels)
+            try
             {
-                var editarPersonaViewModel = viewModel as EditarPersonaViewModel;
-                if (editarPersonaViewModel != null)
+                foreach (var viewModel in ViewModels)
                 {
-                    if (editarPersonaViewModel.Persona.Id == personaId)
+                    var editarPersonaViewModel = viewModel as EditarPersonaViewModel;
+                    if (editarPersonaViewModel != null)
                     {
-                        editarPersonaViewModel.OnNavigatedTo(personaId, atencionId);
-                        ViewModelSeleccionado = editarPersonaViewModel;
-                        return true;
+                        if (editarPersonaViewModel.Persona.Id == personaId)
+                        {
+                            editarPersonaViewModel.OnNavigatedTo(personaId, atencionId);
+                            ViewModelSeleccionado = editarPersonaViewModel;
+                            return true;
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                throw;
 
+            }
             return false;
         }
 
