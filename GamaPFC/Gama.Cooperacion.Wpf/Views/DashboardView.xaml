@@ -20,134 +20,65 @@
         <designData:DashboardViewModelDTD />
     </d:DataContext>
     <UserControl.Resources>
-        <!--<Style x:Key="MyBorderStyle" TargetType="Border">
-            <Setter Property="BorderBrush" Value="White" />
-            <Setter Property="BorderThickness" Value="2" />
-            <Setter Property="CornerRadius" Value="3" />
-            <Setter Property="Background" Value="White" />
-        </Style>-->
         <BooleanToVisibilityConverter x:Key="BooleanToVisivilityConverter"/>
         <util:BinaryImageConverter x:Key="BinaryImageConverter"/>
         <RadialGradientBrush x:Key="_RadialGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9">
             <GradientStop Color="#ffffffff" Offset="0.5" />
             <GradientStop Color="#FFDC9191" Offset="0.8" />
         </RadialGradientBrush>
-        <!--<converters:BinaryImageConverter x:Key="imgConverter" />-->
         <SolidColorBrush x:Key="AccentColor" Color="{StaticResource AccentColor}"/>
-        <!--<ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>-->
         <ControlTemplate x:Key="ATemplate">
             <TextBlock Name="Img1" Text="{Binding Text}" Visibility="Visible" FontSize="20" />
         </ControlTemplate>
         <ControlTemplate x:Key="BTemplate">
             <TextBlock>B</TextBlock>
         </ControlTemplate>
-
-
-
-
         <Style x:Key="myLBStyle" TargetType="{x:Type ListBoxItem}">
             <Style.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                              Color="Transparent"/>
             </Style.Resources>
         </Style>
-
         <ControlTemplate x:Key="DataItemControlTemplate">
             <Grid Name="DatoListBoxActividades" >
-                <!--<Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="35"/>
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>-->
-                <!--<TextBlock Text="{Binding Id}" FontSize="16"/>
-                <TextBlock Name="SinEnlace" Text="{Binding DisplayMember1}" FontSize="16" Visibility="Visible"/>-->
-                <TextBlock Name="SinEnlace" FontSize="16" Visibility="Visible">
-                     <Run Text="{Binding Id}" />
-                     <Run Text=" " /> <!-- space -->
-                     <Run Text="{Binding DisplayMember1}" />
-                </TextBlock>
+                <Label Name="SinEnlace">
+                    <TextBlock  Foreground="Black" FontSize="18" FontWeight="Bold" Visibility="Visible">
+                        <Run Text="{Binding Id}" FontSize="18" />
+                        <Run Text=" " FontSize="18" />
+                        <Run Text="{Binding DisplayMember1}" FontSize="18" />
+                    </TextBlock>
+                </Label>
                 <Label Name="Enlace" Visibility="Hidden">
-                    <Hyperlink Foreground="Blue" Command="{Binding DataContext.SelectActividadCommand, ElementName=_Root}" CommandParameter="{Binding}">
-                        <TextBlock Text="{Binding Id}" FontSize="16"/>
-                        <TextBlock Text=" " FontSize="16"/>
-                        <TextBlock Text="{Binding DisplayMember1}" FontSize="16"/>
+                    <Hyperlink Foreground="Blue" FontWeight="Bold" Command="{Binding DataContext.SelectActividadCommand, ElementName=_Root}" CommandParameter="{Binding}">
+                        <TextBlock FontSize="18" Visibility="Visible">
+                            <Run Text="{Binding Id}" FontSize="18" />
+                            <Run Text=" " FontSize="18" />
+                            <Run Text="{Binding DisplayMember1}" FontSize="18" />
+                        </TextBlock>
                     </Hyperlink>
-        </Label>
-      </Grid>
-
-      <!--<i:Interaction.Triggers>
-        <i:EventTrigger EventName="MouseDoubleClick">
-          <prism:InvokeCommandAction 
-                                   
-                                    Command="{Binding SelectActividadCommand}"
-                                    CommandParameter="{Binding ElementName=listBox, Path=SelectedItem}"/>
-        </i:EventTrigger>
-      </i:Interaction.Triggers>-->
-
-      <!--<StackPanel Orientation="Horizontal">
-                <TextBlock Name="Img1" Text="{Binding Text}" />
-                <Button Name="Btn1" Visibility="Hidden" Content="Click me!"/>
-            </StackPanel>-->
+                </Label>
+            </Grid>
             <ControlTemplate.Triggers>
                 <DataTrigger Binding="{Binding ElementName=DatoListBoxActividades, Path=IsMouseOver}" Value="True">
                     <Setter Property="Cursor" Value="Hand" />
                     <Setter TargetName="Enlace" Property="Visibility" Value="Visible" />
                     <Setter TargetName="SinEnlace" Property="Visibility" Value="Hidden" />
                 </DataTrigger>
-        <DataTrigger Binding="{Binding ElementName=DatoOriginal, Path=IsMouseOver}" Value="False">
-          <!--<Setter TargetName="DatoModificado" Property="Visibility" Value="Visible" />-->
-          <!--<Setter TargetName="DatoOriginal" Property="Visibility" Value="Visible" />-->
-        </DataTrigger>
-        <!--<EventTrigger RoutedEvent="MouseDoubleClick">
-          <prism:InvokeCommandAction 
-                                   
-                                    Command="{Binding SelectActividadCommand}"
-                                    CommandParameter="{Binding ElementName=listBox, Path=SelectedItem}"/>
-        </EventTrigger>-->
-      </ControlTemplate.Triggers>
-        </ControlTemplate>
-        <!--<ControlTemplate x:Key="DataItemControlTemplate">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Name="Img1" Text="{Binding Text}" Visibility="Visible" FontSize="20" />
-
-                <Label Name="Btn1" HorizontalAlignment="Center" Visibility="Visible">
-                    <Hyperlink >
-                        <TextBlock Text="Seleccioname"/>
-                    </Hyperlink>
-                </Label>
-            </StackPanel>
-            <ControlTemplate.Triggers>
-                <DataTrigger Binding="{Binding ElementName=Img1, Path=IsMouseOver}" Value="True">
-                    <Setter TargetName="Btn1" Property="Visibility" Value="Visible" />
-                    --><!--<Setter TargetName="Img1" Property="Visibility" Value="Collapsed" />-->
-                    <!--<Setter TargetName="Btn1" Property="Visibility" Value="Visible" />--><!--
+                <DataTrigger Binding="{Binding ElementName=DatoOriginal, Path=IsMouseOver}" Value="False">
                 </DataTrigger>
-
-                --><!--<DataTrigger Binding="{Binding ElementName=Btn1, Path=IsMouseOver}" Value="True">
-                    <Setter TargetName="Btn1" Property="Visibility" Value="Visible" />
-                </DataTrigger>-->
-                <!--<DataTrigger Binding="{Binding ElementName=Img1, Path=IsMouseOver}" Value="False">
-                    <Setter TargetName="Btn1" Property="Visibility" Value="Collapsed" />
-                    <Setter TargetName="Img1" Property="Visibility" Value="Visible" />
-                </DataTrigger>-->
-                <!--<DataTrigger Binding="{Binding ElementName=Img1, Path=IsMouseOver}" Value="False">
-                    <Setter TargetName="Btn1" Property="Visibility" Value="Visible" />
-                </DataTrigger>--><!--
             </ControlTemplate.Triggers>
-        </ControlTemplate>-->
+        </ControlTemplate>
 
     </UserControl.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120"/>
+            <!--<ColumnDefinition Width="120"/>-->
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel>    <!--BOTONERA -->
+        <!--Botonera. Nwcwsita de la columna de 120 de dos lineas mas arriba (75)-->
+        <!--<StackPanel>
+           
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" MinHeight="60"/>
@@ -230,25 +161,273 @@
                 </StackPanel>
             </Grid>
 
-        </StackPanel>
+        </StackPanel>-->
         <!--Botonera-->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Border BorderBrush="Gray" BorderThickness="0,0,0,1" Background="White" Padding="4"
-                Margin="{StaticResource MarginHalfNoHorizontal}">
-                <StackPanel Grid.Row="0">
-                    <TextBlock Text="{Binding TituloPrincipal}" FontSize="30" HorizontalAlignment="Left"/>
-                </StackPanel>
+            <!--<Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>-->
+            <Border  BorderBrush="Black" BorderThickness="0,0,0,0" Background="White" 
+                Margin="50,0,0,0" Grid.Row="0" Grid.ColumnSpan="2">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="*" />
+                        <!--<ColumnDefinition Width="150" />-->
+
+                    </Grid.ColumnDefinitions>
+                    <!--<Label  BorderBrush="Gray" BorderThickness="0,0,3,0" Grid.Column="0" >
+
+                    </Label>-->
+                    <Label x:Name="Titulomenu" Grid.Row="0"
+                                                Content="Centro de Actividades"  
+                                                FontSize="18" HorizontalContentAlignment="Center"
+                                                FontWeight="Bold" VerticalAlignment="Center">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Setter Property="Foreground" Value="Black" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="BorderBrush" Value="Gray"/>
+                                <Setter Property="BorderThickness" Value="0,0,3,0" />
+                            </Style>
+                        </Label.Style>
+                    </Label>
+
+                    <Label x:Name="_SeleccionarActividadesLabel" Grid.Column="1"
+                                                Content="Actividades"  
+                                                MouseLeftButtonDown="Label_SeleccionarActividades"
+                                                FontSize="18" HorizontalContentAlignment="Center"
+                                                FontWeight="Bold"
+                                                VerticalAlignment="Center">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Setter Property="Foreground" Value="Black" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Background" Value="White"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Cursor" Value="Hand" />
+                                        <Setter Property="Foreground" Value="Red" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                        <!--<Label.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" 
+                                        Command="{Binding ElementName=_Root,Path=DataContext.ListaDeActividadesCommand}"
+                                        CommandParameter="{Binding}"    
+                                                              />
+                        </Label.InputBindings>-->
+                    </Label>
+                    <Label x:Name="SeleccionarCalendario" Grid.Column="2"
+                                                Content="Calendario"  
+                                                MouseLeftButtonDown="Label_EscogerCooperante"
+                                                FontSize="18" HorizontalContentAlignment="Center"
+                                                VerticalAlignment="Center">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Setter Property="Foreground" Value="Black" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Background" Value="White"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Cursor" Value="Hand" />
+                                        <Setter Property="Foreground" Value="Red" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
+                    <Label x:Name="SeleccionarCooperantes" Grid.Column="3"
+                                                Content="Cooperantes"  
+                                                MouseLeftButtonDown="Label_EscogerCooperante"
+                                                FontSize="18" HorizontalContentAlignment="Center"
+                                                VerticalAlignment="Center">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Setter Property="Foreground" Value="Black" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Background" Value="White"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Cursor" Value="Hand" />
+                                        <Setter Property="Foreground" Value="Red" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
+                    <!--<Border Width="150" CornerRadius="100,100,0,0"  BorderBrush="Black" BorderThickness="3,3,3,0" Grid.Column="1" Margin="0,6,0,0">
+                        <Label Content="Actividades"  FontSize="17" Foreground="white" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+
+                        </Label>
+                    </Border>-->
+                    <!--<Label  BorderBrush="Black" BorderThickness="0,0,0,3" Grid.Column="2" >
+
+                    </Label>-->
+                    <!--<Border Width="150" CornerRadius="100,100,0,0"  BorderBrush="Black" BorderThickness="3,3,3,0" Grid.Column="3" Margin="0,6,0,0">
+                        <Label Content="Actividades" FontSize="17" Foreground="white" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+
+                        </Label>
+                    </Border>-->
+                    <!--<Label  BorderBrush="Black" BorderThickness="0,0,0,3" Grid.Column="4" >
+
+                    </Label>-->
+
+
+                </Grid>
+                <!--<Label Grid.Column="0" HorizontalAlignment="Left" Content="Foros Disponibles" Foreground="White" Padding="0"></Label>
+                <Button Width="40" Height="40" Grid.Column="1" Style="{DynamicResource MetroCircleButtonStyle}" Margin="0,-7,0,-7" Command="{Binding CrearForoCommand}" HorizontalAlignment="Right">
+                    <Rectangle Width="18" Height="18" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_section_expand_all}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>-->
+                <!--<TextBlock Text="{Binding TituloPrincipal}" FontSize="30" HorizontalAlignment="Left"/>-->
+
             </Border>
             <!--Titulo-->
             <!--Listado de Actividades -->
-            <StackPanel Name="ListaActividades" Grid.Row="1" Margin="50,0,0,0" Visibility="{Binding VisibleListaActividades, 
+            <!--<Border Grid.Row="0" BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
+                                                CornerRadius="3" Margin="20">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="Red" Opacity=".50" ShadowDepth="16" />
+                                        </Border.Effect>-->
+            <Border Background="White" Grid.Row="1" Margin="10" Visibility="Visible">
+                <Border.Effect>
+                    <DropShadowEffect Color="Gray" Opacity="1.0" ShadowDepth="0" />
+                </Border.Effect>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Background="White" Margin="10">
+                        <Border.Effect>
+                            <DropShadowEffect Color="Red" Opacity="1.0" ShadowDepth="0" />
+                        </Border.Effect>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="70" /> <!--Espacio en blanco-->
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                            </Grid.RowDefinitions>
+                            <Label x:Name="SeleccionarListaActividadesActivas" Grid.Row="1"
+                                                Content="En Curso"  
+                                                MouseLeftButtonDown="Label_EscogerCooperante"
+                                                FontSize="18" HorizontalContentAlignment="Left"
+                                                VerticalAlignment="Center">
+                                <Label.Style>
+                                    <Style TargetType="Label">
+                                        <Setter Property="Foreground" Value="Black" />
+                                        <Setter Property="FontSize" Value="14" />
+                                        <Setter Property="Background" Value="White"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Cursor" Value="Hand" />
+                                                <Setter Property="Foreground" Value="Red" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Label x:Name="SeleccionarListaActividadesFinalizadas" Grid.Row="2"
+                                                Content="Finalizadas"  
+                                                MouseLeftButtonDown="Label_EscogerCooperante"
+                                                FontSize="18" HorizontalContentAlignment="Left"
+                                                VerticalAlignment="Center">
+                                <Label.Style>
+                                    <Style TargetType="Label">
+                                        <Setter Property="Foreground" Value="Black" />
+                                        <Setter Property="FontSize" Value="14" />
+                                        <Setter Property="Background" Value="White"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Cursor" Value="Hand" />
+                                                <Setter Property="Foreground" Value="Red" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Label x:Name="SeleccionarListaActividadesProximosVencimientos" Grid.Row="3"
+                                                Content="Proximas Fechas"  
+                                                MouseLeftButtonDown="Label_EscogerCooperante"
+                                                FontSize="18" HorizontalContentAlignment="Left"
+                                                VerticalAlignment="Center">
+                                <Label.Style>
+                                    <Style TargetType="Label">
+                                        <Setter Property="Foreground" Value="Black" />
+                                        <Setter Property="FontSize" Value="14" />
+                                        <Setter Property="Background" Value="White"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Cursor" Value="Hand" />
+                                                <Setter Property="Foreground" Value="Red" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Label x:Name="SeleccionarListaActividadesRetrasadas" Grid.Row="4"
+                                                Content="Fuera Fecha"  
+                                                MouseLeftButtonDown="Label_EscogerCooperante"
+                                                FontSize="18" HorizontalContentAlignment="Left"
+                                                VerticalAlignment="Center">
+                                <Label.Style>
+                                    <Style TargetType="Label">
+                                        <Setter Property="Foreground" Value="Black" />
+                                        <Setter Property="FontSize" Value="14" />
+                                        <Setter Property="Background" Value="White"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Cursor" Value="Hand" />
+                                                <Setter Property="Foreground" Value="Red" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Label x:Name="SeleccionarListaActividadesPorComenzar" Grid.Row="5"
+                                                Content="Por Comenzar"  
+                                                MouseLeftButtonDown="Label_EscogerCooperante"
+                                                FontSize="18" HorizontalContentAlignment="Left"
+                                                VerticalAlignment="Center">
+                                <Label.Style>
+                                    <Style TargetType="Label">
+                                        <Setter Property="Foreground" Value="Black" />
+                                        <Setter Property="FontSize" Value="14" />
+                                        <Setter Property="Background" Value="White"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Cursor" Value="Hand" />
+                                                <Setter Property="Foreground" Value="Red" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </Grid>
+                    </Border>
+                    <StackPanel Name="ListaActividades" Grid.Column="1" Margin="50,50,0,50" Visibility="{Binding VisibleListaActividades, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
-                <ScrollViewer HorizontalScrollBarVisibility="Auto">
-                    <!--<ListBox Name="Churro" ItemsSource="{Binding Items}">
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" Height="450">
+                            <!--<ListBox Name="Churro" ItemsSource="{Binding Items}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Name="TextoItem" Text="{Binding Text}" FontSize="20" />
@@ -273,7 +452,7 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                     </ListBox>-->
-                    <!--<Border.Style>
+                            <!--<Border.Style>
                         <Style TargetType="Border">
                             <Style.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True" >
@@ -288,46 +467,45 @@
                             </Style.Triggers>
                         </Style>
                     </Border.Style>-->
-                    <!--ItemContainerStyle="{StaticResource myLBStyle}"-->
-                    <ListBox ItemsSource="{Binding ListaDeActividades}" 
-                             >
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <ContentControl Template="{StaticResource DataItemControlTemplate}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
+                            <!--ItemContainerStyle="{StaticResource myLBStyle}"-->
+                            <ListBox ItemsSource="{Binding ListaDeActividades}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <ContentControl Template="{StaticResource DataItemControlTemplate}" />
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
 
-                        <!--<ListBox.Resources>
-                            <Style TargetType="{x:Type ListBoxItem}">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                            <Border x:Name="Bd"
+                                <ListBox.Resources>
+                                    <Style TargetType="{x:Type ListBoxItem}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                    <Border x:Name="Bd"
                                                 BorderBrush="{TemplateBinding BorderBrush}"
                                                 BorderThickness="{TemplateBinding BorderThickness}"
                                                 Background="{TemplateBinding Background}"
                                                 Padding="{TemplateBinding Padding}"
                                                 SnapsToDevicePixels="true">
-                                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                            </Border>
-                                            
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListBox.Resources>-->
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseDoubleClick">
-                                <prism:InvokeCommandAction 
+                                                    </Border>
+
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.Resources>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                        <prism:InvokeCommandAction 
                                    
                                     Command="{Binding SelectActividadCommand}"
                                     CommandParameter="{Binding ElementName=listBox, Path=SelectedItem}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                        
-                        <!--<ListBox.ItemContainerStyle>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+                                <!--<ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
                                 <Style.Triggers>
                                     <Trigger Property="IsSelected" Value="True" >
@@ -341,10 +519,10 @@
                                 </Style.Resources>
                             </Style>
                         </ListBox.ItemContainerStyle>-->
-                        
-                        
-                        
-                        <!--<ListBox.ItemContainerStyle>
+
+
+
+                                <!--<ListBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ListBoxItem}">
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="true">
@@ -354,8 +532,8 @@
                                 </Style.Triggers>
                             </Style>
                         </ListBox.ItemContainerStyle>-->
-                    </ListBox>
-                    <!--<ListBox Name="Churro" ItemsSource="{Binding Items}">
+                            </ListBox>
+                            <!--<ListBox Name="Churro" ItemsSource="{Binding Items}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Name="TextoItem" Text="{Binding Text}" FontSize="20" />
@@ -380,15 +558,15 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                     </ListBox>-->
-                    <!--<ListBox ItemsSource="{Binding Items}">
+                            <!--<ListBox ItemsSource="{Binding Items}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <ContentControl Template="{StaticResource DataItemControlTemplate}" />
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>-->
-         
-                    <!--<ListBox ItemsSource="{Binding ListaDeActividades}"
+
+                            <!--<ListBox ItemsSource="{Binding ListaDeActividades}"
                              x:Name="listBox1"
                              SelectionMode="Single"
                              ScrollViewer.VerticalScrollBarVisibility="Auto">
@@ -412,16 +590,20 @@
                                        <Setter Property="Cursor" Value="Hand"/>
                                        <Setter Property="ContentTemplate" Value="{StaticResource DataItemControlTemplate}"/>
                                     </Trigger>
-                                    --><!--</Trigger>
+                                    -->
+                            <!--</Trigger>
                                         <Trigger Property="IsMouseOver" Value="true">
-                                        --><!--<Setter Property="Background" Value="Black" />--><!--
+                                        -->
+                            <!--<Setter Property="Background" Value="Black" />-->
+                            <!--
                                         <Setter Property="Cursor" Value="Hand"/>
                                         <Setter Property="ContentTemplate" Value="{StaticResource DataItemControlTemplate}"/>
                                     </Trigger>-->
-                                    <!--<Trigger Property="UIElement.IsMouseOver" Value="True">
+                            <!--<Trigger Property="UIElement.IsMouseOver" Value="True">
                                         <Setter Property="Background" Value="Black" />
                                         <Setter Property="ContentTemplate" Value="{StaticResource DataItemControlTemplate}"/>
-                                    </Trigger>--><!--
+                                    </Trigger>-->
+                            <!--
                                 </Style.Triggers>
                             </Style>
                         </ListBox.ItemContainerStyle>
@@ -433,180 +615,223 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </ListBox>-->
-                </ScrollViewer>
-            </StackPanel>
-            <!--FIN Listado de Actividades -->
+                        </ScrollViewer>
+                    </StackPanel>
+                </Grid>
+            </Border>
             
-            <StackPanel Name="ListaCooperantes" Grid.Row="1" Margin="50,0,10,0" Visibility="{Binding VisibleListaCooperantes, 
+            <!--FIN Listado de Actividades -->
+            <!--ZONA COOPERANTES -->
+            <Border Background="White" Grid.Row="1" Margin="10" Visibility="{Binding VisibleListaCooperantes, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
-                <Grid Height="540">
+                <Border.Effect>
+                    <DropShadowEffect Color="Blue" Opacity="1.0" ShadowDepth="0" />
+                </Border.Effect>
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="200" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <ItemsControl x:Name="CooperanteSeleccionado" ItemsSource="{Binding ListaCooperantes}" 
+                    <!--<Border Grid.Column="0" Background="White" Margin="10">
+                        <Border.Effect>
+                            <DropShadowEffect Color="Red" Opacity="1.0" ShadowDepth="0" />
+                        </Border.Effect>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="70" />
+                                --><!--Espacio en blanco--><!--
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                            </Grid.RowDefinitions>
+                            <Label x:Name="SeleccionarListaCooperantesActivas" Grid.Row="1"
+                                                Content="Cooperantes Activos"  
+                                                MouseLeftButtonDown="Label_EscogerCooperante"
+                                                FontSize="18" HorizontalContentAlignment="Center"
+                                                VerticalAlignment="Center">
+                                <Label.Style>
+                                    <Style TargetType="Label">
+                                        <Setter Property="Foreground" Value="Black" />
+                                        <Setter Property="FontSize" Value="14" />
+                                        <Setter Property="Background" Value="White"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Cursor" Value="Hand" />
+                                                <Setter Property="Foreground" Value="Red" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </Grid>
+                    </Border>-->
+                    <StackPanel Name="ListaCooperantes" Background="White" Grid.Column="1" Margin="50,50,0,50" >
+                        <Grid Height="540">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ItemsControl x:Name="CooperanteSeleccionado" ItemsSource="{Binding ListaCooperantes}" 
                                   Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding VisibleListaTodosCooperantes, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
-                        <ItemsControl.Template>
-                            <ControlTemplate TargetType="{x:Type ItemsControl}">
-                                <ScrollViewer BorderThickness="2" VerticalScrollBarVisibility="Auto">
-                                    <WrapPanel IsItemsHost="True" />
-                                </ScrollViewer>
-                            </ControlTemplate>
-                        </ItemsControl.Template>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
+                                <ItemsControl.Template>
+                                    <ControlTemplate TargetType="{x:Type ItemsControl}">
+                                        <ScrollViewer BorderThickness="2" VerticalScrollBarVisibility="Auto">
+                                            <WrapPanel IsItemsHost="True" />
+                                        </ScrollViewer>
+                                    </ControlTemplate>
+                                </ItemsControl.Template>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
                                             CornerRadius="3"
                                             Margin="20">
-                                    <!--<Border.Effect>
-                                        <DropShadowEffect Color="Blue" Opacity=".50" ShadowDepth="16" />
-                                    </Border.Effect>-->
-                                    <Border.Style>
-                                        <Style TargetType="Border">
-                                            <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True" >
-                                                    <Setter Property="Border.Effect">
-                                                        <Setter.Value>
-                                                            <DropShadowEffect Color="Blue" Opacity=".50" ShadowDepth="16" />
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                    <Setter Property="Cursor" Value="Hand">
-                                                    </Setter>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-                                    <StackPanel>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="80" />
-                                                <ColumnDefinition Width="80"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="80"/>
-                                                <RowDefinition  Height="Auto"/>
-                                                <!--<RowDefinition  Height="Auto"/>-->
-                                            </Grid.RowDefinitions>
-                                            <Image HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Source="{Binding Foto, 
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True" >
+                                                            <Setter Property="Border.Effect">
+                                                                <Setter.Value>
+                                                                    <DropShadowEffect Color="Blue" Opacity=".50" ShadowDepth="16" />
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                            <Setter Property="Cursor" Value="Hand">
+                                                            </Setter>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <StackPanel>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="80" />
+                                                        <ColumnDefinition Width="80"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="80"/>
+                                                        <RowDefinition  Height="Auto"/>
+                                                        <!--<RowDefinition  Height="Auto"/>-->
+                                                    </Grid.RowDefinitions>
+                                                    <Image HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Source="{Binding Foto, 
                                                    Converter={StaticResource BinaryImageConverter}}" 
                                                    Stretch="Uniform"
                                                    MinHeight="105" MaxHeight="105"
                                                    StretchDirection="Both">
-                                                <Image.BitmapEffect>
-                                                    <DropShadowBitmapEffect Color="Black" />
-                                                </Image.BitmapEffect>
-                                            </Image>
-                                            <StackPanel  Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center">
-                                                <TextBlock Text="{Binding Nombre}" VerticalAlignment="Center" 
+                                                        <Image.BitmapEffect>
+                                                            <DropShadowBitmapEffect Color="Black" />
+                                                        </Image.BitmapEffect>
+                                                    </Image>
+                                                    <StackPanel  Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+                                                        <TextBlock Text="{Binding Nombre}" VerticalAlignment="Center" 
                                                        TextWrapping="Wrap"
                                                        HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
-                                                <TextBlock Text="{Binding Apellido}" VerticalAlignment="Center"
+                                                        <TextBlock Text="{Binding Apellido}" VerticalAlignment="Center"
                                                        TextWrapping="Wrap" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
+                                                    </StackPanel>
+                                                    <!--<Label Grid.Row="2">Hola</Label>-->
+                                                </Grid>
                                             </StackPanel>
-                                            <!--<Label Grid.Row="2">Hola</Label>-->
-                                        </Grid>
-                                    </StackPanel>
-                                    <Border.InputBindings>
-                                        <MouseBinding MouseAction="LeftDoubleClick" 
+                                            <Border.InputBindings>
+                                                <MouseBinding MouseAction="LeftDoubleClick" 
                                                               Command="{Binding ElementName=_Root,Path=DataContext.SelectCooperanteCommand}"
                                                               CommandParameter="{Binding}"/>
 
-                                    </Border.InputBindings>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <ItemsControl x:Name="CooperanteSeleccionado1" ItemsSource="{Binding ListaParcialCooperantes}" 
+                                            </Border.InputBindings>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <ItemsControl x:Name="CooperanteSeleccionado1" ItemsSource="{Binding ListaParcialCooperantes}" 
                                   Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding VisibleCooperanteSeleccionado, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
-                        <ItemsControl.Template>
-                            <ControlTemplate TargetType="{x:Type ItemsControl}">
-                                <ScrollViewer BorderThickness="2" VerticalScrollBarVisibility="Auto">
-                                    <WrapPanel IsItemsHost="True" />
-                                </ScrollViewer>
-                            </ControlTemplate>
-                        </ItemsControl.Template>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="200" />
-                                        <RowDefinition Height="35" />
-                                    </Grid.RowDefinitions>
-                                    <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
+                                <ItemsControl.Template>
+                                    <ControlTemplate TargetType="{x:Type ItemsControl}">
+                                        <ScrollViewer BorderThickness="2" VerticalScrollBarVisibility="Auto">
+                                            <WrapPanel IsItemsHost="True" />
+                                        </ScrollViewer>
+                                    </ControlTemplate>
+                                </ItemsControl.Template>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="200" />
+                                                <RowDefinition Height="35" />
+                                            </Grid.RowDefinitions>
+                                            <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
                                                 CornerRadius="3" Margin="20">
-                                        <Border.Effect>
-                                            <DropShadowEffect Color="Red" Opacity=".50" ShadowDepth="16" />
-                                        </Border.Effect>
-                                        <StackPanel>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="80" />
-                                                    <ColumnDefinition Width="80"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="80"/>
-                                                    <RowDefinition  Height="Auto"/>
-                                                    <!--<RowDefinition  Height="Auto"/>-->
-                                                </Grid.RowDefinitions>
-                                                <Image HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Source="{Binding Foto, 
+                                                <Border.Effect>
+                                                    <DropShadowEffect Color="Red" Opacity=".50" ShadowDepth="16" />
+                                                </Border.Effect>
+                                                <StackPanel>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="80" />
+                                                            <ColumnDefinition Width="80"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="80"/>
+                                                            <RowDefinition  Height="Auto"/>
+                                                            <!--<RowDefinition  Height="Auto"/>-->
+                                                        </Grid.RowDefinitions>
+                                                        <Image HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Source="{Binding Foto, 
                                                        Converter={StaticResource BinaryImageConverter}}" 
                                                        Stretch="Uniform"
                                                        MinHeight="105" MaxHeight="105"
                                                        StretchDirection="Both">
-                                                    <Image.BitmapEffect>
-                                                        <DropShadowBitmapEffect Color="Black" />
-                                                    </Image.BitmapEffect>
-                                                </Image>
-                                                <StackPanel  Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding Nombre}" VerticalAlignment="Center" 
+                                                            <Image.BitmapEffect>
+                                                                <DropShadowBitmapEffect Color="Black" />
+                                                            </Image.BitmapEffect>
+                                                        </Image>
+                                                        <StackPanel  Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+                                                            <TextBlock Text="{Binding Nombre}" VerticalAlignment="Center" 
                                                            TextWrapping="Wrap"
                                                            HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
-                                                    <TextBlock Text="{Binding Apellido}" VerticalAlignment="Center"
+                                                            <TextBlock Text="{Binding Apellido}" VerticalAlignment="Center"
                                                            TextWrapping="Wrap" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
+                                                        </StackPanel>
+                                                        <!--<Label Grid.Row="2">Hola</Label>-->
+                                                    </Grid>
                                                 </StackPanel>
-                                                <!--<Label Grid.Row="2">Hola</Label>-->
-                                            </Grid>
-                                        </StackPanel>
-                                    
-                                        <Border.InputBindings>
-                                            <MouseBinding MouseAction="LeftDoubleClick" 
+
+                                                <Border.InputBindings>
+                                                    <MouseBinding MouseAction="LeftDoubleClick" 
                                                                   Command="{Binding ElementName=_Root,Path=DataContext.SelectCooperanteCommand}"
                                                                   CommandParameter="{Binding}"/>
 
-                                        </Border.InputBindings>
-                                    </Border>
-                                    <!--<Label Grid.Row="1">Jose</Label>-->
-                                    <Label x:Name="_EscogerCooperante" Height="35" Grid.Row="1"
+                                                </Border.InputBindings>
+                                            </Border>
+                                            <!--<Label Grid.Row="1">Jose</Label>-->
+                                            <Label x:Name="_EscogerCooperante" Height="35" Grid.Row="1"
                                                 Content="Escoger otro Cooperante"  
                                                 MouseLeftButtonDown="Label_EscogerCooperante"
                                                FontSize="14" HorizontalContentAlignment="Center">
-                                        <Label.Style>
-                                            <Style TargetType="Label">
-                                                <Setter Property="Foreground" Value="Black" />
-                                                <Setter Property="FontSize" Value="14" />
-                                                <Setter Property="Background" Value="White"/>
-                                                <!--<Setter Property="BorderBrush" Value="Black"/>
+                                                <Label.Style>
+                                                    <Style TargetType="Label">
+                                                        <Setter Property="Foreground" Value="Black" />
+                                                        <Setter Property="FontSize" Value="14" />
+                                                        <Setter Property="Background" Value="White"/>
+                                                        <!--<Setter Property="BorderBrush" Value="Black"/>
                                                 <Setter Property="BorderThickness" Value="3,3,0,3" />-->
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Cursor" Value="Hand" />
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Label.Style>
-                                    </Label>
-                                    <!--<Border Grid.Row="1" BorderBrush="Green" BorderThickness="3" Background="Beige" Padding="4"
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Cursor" Value="Hand" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Label.Style>
+                                            </Label>
+                                            <!--<Border Grid.Row="1" BorderBrush="Green" BorderThickness="3" Background="Beige" Padding="4"
                                                 CornerRadius="3" Margin="20">
                                         
                                     </Border>-->
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
 
-                    <!--<ItemsControl x:Name="CooperanteSeleccionado" ItemsSource="{Binding ListaParcialCooperantes}" 
+                            <!--<ItemsControl x:Name="CooperanteSeleccionado" ItemsSource="{Binding ListaParcialCooperantes}" 
                                   Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding VisibleCooperanteSeleccionado, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
                         <ItemsControl.Template>
@@ -621,9 +846,11 @@
                                 <Border BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
                                             CornerRadius="3"
                                             Margin="20">
-                                    --><!--<Border.Effect>
+                                    -->
+                            <!--<Border.Effect>
                                         <DropShadowEffect Color="Blue" Opacity=".50" ShadowDepth="16" />
-                                    </Border.Effect>--><!--
+                                    </Border.Effect>-->
+                            <!--
                                     <Border.Style>
                                         <Style TargetType="Border">
                                             <Style.Triggers>
@@ -648,7 +875,9 @@
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="80"/>
                                                 <RowDefinition  Height="Auto"/>
-                                                --><!--<RowDefinition  Height="Auto"/>--><!--
+                                                -->
+                            <!--<RowDefinition  Height="Auto"/>-->
+                            <!--
                                             </Grid.RowDefinitions>
                                             <Image HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Source="{Binding Foto, 
                                                    Converter={StaticResource BinaryImageConverter}}" 
@@ -666,7 +895,9 @@
                                                 <TextBlock Text="{Binding Apellido}" VerticalAlignment="Center"
                                                        TextWrapping="Wrap" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
                                             </StackPanel>
-                                            --><!--<Label Grid.Row="2">Hola</Label>--><!--
+                                            -->
+                            <!--<Label Grid.Row="2">Hola</Label>-->
+                            <!--
                                         </Grid>
                                     </StackPanel>
                                     <Border.InputBindings>
@@ -679,7 +910,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>-->
-                    <!--<Button Height="50" Background="Blue"  BorderBrush="Black" Grid.Row="0"
+                            <!--<Button Height="50" Background="Blue"  BorderBrush="Black" Grid.Row="0"
                                                BorderThickness="1,1,0,1" Content="Pa'Tras" Foreground="White" 
                                                FontSize="14" HorizontalContentAlignment="Center"
                                                 Command="{Binding PaginaAnteriorCommand}">
@@ -689,282 +920,298 @@
                                                FontSize="14" HorizontalContentAlignment="Center"
                                                Command="{Binding PaginaSiguienteCommand}">
                         </Button>-->
-                 
-                    
-                    
-                    
-                    <!--<Label Grid.Row="0">Zona Datos cooperantes</Label>-->
 
-                    <Border Grid.Column="1" Margin="10,0,10,0" BorderBrush="Black"  Background="Beige" BorderThickness="1,1,1,1" Visibility="{Binding VisibleDatosCooperanteSeleccionado, 
+
+
+
+                            <!--<Label Grid.Row="0">Zona Datos cooperantes</Label>-->
+
+                            <Border Grid.Column="1" Margin="10,0,10,0" BorderBrush="Black"  Background="Beige" BorderThickness="1,1,1,1" Visibility="{Binding VisibleDatosCooperanteSeleccionado, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
-                        <StackPanel Grid.Row="2" >
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="500"/>
-                                    <RowDefinition  Height="40"/>
-                                </Grid.RowDefinitions>
-                                <StackPanel Grid.Row="1" >
+                                <StackPanel Grid.Row="2" >
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="150" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="500"/>
+                                            <RowDefinition  Height="40"/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Grid.Row="1" >
 
-                                </StackPanel>
-                                <StackPanel Background="#0079F7" Grid.Column="0" Grid.Row="0">
-                                    <Label x:Name="_ZonaAzul1Label" Height="35" Background="#0079F7"  
+                                        </StackPanel>
+                                        <StackPanel Background="#0079F7" Grid.Column="0" Grid.Row="0">
+                                            <Label x:Name="_ZonaAzul1Label" Height="35" Background="#0079F7"  
                                            BorderBrush="Black" BorderThickness="0,0,3,0"></Label>
-                                    <Label x:Name="_ActividadesLabel" Margin="20,0,0,0" Height="35" 
+                                            <Label x:Name="_ActividadesLabel" Margin="20,0,0,0" Height="35" 
                                                 Content="Actividades"  
                                                 MouseLeftButtonDown="Label_ActividadesCooperante"
                                                FontSize="14" HorizontalContentAlignment="Center">
-                                        <Label.Style>
-                                            <Style TargetType="Label">
-                                                <Setter Property="Foreground" Value="Black" />
-                                                <Setter Property="FontSize" Value="14" />
-                                                <Setter Property="Background" Value="White"/>
-                                                <Setter Property="BorderBrush" Value="Black"/>
-                                                <Setter Property="BorderThickness" Value="3,3,0,3" />
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Cursor" Value="Hand" />
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Label.Style>
-                                    </Label>
-                                    <Label x:Name="_ZonaAzul2Label" Height="35" Background="#0079F7"  
+                                                <Label.Style>
+                                                    <Style TargetType="Label">
+                                                        <Setter Property="Foreground" Value="Black" />
+                                                        <Setter Property="FontSize" Value="14" />
+                                                        <Setter Property="Background" Value="White"/>
+                                                        <Setter Property="BorderBrush" Value="Black"/>
+                                                        <Setter Property="BorderThickness" Value="3,3,0,3" />
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Cursor" Value="Hand" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Label.Style>
+                                            </Label>
+                                            <Label x:Name="_ZonaAzul2Label" Height="35" Background="#0079F7"  
                                            BorderBrush="Black" BorderThickness="0,0,3,0"></Label>
 
-                                    <!--</Border>-->
-                                    <Label x:Name="_DatosDNILabel" Height="35" Margin="10,0,0,0"  Background="#0079F7"  BorderBrush="Black" BorderThickness="0,0,3,0"  Content="Datos DNI" Foreground="White" 
+                                            <!--</Border>-->
+                                            <Label x:Name="_DatosDNILabel" Height="35" Margin="10,0,0,0"  Background="#0079F7"  BorderBrush="Black" BorderThickness="0,0,3,0"  Content="Datos DNI" Foreground="White" 
                                                FontSize="14" HorizontalContentAlignment="Center"
                                                MouseLeftButtonDown="Label_DatosDNI">
-                                        <Label.Style>
-                                            <Style TargetType="Label">
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Cursor" Value="Hand" />
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Label.Style>
-                                    </Label>
-                                    <Label x:Name="_ZonaAzul3Label" Height="35" Background="#0079F7"  
+                                                <Label.Style>
+                                                    <Style TargetType="Label">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Cursor" Value="Hand" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Label.Style>
+                                            </Label>
+                                            <Label x:Name="_ZonaAzul3Label" Height="35" Background="#0079F7"  
                                            BorderBrush="Black" BorderThickness="0,0,3,0"></Label>
-                                    <Label x:Name="_ContactoLabel" Height="35" Margin="10,0,0,0" Background="#0079F7"  BorderBrush="Black" BorderThickness="0,0,3,0"  Content="Contacto" Foreground="White" 
+                                            <Label x:Name="_ContactoLabel" Height="35" Margin="10,0,0,0" Background="#0079F7"  BorderBrush="Black" BorderThickness="0,0,3,0"  Content="Contacto" Foreground="White" 
                                                FontSize="14" HorizontalContentAlignment="Center"
                                                MouseLeftButtonDown="Label_Contacto">
-                                        <Label.Style>
-                                            <Style TargetType="Label">
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Cursor" Value="Hand" />
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Label.Style>
-                                    </Label>
-                                    <Label x:Name="_ZonaAzul4Label" Height="35" Background="#0079F7"  
+                                                <Label.Style>
+                                                    <Style TargetType="Label">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Cursor" Value="Hand" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Label.Style>
+                                            </Label>
+                                            <Label x:Name="_ZonaAzul4Label" Height="35" Background="#0079F7"  
                                            BorderBrush="Black" BorderThickness="0,0,3,0"></Label>
-                                    <Label x:Name="_DireccionLabel" Height="35" Margin="10,0,0,0" Background="#0079F7"  BorderBrush="Black" BorderThickness="0,0,3,0"  Content="Dirección" Foreground="White" 
+                                            <Label x:Name="_DireccionLabel" Height="35" Margin="10,0,0,0" Background="#0079F7"  BorderBrush="Black" BorderThickness="0,0,3,0"  Content="Dirección" Foreground="White" 
                                                FontSize="14" HorizontalContentAlignment="Center"
                                                MouseLeftButtonDown="Label_Direccion">
-                                        <Label.Style>
-                                            <Style TargetType="Label">
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Cursor" Value="Hand" />
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Label.Style>
-                                    </Label>
-                                    <Label x:Name="_AzulLabel" Height="380"  Background="#0079F7" BorderBrush="Black" BorderThickness="0,0,3,0">
-                                    </Label>
+                                                <Label.Style>
+                                                    <Style TargetType="Label">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Cursor" Value="Hand" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Label.Style>
+                                            </Label>
+                                            <Label x:Name="_AzulLabel" Height="380"  Background="#0079F7" BorderBrush="Black" BorderThickness="0,0,3,0">
+                                            </Label>
 
-                                </StackPanel>
-                                <Border BorderBrush="Black"  Background="White" BorderThickness="0,1,1,1" Visibility="{Binding VisibleDatosDNI, 
+                                        </StackPanel>
+                                        <Border BorderBrush="Black"  Background="White" BorderThickness="0,1,1,1" Visibility="{Binding VisibleDatosDNI, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}"
                                              Grid.Column="1" Grid.Row="0" >
-                                    <StackPanel  Name="DatosDNI" Margin="10,0,0,0" >
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="35" />
-                                                <RowDefinition Height="35" />
-                                                <RowDefinition Height="35" />
-                                                <RowDefinition Height="35" />
-                                                <RowDefinition Height="50" />
-                                                <RowDefinition Height="50" />
-                                                <RowDefinition Height="50" />
-                                            </Grid.RowDefinitions>
+                                            <StackPanel  Name="DatosDNI" Margin="10,0,0,0" >
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="35" />
+                                                        <RowDefinition Height="35" />
+                                                        <RowDefinition Height="35" />
+                                                        <RowDefinition Height="35" />
+                                                        <RowDefinition Height="50" />
+                                                        <RowDefinition Height="50" />
+                                                        <RowDefinition Height="50" />
+                                                    </Grid.RowDefinitions>
 
-                                            <Ellipse Grid.Column="0" Margin="5" Grid.Row="0" Grid.RowSpan="5" Height="200" Width="200" OpacityMask="{StaticResource _RadialGradientBrush}">
-                                                <Ellipse.Fill>
-                                                    <ImageBrush ImageSource="{Binding CooperanteSeleccionado.Foto, Converter={StaticResource BinaryImageConverter}}" Stretch="Uniform"/>
-                                                </Ellipse.Fill>
-                                            </Ellipse>
+                                                    <Ellipse Grid.Column="0" Margin="5" Grid.Row="0" Grid.RowSpan="5" Height="200" Width="200" OpacityMask="{StaticResource _RadialGradientBrush}">
+                                                        <Ellipse.Fill>
+                                                            <ImageBrush ImageSource="{Binding CooperanteSeleccionado.Foto, Converter={StaticResource BinaryImageConverter}}" Stretch="Uniform"/>
+                                                        </Ellipse.Fill>
+                                                    </Ellipse>
 
-                                            <TextBox  Name="NombreCooperante"
+                                                    <TextBox  Name="NombreCooperante"
                                                   Grid.Row="0" Grid.Column="1"
                                                   BorderThickness="1"
                                                   metro:TextBoxHelper.Watermark="Nombre..."
                                                   TextWrapping="WrapWithOverflow"
                                                   Margin="{StaticResource Margin}"
                                                   Text="{Binding CooperanteSeleccionado.Nombre, UpdateSourceTrigger=PropertyChanged}"/>
-                                            <TextBox  Name="ApellidosCooperante"
+                                                    <TextBox  Name="ApellidosCooperante"
                                                   Grid.Row="1" Grid.Column="1"
                                                   BorderThickness="1"
                                                   metro:TextBoxHelper.Watermark="Nombre..."
                                                   TextWrapping="WrapWithOverflow"
                                                   Margin="{StaticResource Margin}"
                                                   Text="{Binding CooperanteSeleccionado.Apellido, UpdateSourceTrigger=PropertyChanged}"/>
-                                            <TextBox  Name="DniCooperante"
+                                                    <TextBox  Name="DniCooperante"
                                                   Grid.Row="2" Grid.Column="1"
                                                   BorderThickness="1"
                                                   metro:TextBoxHelper.Watermark="Nombre..."
                                                   TextWrapping="WrapWithOverflow"
                                                   Margin="{StaticResource Margin}"
                                                   Text="{Binding CooperanteSeleccionado.Dni, UpdateSourceTrigger=PropertyChanged}"/>
-                                            <DatePicker  Grid.Row="3" Grid.Column="1"
+                                                    <DatePicker  Grid.Row="3" Grid.Column="1"
                                                  SelectedDate="{Binding CooperanteSeleccionado.FechaDeNacimiento, 
                                                     UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                     Height="24" />
-                                            <TextBox  Name="XamlOtrosDatos"
+                                                    <TextBox  Name="XamlOtrosDatos"
                                                   Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
                                                   BorderThickness="1"
                                                   metro:TextBoxHelper.Watermark="Observaciones..."
                                                   TextWrapping="Wrap"
                                                   Margin="{StaticResource Margin}"
                                                   Text="{Binding CooperanteSeleccionado.Observaciones,UpdateSourceTrigger=PropertyChanged}"/>
-                                        </Grid>
+                                                </Grid>
 
 
 
-                                    </StackPanel>
-                                </Border>
-                                <!-- Border Para Poner la lista de actividades -->
-                                <Border BorderBrush="Black"  Background="White" BorderThickness="0,1,1,1" Visibility="{Binding VisibleListaActividadesCooperante, 
+                                            </StackPanel>
+                                        </Border>
+                                        <!-- Border Para Poner la lista de actividades -->
+                                        <Border BorderBrush="Black"  Background="White" BorderThickness="0,1,1,1" Visibility="{Binding VisibleListaActividadesCooperante, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}"
                                              Grid.Column="1" Grid.Row="0">
-                                    <StackPanel Name="ListaActividades1" Margin="10,0,0,0">
-                                        <Label>Coordinadora</Label>
-                                        <Border BorderThickness="0" BorderBrush="Black" Padding="10" Margin="{StaticResource Margin}"
+                                            <StackPanel Name="ListaActividades1" Margin="10,0,0,0">
+                                                <Label>Coordinadora</Label>
+                                                <Border BorderThickness="0" BorderBrush="Black" Padding="10" Margin="{StaticResource Margin}"
                                                             Panel.ZIndex="999">
-                                            <Border.Style>
-                                                <Style TargetType="{x:Type Border}">
-                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding ElementName=listBox, Path=Items.Count}" Value="0">
-                                                            <Setter Property="Visibility" Value="Visible" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Border.Style>
-                                            <TextBlock HorizontalAlignment="Center">No Coordina ninguna Actividad</TextBlock>
-                                        </Border>
-                                        <ScrollViewer HorizontalScrollBarVisibility="Auto">
-                                            <ListBox ItemsSource="{Binding ElementName=_Root,Path=DataContext.ListaDeActividadesCoordina}"
+                                                    <Border.Style>
+                                                        <Style TargetType="{x:Type Border}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding ElementName=listBox, Path=Items.Count}" Value="0">
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                    <TextBlock HorizontalAlignment="Center">No Coordina ninguna Actividad</TextBlock>
+                                                </Border>
+                                                <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                                                    <ListBox ItemsSource="{Binding ElementName=_Root,Path=DataContext.ListaDeActividadesCoordina}"
                                                      x:Name="listBox"
                                                      SelectionMode="Single"
                                                      ScrollViewer.VerticalScrollBarVisibility="Auto">
-                                                <ListBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Grid>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="35"/>
-                                                                <ColumnDefinition />
-                                                            </Grid.ColumnDefinitions>
-                                                            <TextBlock Text="{Binding Id}" FontSize="12"/>
-                                                            <TextBlock Grid.Column="2" Text="{Binding DisplayMember1}" FontSize="12"/>
+                                                        <ListBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <ContentControl Template="{StaticResource DataItemControlTemplate}" />
+                                                            </DataTemplate>
+                                                        </ListBox.ItemTemplate>
 
-                                                            <Grid.InputBindings>
-                                                                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding SelectActividadCommand }" 
-                                                                              CommandParameter="{Binding ElementName=listBox, Path=SelectedItem}">
-                                                                    
-                                                                </MouseBinding>
-                                                            </Grid.InputBindings>
-                                                        <!--<i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="MouseDoubleClick">
-                                                        <prism:InvokeCommandAction 
-                                    Command="{Binding SelectActividadCommand}"
-                                    CommandParameter="{Binding}"/> 
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>-->
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </ListBox.ItemTemplate>
-                                                
-                                            </ListBox>
-                                        </ScrollViewer>
-                                        <Label>Cooperante</Label>
-                                        <Border BorderThickness="0" BorderBrush="Black" Padding="10" Margin="{StaticResource Margin}"
+                                                        <ListBox.Resources>
+                                                            <Style TargetType="{x:Type ListBoxItem}">
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                                            <Border x:Name="Bd"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                Background="{TemplateBinding Background}"
+                                                Padding="{TemplateBinding Padding}"
+                                                SnapsToDevicePixels="true">
+                                                                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                                            </Border>
+
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </ListBox.Resources>
+
+                                                    </ListBox>
+                                                </ScrollViewer>
+                                                <Label>Cooperante</Label>
+                                                <Border BorderThickness="0" BorderBrush="Black" Padding="10" Margin="{StaticResource Margin}"
                                                             Panel.ZIndex="999">
-                                            <Border.Style>
-                                                <Style TargetType="{x:Type Border}">
-                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding ElementName=listBox2, Path=Items.Count}" Value="0">
-                                                            <Setter Property="Visibility" Value="Visible" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Border.Style>
-                                            <TextBlock HorizontalAlignment="Center">No coopera en ninguna Actividad</TextBlock>
-                                        </Border>
-                                        <ScrollViewer HorizontalScrollBarVisibility="Auto">
-                                            <ListBox ItemsSource="{Binding ElementName=_Root,Path=DataContext.ListaDeActividadesCooperante}"
+                                                    <Border.Style>
+                                                        <Style TargetType="{x:Type Border}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding ElementName=listBox2, Path=Items.Count}" Value="0">
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                    <TextBlock HorizontalAlignment="Center">No coopera en ninguna Actividad</TextBlock>
+                                                </Border>
+                                                <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                                                    <ListBox ItemsSource="{Binding ElementName=_Root,Path=DataContext.ListaDeActividadesCooperante}"
                                                      x:Name="listBox2"
                                                      SelectionMode="Single"
                                                      ScrollViewer.VerticalScrollBarVisibility="Auto">
-                                                <ListBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Grid>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="35"/>
-                                                                <ColumnDefinition />
-                                                            </Grid.ColumnDefinitions>
-                                                            <TextBlock Text="{Binding Id}" FontSize="12"/>
-                                                            <TextBlock Grid.Column="2" Text="{Binding DisplayMember1}" FontSize="12"/>
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </ListBox.ItemTemplate>
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="MouseDoubleClick">
-                                                        <prism:InvokeCommandAction 
+                                                        <ListBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <ContentControl Template="{StaticResource DataItemControlTemplate}" />
+                                                            </DataTemplate>
+                                                        </ListBox.ItemTemplate>
+
+                                                        <ListBox.Resources>
+                                                            <Style TargetType="{x:Type ListBoxItem}">
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                                            <Border x:Name="Bd"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                Background="{TemplateBinding Background}"
+                                                Padding="{TemplateBinding Padding}"
+                                                SnapsToDevicePixels="true">
+                                                                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                                            </Border>
+
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </ListBox.Resources>
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="MouseDoubleClick">
+                                                                <prism:InvokeCommandAction 
                                     Command="{Binding SelectActividadCommand}"
                                     CommandParameter="{Binding ElementName=listBox, Path=SelectedItem}"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </ListBox>
-                                        </ScrollViewer>
-                                    </StackPanel>
-                                </Border>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </ListBox>
+                                                </ScrollViewer>
+                                            </StackPanel>
+                                        </Border>
 
-                                <Border BorderBrush="Black"  Background="White" BorderThickness="0,1,1,1" Visibility="{Binding VisibleContacto, 
+                                        <Border BorderBrush="Black"  Background="White" BorderThickness="0,1,1,1" Visibility="{Binding VisibleContacto, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}"
                                              Grid.Column="1" Grid.Row="0">
-                                    <StackPanel>
-                                        <Label>
-                                            Zona de datos de contacto
-                                        </Label>
-                                    </StackPanel>
-                                </Border>
+                                            <StackPanel>
+                                                <Label>
+                                                    Zona de datos de contacto
+                                                </Label>
+                                            </StackPanel>
+                                        </Border>
 
-                                <Border BorderBrush="Black"  Background="White" BorderThickness="0,1,1,1" Visibility="{Binding VisibleDireccion, 
+                                        <Border BorderBrush="Black"  Background="White" BorderThickness="0,1,1,1" Visibility="{Binding VisibleDireccion, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}"
                                              Grid.Column="1" Grid.Row="0">
-                                    <StackPanel>
-                                        <Label>
-                                            Zona de datos de Direccion cooperante seleccionado
-                                        </Label>
-                                    </StackPanel>
-                                </Border>
+                                            <StackPanel>
+                                                <Label>
+                                                    Zona de datos de Direccion cooperante seleccionado
+                                                </Label>
+                                            </StackPanel>
+                                        </Border>
 
-                                <!--<Border BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
+                                        <!--<Border BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
                                             CornerRadius="3" Grid.Column="0" Grid.Row="0"
                                             Margin="5">
                                 <Border.Effect>
@@ -984,9 +1231,9 @@
 
                                 </StackPanel>
                             </Border>-->
-                            </Grid>
+                                    </Grid>
 
-                            <!--<Grid>
+                                    <!--<Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
@@ -1206,22 +1453,24 @@
                                 <Button Content=" Editar" Command="{Binding CancelarCommand}"  Margin="{StaticResource Margin}"/>
                             </StackPanel>
                         </Grid>-->
-                        </StackPanel>
-                    </Border>
-                    <Border Grid.Column="1" Margin="10,0,10,0"  Background="White" Visibility="{Binding VisibleImagenSeleccionCooperante, 
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Column="1" Margin="10,0,10,0"  Background="White" Visibility="{Binding VisibleImagenSeleccionCooperante, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
-                        <StackPanel>
-                            <Image Source="{StaticResource IconoDedoAcusador}" Height="400" Width="400" Margin="10,10,100,10" HorizontalAlignment="center"/>
-                            <Label x:Name="_EscogerCooperante" Height="45" 
+                                <StackPanel>
+                                    <Image Source="{StaticResource IconoDedoAcusador}" Height="400" Width="400" Margin="10,10,100,10" HorizontalAlignment="center"/>
+                                    <Label x:Name="_EscogerCooperante" Height="45" 
                                                 Content="Escoge un Cooperante"  
                                                 MouseLeftButtonDown="Label_EscogerCooperante"
                                                 FontSize="24" HorizontalContentAlignment="Center">
-                            </Label>
-                        </StackPanel>
-                    </Border>
-                    <!--<Label Grid.Row="2" HorizontalAlignment="Center">Seleccione un Cooperante</Label>-->
+                                    </Label>
+                                </StackPanel>
+                            </Border>
+                            <!--<Label Grid.Row="2" HorizontalAlignment="Center">Seleccione un Cooperante</Label>-->
+                        </Grid>
+                    </StackPanel>
                 </Grid>
-            </StackPanel>
+            </Border>
         </Grid>
     </Grid>
 
