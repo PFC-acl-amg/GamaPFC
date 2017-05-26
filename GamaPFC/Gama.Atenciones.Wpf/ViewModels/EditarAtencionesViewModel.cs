@@ -56,7 +56,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommandExecute);
 
-            EditarCitaCommand = new DelegateCommand(OnEditarCitaCommandExecute);
+            EditarCitaCommand = new DelegateCommand(OnEditarCitaCommandExecute, () => AtencionSeleccionada != null);
 
             PropertyChanged += EditarAtencionesViewModel_PropertyChanged;
 

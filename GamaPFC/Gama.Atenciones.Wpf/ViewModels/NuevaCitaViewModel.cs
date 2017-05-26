@@ -136,9 +136,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public void LoadForEdition(CitaWrapper citaExistente)
         {
             Cita = citaExistente;
-            Cita.PropertyChanged += Cita_PropertyChanged;
-            InicializarColecciones(incluirPersonas: false, personaSeleccionada: citaExistente.Persona);
-            PersonaSeleccionada = Personas.Find(x => x.Id == citaExistente.Persona.Id);
+            //if (Cita != null)
+            //{
+                Cita.PropertyChanged += Cita_PropertyChanged;
+                InicializarColecciones(incluirPersonas: false, personaSeleccionada: citaExistente.Persona);
+                PersonaSeleccionada = Personas.Find(x => x.Id == citaExistente.Persona.Id);
+            //}
         }
 
         /// <summary>
