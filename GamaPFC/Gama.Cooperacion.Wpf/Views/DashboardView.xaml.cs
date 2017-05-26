@@ -309,5 +309,15 @@ namespace Gama.Cooperacion.Wpf.Views
             vm.VisibleListaTodosCooperantes = true;
             vm.VisibleListaCooperantes = true;
         }
+        private void Label_SeleccionarActividades(object sender, MouseButtonEventArgs e)
+        {
+            var labelActividades = _SeleccionarActividadesLabel;
+            var vm = this.DataContext as DashboardViewModel;
+            labelActividades.Foreground = Brushes.Yellow;
+
+            vm.ListaDeActividadesCommand.Execute(null);
+            
+        }
+
     }
 }

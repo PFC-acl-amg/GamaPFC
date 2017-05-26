@@ -11,7 +11,7 @@ namespace Gama.Cooperacion.Wpf.Services
         public CooperacionSettings()
         {
             DashboardActividadesLongitudDeTitulos = 40;
-            DashboardActividadesAMostrar = 15;
+            DashboardActividadesAMostrar = 150;
             DashboardCooperantesAMostrar = 25;
             DashboardMesesAMostrarDeActividadesNuevas = 6;
             DashboardMesesAMostrarDeCooperantesNuevos = 6;

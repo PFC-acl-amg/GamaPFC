@@ -77,9 +77,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 this.Items.Add(new Item("Thi is item number " + i));
             }
+            //Where(x => x.Id == obj.Id).FirstOrDefault();
             ListaCompletaActividades = new ObservableCollection<Actividad>(_actividadRepository.GetAll());
             ListaDeActividades = new ObservableCollection<LookupItem>(
                 _actividadRepository.GetAll()
+                    .Where(a=> a.Estado == Estado.Comenzado)
                     .OrderBy(a => a.FechaDeFin)
                     .Take(_settings.DashboardActividadesAMostrar)
                 .Select(a => new LookupItem
@@ -151,6 +153,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             TituloPrincipal = "Listado de Actividades Disponibles";
             VisibleListaActividades = true;
             VisibleListaCooperantes = false;
+            ListaDeActividades.RemoveAt(1);
         }
         private void OnNuevaActividadCommandExecute()
         {
