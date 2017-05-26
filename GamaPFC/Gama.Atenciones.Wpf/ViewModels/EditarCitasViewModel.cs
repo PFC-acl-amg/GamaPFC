@@ -12,6 +12,7 @@ using System.Linq;
 using System.Windows.Input;
 using System;
 using Prism;
+using Gama.Atenciones.Business;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -81,6 +82,14 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             Persona = wrapper;
             Citas = Persona.Citas;
+        }
+
+        public void ActualizarCita(Cita cita)
+        {
+            var citaDesactualizada = Persona.Citas.First(x => x.Id == cita.Id);
+            citaDesactualizada.CopyValuesFrom(cita);
+            Persona.AcceptChanges();
+            Refresh++;
         }
 
         private void OnNuevaAtencionCommandExecute(CitaWrapper cita)

@@ -29,11 +29,17 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public CitasContentViewModel(
             IEventAggregator eventAggregator,
             ICitaRepository citaRepository,
+            IPersonaRepository personaRepository,
+            IAsistenteRepository asistenteRepository,
             ISession session)
         {
             _EventAggregator = eventAggregator;
             _CitaRepository = citaRepository;
             _CitaRepository.Session = session;
+            _PersonaRepository = personaRepository;
+            _PersonaRepository.Session = session;
+            _AsistenteRepository = asistenteRepository;
+            _AsistenteRepository.Session = session;
             _Session = session;
 
             Citas = new ObservableCollection<CitaWrapper>(
@@ -45,6 +51,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
             EditarCitaCommand = new DelegateCommand<CitaWrapper>(OnEditarCitaCommandExecute);
 
             _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
+            _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
+            _EventAggregator.GetEvent<CitaEliminadaEvent>().Subscribe(OnCitaEliminadaEvent);
+
+            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
+            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
+
+            _EventAggregator.GetEvent<AsistenteActualizadoEvent>().Subscribe(OnAsistenteActualizadoEvent);
         }
 
         public ICommand NuevaCitaCommand { get; private set; }
@@ -52,6 +65,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand EditarCitaCommand { get; private set; }
 
         private int _Refresh;
+        private IPersonaRepository _PersonaRepository;
+        private IAsistenteRepository _AsistenteRepository;
+
         public int Refresh
         {
             get { return _Refresh; }
@@ -69,7 +85,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             var o = new NuevaCitaView();
             var vm = (NuevaCitaViewModel)o.DataContext;
-            vm.Session = _Session;
+            //vm.Session = _Session;
             vm.LoadWithDefaultPerson();
             vm.Cita.Fecha = fechaSeleccionada.Date;
             o.ShowDialog();
@@ -81,12 +97,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var o = new NuevaCitaView();
             o.Title = "Editar Cita";
             var vm = (NuevaCitaViewModel)o.DataContext;
-            vm.Session = _Session;
+            //vm.Session = _Session;
             vm.EnEdicionDeCitaExistente = true;
             vm.LoadForEdition(wrapper);
-            //vm.Cita.CopyValuesFrom(wrapper.Model);
-            //CitaWrapper citaActualizada = Citas.Where(x => x.Id == vm.Cita.Id).FirstOrDefault();
-            //citaActualizada.CopyValuesFrom(vm.Cita.Model);
             o.ShowDialog();
             Refresh++;
         }
@@ -94,8 +107,59 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnCitaCreadaEvent(int id)
         {
             Cita cita = _CitaRepository.GetById(id);
-
             Citas.Add(new CitaWrapper(cita));
+        }
+
+        private void OnCitaActualizadaEvent(int citaId)
+        {
+            Cita cita = _CitaRepository.GetById(citaId);
+
+            Cita citaDesactualizada = Citas.Select(x => x.Model).First(x => x.Id == citaId);
+            citaDesactualizada.CopyValuesFrom(cita);
+            OnPropertyChanged(nameof(Citas));
+        }
+
+        private void OnCitaEliminadaEvent(int citaId)
+        {
+            CitaWrapper cita = Citas.Where(x => x.Id == citaId).First();
+            Citas.Remove(cita);
+            Refresh++;
+        }
+
+        private void OnPersonaActualizadaEvent(int personaId)
+        {
+            Persona persona = _PersonaRepository.GetById(personaId);
+
+            var citas = Citas.Where(x => x.Persona.Id == personaId).ToList();
+
+            foreach (var cita in citas)
+            {
+                cita.Persona.CopyValuesFrom(persona);
+            }
+
+            Refresh++;
+        }
+
+        private void OnPersonaEliminadaEvent(int personaId)
+        {
+            var citas = Citas.Where(x => x.Persona.Id == personaId).ToList();
+
+            foreach (var wrapper in citas)
+                Citas.Remove(wrapper);
+
+            Refresh++;
+        }
+
+        private void OnAsistenteActualizadoEvent(int asistenteId)
+        {
+            Asistente asistente = _AsistenteRepository.GetById(asistenteId);
+
+            var citas = Citas.Where(x => x.Asistente.Id == asistenteId).ToList();
+
+            foreach (var wrapper in citas)
+                wrapper.Asistente.CopyValuesFrom(asistente);
+
+            Refresh++;
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)

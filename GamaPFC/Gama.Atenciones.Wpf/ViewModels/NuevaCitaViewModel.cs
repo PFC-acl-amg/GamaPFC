@@ -23,15 +23,18 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private IEventAggregator _EventAggregator;
         private IAsistenteRepository _AsistenteRepository;
 
-        public NuevaCitaViewModel(IPersonaRepository personaRepository,
+        public NuevaCitaViewModel(
+            IPersonaRepository personaRepository,
             ICitaRepository citaRepository,
             IAsistenteRepository asistenteRepository,
-            IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator,
+            ISession session)
         {
             _PersonaRepository = personaRepository;
             _CitaRepository = citaRepository;
             _AsistenteRepository = asistenteRepository;
             _EventAggregator = eventAggregator;
+            Session = session;
 
             AceptarCommand = new DelegateCommand(OnAceptarCommand_Execute,
                 OnAceptarCommand_CanExecute);
@@ -102,7 +105,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             if (incluirPersonas)
             {
                 //Personas = new List<Persona>(_PersonaRepository.GetAll());
-                Personas = _PersonaRepository.Personas.Select(x => new PersonaWrapper(x)).ToList();
+                Personas = new List<PersonaWrapper>(_PersonaRepository.Personas.Select(x => new PersonaWrapper(x)).ToList());
                 OnPropertyChanged(nameof(Personas));
             }
             else
@@ -134,7 +137,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             Cita = citaExistente;
             Cita.PropertyChanged += Cita_PropertyChanged;
-            //Persona = new PersonaWrapper(citaExistente.Persona);
             InicializarColecciones(incluirPersonas: false, personaSeleccionada: citaExistente.Persona);
             PersonaSeleccionada = Personas.Find(x => x.Id == citaExistente.Persona.Id);
         }
@@ -159,13 +161,31 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Cita.PropertyChanged += Cita_PropertyChanged;
         }
 
+        //public void LoadForCreation(int personaId, DateTime fechaSeleccionada)
+        //{
+        //    Persona persona = _PersonaRepository.GetById(personaId);
+
+        //    InicializarColecciones(incluirPersonas: false, personaSeleccionada: persona);
+        //    //Persona = persona;
+        //    PersonaSeleccionada = new PersonaWrapper(persona);
+
+        //    Cita = new CitaWrapper(new Cita()
+        //    {
+        //        Persona = persona,
+        //        Fecha = fechaSeleccionada
+        //    });
+
+        //    Cita.PropertyChanged += Cita_PropertyChanged;
+        //}
+
         private void OnAceptarCommand_Execute()
         {
             Cita.Fecha = Cita.Fecha.Value.AddHours(Cita.Hora).AddMinutes(Cita.Minutos);
 
             if (!EnEdicionDeCitaExistente)
             {
-                PersonaSeleccionada.AddCita(Cita.Model);
+                Cita.Persona = PersonaSeleccionada.Model;
+                    //PersonaSeleccionada.AddCita(Cita.Model);
                 _CitaRepository.Create(Cita.Model);
             }
             else

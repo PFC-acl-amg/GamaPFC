@@ -7,6 +7,9 @@
              xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
              xmlns:charts="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:graficasViews="clr-namespace:Gama.Atenciones.Wpf.Views.Graficas"
+             xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
+             xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="617.457" d:DesignWidth="942.692">
@@ -14,6 +17,7 @@
     <designData:GraficasViewModelDTD/>
   </d:DataContext>
   <UserControl.Resources>
+    <BooleanToVisibilityConverter x:Key="_BooleanToVisibilityConverter"/>
     <charts:ResourceDictionaryCollection x:Key="MyColorPalette">
       <ResourceDictionary>
         <SolidColorBrush x:Key="Brush1" Color="#FFFF2900" />
@@ -48,123 +52,147 @@
       <Setter Property="MinHeight" Value="500"/>
     </Style>
   </UserControl.Resources>
-  <ScrollViewer>
-    <UniformGrid>
-      <!--<Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>-->
 
-      <!-- Identidad Sexual -->
-      <charts:PieChart
-            Margin="{StaticResource Margin}"
-            Palette="{StaticResource MyColorPalette}"
-            ChartTitle="Identidad Sexual"
-            ChartSubTitle="El subtítulo de este gráfico" >
-        <charts:PieChart.Series>
-          <charts:ChartSeries
-                SeriesTitle="Identidad Sexual"
-                DisplayMember="Title"
-                ValueMember="Value"
-                ItemsSource="{Binding Path=ValoresDeIdentidadSexual}" />
-        </charts:PieChart.Series>
-      </charts:PieChart>
+  <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" MaxWidth="250"/>
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
 
-      <!-- Rangos de Edad -->
-      <charts:PieChart
-                Margin="{StaticResource Margin}"
-                Grid.Column="1"
-                Palette="{StaticResource MyColorPalette}"
-                ChartTitle="Rangos de Edad"
-                ChartSubTitle="El subtítulo de este gráfico" >
-        <charts:PieChart.Series>
-          <charts:ChartSeries
-                            SeriesTitle="Rangos de Edad"
-                            DisplayMember="Title"
-                            ValueMember="Value"
-                            ItemsSource="{Binding Path=ValoresDeEdad}" />
-        </charts:PieChart.Series>
-      </charts:PieChart>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+      <Button x:Name="_ToggleVisibilityButton"
+              Click="_ToggleVisibilityButton_Click"
+              VerticalAlignment="Top"
+              HorizontalAlignment="Right"
+              Margin="4,9,4,4" 
+              BorderThickness="0"
+              BorderBrush="Transparent"
+              Foreground="Black"
+              Background="Transparent"
+              RenderTransformOrigin="0.5,0.5"
+              >
+        <Rectangle Width="20" Height="20" Stroke="Black" >
+          <Rectangle.Fill>
+            <VisualBrush Visual="{StaticResource appbar_3d_3ds}" Stretch="Uniform"/>
+          </Rectangle.Fill>
+        </Rectangle>
+        <Button.RenderTransform>
+        <RotateTransform Angle="180"  />
+      </Button.RenderTransform>
+      <Button.Style>
+        <Style TargetType="Button">
+          <Setter Property="Template">
+            <Setter.Value>
+              <ControlTemplate TargetType="Button">
+                <Border Background="Transparent">
+                  <ContentPresenter/>
+                </Border>
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+        </Style>
+      </Button.Style>
+    </Button>
+      
+      <cc:CircleIconButton
+        Margin="0,3,0,0"
+                    Icon="{StaticResource appbar_refresh}"
+                    Width="31"
+              VerticalAlignment="Top"
+              HorizontalAlignment="Right"
+                    Height="31"
+                    IconWidth="12"
+                    IconHeight="12"
+                    ToolTip="Resetear Fechas"
+                    Command="{Binding RefrescarCommand}">
+        <Button.Style>
+          <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+            <Setter Property="Opacity" Value="0.5"/>
+            <Style.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1"/>
+                <Setter Property="Cursor" Value="Hand"/>
+              </Trigger>
+              <DataTrigger Binding="{Binding HayCambios}" Value="True">
+                <Setter Property="Foreground" Value="Red"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </Button.Style>
+      </cc:CircleIconButton>
+    </StackPanel>
+    <!---->
+    <!-- Panel de navegación -->
+    <!---->
+      <Grid  Width="210" x:Name="_PanelDeNavegacion" Margin="{StaticResource Margin}">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition />
+        </Grid.RowDefinitions>
+      
+        <StackPanel Orientation="Horizontal">
+          <TextBlock FontSize="16" Margin="{StaticResource Margin}"
+                       Foreground="Gray"
+                       FontWeight="Normal" Text="Panel de Navegación"/>
+        </StackPanel>
+      <Grid Grid.Row="1">
 
-      <!-- Estado Civil -->
-      <charts:PieChart
-                Margin="{StaticResource Margin}"
-                Grid.Column="1"
-                Palette="{StaticResource MyColorPalette}"
-                ChartTitle="Estado Civil"
-                ChartSubTitle="El subtítulo de este gráfico" >
-        <charts:PieChart.Series>
-          <charts:ChartSeries
-                            SeriesTitle="Estado Civil"
-                            DisplayMember="Title"
-                            ValueMember="Value"
-                            ItemsSource="{Binding Path=ValoresDeEstadoCivil}" />
-        </charts:PieChart.Series>
-      </charts:PieChart>
+        <ListBox 
+          HorizontalContentAlignment="Left"
+          BorderThickness="0"
+          Background="#DC212136"
+          Foreground="#E9E1D0"
+          ScrollViewer.VerticalScrollBarVisibility="Auto"
+          ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+          <ListBox.Resources>
+            <!-- Style used if item is selected and listbox has keyboard focus -->
+      <Style x:Key="NoFocusVisualStyle" TargetType="Control">
+        <Setter Property="BorderBrush" Value="Transparent" />
+      </Style>
+      <!-- Apply this style -->
+      <Style x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource NoFocusVisualStyle}" />
+      </Style>
+      <!-- Color used if item is selected and listbox has focus -->
+      <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
+      <!-- Color used if item is selected and listbox does not have focus -->
+      <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent"/>
+      <!-- Font color used if item is selected and listbox has focus -->
+      <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+      </ListBox.Resources>
+      <ListBox.Items>
+      <ListBoxItem x:Name="DatosPersonalesListBoxItem" 
+                   FontSize="14" 
+                   Margin="{StaticResource Margin}" 
+                   Cursor="Hand"
+                   MouseLeftButtonUp="DatosPersonalesListBoxItem_MouseLeftButtonDown">DATOS PERSONALES</ListBoxItem>
+        
+      <ListBoxItem x:Name="AtencionesListBoxItem" 
+                   FontSize="14" 
+                   Margin="{StaticResource Margin}"
+                   Cursor="Hand"
+                   MouseLeftButtonUp="AtencionesListBoxItem_MouseLeftButtonDown">ATENCIONES</ListBoxItem>
+      </ListBox.Items>
+      </ListBox>
+    </Grid>
+  </Grid>
 
-      <!-- Orientación afectivo-sexual  -->
-      <charts:PieChart
-                Margin="{StaticResource Margin}"
-                Grid.Column="1"
-                Palette="{StaticResource MyColorPalette}"
-                ChartTitle="Orientación Afectivo-Sexual"
-                ChartSubTitle="El subtítulo de este gráfico" >
-        <charts:PieChart.Series>
-          <charts:ChartSeries
-                            SeriesTitle="Orientación Afectivo-Sexual"
-                            DisplayMember="Title"
-                            ValueMember="Value"
-                            ItemsSource="{Binding Path=ValoresDeOrientacionSexual}" />
-        </charts:PieChart.Series>
-      </charts:PieChart>
+  <Grid Grid.Column="1">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition />
+      </Grid.RowDefinitions>
 
-      <!-- Cómo conoció a Gamá-->
-      <charts:PieChart
-                Margin="{StaticResource Margin}"
-                Grid.Column="1"
-                Palette="{StaticResource MyColorPalette}"
-                ChartTitle="Cómo Conoció a Gamá"
-                ChartSubTitle="El subtítulo de este gráfico" >
-        <charts:PieChart.Series>
-          <charts:ChartSeries
-                            SeriesTitle="Cómo Conoció a Gamá"
-                            DisplayMember="Title"
-                            ValueMember="Value"
-                            ItemsSource="{Binding Path=ValoresDeComoConocioAGama}" />
-        </charts:PieChart.Series>
-      </charts:PieChart>
+      <TextBlock 
+        Text="Los datos no están actualizados, haga click en el icono de refrescar para actualizarlos."
+        Margin="{StaticResource Margin}"
+        Foreground="#D40B0B"
+        Visibility="{Binding HayCambios, Converter={StaticResource _BooleanToVisibilityConverter}}"/>
 
-      <!-- Cómo conoció a Gamá-->
-      <charts:PieChart
-                Margin="{StaticResource Margin}"
-                Grid.Column="1"
-                Palette="{StaticResource MyColorPalette}"
-                ChartTitle="Vía de Acceso a Gamá"
-                ChartSubTitle="El subtítulo de este gráfico" >
-        <charts:PieChart.Series>
-          <charts:ChartSeries
-                            SeriesTitle="Vía de Acceso a Gamá"
-                            DisplayMember="Title"
-                            ValueMember="Value"
-                            ItemsSource="{Binding Path=ValoresDeViaDeAccesoAGama}" />
-        </charts:PieChart.Series>
-      </charts:PieChart>
-
-      <!-- Atención Solicitada -->
-      <charts:PieChart
-                Margin="{StaticResource Margin}"
-                Grid.Column="1"
-                Palette="{StaticResource MyColorPalette}"
-                ChartTitle="Atención Solicitada"
-                ChartSubTitle="El subtítulo de este gráfico" >
-        <charts:PieChart.Series>
-          <charts:ChartSeries
-                            SeriesTitle="Atención Solicitada"
-                            DisplayMember="Title"
-                            ValueMember="Value"
-                            ItemsSource="{Binding Path=ValoresDeAtencionSolicitada}" />
-        </charts:PieChart.Series>
-      </charts:PieChart>
-    </UniformGrid>
-  </ScrollViewer>
+      <graficasViews:DatosPersonalesGraficasView x:Name="_DatosPersonalesGrafivasView" Grid.Row="1"/>
+      <graficasViews:AtencionesGraficasView x:Name="_AtencionesGraficasView" Visibility="Hidden" Grid.Row="1"/>
+    </Grid>
+  </Grid>
+  </Grid>
 </UserControl>

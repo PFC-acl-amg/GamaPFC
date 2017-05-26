@@ -1,0 +1,114 @@
+﻿<UserControl x:Class="Gama.Atenciones.Wpf.Views.Graficas.DatosPersonalesGraficasView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views.Graficas"
+             xmlns:charts="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
+             mc:Ignorable="d" 
+             d:DesignHeight="533.219" d:DesignWidth="778.768">
+
+  <ScrollViewer>
+    <UniformGrid>
+      <!--<Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>-->
+
+      <!-- Identidad Sexual -->
+      <charts:PieChart
+            Margin="{StaticResource Margin}"
+            Palette="{StaticResource MyColorPalette}"
+            ChartTitle="Identidad Sexual"
+            ChartSubTitle="El subtítulo de este gráfico" >
+        <charts:PieChart.Series>
+          <charts:ChartSeries
+                SeriesTitle="Identidad Sexual"
+                DisplayMember="Title"
+                ValueMember="Value"
+                ItemsSource="{Binding Path=ValoresDeIdentidadSexual}" />
+        </charts:PieChart.Series>
+      </charts:PieChart>
+
+      <!-- Rangos de Edad -->
+      <charts:PieChart
+                Margin="{StaticResource Margin}"
+                Grid.Column="1"
+                Palette="{StaticResource MyColorPalette}"
+                ChartTitle="Rangos de Edad"
+                ChartSubTitle="El subtítulo de este gráfico" >
+        <charts:PieChart.Series>
+          <charts:ChartSeries
+                            SeriesTitle="Rangos de Edad"
+                            DisplayMember="Title"
+                            ValueMember="Value"
+                            ItemsSource="{Binding Path=ValoresDeEdad}" />
+        </charts:PieChart.Series>
+      </charts:PieChart>
+
+      <!-- Estado Civil -->
+      <charts:PieChart
+                Margin="{StaticResource Margin}"
+                Grid.Column="1"
+                Palette="{StaticResource MyColorPalette}"
+                ChartTitle="Estado Civil"
+                ChartSubTitle="El subtítulo de este gráfico" >
+        <charts:PieChart.Series>
+          <charts:ChartSeries
+                            SeriesTitle="Estado Civil"
+                            DisplayMember="Title"
+                            ValueMember="Value"
+                            ItemsSource="{Binding Path=ValoresDeEstadoCivil}" />
+        </charts:PieChart.Series>
+      </charts:PieChart>
+
+      <!-- Orientación afectivo-sexual  -->
+      <charts:PieChart
+                Margin="{StaticResource Margin}"
+                Grid.Column="1"
+                Palette="{StaticResource MyColorPalette}"
+                ChartTitle="Orientación Afectivo-Sexual"
+                ChartSubTitle="El subtítulo de este gráfico" >
+        <charts:PieChart.Series>
+          <charts:ChartSeries
+                            SeriesTitle="Orientación Afectivo-Sexual"
+                            DisplayMember="Title"
+                            ValueMember="Value"
+                            ItemsSource="{Binding Path=ValoresDeOrientacionSexual}" />
+        </charts:PieChart.Series>
+      </charts:PieChart>
+
+      <!-- Cómo conoció a Gamá-->
+      <charts:PieChart
+                Margin="{StaticResource Margin}"
+                Grid.Column="1"
+                Palette="{StaticResource MyColorPalette}"
+                ChartTitle="Cómo Conoció a Gamá"
+                ChartSubTitle="El subtítulo de este gráfico" >
+        <charts:PieChart.Series>
+          <charts:ChartSeries
+                            SeriesTitle="Cómo Conoció a Gamá"
+                            DisplayMember="Title"
+                            ValueMember="Value"
+                            ItemsSource="{Binding Path=ValoresDeComoConocioAGama}" />
+        </charts:PieChart.Series>
+      </charts:PieChart>
+
+      <!-- Cómo conoció a Gamá-->
+      <charts:PieChart
+                Margin="{StaticResource Margin}"
+                Grid.Column="1"
+                Palette="{StaticResource MyColorPalette}"
+                ChartTitle="Vía de Acceso a Gamá"
+                ChartSubTitle="El subtítulo de este gráfico" >
+        <charts:PieChart.Series>
+          <charts:ChartSeries
+                            SeriesTitle="Vía de Acceso a Gamá"
+                            DisplayMember="Title"
+                            ValueMember="Value"
+                            ItemsSource="{Binding Path=ValoresDeViaDeAccesoAGama}" />
+        </charts:PieChart.Series>
+      </charts:PieChart>
+    </UniformGrid>
+  </ScrollViewer>
+</UserControl>

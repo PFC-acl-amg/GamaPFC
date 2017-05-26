@@ -62,6 +62,11 @@ namespace Gama.Atenciones.Wpf
             citaRepository.Session = session;
             asistenteRepository.Session = session;
 
+            var personaRepository2 = new NHibernateOneSessionRepository<Persona, int>()
+            {
+                Session = session
+            };
+
             if (ClearDatabase)
             {
                 citaRepository.DeleteAll();
@@ -80,8 +85,8 @@ namespace Gama.Atenciones.Wpf
                     var atenciones = new FakeAtencionRepository().GetAll();
 
                     personas.ForEach(p => p.Id = 0);
-                    citas.ForEach(c => c.Id = 0);
-                    atenciones.ForEach(a => a.Id = 0);
+                    //citas.ForEach(c => c.Id = 0);
+                    //atenciones.ForEach(a => a.Id = 0);
 
                     var random = new Random();
                     var opciones = new bool[] { true, false, true, false, true, true, false, true, false };
@@ -117,7 +122,7 @@ namespace Gama.Atenciones.Wpf
                         //cita.SetAtencion(atencion);
                         //persona.AddCita(citas[i]);
 
-                        personaRepository.Create(persona);
+                        personaRepository2.Create(persona);
                     }
                 }
             }

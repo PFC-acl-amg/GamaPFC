@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Gama.Atenciones.Wpf.Views
+namespace Gama.Atenciones.Wpf.Views.Graficas
 {
     /// <summary>
-    /// Interaction logic for PanelSwitcherView.xaml
+    /// Interaction logic for AtencionesGraficasView.xaml
     /// </summary>
-    public partial class PanelSwitcherView : UserControl
+    public partial class AtencionesGraficasView : UserControl
     {
-        public PanelSwitcherView()
+        public AtencionesGraficasView()
         {
             InitializeComponent();
         }

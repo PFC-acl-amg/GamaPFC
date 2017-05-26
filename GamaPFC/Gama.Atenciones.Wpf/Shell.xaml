@@ -118,7 +118,6 @@
     <!-- Región de contenido -->
     <ContentControl Grid.Row="1" Grid.ColumnSpan="3" Margin="0">
       <Grid>
-        
         <views:DashboardView DataContext="{Binding DashboardViewModel}" 
                              Visibility="{Binding DataContext.DashboardViewIsVisible,
                               ElementName=_Root, 

@@ -323,7 +323,8 @@
       <!-- Citas próximas del asistente en formato tabular -->
       <DataGrid
         Grid.Row="1"
-        ItemsSource="{Binding AsistenteSeleccionado.CitasProximas}" AutoGenerateColumns="False"
+        ItemsSource="{Binding AsistenteSeleccionado.CitasProximas}"
+        AutoGenerateColumns="False"
         AlternatingRowBackground="#B99BA5AB" 
         SelectedIndex="0"
         Margin="{StaticResource Margin}"

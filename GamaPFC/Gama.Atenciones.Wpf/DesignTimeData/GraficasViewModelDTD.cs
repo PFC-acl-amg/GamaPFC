@@ -22,7 +22,7 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
 
             #region seeder
             var sessionFactory = new NHibernateSessionFactory();
-            var rep = new PersonaRepository(new EventAggregator());
+            var rep = new PersonaRepository(new EventAggregator(), null, null);
             rep.Session = sessionFactory.OpenSession();
 
             if (false)

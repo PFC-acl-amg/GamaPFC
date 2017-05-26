@@ -20,18 +20,22 @@ namespace Gama.Atenciones.Wpf.ViewModels
     public class AsistentesContentViewModel : ViewModelBase
     {
         private IAsistenteRepository _AsistenteRepository;
+        private ICitaRepository _CitaRepository;
         private IEventAggregator _EventAggregator;
         private ISession _Session;
 
         public AsistentesContentViewModel(
             IEventAggregator eventAggregator,
             IAsistenteRepository asistenteRepository,
+            ICitaRepository citaRepository,
             AsistenteViewModel asistenteViewModel,
             ISession session)
         {
             _EventAggregator = eventAggregator;
             _AsistenteRepository = asistenteRepository;
+            _CitaRepository = citaRepository;
             _AsistenteRepository.Session = session;
+            _CitaRepository.Session = session;
             _AsistenteViewModel = asistenteViewModel;
             _Session = session;
 
@@ -64,6 +68,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             SeleccionarPersonaCommand = new DelegateCommand<CitaWrapper>(OnSeleccionarPersonaCommand);
 
             _EventAggregator.GetEvent<AsistenteCreadoEvent>().Subscribe(OnAsistenteCreadoEvent);
+            _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
+            _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
         }
 
         private void OnSeleccionarPersonaCommand(CitaWrapper wrapper)
@@ -152,6 +158,29 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var wrapper = new AsistenteWrapper(asistente);
 
             Asistentes.Insert(0, wrapper);
+        }
+
+        private void OnCitaCreadaEvent(int id)
+        {
+            Cita cita = _CitaRepository.GetById(id);
+            AsistenteWrapper asistente = Asistentes.First(x => x.Id == cita.Asistente.Id);
+
+            asistente.Citas.Add(cita);
+
+            // Refresca la vista, realmente no sé por qué hace falta reseleccionarlo. 
+            // Si no se pone esta línea, al deseleccionar y volver a seleccionar al asistente
+            // afectado, la vista se refresca con la nueva cita.
+            AsistenteSeleccionado = AsistenteSeleccionado; 
+        }
+
+        private void OnCitaActualizadaEvent(int id)
+        {
+            Cita cita = _CitaRepository.GetById(id);
+            AsistenteWrapper asistente = Asistentes.First(x => x.Id == cita.Asistente.Id);
+            Cita citaDesactualizada = asistente.Citas.First(x => x.Id == id);
+
+            citaDesactualizada.CopyValuesFrom(cita);
+            OnPropertyChanged(nameof(AsistenteSeleccionado));
         }
 
         private void InvalidateCommands()
