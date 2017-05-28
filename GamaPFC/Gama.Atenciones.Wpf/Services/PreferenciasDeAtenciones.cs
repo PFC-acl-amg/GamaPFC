@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,7 +23,10 @@ namespace Gama.Atenciones.Wpf.Services
             DashboardMesesAMostrarDePersonasNuevas = 6;
 
             ListadoDePersonasItemsPerPage = 10;
+            Dashboard_MostrarFiltroDeFechaPorDefecto = true;
         }
+        
+        public bool Dashboard_MostrarFiltroDeFechaPorDefecto { get; set; }
 
         public int DashboardLongitudDeNombres { get; set; }
         public int DashboardUltimasPersonas { get; set; }

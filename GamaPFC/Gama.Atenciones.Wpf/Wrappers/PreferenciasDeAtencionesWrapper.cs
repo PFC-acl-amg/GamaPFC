@@ -18,6 +18,15 @@ namespace Gama.Atenciones.Wpf.Wrappers
         ///
         /// Dashboard
         ///
+        public bool Dashboard_MostrarFiltroDeFechaPorDefecto
+        {
+            get { return GetValue<bool>(); }
+            set { SetValue(value); }
+        }
+        public bool Dashboard_MostrarFiltroDeFechaPorDefectoOriginalValue
+            => GetOriginalValue<bool>(nameof(Dashboard_MostrarFiltroDeFechaPorDefecto));
+        public bool Dashboard_MostrarFiltroDeFechaPorDefectoIsChanged
+            => GetIsChanged(nameof(Dashboard_MostrarFiltroDeFechaPorDefecto));
 
         public int DashboardUltimasPersonas
         {

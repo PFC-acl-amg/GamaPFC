@@ -24,7 +24,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private ICitaRepository _CitaRepository;
         private IEventAggregator _EventAggregator;
         private IPersonaRepository _PersonaRepository;
-        private PreferenciasDeAtenciones _Settings;
+        public PreferenciasDeAtenciones Preferencias { get; private set; }
         private List<Persona> _Personas;
         private List<Cita> _Citas;
         private List<Atencion> _Atenciones;
@@ -41,7 +41,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _CitaRepository = citaRepository;
             _AtencionRepository = atencionRepository;
             _EventAggregator = eventAggregator;
-            _Settings = settings;
+            Preferencias = settings;
 
             _PersonaRepository.Session = session;
             _CitaRepository.Session = session;
