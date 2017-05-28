@@ -38,6 +38,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<AsistenteActualizadoEvent>().Subscribe(
                 (id) => MostrarMensaje("El asistente se ha actualizado con éxito"));
 
+            _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(
+                (id) => MostrarMensaje("La cita se ha añadido con éxito."));
+
+            _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(
+                (id) => MostrarMensaje("La cita se ha actualizado con éxito."));
+
+            _EventAggregator.GetEvent<CitaEliminadaEvent>().Subscribe(
+                (id) => MostrarMensaje("La cita se ha eliminado con éxito."));
+
             Mensaje = DefaultMensaje;
             _Timer = new DispatcherTimer();
             _Timer.Tick += _timer_Tick;

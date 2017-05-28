@@ -33,7 +33,7 @@ namespace Gama.Atenciones.Wpf.Services
 
         public override Asistente GetById(int id)
         {
-            return Asistentes.Find(x => x.Id == id);
+            return _Asistentes.Find(x => x.Id == id);
         }
 
         public override List<Asistente> GetAll()
@@ -56,8 +56,10 @@ namespace Gama.Atenciones.Wpf.Services
 
         public override void Create(Asistente entity)
         {
+            entity.CreatedAt = DateTime.Now;
             base.Create(entity);
-            Asistentes.Add(entity);
+            _Asistentes.Add(entity);
+            AtencionesResources.AddNifAAsistente(entity.Nif);
             _EventAggregator.GetEvent<AsistenteCreadoEvent>().Publish(entity.Id);
         }
 
@@ -66,8 +68,8 @@ namespace Gama.Atenciones.Wpf.Services
             if (base.Update(entity))
             {
                 entity.Decrypt();
-                Asistentes.Remove(Asistentes.Find(x => x.Id == entity.Id));
-                Asistentes.Add(entity);
+                _Asistentes.Remove(Asistentes.Find(x => x.Id == entity.Id));
+                _Asistentes.Add(entity);
                 _EventAggregator.GetEvent<AsistenteActualizadoEvent>().Publish(entity.Id);
             }
 
@@ -144,8 +146,8 @@ namespace Gama.Atenciones.Wpf.Services
 
                 foreach (var nif in temp)
                 {
-                    //resultado.Add(EncryptionService.Decrypt(nif));
-                    resultado.Add(nif);
+                    resultado.Add(EncryptionService.Decrypt(nif));
+                    //resultado.Add(nif);
                 }
 
                 Session.Clear();

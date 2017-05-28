@@ -65,10 +65,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnAceptarCommand_Execute()
         {
-            Asistente.CreatedAt = DateTime.Now;
             _AsistenteRepository.Create(Asistente.Model);
-            AtencionesResources.AddNifAAsistente(Asistente.Nif);
-            _EventAggregator.GetEvent<AsistenteCreadoEvent>().Publish(Asistente.Id);
             Cerrar = true;
         }
 
