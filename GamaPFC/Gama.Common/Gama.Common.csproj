@@ -56,8 +56,20 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentNHibernate, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.4.0.42, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.4.0\lib\net45\MahApps.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.4.0.0.4000\lib\net40\NHibernate.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Prism, Version=6.2.0.0, Culture=neutral, PublicKeyToken=91a96d2a154366d8, processorArchitecture=MSIL">
@@ -88,6 +100,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Business\Usuario.cs" />
     <Compile Include="CustomControls\CircleIconButton.cs" />
     <Compile Include="CustomControls\LimitedCollectionView.cs" />
     <Compile Include="CustomControls\LimitedListCollectionView.cs" />
@@ -96,6 +109,7 @@
     <Compile Include="CustomControls\PaginatedCollectionView.cs" />
     <Compile Include="CustomControls\SearchBox.cs" />
     <Compile Include="CustomControls\SearchBoxDataTemplateSelector.cs" />
+    <Compile Include="Data\UsuarioMap.cs" />
     <Compile Include="Eventos\AbrirPreferenciasEvent.cs" />
     <Compile Include="Eventos\PreferenciasActualizadasEvent.cs" />
     <Compile Include="RegionNames.cs" />

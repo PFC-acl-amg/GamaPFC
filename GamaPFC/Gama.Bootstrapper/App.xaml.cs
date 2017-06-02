@@ -106,6 +106,11 @@ namespace Gama.Bootstrapper
             }
         }
 
+        private void TryLogin(string username, string pw)
+        {
+
+        }
+
         private void CurrentDomain_FirstChanceException(object sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs e)
         {
             var o = new ExceptionMessageView();

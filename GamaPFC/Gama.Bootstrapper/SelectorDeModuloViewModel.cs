@@ -7,34 +7,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Gama.Bootstrapper
 {
     public class SelectorDeModuloViewModel : ObservableObject
     {
-        private ILoginService _LoginService;
+        private LoginService _LoginService;
         private bool? _Cerrar; // Debe ser nulo al inicializarse el VM, o hay excepción con DialogCloser
         private bool _MostrarLogin;
 
-        public SelectorDeModuloViewModel(ILoginService loginService)
+        public SelectorDeModuloViewModel(LoginService loginService)
         {
             _LoginService = loginService;
 
             SeleccionarModuloCommand = new DelegateCommand<string>(OnSeleccionarModuloCommandExecute);
             AccederCommand = new DelegateCommand(OnAccederCommandExecute);
 
-            this.Usuario = "atenciones";
-            this.Password = "secret";
-
             SeHaAccedido = false;
 
-            SeleccionarModuloCommand.Execute("atenciones");
+            _Timer = new DispatcherTimer();
+            _Timer.Tick += _timer_Tick;
+            _Timer.Interval = new TimeSpan(0, 0, 2);
         }
 
         public ICommand SeleccionarModuloCommand { get; private set; }
         public ICommand AccederCommand { get; private set; }
 
-        public Modulos? ModuloSeleccionado { get; private set; }
+        public Modulos ModuloSeleccionado { get; private set; }
 
         public bool? Cerrar
         {
@@ -79,13 +79,33 @@ namespace Gama.Bootstrapper
             MostrarLogin = true;
         }
 
+        private bool _HayErrores;
+        public bool HayErrores
+        {
+            get { return _HayErrores; }
+            set { SetProperty(ref _HayErrores, value); }
+        }
+
+
+        private DispatcherTimer _Timer;
+
         private void OnAccederCommandExecute()
         {
-            if (_LoginService.CheckCredentials(Usuario, Password))
+            if (_LoginService.CheckCredentials(ModuloSeleccionado, Usuario, Password))
             {
                 SeHaAccedido = true;
                 Cerrar = true;
             }
+            else
+            {
+                HayErrores = true;
+                _Timer.Start();
+            }
+        }
+
+        private void _timer_Tick(object sender, EventArgs e)
+        {
+            HayErrores = false;
         }
     }
 }
