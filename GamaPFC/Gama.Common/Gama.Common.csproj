@@ -112,6 +112,7 @@
     <Compile Include="Data\UsuarioMap.cs" />
     <Compile Include="Eventos\AbrirPreferenciasEvent.cs" />
     <Compile Include="Eventos\PreferenciasActualizadasEvent.cs" />
+    <Compile Include="Eventos\VolverASeleccionarDeModuloEvent.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="ResourceNames.cs" />
     <Compile Include="Resources\Behaviors\ChangeBehavior.cs" />
