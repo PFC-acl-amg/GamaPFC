@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core
 {
+    [Serializable]
     public class ObservableObject : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler _PropertyChanged;
@@ -51,11 +52,7 @@ namespace Core
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = _PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            _PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

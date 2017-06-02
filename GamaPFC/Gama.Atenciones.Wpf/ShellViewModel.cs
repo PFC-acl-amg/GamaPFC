@@ -25,13 +25,15 @@ namespace Gama.Atenciones.Wpf
             DashboardViewModel dashboardViewModel,
             CitasContentViewModel citasContentViewModel,
             AsistentesContentViewModel asistentesContentViewModel,
-            GraficasContentViewModel graficasContentViewModel)
+            GraficasContentViewModel graficasContentViewModel,
+            StatusBarViewModel statusBarViewModel)
         {
             PersonasContentViewModel = personasContentViewModel;
             DashboardViewModel = dashboardViewModel;
             CitasContentViewModel = citasContentViewModel;
             AsistentesContentViewModel = asistentesContentViewModel;
             GraficasContentViewModel = graficasContentViewModel;
+            StatusBarViewModel = statusBarViewModel;
 
             _EventAggregator = eventAggregator;
             Title = "SERVICIO DE ATENCIONES";
@@ -52,6 +54,7 @@ namespace Gama.Atenciones.Wpf
         public CitasContentViewModel CitasContentViewModel { get; set; }
         public AsistentesContentViewModel AsistentesContentViewModel { get; set; }
         public GraficasContentViewModel GraficasContentViewModel { get; set; }
+        public StatusBarViewModel StatusBarViewModel { get; set; }
 
         private bool _DashboardViewIsVisible = true;
         public bool DashboardViewIsVisible

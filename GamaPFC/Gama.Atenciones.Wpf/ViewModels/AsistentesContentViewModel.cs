@@ -158,6 +158,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var wrapper = new AsistenteWrapper(asistente);
 
             Asistentes.Insert(0, wrapper);
+            AsistenteSeleccionado = wrapper;
         }
 
         private void OnCitaCreadaEvent(int id)

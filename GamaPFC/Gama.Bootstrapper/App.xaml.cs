@@ -1,6 +1,7 @@
 ﻿using Gama.Bootstrapper.Services;
 using Gama.Bootstrapper.Views;
 using Microsoft.Practices.Unity;
+using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace Gama.Bootstrapper
     public partial class App : Application
     {
         IUnityContainer _container = new UnityContainer();
+        SelectorDeModulo _SelectorDeModulo;
+        SelectorDeModuloViewModel _SelectorDeModuloViewModel;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -46,11 +49,7 @@ namespace Gama.Bootstrapper
 
             bool SALTAR_SELECCION_DE_MODULO = false; // Para hacer pruebas más rápido...
             if (SALTAR_SELECCION_DE_MODULO)
-            {                //-------------------------------------
-                //create user 'gama'@'localhost' identified by 'secret';
-                //grant all on gama_atenciones.*to 'gama'@'localhost';
-
-                //-------------
+            {             
                 bootstrapper = new Bootstrapper(Modulos.ServicioDeAtenciones);
                 bootstrapper.Run();
             }
@@ -58,22 +57,22 @@ namespace Gama.Bootstrapper
             {
                 Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-                var selectorDeModulo = new SelectorDeModulo();
-                var vm = new SelectorDeModuloViewModel(new LoginService());
-                selectorDeModulo.DataContext = vm;
-                
-                selectorDeModulo.ShowDialog(); // Esta instruccion lanza ventana de selector de modulo
-               
+                _SelectorDeModulo = new SelectorDeModulo();
+                _SelectorDeModuloViewModel = new SelectorDeModuloViewModel(new LoginService(), _container.Resolve<EventAggregator>());
+                _SelectorDeModulo.DataContext = _SelectorDeModuloViewModel;
+                _SelectorDeModulo.ShowDialog();
+
                 Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
-                if (!vm.SeHaAccedido)
+                if (!_SelectorDeModuloViewModel.SeHaAccedido)
                 {
                     Application.Current.Shutdown();
+                    return;
                 }
 
                 //bool usarNuevoArranque = true;
 
-                switch (vm.ModuloSeleccionado)
+                switch (_SelectorDeModuloViewModel.ModuloSeleccionado)
                 {
                     case Modulos.Cooperacion:
                         //bootstrapper = new Bootstrapper(Modulos.Cooperacion);
@@ -98,11 +97,6 @@ namespace Gama.Bootstrapper
                     default:
                         throw new Exception("¡No se ha seleccionado ningún módulo!");
                 }
-
-                //if (!usarNuevoArranque)
-                //{
-                //    bootstrapper.Run();
-                //}
             }
         }
 

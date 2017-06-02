@@ -35,17 +35,22 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Orientation="Vertical">
-                    <Label Margin="{StaticResource Margin}">Últimas personas a mostrar</Label>
+          <Label Margin="{StaticResource Margin}">Mostrar filtro de fecha al iniciar la aplicación</Label>
+                    <!--<Label Margin="{StaticResource Margin}">Últimas personas a mostrar</Label>
                     <Label Margin="{StaticResource Margin}">Últimas atenciones mostrar</Label>
                     <Label Margin="{StaticResource Margin}">Próximas citas a mostrar</Label>
                     <Label Margin="{StaticResource Margin}">Longitud máxima de nombres antes de añadir "..."</Label>
                     <Label Margin="{StaticResource Margin}">Longitud máxima de seguimients antes de añadir "..."</Label>
                     <Label Margin="{StaticResource Margin}">Meses a mostrar de personas nuevas</Label>
-                    <Label Margin="{StaticResource Margin}">Meses a mostrar de atenciones nuevas</Label>
+                    <Label Margin="{StaticResource Margin}">Meses a mostrar de atenciones nuevas</Label>-->
                 </StackPanel>
 
                 <StackPanel  Grid.Column="1" Orientation="Vertical">
-                    <controls:NumericUpDown Minimum="5" 
+          <CheckBox IsChecked="{Binding Preferencias.Dashboard_MostrarFiltroDeFechaPorDefecto}"
+                    VerticalAlignment="Bottom" VerticalContentAlignment="Bottom"
+                     Height="20"
+                    Margin="{StaticResource Margin}"/>
+          <!--<controls:NumericUpDown Minimum="5" 
                                             Margin="{StaticResource Margin}"
                                             Value="{Binding Preferencias.DashboardUltimasPersonas}"/>
                     <controls:NumericUpDown Minimum="5" 
@@ -65,7 +70,7 @@
                                             Value="{Binding Preferencias.DashboardMesesAMostrarDePersonasNuevas}"/>
                     <controls:NumericUpDown Minimum="1" MaxHeight="12"
                                             Margin="{StaticResource Margin}"
-                                            Value="{Binding Preferencias.DashboardMesesAMostrarDeAtencionesNuevas}"/>
+                                            Value="{Binding Preferencias.DashboardMesesAMostrarDeAtencionesNuevas}"/>-->
                 </StackPanel>
             </Grid>
         </GroupBox>

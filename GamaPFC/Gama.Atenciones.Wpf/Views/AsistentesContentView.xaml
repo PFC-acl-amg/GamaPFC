@@ -189,7 +189,7 @@
       </StackPanel>
     <Grid Grid.Row="1">
 
-      <coreControls:UnselectableListBox 
+      <ListBox 
         ItemsSource="{Binding Asistentes}"
         SelectedItem="{Binding AsistenteSeleccionado, Mode=TwoWay}"
         HorizontalContentAlignment="Left"
@@ -236,7 +236,7 @@
             </Grid>
           </DataTemplate>
         </ListBox.ItemTemplate>
-      </coreControls:UnselectableListBox>
+      </ListBox>
     </Grid>
     <!--</GroupBox>-->
   </Grid>

@@ -152,6 +152,8 @@
     <!--<Grid Grid.Row="1" Grid.ColumnSpan="3" x:Name="preloaderRegion"></Grid>-->
 
     <!-- Status Bar -->
-    <ContentControl Grid.Row="2" Grid.ColumnSpan="3" prism:RegionManager.RegionName="{x:Static common:RegionNames.StatusBarRegion}"/>
+    <views:StatusBarView Grid.Row="2" Grid.ColumnSpan="3" DataContext="{Binding StatusBarViewModel}"/>
+    <!--<ContentControl Grid.Row="2" Grid.ColumnSpan="3"
+                    prism:RegionManager.RegionName="{x:Static common:RegionNames.StatusBarRegion}"/>-->
   </Grid>
 </mahapps:MetroWindow>

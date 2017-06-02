@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gama.Atenciones.Wpf.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,35 +22,67 @@ namespace Gama.Atenciones.Wpf.Views
     /// </summary>
     public partial class DashboardView : UserControl
     {
+        DashboardViewModel _ViewModel;
+
         public DashboardView()
         {
             InitializeComponent();
+
+            Loaded += DashboardView_Loaded;
+        }
+
+        private void DashboardView_Loaded(object sender, RoutedEventArgs e)
+        {
+            _ViewModel = DataContext as DashboardViewModel;
+
+            //_ViewModel.Preferencias.PropertyChanged += _Settings_PropertyChanged;
+            if (_ViewModel.Preferencias.Dashboard_MostrarFiltroDeFechaPorDefecto)
+                _ExpandFilter();
+            else
+                _CollapseFilter();
+        }
+
+        private void _Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == nameof(_ViewModel.Preferencias.Dashboard_MostrarFiltroDeFechaPorDefecto))
+            {
+                if (_ViewModel.Preferencias.Dashboard_MostrarFiltroDeFechaPorDefecto)
+                    _ExpandFilter();
+                else
+                    _CollapseFilter();
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (_DateFilterStackPanel.Visibility == Visibility.Visible)
-            {
-                _DateFilterStackPanel.Visibility = Visibility.Collapsed;
-                _ToggleDateFilterButton.Margin = new Thickness(4, 4, 4, -34);
-
-                var da = new DoubleAnimation(0, 180, new Duration(TimeSpan.FromSeconds(0.1)));
-                var rt = new RotateTransform();
-                _ToggleDateFilterButton.RenderTransform = rt;
-                _ToggleDateFilterButton.RenderTransformOrigin = new Point(0.5, 0.5);
-                rt.BeginAnimation(RotateTransform.AngleProperty, da);
-            }
+                _CollapseFilter();
             else
-            {
-                _DateFilterStackPanel.Visibility = Visibility.Visible;
-                _ToggleDateFilterButton.Margin = new Thickness(4);
+                _ExpandFilter();
+        }
 
-                var da = new DoubleAnimation(180, 0, new Duration(TimeSpan.FromSeconds(0.1)));
-                var rt = new RotateTransform();
-                _ToggleDateFilterButton.RenderTransform = rt;
-                _ToggleDateFilterButton.RenderTransformOrigin = new Point(0.5, 0.5);
-                rt.BeginAnimation(RotateTransform.AngleProperty, da);
-            }
+        private void _ExpandFilter()
+        {
+            _DateFilterStackPanel.Visibility = Visibility.Visible;
+            _ToggleDateFilterButton.Margin = new Thickness(4);
+
+            var da = new DoubleAnimation(180, 0, new Duration(TimeSpan.FromSeconds(0.1)));
+            var rt = new RotateTransform();
+            _ToggleDateFilterButton.RenderTransform = rt;
+            _ToggleDateFilterButton.RenderTransformOrigin = new Point(0.5, 0.5);
+            rt.BeginAnimation(RotateTransform.AngleProperty, da);
+        }
+
+        private void _CollapseFilter()
+        {
+            _DateFilterStackPanel.Visibility = Visibility.Collapsed;
+            _ToggleDateFilterButton.Margin = new Thickness(4, 4, 4, -34);
+
+            var da = new DoubleAnimation(0, 180, new Duration(TimeSpan.FromSeconds(0.1)));
+            var rt = new RotateTransform();
+            _ToggleDateFilterButton.RenderTransform = rt;
+            _ToggleDateFilterButton.RenderTransformOrigin = new Point(0.5, 0.5);
+            rt.BeginAnimation(RotateTransform.AngleProperty, da);
         }
     }
 }

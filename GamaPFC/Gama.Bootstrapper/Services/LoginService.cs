@@ -1,30 +1,67 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Gama.Bootstrapper.Services
 {
-    public class LoginService : ILoginService
+    public class LoginService
     {
-        public bool CheckCredentials(string user, string password)
+        public LoginService()
+        {
+
+        }
+
+        public bool CheckCredentials(Modulos modulo, string user, string password)
         {
             bool result = false;
 
-            switch (user)
+            switch (modulo)
             {
-                case "atenciones":
-                    result = password == "secret";
+                case Modulos.ServicioDeAtenciones:
+                    result = _CheckCredentials("GamaAtencionesMySql", user, password);
                     break;
-                case "socios":
-                    result = password == "secret";
+                case Modulos.GestionDeSocios:
+                    result = _CheckCredentials("GamaSociosMySql", user, password);
                     break;
-                case "cooperacion":
-                    result = password == "secret";
+                case Modulos.Cooperacion:
+                    result = _CheckCredentials("GamaCooperacionMySql", user, password);
                     break;
-                default:
-                    throw new Exception("¡El usuario no existe!");
+            }
+
+            return result;
+        }
+
+        private bool _CheckCredentials(string connectionName, string user, string password)
+        {
+            bool result = false;
+
+            MySqlConnection connection =
+                        new MySqlConnection(
+                            ConfigurationManager.ConnectionStrings[connectionName].ConnectionString);
+
+            string query = "SELECT * FROM usuarios WHERE nombre = @nombre AND password = @password";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.Add("@nombre", MySqlDbType.VarChar).Value = user;
+            command.Parameters.Add("@password", MySqlDbType.VarChar).Value = password;
+
+            try
+            {
+                connection.Open();
+                var reader = command.ExecuteReader();
+                if (reader.HasRows)
+                    result = true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                connection.Close();
             }
 
             return result;
