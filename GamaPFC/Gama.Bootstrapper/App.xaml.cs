@@ -68,6 +68,7 @@ namespace Gama.Bootstrapper
                 if (!vm.SeHaAccedido)
                 {
                     Application.Current.Shutdown();
+                    return;
                 }
 
                 //bool usarNuevoArranque = true;

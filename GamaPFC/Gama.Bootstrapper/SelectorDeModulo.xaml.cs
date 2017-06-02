@@ -56,5 +56,29 @@ namespace Gama.Bootstrapper
                 if (elementWithFocus.MoveFocus(request)) e.Handled = true;
             }
         }
+
+        private void _SociosButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (_SociosButton != null && _AtencionesButton != null && _CooperacionButton != null)
+            {
+                _SociosButton.IsChecked = true;
+                _AtencionesButton.IsChecked = false;
+                _CooperacionButton.IsChecked = false;
+            }
+        }
+
+        private void _AtencionesButton_Checked(object sender, RoutedEventArgs e)
+        {
+            _SociosButton.IsChecked = false;
+            _AtencionesButton.IsChecked = true;
+            _CooperacionButton.IsChecked = false;
+        }
+
+        private void _CooperacionButton_Checked(object sender, RoutedEventArgs e)
+        {
+            _SociosButton.IsChecked = false;
+            _AtencionesButton.IsChecked = false;
+            _CooperacionButton.IsChecked = true;
+        }
     }
 }
