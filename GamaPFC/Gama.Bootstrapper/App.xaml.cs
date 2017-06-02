@@ -61,8 +61,9 @@ namespace Gama.Bootstrapper
                 var selectorDeModulo = new SelectorDeModulo();
                 var vm = new SelectorDeModuloViewModel(new LoginService());
                 selectorDeModulo.DataContext = vm;
-                selectorDeModulo.ShowDialog();
-
+                
+                selectorDeModulo.ShowDialog(); // Esta instruccion lanza ventana de selector de modulo
+               
                 Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
                 if (!vm.SeHaAccedido)

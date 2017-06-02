@@ -1,6 +1,7 @@
 ﻿using Core;
 using Core.DataAccess;
 using Gama.Common;
+using Gama.Cooperacion.Business;
 using Gama.Cooperacion.DataAccess;
 using Gama.Cooperacion.Wpf.Services;
 using Gama.Cooperacion.Wpf.ViewModels;
@@ -8,12 +9,15 @@ using Gama.Cooperacion.Wpf.Views;
 using Microsoft.Practices.Unity;
 using NHibernate;
 using Prism.Regions;
+using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Gama.Cooperacion.Wpf
 {
     public class CooperacionModule : ModuleBase
     {
+        private DateTime _FechaHoy;
         public CooperacionModule(IUnityContainer container, IRegionManager regionManager)
            : base(container, regionManager)
         {
@@ -23,9 +27,13 @@ namespace Gama.Cooperacion.Wpf
 
         public override void Initialize()
         {
+            EstablecerFecha();
             RegisterViews();
             RegisterViewModels();
             RegisterServices();
+            ActualizarEstadosActividades();
+            
+            // Aqui se pueden poner las comprobaciones de estado de las actividades.
 
             //ILoggerFacade log = Container.Resolve<ILoggerFacade>();
             //log.Log("ok", Category.Exception, Priority.None);
@@ -177,7 +185,43 @@ namespace Gama.Cooperacion.Wpf
             //Container.RegisterType<ICooperanteRepository, FakeCooperanteRepository>();
             //Container.RegisterInstance<ICooperacionSettings>(new CooperacionSettings());
         }
+        private void ActualizarEstadosActividades()
+        {
+            var actividadRepository = Container.Resolve<IActividadRepository>();
+            var session = Container.Resolve<ISession>();
+            actividadRepository.Session = session;
+            ListaCompletaActividades = new ObservableCollection<Actividad>(actividadRepository.GetAll());
+            //foreach (var ActividadSeleccionada in ListaCompletaActividades)
+            //{
+            //    int cont;
+            //    int CompararFecha = DateTime.Compare(ActividadSeleccionada.FechaDeInicio, _FechaHoy);
+            //    if (CompararFecha >= 0)
+            //    {
 
+            //    }
+                    
+            //}
+            //if (vm.ModuloSeleccionado.Value == Modulos.Cooperacion) // Si se selecciona Cooperacion Actualizamos los estados de las actividades según si fecha
+            //{
+            //    DateTime dia1 = new DateTime(2017, 05, 26);
+            //    DateTime dia2 = new DateTime(2017, 05, 27);
+            //    string relationship;
+            //    int result = DateTime.Compare(dia1, dia2);
+            //    if (result < 0)
+            //        relationship = "is earlier than";
+            //    else if (result == 0)
+            //        relationship = "is the same time as";
+            //    else
+            //        relationship = "is later than";
+
+            //    Console.WriteLine("{0} {1} {2}", dia1, relationship, dia2);
+            //}
+        }
+        private void EstablecerFecha()
+        {
+            //_FechaHoy = DateTime.Now; // Para asignar la fecha de hoy
+            DateTime _FechaHoy = new DateTime(2017, 05, 02);
+        }
         private void InitializeNavigation()
         {
             RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
@@ -190,5 +234,6 @@ namespace Gama.Cooperacion.Wpf
             RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<ActividadesContentView>());
             RegionManager.AddToRegion(RegionNames.ActividadesTabContentRegion, Container.Resolve<ListadoDeActividadesView>());
         }
+        public ObservableCollection<Actividad> ListaCompletaActividades { get; private set; }
     }
 }
