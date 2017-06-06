@@ -109,13 +109,18 @@ namespace Gama.Atenciones.Wpf.Wrappers
             }
         }
 
+        //public Asistente Asistente
+        //{
+        //    get { return GetValue<Asistente>(); }
+        //    set { SetValue(value); }
+        //}
+
         public Asistente Asistente
         {
-            get { return GetValue<Asistente>(); }
-            set { SetValue(value); }
+            get { return Model.Asistente; }
+            set { Model.Asistente = value; }
         }
 
-        private Persona _Persona;
         public Persona Persona
         {
             get { return Model.Persona; }

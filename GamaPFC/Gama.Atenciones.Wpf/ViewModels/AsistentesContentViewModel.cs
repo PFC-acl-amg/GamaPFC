@@ -23,6 +23,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private ICitaRepository _CitaRepository;
         private IEventAggregator _EventAggregator;
         private ISession _Session;
+        private DateTime _Now;
 
         public AsistentesContentViewModel(
             IEventAggregator eventAggregator,
@@ -39,14 +40,18 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _AsistenteViewModel = asistenteViewModel;
             _Session = session;
 
-            AsistenteSeleccionado = new AsistenteWrapper(new Business.Asistente());
+            _Now = DateTime.Now.Date;
 
             Asistentes = new ObservableCollection<AsistenteWrapper>(
                 _AsistenteRepository.GetAll()
                 .Select(x => new AsistenteWrapper(x)));
 
+            CitasPasadas = new ObservableCollection<CitaWrapper>();
+            CitasFuturas = new ObservableCollection<CitaWrapper>();
+
             if (Asistentes.Count > 0)
                 AsistenteSeleccionado = Asistentes.First();
+
 
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
@@ -93,20 +98,25 @@ namespace Gama.Atenciones.Wpf.ViewModels
             set
             {
                 SetProperty(ref _AsistenteSeleccionado, value);
+
                 if (_AsistenteSeleccionado != null)
                 {
                     _AsistenteViewModel.Load(_AsistenteSeleccionado);
-                }
-                else
-                {
-                    _AsistenteSeleccionado = new AsistenteWrapper(new Business.Asistente());
-                    _AsistenteViewModel.Load(_AsistenteSeleccionado);
-                }
+                    _AsistenteSeleccionado.PropertyChanged += (s, e) => InvalidateCommands();
 
-                _AsistenteSeleccionado.PropertyChanged += (s, e) => InvalidateCommands();
+                    CitasPasadas.Clear();
+                    CitasPasadas.AddRange(AsistenteSeleccionado.Citas.Where(c => c.Fecha < _Now));
+
+                    CitasFuturas.Clear();
+                    CitasFuturas.AddRange(AsistenteSeleccionado.Citas.Where(c => c.Fecha >= _Now));
+                }
+                
                 OnPropertyChanged();
             }
         }
+        
+        public ObservableCollection<CitaWrapper> CitasPasadas { get; private set; }
+        public ObservableCollection<CitaWrapper> CitasFuturas { get; private set; }
 
         public ICommand HabilitarEdicionCommand { get; private set; }
         public ICommand ActualizarCommand { get; private set; }
@@ -166,7 +176,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Cita cita = _CitaRepository.GetById(id);
             AsistenteWrapper asistente = Asistentes.First(x => x.Id == cita.Asistente.Id);
 
-            asistente.Citas.Add(cita);
+            asistente.Citas.Add(new CitaWrapper(cita));
+            if (cita.Fecha <= DateTime.Now.Date)
+                asistente.CitasPasadas.Add(new CitaWrapper(cita));
+            else
+                asistente.CitasProximas.Add(new CitaWrapper(cita));
 
             // Refresca la vista, realmente no sé por qué hace falta reseleccionarlo. 
             // Si no se pone esta línea, al deseleccionar y volver a seleccionar al asistente
@@ -176,12 +190,39 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnCitaActualizadaEvent(int id)
         {
-            Cita cita = _CitaRepository.GetById(id);
-            AsistenteWrapper asistente = Asistentes.First(x => x.Id == cita.Asistente.Id);
-            Cita citaDesactualizada = asistente.Citas.First(x => x.Id == id);
+            var cita = _CitaRepository.GetById(id);
 
-            citaDesactualizada.CopyValuesFrom(cita);
-            OnPropertyChanged(nameof(AsistenteSeleccionado));
+            var asistente = Asistentes.First(x => x.Id == cita.Asistente.Id);
+
+            // Cuando se actualiza una cita se puede cambiar el asistente que tiene asignado.
+            // Por eso distinguimos dos casos: Sólo se han modificado los campos de la cita
+            // o se ha modificado al asistente. En este último caso, hay que eliminar la cita
+            // del asistente anterior e incluírsela al nuevo asistente. Es
+            // como si se eliminara la cita del anterior asistente y se creara una nueva para
+            // el asistente nuevo.
+
+            // Se han actualizado sólo los campos de la cita
+            if (asistente.Citas.Any(x => x.Id == id))
+            {
+                var citaDesactualizada = asistente.Citas.First(x => x.Id == id).Model;
+                citaDesactualizada.CopyValuesFrom(cita);
+            }
+            // Se ha actualizado el asistente.
+            else
+            {
+                // Eliminar cita al asistente anterior
+                var asistenteAnterior = Asistentes.First(x => x.Citas.Any(c => c.Id == id));
+                var citaAEliminar = asistenteAnterior.Citas.First(c => c.Id == id);
+                asistenteAnterior.Citas.Remove(citaAEliminar);
+
+                // Añadir cita al asistente nuevo
+                asistente.Citas.Add(new CitaWrapper(cita));
+
+                // Modificar citas actuales si el asistenteSeleccionado ha sido afectado
+                // por la actualización. Realizando la asignación forzamos a que se regeneren
+                // las listas.
+                AsistenteSeleccionado = AsistenteSeleccionado;
+            }
         }
 
         private void InvalidateCommands()

@@ -111,7 +111,7 @@
                     x:Name="_AsistentesComboBox"
                     IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding Asistentes}"
-            SelectedItem="{Binding Cita.Asistente, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            SelectedItem="{Binding AsistenteSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             DisplayMemberPath="Nombre"/>
           <!--<TextBox Margin="{StaticResource Margin}" Text="{Binding Cita.AsistenteEnTexto, UpdateSourceTrigger=PropertyChanged}"/>-->
         </StackPanel>

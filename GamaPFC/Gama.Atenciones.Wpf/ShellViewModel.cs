@@ -21,12 +21,12 @@ namespace Gama.Atenciones.Wpf
         Dictionary<string, bool> _Panels = new Dictionary<string, bool>();
 
         public ShellViewModel(IEventAggregator eventAggregator,
+            StatusBarViewModel statusBarViewModel,
             PersonasContentViewModel personasContentViewModel,
             DashboardViewModel dashboardViewModel,
             CitasContentViewModel citasContentViewModel,
             AsistentesContentViewModel asistentesContentViewModel,
-            GraficasContentViewModel graficasContentViewModel,
-            StatusBarViewModel statusBarViewModel)
+            GraficasContentViewModel graficasContentViewModel)
         {
             PersonasContentViewModel = personasContentViewModel;
             DashboardViewModel = dashboardViewModel;

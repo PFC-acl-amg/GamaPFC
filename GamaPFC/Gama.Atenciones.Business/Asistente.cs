@@ -83,6 +83,7 @@ namespace Gama.Atenciones.Business
 
         public virtual void CopyValuesFrom(Asistente other)
         {
+            Id = other.Id;
             Nif = other.Nif;
             Nombre = other.Nombre;
             Apellidos = other.Apellidos;
