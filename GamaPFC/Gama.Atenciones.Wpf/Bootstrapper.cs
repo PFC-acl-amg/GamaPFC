@@ -14,6 +14,7 @@ using Gama.Atenciones.Wpf.ViewModels;
 using Gama.Atenciones.Wpf.Views;
 using System.Linq;
 using Prism.Events;
+using Core.Util;
 
 namespace Gama.Atenciones.Wpf
 {

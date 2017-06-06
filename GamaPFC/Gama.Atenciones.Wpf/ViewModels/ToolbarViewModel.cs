@@ -1,9 +1,12 @@
 ﻿using Core;
+using Core.Util;
 using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.Views;
 using Gama.Common.Views;
+using Microsoft.Win32;
+using MySql.Data.MySqlClient;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
@@ -12,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Gama.Atenciones.Wpf.ViewModels
@@ -39,9 +43,20 @@ namespace Gama.Atenciones.Wpf.ViewModels
             EliminarPersonaCommand = new DelegateCommand(OnEliminarPersonaCommandExecute, 
                 () => _Persona != null);
 
+            HacerBackupCommand = new DelegateCommand(OnMakeBackupCommandExecute);
+            HacerRestoreCommand = new DelegateCommand(OnRestoreBackupCommandExecute);
+
             _EventAggregator.GetEvent<PersonaSeleccionadaChangedEvent>().Subscribe(OnPersonaSeleccionadaChangedEvent);
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaSeleccionadaChangedEvent);
         }
+
+
+        public ICommand NuevaPersonaCommand { get; private set; }
+        public ICommand NuevoAsistenteCommand { get; private set; }
+        public ICommand ExportarCommand { get; private set; }
+        public ICommand EliminarPersonaCommand { get; private set; }
+        public ICommand HacerBackupCommand { get; private set; }
+        public ICommand HacerRestoreCommand { get; private set; }
 
         private void OnPersonaSeleccionadaChangedEvent(int id)
         {
@@ -85,11 +100,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
         }
 
-        public ICommand NuevaPersonaCommand { get; private set; }
-        public ICommand NuevoAsistenteCommand { get; private set; }
-        public ICommand ExportarCommand { get; private set; }
-        public ICommand EliminarPersonaCommand { get; private set; }
-
         private void OnNuevaPersonaCommandExecute()
         {
             var o = new NuevaPersonaView();
@@ -105,6 +115,74 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnExportarCommandExecute()
         {
             //throw new NotImplementedException();
+        }
+
+        private void OnMakeBackupCommandExecute()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            saveFileDialog.FileName = DateTime.Now.ToShortDateString().Replace('/', '-') + " - atenciones backup.sql";
+            saveFileDialog.Filter = "Sql file (*.sql)|*.sql";
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string constring = "server=localhost;user=gama;pwd=secret;database=gama_atenciones;";
+
+                // Important Additional Connection Options
+                constring += "charset=utf8;convertzerodatetime=true;";
+
+                using (MySqlConnection conn = new MySqlConnection(constring))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        using (MySqlBackup mb = new MySqlBackup(cmd))
+                        {
+                            cmd.Connection = conn;
+                            conn.Open();
+                            UIServices.SetBusyState();
+                            mb.ExportToFile(saveFileDialog.FileName);
+                            _EventAggregator.GetEvent<BackupFinalizadoEvent>().Publish();
+                            conn.Close();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void OnRestoreBackupCommandExecute()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            openFileDialog.Filter = "Sql file (*.sql)|*.sql";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string constring = "server=localhost;user=gama;pwd=secret;database=gama_atenciones;";
+
+                // Important Additional Connection Options
+                constring += "charset=utf8;convertzerodatetime=true;";
+
+                using (MySqlConnection conn = new MySqlConnection(constring))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = "SET GLOBAL max_allowed_packet = 1677721656";
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+
+                        using (MySqlBackup mb = new MySqlBackup(cmd))
+                        {
+                            cmd.Connection = conn;
+                            UIServices.SetBusyState();
+                            mb.ImportFromFile(openFileDialog.FileName);
+                            conn.Close();
+                        }
+                    }
+                }
+                
+                UIServices.RestartApplication();
+            }
         }
     }
 }

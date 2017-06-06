@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Util;
 using Gama.Atenciones.Wpf.Eventos;
 using Gama.Common.Eventos;
 using Prism.Commands;
@@ -35,9 +36,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnVolverASeleccionDeModuloExecute()
         {
-            System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-            Application.Current.Shutdown();
-            _EventAggregator.GetEvent<VolverASeleccionDeModuloEvent>().Publish();
+            UIServices.RestartApplication();
         }
     }
 }

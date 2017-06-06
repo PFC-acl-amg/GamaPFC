@@ -139,6 +139,7 @@
     <Compile Include="Util\NullableValueConverter.cs" />
     <Compile Include="Util\PasswordHelper.cs" />
     <Compile Include="Util\StringUtility.cs" />
+    <Compile Include="Util\UIServices.cs" />
     <Compile Include="ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
