@@ -12,6 +12,7 @@ using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -114,7 +115,18 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnExportarCommandExecute()
         {
-            //throw new NotImplementedException();
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            saveFileDialog.FileName =
+                $"{DateTime.Now.ToShortDateString().Replace('/', '-')} - {_Persona.Nombre}.docx";
+
+            saveFileDialog.Filter = "DocX (*.docx)|*.docx";
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                var exportService = new ExportService();
+                exportService.ExportarPersona(_Persona, saveFileDialog.FileName);
+            }
         }
 
         private void OnMakeBackupCommandExecute()
@@ -126,23 +138,23 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             if (saveFileDialog.ShowDialog() == true)
             {
-                string constring = "server=localhost;user=gama;pwd=secret;database=gama_atenciones;";
+                string connectionString = ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString;
 
                 // Important Additional Connection Options
-                constring += "charset=utf8;convertzerodatetime=true;";
+                connectionString += "charset=utf8;convertzerodatetime=true;";
 
-                using (MySqlConnection conn = new MySqlConnection(constring))
+                using (MySqlConnection mysqlConnection = new MySqlConnection(connectionString))
                 {
-                    using (MySqlCommand cmd = new MySqlCommand())
+                    using (MySqlCommand sqlCommand = new MySqlCommand())
                     {
-                        using (MySqlBackup mb = new MySqlBackup(cmd))
+                        using (MySqlBackup mySqlBackup = new MySqlBackup(sqlCommand))
                         {
-                            cmd.Connection = conn;
-                            conn.Open();
+                            sqlCommand.Connection = mysqlConnection;
+                            mysqlConnection.Open();
                             UIServices.SetBusyState();
-                            mb.ExportToFile(saveFileDialog.FileName);
+                            mySqlBackup.ExportToFile(saveFileDialog.FileName);
                             _EventAggregator.GetEvent<BackupFinalizadoEvent>().Publish();
-                            conn.Close();
+                            mysqlConnection.Close();
                         }
                     }
                 }
@@ -157,26 +169,26 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             if (openFileDialog.ShowDialog() == true)
             {
-                string constring = "server=localhost;user=gama;pwd=secret;database=gama_atenciones;";
+                string connectionString = ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString;
 
                 // Important Additional Connection Options
-                constring += "charset=utf8;convertzerodatetime=true;";
+                connectionString += "charset=utf8;convertzerodatetime=true;";
 
-                using (MySqlConnection conn = new MySqlConnection(constring))
+                using (MySqlConnection mysqlConnection = new MySqlConnection(connectionString))
                 {
-                    using (MySqlCommand cmd = new MySqlCommand())
+                    using (MySqlCommand sqlCommand = new MySqlCommand())
                     {
-                        cmd.Connection = conn;
-                        cmd.CommandText = "SET GLOBAL max_allowed_packet = 1677721656";
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
+                        sqlCommand.Connection = mysqlConnection;
+                        sqlCommand.CommandText = "SET GLOBAL max_allowed_packet = 1677721656";
+                        mysqlConnection.Open();
+                        sqlCommand.ExecuteNonQuery();
 
-                        using (MySqlBackup mb = new MySqlBackup(cmd))
+                        using (MySqlBackup mySqlBackup = new MySqlBackup(sqlCommand))
                         {
-                            cmd.Connection = conn;
+                            sqlCommand.Connection = mysqlConnection;
                             UIServices.SetBusyState();
-                            mb.ImportFromFile(openFileDialog.FileName);
-                            conn.Close();
+                            mySqlBackup.ImportFromFile(openFileDialog.FileName);
+                            mysqlConnection.Close();
                         }
                     }
                 }

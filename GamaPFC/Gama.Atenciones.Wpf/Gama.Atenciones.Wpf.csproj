@@ -64,6 +64,10 @@
       <HintPath>..\packages\ModernUICharts.WPF.Beta.0.9.1\lib\De.TorstenMandelkow.MetroChart.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="DocX, Version=1.0.0.22, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocX.1.0.0.22\lib\net40\DocX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Faker, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Faker.1.2\lib\Faker.dll</HintPath>
       <Private>True</Private>
@@ -131,6 +135,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Design" />
@@ -230,6 +235,7 @@
     <Compile Include="FakeServices\FakePersonaRepository.cs" />
     <Compile Include="FakeServices\FakeRepository.cs" />
     <Compile Include="Services\AsistenteRepository.cs" />
+    <Compile Include="Services\ExportService.cs" />
     <Compile Include="Services\IAsistenteRepository.cs" />
     <Compile Include="Services\PreferenciasDeAtenciones.cs" />
     <Compile Include="Services\AtencionRepository.cs" />
