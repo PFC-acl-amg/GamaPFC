@@ -10,19 +10,41 @@ using Microsoft.Practices.Unity;
 using NHibernate;
 using Prism.Regions;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Gama.Cooperacion.Wpf
 {
-    public class CooperacionModule : ModuleBase
+    // Clase para guardar los estados de las actividades que se usara en el Dashboard ViewModel de Cooperacion.
+    public static class ColeccionEstadosActividades
     {
-        private DateTime _FechaHoy;
+        public static Dictionary<string,int> EstadosActividades { get; set; }
+        // EstadosActividades tiene que inicializarse para que cuando de compare por primera vez no falle por ser nulo
+        // Esta inicializacion se realiza en Bootstrapper.cs de Cooperacion
+        
+        public static void ContandoEstadosActividades(string Estado)
+        {
+            if (!EstadosActividades.ContainsKey(Estado))    // Si es estado no esta en el Diccionario se añade y cuenta 1.
+            {
+                EstadosActividades.Add(Estado, 1);
+            }
+            else                                            // Si esta en el diccionario se incrementa en 1.
+            {
+                EstadosActividades[Estado]++;
+            }
+        }
+    }
+        public class CooperacionModule : ModuleBase
+    {
+        private DateTime _FechaTest;
         public CooperacionModule(IUnityContainer container, IRegionManager regionManager)
            : base(container, regionManager)
         {
             this.Entorno = Entorno.Desarrollo;
             this.SeedDatabase = false; // A falso no entra en el if this.UseFaker y no crea nada mas
+           
+            
         }
 
         public override void Initialize()
@@ -191,16 +213,59 @@ namespace Gama.Cooperacion.Wpf
             var session = Container.Resolve<ISession>();
             actividadRepository.Session = session;
             ListaCompletaActividades = new ObservableCollection<Actividad>(actividadRepository.GetAll());
-            //foreach (var ActividadSeleccionada in ListaCompletaActividades)
-            //{
-            //    int cont;
-            //    int CompararFecha = DateTime.Compare(ActividadSeleccionada.FechaDeInicio, _FechaHoy);
-            //    if (CompararFecha >= 0)
-            //    {
-
-            //    }
-                    
-            //}
+            foreach (var ActividadSeleccionada in ListaCompletaActividades)
+            {
+                // _FechaTest = 02.05.2017
+                int CompararFecha = DateTime.Compare(_FechaTest, ActividadSeleccionada.FechaDeInicio); // Comprabando si comenzo el proyecto
+                int SemanaFin = DateTime.Compare(_FechaTest, ActividadSeleccionada.FechaDeFin.AddDays(-7)); // Comprabando si comenzo el proyecto
+                int FueraPlazo = DateTime.Compare(_FechaTest, ActividadSeleccionada.FechaDeFin);
+                if (FueraPlazo >= 0)  // FechaTest despues FechaFin => 1 Si no esta finalizada la actividad esta fuera de plazo
+                {
+                    if (ActividadSeleccionada.Estado != Estado.Finalizado)
+                    {
+                        ActividadSeleccionada.Estado = Estado.FueraPlazo;                                       // Se modifica el estado
+                        string EstadoActividadSeleccionada = ActividadSeleccionada.Estado.ToString();           // Obtiene estado Actual Actividad
+                        ColeccionEstadosActividades.ContandoEstadosActividades(EstadoActividadSeleccionada);    // Contabiliza el estado de la Actividad
+                        actividadRepository.Update(ActividadSeleccionada);                                      // Actualiza el estado en BBDD.
+                    }
+                    else
+                    {
+                        string EstadoActividadSeleccionada = ActividadSeleccionada.Estado.ToString();           // Obtiene estado Actual Actividad
+                        ColeccionEstadosActividades.ContandoEstadosActividades(EstadoActividadSeleccionada);    // Contabiliza el estado.Finalizado de la Actividad
+                    }
+                }
+                else
+                {
+                    if (CompararFecha < 0)  // FechaTest es antes Fecha Inicio => -1 NoComenzado
+                    {
+                        ActividadSeleccionada.Estado = Estado.NoComenzado;                                      // Se modifica el estado
+                        string EstadoActividadSeleccionada = ActividadSeleccionada.Estado.ToString();           // Contabiliza el estado de la Actividad
+                        ColeccionEstadosActividades.ContandoEstadosActividades(EstadoActividadSeleccionada);
+                        actividadRepository.Update(ActividadSeleccionada);                                      // Actualiza el estado en BBDD.
+                    }
+                    else        // FechaTest es Igual o posterior a la FechaInicio => 0/1 Comenzado
+                    {
+                        if ((CompararFecha >= 0) && (SemanaFin < 0))     // FechaTest tiene que ser anterior en una semana para que sea Comenzado
+                        {
+                            ActividadSeleccionada.Estado = Estado.Comenzado;                                      // Se modifica el estado
+                            string EstadoActividadSeleccionada = ActividadSeleccionada.Estado.ToString();
+                            ColeccionEstadosActividades.ContandoEstadosActividades(EstadoActividadSeleccionada);
+                            actividadRepository.Update(ActividadSeleccionada);                                    // Actualiza el estado en BBDD.
+                        }
+                        else
+                        {
+                            if (SemanaFin >= 0)     // Esta a una semana o menos de finalizar el plazo de entrega
+                            {
+                                ActividadSeleccionada.Estado = Estado.ProximasFinalizaciones;                           // Se modifica el estado
+                                string EstadoActividadSeleccionada = ActividadSeleccionada.Estado.ToString();
+                                ColeccionEstadosActividades.ContandoEstadosActividades(EstadoActividadSeleccionada);
+                                actividadRepository.Update(ActividadSeleccionada);                                      // Actualiza el estado en BBDD.
+                            }
+                        }
+                    }
+                }
+            }
+               
             //if (vm.ModuloSeleccionado.Value == Modulos.Cooperacion) // Si se selecciona Cooperacion Actualizamos los estados de las actividades según si fecha
             //{
             //    DateTime dia1 = new DateTime(2017, 05, 26);
@@ -217,10 +282,10 @@ namespace Gama.Cooperacion.Wpf
             //    Console.WriteLine("{0} {1} {2}", dia1, relationship, dia2);
             //}
         }
-        private void EstablecerFecha()
+        public void EstablecerFecha()
         {
-            //_FechaHoy = DateTime.Now; // Para asignar la fecha de hoy
-            DateTime _FechaHoy = new DateTime(2017, 05, 02);
+            // Fecha para realizar puebas. Las Fechas de Inicio y Fin de las actividades estan en el Mes Mayo
+            _FechaTest = new DateTime(2017, 05, 02);
         }
         private void InitializeNavigation()
         {

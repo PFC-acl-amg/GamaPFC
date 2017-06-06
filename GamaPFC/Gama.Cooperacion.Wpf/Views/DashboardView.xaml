@@ -204,11 +204,22 @@
                     </Label>
 
                     <Label x:Name="_SeleccionarActividadesLabel" Grid.Column="1"
-                                                Content="Actividades"  
+                                                Content="Actividades"
                                                 MouseLeftButtonDown="Label_SeleccionarActividades"
                                                 FontSize="18" HorizontalContentAlignment="Center"
                                                 FontWeight="Bold"
                                                 VerticalAlignment="Center">
+                        <!--<Label.Content >
+                            <TextBlock>
+                                <TextBlock HorizontalAlignment="Center">
+                                    <Run Text="Actividades" />
+                                    <Run Text="{Binding FirstName}" />
+                                    <Run Text="   " />
+                                    --><!-- space --><!--
+                                    <Run Text="{Binding LastName}" />
+                                </TextBlock>
+                            </TextBlock>
+                        </Label.Content>-->
                         <Label.Style>
                             <Style TargetType="Label">
                                 <Setter Property="Foreground" Value="Black" />
@@ -328,10 +339,18 @@
                                 <RowDefinition Height="50" />
                             </Grid.RowDefinitions>
                             <Label x:Name="SeleccionarListaActividadesActivas" Grid.Row="1"
-                                                Content="En Curso"  
+                                                
                                                 MouseLeftButtonDown="Label_EscogerCooperante"
                                                 FontSize="18" HorizontalContentAlignment="Left"
                                                 VerticalAlignment="Center">
+                                <Label.Content >
+                                    <TextBlock>
+                                        <Run Text="En Curso" />
+                                        <Run Text=" ("/>
+                                        <Run Text="{Binding EnCursoCount}"/>
+                                        <Run Text=")"/>
+                                    </TextBlock>
+                                </Label.Content>
                                 <Label.Style>
                                     <Style TargetType="Label">
                                         <Setter Property="Foreground" Value="Black" />

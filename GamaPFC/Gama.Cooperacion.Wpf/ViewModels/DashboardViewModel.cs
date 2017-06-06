@@ -42,6 +42,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private bool _VisibleListaTodosCooperantes;
         private bool _VisibleImagenSeleccionCooperante;
         private bool _VisibleDatosCooperanteSeleccionado;
+        private int _EnCursoCount;
 
         private readonly int itemCount;
 
@@ -70,6 +71,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _VisibleListaTodosCooperantes = true;
             _VisibleImagenSeleccionCooperante = true;
             _VisibleDatosCooperanteSeleccionado = false;
+            _EnCursoCount = 10;
             this.itemCount = 10;
             this.Items = new ObservableCollection<Item>();
 
@@ -407,6 +409,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             get { return _VisibleDatosCooperanteSeleccionado; }
             set { SetProperty(ref _VisibleDatosCooperanteSeleccionado, value); }
+        }
+        public int EnCursoCount
+        {
+            get { return _EnCursoCount; }
+            set { SetProperty(ref _EnCursoCount, value); }
         }
     }
 }
