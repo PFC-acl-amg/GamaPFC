@@ -98,23 +98,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
             set
             {
                 SetProperty(ref _AsistenteSeleccionado, value);
-
-                if (_AsistenteSeleccionado != null)
-                {
-                    _AsistenteViewModel.Load(_AsistenteSeleccionado);
-                    _AsistenteSeleccionado.PropertyChanged += (s, e) => InvalidateCommands();
-
-                    CitasPasadas.Clear();
-                    CitasPasadas.AddRange(AsistenteSeleccionado.Citas.Where(c => c.Fecha < _Now));
-
-                    CitasFuturas.Clear();
-                    CitasFuturas.AddRange(AsistenteSeleccionado.Citas.Where(c => c.Fecha >= _Now));
-                }
-                
+                RefrescarVista();
                 OnPropertyChanged();
             }
         }
-        
+
         public ObservableCollection<CitaWrapper> CitasPasadas { get; private set; }
         public ObservableCollection<CitaWrapper> CitasFuturas { get; private set; }
 
@@ -123,6 +111,21 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand CancelarEdicionCommand { get; private set; }
         public ICommand EditarCitaCommand { get; private set; }
         public ICommand SeleccionarPersonaCommand { get; private set; }
+
+        private void RefrescarVista()
+        {
+            if (_AsistenteSeleccionado != null)
+            {
+                _AsistenteViewModel.Load(_AsistenteSeleccionado);
+                _AsistenteSeleccionado.PropertyChanged += (s, e) => InvalidateCommands();
+
+                CitasPasadas.Clear();
+                CitasPasadas.AddRange(AsistenteSeleccionado.Citas.Where(c => c.Fecha < _Now));
+
+                CitasFuturas.Clear();
+                CitasFuturas.AddRange(AsistenteSeleccionado.Citas.Where(c => c.Fecha >= _Now));
+            }
+        }
 
         private void OnActualizarCommand()
         {
@@ -175,17 +178,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             Cita cita = _CitaRepository.GetById(id);
             AsistenteWrapper asistente = Asistentes.First(x => x.Id == cita.Asistente.Id);
-
             asistente.Citas.Add(new CitaWrapper(cita));
-            if (cita.Fecha <= DateTime.Now.Date)
-                asistente.CitasPasadas.Add(new CitaWrapper(cita));
-            else
-                asistente.CitasProximas.Add(new CitaWrapper(cita));
-
-            // Refresca la vista, realmente no sé por qué hace falta reseleccionarlo. 
-            // Si no se pone esta línea, al deseleccionar y volver a seleccionar al asistente
-            // afectado, la vista se refresca con la nueva cita.
-            AsistenteSeleccionado = AsistenteSeleccionado; 
+            RefrescarVista();
         }
 
         private void OnCitaActualizadaEvent(int id)
@@ -218,10 +212,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 // Añadir cita al asistente nuevo
                 asistente.Citas.Add(new CitaWrapper(cita));
 
-                // Modificar citas actuales si el asistenteSeleccionado ha sido afectado
-                // por la actualización. Realizando la asignación forzamos a que se regeneren
-                // las listas.
-                AsistenteSeleccionado = AsistenteSeleccionado;
+                RefrescarVista();
             }
         }
 

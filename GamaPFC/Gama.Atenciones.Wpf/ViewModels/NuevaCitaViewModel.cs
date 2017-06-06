@@ -180,7 +180,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnAceptarCommand_Execute()
         {
-            Cita.Fecha = Cita.Fecha.Value.AddHours(Cita.Hora).AddMinutes(Cita.Minutos);
+            Cita.Fecha = Cita.Fecha.Value.Date.AddHours(Cita.Hora).AddMinutes(Cita.Minutos);
             Cita.Asistente = AsistenteSeleccionado;
 
             if (!EnEdicionDeCitaExistente)
