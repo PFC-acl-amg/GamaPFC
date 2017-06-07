@@ -314,7 +314,6 @@ namespace Gama.Cooperacion.Wpf.Views
             var labelActividades = _SeleccionarActividadesLabel;
             var vm = this.DataContext as DashboardViewModel;
             labelActividades.Foreground = Brushes.Yellow;
-
             vm.ListaDeActividadesCommand.Execute(null);
             
         }
@@ -323,9 +322,35 @@ namespace Gama.Cooperacion.Wpf.Views
             var ActPorComenzar = SeleccionarListaActividadesPorComenzar;
             var vm = this.DataContext as DashboardViewModel;
             ActPorComenzar.Foreground = Brushes.Yellow;
-
             vm.ActividadesPorComenzarCommand.Execute(null);
         }
-
+        private void Label_ActividadesProximosVencimientos (object sender,MouseButtonEventArgs e)
+        {
+            var ActProximoVencimiento = SeleccionarListaActividadesProximosVencimientos;
+            var vm = this.DataContext as DashboardViewModel;
+            ActProximoVencimiento.Foreground = Brushes.Yellow;
+            vm.ActividadesProximosVencimientosCommand.Execute(null);
+        }
+        private void Label_ActividadesRetrasadas(object sender, MouseButtonEventArgs e)
+        {
+            var ActRetrasadas = SeleccionarListaActividadesRetrasadas;
+            var vm = this.DataContext as DashboardViewModel;
+            ActRetrasadas.Foreground = Brushes.Yellow;
+            vm.ActividadesActividadesRetrasadasCommand.Execute(null);
+        }
+        private void Label_ActividadesFinalizadas(object sender, MouseButtonEventArgs e)
+        {
+            var ActFinalizadas = SeleccionarListaActividadesFinalizadas;
+            var vm = this.DataContext as DashboardViewModel;
+            ActFinalizadas.Foreground = Brushes.Yellow;
+            vm.ActividadesActividadesFinalizadasCommand.Execute(null);
+        }
+        private void Label_ActividadesActivas(object sender, MouseButtonEventArgs e)
+        {
+            var ActActivas = SeleccionarListaActividadesActivas;
+            var vm = this.DataContext as DashboardViewModel;
+            ActActivas.Foreground = Brushes.Yellow;
+            vm.ActividadesActividadesActivasCommand.Execute(null);
+        }
     }
 }

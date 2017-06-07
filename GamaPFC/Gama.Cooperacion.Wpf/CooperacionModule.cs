@@ -42,7 +42,7 @@ namespace Gama.Cooperacion.Wpf
            : base(container, regionManager)
         {
             this.Entorno = Entorno.Desarrollo;
-            this.SeedDatabase = true; // A falso no entra en el if this.UseFaker y no crea nada mas
+            this.SeedDatabase = false; // A falso no entra en el if this.UseFaker y no crea nada mas
         }
 
         public override void Initialize()
