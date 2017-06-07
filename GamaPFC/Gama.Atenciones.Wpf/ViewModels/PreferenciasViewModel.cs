@@ -66,11 +66,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             dialog.Title = "My Title";
             dialog.IsFolderPicker = true;
-            dialog.InitialDirectory = GetFolderPath(SpecialFolder.MyComputer);
+            dialog.InitialDirectory = Preferencias.AutomaticBackupPath;
 
             dialog.AddToMostRecentlyUsedList = false;
             dialog.AllowNonFileSystemItems = false;
-            dialog.DefaultDirectory = GetFolderPath(SpecialFolder.MyComputer);
+            dialog.DefaultDirectory = Preferencias.AutomaticBackupPath;
             dialog.EnsureFileExists = true;
             dialog.EnsurePathExists = true;
             dialog.EnsureReadOnly = false;

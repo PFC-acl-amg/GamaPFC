@@ -47,6 +47,7 @@ namespace Core.DataAccess
 
                     using (MySqlBackup mySqlBackup = new MySqlBackup(sqlCommand))
                     {
+                        //mySqlBackup.ExportInfo.MaxSqlLength = 1677721656;
                         sqlCommand.Connection = mysqlConnection;
                         UIServices.SetBusyState();
                         mySqlBackup.ImportFromFile(fileName);

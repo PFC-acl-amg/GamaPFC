@@ -1,10 +1,14 @@
 ﻿using Core;
+using Core.DataAccess;
+using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.UIEvents;
 using Gama.Atenciones.Wpf.ViewModels;
 using Gama.Common.Eventos;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -26,7 +30,8 @@ namespace Gama.Atenciones.Wpf
             DashboardViewModel dashboardViewModel,
             CitasContentViewModel citasContentViewModel,
             AsistentesContentViewModel asistentesContentViewModel,
-            GraficasContentViewModel graficasContentViewModel)
+            GraficasContentViewModel graficasContentViewModel,
+            Preferencias preferencias)
         {
             PersonasContentViewModel = personasContentViewModel;
             DashboardViewModel = dashboardViewModel;
@@ -34,6 +39,7 @@ namespace Gama.Atenciones.Wpf
             AsistentesContentViewModel = asistentesContentViewModel;
             GraficasContentViewModel = graficasContentViewModel;
             StatusBarViewModel = statusBarViewModel;
+            _Preferencias = preferencias;
 
             _EventAggregator = eventAggregator;
             Title = "SERVICIO DE ATENCIONES";
@@ -85,6 +91,8 @@ namespace Gama.Atenciones.Wpf
         }
 
         private bool _GraficasViewIsVisible = false;
+        private Preferencias _Preferencias;
+
         public bool GraficasContentViewIsVisible
         {
             get { return _GraficasViewIsVisible; }
@@ -106,6 +114,27 @@ namespace Gama.Atenciones.Wpf
             CitasContentViewIsVisible = _Panels["CitasContentView"];
             AsistentesContentViewIsVisible = _Panels["AsistentesContentView"];
             GraficasContentViewIsVisible = _Panels["GraficasContentView"];
+        }
+
+        public void OnCloseApplication()
+        {
+            var preferencias = _Preferencias;
+            if (preferencias.DoBackupOnClose)
+            {
+                string connectionString =
+                    ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString;
+                DBHelper.Backup(
+                    connectionString: connectionString, 
+                    fileName: preferencias.AutomaticBackupPath + DateTime.Now.ToString().Replace('/', '-').Replace(':','-') + " - atenciones backup.sql");
+
+                DirectoryInfo directory = new DirectoryInfo(preferencias.AutomaticBackupPath);
+
+                if (preferencias.BackupDeleteDateLimit.HasValue)
+                    foreach (FileInfo fileInfo in directory.GetFiles())
+                        if (fileInfo.CreationTime < preferencias.BackupDeleteDateLimit.Value
+                            && fileInfo.CreationTime < DateTime.Now.Date) // Para no borrar el que acabamos de poner
+                            fileInfo.Delete();
+            }
         }
 
         private void OnActiveViewChangedEvent(string viewName)

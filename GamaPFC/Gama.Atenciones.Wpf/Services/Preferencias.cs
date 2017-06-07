@@ -30,10 +30,14 @@ namespace Gama.Atenciones.Wpf.Services
             ListadoDePersonasItemsPerPage = 10;
             Dashboard_MostrarFiltroDeFechaPorDefecto = true;
 
-            AutomaticBackupPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            AutomaticBackupPath = PreferenciasPathFolder;
+
+            DoBackupOnClose = true;
         }
 
         public string AutomaticBackupPath { get; set; }
+        public bool DoBackupOnClose { get; set; }
+        public DateTime? BackupDeleteDateLimit { get; set; }
         
         public bool Dashboard_MostrarFiltroDeFechaPorDefecto { get; set; }
 

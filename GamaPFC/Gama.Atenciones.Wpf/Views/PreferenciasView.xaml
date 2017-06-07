@@ -121,7 +121,7 @@
                   VerticalAlignment="Center"
                   HorizontalAlignment="Right"
                   Margin="{StaticResource Margin}"
-                  IsChecked="{Binding Preferencias.HacerBackupAlSalir}">
+                  IsChecked="{Binding Preferencias.DoBackupOnClose}">
           <CheckBox.LayoutTransform>
             <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
           </CheckBox.LayoutTransform>
@@ -140,6 +140,11 @@
                     Content="..." 
                     Command="{Binding ExaminarBackupPath}"/>
         </Grid>
+
+        <Label Margin="{StaticResource Margin}" Grid.Row="2">Eliminar copias previas a:</Label>
+        <DatePicker 
+          Grid.Row="2" Grid.Column="1"
+          SelectedDate="{Binding Preferencias.BackupDeleteDateLimit, UpdateSourceTrigger=PropertyChanged}"/>
 
       </Grid>
     </GroupBox>

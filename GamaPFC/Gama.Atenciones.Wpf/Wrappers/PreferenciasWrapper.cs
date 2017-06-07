@@ -27,6 +27,22 @@ namespace Gama.Atenciones.Wpf.Wrappers
         public string AutomaticBackupPathOriginalValue => GetOriginalValue<string>(nameof(AutomaticBackupPath));
         public bool AutomaticBackupPathIsChanged => GetIsChanged(nameof(AutomaticBackupPath));
 
+        public bool DoBackupOnClose
+        {
+            get { return GetValue<bool>(); }
+            set { SetValue(value); }
+        }
+        public bool DoBackupOnCloseOriginalValue => GetOriginalValue<bool>(nameof(DoBackupOnClose));
+        public bool DoBackupOnCloseIsChanged => GetIsChanged(nameof(DoBackupOnClose));
+
+        public DateTime? BackupDeleteDateLimit
+        {
+            get { return GetValue<DateTime?>(); }
+            set { SetValue(value); }
+        }
+        public bool BackupDeleteDateLimitOriginalValue => GetOriginalValue<bool>(nameof(BackupDeleteDateLimit));
+        public bool BackupDeleteDateLimitIsChanged => GetIsChanged(nameof(BackupDeleteDateLimit));
+
         ///
         /// Dashboard
         ///
