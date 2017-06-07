@@ -114,16 +114,17 @@
           <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Label Margin="{StaticResource Margin}" Grid.Row="0" >Hacer copia de seguridad al salir</Label>
-        <Label Margin="{StaticResource Margin}" Grid.Row="1">Destino de la copia:</Label>
+        <Label Margin="{StaticResource Margin}" Grid.Row="0"
+               ToolTip="Automáticamente hace una copia de seguridad al cerrarse la aplicación">Hacer copia de seguridad al salir</Label>
+        <Label Margin="{StaticResource Margin}" Grid.Row="1"
+               ToolTip="Carpeta de destino de la copia de seguridad automática">Destino de la copia:</Label>
 
         <CheckBox Grid.Row="0" Grid.Column="1"
-                  VerticalAlignment="Center"
                   HorizontalAlignment="Right"
-                  Margin="{StaticResource Margin}"
+                  Margin="4,4,-3,4"
                   IsChecked="{Binding Preferencias.DoBackupOnClose}">
           <CheckBox.LayoutTransform>
-            <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+            <ScaleTransform ScaleX="1.2" ScaleY="1.2"  />
           </CheckBox.LayoutTransform>
         </CheckBox>
         
@@ -134,15 +135,20 @@
           </Grid.ColumnDefinitions>
           <TextBox Margin="{StaticResource Margin}" 
                      IsReadOnly="True" 
+                   Height="25"
                      Text="{Binding Preferencias.AutomaticBackupPath, UpdateSourceTrigger=PropertyChanged}"/>
           <Button Margin="{StaticResource Margin}" 
                     Grid.Column="1"
+                  ToolTip="Examinar..."
                     Content="..." 
-                    Command="{Binding ExaminarBackupPath}"/>
+                    Command="{Binding ExaminarBackupPathCommand}"/>
         </Grid>
 
         <Label Margin="{StaticResource Margin}" Grid.Row="2">Eliminar copias previas a:</Label>
         <DatePicker 
+          Margin="{StaticResource Margin}"
+          VerticalContentAlignment="Center"
+          Height="25"
           Grid.Row="2" Grid.Column="1"
           SelectedDate="{Binding Preferencias.BackupDeleteDateLimit, UpdateSourceTrigger=PropertyChanged}"/>
 

@@ -48,10 +48,10 @@
     <cc:CircleIconButton 
             Command="{Binding HacerBackupCommand}"
             Icon="{StaticResource appbar_database_sql}" 
-            ToolTip="Eliminar Persona"/>
+            ToolTip="Hacer copia de seguridad"/>
     <cc:CircleIconButton 
             Command="{Binding HacerRestoreCommand}"
             Icon="{StaticResource appbar_reset}" 
-            ToolTip="Eliminar Persona"/>
+            ToolTip="Restaurar copia de seguridad..."/>
   </StackPanel>
 </UserControl>
