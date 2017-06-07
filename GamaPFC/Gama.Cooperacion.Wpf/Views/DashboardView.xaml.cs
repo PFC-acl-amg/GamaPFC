@@ -318,6 +318,14 @@ namespace Gama.Cooperacion.Wpf.Views
             vm.ListaDeActividadesCommand.Execute(null);
             
         }
+        private void Label_ActividadesPorComenzar (object sender, MouseButtonEventArgs e)
+        {
+            var ActPorComenzar = SeleccionarListaActividadesPorComenzar;
+            var vm = this.DataContext as DashboardViewModel;
+            ActPorComenzar.Foreground = Brushes.Yellow;
+
+            vm.ActividadesPorComenzarCommand.Execute(null);
+        }
 
     }
 }

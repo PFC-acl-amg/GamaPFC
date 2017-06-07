@@ -42,6 +42,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private bool _VisibleListaTodosCooperantes;
         private bool _VisibleImagenSeleccionCooperante;
         private bool _VisibleDatosCooperanteSeleccionado;
+        private int _EnCursoCount;
+        private int _NoComenzado;
+        private int _Finalizado;
+        private int _ProximasFinalizaciones;
+        private int _FueraPlazo;
 
         private readonly int itemCount;
 
@@ -67,9 +72,14 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _VisibleContacto = false;
             _VisibleDireccion = false;
             _VisibleCooperanteSeleccionado = false;
-            _VisibleListaTodosCooperantes = true;
+            _VisibleListaTodosCooperantes = false;
             _VisibleImagenSeleccionCooperante = true;
             _VisibleDatosCooperanteSeleccionado = false;
+            _EnCursoCount = ColeccionEstadosActividades.EstadosActividades["Comenzado"];
+            _NoComenzado = ColeccionEstadosActividades.EstadosActividades["NoComenzado"];
+            _FueraPlazo = ColeccionEstadosActividades.EstadosActividades["FueraPlazo"];
+            _ProximasFinalizaciones = ColeccionEstadosActividades.EstadosActividades["ProximasFinalizaciones"];
+            _Finalizado = ColeccionEstadosActividades.EstadosActividades["Finalizado"];
             this.itemCount = 10;
             this.Items = new ObservableCollection<Item>();
 
@@ -91,6 +101,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     //    _settings.DashboardActividadesLongitudDeTitulos),
                     DisplayMember1 = a.Titulo,
                     Id_Coordinador = a.Coordinador.Id,
+                    FechaDeInicioActividad = a.FechaDeInicio,
                 }));
             ListaDeActividadesCooperante = new ObservableCollection<LookupItem>();
             ListaDeActividadesCoordina = new ObservableCollection<LookupItem>();
@@ -132,6 +143,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             PaginaSiguienteCommand = new DelegateCommand(OnPaginaSiguienteCommandExecute);
             PaginaAnteriorCommand = new DelegateCommand(OnPaginaAnteriorCommandExecute);
             NuevoCooperanteCommand = new DelegateCommand(OnNuevoCooperanteCommandExecute);
+            ActividadesPorComenzarCommand = new DelegateCommand(OnActividadesPorComenzarCommandExecute);
         }
         private void PublicarCooperante(CooperanteWrapper CooperanteInsertado)
         {
@@ -229,6 +241,25 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand NuevoCooperanteCommand { get; set; }
         public ICommand ListaDeActividadesCommand { get; set; }
         public ICommand ListaCooperantesCommand { get; set; }
+        public ICommand ActividadesPorComenzarCommand { get; set; }
+        private void OnActividadesPorComenzarCommandExecute()
+        {
+            //ListaDeActividades = new ObservableCollection<LookupItem>(
+            //    _actividadRepository.GetAll()
+            //        .Where(a => a.Estado == Estado.NoComenzado)
+            //        .OrderBy(a => a.FechaDeFin)
+            //        .Take(_settings.DashboardActividadesAMostrar)
+            //    .Select(a => new LookupItem
+            //    {
+            //        Id = a.Id,
+            //        //DisplayMember1 = LookupItem.ShortenStringForDisplay(a.Titulo,
+            //        //    _settings.DashboardActividadesLongitudDeTitulos),
+            //        DisplayMember1 = a.Titulo,
+            //        Id_Coordinador = a.Coordinador.Id,
+            //        FechaDeInicioActividad = a.FechaDeInicio,
+            //    }));
+            ListaDeActividades.RemoveAt(1);
+        }
         private void OnNuevoCooperanteCommandExecute()
         {
             var o = new AgregarCooperanteView();    // Esta es la vista
@@ -408,5 +439,34 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             get { return _VisibleDatosCooperanteSeleccionado; }
             set { SetProperty(ref _VisibleDatosCooperanteSeleccionado, value); }
         }
+        public int EnCursoCount
+        {
+            get { return _EnCursoCount; }
+            set { SetProperty(ref _EnCursoCount, value); }
+        }
+        public int NoComenzado
+        {
+            get { return _NoComenzado; }
+            set { SetProperty(ref _NoComenzado, value); }
+        }
+        public int Finalizado
+        {
+            get { return _Finalizado; }
+            set { SetProperty(ref _Finalizado, value); }
+        }
+        public int ProximasFinalizaciones
+        {
+            get { return _ProximasFinalizaciones; }
+            set { SetProperty(ref _ProximasFinalizaciones, value); }
+        }
+        public int FueraPlazo
+        {
+            get { return _FueraPlazo; }
+            set { SetProperty(ref _FueraPlazo, value); }
+        }
     }
 }
+
+
+
+//private int _FueraPlazo;

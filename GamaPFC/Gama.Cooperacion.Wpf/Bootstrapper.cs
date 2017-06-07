@@ -30,6 +30,7 @@ namespace Gama.Cooperacion.Wpf
 
             Application.Current.MainWindow = Shell as Window;
             Application.Current.MainWindow.Show();
+            ColeccionEstadosActividades.EstadosActividades = new System.Collections.Generic.Dictionary<string, int>();
         }
 
         protected override void ConfigureModuleCatalog()

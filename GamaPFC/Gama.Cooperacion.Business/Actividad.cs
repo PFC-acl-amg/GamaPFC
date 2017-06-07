@@ -12,6 +12,9 @@ namespace Gama.Cooperacion.Business
         NoComenzado,
         Comenzado,
         Finalizado,
+        FueraPlazo,
+        ProximasFinalizaciones,
+        EstadoTest
     }
 
     public class Actividad : TimestampedModel
