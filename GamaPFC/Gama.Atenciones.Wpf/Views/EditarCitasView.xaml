@@ -364,14 +364,14 @@
   </UserControl.Resources>
   <Grid>
     <CheckBox x:Name="_ToggleCalendarStyleCheckbox" Margin="4,4,100,4" 
-              HorizontalAlignment="Right" IsChecked="True" Visibility="Hidden"/>
+              HorizontalAlignment="Right" IsChecked="False" Visibility="Hidden"/>
 
     <cc:CircleIconButton Click="CircleIconButton_Click" >
       <cc:CircleIconButton.Style>
         <!-- appbar_lines_horizontal_4-->
         <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
           <Setter Property="Foreground" Value="#645C5C"/>
-          <Setter Property="Icon" Value="{StaticResource appbar_lines_horizontal_4}"/>
+          <Setter Property="Icon" Value="{StaticResource appbar_calendar}"/>
           <Setter Property="Margin" Value="4,-30,100,0"/>
           <Setter Property="HorizontalAlignment" Value="Right"/>
           <Setter Property="BorderThickness" Value="0"/>
@@ -381,8 +381,9 @@
           <Setter Property="Width" Value="35"/>
           <Setter Property="VerticalAlignment" Value="Top"/>
           <Style.Triggers>
-            <DataTrigger Binding="{Binding ElementName=_ToggleCalendarStyleCheckbox, Path=IsChecked}" Value="True">
-              <Setter Property="Icon" Value="{StaticResource appbar_calendar}"/>
+            <DataTrigger Binding="{Binding ElementName=_ToggleCalendarStyleCheckbox, Path=IsChecked}" Value="False">
+              <Setter Property="Icon" Value="{StaticResource appbar_lines_horizontal_4}"/>
+              <Setter Property="Margin" Value="4,-30,0,0"/>
             </DataTrigger>
           </Style.Triggers>
         </Style>
