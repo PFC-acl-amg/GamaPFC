@@ -41,14 +41,18 @@
         </Style>
         <ControlTemplate x:Key="DataItemControlTemplate">
             <Grid Name="DatoListBoxActividades" >
-                <Label Name="SinEnlace">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="800"/>
+                    <ColumnDefinition Width="200" />
+                </Grid.ColumnDefinitions>
+                <Label Name="SinEnlace" Grid.Column="0">
                     <TextBlock  Foreground="Black" FontSize="18" FontWeight="Bold" Visibility="Visible">
                         <Run Text="{Binding Id}" FontSize="18" />
                         <Run Text=" " FontSize="18" />
                         <Run Text="{Binding DisplayMember1}" FontSize="18" />
                     </TextBlock>
                 </Label>
-                <Label Name="Enlace" Visibility="Hidden">
+                <Label Name="Enlace" Grid.Column="0" Visibility="Hidden">
                     <Hyperlink Foreground="Blue" FontWeight="Bold" Command="{Binding DataContext.SelectActividadCommand, ElementName=_Root}" CommandParameter="{Binding}">
                         <TextBlock FontSize="18" Visibility="Visible">
                             <Run Text="{Binding Id}" FontSize="18" />
@@ -63,6 +67,8 @@
                     <Setter Property="Cursor" Value="Hand" />
                     <Setter TargetName="Enlace" Property="Visibility" Value="Visible" />
                     <Setter TargetName="SinEnlace" Property="Visibility" Value="Hidden" />
+                  
+                    <!--<Setter TargetName="MasInfo" Property="Visibility" Value="Visible" />-->
                 </DataTrigger>
                 <DataTrigger Binding="{Binding ElementName=DatoOriginal, Path=IsMouseOver}" Value="False">
                 </DataTrigger>
@@ -167,13 +173,14 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <!--<Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>-->
-            <Border  BorderBrush="Black" BorderThickness="0,0,0,0" Background="White" 
-                Margin="50,0,0,0" Grid.Row="0" Grid.ColumnSpan="2">
+            <Border  BorderBrush="Black" BorderThickness="0,0,0,0" Background="#FAF7F7" 
+                Margin="0,0,0,0" Grid.Row="0" Grid.ColumnSpan="2">
 
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -185,9 +192,6 @@
                         <!--<ColumnDefinition Width="150" />-->
 
                     </Grid.ColumnDefinitions>
-                    <!--<Label  BorderBrush="Gray" BorderThickness="0,0,3,0" Grid.Column="0" >
-
-                    </Label>-->
                     <Label x:Name="Titulomenu" Grid.Row="0"
                                                 Content="Centro de Actividades"  
                                                 FontSize="18" HorizontalContentAlignment="Center"
@@ -196,35 +200,23 @@
                             <Style TargetType="Label">
                                 <Setter Property="Foreground" Value="Black" />
                                 <Setter Property="FontSize" Value="14" />
-                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Background" Value="#FAF7F7"/>
                                 <Setter Property="BorderBrush" Value="Gray"/>
                                 <Setter Property="BorderThickness" Value="0,0,3,0" />
                             </Style>
                         </Label.Style>
                     </Label>
-
                     <Label x:Name="_SeleccionarActividadesLabel" Grid.Column="1"
                                                 Content="Actividades"
                                                 MouseLeftButtonDown="Label_SeleccionarActividades"
                                                 FontSize="18" HorizontalContentAlignment="Center"
                                                 FontWeight="Bold"
                                                 VerticalAlignment="Center">
-                        <!--<Label.Content >
-                            <TextBlock>
-                                <TextBlock HorizontalAlignment="Center">
-                                    <Run Text="Actividades" />
-                                    <Run Text="{Binding FirstName}" />
-                                    <Run Text="   " />
-                                    --><!-- space --><!--
-                                    <Run Text="{Binding LastName}" />
-                                </TextBlock>
-                            </TextBlock>
-                        </Label.Content>-->
                         <Label.Style>
                             <Style TargetType="Label">
                                 <Setter Property="Foreground" Value="Black" />
                                 <Setter Property="FontSize" Value="14" />
-                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Background" Value="#FAF7F7"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Cursor" Value="Hand" />
@@ -249,7 +241,7 @@
                             <Style TargetType="Label">
                                 <Setter Property="Foreground" Value="Black" />
                                 <Setter Property="FontSize" Value="14" />
-                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Background" Value="#FAF7F7"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Cursor" Value="Hand" />
@@ -268,7 +260,7 @@
                             <Style TargetType="Label">
                                 <Setter Property="Foreground" Value="Black" />
                                 <Setter Property="FontSize" Value="14" />
-                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Background" Value="#FAF7F7"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Cursor" Value="Hand" />
@@ -278,44 +270,9 @@
                             </Style>
                         </Label.Style>
                     </Label>
-                    <!--<Border Width="150" CornerRadius="100,100,0,0"  BorderBrush="Black" BorderThickness="3,3,3,0" Grid.Column="1" Margin="0,6,0,0">
-                        <Label Content="Actividades"  FontSize="17" Foreground="white" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-
-                        </Label>
-                    </Border>-->
-                    <!--<Label  BorderBrush="Black" BorderThickness="0,0,0,3" Grid.Column="2" >
-
-                    </Label>-->
-                    <!--<Border Width="150" CornerRadius="100,100,0,0"  BorderBrush="Black" BorderThickness="3,3,3,0" Grid.Column="3" Margin="0,6,0,0">
-                        <Label Content="Actividades" FontSize="17" Foreground="white" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-
-                        </Label>
-                    </Border>-->
-                    <!--<Label  BorderBrush="Black" BorderThickness="0,0,0,3" Grid.Column="4" >
-
-                    </Label>-->
-
-
                 </Grid>
-                <!--<Label Grid.Column="0" HorizontalAlignment="Left" Content="Foros Disponibles" Foreground="White" Padding="0"></Label>
-                <Button Width="40" Height="40" Grid.Column="1" Style="{DynamicResource MetroCircleButtonStyle}" Margin="0,-7,0,-7" Command="{Binding CrearForoCommand}" HorizontalAlignment="Right">
-                    <Rectangle Width="18" Height="18" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_section_expand_all}" />
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>-->
-                <!--<TextBlock Text="{Binding TituloPrincipal}" FontSize="30" HorizontalAlignment="Left"/>-->
-
             </Border>
-            <!--Titulo-->
-            <!--Listado de Actividades -->
-            <!--<Border Grid.Row="0" BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
-                                                CornerRadius="3" Margin="20">
-                                        <Border.Effect>
-                                            <DropShadowEffect Color="Red" Opacity=".50" ShadowDepth="16" />
-                                        </Border.Effect>-->
-            <Border Background="White" Grid.Row="1" Margin="10" Visibility="Visible">
+            <Border Background="White" Grid.Row="1" Visibility="Visible">
                 <Border.Effect>
                     <DropShadowEffect Color="Gray" Opacity="1.0" ShadowDepth="0" />
                 </Border.Effect>
@@ -323,14 +280,29 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="200" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="200" />
                     </Grid.ColumnDefinitions>
-                    <Border Grid.Column="0" Background="White" Margin="10">
+                    <Border Grid.Column="2" Background="LightGray">
+                        <Border.Effect>
+                            <DropShadowEffect Color="Red" Opacity="1.0" ShadowDepth="0" />
+                        </Border.Effect>
+                        <Label >
+                            <TextBlock FontSize="18" Visibility="Visible">
+                                <Run Text="Hola Calaro" ></Run>
+                            <Run Text="{Binding IdActividad}" FontSize="18" />
+                            <Run Text=" " FontSize="18" />
+                            <Run Text="{Binding FechaDeInicioActividad.Date,StringFormat='dd/MM/yyyy',Mode=OneWay}"  FontSize="18" />
+                            </TextBlock>
+                        </Label>
+                    </Border>
+                    <Border Grid.Column="0" Background="LightGray">
                         <Border.Effect>
                             <DropShadowEffect Color="Red" Opacity="1.0" ShadowDepth="0" />
                         </Border.Effect>
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="70" /> <!--Espacio en blanco-->
+                                <RowDefinition Height="150" />
+                                <!--Espacio en blanco icon_document_add_01-->
                                 <RowDefinition Height="50" />
                                 <RowDefinition Height="50" />
                                 <RowDefinition Height="50" />
@@ -338,15 +310,42 @@
                                 <RowDefinition Height="50" />
                                 <RowDefinition Height="50" />
                             </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                                <Rectangle  Margin="{StaticResource MarginNoBottom}" Width="70" Height="70" HorizontalAlignment="Center" >
+                                    <Rectangle.Fill>
+                                        <VisualBrush Visual="{StaticResource appbar_page_add}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock FontSize="16" 
+                                       Margin="{StaticResource MarginNoTop}" 
+                                       MaxWidth="70" Text="Nueva Actividad" 
+                                       TextWrapping="Wrap" 
+                                       FontWeight="Light"
+                                       TextAlignment="Center"/>
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Cursor" Value="Hand" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                                        <prism:InvokeCommandAction Command="{Binding NuevaActividadCommand}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </StackPanel>
                             <Label x:Name="SeleccionarListaActividadesActivas" Grid.Row="1"
-                                                
                                                 MouseLeftButtonDown="Label_EscogerCooperante"
-                                                FontSize="18" HorizontalContentAlignment="Left"
+                                                FontSize="16" HorizontalContentAlignment="Left"
+                                                Background="LightGray"
                                                 VerticalAlignment="Center">
                                 <Label.Content >
                                     <TextBlock>
                                         <Run Text="En Curso" />
-                                        <Run Text=" ("/>
+                                        <Run Text="("/>
                                         <Run Text="{Binding EnCursoCount}"/>
                                         <Run Text=")"/>
                                     </TextBlock>
@@ -365,11 +364,19 @@
                                     </Style>
                                 </Label.Style>
                             </Label>
-                            <Label x:Name="SeleccionarListaActividadesFinalizadas" Grid.Row="2"
-                                                Content="Finalizadas"  
-                                                MouseLeftButtonDown="Label_EscogerCooperante"
+                            <Label x:Name="SeleccionarListaActividadesPorComenzar" Grid.Row="2" 
+                                                MouseLeftButtonDown="Label_ActividadesPorComenzar"
                                                 FontSize="18" HorizontalContentAlignment="Left"
+                                                Background="LightGray"
                                                 VerticalAlignment="Center">
+                                <Label.Content >
+                                    <TextBlock>
+                                        <Run Text="Por Comenzar" />
+                                        <Run Text="("/>
+                                        <Run Text="{Binding NoComenzado}"/>
+                                        <Run Text=")"/>
+                                    </TextBlock>
+                                </Label.Content>
                                 <Label.Style>
                                     <Style TargetType="Label">
                                         <Setter Property="Foreground" Value="Black" />
@@ -385,10 +392,18 @@
                                 </Label.Style>
                             </Label>
                             <Label x:Name="SeleccionarListaActividadesProximosVencimientos" Grid.Row="3"
-                                                Content="Proximas Fechas"  
                                                 MouseLeftButtonDown="Label_EscogerCooperante"
                                                 FontSize="18" HorizontalContentAlignment="Left"
+                                                Background="LightGray"
                                                 VerticalAlignment="Center">
+                                <Label.Content >
+                                    <TextBlock>
+                                        <Run Text="Próximas Fechas" />
+                                        <Run Text="("/>
+                                        <Run Text="{Binding ProximasFinalizaciones}"/>
+                                        <Run Text=")"/>
+                                    </TextBlock>
+                                </Label.Content>
                                 <Label.Style>
                                     <Style TargetType="Label">
                                         <Setter Property="Foreground" Value="Black" />
@@ -404,10 +419,18 @@
                                 </Label.Style>
                             </Label>
                             <Label x:Name="SeleccionarListaActividadesRetrasadas" Grid.Row="4"
-                                                Content="Fuera Fecha"  
                                                 MouseLeftButtonDown="Label_EscogerCooperante"
                                                 FontSize="18" HorizontalContentAlignment="Left"
+                                                Background="LightGray"
                                                 VerticalAlignment="Center">
+                                <Label.Content >
+                                    <TextBlock>
+                                        <Run Text="Fuera de Plazo" />
+                                        <Run Text="("/>
+                                        <Run Text="{Binding FueraPlazo}"/>
+                                        <Run Text=")"/>
+                                    </TextBlock>
+                                </Label.Content>
                                 <Label.Style>
                                     <Style TargetType="Label">
                                         <Setter Property="Foreground" Value="Black" />
@@ -422,11 +445,19 @@
                                     </Style>
                                 </Label.Style>
                             </Label>
-                            <Label x:Name="SeleccionarListaActividadesPorComenzar" Grid.Row="5"
-                                                Content="Por Comenzar"  
+                            <Label x:Name="SeleccionarListaActividadesFinalizadas" Grid.Row="5" 
                                                 MouseLeftButtonDown="Label_EscogerCooperante"
                                                 FontSize="18" HorizontalContentAlignment="Left"
+                                                Background="LightGray"
                                                 VerticalAlignment="Center">
+                                <Label.Content >
+                                    <TextBlock>
+                                        <Run Text="Finalizadas" />
+                                        <Run Text="("/>
+                                        <Run Text="{Binding Finalizado}"/>
+                                        <Run Text=")"/>
+                                    </TextBlock>
+                                </Label.Content>
                                 <Label.Style>
                                     <Style TargetType="Label">
                                         <Setter Property="Foreground" Value="Black" />
@@ -493,7 +524,6 @@
                                         <ContentControl Template="{StaticResource DataItemControlTemplate}" />
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
-
                                 <ListBox.Resources>
                                     <Style TargetType="{x:Type ListBoxItem}">
                                         <Setter Property="Template">
@@ -513,6 +543,12 @@
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Cursor" Value="Hand" />
+                                                <Setter Property="Foreground" Value="Red" />
+                                            </Trigger>
+                                        </Style.Triggers>
                                     </Style>
                                 </ListBox.Resources>
                                 <i:Interaction.Triggers>
@@ -641,7 +677,7 @@
             
             <!--FIN Listado de Actividades -->
             <!--ZONA COOPERANTES -->
-            <Border Background="White" Grid.Row="1" Margin="10" Visibility="{Binding VisibleListaCooperantes, 
+            <Border Background="White" Grid.Row="2" Margin="10" Visibility="{Binding VisibleListaCooperantes, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
                 <Border.Effect>
                     <DropShadowEffect Color="Blue" Opacity="1.0" ShadowDepth="0" />

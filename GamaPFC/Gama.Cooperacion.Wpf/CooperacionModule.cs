@@ -43,8 +43,6 @@ namespace Gama.Cooperacion.Wpf
         {
             this.Entorno = Entorno.Desarrollo;
             this.SeedDatabase = false; // A falso no entra en el if this.UseFaker y no crea nada mas
-           
-            
         }
 
         public override void Initialize()
@@ -167,7 +165,6 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterType<object, ToolbarView>("ToolbarView");
             Container.RegisterType<object, TareasDeActividad>("TareasDeActividad");
         }
-
         private void RegisterViewModels()
         {
             Container.RegisterType<ActividadesContentViewModel>();
@@ -181,7 +178,6 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterType<ToolbarViewModel>();
             Container.RegisterType<TareasDeActividadViewModel>();
         }
-
         private void RegisterServices()
         {
             Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
@@ -265,22 +261,6 @@ namespace Gama.Cooperacion.Wpf
                     }
                 }
             }
-               
-            //if (vm.ModuloSeleccionado.Value == Modulos.Cooperacion) // Si se selecciona Cooperacion Actualizamos los estados de las actividades según si fecha
-            //{
-            //    DateTime dia1 = new DateTime(2017, 05, 26);
-            //    DateTime dia2 = new DateTime(2017, 05, 27);
-            //    string relationship;
-            //    int result = DateTime.Compare(dia1, dia2);
-            //    if (result < 0)
-            //        relationship = "is earlier than";
-            //    else if (result == 0)
-            //        relationship = "is the same time as";
-            //    else
-            //        relationship = "is later than";
-
-            //    Console.WriteLine("{0} {1} {2}", dia1, relationship, dia2);
-            //}
         }
         public void EstablecerFecha()
         {
