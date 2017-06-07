@@ -349,7 +349,7 @@
     <Style x:Key="_EditarCitasCalendarStyle" TargetType="{x:Type CustomControls:CustomCalendar}">
       <Setter Property="Template" Value="{StaticResource _CalendarioCalendarStyle}"/>
       <Style.Triggers>
-        <DataTrigger Binding="{Binding ElementName=_ToggleCalendarStyleCheckbox,Path=IsChecked}" Value="False">
+        <DataTrigger Binding="{Binding ElementName=_ToggleCalendarStyleCheckbox,Path=IsChecked}" Value="True">
           <Setter Property="Template" Value="{StaticResource _ListadoCalendarStyle}"/>
         </DataTrigger>
       </Style.Triggers>
@@ -357,7 +357,7 @@
   </UserControl.Resources>
   <Grid Margin="0,39,0,0">
     <CheckBox x:Name="_ToggleCalendarStyleCheckbox" Margin="4,4,100,4" 
-              HorizontalAlignment="Right" IsChecked="True" Visibility="Hidden"/>
+              HorizontalAlignment="Right" IsChecked="False" Visibility="Hidden"/>
 
     <cc:CircleIconButton Click="CircleIconButton_Click" >
       <cc:CircleIconButton.Style>
@@ -376,6 +376,7 @@
           <Style.Triggers>
             <DataTrigger Binding="{Binding ElementName=_ToggleCalendarStyleCheckbox, Path=IsChecked}" Value="True">
               <Setter Property="Icon" Value="{StaticResource appbar_calendar}"/>
+              <Setter Property="Margin" Value="4,-30,4,0"/>
             </DataTrigger>
           </Style.Triggers>
         </Style>
