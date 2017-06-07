@@ -36,6 +36,7 @@
       </Viewbox>
     </DataTemplate>
   </mahapps:MetroWindow.IconTemplate>
+  
   <mahapps:MetroWindow.LeftWindowCommands>
     <mahapps:WindowCommands>
       <!--Acceso directo al sitio web del colectivo -->
@@ -79,13 +80,14 @@
       <ContentControl prism:RegionManager.RegionName="{x:Static common:RegionNames.RightCommandsRegion}" />
     </mahapps:WindowCommands>
   </mahapps:MetroWindow.RightWindowCommands>
-  <mahapps:MetroWindow.Flyouts>
+  
+  <!--<mahapps:MetroWindow.Flyouts>
     <mahapps:FlyoutsControl>
       <mahapps:Flyout Header="Preferencias" Position="Right" IsOpen="{Binding PreferenciasFlyoutIsOpen}">
         <ContentControl prism:RegionManager.RegionName="{x:Static common:RegionNames.PreferenciasRegion}"/>
       </mahapps:Flyout>
     </mahapps:FlyoutsControl>
-  </mahapps:MetroWindow.Flyouts>
+  </mahapps:MetroWindow.Flyouts>-->
   <!--#endregion-->
   
   <Grid>

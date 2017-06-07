@@ -10,9 +10,14 @@ using System.Threading.Tasks;
 namespace Gama.Atenciones.Wpf.Services
 {
     [Serializable]
-    public class PreferenciasDeAtenciones
+    public class Preferencias
     {
-        public PreferenciasDeAtenciones()
+        public static string PreferenciasPath => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+                + @"\GamaData\preferencias_de_atenciones.cfg";
+        public static string PreferenciasPathFolder => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+                + @"\GamaData\";
+
+        public Preferencias()
         {
             DashboardUltimasPersonas = 15;
             DashboardLongitudDeNombres = 60;
@@ -24,7 +29,11 @@ namespace Gama.Atenciones.Wpf.Services
 
             ListadoDePersonasItemsPerPage = 10;
             Dashboard_MostrarFiltroDeFechaPorDefecto = true;
+
+            AutomaticBackupPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         }
+
+        public string AutomaticBackupPath { get; set; }
         
         public bool Dashboard_MostrarFiltroDeFechaPorDefecto { get; set; }
 
@@ -39,10 +48,7 @@ namespace Gama.Atenciones.Wpf.Services
 
         public void Serializar()
         {
-            string preferenciasPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-                + @"\preferencias_de_atenciones.cfg";
-
-            new BinaryFormatter().Serialize(File.Create(preferenciasPath), this);
+            new BinaryFormatter().Serialize(File.Create(PreferenciasPath), this);
         }
     }
 }

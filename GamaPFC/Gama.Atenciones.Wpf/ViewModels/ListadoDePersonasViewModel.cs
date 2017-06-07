@@ -16,13 +16,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
     {
         private IEventAggregator _EventAggregator;
         private IPersonaRepository _PersonaRepository;
-        private PreferenciasDeAtenciones _Settings;
+        private Preferencias _Settings;
         private List<LookupItem> _Personas;
 
         public ListadoDePersonasViewModel(
             IEventAggregator eventAggregator,
             IPersonaRepository personaRepository,
-            PreferenciasDeAtenciones settings,
+            Preferencias settings,
             ISession session)
         {
             Title = "Todas";

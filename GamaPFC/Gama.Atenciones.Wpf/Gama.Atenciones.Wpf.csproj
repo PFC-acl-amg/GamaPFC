@@ -108,6 +108,18 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAPICodePack-Core.1.1.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAPICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.ShellExtensions, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAPICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.ShellExtensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Moq, Version=4.5.22.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.5.22\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
@@ -237,7 +249,7 @@
     <Compile Include="Services\AsistenteRepository.cs" />
     <Compile Include="Services\ExportService.cs" />
     <Compile Include="Services\IAsistenteRepository.cs" />
-    <Compile Include="Services\PreferenciasDeAtenciones.cs" />
+    <Compile Include="Services\Preferencias.cs" />
     <Compile Include="Services\AtencionRepository.cs" />
     <Compile Include="Services\ChartItem.cs" />
     <Compile Include="Services\CitaRepository.cs" />
@@ -355,7 +367,7 @@
     <Compile Include="Wrappers\CitaWrapper.cs" />
     <Compile Include="Wrappers\DerivacionWrapper.cs" />
     <Compile Include="Wrappers\PersonaWrapper.cs" />
-    <Compile Include="Wrappers\PreferenciasDeAtencionesWrapper.cs" />
+    <Compile Include="Wrappers\PreferenciasWrapper.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>

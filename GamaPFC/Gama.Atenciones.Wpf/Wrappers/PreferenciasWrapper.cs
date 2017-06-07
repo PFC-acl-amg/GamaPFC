@@ -8,12 +8,24 @@ using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Wpf.Wrappers
 {
-    public class PreferenciasDeAtencionesWrapper : ModelWrapper<PreferenciasDeAtenciones>
+    public class PreferenciasWrapper : ModelWrapper<Preferencias>
     {
-        public PreferenciasDeAtencionesWrapper(PreferenciasDeAtenciones model) : base(model)
+        public PreferenciasWrapper(Preferencias model) : base(model)
         {
 
         }
+
+        ///
+        /// Copias de Seguridad
+        ///
+        public string AutomaticBackupPath
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string AutomaticBackupPathOriginalValue => GetOriginalValue<string>(nameof(AutomaticBackupPath));
+        public bool AutomaticBackupPathIsChanged => GetIsChanged(nameof(AutomaticBackupPath));
 
         ///
         /// Dashboard
