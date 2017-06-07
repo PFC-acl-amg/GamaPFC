@@ -27,15 +27,18 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public AsistentesContentViewModel(
             IEventAggregator eventAggregator,
+            IPersonaRepository personaRepository,
             IAsistenteRepository asistenteRepository,
             ICitaRepository citaRepository,
             AsistenteViewModel asistenteViewModel,
             ISession session)
         {
             _EventAggregator = eventAggregator;
+            _PersonaRepository = personaRepository;
+            _PersonaRepository.Session = session;
             _AsistenteRepository = asistenteRepository;
-            _CitaRepository = citaRepository;
             _AsistenteRepository.Session = session;
+            _CitaRepository = citaRepository;
             _CitaRepository.Session = session;
             _AsistenteViewModel = asistenteViewModel;
             _Session = session;
@@ -72,6 +75,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             SeleccionarPersonaCommand = new DelegateCommand<CitaWrapper>(OnSeleccionarPersonaCommand);
 
+            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
             _EventAggregator.GetEvent<AsistenteCreadoEvent>().Subscribe(OnAsistenteCreadoEvent);
             _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
             _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
@@ -92,6 +96,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
         }
 
         private AsistenteWrapper _AsistenteSeleccionado;
+        private IPersonaRepository _PersonaRepository;
+
         public AsistenteWrapper AsistenteSeleccionado
         {
             get { return _AsistenteSeleccionado; }
@@ -163,6 +169,17 @@ namespace Gama.Atenciones.Wpf.ViewModels
             vm.LoadForEdition(cita);
             o.ShowDialog();
             cita.AcceptChanges();
+        }
+
+        private void OnPersonaActualizadaEvent(int id)
+        {
+            var persona = _PersonaRepository.GetById(id);
+            foreach (var asistente in Asistentes)
+            {
+                foreach (var cita in asistente.Citas)
+                    cita.Persona.CopyValuesFrom(persona);
+            }
+            RefrescarVista();
         }
 
         private void OnAsistenteCreadoEvent(int id)

@@ -192,26 +192,28 @@
                         <ListBox.ItemTemplate>
                           <DataTemplate>
                             <Border Background="#FFDFE8F5" 
-                                        BorderBrush="#FF5177A8" BorderThickness="0.5" CornerRadius="1" Margin="2">
+                                        BorderBrush="#FF5177A8" BorderThickness="0,2,0,2" CornerRadius="1" Margin="2">
                               <Grid>
                                 <Grid.ColumnDefinitions>
                                   <ColumnDefinition />
                                   <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
+                                <!--                        -->
                                 <!-- Contenido de cada cita -->
+                                <!--                        -->
                                 <Grid>
                                   <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
                                   </Grid.ColumnDefinitions>
                                   <Grid.RowDefinitions>
-                                    <RowDefinition SharedSizeGroup="A" Height="Auto"/>
-                                    <RowDefinition SharedSizeGroup="B" Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                   </Grid.RowDefinitions>
 
                                   <TextBlock Grid.Row="0"
-                                            Margin="2" 
+                                            Margin="4,2,4,2" 
                                             HorizontalAlignment="Left" 
                                             VerticalAlignment="Center">
                                             <Run Text="{Binding Hora}"/>
@@ -219,14 +221,16 @@
                                             <Run Text="{Binding Minutos}"/>
                                   </TextBlock>
 
-                                  <TextBlock Grid.Row="1" Text="{Binding Persona.Nombre}" Margin="2"/>
+                                  <TextBlock Grid.Row="1" Text="{Binding Persona.Nombre}" Margin="4,2,4,2"/>
 
                                   <cc:CircleIconButton
                                               Grid.Column="1"
                                               Icon="{StaticResource appbar_archive}"
-                                              Width="28" Height="28"
-                                              IconHeight="8" IconWidth="8"
-                                              Margin="4,2,4,2" VerticalAlignment="Center"
+                                              Width="24" Height="24"
+                                              IconHeight="7" IconWidth="7"
+                                              Margin="4,2,4,2"
+                                              HorizontalAlignment="Right"
+                                              VerticalAlignment="Center"
                                               Padding="2,0,2,0"
                                               BorderThickness="0"
                                               FontSize="14"
@@ -242,9 +246,11 @@
                                             Grid.Column="1"
                                             Grid.Row="1"
                                               Icon="{StaticResource appbar_edit}"
-                                              Width="28" Height="28"
-                                              IconHeight="8" IconWidth="8"
-                                              Margin="4,2,4,2" VerticalAlignment="Center"
+                                              Width="24" Height="24"
+                                              IconHeight="7" IconWidth="7"
+                                              Margin="4,2,4,2" 
+                                              HorizontalAlignment="Right"
+                                              VerticalAlignment="Center"
                                               Padding="2,0,2,0"
                                               BorderThickness="0"
                                               FontSize="14"
@@ -283,14 +289,14 @@
                                         <Condition Property="Selector.IsSelectionActive" Value="False" />
                                         <Condition Property="IsSelected" Value="True" />
                                       </MultiTrigger.Conditions>
-                                      <Setter Property="Background" TargetName="_ListBoxItemBorder" Value="DarkOrange" />
+                                      <Setter Property="Background" TargetName="_ListBoxItemBorder" Value="#8BB3B6" />
                                     </MultiTrigger>
                                     <MultiTrigger>
                                       <MultiTrigger.Conditions>
                                         <Condition Property="Selector.IsSelectionActive" Value="True" />
                                         <Condition Property="IsSelected" Value="True" />
                                       </MultiTrigger.Conditions>
-                                      <Setter Property="Background" TargetName="_ListBoxItemBorder" Value="OrangeRed" />
+                                      <Setter Property="Background" TargetName="_ListBoxItemBorder" Value="#8BB3B6" />
                                     </MultiTrigger>
                                   </ControlTemplate.Triggers>
                                 </ControlTemplate>

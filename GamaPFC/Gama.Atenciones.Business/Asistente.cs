@@ -43,7 +43,6 @@ namespace Gama.Atenciones.Business
         public virtual string Facebook { get; set; } = "";
         public virtual string Observaciones { get; set; } = "";
 
-
         public virtual IList<Cita> Citas { get; set; }
         
         public Asistente()
