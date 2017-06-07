@@ -63,6 +63,17 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public List<Asistente> Asistentes { get; private set; }
 
+        private Asistente _AsistenteSeleccionado;
+        public Asistente AsistenteSeleccionado
+        {
+            get { return _AsistenteSeleccionado; }
+            set
+            {
+                _AsistenteSeleccionado = value;
+                OnPropertyChanged();
+            }
+        }
+
         private CitaWrapper _Cita;
         public CitaWrapper Cita
         {
@@ -115,17 +126,19 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
 
             if (EnEdicionDeCitaExistente)
-            {
-                Cita.Asistente = Asistentes.Find(a => a.Id == Cita.Asistente.Id);
-            }
+                AsistenteSeleccionado = Asistentes.Find(a => a.Id == Cita.Asistente.Id);
+            else
+                AsistenteSeleccionado = Asistentes.First();
         }
 
         public void LoadWithDefaultPerson()
         {
             InicializarColecciones(incluirPersonas: true);
-            //Persona = new PersonaWrapper(Personas.First());
             PersonaSeleccionada = Personas.First();
-            Cita = new CitaWrapper(new Cita() { Persona = PersonaSeleccionada.Model });
+            Cita = new CitaWrapper(new Cita() {
+                Persona = PersonaSeleccionada.Model,
+                Asistente = AsistenteSeleccionado
+            });
             Cita.PropertyChanged += Cita_PropertyChanged;
         }
 
@@ -136,12 +149,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public void LoadForEdition(CitaWrapper citaExistente)
         {
             Cita = citaExistente;
-            //if (Cita != null)
-            //{
-                Cita.PropertyChanged += Cita_PropertyChanged;
-                InicializarColecciones(incluirPersonas: false, personaSeleccionada: citaExistente.Persona);
-                PersonaSeleccionada = Personas.Find(x => x.Id == citaExistente.Persona.Id);
-            //}
+           
+            Cita.PropertyChanged += Cita_PropertyChanged;
+            InicializarColecciones(incluirPersonas: false, personaSeleccionada: citaExistente.Persona);
+            PersonaSeleccionada = Personas.Find(x => x.Id == citaExistente.Persona.Id);
+
+            ((DelegateCommand)AceptarCommand).RaiseCanExecuteChanged();
         }
 
         /// <summary>
@@ -152,43 +165,27 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public void LoadForCreation(PersonaWrapper persona, DateTime fechaSeleccionada)
         {
             InicializarColecciones(incluirPersonas: false, personaSeleccionada: persona.Model);
-            //Persona = persona;
+
             PersonaSeleccionada = persona;
 
             Cita = new CitaWrapper(new Cita()
             {
                 Persona = persona.Model,
-                Fecha = fechaSeleccionada
+                Fecha = fechaSeleccionada,
+                Asistente = AsistenteSeleccionado
             });
 
             Cita.PropertyChanged += Cita_PropertyChanged;
         }
 
-        //public void LoadForCreation(int personaId, DateTime fechaSeleccionada)
-        //{
-        //    Persona persona = _PersonaRepository.GetById(personaId);
-
-        //    InicializarColecciones(incluirPersonas: false, personaSeleccionada: persona);
-        //    //Persona = persona;
-        //    PersonaSeleccionada = new PersonaWrapper(persona);
-
-        //    Cita = new CitaWrapper(new Cita()
-        //    {
-        //        Persona = persona,
-        //        Fecha = fechaSeleccionada
-        //    });
-
-        //    Cita.PropertyChanged += Cita_PropertyChanged;
-        //}
-
         private void OnAceptarCommand_Execute()
         {
-            Cita.Fecha = Cita.Fecha.Value.AddHours(Cita.Hora).AddMinutes(Cita.Minutos);
+            Cita.Fecha = Cita.Fecha.Value.Date.AddHours(Cita.Hora).AddMinutes(Cita.Minutos);
+            Cita.Asistente = AsistenteSeleccionado;
 
             if (!EnEdicionDeCitaExistente)
             {
                 Cita.Persona = PersonaSeleccionada.Model;
-                    //PersonaSeleccionada.AddCita(Cita.Model);
                 _CitaRepository.Create(Cita.Model);
             }
             else
@@ -215,69 +212,5 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Cita.RejectChanges();
             Cerrar = true;
         }
-
-        //private void OnAceptarCommand_Execute()
-        //{
-        //    if (!EnEdicionDeCitaExistente)
-        //    {
-        //        PersonaSeleccionada.AddCita(Cita.Model);
-        //        if (Persona != null)
-        //            Persona.AddCita(Cita.Model);
-        //    }
-        //    else
-        //    {
-        //        Cita citaActualizada = PersonaSeleccionada.Citas.Where(x => x.Id == Cita.Id).FirstOrDefault();
-        //        citaActualizada.CopyValuesFrom(Cita.Model);
-        //        if (Persona != null)
-        //        {
-        //            CitaWrapper citaActualizada2 = Persona.Citas.Where(x => x.Id == Cita.Id).FirstOrDefault();
-        //            citaActualizada2.CopyValuesFrom(Cita.Model);
-        //        }
-        //    }
-
-        //    #region Evitar problema de multiplicidad de entidades en NHibernate
-
-        //    //if (Persona != null)
-        //    //{
-        //    //    List<Asistente> asistentes2 = Persona.Citas.Select(x => x.Asistente).Distinct().ToList();
-
-        //    //    foreach (var cita in Persona.Citas)
-        //    //    {
-        //    //        cita.Asistente = asistentes2.Where(a => a.Id == cita.Asistente.Id).First();
-        //    //    }
-
-        //    //    asistentes2 = null;
-        //    //}
-
-        //    //List<Asistente> asistentes = PersonaSeleccionada.Citas.Select(x => x.Asistente).Distinct().ToList();
-
-        //    //foreach (var cita in PersonaSeleccionada.Citas)
-        //    //{
-        //    //    cita.Asistente = asistentes.Where(a => a.Id == cita.Asistente.Id).First();
-        //    //}
-
-        //    //asistentes = null;
-
-        //    #endregion
-        //    if (Persona != null)
-        //    {
-        //        PersonaSeleccionada = null;
-        //        _PersonaRepository.Update(Persona.Model);
-        //        Persona.AcceptChanges();
-        //    }
-        //    else
-        //        _PersonaRepository.Update(PersonaSeleccionada);
-
-        //    //if (Persona != null)
-        //    //    Persona.AcceptChanges();
-        //    //PersonaSeleccionada.AcceptChanges();
-
-        //    if (!EnEdicionDeCitaExistente)
-        //        _EventAggregator.GetEvent<CitaCreadaEvent>().Publish(Cita.Id);
-        //    else
-        //        _EventAggregator.GetEvent<CitaActualizadaEvent>().Publish(Cita.Id);
-
-        //    Cerrar = true;
-        //}
     }
 }

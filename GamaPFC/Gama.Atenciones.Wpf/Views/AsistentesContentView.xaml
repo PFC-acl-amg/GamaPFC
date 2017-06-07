@@ -322,8 +322,9 @@
 
       <!-- Citas próximas del asistente en formato tabular -->
       <DataGrid
+        x:Name="_CitasProximasDataGrid"
         Grid.Row="1"
-        ItemsSource="{Binding AsistenteSeleccionado.CitasProximas}"
+        ItemsSource="{Binding CitasFuturas}"
         AutoGenerateColumns="False"
         AlternatingRowBackground="#B99BA5AB" 
         SelectedIndex="0"
@@ -355,7 +356,8 @@
       <!-- Citas pasadas del asistente en formato tabular -->
       <DataGrid
         Grid.Row="3"
-        ItemsSource="{Binding AsistenteSeleccionado.CitasPasadas}" 
+        x:Name="_CitasPasadasDataGrid"
+        ItemsSource="{Binding CitasPasadas}" 
         AutoGenerateColumns="False"
         AlternatingRowBackground="#B99BA5AB" Margin="{StaticResource Margin}"
         IsReadOnly="True">

@@ -54,6 +54,7 @@ namespace Gama.Atenciones.Business
             Sala = cita.Sala;
             Hora = cita.Hora;
             Minutos = cita.Minutos;
+            Asistente = cita.Asistente;
         }
     }
 }

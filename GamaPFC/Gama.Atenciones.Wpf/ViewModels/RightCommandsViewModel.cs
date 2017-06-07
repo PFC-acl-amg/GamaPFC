@@ -1,5 +1,7 @@
 ﻿using Core;
+using Core.Util;
 using Gama.Atenciones.Wpf.Eventos;
+using Gama.Atenciones.Wpf.Views;
 using Gama.Common.Eventos;
 using Prism.Commands;
 using Prism.Events;
@@ -30,14 +32,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnAbrirPreferenciasCommandExecute()
         {
-            _EventAggregator.GetEvent<AbrirPreferenciasEvent>().Publish();
+            var o = new PreferenciasView();
+            o.ShowDialog();
+
+            //_EventAggregator.GetEvent<AbrirPreferenciasEvent>().Publish();
         }
 
         private void OnVolverASeleccionDeModuloExecute()
         {
-            System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-            Application.Current.Shutdown();
-            _EventAggregator.GetEvent<VolverASeleccionDeModuloEvent>().Publish();
+            UIServices.RestartApplication();
         }
     }
 }

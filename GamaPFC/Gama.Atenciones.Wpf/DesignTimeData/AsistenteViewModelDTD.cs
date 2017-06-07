@@ -24,9 +24,9 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
                 BinaryImageConverter.GetBitmapImageFromUriSource(
                              new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png"));
             var persona = new Persona() { Nombre = Faker.NameFaker.Name() };
-            AsistenteSeleccionado.Citas.Add(new Cita { Fecha = DateTime.Now, Sala = "Sala B", Persona = persona });
-            AsistenteSeleccionado.Citas.Add(new Cita { Fecha = DateTime.Now.AddDays(2), Sala = "Sala A", Persona = persona });
-            AsistenteSeleccionado.Citas.Add(new Cita { Fecha = DateTime.Now.AddDays(3), Sala = "Sala B", Persona = persona });
+            AsistenteSeleccionado.Citas.Add(new CitaWrapper(new Cita { Fecha = DateTime.Now, Sala = "Sala B", Persona = persona }));
+            AsistenteSeleccionado.Citas.Add(new CitaWrapper(new Cita { Fecha = DateTime.Now.AddDays(2), Sala = "Sala A", Persona = persona }));
+            AsistenteSeleccionado.Citas.Add(new CitaWrapper(new Cita { Fecha = DateTime.Now.AddDays(3), Sala = "Sala B", Persona = persona }));
 
             Asistentes = new ObservableCollection<AsistenteWrapper>(
                 _Asistentes

@@ -24,17 +24,18 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private ICitaRepository _CitaRepository;
         private IEventAggregator _EventAggregator;
         private IPersonaRepository _PersonaRepository;
-        public PreferenciasDeAtenciones Preferencias { get; private set; }
+        public Preferencias Preferencias { get; private set; }
         private List<Persona> _Personas;
         private List<Cita> _Citas;
         private List<Atencion> _Atenciones;
         private bool _FiltradoEstaActivo = false;
+        private string _TextoDeBusqueda = "";
 
         public DashboardViewModel(IPersonaRepository personaRepository,
             ICitaRepository citaRepository,
             IAtencionRepository atencionRepository,
             IEventAggregator eventAggregator,
-            PreferenciasDeAtenciones settings,
+            Preferencias settings,
             ISession session)
         {
             _PersonaRepository = personaRepository;
@@ -156,6 +157,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 .Where(p => p.CreatedAt.IsBetween(FechaDeInicio, FechaDeFin) 
                     || p.UpdatedAt.IsBetween(FechaDeInicio, FechaDeFin)
                     || p.Citas.Any(c => c.Fecha.IsBetween(FechaDeInicio, FechaDeFin)))
+                .Where(p => p.Nombre.ToLower().Contains(_TextoDeBusqueda.Trim().ToLower()))
                 .OrderBy(p => p.Nombre)
                 .ToList());
 
@@ -197,18 +199,19 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 Personas = new ObservableCollection<Persona>(
                     _Personas
                     .Where(p => p.Id == personaSeleccionada.Id)
-                    .OrderBy(p => p.Nombre)
                     .ToList());
 
                 Atenciones = new ObservableCollection<Atencion>(
                     _Atenciones
                     .Where(a => a.Cita.Persona.Id == personaSeleccionada.Id)
+                    .Where(x => x.Fecha.IsBetween(FechaDeInicio, FechaDeFin))
                     .OrderBy(a => a.Fecha)
                     .Select(_AtencionToFullAtencion));
 
                 ProximasCitas = new ObservableCollection<Cita>(
                     _Citas
                     .Where(c => c.Persona.Id == personaSeleccionada.Id)
+                    .Where(x => x.Fecha.IsBetween(FechaDeInicio, FechaDeFin))
                     .OrderBy(c => c.Fecha)
                     .ToList());
 
@@ -220,7 +223,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 _FiltradoEstaActivo = true;
             }
             // Si el filtro estaba activado, lo que se hace al hacer click otra vez
-            // es volver a mostrar a todos
+            // es volver a mostrar a todos, teniendo en cuenta el filtro de búsqueda
             else
             {
                 FiltrarPorFecha();
@@ -259,6 +262,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnPersonaEnBusquedaEvent(string textoDeBusqueda)
         {
+            _TextoDeBusqueda = textoDeBusqueda;
+
             Personas = new ObservableCollection<Persona>(
                 _Personas
                 .Where(p => p.Nombre.ToLower().Contains(textoDeBusqueda.Trim().ToLower()))

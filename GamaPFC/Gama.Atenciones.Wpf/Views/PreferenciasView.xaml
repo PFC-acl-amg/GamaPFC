@@ -1,51 +1,59 @@
-﻿<UserControl x:Class="Gama.Atenciones.Wpf.Views.PreferenciasView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
-             xmlns:prism="http://prismlibrary.com/"
-             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
-             prism:ViewModelLocator.AutoWireViewModel="True"
-             mc:Ignorable="d" 
-             MinWidth="800"
-             d:DesignHeight="515.194" d:DesignWidth="684">
-    <Grid>
+﻿<controls:MetroWindow 
+  x:Class="Gama.Atenciones.Wpf.Views.PreferenciasView"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+  xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
+  xmlns:prism="http://prismlibrary.com/"
+  xmlns:actions="clr-namespace:Core.Util;assembly=Core"
+  xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+  xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
+  prism:ViewModelLocator.AutoWireViewModel="True"
+  mc:Ignorable="d" 
+  Title="Preferencias"
+  BorderThickness="0" 
+  GlowBrush="Black"
+  ResizeMode="CanResizeWithGrip"
+  WindowStartupLocation="CenterScreen"
+  MinWidth="400"
+  actions:DialogCloser.DialogResult="{Binding Cerrar}" 
+  d:DesignHeight="515.194" d:DesignWidth="745.5">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition />
+      <!-- Fila para dar espacio, para que los botones estén al final-->
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <Label Margin="{StaticResource Margin}" FontSize="24" FontWeight="Light">Preferencias</Label>
+
+    <GroupBox Header="Dashboard" Grid.Row="1">
+      <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition />
-            <!-- Fila para dar espacio, para que los botones estén al final-->
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
 
-        <Label Margin="{StaticResource Margin}" FontSize="24" FontWeight="Light">Preferencias</Label>
-
-        <GroupBox Header="Dashboard" Grid.Row="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Grid.Column="0" Orientation="Vertical">
+        <StackPanel Grid.Column="0" Orientation="Vertical">
           <Label Margin="{StaticResource Margin}">Mostrar filtro de fecha al iniciar la aplicación</Label>
-                    <!--<Label Margin="{StaticResource Margin}">Últimas personas a mostrar</Label>
+          <!--<Label Margin="{StaticResource Margin}">Últimas personas a mostrar</Label>
                     <Label Margin="{StaticResource Margin}">Últimas atenciones mostrar</Label>
                     <Label Margin="{StaticResource Margin}">Próximas citas a mostrar</Label>
                     <Label Margin="{StaticResource Margin}">Longitud máxima de nombres antes de añadir "..."</Label>
                     <Label Margin="{StaticResource Margin}">Longitud máxima de seguimients antes de añadir "..."</Label>
                     <Label Margin="{StaticResource Margin}">Meses a mostrar de personas nuevas</Label>
                     <Label Margin="{StaticResource Margin}">Meses a mostrar de atenciones nuevas</Label>-->
-                </StackPanel>
+        </StackPanel>
 
-                <StackPanel  Grid.Column="1" Orientation="Vertical">
+        <StackPanel  Grid.Column="1" Orientation="Vertical">
           <CheckBox IsChecked="{Binding Preferencias.Dashboard_MostrarFiltroDeFechaPorDefecto}"
                     VerticalAlignment="Bottom" VerticalContentAlignment="Bottom"
                      Height="20"
@@ -71,48 +79,97 @@
                     <controls:NumericUpDown Minimum="1" MaxHeight="12"
                                             Margin="{StaticResource Margin}"
                                             Value="{Binding Preferencias.DashboardMesesAMostrarDeAtencionesNuevas}"/>-->
-                </StackPanel>
-            </Grid>
-        </GroupBox>
+        </StackPanel>
+      </Grid>
+    </GroupBox>
 
-        <GroupBox Header="Personas" Grid.Row="1" Grid.Column="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+    <GroupBox Header="Personas" Grid.Row="1" Grid.Column="1">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" Orientation="Vertical">
-                    <Label Margin="{StaticResource Margin}">Personas a mostrar en Listado de Personas</Label>
-                </StackPanel>
+        <StackPanel Grid.Column="0" Orientation="Vertical">
+          <Label Margin="{StaticResource Margin}">Personas por página</Label>
+        </StackPanel>
 
-                <StackPanel  Grid.Column="1" Orientation="Vertical">
-                    <controls:NumericUpDown Minimum="10" 
+        <StackPanel  Grid.Column="1" Orientation="Vertical">
+          <controls:NumericUpDown Minimum="10" 
                                             Margin="{StaticResource Margin}"
                                             Value="{Binding Preferencias.ListadoDePersonasItemsPerPage}"/>
-                </StackPanel>
-            </Grid>
-        </GroupBox>
+        </StackPanel>
+      </Grid>
+    </GroupBox>
 
-        <GroupBox Header="Citas" Grid.Row="2">
-           
-        </GroupBox>
+    <GroupBox Header="Copias de Seguridad" Grid.Row="2">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-        <GroupBox Header="Atenciones" Grid.Row="2" Grid.Column="1">
+        <Label Margin="{StaticResource Margin}" Grid.Row="0"
+               ToolTip="Automáticamente hace una copia de seguridad al cerrarse la aplicación">Hacer copia de seguridad al salir</Label>
+        <Label Margin="{StaticResource Margin}" Grid.Row="1"
+               ToolTip="Carpeta de destino de la copia de seguridad automática">Destino de la copia:</Label>
 
-        </GroupBox>
+        <CheckBox Grid.Row="0" Grid.Column="1"
+                  HorizontalAlignment="Right"
+                  Margin="4,4,-3,4"
+                  IsChecked="{Binding Preferencias.DoBackupOnClose}">
+          <CheckBox.LayoutTransform>
+            <ScaleTransform ScaleX="1.2" ScaleY="1.2"  />
+          </CheckBox.LayoutTransform>
+        </CheckBox>
         
-        <StackPanel Grid.Row="4" Grid.ColumnSpan="2" 
+        <Grid Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <TextBox Margin="{StaticResource Margin}" 
+                     IsReadOnly="True" 
+                   Height="25"
+                     Text="{Binding Preferencias.AutomaticBackupPath, UpdateSourceTrigger=PropertyChanged}"/>
+          <Button Margin="{StaticResource Margin}" 
+                    Grid.Column="1"
+                  ToolTip="Examinar..."
+                    Content="..." 
+                    Command="{Binding ExaminarBackupPathCommand}"/>
+        </Grid>
+
+        <Label Margin="{StaticResource Margin}" Grid.Row="2">Eliminar copias previas a:</Label>
+        <DatePicker 
+          Margin="{StaticResource Margin}"
+          VerticalContentAlignment="Center"
+          Height="25"
+          Grid.Row="2" Grid.Column="1"
+          SelectedDate="{Binding Preferencias.BackupDeleteDateLimit, UpdateSourceTrigger=PropertyChanged}"/>
+
+      </Grid>
+    </GroupBox>
+
+    <GroupBox Header="Atenciones" Grid.Row="2" Grid.Column="1">
+
+    </GroupBox>
+
+    <StackPanel Grid.Row="4" Grid.ColumnSpan="2" 
                     Orientation="Horizontal" HorizontalAlignment="Right">
-            <!-- Guardar cambios Button -->
-            <cc:CircleIconButton 
+      <!-- Guardar cambios Button -->
+      <cc:CircleIconButton 
                 Icon="{StaticResource appbar_save}"
                 Command="{Binding GuardarCambiosCommand}"/>
 
-            <!-- Cancelar Button -->
-            <cc:CircleIconButton
+      <!-- Cancelar Button -->
+      <cc:CircleIconButton
                 Icon="{StaticResource appbar_close}"
                 Command="{Binding CancelarCambiosCommand}"/>
-        </StackPanel>
-    </Grid>
-</UserControl>
+    </StackPanel>
+  </Grid>
+</controls:MetroWindow>

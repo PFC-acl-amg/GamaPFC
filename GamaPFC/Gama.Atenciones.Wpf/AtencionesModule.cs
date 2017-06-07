@@ -232,14 +232,14 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<AsistenteViewModel>();
             Container.RegisterType<CitasContentViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<DashboardViewModel>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<EditarAtencionesViewModel>();
-            Container.RegisterType<EditarCitasViewModel>();
+            Container.RegisterType<EditarAtencionesViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<EditarCitasViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<EditarPersonaViewModel>();
             Container.RegisterType<GraficasContentViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<ListadoDePersonasViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<PanelSwitcherViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<PersonasContentViewModel>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<PreferenciasViewModel>(new ContainerControlledLifetimeManager());
+            //Container.RegisterType<PreferenciasViewModel>();
             Container.RegisterType<RightCommandsViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<SearchBoxViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<StatusBarViewModel>(new ContainerControlledLifetimeManager());
@@ -248,46 +248,11 @@ namespace Gama.Atenciones.Wpf
 
         private void RegisterServices()
         {
-            //Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
-            //Container.RegisterType<ISession>(
-            //    new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
-            //Container.RegisterType<IPersonaRepository, PersonaRepository>();
-            //Container.RegisterType<ICitaRepository, CitaRepository>();
-            //Container.RegisterType<IAtencionRepository, AtencionRepository>();
-            //Container.RegisterType<IAsistenteRepository, AsistenteRepository>();
-
-            //PreferenciasDeAtenciones preferencias;
-            //string preferenciasPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-            //    + @"\preferencias_de_atenciones.cfg";
-
-            //if (File.Exists(preferenciasPath))
-            //{
-            //    var preferenciasFile = File.Open(preferenciasPath, FileMode.Open);
-            //    preferencias = (PreferenciasDeAtenciones)new BinaryFormatter().Deserialize(preferenciasFile);
-            //    preferenciasFile.Close();
-            //}
-            //else
-            //{
-            //    preferencias = new PreferenciasDeAtenciones();
-            //    new BinaryFormatter().Serialize(File.Create(preferenciasPath), preferencias);
-            //}
-
-            //Container.RegisterInstance<PreferenciasDeAtenciones>(preferencias);
         }
 
         private void InitializeNavigation()
         {
-            RegionManager.RegisterViewWithRegion(RegionNames.PreferenciasRegion, typeof(PreferenciasView));
             RegionManager.RegisterViewWithRegion(RegionNames.RightCommandsRegion, typeof(RightCommandsView));
-            //RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
-            //RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
-            //RegionManager.RegisterViewWithRegion(RegionNames.SearchBoxRegion, typeof(SearchBoxView));
-            //RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
-            //RegionManager.RequestNavigate(RegionNames.ContentRegion, "GraficasContentView");
-            //RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
-
-            //RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<PersonasContentView>());
-            //RegionManager.AddToRegion(RegionNames.PersonasTabContentRegion, Container.Resolve<ListadoDePersonasView>());
         }
     }
 }

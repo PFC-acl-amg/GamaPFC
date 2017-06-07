@@ -14,6 +14,7 @@ using Gama.Atenciones.Wpf.ViewModels;
 using Gama.Atenciones.Wpf.Views;
 using System.Linq;
 using Prism.Events;
+using Core.Util;
 
 namespace Gama.Atenciones.Wpf
 {
@@ -35,26 +36,26 @@ namespace Gama.Atenciones.Wpf
             personaRepository.Session = session;
             asistenteRepository.Session = session;
 
-            //AtencionesResources.TodosLosNif = personaRepository.GetNifs();
             AtencionesResources.TodosLosNifDeAsistentes = asistenteRepository.GetNifs();
 
-            PreferenciasDeAtenciones preferencias;
-            string preferenciasPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-                + @"\preferencias_de_atenciones.cfg";
+            Preferencias preferencias;
 
-            if (File.Exists(preferenciasPath))
+            if (!Directory.Exists(Preferencias.PreferenciasPathFolder))
+                Directory.CreateDirectory(Preferencias.PreferenciasPathFolder);
+
+            if (File.Exists(Preferencias.PreferenciasPath))
             {
-                var preferenciasFile = File.Open(preferenciasPath, FileMode.Open);
-                preferencias = (PreferenciasDeAtenciones)new BinaryFormatter().Deserialize(preferenciasFile);
+                var preferenciasFile = File.Open(Preferencias.PreferenciasPath, FileMode.Open);
+                preferencias = (Preferencias)new BinaryFormatter().Deserialize(preferenciasFile);
                 preferenciasFile.Close();
             }
             else
             {
-                preferencias = new PreferenciasDeAtenciones();
-                new BinaryFormatter().Serialize(File.Create(preferenciasPath), preferencias);
+                preferencias = new Preferencias();
+                new BinaryFormatter().Serialize(File.Create(Preferencias.PreferenciasPath), preferencias);
             }
 
-            Container.RegisterInstance<PreferenciasDeAtenciones>(preferencias);
+            Container.RegisterInstance(preferencias);
             return Container.Resolve<Shell>();
         }
 

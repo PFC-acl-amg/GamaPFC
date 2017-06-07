@@ -47,10 +47,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<CitaEliminadaEvent>().Subscribe(
                 (id) => MostrarMensaje("La cita se ha eliminado con éxito."));
 
+            _EventAggregator.GetEvent<BackupFinalizadoEvent>().Subscribe(
+                () => MostrarMensaje("La copia de seguridad se ha realizado con éxito."));
+            
             Mensaje = DefaultMensaje;
             _Timer = new DispatcherTimer();
             _Timer.Tick += _timer_Tick;
-            _Timer.Interval = new TimeSpan(0, 0, 2);
+            _Timer.Interval = new TimeSpan(0, 0, 4);
         }
 
         public string Mensaje

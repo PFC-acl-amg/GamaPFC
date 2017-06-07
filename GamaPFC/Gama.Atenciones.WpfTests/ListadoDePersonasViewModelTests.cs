@@ -22,7 +22,7 @@ namespace Gama.Atenciones.WpfTests
         private List<Persona> _Personas;
         private int _ItemsPerPage = 30;
         private Mock<ISession> _SessionMock;
-        private PreferenciasDeAtenciones _SettingsMock;
+        private Preferencias _SettingsMock;
         private Mock<IPersonaRepository> _PersonaRepositoryMock;
         private EventAggregator _EventAggregatorMock;
 
@@ -32,7 +32,7 @@ namespace Gama.Atenciones.WpfTests
 
             _EventAggregatorMock = new EventAggregator();
             _PersonaRepositoryMock = new Mock<IPersonaRepository>();
-            _SettingsMock = new PreferenciasDeAtenciones();
+            _SettingsMock = new Preferencias();
             _SessionMock = new Mock<ISession>();
 
             _SettingsMock.ListadoDePersonasItemsPerPage = _ItemsPerPage;

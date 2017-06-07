@@ -8,12 +8,40 @@ using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Wpf.Wrappers
 {
-    public class PreferenciasDeAtencionesWrapper : ModelWrapper<PreferenciasDeAtenciones>
+    public class PreferenciasWrapper : ModelWrapper<Preferencias>
     {
-        public PreferenciasDeAtencionesWrapper(PreferenciasDeAtenciones model) : base(model)
+        public PreferenciasWrapper(Preferencias model) : base(model)
         {
 
         }
+
+        ///
+        /// Copias de Seguridad
+        ///
+        public string AutomaticBackupPath
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string AutomaticBackupPathOriginalValue => GetOriginalValue<string>(nameof(AutomaticBackupPath));
+        public bool AutomaticBackupPathIsChanged => GetIsChanged(nameof(AutomaticBackupPath));
+
+        public bool DoBackupOnClose
+        {
+            get { return GetValue<bool>(); }
+            set { SetValue(value); }
+        }
+        public bool DoBackupOnCloseOriginalValue => GetOriginalValue<bool>(nameof(DoBackupOnClose));
+        public bool DoBackupOnCloseIsChanged => GetIsChanged(nameof(DoBackupOnClose));
+
+        public DateTime? BackupDeleteDateLimit
+        {
+            get { return GetValue<DateTime?>(); }
+            set { SetValue(value); }
+        }
+        public bool BackupDeleteDateLimitOriginalValue => GetOriginalValue<bool>(nameof(BackupDeleteDateLimit));
+        public bool BackupDeleteDateLimitIsChanged => GetIsChanged(nameof(BackupDeleteDateLimit));
 
         ///
         /// Dashboard

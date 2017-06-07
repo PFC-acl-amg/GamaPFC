@@ -13,14 +13,14 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
 {
     public class DashboardViewModelDTD
     {
-        private PreferenciasDeAtenciones _Settings;
+        private Preferencias _Settings;
         private FakeAtencionRepository _AtencionRepository;
         private FakeCitaRepository _CitaRepository;
         private FakePersonaRepository _PersonaRepository;
 
         public DashboardViewModelDTD()
         {
-            _Settings = new PreferenciasDeAtenciones();
+            _Settings = new Preferencias();
             _PersonaRepository = new FakePersonaRepository();
             _CitaRepository = new FakeCitaRepository();
             _AtencionRepository = new FakeAtencionRepository();

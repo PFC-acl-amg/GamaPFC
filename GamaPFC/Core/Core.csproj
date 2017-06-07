@@ -72,6 +72,14 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySqlBackup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySqlBackup.1.0.0\lib\MySqlBackup.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\NHibernate.4.0.4.4000\lib\net40\NHibernate.dll</HintPath>
       <Private>True</Private>
@@ -111,6 +119,7 @@
   <ItemGroup>
     <Compile Include="ChangeTrackingCollection.cs" />
     <Compile Include="Controls\EllipseImage.cs" />
+    <Compile Include="DataAccess\DBHelper.cs" />
     <Compile Include="DataAccess\INHibernateSessionFactory.cs" />
     <Compile Include="DataAccess\ISessionHelper.cs" />
     <Compile Include="DataAccess\NHibernateOneSessionRepository.cs" />
@@ -139,6 +148,7 @@
     <Compile Include="Util\NullableValueConverter.cs" />
     <Compile Include="Util\PasswordHelper.cs" />
     <Compile Include="Util\StringUtility.cs" />
+    <Compile Include="Util\UIServices.cs" />
     <Compile Include="ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>

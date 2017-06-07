@@ -28,10 +28,16 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         protected override void InitializeCollectionProperties(Asistente model)
         {
-            // No hace falta registrar la colección en este caso porque desde un asistente
-            // no se modificarán (añadir, editar o eliminar) citas, así que nos basta
-            // con tener acceso a dichas citas.
-            Citas = new ObservableCollection<Cita>(model.Citas);
+            if (model.Citas == null)
+                throw new ArgumentNullException("Citas");
+
+            Citas = new ChangeTrackingCollection<CitaWrapper>(
+                model.Citas.Select(c => new CitaWrapper(c)));
+            RegisterCollection(this.Citas, model.Citas);
+
+            //this.Citas = new ChangeTrackingCollection<CitaWrapper>
+            //    (model.Citas.Select(c => new CitaWrapper(c)));
+            //this.RegisterCollection(this.Citas, model.Citas);
         }
 
         public int Id
@@ -302,10 +308,10 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool ProvinciaIsChanged => GetIsChanged(nameof(Provincia));
 
-        public ObservableCollection<Cita> Citas { get; private set; }
+        public ChangeTrackingCollection<CitaWrapper> Citas { get; private set; }
 
-        public List<CitaWrapper> CitasPasadas => Citas.Where(x => x.Fecha < DateTime.Now).Select(x => new CitaWrapper(x)).ToList();
-        public List<CitaWrapper> CitasProximas => Citas.Where(x => x.Fecha >= DateTime.Now).Select(x => new CitaWrapper(x)).ToList();
+        public ChangeTrackingCollection<CitaWrapper> CitasPasadas { get;  set; }
+        public ChangeTrackingCollection<CitaWrapper> CitasProximas { get;  set; }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
