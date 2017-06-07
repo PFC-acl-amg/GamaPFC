@@ -31,6 +31,12 @@ namespace Gama.Cooperacion.Wpf
             Application.Current.MainWindow = Shell as Window;
             Application.Current.MainWindow.Show();
             ColeccionEstadosActividades.EstadosActividades = new System.Collections.Generic.Dictionary<string, int>();
+            ColeccionEstadosActividades.EstadosActividades.Add("Comenzado", 0);
+            ColeccionEstadosActividades.EstadosActividades.Add("NoComenzado", 0);
+            ColeccionEstadosActividades.EstadosActividades.Add("FueraPlazo", 0);
+            ColeccionEstadosActividades.EstadosActividades.Add("ProximasFinalizaciones", 0);
+            ColeccionEstadosActividades.EstadosActividades.Add("Finalizado", 0);
+
         }
 
         protected override void ConfigureModuleCatalog()

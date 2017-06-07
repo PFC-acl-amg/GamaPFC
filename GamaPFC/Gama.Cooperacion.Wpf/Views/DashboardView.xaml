@@ -60,7 +60,12 @@
                             <Run Text="{Binding DisplayMember1}" FontSize="18" />
                         </TextBlock>
                     </Hyperlink>
-                </Label>
+                    <i:Interaction.Triggers>
+                      <i:EventTrigger EventName="MouseEnter" >
+                        <i:InvokeCommandAction Command="{Binding DataContext.SelectActividadCommand, ElementName=_Root}" />
+                      </i:EventTrigger>
+                    </i:Interaction.Triggers>
+        </Label>
             </Grid>
             <ControlTemplate.Triggers>
                 <DataTrigger Binding="{Binding ElementName=DatoListBoxActividades, Path=IsMouseOver}" Value="True">
