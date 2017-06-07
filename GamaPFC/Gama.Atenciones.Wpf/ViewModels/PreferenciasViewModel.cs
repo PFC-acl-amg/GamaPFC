@@ -47,8 +47,14 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public ICommand GuardarCambiosCommand { get; private set; }
         public ICommand CancelarCambiosCommand { get; private set; }
+        public ICommand ExaminarBackupPathCommand { get; private set; }
 
         public PreferenciasDeAtencionesWrapper Preferencias { get; private set; }
+
+        private void OnExaminarBackupPathCommand()
+        {
+
+        }
 
         private void OnGuardarCambiosCommandExecute()
         {

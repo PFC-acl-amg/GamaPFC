@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.DataAccess;
 using Core.Util;
 using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Eventos;
@@ -138,26 +139,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             if (saveFileDialog.ShowDialog() == true)
             {
-                string connectionString = ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString;
-
-                // Important Additional Connection Options
-                connectionString += "charset=utf8;convertzerodatetime=true;";
-
-                using (MySqlConnection mysqlConnection = new MySqlConnection(connectionString))
-                {
-                    using (MySqlCommand sqlCommand = new MySqlCommand())
-                    {
-                        using (MySqlBackup mySqlBackup = new MySqlBackup(sqlCommand))
-                        {
-                            sqlCommand.Connection = mysqlConnection;
-                            mysqlConnection.Open();
-                            UIServices.SetBusyState();
-                            mySqlBackup.ExportToFile(saveFileDialog.FileName);
-                            _EventAggregator.GetEvent<BackupFinalizadoEvent>().Publish();
-                            mysqlConnection.Close();
-                        }
-                    }
-                }
+                string connectionString = 
+                    ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString;
+                DBHelper.Backup(connectionString, saveFileDialog.FileName);
+                _EventAggregator.GetEvent<BackupFinalizadoEvent>().Publish();
             }
         }
 
@@ -169,30 +154,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             if (openFileDialog.ShowDialog() == true)
             {
-                string connectionString = ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString;
-
-                // Important Additional Connection Options
-                connectionString += "charset=utf8;convertzerodatetime=true;";
-
-                using (MySqlConnection mysqlConnection = new MySqlConnection(connectionString))
-                {
-                    using (MySqlCommand sqlCommand = new MySqlCommand())
-                    {
-                        sqlCommand.Connection = mysqlConnection;
-                        sqlCommand.CommandText = "SET GLOBAL max_allowed_packet = 1677721656";
-                        mysqlConnection.Open();
-                        sqlCommand.ExecuteNonQuery();
-
-                        using (MySqlBackup mySqlBackup = new MySqlBackup(sqlCommand))
-                        {
-                            sqlCommand.Connection = mysqlConnection;
-                            UIServices.SetBusyState();
-                            mySqlBackup.ImportFromFile(openFileDialog.FileName);
-                            mysqlConnection.Close();
-                        }
-                    }
-                }
-                
+                string connectionString = 
+                    ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString;
+                DBHelper.Restore(connectionString, openFileDialog.FileName);
                 UIServices.RestartApplication();
             }
         }

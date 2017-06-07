@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace Gama.Atenciones.Wpf.Views
     /// <summary>
     /// Interaction logic for FlyoutsView.xaml
     /// </summary>
-    public partial class PreferenciasView : UserControl
+    public partial class PreferenciasView : MetroWindow
     {
         public PreferenciasView()
         {

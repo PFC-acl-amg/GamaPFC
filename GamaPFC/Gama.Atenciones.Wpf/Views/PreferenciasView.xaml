@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Gama.Atenciones.Wpf.Views.PreferenciasView"
+﻿<controls:MetroWindow x:Class="Gama.Atenciones.Wpf.Views.PreferenciasView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,43 +9,44 @@
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             MinWidth="800"
-             d:DesignHeight="515.194" d:DesignWidth="684">
-    <Grid>
+                      Title="Preferencias"
+             MinWidth="400"
+             d:DesignHeight="515.194" d:DesignWidth="745.5">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition />
+      <!-- Fila para dar espacio, para que los botones estén al final-->
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <Label Margin="{StaticResource Margin}" FontSize="24" FontWeight="Light">Preferencias</Label>
+
+    <GroupBox Header="Dashboard" Grid.Row="1">
+      <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition />
-            <!-- Fila para dar espacio, para que los botones estén al final-->
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
 
-        <Label Margin="{StaticResource Margin}" FontSize="24" FontWeight="Light">Preferencias</Label>
-
-        <GroupBox Header="Dashboard" Grid.Row="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Grid.Column="0" Orientation="Vertical">
+        <StackPanel Grid.Column="0" Orientation="Vertical">
           <Label Margin="{StaticResource Margin}">Mostrar filtro de fecha al iniciar la aplicación</Label>
-                    <!--<Label Margin="{StaticResource Margin}">Últimas personas a mostrar</Label>
+          <!--<Label Margin="{StaticResource Margin}">Últimas personas a mostrar</Label>
                     <Label Margin="{StaticResource Margin}">Últimas atenciones mostrar</Label>
                     <Label Margin="{StaticResource Margin}">Próximas citas a mostrar</Label>
                     <Label Margin="{StaticResource Margin}">Longitud máxima de nombres antes de añadir "..."</Label>
                     <Label Margin="{StaticResource Margin}">Longitud máxima de seguimients antes de añadir "..."</Label>
                     <Label Margin="{StaticResource Margin}">Meses a mostrar de personas nuevas</Label>
                     <Label Margin="{StaticResource Margin}">Meses a mostrar de atenciones nuevas</Label>-->
-                </StackPanel>
+        </StackPanel>
 
-                <StackPanel  Grid.Column="1" Orientation="Vertical">
+        <StackPanel  Grid.Column="1" Orientation="Vertical">
           <CheckBox IsChecked="{Binding Preferencias.Dashboard_MostrarFiltroDeFechaPorDefecto}"
                     VerticalAlignment="Bottom" VerticalContentAlignment="Bottom"
                      Height="20"
@@ -71,48 +72,87 @@
                     <controls:NumericUpDown Minimum="1" MaxHeight="12"
                                             Margin="{StaticResource Margin}"
                                             Value="{Binding Preferencias.DashboardMesesAMostrarDeAtencionesNuevas}"/>-->
-                </StackPanel>
-            </Grid>
-        </GroupBox>
+        </StackPanel>
+      </Grid>
+    </GroupBox>
 
-        <GroupBox Header="Personas" Grid.Row="1" Grid.Column="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+    <GroupBox Header="Personas" Grid.Row="1" Grid.Column="1">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" Orientation="Vertical">
-                    <Label Margin="{StaticResource Margin}">Personas a mostrar en Listado de Personas</Label>
-                </StackPanel>
+        <StackPanel Grid.Column="0" Orientation="Vertical">
+          <Label Margin="{StaticResource Margin}">Personas por página</Label>
+        </StackPanel>
 
-                <StackPanel  Grid.Column="1" Orientation="Vertical">
-                    <controls:NumericUpDown Minimum="10" 
+        <StackPanel  Grid.Column="1" Orientation="Vertical">
+          <controls:NumericUpDown Minimum="10" 
                                             Margin="{StaticResource Margin}"
                                             Value="{Binding Preferencias.ListadoDePersonasItemsPerPage}"/>
-                </StackPanel>
-            </Grid>
-        </GroupBox>
+        </StackPanel>
+      </Grid>
+    </GroupBox>
 
-        <GroupBox Header="Citas" Grid.Row="2">
-           
-        </GroupBox>
+    <GroupBox Header="Copias de Seguridad" Grid.Row="2">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-        <GroupBox Header="Atenciones" Grid.Row="2" Grid.Column="1">
+        <Label Margin="{StaticResource Margin}" Grid.Row="0" >Hacer copia de seguridad al salir</Label>
+        <Label Margin="{StaticResource Margin}" Grid.Row="1">Destino de la copia:</Label>
 
-        </GroupBox>
+        <CheckBox Grid.Row="0" Grid.Column="1"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Right"
+                  Margin="{StaticResource Margin}"
+                  IsChecked="{Binding Preferencias.HacerBackupAlSalir}">
+          <CheckBox.LayoutTransform>
+            <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+          </CheckBox.LayoutTransform>
+        </CheckBox>
         
-        <StackPanel Grid.Row="4" Grid.ColumnSpan="2" 
+        <Grid Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <TextBox Margin="{StaticResource Margin}" 
+                     
+                     IsReadOnly="True" 
+                     Text="{Binding Preferencias.PathDeBackup}"/>
+          <Button Margin="{StaticResource Margin}" 
+                    Grid.Column="1"
+                    Content="..." 
+                    Command="{Binding ExaminarBackupPath}"/>
+        </Grid>
+
+      </Grid>
+    </GroupBox>
+
+    <GroupBox Header="Atenciones" Grid.Row="2" Grid.Column="1">
+
+    </GroupBox>
+
+    <StackPanel Grid.Row="4" Grid.ColumnSpan="2" 
                     Orientation="Horizontal" HorizontalAlignment="Right">
-            <!-- Guardar cambios Button -->
-            <cc:CircleIconButton 
+      <!-- Guardar cambios Button -->
+      <cc:CircleIconButton 
                 Icon="{StaticResource appbar_save}"
                 Command="{Binding GuardarCambiosCommand}"/>
 
-            <!-- Cancelar Button -->
-            <cc:CircleIconButton
+      <!-- Cancelar Button -->
+      <cc:CircleIconButton
                 Icon="{StaticResource appbar_close}"
                 Command="{Binding CancelarCambiosCommand}"/>
-        </StackPanel>
-    </Grid>
-</UserControl>
+    </StackPanel>
+  </Grid>
+</controls:MetroWindow>
