@@ -34,8 +34,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             var o = new PreferenciasView();
             o.ShowDialog();
-
-            //_EventAggregator.GetEvent<AbrirPreferenciasEvent>().Publish();
         }
 
         private void OnVolverASeleccionDeModuloExecute()

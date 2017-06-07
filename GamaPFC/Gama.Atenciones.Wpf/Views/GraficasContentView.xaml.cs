@@ -32,7 +32,7 @@ namespace Gama.Atenciones.Wpf.Views
             {
                 _PanelDeNavegacion.Width = double.NaN; // para "Auto"
                 _PanelDeNavegacion.Visibility = Visibility.Collapsed;
-                _ToggleVisibilityButton.Margin = new Thickness(-8, 4, 4, 4);
+                _ToggleVisibilityButton.Margin = new Thickness(4, 9, 4, 4);
 
                 var da = new DoubleAnimation(180, 0, new Duration(TimeSpan.FromSeconds(0.1)));
                 var rt = new RotateTransform();
@@ -42,9 +42,9 @@ namespace Gama.Atenciones.Wpf.Views
             }
             else
             {
-                _PanelDeNavegacion.Width = 190.0; // para "Auto"
+                _PanelDeNavegacion.Width = 210.0; // para "Auto"
                 _PanelDeNavegacion.Visibility = Visibility.Visible;
-                _ToggleVisibilityButton.Margin = new Thickness(4, 4, 4, 4);
+                _ToggleVisibilityButton.Margin = new Thickness(4, 9, 4, 4);
 
                 var da = new DoubleAnimation(0, 180, new Duration(TimeSpan.FromSeconds(0.1)));
                 var rt = new RotateTransform();
