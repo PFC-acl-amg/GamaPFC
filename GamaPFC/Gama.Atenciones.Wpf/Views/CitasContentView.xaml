@@ -11,6 +11,7 @@
              xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
              mc:Ignorable="d" 
+             x:Name="_Root"
              xmlns:CustomControls="clr-namespace:Gama.Atenciones.Wpf.Controls"
              d:DesignHeight="325.685" d:DesignWidth="572.26">
   <UserControl.Resources>
@@ -320,6 +321,56 @@
     </ControlTemplate>
 
     <ControlTemplate x:Key="_ListadoCalendarStyle"  TargetType="{x:Type  CustomControls:CustomCalendar}">
+      <ControlTemplate.Resources>
+        <DataTemplate x:Key="_EditarButtonCellTemplate">
+          <cc:CircleIconButton
+                      Icon="{StaticResource appbar_edit}"
+                      Width="36"
+                      Height="36"
+                      IconWidth="13"
+                      IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.EditarCitaCommand}"
+                      CommandParameter="{Binding}">
+            <Button.Style>
+              <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                <Setter Property="Opacity" Value="0.5"/>
+                <Style.Triggers>
+                  <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                  </Trigger>
+                </Style.Triggers>
+              </Style>
+            </Button.Style>
+          </cc:CircleIconButton>
+        </DataTemplate>
+
+        <DataTemplate x:Key="_IrButtonCellTemplate">
+          <cc:CircleIconButton
+                      HorizontalAlignment="Left"
+                      Icon="{StaticResource appbar_arrow_right}"
+                      Width="36"
+                      Height="36"
+                      IconWidth="13"
+                      IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.SeleccionarPersonaCommand}"
+                      CommandParameter="{Binding}">
+            <Button.Style>
+              <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                <Setter Property="Opacity" Value="0.5"/>
+                <Style.Triggers>
+                  <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                  </Trigger>
+                </Style.Triggers>
+              </Style>
+            </Button.Style>
+          </cc:CircleIconButton>
+        </DataTemplate>
+      </ControlTemplate.Resources>
       <DataGrid
         GridLinesVisibility="All"
         AutoGenerateColumns="False"
@@ -342,6 +393,8 @@
           <DataGridTextColumn Header="Minuto" Binding="{Binding Minuto}" IsReadOnly="True"/>
           <DataGridTextColumn Header="Asistente" Binding="{Binding Asistente.Nombre}" IsReadOnly="True"/>
           <DataGridTextColumn Header="Sala" Binding="{Binding Sala}" Width="*" IsReadOnly="True"/>
+          <DataGridTemplateColumn Header="Editar" CellTemplate="{StaticResource _EditarButtonCellTemplate}"/>
+          <DataGridTemplateColumn Header="Ir"  CellTemplate="{StaticResource _IrButtonCellTemplate}"/>
         </DataGrid.Columns>
       </DataGrid>
     </ControlTemplate>

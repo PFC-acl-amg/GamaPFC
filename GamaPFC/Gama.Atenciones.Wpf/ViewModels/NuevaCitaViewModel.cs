@@ -128,7 +128,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             if (EnEdicionDeCitaExistente)
                 AsistenteSeleccionado = Asistentes.Find(a => a.Id == Cita.Asistente.Id);
             else
-                AsistenteSeleccionado = Asistentes.First();
+                AsistenteSeleccionado = Asistentes.FirstOrDefault();
         }
 
         public void LoadWithDefaultPerson()

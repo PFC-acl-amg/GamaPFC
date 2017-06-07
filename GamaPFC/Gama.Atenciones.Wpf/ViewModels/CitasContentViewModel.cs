@@ -49,6 +49,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             NuevaCitaCommand = new DelegateCommand<Day>(OnNuevaCitaCommandExecute);
             NuevaAtencionCommand = new DelegateCommand<CitaWrapper>(OnNuevaAtencionCommandExecute);
             EditarCitaCommand = new DelegateCommand<CitaWrapper>(OnEditarCitaCommandExecute);
+            SeleccionarPersonaCommand = new DelegateCommand<CitaWrapper>(OnSeleccionarPersonaCommand);
 
             _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
             _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
@@ -63,6 +64,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand NuevaCitaCommand { get; private set; }
         public ICommand NuevaAtencionCommand { get; private set; }
         public ICommand EditarCitaCommand { get; private set; }
+        public ICommand SeleccionarPersonaCommand { get; private set; }
 
         private int _Refresh;
         private IPersonaRepository _PersonaRepository;
@@ -75,6 +77,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
         }
 
         public ObservableCollection<CitaWrapper> Citas { get; private set; }
+
+        private void OnSeleccionarPersonaCommand(CitaWrapper wrapper)
+        {
+            _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Publish(wrapper.Persona.Id);
+        }
 
         private void OnNuevaAtencionCommandExecute(CitaWrapper cita)
         {

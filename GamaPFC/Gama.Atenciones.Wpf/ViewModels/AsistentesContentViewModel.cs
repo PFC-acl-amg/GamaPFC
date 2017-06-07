@@ -200,6 +200,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 var citaDesactualizada = asistente.Citas.First(x => x.Id == id).Model;
                 citaDesactualizada.CopyValuesFrom(cita);
+                RefrescarVista();
             }
             // Se ha actualizado el asistente.
             else
