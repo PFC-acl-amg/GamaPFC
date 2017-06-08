@@ -579,7 +579,7 @@
   <Grid Margin="0,39,0,0">
     <!-- Magic CheckBox para cambiar template del calendario -->
     <CheckBox x:Name="_ToggleCalendarStyleCheckbox" Margin="4,4,100,4" 
-                HorizontalAlignment="Right" IsChecked="True" Visibility="Hidden"/>
+                HorizontalAlignment="Right" IsChecked="False" Visibility="Hidden"/>
     <CustomControls:CustomCalendar
       x:Name="_Calendario"
       Style="{StaticResource _EditarCitasCalendarStyle}"

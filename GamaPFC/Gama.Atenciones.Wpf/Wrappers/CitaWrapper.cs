@@ -117,9 +117,12 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public Asistente Asistente
         {
-            get { return Model.Asistente; }
-            set { Model.Asistente = value; }
+            get { return GetValue<Asistente>(); }
+            set { SetValue(value); }
         }
+
+        public Asistente AsistenteOriginalValue => GetOriginalValue<Asistente>(nameof(Asistente));
+        public bool AsistenteIsChanged => GetIsChanged(nameof(Asistente));
 
         public Persona Persona
         {
