@@ -47,6 +47,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private int _Finalizado;
         private int _ProximasFinalizaciones;
         private int _FueraPlazo;
+        private int _IdActividad;
 
         private readonly int itemCount;
 
@@ -75,6 +76,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _VisibleListaTodosCooperantes = false;
             _VisibleImagenSeleccionCooperante = true;
             _VisibleDatosCooperanteSeleccionado = false;
+            _IdActividad = 100;
             _EnCursoCount = ColeccionEstadosActividades.EstadosActividades["Comenzado"];
             _NoComenzado = ColeccionEstadosActividades.EstadosActividades["NoComenzado"];
             _FueraPlazo = ColeccionEstadosActividades.EstadosActividades["FueraPlazo"];
@@ -144,7 +146,20 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             PaginaAnteriorCommand = new DelegateCommand(OnPaginaAnteriorCommandExecute);
             NuevoCooperanteCommand = new DelegateCommand(OnNuevoCooperanteCommandExecute);
             ActividadesPorComenzarCommand = new DelegateCommand(OnActividadesPorComenzarCommandExecute);
+            ActividadesProximosVencimientosCommand = new DelegateCommand(OnActividadesProximosVencimientosCommandExecute);
+            ActividadesActividadesRetrasadasCommand = new DelegateCommand(OnActividadesActividadesRetrasadasCommandExecute);
+            ActividadesActividadesFinalizadasCommand = new DelegateCommand(OnActividadesActividadesFinalizadasCommandExecute);
+            ActividadesActividadesActivasCommand = new DelegateCommand(OnActividadesActividadesActivasCommandExecute);
+            InfoActividadCommand = new DelegateCommand<object>(OnInfoActividadCommandExecute);
         }
+        
+        //    private void OnSelectActividadCommand(object param)
+        //{
+        //    var lookup = param as LookupItem;
+        //    if (lookup != null) _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish(lookup.Id);
+
+        //}
+        
         private void PublicarCooperante(CooperanteWrapper CooperanteInsertado)
         {
             ListaParcialCooperantes.Clear();
@@ -153,6 +168,15 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             // En la lista de Socios se muestra solo a este socio
             // En la zona de datos de socio selecionado se muestran los datos del nuevo cooperante creada
             // Se muestar zona de botones para poder editar datos del socio creado
+        }
+        private void OnInfoActividadCommandExecute(object param)
+        {
+            var lookupItem = param as LookupItem;
+            if (lookupItem != null)
+            {
+                var Act = _actividadRepository.GetById(lookupItem.Id);
+                IdActividad = Act.Id;
+            }
         }
         private void OnListaCooperantesCommandExecute()
         {
@@ -242,23 +266,106 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand ListaDeActividadesCommand { get; set; }
         public ICommand ListaCooperantesCommand { get; set; }
         public ICommand ActividadesPorComenzarCommand { get; set; }
+        public ICommand ActividadesProximosVencimientosCommand { get; set; }
+        public ICommand ActividadesActividadesRetrasadasCommand { get; set; }
+        public ICommand ActividadesActividadesFinalizadasCommand { get; set; }
+        public ICommand ActividadesActividadesActivasCommand { get; set; }
+        public ICommand InfoActividadCommand { get; set; }
+
+        private void OnActividadesActividadesActivasCommandExecute()
+        {
+            ListaDeActividades.Clear();
+            foreach (var act in ListaCompletaActividades)
+            {
+                if (act.Estado.ToString() == "Comenzado")
+                {
+                    var ActividadComenzada = new LookupItem()
+                    {
+                        Id = act.Id,
+
+                        DisplayMember1 = act.Titulo,
+                        Id_Coordinador = act.Coordinador.Id,
+                        FechaDeInicioActividad = act.FechaDeInicio,
+                    };
+                    ListaDeActividades.Add(ActividadComenzada);
+                }
+            }
+        }
         private void OnActividadesPorComenzarCommandExecute()
         {
-            //ListaDeActividades = new ObservableCollection<LookupItem>(
-            //    _actividadRepository.GetAll()
-            //        .Where(a => a.Estado == Estado.NoComenzado)
-            //        .OrderBy(a => a.FechaDeFin)
-            //        .Take(_settings.DashboardActividadesAMostrar)
-            //    .Select(a => new LookupItem
-            //    {
-            //        Id = a.Id,
-            //        //DisplayMember1 = LookupItem.ShortenStringForDisplay(a.Titulo,
-            //        //    _settings.DashboardActividadesLongitudDeTitulos),
-            //        DisplayMember1 = a.Titulo,
-            //        Id_Coordinador = a.Coordinador.Id,
-            //        FechaDeInicioActividad = a.FechaDeInicio,
-            //    }));
-            ListaDeActividades.RemoveAt(1);
+            ListaDeActividades.Clear();
+            foreach(var act in ListaCompletaActividades)
+            {
+                if (act.Estado.ToString() == "NoComenzado")
+                {
+                    var ActividadNoComenzada = new LookupItem()
+                    {
+                        Id = act.Id,
+
+                        DisplayMember1 = act.Titulo,
+                        Id_Coordinador = act.Coordinador.Id,
+                        FechaDeInicioActividad = act.FechaDeInicio,
+                    };
+                    ListaDeActividades.Add(ActividadNoComenzada);
+                }
+            }
+        }
+        private void OnActividadesProximosVencimientosCommandExecute()
+        {
+            ListaDeActividades.Clear();
+            foreach (var act in ListaCompletaActividades)
+            {
+                if (act.Estado.ToString() == "ProximasFinalizaciones")
+                {
+                    var ActividadProximaVencimiento = new LookupItem()
+                    {
+                        Id = act.Id,
+
+                        DisplayMember1 = act.Titulo,
+                        Id_Coordinador = act.Coordinador.Id,
+                        FechaDeInicioActividad = act.FechaDeInicio,
+                    };
+                    ListaDeActividades.Add(ActividadProximaVencimiento);
+                }
+            }
+        }
+        private void OnActividadesActividadesRetrasadasCommandExecute()
+        {
+            ListaDeActividades.Clear();
+            foreach (var act in ListaCompletaActividades)
+            {
+                if (act.Estado.ToString() == "FueraPlazo")
+                {
+                    var ActividadFueraPlazo = new LookupItem()
+                    {
+                        Id = act.Id,
+
+                        DisplayMember1 = act.Titulo,
+                        Id_Coordinador = act.Coordinador.Id,
+                        FechaDeInicioActividad = act.FechaDeInicio,
+                    };
+                    ListaDeActividades.Add(ActividadFueraPlazo);
+                }
+            }
+        }
+        private void OnActividadesActividadesFinalizadasCommandExecute()
+        {
+            ListaDeActividades.Clear();
+            foreach (var act in ListaCompletaActividades)
+            {
+                if (act.Estado.ToString() == "Finalizado")
+                {
+                    var ActividadFinalizada = new LookupItem()
+                    {
+                        Id = act.Id,
+
+                        DisplayMember1 = act.Titulo,
+                        Id_Coordinador = act.Coordinador.Id,
+                        FechaDeInicioActividad = act.FechaDeInicio,
+                    };
+                    ListaDeActividades.Add(ActividadFinalizada);
+                }
+            }
         }
         private void OnNuevoCooperanteCommandExecute()
         {
@@ -463,6 +570,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             get { return _FueraPlazo; }
             set { SetProperty(ref _FueraPlazo, value); }
+        }
+        public int IdActividad
+        {
+            get { return _IdActividad; }
+            set { SetProperty(ref _IdActividad, value); }
         }
     }
 }

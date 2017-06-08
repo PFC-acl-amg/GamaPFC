@@ -314,18 +314,113 @@ namespace Gama.Cooperacion.Wpf.Views
             var labelActividades = _SeleccionarActividadesLabel;
             var vm = this.DataContext as DashboardViewModel;
             labelActividades.Foreground = Brushes.Yellow;
-
             vm.ListaDeActividadesCommand.Execute(null);
             
         }
         private void Label_ActividadesPorComenzar (object sender, MouseButtonEventArgs e)
         {
             var ActPorComenzar = SeleccionarListaActividadesPorComenzar;
-            var vm = this.DataContext as DashboardViewModel;
-            ActPorComenzar.Foreground = Brushes.Yellow;
+            var ActProximoVencimiento = SeleccionarListaActividadesProximosVencimientos;
+            var ActRetrasadas = SeleccionarListaActividadesRetrasadas;
+            var ActFinalizadas = SeleccionarListaActividadesFinalizadas;
+            var ActActivas = SeleccionarListaActividadesActivas;
+            //ActPorComenzar.Foreground = Brushes.Red;
+            //ActProximoVencimiento.Foreground = Brushes.Black;
+            //ActRetrasadas.Foreground = Brushes.Black;
+            //ActFinalizadas.Foreground = Brushes.Black;
+            //ActActivas.Foreground = Brushes.Black;
+            ActPorComenzar.Background = Brushes.White;
+            ActProximoVencimiento.Background = Brushes.LightGray;
+            ActRetrasadas.Background = Brushes.LightGray;
+            ActFinalizadas.Background = Brushes.LightGray;
+            ActActivas.Background = Brushes.LightGray;
 
+            var vm = this.DataContext as DashboardViewModel;
             vm.ActividadesPorComenzarCommand.Execute(null);
         }
+        private void Label_ActividadesProximosVencimientos (object sender,MouseButtonEventArgs e)
+        {
+            var ActPorComenzar = SeleccionarListaActividadesPorComenzar;
+            var ActProximoVencimiento = SeleccionarListaActividadesProximosVencimientos;
+            var ActRetrasadas = SeleccionarListaActividadesRetrasadas;
+            var ActFinalizadas = SeleccionarListaActividadesFinalizadas;
+            var ActActivas = SeleccionarListaActividadesActivas;
+            //ActPorComenzar.Foreground = Brushes.Black;
+            //ActProximoVencimiento.Foreground = Brushes.Red;
+            //ActRetrasadas.Foreground = Brushes.Black;
+            //ActFinalizadas.Foreground = Brushes.Black;
+            //ActActivas.Foreground = Brushes.Black;
+            ActPorComenzar.Background = Brushes.LightGray;
+            ActProximoVencimiento.Background = Brushes.White;
+            ActRetrasadas.Background = Brushes.LightGray;
+            ActFinalizadas.Background = Brushes.LightGray;
+            ActActivas.Background = Brushes.LightGray;
 
+            var vm = this.DataContext as DashboardViewModel;
+            vm.ActividadesProximosVencimientosCommand.Execute(null);
+        }
+        private void Label_ActividadesRetrasadas(object sender, MouseButtonEventArgs e)
+        {
+            var ActPorComenzar = SeleccionarListaActividadesPorComenzar;
+            var ActProximoVencimiento = SeleccionarListaActividadesProximosVencimientos;
+            var ActRetrasadas = SeleccionarListaActividadesRetrasadas;
+            var ActFinalizadas = SeleccionarListaActividadesFinalizadas;
+            var ActActivas = SeleccionarListaActividadesActivas;
+            //ActPorComenzar.Foreground = Brushes.Black;
+            //ActProximoVencimiento.Foreground = Brushes.Black;
+            //ActRetrasadas.Foreground = Brushes.Red;
+            //ActFinalizadas.Foreground = Brushes.Black;
+            //ActActivas.Foreground = Brushes.Black;
+            ActPorComenzar.Background = Brushes.LightGray;
+            ActProximoVencimiento.Background = Brushes.LightGray;
+            ActRetrasadas.Background = Brushes.White;
+            ActFinalizadas.Background = Brushes.LightGray;
+            ActActivas.Background = Brushes.LightGray;
+
+            var vm = this.DataContext as DashboardViewModel;
+            vm.ActividadesActividadesRetrasadasCommand.Execute(null);
+        }
+        private void Label_ActividadesFinalizadas(object sender, MouseButtonEventArgs e)
+        {
+            var ActPorComenzar = SeleccionarListaActividadesPorComenzar;
+            var ActProximoVencimiento = SeleccionarListaActividadesProximosVencimientos;
+            var ActRetrasadas = SeleccionarListaActividadesRetrasadas;
+            var ActFinalizadas = SeleccionarListaActividadesFinalizadas;
+            var ActActivas = SeleccionarListaActividadesActivas;
+            //ActPorComenzar.Foreground = Brushes.Black;
+            //ActProximoVencimiento.Foreground = Brushes.Black;
+            //ActRetrasadas.Foreground = Brushes.Black;
+            //ActFinalizadas.Foreground = Brushes.Red;
+            //ActActivas.Foreground = Brushes.Black;
+            ActPorComenzar.Background = Brushes.LightGray;
+            ActProximoVencimiento.Background = Brushes.LightGray;
+            ActRetrasadas.Background = Brushes.LightGray;
+            ActFinalizadas.Background = Brushes.White;
+            ActActivas.Background = Brushes.LightGray;
+
+            var vm = this.DataContext as DashboardViewModel;
+            vm.ActividadesActividadesFinalizadasCommand.Execute(null);
+        }
+        private void Label_ActividadesActivas(object sender, MouseButtonEventArgs e)
+        {
+            var ActPorComenzar = SeleccionarListaActividadesPorComenzar;
+            var ActProximoVencimiento = SeleccionarListaActividadesProximosVencimientos;
+            var ActRetrasadas = SeleccionarListaActividadesRetrasadas;
+            var ActFinalizadas = SeleccionarListaActividadesFinalizadas;
+            var ActActivas = SeleccionarListaActividadesActivas;
+            //ActPorComenzar.Foreground = Brushes.Black;
+            //ActProximoVencimiento.Foreground = Brushes.Black;
+            //ActRetrasadas.Foreground = Brushes.Black;
+            //ActFinalizadas.Foreground = Brushes.Black;
+            //ActActivas.Foreground = Brushes.Red;
+            ActPorComenzar.Background = Brushes.LightGray;
+            ActProximoVencimiento.Background = Brushes.LightGray;
+            ActRetrasadas.Background = Brushes.LightGray;
+            ActFinalizadas.Background = Brushes.LightGray;
+            ActActivas.Background = Brushes.White;
+
+            var vm = this.DataContext as DashboardViewModel;
+            vm.ActividadesActividadesActivasCommand.Execute(null);
+        }
     }
 }

@@ -39,6 +39,9 @@
                              Color="Transparent"/>
             </Style.Resources>
         </Style>
+        <ControlTemplate x:Key="LabelEnCursoMouseOver">
+
+        </ControlTemplate>
         <ControlTemplate x:Key="DataItemControlTemplate">
             <Grid Name="DatoListBoxActividades" >
                 <Grid.ColumnDefinitions>
@@ -62,10 +65,10 @@
                     </Hyperlink>
                     <i:Interaction.Triggers>
                       <i:EventTrigger EventName="MouseEnter" >
-                        <i:InvokeCommandAction Command="{Binding DataContext.SelectActividadCommand, ElementName=_Root}" />
+                            <i:InvokeCommandAction Command="{Binding DataContext.InfoActividadCommand, ElementName=_Root}" CommandParameter="{Binding}" />
                       </i:EventTrigger>
                     </i:Interaction.Triggers>
-        </Label>
+                </Label>
             </Grid>
             <ControlTemplate.Triggers>
                 <DataTrigger Binding="{Binding ElementName=DatoListBoxActividades, Path=IsMouseOver}" Value="True">
@@ -288,22 +291,44 @@
                         <ColumnDefinition Width="200" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.Column="2" Background="LightGray">
-                        <Border.Effect>
-                            <DropShadowEffect Color="Red" Opacity="1.0" ShadowDepth="0" />
-                        </Border.Effect>
-                        <Label >
+                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" Height="180" Width="180" Background="White">
+                            <Border.Effect>
+                                <DropShadowEffect Color="Gray" Opacity="1.0" ShadowDepth="0" />
+                            </Border.Effect>
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90" />
+                                        <ColumnDefinition Width="90" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="ID Actividad" ></TextBlock>
+                                    <TextBlock Grid.Row="1" Text="Fecha de Final" ></TextBlock>
+                                    <TextBlock Grid.Row="2" Text="Coordinador" ></TextBlock>
+                                    <TextBlock Grid.Row="3" Text="Cooperantes" ></TextBlock>
+                                    <TextBox Grid.Column="1" Text="{Binding IdActividad}" />
+                                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding FechaActividadFinal}" />
+                                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding NombreCoordinador}" />
+                                    <!--<TextBox Grid.Column="1" Grid.Row="3" Text="{Binding IdActividad}" />-->
+                                </Grid>
+                                
+                            </StackPanel>
+                        </Border>
+                        <!--<Label >
                             <TextBlock FontSize="18" Visibility="Visible">
-                                <Run Text="Hola Calaro" ></Run>
+                                
                             <Run Text="{Binding IdActividad}" FontSize="18" />
                             <Run Text=" " FontSize="18" />
                             <Run Text="{Binding FechaDeInicioActividad.Date,StringFormat='dd/MM/yyyy',Mode=OneWay}"  FontSize="18" />
                             </TextBlock>
-                        </Label>
+                        </Label>-->
                     </Border>
                     <Border Grid.Column="0" Background="LightGray">
-                        <Border.Effect>
-                            <DropShadowEffect Color="Red" Opacity="1.0" ShadowDepth="0" />
-                        </Border.Effect>
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="150" />
@@ -342,10 +367,10 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </StackPanel>
-                            <Label x:Name="SeleccionarListaActividadesActivas" Grid.Row="1"
-                                                MouseLeftButtonDown="Label_EscogerCooperante"
+                            <Label x:Name="SeleccionarListaActividadesActivas" Grid.Row="1" Margin="10,0,0,0"
+                                                MouseLeftButtonDown="Label_ActividadesActivas"
                                                 FontSize="16" HorizontalContentAlignment="Left"
-                                                Background="LightGray"
+                                                Background="White"
                                                 VerticalAlignment="Center">
                                 <Label.Content >
                                     <TextBlock>
@@ -361,15 +386,15 @@
                                         <Setter Property="FontSize" Value="14" />
                                         <Setter Property="Background" Value="White"/>
                                         <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
+                                            <Trigger  Property="IsMouseOver" Value="True">
                                                 <Setter Property="Cursor" Value="Hand" />
-                                                <Setter Property="Foreground" Value="Red" />
+                                                <Setter Property="Foreground" Value="Blue" />
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Label.Style>
                             </Label>
-                            <Label x:Name="SeleccionarListaActividadesPorComenzar" Grid.Row="2" 
+                            <Label x:Name="SeleccionarListaActividadesPorComenzar" Grid.Row="2" Margin="10,0,0,0" 
                                                 MouseLeftButtonDown="Label_ActividadesPorComenzar"
                                                 FontSize="18" HorizontalContentAlignment="Left"
                                                 Background="LightGray"
@@ -390,14 +415,14 @@
                                         <Style.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter Property="Cursor" Value="Hand" />
-                                                <Setter Property="Foreground" Value="Red" />
+                                                <Setter Property="Foreground" Value="Blue" />
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Label.Style>
                             </Label>
-                            <Label x:Name="SeleccionarListaActividadesProximosVencimientos" Grid.Row="3"
-                                                MouseLeftButtonDown="Label_EscogerCooperante"
+                            <Label x:Name="SeleccionarListaActividadesProximosVencimientos" Grid.Row="3" Margin="10,0,0,0"
+                                                MouseLeftButtonDown="Label_ActividadesProximosVencimientos"
                                                 FontSize="18" HorizontalContentAlignment="Left"
                                                 Background="LightGray"
                                                 VerticalAlignment="Center">
@@ -417,14 +442,14 @@
                                         <Style.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter Property="Cursor" Value="Hand" />
-                                                <Setter Property="Foreground" Value="Red" />
+                                                <Setter Property="Foreground" Value="Blue" />
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Label.Style>
                             </Label>
-                            <Label x:Name="SeleccionarListaActividadesRetrasadas" Grid.Row="4"
-                                                MouseLeftButtonDown="Label_EscogerCooperante"
+                            <Label x:Name="SeleccionarListaActividadesRetrasadas" Grid.Row="4" Margin="10,0,0,0"
+                                                MouseLeftButtonDown="Label_ActividadesRetrasadas"
                                                 FontSize="18" HorizontalContentAlignment="Left"
                                                 Background="LightGray"
                                                 VerticalAlignment="Center">
@@ -444,14 +469,14 @@
                                         <Style.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter Property="Cursor" Value="Hand" />
-                                                <Setter Property="Foreground" Value="Red" />
+                                                <Setter Property="Foreground" Value="Blue" />
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Label.Style>
                             </Label>
-                            <Label x:Name="SeleccionarListaActividadesFinalizadas" Grid.Row="5" 
-                                                MouseLeftButtonDown="Label_EscogerCooperante"
+                            <Label x:Name="SeleccionarListaActividadesFinalizadas" Grid.Row="5" Margin="10,0,0,0" 
+                                                MouseLeftButtonDown="Label_ActividadesFinalizadas"
                                                 FontSize="18" HorizontalContentAlignment="Left"
                                                 Background="LightGray"
                                                 VerticalAlignment="Center">
@@ -471,7 +496,7 @@
                                         <Style.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter Property="Cursor" Value="Hand" />
-                                                <Setter Property="Foreground" Value="Red" />
+                                                <Setter Property="Foreground" Value="Blue" />
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>
