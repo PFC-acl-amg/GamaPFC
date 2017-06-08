@@ -44,6 +44,19 @@ namespace Gama.Atenciones.Wpf.Wrappers
         public bool BackupDeleteDateLimitIsChanged => GetIsChanged(nameof(BackupDeleteDateLimit));
 
         ///
+        /// CitasContent
+        ///
+        public bool CitasContent_MostrarFiltroDeFechaPorDefecto
+        {
+            get { return GetValue<bool>(); }
+            set { SetValue(value); }
+        }
+        public bool CitasContent_MostrarFiltroDeFechaPorDefectoOriginalValue
+            => GetOriginalValue<bool>(nameof(CitasContent_MostrarFiltroDeFechaPorDefecto));
+        public bool CitasContent_MostrarFiltroDeFechaPorDefectoIsChanged
+            => GetIsChanged(nameof(CitasContent_MostrarFiltroDeFechaPorDefecto));
+
+        ///
         /// Dashboard
         ///
         public bool Dashboard_MostrarFiltroDeFechaPorDefecto

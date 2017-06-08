@@ -31,6 +31,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ICitaRepository citaRepository,
             IPersonaRepository personaRepository,
             IAsistenteRepository asistenteRepository,
+            Preferencias preferencias,
             ISession session)
         {
             _EventAggregator = eventAggregator;
@@ -41,6 +42,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _AsistenteRepository = asistenteRepository;
             _AsistenteRepository.Session = session;
             _Session = session;
+            Preferencias = preferencias;
 
             Citas = new ObservableCollection<CitaWrapper>(
                 _CitaRepository.GetAll()
@@ -60,6 +62,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             _EventAggregator.GetEvent<AsistenteActualizadoEvent>().Subscribe(OnAsistenteActualizadoEvent);
         }
+
+        public Preferencias Preferencias { get; private set; }
 
         public ICommand NuevaCitaCommand { get; private set; }
         public ICommand NuevaAtencionCommand { get; private set; }

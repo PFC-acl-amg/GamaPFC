@@ -12,6 +12,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Collections.Specialized;
+using System.Windows.Media.Animation;
+using System.Windows.Media;
 
 namespace Gama.Atenciones.Wpf.Controls
 {
@@ -33,13 +35,12 @@ namespace Gama.Atenciones.Wpf.Controls
         {
             Days = new ObservableCollection<Day>();
             DayNames = new ObservableCollection<string> { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo", };
-            //Appointments = new ObservableCollection<CitaWrapper>();
             
             BuildCalendar(DateTime.Today);
-            //CurrentDate = DateTime.Today;
 
-            SemanaAnteriorCommand = new DelegateCommand(OnSemanaAnteriorCommand);
-            SemanaSiguienteCommand = new DelegateCommand(OnSemanaSiguienteCommand);
+            SemanaAnteriorCommand = new DelegateCommand(OnSemanaAnteriorCommandExecute);
+            SemanaSiguienteCommand = new DelegateCommand(OnSemanaSiguienteCommandExecute);
+            ToggleNavegacionCommand = new DelegateCommand<object>(OnToggleNavegacionCommandExecute);
         }
 
         private static void OnCurrentDateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -147,13 +148,48 @@ namespace Gama.Atenciones.Wpf.Controls
 
         public ICommand SemanaAnteriorCommand { get; private set; }
         public ICommand SemanaSiguienteCommand { get; private set; }
+        public ICommand ToggleNavegacionCommand { get; private set; }
 
-        private void OnSemanaAnteriorCommand()
+        private void OnToggleNavegacionCommandExecute(object parameters)
+        {
+            var values = (object[])parameters;
+            var toggleBotton = values[0] as FrameworkElement;
+            var stackPanel = values[1] as FrameworkElement;
+            var calendarControl = values[2] as FrameworkElement;
+            var otherToggleButton = values[3] as FrameworkElement;
+
+            if (stackPanel.Visibility == Visibility.Visible)
+            {
+                stackPanel.Visibility = Visibility.Collapsed;
+                otherToggleButton.Visibility = Visibility.Visible;
+
+                calendarControl.Margin = new Thickness(0, -40, 0, 0);
+            }
+            else
+            {
+                stackPanel.Visibility = Visibility.Visible;
+                otherToggleButton.Visibility = Visibility.Collapsed;
+
+                calendarControl.Margin = new Thickness(0, 0, 0, 0);
+            }
+        }
+
+        public void ExpandNavigation()
+        {
+
+        }
+
+        public void CollapseNavigation()
+        {
+
+        }
+
+        private void OnSemanaAnteriorCommandExecute()
         {
             CurrentDate = CurrentDate.AddDays(-7);
         }
 
-        private void OnSemanaSiguienteCommand()
+        private void OnSemanaSiguienteCommandExecute()
         {
             CurrentDate = CurrentDate.AddDays(7);
         }

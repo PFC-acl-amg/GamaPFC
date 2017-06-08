@@ -35,22 +35,10 @@ namespace Gama.Atenciones.Wpf.Views
         {
             _ViewModel = DataContext as DashboardViewModel;
 
-            //_ViewModel.Preferencias.PropertyChanged += _Settings_PropertyChanged;
             if (_ViewModel.Preferencias.Dashboard_MostrarFiltroDeFechaPorDefecto)
                 _ExpandFilter();
             else
                 _CollapseFilter();
-        }
-
-        private void _Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if(e.PropertyName == nameof(_ViewModel.Preferencias.Dashboard_MostrarFiltroDeFechaPorDefecto))
-            {
-                if (_ViewModel.Preferencias.Dashboard_MostrarFiltroDeFechaPorDefecto)
-                    _ExpandFilter();
-                else
-                    _CollapseFilter();
-            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

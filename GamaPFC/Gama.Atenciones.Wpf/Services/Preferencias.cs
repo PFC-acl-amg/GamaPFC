@@ -29,6 +29,7 @@ namespace Gama.Atenciones.Wpf.Services
 
             ListadoDePersonasItemsPerPage = 10;
             Dashboard_MostrarFiltroDeFechaPorDefecto = true;
+            CitasContent_MostrarFiltroDeFechaPorDefecto = true;
 
             AutomaticBackupPath = PreferenciasPathFolder;
 
@@ -40,6 +41,7 @@ namespace Gama.Atenciones.Wpf.Services
         public DateTime? BackupDeleteDateLimit { get; set; }
         
         public bool Dashboard_MostrarFiltroDeFechaPorDefecto { get; set; }
+        public bool CitasContent_MostrarFiltroDeFechaPorDefecto { get; set; }
 
         public int DashboardLongitudDeNombres { get; set; }
         public int DashboardUltimasPersonas { get; set; }
