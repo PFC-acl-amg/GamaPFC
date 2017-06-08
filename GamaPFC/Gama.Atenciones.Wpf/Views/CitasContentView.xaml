@@ -53,6 +53,8 @@
               VerticalAlignment="Top"
               HorizontalAlignment="Right" 
               Panel.ZIndex="9999"
+                  Cursor="Hand"
+                  ToolTip="Ocultar botones de navegación"
               Margin="0,-23,137,0" 
               BorderThickness="0"
               BorderBrush="Transparent"
@@ -164,7 +166,9 @@
                   RelativeSource={RelativeSource AncestorType={x:Type CustomControls:CustomCalendar}}}"
               VerticalAlignment="Top"
               HorizontalAlignment="Right" 
-                  Visibility="Visible"
+                  Visibility="Collapsed"
+                  Cursor="Hand"
+                  ToolTip="Mostrar botones de navegación"
               Panel.ZIndex="9999"
               Margin="0,-4,2,0" 
               BorderThickness="0"
@@ -190,7 +194,6 @@
                 </Rectangle.Fill>
               </Rectangle>
               <Rectangle Width="20" 
-                           Visibility="Collapsed"
                            Height="20" 
                            Stroke="#D124CA" 
                            Fill="#83AE3D9A">

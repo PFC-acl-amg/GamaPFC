@@ -153,7 +153,7 @@ namespace Gama.Atenciones.Wpf.Controls
         private void OnToggleNavegacionCommandExecute(object parameters)
         {
             var values = (object[])parameters;
-            var toggleBotton = values[0] as FrameworkElement;
+            var toggleButton = values[0] as FrameworkElement;
             var stackPanel = values[1] as FrameworkElement;
             var calendarControl = values[2] as FrameworkElement;
             var otherToggleButton = values[3] as FrameworkElement;
@@ -161,13 +161,14 @@ namespace Gama.Atenciones.Wpf.Controls
             if (stackPanel.Visibility == Visibility.Visible)
             {
                 stackPanel.Visibility = Visibility.Collapsed;
+                toggleButton.Visibility = Visibility.Collapsed;
                 otherToggleButton.Visibility = Visibility.Visible;
-
                 calendarControl.Margin = new Thickness(0, -40, 0, 0);
             }
             else
             {
                 stackPanel.Visibility = Visibility.Visible;
+                toggleButton.Visibility = Visibility.Visible;
                 otherToggleButton.Visibility = Visibility.Collapsed;
 
                 calendarControl.Margin = new Thickness(0, 0, 0, 0);
