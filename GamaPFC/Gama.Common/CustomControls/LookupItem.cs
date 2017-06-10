@@ -12,9 +12,7 @@ namespace Gama.Common.CustomControls
     {
         public int Id { get; set; }
         public int Id_Coordinador { get; set; }
-        public DateTime FechaDeInicioActividad { get; set; }
-
-
+        public DateTime FechaDeInicioActividad { get; set; } // Creo que no lo necesito
 
         private string _DisplayMember1;
         public string DisplayMember1

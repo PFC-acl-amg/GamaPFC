@@ -75,10 +75,10 @@
                     <Setter Property="Cursor" Value="Hand" />
                     <Setter TargetName="Enlace" Property="Visibility" Value="Visible" />
                     <Setter TargetName="SinEnlace" Property="Visibility" Value="Hidden" />
-                  
-                    <!--<Setter TargetName="MasInfo" Property="Visibility" Value="Visible" />-->
                 </DataTrigger>
                 <DataTrigger Binding="{Binding ElementName=DatoOriginal, Path=IsMouseOver}" Value="False">
+                    <!--Si pones cursor value a Pen Cuando esta raton encima de Hiperlink pone una mano y 
+                    cuando no esta encima del hiperlink pero apunta todavia al list sale un lapiz-->
                 </DataTrigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
@@ -286,40 +286,100 @@
                 </Border.Effect>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="240" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="240" />
                     </Grid.ColumnDefinitions>
-                    <Border Grid.Column="2" Background="LightGray">
-                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" Height="180" Width="180" Background="White">
-                            <Border.Effect>
-                                <DropShadowEffect Color="Gray" Opacity="1.0" ShadowDepth="0" />
-                            </Border.Effect>
-                            <StackPanel>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="90" />
-                                        <ColumnDefinition Width="90" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="30" />
-                                        <RowDefinition Height="30" />
-                                        <RowDefinition Height="30" />
-                                        <RowDefinition Height="30" />
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="ID Actividad" ></TextBlock>
-                                    <TextBlock Grid.Row="1" Text="Fecha de Final" ></TextBlock>
-                                    <TextBlock Grid.Row="2" Text="Coordinador" ></TextBlock>
-                                    <TextBlock Grid.Row="3" Text="Cooperantes" ></TextBlock>
-                                    <TextBox Grid.Column="1" Text="{Binding IdActividad}" />
-                                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding FechaActividadFinal}" />
-                                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding NombreCoordinador}" />
-                                    <!--<TextBox Grid.Column="1" Grid.Row="3" Text="{Binding IdActividad}" />-->
-                                </Grid>
-                                
-                            </StackPanel>
-                        </Border>
-                        <!--<Label >
+                    <Border Name="BorderContieneInfoAct" Grid.Column="2" Background="LightGray">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="200" />
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="30" />
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="1" Content="Informacion Relevante" FontSize="14" Foreground="red" Visibility="{Binding VisibleInfoAct, 
+                                                Converter={StaticResource BooleanToVisivilityConverter}}"></Label>
+                            <Border Grid.Row="2" Name="BorderInfoAct" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Red"
+                                CornerRadius="5" BorderThickness="1,1,1,1" Height="200" Width="200" Background="LightGray" Visibility="{Binding VisibleInfoAct, 
+                                                Converter={StaticResource BooleanToVisivilityConverter}}">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="Red" Opacity="3.0" ShadowDepth="0" />
+                                </Border.Effect>
+
+                                <StackPanel Grid.Row="2">
+                                    <Grid>
+                                        <!--<Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="90" />
+                                            <ColumnDefinition Width="90" />
+                                        </Grid.ColumnDefinitions>-->
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30" />
+                                            <RowDefinition Height="30" />
+                                            <RowDefinition Height="30" />
+                                            <RowDefinition Height="30" />
+                                            <RowDefinition Height="30" />
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Row="0" Background="LightGray" Content="Coordinador"
+                                                VerticalAlignment="Center" FontSize="14">
+                                        </Label>
+                                        <Label Grid.Row="1" Background="LightGray" Margin="10,0,0,0"
+                                                VerticalAlignment="Center" FontSize="14">
+                                            <Label.Content>
+                                                <TextBlock>
+                                                    <Run Text="{Binding NombreCoordinador}"/>
+                                                    <Run Text=" " />
+                                                    <Run Text="{Binding ApellidoCoordinador}"/>
+                                                </TextBlock>
+                                            </Label.Content>
+                                        </Label>
+                                        <Label Grid.Row="2" Background="LightGray" Content="Fechas Actividad"
+                                                VerticalAlignment="Center" FontSize="14">
+                                        </Label>
+                                        <Label Grid.Row="3" Background="LightGray" Margin="10,0,0,0"
+                                                VerticalAlignment="Center" FontSize="14">
+                                            <Label.Content>
+                                                <TextBlock>
+                                                    <Run Text="Inicio: " />
+                                                    <Run Text="{Binding FechaInicioActividad.Date,StringFormat='dd/MM/yyyy',Mode=OneWay}"/>
+                                                </TextBlock>
+                                            </Label.Content>
+                                        </Label>
+                                        <Label Grid.Row="4" Background="LightGray" Margin="10,0,0,0"
+                                                VerticalAlignment="Center" FontSize="14">
+                                            <Label.Content>
+                                                <TextBlock>
+                                                    <Run Text="Final: " />
+                                                    <Run Text="{Binding FechaFinalActividad.Date,StringFormat='dd/MM/yyyy',Mode=OneWay}"/>
+                                                </TextBlock>
+                                            </Label.Content>
+                                        </Label>
+                                        
+                                        <!--<TextBlock Grid.Row="1" Text="Fecha de Final" ></TextBlock>
+                                        <TextBlock Grid.Row="2" Text="Coordinador" ></TextBlock>
+                                        <TextBlock Grid.Row="3" Text="Cooperantes" FontSize="14" FontWeight="Regular"></TextBlock>
+                                        <TextBox Grid.Column="1" Text="{Binding IdActividad}" />
+                                        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding FechaActividadFinal}" />
+                                        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding NombreCoordinador}" />-->
+                                        <!--<TextBox Grid.Column="1" Grid.Row="3" Text="{Binding IdActividad}" />-->
+                                    </Grid>
+
+                                </StackPanel>
+
+                            </Border>
+                            <Label Grid.Row="3" Background="LightGray" Margin="10,0,0,0" Visibility="{Binding VisibleAviso, 
+                                                Converter={StaticResource BooleanToVisivilityConverter}}"
+                                                VerticalAlignment="Center" FontSize="14" Foreground="Red">
+                                <Label.Content>
+                                    <TextBlock>
+                                        <Run Text="¡¡¡AVISO!!! " />
+                                        <Run Text="{Binding NumeroDias}"/>
+                                        <Run Text="{Binding MensajeAviso}"/>
+                                    </TextBlock>
+                                </Label.Content>
+                            </Label>
+                            <!--<Label >
                             <TextBlock FontSize="18" Visibility="Visible">
                                 
                             <Run Text="{Binding IdActividad}" FontSize="18" />
@@ -327,6 +387,7 @@
                             <Run Text="{Binding FechaDeInicioActividad.Date,StringFormat='dd/MM/yyyy',Mode=OneWay}"  FontSize="18" />
                             </TextBlock>
                         </Label>-->
+                        </Grid>
                     </Border>
                     <Border Grid.Column="0" Background="LightGray">
                         <Grid>
@@ -507,47 +568,6 @@
                     <StackPanel Name="ListaActividades" Grid.Column="1" Margin="50,50,0,50" Visibility="{Binding VisibleListaActividades, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
                         <ScrollViewer HorizontalScrollBarVisibility="Auto" Height="450">
-                            <!--<ListBox Name="Churro" ItemsSource="{Binding Items}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Name="TextoItem" Text="{Binding Text}" FontSize="20" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListBoxItem}">
-                                <Setter Property="Background" Value="Gold" />
-                                <Setter Property="Background" Value="Gold" />
-                                <Setter Property="Background" Value="Gold" />
-                                <Style.Triggers>
-
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter Property="Background" Value="Black" />
-
-                                    </Trigger>
-                                    <Trigger Property="UIElement.IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="Black" />
-                                        <Setter Property="ContentTemplate" Value="{StaticResource DataItemControlTemplate}"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                    </ListBox>-->
-                            <!--<Border.Style>
-                        <Style TargetType="Border">
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True" >
-                                    <Setter Property="Border.Effect">
-                                        <Setter.Value>
-                                            <DropShadowEffect Color="Blue" Opacity=".50" ShadowDepth="16" />
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Setter Property="Cursor" Value="Hand">
-                                    </Setter>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>-->
-                            <!--ItemContainerStyle="{StaticResource myLBStyle}"-->
                             <ListBox ItemsSource="{Binding ListaDeActividades}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
@@ -560,16 +580,15 @@
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                                                     <Border x:Name="Bd"
-                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                BorderThickness="{TemplateBinding BorderThickness}"
-                                                Background="{TemplateBinding Background}"
-                                                Padding="{TemplateBinding Padding}"
-                                                SnapsToDevicePixels="true">
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                                            Background="{TemplateBinding Background}"
+                                                            Padding="{TemplateBinding Padding}"
+                                                            SnapsToDevicePixels="true">
                                                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                                                     </Border>
-
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
@@ -583,123 +602,11 @@
                                 </ListBox.Resources>
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseDoubleClick">
-                                        <prism:InvokeCommandAction 
-                                   
-                                    Command="{Binding SelectActividadCommand}"
-                                    CommandParameter="{Binding ElementName=listBox, Path=SelectedItem}"/>
+                                        <prism:InvokeCommandAction Command="{Binding SelectActividadCommand}"
+                                            CommandParameter="{Binding ElementName=listBox, Path=SelectedItem}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-
-                                <!--<ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem">
-                                <Style.Triggers>
-                                    <Trigger Property="IsSelected" Value="True" >
-                                        <Setter Property="FontWeight" Value="Bold" />
-                                        <Setter Property="Background" Value="red" />
-                                        <Setter Property="Foreground" Value="Black" />
-                                    </Trigger>
-                                </Style.Triggers>
-                                <Style.Resources>
-                                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
-                                </Style.Resources>
-                            </Style>
-                        </ListBox.ItemContainerStyle>-->
-
-
-
-                                <!--<ListBox.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListBoxItem}">
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter Property="ContentTemplate" Value="{StaticResource DataItemControlTemplate}"/>
-                                    </Trigger>
-                                    
-                                </Style.Triggers>
-                            </Style>
-                        </ListBox.ItemContainerStyle>-->
                             </ListBox>
-                            <!--<ListBox Name="Churro" ItemsSource="{Binding Items}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Name="TextoItem" Text="{Binding Text}" FontSize="20" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListBoxItem}">
-                                <Setter Property="Background" Value="Gold" />
-                                <Setter Property="Background" Value="Gold" />
-                                <Setter Property="Background" Value="Gold" />
-                                <Style.Triggers>
-
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter Property="Background" Value="Black" />
-
-                                    </Trigger>
-                                    <Trigger Property="UIElement.IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="Black" />
-                                        <Setter Property="ContentTemplate" Value="{StaticResource DataItemControlTemplate}"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                    </ListBox>-->
-                            <!--<ListBox ItemsSource="{Binding Items}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <ContentControl Template="{StaticResource DataItemControlTemplate}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>-->
-
-                            <!--<ListBox ItemsSource="{Binding ListaDeActividades}"
-                             x:Name="listBox1"
-                             SelectionMode="Single"
-                             ScrollViewer.VerticalScrollBarVisibility="Auto">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="35"/>
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding Id}" FontSize="16"/>
-                                    <TextBlock Grid.Column="2" Text="{Binding DisplayMember1}" FontSize="16"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListBoxItem}">
-                                
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                       <Setter Property="Cursor" Value="Hand"/>
-                                       <Setter Property="ContentTemplate" Value="{StaticResource DataItemControlTemplate}"/>
-                                    </Trigger>
-                                    -->
-                            <!--</Trigger>
-                                        <Trigger Property="IsMouseOver" Value="true">
-                                        -->
-                            <!--<Setter Property="Background" Value="Black" />-->
-                            <!--
-                                        <Setter Property="Cursor" Value="Hand"/>
-                                        <Setter Property="ContentTemplate" Value="{StaticResource DataItemControlTemplate}"/>
-                                    </Trigger>-->
-                            <!--<Trigger Property="UIElement.IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="Black" />
-                                        <Setter Property="ContentTemplate" Value="{StaticResource DataItemControlTemplate}"/>
-                                    </Trigger>-->
-                            <!--
-                                </Style.Triggers>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseDoubleClick">
-                                <prism:InvokeCommandAction 
-                                    Command="{Binding SelectActividadCommand}"
-                                    CommandParameter="{Binding ElementName=listBox, Path=SelectedItem}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </ListBox>-->
                         </ScrollViewer>
                     </StackPanel>
                 </Grid>
