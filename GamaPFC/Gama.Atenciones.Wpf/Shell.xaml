@@ -24,7 +24,8 @@
                    Height="350" Width="887">
   <mahapps:MetroWindow.Resources>
     <sys:Double x:Key="_SocialIconSize">13</sys:Double>
-    <sys:Double x:Key="WindowTitleFontSize">14</sys:Double>
+      <sys:Double x:Key="WindowTitleFontSize">14</sys:Double>
+
     <converters:BooleanToVisibilityConverter x:Key="_BooleanToVisibilityConverter"/>
   </mahapps:MetroWindow.Resources>
 

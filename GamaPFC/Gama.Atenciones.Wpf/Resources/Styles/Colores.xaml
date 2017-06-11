@@ -1,0 +1,24 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Resources.Styles">
+  <!--ACCENT COLORS-->
+  <Color x:Key="HighlightColor">#FF275D6F</Color>
+
+  <!--80%-->
+  <Color x:Key="AccentColor">#CC275D6F</Color>
+  <!--60%-->
+  <Color x:Key="AccentColor2">#99275D6F</Color>
+  <!--40%-->
+  <Color x:Key="AccentColor3">#66275D6F</Color>
+  <!--20%-->
+  <Color x:Key="AccentColor4">#33275D6F</Color>
+  
+  <!-- re-set brushes too -->
+  <SolidColorBrush x:Key="HighlightBrush" Color="{StaticResource HighlightColor}"  />
+  <SolidColorBrush x:Key="AccentBaseColorBrush" Color="{StaticResource AccentBaseColor}"  />
+  <SolidColorBrush x:Key="AccentColorBrush" Color="{StaticResource AccentColor}"  />
+  <SolidColorBrush x:Key="AccentColorBrush2" Color="{StaticResource AccentColor2}" />
+  <SolidColorBrush x:Key="AccentColorBrush3" Color="{StaticResource AccentColor3}" />
+  <SolidColorBrush x:Key="AccentColorBrush4" Color="{StaticResource AccentColor4}"  />
+  <SolidColorBrush x:Key="WindowTitleColorBrush" Color="{StaticResource AccentColor}" />
+</ResourceDictionary>
