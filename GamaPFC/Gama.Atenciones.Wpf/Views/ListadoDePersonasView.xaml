@@ -13,7 +13,7 @@
              xmlns:converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              mc:Ignorable="d" 
-             d:DesignHeight="320.497" d:DesignWidth="804.267">
+             d:DesignHeight="1092.497" d:DesignWidth="1136.708">
   <d:DataContext>
     <designData:ListadoDePersonasViewModelDTD/>
   </d:DataContext>
@@ -43,59 +43,62 @@
                            Icon="{StaticResource appbar_arrow_right}"/>
     </StackPanel>
 
-    <ItemsControl ItemsSource="{Binding Personas}" Grid.Row="1">
+    <ItemsControl ItemsSource="{Binding Personas}" Grid.Row="1" >
       <ItemsControl.Template>
         <ControlTemplate TargetType="{x:Type ItemsControl}">
           <ScrollViewer BorderThickness="2" VerticalScrollBarVisibility="Auto">
-            <WrapPanel IsItemsHost="True" />
+            <WrapPanel IsItemsHost="True" Margin="4,-2,4,4"/>
           </ScrollViewer>
         </ControlTemplate>
       </ItemsControl.Template>
       <ItemsControl.ItemTemplate>
         <DataTemplate>
           <GroupBox Width="Auto" HorizontalAlignment="Left">
-            <Grid>
-              <Grid.Style>
-                <Style TargetType="Grid">
-                  <Setter Property="Background" Value="Transparent"/>
-                  <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                      <Setter Property="Background" Value="{StaticResource AccentAzulBrush}"/>
-                    </Trigger>
-                  </Style.Triggers>
-                </Style>
-              </Grid.Style>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="170" />
-              </Grid.ColumnDefinitions>
-              <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
-                <RowDefinition  Height="Auto"/>
-              </Grid.RowDefinitions>
+            <!--<Border BorderThickness="1" CornerRadius="0" BorderBrush="#414749" Margin="2" Background="#D9D4CCBF">-->
+              <Grid>
+                <Grid.Style>
+                  <Style TargetType="Grid">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Style.Triggers>
+                      <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#D94D7BA0"/>
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Grid.Style>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="125"/>
+                  <RowDefinition  Height="Auto"/>
+                </Grid.RowDefinitions>
 
-              <Ellipse Height="85" Width="85" Margin="{StaticResource Margin}">
-                <Ellipse.Fill>
-                  <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
-                </Ellipse.Fill>
-              </Ellipse>
+                <Ellipse Height="105" Width="105" Margin="4,12,4,4">
+                  <Ellipse.Fill>
+                    <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                  </Ellipse.Fill>
+                </Ellipse>
 
-              <StackPanel Grid.Row="1" HorizontalAlignment="Center">
-                <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center"
-                           FontSize="13"
+                <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                  <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center"
+                           FontSize="14"
+                           FontStyle="Normal"
                            TextWrapping="Wrap"
                            HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
-                <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center"
+                  <!--<TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center"
                            FontSize="13"
-                           TextWrapping="Wrap" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
-              </StackPanel>
-            </Grid>
+                           TextWrapping="Wrap" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>-->
+                </StackPanel>
+              </Grid>
             <GroupBox.InputBindings>
-              <MouseBinding MouseAction="LeftDoubleClick"
+                <MouseBinding MouseAction="LeftDoubleClick"
                   Command="{Binding RelativeSource = 
                     {RelativeSource FindAncestor,AncestorType={x:Type Grid}},
                     Path=DataContext.SeleccionarPersonaCommand}"
                     CommandParameter="{Binding Id}"/>
-            </GroupBox.InputBindings>
+              </GroupBox.InputBindings>
+            <!--</Border>-->
           </GroupBox>
         </DataTemplate>
       </ItemsControl.ItemTemplate>

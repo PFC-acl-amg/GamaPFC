@@ -63,7 +63,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
                     ViaDeAccesoAGama = ViaDeAccesoAGama.Personal.ToString(),
                     CreatedAt = DateTime.Now.AddMonths(createdAt),
                     Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
-                         new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png")),
+                         new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/persona_dummy.png")),
 
                 };
 
