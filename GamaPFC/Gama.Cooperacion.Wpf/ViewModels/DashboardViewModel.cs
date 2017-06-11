@@ -48,6 +48,15 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private int _ProximasFinalizaciones;
         private int _FueraPlazo;
         private int _IdActividad;
+        private bool _VisibleInfoAct;
+        private bool _VisibleAviso;
+        private DateTime _FechaInicioActividad;
+        private DateTime _FechaFinalActividad;
+        private string _NombreCoordinador;
+        private string _ApellidoCoordinador;
+        private string _MensajeAviso;
+        private int _NumeroDias;
+
 
         private readonly int itemCount;
 
@@ -66,6 +75,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _settings = settings;
             _CooperantesMostrados = 0;
 
+            _VisibleInfoAct = false;
             _VisibleListaActividades = true;
             _VisibleListaCooperantes = false;
             _VisibleDatosDNI = false;
@@ -82,6 +92,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _FueraPlazo = ColeccionEstadosActividades.EstadosActividades["FueraPlazo"];
             _ProximasFinalizaciones = ColeccionEstadosActividades.EstadosActividades["ProximasFinalizaciones"];
             _Finalizado = ColeccionEstadosActividades.EstadosActividades["Finalizado"];
+            _FechaInicioActividad = new DateTime(2017, 01, 01);
             this.itemCount = 10;
             this.Items = new ObservableCollection<Item>();
 
@@ -175,7 +186,23 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             if (lookupItem != null)
             {
                 var Act = _actividadRepository.GetById(lookupItem.Id);
+                var Coord = _cooperanteRepository.GetById(lookupItem.Id_Coordinador);
                 IdActividad = Act.Id;
+                FechaInicioActividad = Act.FechaDeInicio;
+                FechaFinalActividad = Act.FechaDeFin;
+                NombreCoordinador = Coord.Nombre;
+                ApellidoCoordinador = Coord.Apellido;
+                VisibleInfoAct = true;
+                var FechaHoy = new DateTime();
+                FechaHoy = DateTime.Today;
+                int CompararFecha = DateTime.Compare(FechaHoy, Act.FechaDeFin);
+                if (CompararFecha >= 0)
+                {
+                    var NumDias = (Act.FechaDeFin - FechaHoy);
+                    VisibleAviso = true;
+                    MensajeAviso = "Dias de Retraso";
+                    NumeroDias = -1*(NumDias.Days);
+                }
             }
         }
         private void OnListaCooperantesCommandExecute()
@@ -496,6 +523,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 };
             }
         }
+        public bool VisibleInfoAct
+        {
+            get { return _VisibleInfoAct; }
+            set { SetProperty(ref _VisibleInfoAct, value); }
+        }
         public bool VisibleListaActividades
         {
             get { return _VisibleListaActividades; }
@@ -530,6 +562,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             get { return _VisibleCooperanteSeleccionado; }
             set { SetProperty(ref _VisibleCooperanteSeleccionado, value); }
+        }
+        public bool VisibleAviso
+        {
+            get { return _VisibleAviso; }
+            set { SetProperty(ref _VisibleAviso, value); }
         }
         public bool VisibleListaTodosCooperantes
         {
@@ -575,6 +612,36 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             get { return _IdActividad; }
             set { SetProperty(ref _IdActividad, value); }
+        }
+        public DateTime FechaInicioActividad
+        {
+            get { return _FechaInicioActividad; }
+            set { SetProperty(ref _FechaInicioActividad, value); }
+        }
+        public DateTime FechaFinalActividad
+        {
+            get { return _FechaFinalActividad; }
+            set { SetProperty(ref _FechaFinalActividad, value); }
+        }
+        public string NombreCoordinador
+        {
+            get { return _NombreCoordinador; }
+            set { SetProperty(ref _NombreCoordinador, value); }
+        }
+        public string ApellidoCoordinador
+        {
+            get { return _ApellidoCoordinador; }
+            set { SetProperty(ref _ApellidoCoordinador, value); }
+        }
+        public string MensajeAviso
+        {
+            get { return _MensajeAviso; }
+            set { SetProperty(ref _MensajeAviso, value); }
+        }
+        public int NumeroDias
+        {
+            get { return _NumeroDias; }
+            set { SetProperty(ref _NumeroDias, value); }
         }
     }
 }
