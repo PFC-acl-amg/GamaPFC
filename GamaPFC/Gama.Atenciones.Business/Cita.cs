@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Business
 {
-    public class Cita : TimestampedModel, IEncryptable
+    public class Cita : TimestampedModel
     {
         public virtual string AsistenteEnTexto { get; set; } = "";
         public virtual DateTime? Fin { get; set; }

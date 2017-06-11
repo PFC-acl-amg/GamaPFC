@@ -32,6 +32,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public PersonaWrapper(Persona model) : base(model)
         {
+            
         }
 
         protected override void InitializeUniqueProperties(Persona model)

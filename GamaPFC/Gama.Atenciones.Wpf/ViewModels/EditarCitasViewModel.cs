@@ -82,6 +82,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             Persona = wrapper;
             Citas = Persona.Citas;
+            foreach (var cita in Citas)
+            {
+                cita.Asistente.Decrypt();
+            }
         }
 
         public void ActualizarCita(Cita cita)

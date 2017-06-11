@@ -18,7 +18,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public AsistenteWrapper(Asistente model) : base(model)
         {
-
+            
         }
 
         protected override void InitializeUniqueProperties(Asistente model)

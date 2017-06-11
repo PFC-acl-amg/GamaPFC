@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Business
 {
-    public class Asistente : TimestampedModel, IEncryptable
+    public class Asistente : TimestampedModel
     {
         public virtual int Id { get; set; }
         public virtual string Nif { get; set; }
