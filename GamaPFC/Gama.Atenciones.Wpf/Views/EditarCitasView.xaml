@@ -466,12 +466,15 @@
         <Converters:BinaryImageConverter x:Key="_BinaryImageConverter" />
 
         <Style x:Key="DGCHeaderStyle" TargetType="DataGridColumnHeader">
-          <Setter Property="Height" Value="38"/>
-          <Setter Property="Background" Value="LightBlue" />
-          <Setter Property="Foreground" Value="Black"/>
-          <Setter Property="FontSize" Value="15" />
-          <Setter Property="FontWeight" Value="DemiBold"/>
-          <Setter Property="Margin" Value="0"/>
+          <Setter Property="Height" Value="28"/>
+          <Setter Property="BorderThickness" Value="1,1,1,2"/>
+          <Setter Property="BorderBrush" Value="#B6000000"/>
+          <Setter Property="Background" Value="#D12B3336" />
+          <Setter Property="Foreground" Value="White"/>
+          <Setter Property="FontSize" Value="13" />
+          <Setter Property="FontWeight" Value="Medium"/>
+          <Setter Property="Margin" Value="0,0,0,4"/>
+          <Setter Property="Padding" Value="3,0,3,3"/>
         </Style>
 
         <Style x:Key="DGHeaderStyle" TargetType="{x:Type DataGrid}">
@@ -508,11 +511,35 @@
           </cc:CircleIconButton>
         </DataTemplate>
 
+        <DataTemplate x:Key="_IrButtonCellTemplate">
+          <cc:CircleIconButton
+                      Icon="{StaticResource appbar_arrow_right}"
+                      Width="36"
+                      Height="36"
+                      IconWidth="13"
+                      IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.NuevaAtencionCommand}"
+                      CommandParameter="{Binding}">
+            <Button.Style>
+              <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                <Setter Property="Opacity" Value="0.5"/>
+                <Style.Triggers>
+                  <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                  </Trigger>
+                </Style.Triggers>
+              </Style>
+            </Button.Style>
+          </cc:CircleIconButton>
+        </DataTemplate>
+
         <DataTemplate x:Key="_FotoCellTemplate">
           <Ellipse Height="50" Width="50" 
                        Margin="{StaticResource Margin}" HorizontalAlignment="Center">
             <Ellipse.Fill>
-              <ImageBrush ImageSource="{Binding Persona.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+              <ImageBrush ImageSource="{Binding Asistente.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
             </Ellipse.Fill>
           </Ellipse>
         </DataTemplate>
@@ -577,6 +604,7 @@
               <Setter Property="BorderThickness" Value="0"/>
               <Setter Property="VerticalContentAlignment" Value="Center"/>
               <Setter Property="FontSize" Value="13"/>
+              <Setter Property="Margin" Value="0,3,0,0"/>
               <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                   <Setter Property="Background" Value="#D95796BE"/>
@@ -652,6 +680,10 @@
             <DataGridTemplateColumn Header="Editar"
                                     HeaderTemplate="{StaticResource _HeaderTemplate}" 
                                     CellTemplate="{StaticResource _EditarButtonCellTemplate}"/>
+
+            <DataGridTemplateColumn Header="Ir"
+                                    HeaderTemplate="{StaticResource _HeaderTemplate}" 
+                                    CellTemplate="{StaticResource _IrButtonCellTemplate}"/>
           </DataGrid.Columns>
         </DataGrid>
       </Grid>
