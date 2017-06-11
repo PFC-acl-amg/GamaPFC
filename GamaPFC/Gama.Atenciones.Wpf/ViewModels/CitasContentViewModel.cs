@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Util;
 using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Controls;
 using Gama.Atenciones.Wpf.Eventos;
@@ -22,9 +23,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
 {
     public class CitasContentViewModel : ViewModelBase
     {
+        private IPersonaRepository _PersonaRepository;
+        private IAsistenteRepository _AsistenteRepository;
         private ICitaRepository _CitaRepository;
         private IEventAggregator _EventAggregator;
         private ISession _Session;
+        private int _Refresh;
+        private List<CitaWrapper> _Citas;
 
         public CitasContentViewModel(
             IEventAggregator eventAggregator,
@@ -44,14 +49,20 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _Session = session;
             Preferencias = preferencias;
 
-            Citas = new ObservableCollection<CitaWrapper>(
-                _CitaRepository.GetAll()
-                .Select(x => new CitaWrapper(x)));
+            _Citas = new List<CitaWrapper>(_CitaRepository.GetAll()
+                .Select(x => new CitaWrapper(x))
+                .OrderBy(c => c.Fecha));
+            Citas = new ObservableCollection<CitaWrapper>(_Citas);
 
             NuevaCitaCommand = new DelegateCommand<Day>(OnNuevaCitaCommandExecute);
             NuevaAtencionCommand = new DelegateCommand<CitaWrapper>(OnNuevaAtencionCommandExecute);
             EditarCitaCommand = new DelegateCommand<CitaWrapper>(OnEditarCitaCommandExecute);
             SeleccionarPersonaCommand = new DelegateCommand<CitaWrapper>(OnSeleccionarPersonaCommand);
+            ResetearFechasCommand = new DelegateCommand(() =>
+            {
+                FechaDeInicio = null;
+                FechaDeFin = null;
+            });
 
             _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
             _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
@@ -69,10 +80,23 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand NuevaAtencionCommand { get; private set; }
         public ICommand EditarCitaCommand { get; private set; }
         public ICommand SeleccionarPersonaCommand { get; private set; }
+        public ICommand ResetearFechasCommand { get; private set; }
 
-        private int _Refresh;
-        private IPersonaRepository _PersonaRepository;
-        private IAsistenteRepository _AsistenteRepository;
+        public bool _AplicarFiltroDeFecha;
+
+        private DateTime? _FechaDeInicio;
+        public DateTime? FechaDeInicio
+        {
+            get { return _FechaDeInicio; }
+            set { SetProperty(ref _FechaDeInicio, value); FiltrarPorFecha(); }
+        }
+
+        private DateTime? _FechaDeFin;
+        public DateTime? FechaDeFin
+        {
+            get { return _FechaDeFin; }
+            set { SetProperty(ref _FechaDeFin, value); FiltrarPorFecha(); }
+        }
 
         public int Refresh
         {
@@ -80,7 +104,30 @@ namespace Gama.Atenciones.Wpf.ViewModels
             set { SetProperty(ref _Refresh, value); }
         }
 
-        public ObservableCollection<CitaWrapper> Citas { get; private set; }
+        public ObservableCollection<CitaWrapper> Citas { get; private set; }// Filtra por fecha si éstas están definidas en la interfaz.
+        
+        // Si no, carga todos los elementos. Cada vez que hay algún cambio
+        // en personas, citas o atenciones, se llamará a esta función para
+        // refrescar la vista.
+        public void FiltrarPorFecha()
+        {
+            var fechaDeInicio = FechaDeInicio ?? DateTime.Now.AddYears(-100);
+            var fechaDeFin = FechaDeFin ?? DateTime.Now.AddYears(10);
+
+            if (_AplicarFiltroDeFecha)
+                Citas = 
+                    new ObservableCollection<CitaWrapper>(
+                    _Citas
+                    .Where(c => c.Fecha.IsBetween(fechaDeInicio, FechaDeFin))
+                    .OrderBy(c => c.Fecha));
+            else
+                Citas =
+                    new ObservableCollection<CitaWrapper>(
+                    _Citas
+                    .OrderBy(c => c.Fecha));
+
+            OnPropertyChanged(nameof(Citas));
+        }
 
         private void OnSeleccionarPersonaCommand(CitaWrapper wrapper)
         {

@@ -215,6 +215,7 @@
     <Compile Include="Converters\DayNameConverter.cs" />
     <Compile Include="Converters\MonthNameConverter.cs" />
     <Compile Include="DesignTimeData\AsistenteViewModelDTD.cs" />
+    <Compile Include="DesignTimeData\CitasContentViewModelDTD.cs" />
     <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />
     <Compile Include="DesignTimeData\EditarAtencionesViewModelDTD.cs" />
     <Compile Include="DesignTimeData\EditarCitasViewModelDTD.cs" />

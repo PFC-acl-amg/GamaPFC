@@ -76,6 +76,18 @@ namespace Gama.Atenciones.Wpf.Views
         {
             _ToggleCalendarStyleCheckboxIsChecked = !_ToggleCalendarStyleCheckboxIsChecked;
             _ToggleCalendarStyleCheckbox.IsChecked = !_ToggleCalendarStyleCheckbox.IsChecked;
+
+            var viewModel = DataContext as CitasContentViewModel;
+            if (!_ToggleCalendarStyleCheckboxIsChecked)
+            {
+                viewModel._AplicarFiltroDeFecha = false;
+                viewModel.FiltrarPorFecha();
+            }
+            else
+            {
+                viewModel._AplicarFiltroDeFecha = true;
+                viewModel.FiltrarPorFecha();
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

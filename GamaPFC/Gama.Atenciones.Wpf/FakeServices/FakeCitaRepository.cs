@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Gama.Atenciones.Business;
 using Gama.Common.CustomControls;
 using NHibernate;
+using Gama.Atenciones.Wpf.Converters;
 
 namespace Gama.Atenciones.Wpf.FakeServices
 {
@@ -32,7 +33,10 @@ namespace Gama.Atenciones.Wpf.FakeServices
                     Fin = DateTime.Now.AddHours(2),
                     Sala = "Sala B",
                     HaTenidoLugar = true,
-                    Persona = new Persona { Id = 0, Nombre = Faker.NameFaker.FirstName() },
+                    Persona = new Persona {
+                        Id = 0, Nombre = Faker.NameFaker.FirstName(),
+                        Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png")),
+                    },
                     CreatedAt = DateTime.Now.AddMonths(createdAt)
                 };
 
