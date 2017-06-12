@@ -6,17 +6,17 @@
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views.Graficas"
              xmlns:charts="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="563">
+             d:DesignHeight="388" d:DesignWidth="652">
   <ScrollViewer>
     <UniformGrid>
-
       <!-- Atención Solicitada -->
       <charts:PieChart
+        x:Name="piechart"
                 Margin="{StaticResource Margin}"
                 Grid.Column="1"
                 Palette="{StaticResource MyColorPalette}"
                 ChartTitle="Atención Solicitada"
-                ChartSubTitle="El subtítulo de este gráfico" >
+                ChartSubTitle="" >
         <charts:PieChart.Series>
           <charts:ChartSeries
                             SeriesTitle="Atención Solicitada"
@@ -56,6 +56,8 @@
             ItemsSource="{Binding Path=ValoresDeDerivaciones}" />
         </charts:ClusteredColumnChart.Series>
       </charts:ClusteredColumnChart>
+
+      <Image x:Name="_Image" Width="200" Height="200" />
     </UniformGrid>
   </ScrollViewer>
 </UserControl>

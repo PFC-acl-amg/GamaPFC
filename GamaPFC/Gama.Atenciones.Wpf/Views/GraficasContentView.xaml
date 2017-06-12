@@ -10,13 +10,17 @@
              xmlns:graficasViews="clr-namespace:Gama.Atenciones.Wpf.Views.Graficas"
              xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
+                    xmlns:behaviors="clr-namespace:Gama.Common.Resources.Behaviors;assembly=Gama.Common"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="617.457" d:DesignWidth="942.692">
+             d:DesignHeight="617.457" d:DesignWidth="1262.692">
   <d:DataContext>
     <designData:GraficasViewModelDTD/>
   </d:DataContext>
   <UserControl.Resources>
+    <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+      <Setter Property="behaviors:ChangeBehavior.IsActive" Value="False"/>
+    </Style>
     <BooleanToVisibilityConverter x:Key="_BooleanToVisibilityConverter"/>
     <charts:ResourceDictionaryCollection x:Key="MyColorPalette">
       <ResourceDictionary>
@@ -71,29 +75,29 @@
               Background="Transparent"
               RenderTransformOrigin="0.5,0.5"
               >
-        <Rectangle Width="20" Height="20" Stroke="Black" >
+        <Rectangle Width="18" Height="18" Stroke="Black" >
           <Rectangle.Fill>
             <VisualBrush Visual="{StaticResource appbar_3d_3ds}" Stretch="Uniform"/>
           </Rectangle.Fill>
         </Rectangle>
         <Button.RenderTransform>
-        <RotateTransform Angle="180"  />
-      </Button.RenderTransform>
-      <Button.Style>
-        <Style TargetType="Button">
-          <Setter Property="Template">
-            <Setter.Value>
-              <ControlTemplate TargetType="Button">
-                <Border Background="Transparent">
-                  <ContentPresenter/>
-                </Border>
-              </ControlTemplate>
-            </Setter.Value>
-          </Setter>
-        </Style>
-      </Button.Style>
-    </Button>
-      
+          <RotateTransform Angle="180"  />
+        </Button.RenderTransform>
+        <Button.Style>
+          <Style TargetType="Button">
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                  <Border Background="Transparent">
+                    <ContentPresenter/>
+                  </Border>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </Button.Style>
+      </Button>
+
       <cc:CircleIconButton
         Margin="0,3,0,0"
                     Icon="{StaticResource appbar_refresh}"
@@ -121,6 +125,7 @@
         </Button.Style>
       </cc:CircleIconButton>
     </StackPanel>
+
     <!---->
     <!-- Panel de navegación -->
     <!---->
@@ -146,40 +151,44 @@
           ScrollViewer.HorizontalScrollBarVisibility="Hidden">
           <ListBox.Resources>
             <!-- Style used if item is selected and listbox has keyboard focus -->
-      <Style x:Key="NoFocusVisualStyle" TargetType="Control">
-        <Setter Property="BorderBrush" Value="Transparent" />
-      </Style>
-      <!-- Apply this style -->
-      <Style x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource NoFocusVisualStyle}" />
-      </Style>
-      <!-- Color used if item is selected and listbox has focus -->
-      <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
-      <!-- Color used if item is selected and listbox does not have focus -->
-      <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent"/>
-      <!-- Font color used if item is selected and listbox has focus -->
-      <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
-      </ListBox.Resources>
-      <ListBox.Items>
+    <Style x:Key="NoFocusVisualStyle" TargetType="Control">
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <!-- Apply this style -->
+    <Style x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
+      <Setter Property="FocusVisualStyle" Value="{StaticResource NoFocusVisualStyle}" />
+    </Style>
+    <!-- Color used if item is selected and listbox has focus -->
+    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
+    <!-- Color used if item is selected and listbox does not have focus -->
+    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent"/>
+    <!-- Font color used if item is selected and listbox has focus -->
+    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+    </ListBox.Resources>
+    <ListBox.Items>
       <ListBoxItem x:Name="DatosPersonalesListBoxItem" 
                    FontSize="14" 
                    Margin="{StaticResource Margin}" 
                    Cursor="Hand"
                    MouseLeftButtonUp="DatosPersonalesListBoxItem_MouseLeftButtonDown">DATOS PERSONALES</ListBoxItem>
-        
+
       <ListBoxItem x:Name="AtencionesListBoxItem" 
                    FontSize="14" 
                    Margin="{StaticResource Margin}"
                    Cursor="Hand"
                    MouseLeftButtonUp="AtencionesListBoxItem_MouseLeftButtonDown">ATENCIONES</ListBoxItem>
-      </ListBox.Items>
-      </ListBox>
-    </Grid>
+    </ListBox.Items>
+    </ListBox>
+  </Grid>
   </Grid>
 
+  <!--- -->
+  <!-- Columna Derecha -->
+  <!-- -->
   <Grid Grid.Column="1">
     <Grid>
       <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
         <RowDefinition Height="Auto"/>
         <RowDefinition />
       </Grid.RowDefinitions>
@@ -190,8 +199,137 @@
         Foreground="#D40B0B"
         Visibility="{Binding HayCambios, Converter={StaticResource _BooleanToVisibilityConverter}}"/>
 
-      <graficasViews:DatosPersonalesGraficasView x:Name="_DatosPersonalesGrafivasView" Grid.Row="1"/>
-      <graficasViews:AtencionesGraficasView x:Name="_AtencionesGraficasView" Visibility="Hidden" Grid.Row="1"/>
+      <GroupBox Grid.Row="1" Margin="{StaticResource Margin}">
+        <GroupBox.Header>
+          <Grid Height="16">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition />
+              <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+              <Label Content="Filtro" HorizontalAlignment="Left" FontSize="12" FontWeight="DemiBold" Foreground="White" Padding="4,0,0,0"/>
+              <cc:CircleIconButton
+                Margin="8,1,0,0"
+                Icon="{StaticResource appbar_refresh}"
+                Width="21"
+                BorderBrush="Transparent"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                Height="21"
+                IconWidth="14"
+                IconHeight="14"
+                ToolTip="Resetear Fechas"
+                Command="{Binding FiltrarCommand}">
+                <Button.Style>
+                  <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                    <Setter Property="Opacity" Value="0.5"/>
+                    <Style.Triggers>
+                      <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                      </Trigger>
+                      <DataTrigger Binding="{Binding HayCambios}" Value="True">
+                        <Setter Property="Foreground" Value="Red"/>
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </Button.Style>
+              </cc:CircleIconButton>
+            </StackPanel>
+            <Button Margin="0,0,0,0" Height="15" Content="-" Grid.Column="1" Click="Button_Click" HorizontalAlignment="Right"/>
+          </Grid>
+        </GroupBox.Header>
+        <GroupBox.Resources>
+          <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+            <Setter Property="Margin" Value="{StaticResource Margin}"/>
+            <Setter Property="FontWeight" Value="Light"/>
+          </Style>
+          <Style x:Key="_LabelStyle" TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+            <Setter Property="Background" Value="#46485C"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="{StaticResource Margin}"/>
+          </Style>
+        </GroupBox.Resources>
+        <Grid x:Name="_FiltroGrid">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+          </Grid.ColumnDefinitions>
+
+          <StackPanel Grid.Column="0" Orientation="Vertical">
+            <Label Style="{StaticResource _LabelStyle}">Identidad Sexual</Label>
+            <CheckBox Content="Hombre Cisexual" IsChecked="{Binding FiltroDeIdentidadSexual[Hombre Cisexual]}"/>
+            <CheckBox Content="Mujer Cisexual" IsChecked="{Binding FiltroDeIdentidadSexual[Mujer Cisexual]}"/>
+            <CheckBox Content="Hombre Transexual" IsChecked="{Binding FiltroDeIdentidadSexual[Hombre Transexual]}"/>
+            <CheckBox Content="Mujer Transexual" IsChecked="{Binding FiltroDeIdentidadSexual[Mujer Transexual]}"/>
+            <CheckBox Content="Otra" IsChecked="{Binding FiltroDeIdentidadSexual[Otra]}"/>
+            <CheckBox Content="No Proporcionado" IsChecked="{Binding FiltroDeIdentidadSexual[No Proporcionado]}"/>
+          </StackPanel>
+
+          <StackPanel Grid.Column="1" Orientation="Vertical">
+            <Label Style="{StaticResource _LabelStyle}">Orientación Sexual</Label>
+            <CheckBox Content="Heterosexual" IsChecked="{Binding FiltroDeOrientacionSexual[Heterosexual]}"/>
+            <CheckBox Content="Bisexual" IsChecked="{Binding FiltroDeOrientacionSexual[Bisexual]}"/>
+            <CheckBox Content="Lesbiana" IsChecked="{Binding FiltroDeOrientacionSexual[Lesbiana]}"/>
+            <CheckBox Content="Gay" IsChecked="{Binding FiltroDeOrientacionSexual[Gay]}"/>
+            <CheckBox Content="No Proporcionado" IsChecked="{Binding FiltroDeOrientacionSexual[No Proporcionado]}"/>
+          </StackPanel>
+
+          <StackPanel Grid.Column="2" Orientation="Vertical">
+            <Label Style="{StaticResource _LabelStyle}">Rando de Edad</Label>
+            <CheckBox Content="Hasta 19" IsChecked="{Binding RangoDeEdadFilter[Heterosexual].Value}"/>
+            <CheckBox Content="De 20 a 29" IsChecked="{Binding RangoDeEdadFilter[Bisexual].Value}"/>
+            <CheckBox Content="De 30 a 39" IsChecked="{Binding RangoDeEdadFilter[Lesbiana].Value}"/>
+            <CheckBox Content="Desde 40" IsChecked="{Binding RangoDeEdadFilter[Gay].Value}"/>
+            <CheckBox Content="No Proporcionado" IsChecked="{Binding RangoDeEdadFilter[No Proporcionado].Value}"/>
+          </StackPanel>
+
+          <StackPanel Grid.Column="3" Orientation="Vertical">
+            <Label Style="{StaticResource _LabelStyle}">Estado Civil</Label>
+            <CheckBox Content="Soltero" IsChecked="{Binding EstadoCivilFilter[Soltero].Value}"/>
+            <CheckBox Content="Casado" IsChecked="{Binding EstadoCivilFilter[Casado].Value}"/>
+            <CheckBox Content="Separado" IsChecked="{Binding EstadoCivilFilter[Separado].Value}"/>
+            <CheckBox Content="Divorciado" IsChecked="{Binding EstadoCivilFilter[Divorciado].Value}"/>
+            <CheckBox Content="No Proporcionado" IsChecked="{Binding EstadoCivilFilter[No Proporcionado].Value}"/>
+          </StackPanel>
+
+          <StackPanel Grid.Column="4" Orientation="Vertical">
+            <Label Style="{StaticResource _LabelStyle}">Vía de Acceso a Gamá</Label>
+            <CheckBox Content="Personal" IsChecked="{Binding ViaDeAccesoAGamaFilter[Personal].Value}"/>
+            <CheckBox Content="Telefónica" IsChecked="{Binding ViaDeAccesoAGamaFilter[Telefonica].Value}"/>
+            <CheckBox Content="Email" IsChecked="{Binding ViaDeAccesoAGamaFilter[Email].Value}"/>
+            <CheckBox Content="No Proporcionado" IsChecked="{Binding ViaDeAccesoAGamaFilter[No Proporcionado].Value}"/>
+          </StackPanel>
+
+          <StackPanel Grid.Column="5" Orientation="Vertical">
+            <Label Style="{StaticResource _LabelStyle}">Cómo Conoció a Gamá</Label>
+            <CheckBox Content="Red Formal" IsChecked="{Binding ComoConocioAGamaFilter[Red Formal].Value}"/>
+            <CheckBox Content="Red Informal" IsChecked="{Binding ComoConocioAGamaFilter[Red Informal].Value}"/>
+            <CheckBox Content="Difusión" IsChecked="{Binding ComoConocioAGamaFilter[Difusion].Value}"/>
+            <CheckBox Content="No Proporcionado" IsChecked="{Binding ComoConocioAGamaFilter[No Proporcionado].Value}"/>
+          </StackPanel>
+
+          <StackPanel Grid.Column="6" Orientation="Vertical">
+            <Label Style="{StaticResource _LabelStyle}">Nivel Académico</Label>
+            <CheckBox Content="Sin Estudios" IsChecked="{Binding NivelAcademicoFilter[Sin Estudios].Value}"/>
+            <CheckBox Content="Estudios Primarios" IsChecked="{Binding NivelAcademicoFilter[Estudios Primarios].Value}"/>
+            <CheckBox Content="Estudios Secundarios" IsChecked="{Binding NivelAcademicoFilter[Estudios Secundarios].Value}"/>
+            <CheckBox Content="Ciclo Grado Medio" IsChecked="{Binding NivelAcademicoFilter[Ciclo Grado Medio].Value}"/>
+            <CheckBox Content="Estudio Universitario Medio" IsChecked="{Binding NivelAcademicoFilter[Estudio Universitario Medio].Value}"/>
+            <CheckBox Content="Estudios Universitarios" IsChecked="{Binding NivelAcademicoFilter[Estudios Universitarios].Value}"/>
+            <CheckBox Content="Estudios de Postgrado" IsChecked="{Binding NivelAcademicoFilter[Estudios de Postgrado].Value}"/>
+            <CheckBox Content="No Proporcionado" IsChecked="{Binding NivelAcademicoFilter[No Proporcionado].Value}"/>
+          </StackPanel>
+        </Grid>
+      </GroupBox>
+
+      <graficasViews:DatosPersonalesGraficasView x:Name="_DatosPersonalesGrafivasView" Grid.Row="2"/>
+      <graficasViews:AtencionesGraficasView x:Name="_AtencionesGraficasView" Visibility="Hidden" Grid.Row="2"/>
     </Grid>
   </Grid>
   </Grid>

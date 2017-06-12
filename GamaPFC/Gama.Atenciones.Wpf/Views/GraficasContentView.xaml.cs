@@ -65,5 +65,10 @@ namespace Gama.Atenciones.Wpf.Views
             _DatosPersonalesGrafivasView.Visibility = Visibility.Hidden;
             _AtencionesGraficasView.Visibility = Visibility.Visible;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _FiltroGrid.Visibility = _FiltroGrid.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+        }
     }
 }
