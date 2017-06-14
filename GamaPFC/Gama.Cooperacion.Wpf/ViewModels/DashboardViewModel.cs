@@ -162,6 +162,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             ActividadesActividadesFinalizadasCommand = new DelegateCommand(OnActividadesActividadesFinalizadasCommandExecute);
             ActividadesActividadesActivasCommand = new DelegateCommand(OnActividadesActividadesActivasCommandExecute);
             InfoActividadCommand = new DelegateCommand<object>(OnInfoActividadCommandExecute);
+            InfoActividadCommand2 = new DelegateCommand<object>(OnInfoActividadCommand2Execute);
+
         }
         
         //    private void OnSelectActividadCommand(object param)
@@ -204,6 +206,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     NumeroDias = -1*(NumDias.Days);
                 }
             }
+        }
+        private void OnInfoActividadCommand2Execute(object param)
+        {
+           
+                VisibleInfoAct = false;
+               
         }
         private void OnListaCooperantesCommandExecute()
         {
@@ -298,6 +306,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand ActividadesActividadesFinalizadasCommand { get; set; }
         public ICommand ActividadesActividadesActivasCommand { get; set; }
         public ICommand InfoActividadCommand { get; set; }
+        public ICommand InfoActividadCommand2 { get; set; }
 
         private void OnActividadesActividadesActivasCommandExecute()
         {
