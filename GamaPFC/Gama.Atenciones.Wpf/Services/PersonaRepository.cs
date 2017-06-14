@@ -18,7 +18,7 @@ namespace Gama.Atenciones.Wpf.Services
         private List<Persona> _Personas;
         private ICitaRepository _CitaRepository;
 
-        public PersonaRepository(IEventAggregator eventAggregator,
+        public PersonaRepository(EventAggregator eventAggregator,
             ICitaRepository citaRepository, ISession session) : base(eventAggregator)
         {
             eventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);

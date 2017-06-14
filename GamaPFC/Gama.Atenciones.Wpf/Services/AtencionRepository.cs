@@ -17,7 +17,7 @@ namespace Gama.Atenciones.Wpf.Services
     {
         private List<Atencion> _Atenciones;
 
-        public AtencionRepository(IEventAggregator eventAggregator) : base(eventAggregator) { }
+        public AtencionRepository(EventAggregator eventAggregator) : base(eventAggregator) { }
 
         public List<Atencion> Atenciones
         {
