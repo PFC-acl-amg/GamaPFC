@@ -12,7 +12,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Gama.Atenciones.DataAccess
 {
-    public class NHibernateSessionFactory : INHibernateSessionFactory
+    public class NHibernateSessionFactoryWeb : INHibernateSessionFactory
     {
         private static string _connectionString = ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString;
 
@@ -27,8 +27,8 @@ namespace Gama.Atenciones.DataAccess
                     {
                         NHibernate.Cfg.Configuration configuration;
 
-                        var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\nh_atenciones.cfg";
-                        File.Delete(path);
+                        var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\www\nh_atenciones.cfg";
+                        //File.Delete(path);
                         if (File.Exists(path))
                         {
                             var file = File.Open(path, FileMode.Open);

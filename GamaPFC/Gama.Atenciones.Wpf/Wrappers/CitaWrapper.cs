@@ -160,6 +160,12 @@ namespace Gama.Atenciones.Wpf.Wrappers
                     new[] { nameof(Asistente) });
             }
 
+            if (Model.Asistente != null && Model.Asistente.SolapaConOtrasCitas(this.Model, 45))
+            {
+                yield return new ValidationResult("La fecha indicada solapa con otra cita",
+                       new[] { nameof(Hora), nameof(Minutos) });
+            }
+
             if (string.IsNullOrWhiteSpace(Sala))
             {
                 yield return new ValidationResult("El campo de sala es obligatorio",

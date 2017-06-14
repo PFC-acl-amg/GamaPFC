@@ -108,6 +108,7 @@
     <Compile Include="Mappings\DerivacionMap.cs" />
     <Compile Include="Mappings\PersonaMap.cs" />
     <Compile Include="NHibernateSessionFactory.cs" />
+    <Compile Include="NHibernateSessionFactoryWeb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

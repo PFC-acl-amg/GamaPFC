@@ -16,7 +16,7 @@ namespace Gama.Atenciones.Wpf.Services
     {
         private List<Cita> _Citas;
 
-        public CitaRepository(IEventAggregator eventAggregator) : base(eventAggregator) { }
+        public CitaRepository(EventAggregator eventAggregator) : base(eventAggregator) { }
 
         public List<Cita> Citas
         {

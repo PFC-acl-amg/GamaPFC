@@ -80,6 +80,27 @@ namespace Gama.Atenciones.Business
             IsEncrypted = true;
         }
 
+        public virtual bool SolapaConOtrasCitas(Cita nuevaCita, int minutosDeMargen)
+        {
+            bool result = false;
+
+            foreach(var cita in Citas)
+            {
+                if (cita.Id == nuevaCita.Id)
+                   continue;
+
+                var fecha = cita.Fecha.Date.AddHours(cita.Hora).AddMinutes(cita.Minutos);
+                var fechaNueva = nuevaCita.Fecha.Date.AddHours(nuevaCita.Hora).AddMinutes(nuevaCita.Minutos);
+
+                var fechaDeDiferencia = Math.Abs(fecha.Ticks - fechaNueva.Ticks);
+
+                if (fechaDeDiferencia < TimeSpan.FromMinutes(minutosDeMargen).Ticks)
+                    result = true;
+            }
+
+            return result;
+        }
+
         public virtual void CopyValuesFrom(Asistente other)
         {
             Id = other.Id;

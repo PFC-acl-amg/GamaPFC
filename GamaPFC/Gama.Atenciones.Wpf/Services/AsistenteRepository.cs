@@ -18,7 +18,7 @@ namespace Gama.Atenciones.Wpf.Services
     {
         private List<Asistente> _Asistentes;
 
-        public AsistenteRepository(IEventAggregator eventAggregator) : base(eventAggregator) { }
+        public AsistenteRepository(EventAggregator eventAggregator) : base(eventAggregator) { }
 
         public List<Asistente> Asistentes
         {
