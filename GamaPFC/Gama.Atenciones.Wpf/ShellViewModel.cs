@@ -11,24 +11,20 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace Gama.Atenciones.Wpf
 {
     public class ShellViewModel : ViewModelBase
     {
-        private IEventAggregator _EventAggregator;
+        private EventAggregator _EventAggregator;
         private ImageSource _IconSource;
         private bool _PreferenciasFlyoutIsOpen = false;
         Dictionary<string, bool> _Panels = new Dictionary<string, bool>();
         private Preferencias _Preferencias;
 
         public ShellViewModel(
-            IEventAggregator eventAggregator,
+            EventAggregator eventAggregator,
             PersonaRepository personaRepository,
             CitaRepository citaRepository,
             AtencionRepository atencionRepository,
