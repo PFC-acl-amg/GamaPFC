@@ -60,12 +60,12 @@ namespace Gama.Cooperacion.WpfTests
             _actividadRepositoryMock.Setup(ar => ar.GetById(It.IsAny<int>()))
                 .Returns(_actividad.Model);
 
-            _informacionDeActividadViewModelMock = new InformacionDeActividadViewModel(
-                _actividadRepositoryMock.Object,
-                _cooperanteRepositoryMock.Object,
-                _eventAggregatorMock.Object
-                //sessionMock.Object
-                );
+            //_informacionDeActividadViewModelMock = new InformacionDeActividadViewModel(
+            //    _actividadRepositoryMock.Object,
+            //    _cooperanteRepositoryMock.Object,
+            //    _eventAggregatorMock.Object
+            //    //sessionMock.Object
+            //    );
 
             _TareaDeActividadViewModelMock = new TareasDeActividadViewModel(
                _actividadRepositoryMock.Object,
