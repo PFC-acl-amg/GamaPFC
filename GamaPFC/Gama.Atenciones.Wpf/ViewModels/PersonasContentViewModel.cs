@@ -31,6 +31,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ICitaRepository citaRepository,
             IEventAggregator eventAggregator,
             IRegionManager regionManager, 
+            ListadoDePersonasViewModel listadoDePersonasViewModel,
             IUnityContainer container,
             ISession session)
         {
@@ -41,7 +42,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _Container = container;
 
             ViewModels = new ObservableCollection<object>();
-            ViewModels.Add(_Container.Resolve<ListadoDePersonasViewModel>());
+            //ViewModels.Add(_Container.Resolve<ListadoDePersonasViewModel>());
+            ViewModels.Add(listadoDePersonasViewModel);
             ViewModelSeleccionado = ViewModels.First();
             SelectedIndex = 0;
 

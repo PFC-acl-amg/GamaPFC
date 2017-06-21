@@ -24,37 +24,6 @@
       <GradientStop Color="#ffffffff" Offset="0.5" />
       <GradientStop Color="#00ffffff" Offset="0.8" />
     </RadialGradientBrush>
-
-    <!--<DataTemplate x:Key="_LookupItemDataTemplate">
-      <Grid>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="45" />
-          <ColumnDefinition Width="Auto" MinWidth="200"/>
-          <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-          <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <Image Source="{Binding Imagen, 
-                                    Converter={StaticResource _BinaryImageConverter}}" 
-                       Margin="{StaticResource Margin}"
-                                    Stretch="Fill"
-                                    StretchDirection="Both">
-          <Image.BitmapEffect>
-            <DropShadowBitmapEffect Color="Black" />
-          </Image.BitmapEffect>
-        </Image>
-        --><!--<Image Margin="{StaticResource Margin}" 
-                   Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>--><!--
-        
-        
-        <StackPanel Grid.Column="1">
-          <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
-          <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
-        </StackPanel>
-      </Grid>
-    </DataTemplate>-->
   </UserControl.Resources>
   <Grid x:Name="_Root">
     <Grid.RowDefinitions>
@@ -73,6 +42,10 @@
         <ColumnDefinition Width="*"/>
         <ColumnDefinition Width="Auto"/>
       </Grid.ColumnDefinitions>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,30,0">
+        <Button Content="DO MAGIC" Command="{Binding DoMagicCommand}" Margin="4" Padding="4" />
+        <Button Content="STOP MAGIC" Command="{Binding StopMagicCommand}" Margin="4" Padding="4"/>
+      </StackPanel>
       <Button x:Name="_ToggleDateFilterButton" Click="Button_Click" HorizontalAlignment="Right" Margin="4,4,4,4" 
               BorderThickness="0"
               BorderBrush="Transparent"

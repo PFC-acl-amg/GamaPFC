@@ -89,6 +89,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<AtencionCreadaEvent>().Subscribe(OnAtencionCreadaEvent);
             _EventAggregator.GetEvent<AtencionActualizadaEvent>().Subscribe(OnAtencionActualizadaEvent);
             _EventAggregator.GetEvent<AtencionEliminadaEvent>().Subscribe(OnAtencionEliminadaEvent);
+
+
+            DoMagicCommand = new DelegateCommand(OnDoMagicCommandExecute);
+            StopMagicCommand = new DelegateCommand(OnStopMagicCommandExecute);
+            //_EventAggregator.GetEvent<ServidorActualizadoDesdeFueraEvent>().Subscribe(OnServidorActualizadoDesdeFueraEvent);
         }
 
         private Persona _PersonaSeleccionada;
@@ -350,6 +355,25 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _Citas.Remove(_Citas.Find(x => x.Id == citaId));
             _Atenciones.RemoveAll(x => x.Cita.Id == citaId);
             FiltrarPorFecha();
+        }
+
+        int _Contador = 0;
+        public ICommand DoMagicCommand { get; private set; }
+        public ICommand StopMagicCommand { get; private set; }
+
+        private void OnDoMagicCommandExecute()
+        {
+            AtencionesResources.ClientService.EnviarMensaje("uohh ihh jiji");
+        }
+
+        private void OnStopMagicCommandExecute()
+        {
+            AtencionesResources.ClientService.Desconectar();
+        }
+
+        private void OnServidorActualizadoDesdeFueraEvent()
+        {
+            System.Windows.MessageBox.Show($"Ok: {++_Contador}");
         }
     }
 }

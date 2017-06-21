@@ -45,16 +45,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             _Now = DateTime.Now.Date;
 
-            Asistentes = new ObservableCollection<AsistenteWrapper>(
-                _AsistenteRepository.GetAll()
-                .Select(x => new AsistenteWrapper(x)));
-
-            CitasPasadas = new ObservableCollection<CitaWrapper>();
-            CitasFuturas = new ObservableCollection<CitaWrapper>();
-
-            if (Asistentes.Count > 0)
-                AsistenteSeleccionado = Asistentes.First();
-
+            OnActualizarServidor();
 
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
@@ -79,11 +70,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<AsistenteCreadoEvent>().Subscribe(OnAsistenteCreadoEvent);
             _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
             _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
-        }
-
-        private void OnSeleccionarPersonaCommand(CitaWrapper wrapper)
-        {
-            _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Publish(wrapper.Persona.Id);
         }
 
         public ObservableCollection<AsistenteWrapper> Asistentes { get; private set; }
@@ -117,6 +103,21 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand CancelarEdicionCommand { get; private set; }
         public ICommand EditarCitaCommand { get; private set; }
         public ICommand SeleccionarPersonaCommand { get; private set; }
+
+        public override void OnActualizarServidor()
+        {
+            Asistentes = new ObservableCollection<AsistenteWrapper>(
+                _AsistenteRepository.GetAll()
+                .Select(x => new AsistenteWrapper(x)));
+
+            CitasPasadas = new ObservableCollection<CitaWrapper>();
+            CitasFuturas = new ObservableCollection<CitaWrapper>();
+
+            if (Asistentes.Count > 0)
+                AsistenteSeleccionado = Asistentes.First();
+
+            OnPropertyChanged(nameof(Asistentes));
+        }
 
         private void RefrescarVista()
         {
@@ -160,6 +161,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _AsistenteViewModel.Asistente.IsInEditionMode = false;
         }
 
+        private void OnSeleccionarPersonaCommand(CitaWrapper wrapper)
+        {
+            _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Publish(wrapper.Persona.Id);
+        }
+
         private void OnEditarCitaCommandExecute(CitaWrapper cita)
         {
             var o = new NuevaCitaView() { Title = "Editar Cita" };
@@ -189,6 +195,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             Asistentes.Insert(0, wrapper);
             AsistenteSeleccionado = wrapper;
+            OnPropertyChanged(nameof(Asistentes));
         }
 
         private void OnCitaCreadaEvent(int id)

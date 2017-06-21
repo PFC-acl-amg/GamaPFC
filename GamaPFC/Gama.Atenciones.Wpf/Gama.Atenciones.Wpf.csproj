@@ -242,12 +242,14 @@
     <Compile Include="Eventos\PersonaEliminadaEvent.cs" />
     <Compile Include="Eventos\PersonaSeleccionadaChangedEvent.cs" />
     <Compile Include="Eventos\PersonaSeleccionadaEvent.cs" />
+    <Compile Include="Eventos\ServidorActualizadoDesdeFueraEvent.cs" />
     <Compile Include="FakeServices\FakeAsistenteRepository.cs" />
     <Compile Include="FakeServices\FakeAtencionRepository.cs" />
     <Compile Include="FakeServices\FakeCitaRepository.cs" />
     <Compile Include="FakeServices\FakePersonaRepository.cs" />
     <Compile Include="FakeServices\FakeRepository.cs" />
     <Compile Include="Services\AsistenteRepository.cs" />
+    <Compile Include="Services\ClientService.cs" />
     <Compile Include="Services\ExportService.cs" />
     <Compile Include="Services\IAsistenteRepository.cs" />
     <Compile Include="Services\Preferencias.cs" />

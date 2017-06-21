@@ -110,12 +110,12 @@
 
     <!-- Cuadro de búsqueda -->
     <ContentControl Grid.Row="0" Grid.Column="1" Margin="0">
-      <views:SearchBoxView />
+      <views:SearchBoxView DataContext="{Binding SearchBoxViewModel}"/>
     </ContentControl>
 
     <!-- Toolbar -->
     <ContentControl Grid.Row="0" Grid.Column="2" Margin="0">
-      <views:ToolbarView />
+      <views:ToolbarView DataContext="{Binding ToolbarViewModel}"/>
     </ContentControl>
 
     <!-- Región de contenido -->

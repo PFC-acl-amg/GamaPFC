@@ -35,10 +35,14 @@ namespace Gama.Atenciones.Wpf
         }
 
         public static List<Persona> Personas { get; set; }
+        public static ClientService ClientService { get; set; }
+        public static string ClientId { get; set; }
     }
 
     public class AtencionesModule : ModuleBase
     {
+       // private ClientService _ClientService;
+
         public bool ClearDatabase { get; private set; }
 
         public AtencionesModule(IUnityContainer container, IRegionManager regionManager)
@@ -139,6 +143,14 @@ namespace Gama.Atenciones.Wpf
             RegisterViews();
             RegisterViewModels();
             InitializeNavigation();
+
+            ConectarConServidor();
+            //AtencionesResources.ClientService.EnviarMensaje("jijiji");
+        }
+
+        private void ConectarConServidor()
+        {
+            AtencionesResources.ClientService = new ClientService(Container.Resolve<EventAggregator>());
         }
 
         private void InicializarDirectorios()

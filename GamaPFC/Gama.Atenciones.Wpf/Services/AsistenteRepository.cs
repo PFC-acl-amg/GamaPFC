@@ -31,6 +31,14 @@ namespace Gama.Atenciones.Wpf.Services
             }
         }
 
+        public override void ActualizarCliente()
+        {
+            _Asistentes = base.GetAll();
+
+            AtencionesResources.TodosLosNifDeAsistentes.Clear();
+            AtencionesResources.TodosLosNifDeAsistentes.AddRange(_Asistentes.Select(x => x.Nif));
+        }
+
         public override Asistente GetById(int id)
         {
             return _Asistentes.Find(x => x.Id == id);

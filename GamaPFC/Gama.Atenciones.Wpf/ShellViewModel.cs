@@ -1,9 +1,11 @@
 ﻿using Core;
 using Core.DataAccess;
+using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.UIEvents;
 using Gama.Atenciones.Wpf.ViewModels;
 using Gama.Common.Eventos;
+using NHibernate;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -23,28 +25,50 @@ namespace Gama.Atenciones.Wpf
         private ImageSource _IconSource;
         private bool _PreferenciasFlyoutIsOpen = false;
         Dictionary<string, bool> _Panels = new Dictionary<string, bool>();
+        private Preferencias _Preferencias;
 
-        public ShellViewModel(IEventAggregator eventAggregator,
+        public ShellViewModel(
+            IEventAggregator eventAggregator,
+            PersonaRepository personaRepository,
+            CitaRepository citaRepository,
+            AtencionRepository atencionRepository,
+            AsistenteRepository asistenteRepository,
             StatusBarViewModel statusBarViewModel,
+            SearchBoxViewModel searchBoxViewModel,
             PersonasContentViewModel personasContentViewModel,
             DashboardViewModel dashboardViewModel,
             CitasContentViewModel citasContentViewModel,
             AsistentesContentViewModel asistentesContentViewModel,
             GraficasContentViewModel graficasContentViewModel,
-            Preferencias preferencias)
+            ToolbarViewModel toolbarViewModel,
+            Preferencias preferencias,
+            ISession session)
         {
+            SearchBoxViewModel = searchBoxViewModel;
             PersonasContentViewModel = personasContentViewModel;
             DashboardViewModel = dashboardViewModel;
             CitasContentViewModel = citasContentViewModel;
             AsistentesContentViewModel = asistentesContentViewModel;
             GraficasContentViewModel = graficasContentViewModel;
             StatusBarViewModel = statusBarViewModel;
+            ToolbarViewModel = toolbarViewModel;
             _Preferencias = preferencias;
+
+            _PersonaRepository = personaRepository;
+            _CitaRepository = citaRepository;
+            _AtencionRepository = atencionRepository;
+            _AsistenteRepository = asistenteRepository;
+
+            _PersonaRepository.Session = session;
+            _CitaRepository.Session = session;
+            _AtencionRepository.Session = session;
+            _AsistenteRepository.Session = session;
 
             _EventAggregator = eventAggregator;
             Title = "SERVICIO DE ATENCIONES";
             _EventAggregator.GetEvent<AbrirPreferenciasEvent>().Subscribe(OnTogglePreferenciasEvent);
             _EventAggregator.GetEvent<ActiveViewChanged>().Subscribe(OnActiveViewChangedEvent);
+            _EventAggregator.GetEvent<ServidorActualizadoDesdeFueraEvent>().Subscribe(OnServidorActualizadoDesdeFueraEvent);
 
             _Panels.Add("DashboardView", false);
             _Panels.Add("PersonasContentView", false);
@@ -54,13 +78,15 @@ namespace Gama.Atenciones.Wpf
 
             SetVisiblePanel("DashboardView");
         }
-        
+
         public PersonasContentViewModel PersonasContentViewModel { get; set; }
         public DashboardViewModel DashboardViewModel { get; set; }
         public CitasContentViewModel CitasContentViewModel { get; set; }
         public AsistentesContentViewModel AsistentesContentViewModel { get; set; }
         public GraficasContentViewModel GraficasContentViewModel { get; set; }
         public StatusBarViewModel StatusBarViewModel { get; set; }
+        public SearchBoxViewModel SearchBoxViewModel { get; set; }
+        public ToolbarViewModel ToolbarViewModel { get; set; }
 
         private bool _DashboardViewIsVisible = true;
         public bool DashboardViewIsVisible
@@ -91,7 +117,10 @@ namespace Gama.Atenciones.Wpf
         }
 
         private bool _GraficasViewIsVisible = false;
-        private Preferencias _Preferencias;
+        private PersonaRepository _PersonaRepository;
+        private CitaRepository _CitaRepository;
+        private AtencionRepository _AtencionRepository;
+        private AsistenteRepository _AsistenteRepository;
 
         public bool GraficasContentViewIsVisible
         {
@@ -116,6 +145,19 @@ namespace Gama.Atenciones.Wpf
             GraficasContentViewIsVisible = _Panels["GraficasContentView"];
         }
 
+        private void OnServidorActualizadoDesdeFueraEvent()
+        {
+            _AsistenteRepository.ActualizarCliente();
+
+            AsistentesContentViewModel.OnActualizarServidor();
+            CitasContentViewModel.OnActualizarServidor();
+            DashboardViewModel.OnActualizarServidor();
+            GraficasContentViewModel.OnActualizarServidor();
+            PersonasContentViewModel.OnActualizarServidor();
+            SearchBoxViewModel.OnActualizarServidor();
+            ToolbarViewModel.OnActualizarServidor();
+        }
+
         public void OnCloseApplication()
         {
             var preferencias = _Preferencias;
@@ -134,6 +176,8 @@ namespace Gama.Atenciones.Wpf
                         if (fileInfo.CreationTime < preferencias.BackupDeleteDateLimit.Value
                             && fileInfo.CreationTime < DateTime.Now.Date) // Para no borrar el que acabamos de poner
                             fileInfo.Delete();
+
+                AtencionesResources.ClientService.Desconectar();
             }
         }
 
