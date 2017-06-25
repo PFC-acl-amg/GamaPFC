@@ -144,7 +144,7 @@ namespace Gama.Atenciones.Wpf
             RegisterViewModels();
             InitializeNavigation();
 
-            ConectarConServidor();
+            //ConectarConServidor();
             //AtencionesResources.ClientService.EnviarMensaje("jijiji");
         }
 

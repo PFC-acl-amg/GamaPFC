@@ -124,7 +124,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Business\Usuario.cs" />
     <Compile Include="CustomControls\CircleIconButton.cs" />
     <Compile Include="CustomControls\LimitedCollectionView.cs" />
     <Compile Include="CustomControls\LimitedListCollectionView.cs" />
@@ -133,7 +132,6 @@
     <Compile Include="CustomControls\PaginatedCollectionView.cs" />
     <Compile Include="CustomControls\SearchBox.cs" />
     <Compile Include="CustomControls\SearchBoxDataTemplateSelector.cs" />
-    <Compile Include="Data\UsuarioMap.cs" />
     <Compile Include="Eventos\AbrirPreferenciasEvent.cs" />
     <Compile Include="Eventos\PreferenciasActualizadasEvent.cs" />
     <Compile Include="Eventos\VolverASeleccionarDeModuloEvent.cs" />

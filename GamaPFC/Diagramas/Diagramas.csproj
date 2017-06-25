@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{913D1A25-04DD-4F43-9888-B1F0B8F0795A}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Diagramas</RootNamespace>
+    <AssemblyName>Diagramas</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FluentNHibernate, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.4.0.0.4000\lib\net40\NHibernate.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.Composition.Registration" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activities" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Atenciones\DataAccess.cd" />
+    <None Include="Atenciones\Modelos.cd" />
+    <None Include="Common\Common.cd" />
+    <None Include="Core\BaseClasses.cd" />
+    <None Include="DummyDiagram.cd" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AdministrationTools\Gama.Extranet.csproj">
+      <Project>{dc9f4fe1-37b8-4467-a6e2-17a7253b10e4}</Project>
+      <Name>Gama.Extranet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core.Tests\Core.Tests.csproj">
+      <Project>{c8817d18-1504-4c2e-851a-1d01476b33b4}</Project>
+      <Name>Core.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{61c764bb-5692-463a-bc70-55b6ad46b1a3}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Atenciones.Business\Gama.Atenciones.Business.csproj">
+      <Project>{5da7174d-a8d2-499d-b950-bf0533d4335d}</Project>
+      <Name>Gama.Atenciones.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Atenciones.DataAccess\Gama.Atenciones.DataAccess.csproj">
+      <Project>{dae975fe-2eac-4e3a-87d2-44e50281f22d}</Project>
+      <Name>Gama.Atenciones.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Atenciones.WpfTests\Gama.Atenciones.WpfTests.csproj">
+      <Project>{e2561267-0b7e-4404-a5f8-b7dd52f256b2}</Project>
+      <Name>Gama.Atenciones.WpfTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Atenciones.Wpf\Gama.Atenciones.Wpf.csproj">
+      <Project>{6191cf4c-502f-44e2-8ff9-808834f31549}</Project>
+      <Name>Gama.Atenciones.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Bootstrapper\Gama.Bootstrapper.csproj">
+      <Project>{4a43c5e1-7059-4281-8aaf-c3e37b613174}</Project>
+      <Name>Gama.Bootstrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.CommonTests\Gama.CommonTests.csproj">
+      <Project>{89baa80b-8465-4595-af3c-c092ac3c75be}</Project>
+      <Name>Gama.CommonTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Common\Gama.Common.csproj">
+      <Project>{46a268c7-c157-4a93-931d-951a908e149f}</Project>
+      <Name>Gama.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Cooperacion.Business\Gama.Cooperacion.Business.csproj">
+      <Project>{e54a71cf-f5e1-45d4-9ed2-cdbf2b08c317}</Project>
+      <Name>Gama.Cooperacion.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Cooperacion.DataAccess\Gama.Cooperacion.DataAccess.csproj">
+      <Project>{4830f33b-e739-4baa-bf0e-f88be61b01bd}</Project>
+      <Name>Gama.Cooperacion.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Cooperacion.Wpf\Gama.Cooperacion.Wpf.csproj">
+      <Project>{0d5f2d35-032b-4f23-8794-f49f31870ed7}</Project>
+      <Name>Gama.Cooperacion.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Socios.BusinessTests\Gama.Socios.BusinessTests.csproj">
+      <Project>{80e41d8a-cd3a-407c-a722-a6190aea0e8f}</Project>
+      <Name>Gama.Socios.BusinessTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Socios.Business\Gama.Socios.Business.csproj">
+      <Project>{ab653fbf-8bfb-4870-819e-dedb09fc39e1}</Project>
+      <Name>Gama.Socios.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Socios.DataAccess\Gama.Socios.DataAccess.csproj">
+      <Project>{9c963149-1d42-4742-82e8-2bde5dff9a0c}</Project>
+      <Name>Gama.Socios.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Socios.WpfTests\Gama.Socios.WpfTests.csproj">
+      <Project>{50541681-d1e6-4a40-ba2a-f9050031255b}</Project>
+      <Name>Gama.Socios.WpfTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Socios.Wpf\Gama.Socios.Wpf.csproj">
+      <Project>{d6dd2133-8809-4dd4-bae8-60088d5b2848}</Project>
+      <Name>Gama.Socios.Wpf</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
