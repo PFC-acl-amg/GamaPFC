@@ -600,12 +600,12 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\icono_nuevo_asistente.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Images\persona_dummy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Doctor-WF.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
