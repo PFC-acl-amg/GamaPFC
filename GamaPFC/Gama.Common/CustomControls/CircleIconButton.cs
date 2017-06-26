@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Gama.Common.CustomControls
 {
@@ -25,8 +26,6 @@ namespace Gama.Common.CustomControls
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register(
                 "Icon", typeof(Visual), typeof(CircleIconButton), new PropertyMetadata(default(Visual)));
-
-
 
         public double IconWidth
         {

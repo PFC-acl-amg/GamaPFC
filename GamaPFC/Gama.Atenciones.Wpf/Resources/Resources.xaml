@@ -18,6 +18,7 @@
   <BitmapImage x:Key="IconoPersonas" UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/icono_personas.png"/>
   <BitmapImage x:Key="IconoEliminarPersona" UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/icono_eliminar_persona.png"/>
   <BitmapImage x:Key="IconoExportarPersona" UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/icono_exportar_persona.png"/>
+  <BitmapImage x:Key="IconoAtencion" UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/add atencion.png"/>
 
   <charts:ResourceDictionaryCollection x:Key="MyColorPalette">
     <ResourceDictionary>

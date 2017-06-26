@@ -140,7 +140,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             { 
                 atencion.Seguimiento = LookupItem.ShortenStringForDisplay(atencion.Seguimiento, 30);
                 atencion.Imagen = Converters.BinaryImageConverter.GetBitmapImageFromUriSource(
-                                 new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png"));
+                                 new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/add atencion.png"));
                 return atencion;
             };
 
