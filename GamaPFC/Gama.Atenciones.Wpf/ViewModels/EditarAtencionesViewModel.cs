@@ -205,7 +205,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             if (AtencionSeleccionada != null && AtencionSeleccionada.IsChanged && AtencionSeleccionada.IsValid)
             {
                 _AtencionRepository.Update(AtencionSeleccionada.Model);
-            AtencionSeleccionada.AcceptChanges();
+                AtencionSeleccionada.AcceptChanges();
             }
 
             if (CitaSeleccionada != null && CitaSeleccionada.IsChanged && CitaSeleccionada.IsValid)

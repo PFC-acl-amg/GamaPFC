@@ -15,14 +15,15 @@ namespace Gama.Atenciones.Wpf.FakeServices
         public FakeAsistenteRepository()
         {
             Asistentes = new List<Asistente>();
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 15; i++)
             {
                 var asistente = new Asistente
                 {
                     Nombre = Faker.NameFaker.FirstName(),
                     Apellidos = Faker.NameFaker.LastName(),
-                    Nif = Faker.StringFaker.AlphaNumeric(8),
-                    Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png")),
+                    Nif = i.ToString() + Faker.StringFaker.AlphaNumeric(8) + i.ToString(),
+                    Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
+                         new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/persona_dummy.png")),
                     FechaDeNacimiento = DateTime.Now.AddYears(-28),
                     ComoConocioAGama = ComoConocioAGama.Difusion.ToString(),
                     Provincia = Faker.LocationFaker.Street(),

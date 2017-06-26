@@ -38,7 +38,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
         {
             Personas = new List<Persona>();
             int createdAt = 0;
-            for (int i = 0; i < 150; i++)
+            for (int i = 0; i < 100; i++)
             {
                 var persona = new Persona()
                 {
@@ -52,7 +52,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
                     IdentidadSexual = _IdentidadSexual[_Random.Next(0, 5)].ToString(),
                     LinkedIn = Faker.InternetFaker.Domain(),
                     Nacionalidad = Faker.LocationFaker.Country(),
-                    Nif = Faker.StringFaker.AlphaNumeric(8),
+                    Nif = i.ToString() + Faker.StringFaker.AlphaNumeric(8) + i.ToString(),
                     NivelAcademico = NivelAcademico.EstudioDePostgradoOMaster.ToString(),
                     Nombre = Faker.NameFaker.Name(),
                     Ocupacion = Faker.TextFaker.Sentence(),
@@ -62,8 +62,8 @@ namespace Gama.Atenciones.Wpf.FakeServices
                     Twitter = Faker.InternetFaker.Domain(),
                     ViaDeAccesoAGama = ViaDeAccesoAGama.Personal.ToString(),
                     CreatedAt = DateTime.Now.AddMonths(createdAt),
-                    Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
-                         new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/persona_dummy.png")),
+                    //Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
+                    //     new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/persona_dummy.png")),
 
                 };
 

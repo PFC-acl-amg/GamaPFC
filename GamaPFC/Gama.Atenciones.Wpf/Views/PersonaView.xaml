@@ -9,13 +9,14 @@
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
              xmlns:business="clr-namespace:Gama.Atenciones.Business;assembly=Gama.Atenciones.Business"
              xmlns:converters="clr-namespace:Gama.Common.Resources.Converters;assembly=Gama.Common"
+             xmlns:atencionesConverters="clr-namespace:Gama.Atenciones.Wpf.Converters"
              xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=designData:PersonaViewModelDTD, IsDesignTimeCreatable=True}"
              d:DesignHeight="715.274" d:DesignWidth="318.493">
   <UserControl.Resources>
-    <util:BinaryImageConverter x:Key="_BinaryImageConverter" />
+    <atencionesConverters:BinaryImageConverter x:Key="_BinaryImageConverter" />
     <RadialGradientBrush x:Key="_RadialGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9">
       <GradientStop Color="#ffffffff" Offset="0.5" />
       <GradientStop Color="#00ffffff" Offset="0.8" />

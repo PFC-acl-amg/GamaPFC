@@ -52,7 +52,7 @@ namespace Gama.Atenciones.Wpf.Converters
                 //Image finalImage = new Image();
                 BitmapImage logo = new BitmapImage();
                 logo.BeginInit();
-                logo.UriSource = new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png");
+                logo.UriSource = new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/persona_dummy.png");
                 logo.EndInit();
                 //finalImage.Source = logo;
                 return logo;

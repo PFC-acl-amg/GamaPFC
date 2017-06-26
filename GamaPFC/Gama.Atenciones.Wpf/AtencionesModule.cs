@@ -49,93 +49,15 @@ namespace Gama.Atenciones.Wpf
            : base(container, regionManager)
         {
             this.Entorno = Entorno.Desarrollo;
-            this.ClearDatabase = false;
-            this.SeedDatabase = false;
+            this.ClearDatabase = true;
+            this.SeedDatabase = true;
         }
 
         public override void Initialize()
         {
             RegisterServices();
 
-            var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
-            var personaRepository = Container.Resolve <IPersonaRepository>();
-            var citaRepository = Container.Resolve<ICitaRepository>();
-            var asistenteRepository = Container.Resolve<IAsistenteRepository>();
-            var session = sessionFactory.OpenSession();
-            personaRepository.Session = session;
-            citaRepository.Session = session;
-            asistenteRepository.Session = session;
 
-            var personaRepository2 = new NHibernateOneSessionRepository<Persona, int>()
-            {
-                Session = session
-            };
-
-            if (ClearDatabase)
-            {
-                citaRepository.DeleteAll();
-                asistenteRepository.DeleteAll();
-                personaRepository.DeleteAll();
-            }
-
-            #region Database Seeding
-            try
-            {
-                if (SeedDatabase)
-                {
-
-                    var personas = new FakePersonaRepository().GetAll(); //personaRepository.GetAll();
-                    var citas = new FakeCitaRepository().GetAll();
-                    var atenciones = new FakeAtencionRepository().GetAll();
-
-                    personas.ForEach(p => p.Id = 0);
-                    //citas.ForEach(c => c.Id = 0);
-                    //atenciones.ForEach(a => a.Id = 0);
-
-                    var random = new Random();
-                    var opciones = new bool[] { true, false, true, false, true, true, false, true, false };
-
-                    for (int i = 0; i < personas.Count; i++)
-                    {
-                        var persona = personas[i];
-                        //var cita = citas[i];
-                        //var atencion = atenciones[i];
-                        //var derivacion = new Derivacion
-                        //{
-                        //    Id = 0,
-                        //    Atencion = atencion,
-                        //    EsDeFormacion = opciones[random.Next(0, 8)],
-                        //    EsDeFormacion_Realizada = opciones[random.Next(0, 8)],
-                        //    EsDeOrientacionLaboral = opciones[random.Next(0, 8)],
-                        //    EsDeOrientacionLaboral_Realizada = opciones[random.Next(0, 8)],
-                        //    EsExterna = opciones[random.Next(0, 8)],
-                        //    EsExterna_Realizada = opciones[random.Next(0, 8)],
-                        //    EsJuridica = opciones[random.Next(0, 8)],
-                        //    EsJuridica_Realizada = opciones[random.Next(0, 8)],
-                        //    EsPsicologica = opciones[random.Next(0, 8)],
-                        //    EsPsicologica_Realizada = opciones[random.Next(0, 8)],
-                        //    EsSocial = opciones[random.Next(0, 8)],
-                        //    EsSocial_Realizada = opciones[random.Next(0, 8)],
-                        //    Externa = "Externa",
-                        //    Externa_Realizada = "Externa realizada",
-                        //    Tipo = "",
-                        //};
-
-                        //atencion.Derivacion = derivacion;
-
-                        //cita.SetAtencion(atencion);
-                        //persona.AddCita(citas[i]);
-
-                        personaRepository2.Create(persona);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                var message = ex.Message;
-                throw;
-            }
-            #endregion
 
             // Preparamos la estructura de carpeta para la primera vez
             InicializarDirectorios();

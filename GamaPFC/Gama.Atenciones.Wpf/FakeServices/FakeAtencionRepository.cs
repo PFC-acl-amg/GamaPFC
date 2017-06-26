@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Gama.Atenciones.Business;
 using Gama.Common.CustomControls;
 using NHibernate;
+using Gama.Atenciones.Wpf.Converters;
 
 namespace Gama.Atenciones.Wpf.FakeServices
 {
@@ -24,7 +25,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
 
             int createdAt = 0;
             var random = new Random();
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 120; i++)
             {
                 var atencion = new Atencion()
                 {
@@ -58,7 +59,9 @@ namespace Gama.Atenciones.Wpf.FakeServices
                         EsSocial_Realizada = opciones[random.Next(0, 1)],
                         Externa_Realizada = "Externaaaa realizada",
                          Externa = "Externaaaaaa"
-                    }
+                    }, 
+                    //Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
+                    //     new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/add atencion.png")),
                 };
 
                 Atenciones.Add(atencion);
@@ -111,6 +114,11 @@ namespace Gama.Atenciones.Wpf.FakeServices
         }
 
         public bool Update(Atencion entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteAll()
         {
             throw new NotImplementedException();
         }
