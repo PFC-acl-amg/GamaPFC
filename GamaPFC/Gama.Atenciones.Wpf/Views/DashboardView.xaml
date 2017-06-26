@@ -42,7 +42,7 @@
         <ColumnDefinition Width="*"/>
         <ColumnDefinition Width="Auto"/>
       </Grid.ColumnDefinitions>
-      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,30,0">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,30,0" Visibility="Collapsed">
         <Button Content="DO MAGIC" Command="{Binding DoMagicCommand}" Margin="4" Padding="4" />
         <Button Content="STOP MAGIC" Command="{Binding StopMagicCommand}" Margin="4" Padding="4"/>
       </StackPanel>
