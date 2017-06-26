@@ -17,6 +17,7 @@ using Prism.Commands;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
+
     public class GraficasContentViewModel : ViewModelBase
     {
         private IPersonaRepository _PersonaRepository;
@@ -56,6 +57,40 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 {"No Proporcionado", true},
             };
 
+            FiltroDeRangoDeEdad = new Dictionary<string, bool>()
+            {
+                {"19", true},
+                {"29", true},
+                {"39", true},
+                {"40", true},
+                {"No Proporcionado", true},
+            };
+
+            FiltroDeViaDeAccesoAGama = new Dictionary<string, bool>()
+            {
+                {"Personal", true},
+                {"Telefonica", true},
+                {"Email", true},
+                {"No Proporcionado", true},
+            };
+
+            FiltroDeComoConocioAGama = new Dictionary<string, bool>()
+            {
+                {"Red Formal", true},
+                {"Red Informal", true},
+                {"Difusion", true},
+                {"No Proporcionado", true},
+            };
+
+            FiltroDeEstadoCivil = new Dictionary<string, bool>()
+            {
+                {"Soltera", true},
+                {"Casada", true},
+                {"Separada", true},
+                {"Divorciada", true},
+                {"No Proporcionado", true},
+            };
+
             _Personas = _PersonaRepository.GetAll();
             _PersonasFiltradas = _Personas.ToList();
 
@@ -81,6 +116,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public Dictionary<string, bool> FiltroDeIdentidadSexual { get;  private set; }
         public Dictionary<string, bool> FiltroDeOrientacionSexual { get; private set; }
+        public Dictionary<string, bool> FiltroDeRangoDeEdad { get; private set; }
+        public Dictionary<string, bool> FiltroDeViaDeAccesoAGama { get; private set; }
+        public Dictionary<string, bool> FiltroDeComoConocioAGama { get; private set; }
+        public Dictionary<string, bool> FiltroDeEstadoCivil { get; private set; }
 
         private bool _HayCambios;
         public bool HayCambios
@@ -95,12 +134,22 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ((DelegateCommand)RefrescarCommand).RaiseCanExecuteChanged();
         }
 
+        private ChartItem NewChartItem(string key, string title, int value)
+        {
+            return new ChartItem { Key = key, Title = $"{title}: {value}", Value = value};
+        }
+
+        private ChartItem _NewChartItem(string title, int value)
+        {
+            return new ChartItem { Key = title, Title = $"{title}: {value}", Value = value };
+        }
+
         private bool _FiltroExclusivo = true;
 
         private void Filtrar()
         {
             //Filtrar
-            var query = _Personas.Where(p => p != null);
+            IEnumerable<Persona> query = _Personas.Where(p => p != null);
 
             query = query.Where
                 (p =>
@@ -120,6 +169,22 @@ namespace Gama.Atenciones.Wpf.ViewModels
                      || _Check(FiltroDeOrientacionSexual["Gay"], p.OrientacionSexual, OrientacionSexual.Gay.ToString())
                      || _Check(FiltroDeOrientacionSexual["No Proporcionado"], p.OrientacionSexual, OrientacionSexual.NoProporcionado.ToString())
                     )
+                    &&
+                    (false
+                     || _CheckEdad(FiltroDeRangoDeEdad["19"], p.EdadNumerica, 0, 19)
+                     || _CheckEdad(FiltroDeRangoDeEdad["29"], p.EdadNumerica, 20, 29)
+                     || _CheckEdad(FiltroDeRangoDeEdad["39"], p.EdadNumerica, 30, 39)
+                     || _CheckEdad(FiltroDeRangoDeEdad["40"], p.EdadNumerica, 40, 999)
+                     || _Check(FiltroDeRangoDeEdad["No Proporcionado"], p.EdadNumerica.HasValue.ToString(), false.ToString())
+                    )
+                    &&
+                    (false
+                     || _Check(FiltroDeEstadoCivil["Soltera"], p.EstadoCivil, EstadoCivil.Soltera.ToString())
+                     || _Check(FiltroDeEstadoCivil["Casada"], p.EstadoCivil, EstadoCivil.Casada.ToString())
+                     || _Check(FiltroDeEstadoCivil["Separada"], p.EstadoCivil, EstadoCivil.Separada.ToString())
+                     || _Check(FiltroDeEstadoCivil["Divorciada"], p.EstadoCivil, EstadoCivil.Divorciada.ToString())
+                     || _Check(FiltroDeEstadoCivil["No Proporcionado"], p.EstadoCivil, EstadoCivil.NoProporcionado.ToString())
+                    )
                 );
 
             _PersonasFiltradas = query.ToList();
@@ -131,6 +196,14 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private bool _Check(bool conditionIsActive, string conditionValue, string expectedValue)
         {
             return conditionIsActive ? conditionValue == expectedValue : false;
+        }
+
+        private bool _CheckEdad(bool conditionIsActive, int? conditionValue, int expectedMinValue, int expectedMaxValue)
+        {
+            if (conditionIsActive && !conditionValue.HasValue)
+                return false;
+
+            return conditionIsActive ? conditionValue.Value >= expectedMinValue && conditionValue.Value <= expectedMaxValue : false;
         }
 
         private void Refresh()
@@ -148,30 +221,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ((DelegateCommand)RefrescarCommand).RaiseCanExecuteChanged();
         }
 
-        private void OnPersonaActualizadaEvent(int obj)
-        {
-            Refresh();
-        }
-
-        private void OnPersonaCreadaEvent(int id)
-        {
-            var persona = _PersonaRepository.GetById(id);
-            ValoresDeIdentidadSexual.First(x => x.Key == persona.IdentidadSexual.ToString()).Value++;
-
-            int? edad = persona.EdadNumerica;
-            if (edad.HasValue)
-            {
-                if (edad.Value < 20) ValoresDeEdad.First(x => x.Key == "19").Value++;
-                if (edad.Value >= 20 && edad.Value <= 29) ValoresDeEdad.First(x => x.Key == "29").Value++;
-                if (edad.Value >= 30 && edad.Value <= 39) ValoresDeEdad.First(x => x.Key == "39").Value++;
-                if (edad.Value >= 40) ValoresDeEdad.First(x => x.Key == "40").Value++;
-            }
-            else
-            {
-                ValoresDeEdad.First(x => x.Key == "NoProporcionado").Value++;
-            }
-        }
-
         public ObservableCollection<ChartItem> ValoresDeIdentidadSexual { get; private set; }
         public ObservableCollection<ChartItem> ValoresDeEdad { get; private set; }
         public ObservableCollection<ChartItem> ValoresDeEstadoCivil { get; private set; }
@@ -187,11 +236,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private int _MujerTransexualCount;
         private int _NoProporcionadoCount;
         private int _OtraIdentidadCount;
-
-        private ChartItem NewChartItem(string key, string title, int value)
-        {
-            return new ChartItem { Key = key, Title = title, Value = value };
-        }
 
         private void InicializarIdentidadSexual()
         {
@@ -225,8 +269,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ValoresDeEdad = new ObservableCollection<ChartItem>();
 
             _From0To19 = _PersonasFiltradas.Count(p => p.EdadNumerica.HasValue && p.EdadNumerica.Value <= 19);
-            _From20To29 = _PersonasFiltradas.Count(p => p.EdadNumerica.HasValue && p.EdadNumerica.Value <= 29);
-            _From30To39 = _PersonasFiltradas.Count(p => p.EdadNumerica.HasValue && p.EdadNumerica.Value <= 39);
+            _From20To29 = _PersonasFiltradas.Count(p => p.EdadNumerica.HasValue && p.EdadNumerica.Value >= 20 && p.EdadNumerica.Value <= 29);
+            _From30To39 = _PersonasFiltradas.Count(p => p.EdadNumerica.HasValue && p.EdadNumerica.Value >= 30 && p.EdadNumerica.Value <= 39);
             _From40 = _PersonasFiltradas.Count(p => p.EdadNumerica.HasValue && p.EdadNumerica.Value >= 40);
             _EdadNoProporcionada = _PersonasFiltradas.Count(p => !p.FechaDeNacimiento.HasValue);
 
@@ -255,11 +299,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _Divorciado = _PersonasFiltradas.Count(p => p.EstadoCivil == EstadoCivil.Divorciada.ToString());
             _EstadoCivilNoProporcionado = _PersonasFiltradas.Count(p => p.EstadoCivil == EstadoCivil.NoProporcionado.ToString());
 
-            ValoresDeEstadoCivil.Add(new ChartItem { Title = "Soltera/o", Value = _Soltero });
-            ValoresDeEstadoCivil.Add(new ChartItem { Title = "Casada/o", Value = _Casado });
-            ValoresDeEstadoCivil.Add(new ChartItem { Title = "Separada/o", Value = _Separado });
-            ValoresDeEstadoCivil.Add(new ChartItem { Title = "Divorciada/o", Value = _Divorciado });
-            ValoresDeEstadoCivil.Add(new ChartItem { Title = "No Proporcionado", Value = _EstadoCivilNoProporcionado });
+            ValoresDeEstadoCivil.Add(NewChartItem("Soltera/o", "Soltera/o", _Soltero ));
+            ValoresDeEstadoCivil.Add(NewChartItem("Casada/o", "Casada/o", _Casado));
+            ValoresDeEstadoCivil.Add(NewChartItem("Separada/o", "Separada/o", _Separado));
+            ValoresDeEstadoCivil.Add(NewChartItem("Divorciada/o", "Divorciada/o", _Divorciado));
+            ValoresDeEstadoCivil.Add(NewChartItem("No Proporcionado", "No Proporcionado", _EstadoCivilNoProporcionado));
 
             OnPropertyChanged(nameof(ValoresDeEstadoCivil));
         }
@@ -280,11 +324,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _Bisexual = _PersonasFiltradas.Count(p => p.OrientacionSexual == OrientacionSexual.Bisexual.ToString());
             _OrientacionSexualNoProporcionada = _PersonasFiltradas.Count(p => p.OrientacionSexual == OrientacionSexual.NoProporcionado.ToString());
 
-            ValoresDeOrientacionSexual.Add(new ChartItem { Title = "Heterosexual", Value = _Heterosexual });
-            ValoresDeOrientacionSexual.Add(new ChartItem { Title = "Gay", Value = _Gay });
-            ValoresDeOrientacionSexual.Add(new ChartItem { Title = "Lesbiana", Value = _Lesbiana });
-            ValoresDeOrientacionSexual.Add(new ChartItem { Title = "Bisexual", Value = _Bisexual });
-            ValoresDeOrientacionSexual.Add(new ChartItem { Title = "No Proporcionado", Value = _OrientacionSexualNoProporcionada });
+            ValoresDeOrientacionSexual.Add(NewChartItem("Heterosexual", "Heterosexual", _Heterosexual));
+            ValoresDeOrientacionSexual.Add(NewChartItem("Gay", "Gay", _Gay));
+            ValoresDeOrientacionSexual.Add(NewChartItem("Lesbiana", "Lesbiana", _Lesbiana));
+            ValoresDeOrientacionSexual.Add(NewChartItem("Bisexual", "Bisexual", _Bisexual));
+            ValoresDeOrientacionSexual.Add(NewChartItem("No Proporcionado", "No Proporcionado", _OrientacionSexualNoProporcionada));
 
             OnPropertyChanged(nameof(ValoresDeOrientacionSexual));
         }
@@ -359,15 +403,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _ParticipacionEnGama = atenciones.Count(x => x.EsDeParticipacion);
             _OtraAtencion = atenciones.Count(x => x.EsOtra);
 
-            ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Psicológica", Value = _Psicologica });
-            ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Jurídica", Value = _Juridica });
-            ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Social", Value = _Social });
-            ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Acogida", Value = _DeAcogida });
-            ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Prevención para la Salud", Value = _PrevencionParaLaSalud });
-            ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Orientación Formativa/Laboral", Value = _OrientacionLaboral });
-            ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Educación/Formación", Value = _EducacionFormacion });
-            ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Participación en Gamá", Value = _ParticipacionEnGama });
-            ValoresDeAtencionSolicitada.Add(new ChartItem { Title = "Otra", Value = _OtraAtencion });
+            ValoresDeAtencionSolicitada.Add(_NewChartItem("Psicológica", _Psicologica ));
+            ValoresDeAtencionSolicitada.Add(_NewChartItem("Jurídica", _Juridica));
+            ValoresDeAtencionSolicitada.Add(_NewChartItem("Social", _Social));
+            ValoresDeAtencionSolicitada.Add(_NewChartItem("Acogida", _DeAcogida));
+            ValoresDeAtencionSolicitada.Add(_NewChartItem("Prevención para la Salud", _PrevencionParaLaSalud));
+            ValoresDeAtencionSolicitada.Add(_NewChartItem("Orientación Formativa/Laboral", _OrientacionLaboral));
+            ValoresDeAtencionSolicitada.Add(_NewChartItem("Educación/Formación", _EducacionFormacion));
+            ValoresDeAtencionSolicitada.Add(_NewChartItem("Participación en Gamá", _ParticipacionEnGama));
+            ValoresDeAtencionSolicitada.Add(_NewChartItem("Otra", _OtraAtencion));
 
             OnPropertyChanged(nameof(ValoresDeAtencionSolicitada));
         }
@@ -405,18 +449,18 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _DerivacionDeOrientacionLaboral_Realizada = derivaciones.Count(x => x.EsDeOrientacionLaboral_Realizada);
             _DerivacionExterna_Realizada = derivaciones.Count(x => x.EsExterna_Realizada);
 
-            ValoresDeDerivaciones.Add(new ChartItem { Title = "Psicológica", Value = _DerivacionPsicologica });
-            ValoresDeDerivaciones.Add(new ChartItem { Title = "Psicológica Realizada", Value = _DerivacionPsicologica_Realizada });
-            ValoresDeDerivaciones.Add(new ChartItem { Title = "Jurídica", Value = _DerivacionJuridica });
-            ValoresDeDerivaciones.Add(new ChartItem { Title = "Jurídica Realizada", Value = _DerivacionJuridica_Realizada });
-            ValoresDeDerivaciones.Add(new ChartItem { Title = "Social", Value = _DerivacionSocial });
-            ValoresDeDerivaciones.Add(new ChartItem { Title = "Social Realizada", Value = _DerivacionSocial_Realizada });
-            ValoresDeDerivaciones.Add(new ChartItem { Title = "Orientación Formativa/Laboral", Value = _DerivacionDeOrientacionLaboral });
-            ValoresDeDerivaciones.Add(new ChartItem { Title = "Orientación Formativa/Laboral Realizada", Value = _DerivacionDeOrientacionLaboral_Realizada });
-            ValoresDeDerivaciones.Add(new ChartItem { Title = "Educación/Formación", Value = _DerivacionDeFormacion });
-            ValoresDeDerivaciones.Add(new ChartItem { Title = "Educación/Formación Realizada", Value = _DerivacionDeFormacion_Realizada });
-            ValoresDeDerivaciones.Add(new ChartItem { Title = "Externa", Value = _DerivacionExterna });
-            ValoresDeDerivaciones.Add(new ChartItem { Title = "Externa Realizada", Value = _DerivacionExterna_Realizada });
+            ValoresDeDerivaciones.Add(_NewChartItem("Psicológica", _DerivacionPsicologica ));
+            ValoresDeDerivaciones.Add(_NewChartItem("Psicológica Realizada", _DerivacionPsicologica_Realizada));
+            ValoresDeDerivaciones.Add(_NewChartItem("Jurídica", _DerivacionJuridica));
+            ValoresDeDerivaciones.Add(_NewChartItem("Jurídica Realizada", _DerivacionJuridica_Realizada));
+            ValoresDeDerivaciones.Add(_NewChartItem("Social", _DerivacionSocial));
+            ValoresDeDerivaciones.Add(_NewChartItem("Social Realizada", _DerivacionSocial_Realizada));
+            ValoresDeDerivaciones.Add(_NewChartItem("Orientación Formativa/Laboral", _DerivacionDeOrientacionLaboral));
+            ValoresDeDerivaciones.Add(_NewChartItem("Orientación Formativa/Laboral Realizada", _DerivacionDeOrientacionLaboral_Realizada));
+            ValoresDeDerivaciones.Add(_NewChartItem("Educación/Formación", _DerivacionDeFormacion));
+            ValoresDeDerivaciones.Add(_NewChartItem("Educación/Formación Realizada", _DerivacionDeFormacion_Realizada));
+            ValoresDeDerivaciones.Add(_NewChartItem("Externa", _DerivacionExterna));
+            ValoresDeDerivaciones.Add(_NewChartItem("Externa Realizada", _DerivacionExterna_Realizada));
 
             OnPropertyChanged(nameof(ValoresDeDerivaciones));
         }

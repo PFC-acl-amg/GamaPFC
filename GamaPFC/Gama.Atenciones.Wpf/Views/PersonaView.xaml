@@ -92,16 +92,20 @@
           </Grid>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+        <StackPanel Grid.Row="1" Grid.Column="1">
           <Label Margin="{DynamicResource Margin}">DNI/NIF</Label>
           <TextBox Margin="{DynamicResource Margin}" 
                        Text="{Binding Persona.Nif, UpdateSourceTrigger=PropertyChanged}"
                         MinWidth="80"/>
         </StackPanel>
-
-        <StackPanel Grid.Row="2" Grid.Column="0">
+        <StackPanel Grid.Row="1" Grid.Column="0">
           <Label Margin="{StaticResource Margin}">Nombre</Label>
           <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.Nombre, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="0">
+          <Label Margin="{StaticResource Margin}">Teléfono</Label>
+          <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.Telefono, UpdateSourceTrigger=PropertyChanged}"/>
 
           <Label Margin="{StaticResource Margin}">Fecha de Nacimiento</Label>
           <DatePicker Margin="{StaticResource Margin}" 
@@ -109,14 +113,18 @@
             UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                 Height="18"/>
 
-          <Label Margin="{StaticResource Margin}">Teléfono</Label>
-          <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.Telefono, UpdateSourceTrigger=PropertyChanged}"/>
-
           <Label Margin="{StaticResource Margin}">Dirección</Label>
           <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.DireccionPostal, UpdateSourceTrigger=PropertyChanged}"/>
 
           <Label Margin="{StaticResource Margin}">Nacionalidad</Label>
           <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Nacionalidad, UpdateSourceTrigger=PropertyChanged}"/>
+          
+          <Label Margin="{DynamicResource Margin}">Estado Civil</Label>
+          <ComboBox Margin="{DynamicResource Margin}" 
+                    IsEditable="False"
+            ItemsSource="{Binding Source={util:EnumBindingSource {x:Type business:EstadoCivil}}}"
+            Text="{Binding Persona.EstadoCivil, UpdateSourceTrigger=PropertyChanged}"
+            SelectedItem="{Binding Persona.EstadoCivil, UpdateSourceTrigger=PropertyChanged}"/>
 
           <Label Margin="{StaticResource Margin}">Identidad Sexual</Label>
           <ComboBox Margin="{DynamicResource Margin}" 

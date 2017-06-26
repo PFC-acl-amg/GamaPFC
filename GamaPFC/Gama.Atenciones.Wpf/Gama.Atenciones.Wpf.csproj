@@ -323,6 +323,7 @@
     <Compile Include="Views\Graficas\AtencionesGraficasView.xaml.cs">
       <DependentUpon>AtencionesGraficasView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\ChartPiePieceLabelConverter.cs" />
     <Compile Include="Views\Graficas\DatosPersonalesGraficasView.xaml.cs">
       <DependentUpon>DatosPersonalesGraficasView.xaml</DependentUpon>
     </Compile>
