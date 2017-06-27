@@ -22,123 +22,17 @@ using System.Windows.Media.Imaging;
 
 namespace Gama.Atenciones.Wpf
 {
-    public static class AtencionesResources
-    {
-        public static List<string> TodosLosNifDeAsistentes { get; set; }
-
-        public static void AddNifAAsistente(string nif)
-        {
-            if (!TodosLosNifDeAsistentes.Contains(nif))
-            {
-                TodosLosNifDeAsistentes.Add(nif);
-            }
-        }
-
-        public static List<Persona> Personas { get; set; }
-        public static ClientService ClientService { get; set; }
-        public static string ClientId { get; set; }
-    }
-
     public class AtencionesModule : ModuleBase
     {
-       // private ClientService _ClientService;
-
-        public bool ClearDatabase { get; private set; }
-
         public AtencionesModule(IUnityContainer container, IRegionManager regionManager)
            : base(container, regionManager)
-        {
-            this.Entorno = Entorno.Desarrollo;
-            this.ClearDatabase = true;
-            this.SeedDatabase = true;
-        }
+        { }
 
         public override void Initialize()
         {
-            RegisterServices();
-
-
-
-            // Preparamos la estructura de carpeta para la primera vez
-            InicializarDirectorios();
-
             RegisterViews();
             RegisterViewModels();
             InitializeNavigation();
-
-            //ConectarConServidor();
-            //AtencionesResources.ClientService.EnviarMensaje("jijiji");
-        }
-
-        private void ConectarConServidor()
-        {
-            AtencionesResources.ClientService = new ClientService(Container.Resolve<EventAggregator>());
-        }
-
-        private void InicializarDirectorios()
-        {
-            if (!Directory.Exists(ResourceNames.IconsAndImagesFolder))
-            {
-                Directory.CreateDirectory(ResourceNames.IconsAndImagesFolder);
-            }
-
-            try
-            {
-                BitmapImage icon;
-                BitmapEncoder encoder;
-
-                //
-                // Default Search Icon
-                //
-                if (!File.Exists(ResourceNames.DefaultSearchIconPath))
-                {
-                    icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_search_icon.png"));
-                    encoder = new PngBitmapEncoder();
-                    encoder.Frames.Add(BitmapFrame.Create(icon));
-
-                    using (var fileStream = 
-                        new System.IO.FileStream(ResourceNames.DefaultSearchIconPath, System.IO.FileMode.Create))
-                    {
-                        encoder.Save(fileStream);
-                    }
-                }
-
-                //
-                // Default User Icon
-                //
-                if (!File.Exists(ResourceNames.DefaultUserIconPath))
-                {
-                    icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png"));
-                    encoder = new PngBitmapEncoder();
-                    encoder.Frames.Add(BitmapFrame.Create(icon));
-
-                    using (var fileStream = 
-                        new System.IO.FileStream(ResourceNames.DefaultUserIconPath, System.IO.FileMode.Create))
-                    {
-                        encoder.Save(fileStream);
-                    }
-                }
-
-                //
-                // Atención Icon
-                //
-                if (!File.Exists(ResourceNames.AtencionIconPath))
-                {
-                    icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png"));
-                    encoder = new PngBitmapEncoder();
-                    encoder.Frames.Add(BitmapFrame.Create(icon));
-
-                    using (var fileStream =
-                        new System.IO.FileStream(ResourceNames.AtencionIconPath, System.IO.FileMode.Create))
-                    {
-                        encoder.Save(fileStream);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
         }
 
         private void RegisterViews()
@@ -178,10 +72,6 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<SearchBoxViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<StatusBarViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<ToolbarViewModel>(new ContainerControlledLifetimeManager());
-        }
-
-        private void RegisterServices()
-        {
         }
 
         private void InitializeNavigation()

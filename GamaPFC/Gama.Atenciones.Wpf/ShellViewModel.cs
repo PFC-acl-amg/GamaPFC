@@ -141,17 +141,23 @@ namespace Gama.Atenciones.Wpf
             GraficasContentViewIsVisible = _Panels["GraficasContentView"];
         }
 
-        private void OnServidorActualizadoDesdeFueraEvent()
+        private void OnServidorActualizadoDesdeFueraEvent(string code)
         {
-            _AsistenteRepository.ActualizarCliente();
+            if (code != AtencionesResources.ClientId)
+            {
+                _AsistenteRepository.UpdateClient();
+                _PersonaRepository.UpdateClient();
+                _CitaRepository.UpdateClient();
+                _AtencionRepository.UpdateClient();
 
-            AsistentesContentViewModel.OnActualizarServidor();
-            CitasContentViewModel.OnActualizarServidor();
-            DashboardViewModel.OnActualizarServidor();
-            GraficasContentViewModel.OnActualizarServidor();
-            PersonasContentViewModel.OnActualizarServidor();
-            SearchBoxViewModel.OnActualizarServidor();
-            ToolbarViewModel.OnActualizarServidor();
+                AsistentesContentViewModel.OnActualizarServidor();
+                CitasContentViewModel.OnActualizarServidor();
+                DashboardViewModel.OnActualizarServidor();
+                GraficasContentViewModel.OnActualizarServidor();
+                PersonasContentViewModel.OnActualizarServidor();
+                SearchBoxViewModel.OnActualizarServidor();
+                ToolbarViewModel.OnActualizarServidor();
+            }
         }
 
         public void OnCloseApplication()

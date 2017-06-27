@@ -31,7 +31,7 @@ namespace Core.DataAccess
 
         }
 
-        public virtual void ActualizarCliente()
+        public virtual void UpdateClient()
         {
 
         }

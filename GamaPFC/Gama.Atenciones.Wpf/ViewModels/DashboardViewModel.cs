@@ -49,7 +49,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _AtencionRepository.Session = session;
 
             _Personas = new List<Persona>(_PersonaRepository.GetAll());
-            _Atenciones = new List<Atencion>(atencionRepository.GetAll());
+            _Atenciones = new List<Atencion>(_AtencionRepository.GetAll());
             _Citas = new List<Cita>(_CitaRepository.GetAll());
 
             Personas = new ObservableCollection<Persona>(
@@ -93,7 +93,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             DoMagicCommand = new DelegateCommand(OnDoMagicCommandExecute);
             StopMagicCommand = new DelegateCommand(OnStopMagicCommandExecute);
-            //_EventAggregator.GetEvent<ServidorActualizadoDesdeFueraEvent>().Subscribe(OnServidorActualizadoDesdeFueraEvent);
         }
 
         private Persona _PersonaSeleccionada;
@@ -147,6 +146,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         /// 
         /// FUNCIONES PRIVADAS Y MÉTODOS PÚBLICOS
         /// 
+        
 
         // Filtra por fecha si éstas están definidas en la interfaz.
         // Si no, carga todos los elementos. Cada vez que hay algún cambio
@@ -371,9 +371,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
             AtencionesResources.ClientService.Desconectar();
         }
 
-        private void OnServidorActualizadoDesdeFueraEvent()
+        public override void OnActualizarServidor()
         {
-            System.Windows.MessageBox.Show($"Ok: {++_Contador}");
+            _Personas = new List<Persona>(_PersonaRepository.GetAll());
+            _Atenciones = new List<Atencion>(_AtencionRepository.GetAll());
+            _Citas = new List<Cita>(_CitaRepository.GetAll());
+
+            FiltrarPorFecha();
         }
     }
 }

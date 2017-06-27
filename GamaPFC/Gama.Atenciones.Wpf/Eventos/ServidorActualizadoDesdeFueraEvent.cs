@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Atenciones.Wpf.Eventos
 {
-    public class ServidorActualizadoDesdeFueraEvent : PubSubEvent
+    public class ServidorActualizadoDesdeFueraEvent : PubSubEvent<string>
     {
     }
 }

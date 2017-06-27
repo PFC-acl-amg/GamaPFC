@@ -29,6 +29,16 @@ namespace Gama.Atenciones.Wpf.Services
             }
         }
 
+        private void RaiseActualizarServidor()
+        {
+            AtencionesResources.ClientService.EnviarMensaje($"Cliente {AtencionesResources.ClientId} ha hecho un broadcast");
+        }
+
+        public override void UpdateClient()
+        {
+            _Citas = base.GetAll();
+        }
+
         public override Cita GetById(int id)
         {
             return Citas.Find(x => x.Id == id);
@@ -44,6 +54,7 @@ namespace Gama.Atenciones.Wpf.Services
             base.Create(entity);
             Citas.Add(entity);
             _EventAggregator.GetEvent<CitaCreadaEvent>().Publish(entity.Id);
+            RaiseActualizarServidor();
         }
 
         public override bool Update(Cita entity)
@@ -54,6 +65,7 @@ namespace Gama.Atenciones.Wpf.Services
                 Citas.Remove(Citas.Find(x => x.Id == entity.Id));
                 Citas.Add(entity);
                 _EventAggregator.GetEvent<CitaActualizadaEvent>().Publish(entity.Id);
+                RaiseActualizarServidor();
                 return true;
             }
 

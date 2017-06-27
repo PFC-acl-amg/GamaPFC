@@ -12,6 +12,7 @@ namespace Gama.Atenciones.Wpf.Services
 {
     public class ClientService
     {
+        public const string INICIO_DE_CONEXION = "INICIO DE CONEXION";
         TcpClient _ClientSocket;
         NetworkStream _ServerStream;
         string _ReadData;
@@ -37,7 +38,7 @@ namespace Gama.Atenciones.Wpf.Services
             AtencionesResources.ClientId = System.Security.Principal.WindowsIdentity.GetCurrent().Name + Guid.NewGuid().ToString();
             _ClientName = AtencionesResources.ClientId.ToString();
 
-            EnviarMensaje($"{AtencionesResources.ClientId}");
+            EnviarMensaje($"{AtencionesResources.ClientId}" + INICIO_DE_CONEXION);
 
             _ClientThread = new Thread(_RecibirMensaje);
             _ClientThread.Start();
@@ -56,7 +57,11 @@ namespace Gama.Atenciones.Wpf.Services
 
                 _ServerStream.Read(inStream, 0, bufferSize);
 
-                _EventAggregator.GetEvent<ServidorActualizadoDesdeFueraEvent>().Publish();
+                string dataFromServer = Encoding.ASCII.GetString(inStream);
+                dataFromServer = dataFromServer.Substring(0, dataFromServer.IndexOf("$"));
+
+                if (!dataFromServer.Contains(INICIO_DE_CONEXION))
+                    _EventAggregator.GetEvent<ServidorActualizadoDesdeFueraEvent>().Publish(dataFromServer);
             }
         }
 

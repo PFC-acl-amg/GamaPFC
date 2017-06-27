@@ -39,6 +39,7 @@ namespace Core
         {
         }
 
-        public virtual void OnActualizarServidor() { }
+        public virtual void OnActualizarServidor() {
+        }
     }
 }

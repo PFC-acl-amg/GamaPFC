@@ -208,6 +208,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AtencionesResources.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controls\CustomCalendar.cs" />
     <Compile Include="Controls\Day.cs" />
@@ -249,6 +250,7 @@
     <Compile Include="FakeServices\FakeAsistenteRepository.cs" />
     <Compile Include="FakeServices\FakeAtencionRepository.cs" />
     <Compile Include="FakeServices\FakeCitaRepository.cs" />
+    <Compile Include="FakeServices\FakeDerivacionRepository.cs" />
     <Compile Include="FakeServices\FakePersonaRepository.cs" />
     <Compile Include="FakeServices\FakeRepository.cs" />
     <Compile Include="Services\AsistenteRepository.cs" />

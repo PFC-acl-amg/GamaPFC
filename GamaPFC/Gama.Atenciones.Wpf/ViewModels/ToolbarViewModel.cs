@@ -60,6 +60,14 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand HacerBackupCommand { get; private set; }
         public ICommand HacerRestoreCommand { get; private set; }
 
+        public override void OnActualizarServidor()
+        {
+            if (_Persona != null)
+                _Persona = _PersonaRepository.GetById(_Persona.Id);
+            
+            InvalidateCommands();
+        }
+
         private void OnPersonaSeleccionadaChangedEvent(int id)
         {
             if (id != 0)

@@ -168,6 +168,23 @@ namespace Gama.Atenciones.Wpf.ViewModels
             return (Persona.Id == id);
         }
 
+        public override void OnActualizarServidor()
+        {
+            if (!Persona.IsChanged)
+            {
+                var persona = new PersonaWrapper(
+                    (Persona)
+                    _PersonaRepository.GetById(Persona.Id)
+                    .DecryptFluent());
+
+                _PersonaVM.Load(persona);
+                _AtencionesVM.Load(_PersonaVM.Persona);
+                _CitasVM.Load(_PersonaVM.Persona);
+                RefrescarTitulo(persona.Nombre);
+                _AtencionesVM.VerAtenciones = false;
+            }
+        }
+
         public void OnNavigatedTo(int personaId, int? atencionId = null)
         {
             try

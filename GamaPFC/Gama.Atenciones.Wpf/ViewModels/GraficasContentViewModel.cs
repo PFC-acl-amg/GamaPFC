@@ -144,12 +144,18 @@ namespace Gama.Atenciones.Wpf.ViewModels
             return new ChartItem { Key = title, Title = $"{title}: {value}", Value = value };
         }
 
+        public override void OnActualizarServidor()
+        {
+            _Personas = _PersonaRepository.GetAll();
+            Filtrar();
+        }
+
         private bool _FiltroExclusivo = true;
 
         private void Filtrar()
         {
             //Filtrar
-            IEnumerable<Persona> query = _Personas.Where(p => p != null);
+            IEnumerable<Persona> query = _Personas;
 
             query = query.Where
                 (p =>
@@ -189,7 +195,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             _PersonasFiltradas = query.ToList();
 
-            // Refrescar
             Refresh();
         }
 

@@ -31,27 +31,32 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _PersonaRepository = personaRepository;
             _PersonaRepository.Session = session;
             _Settings = settings;
-
-            _Personas = _PersonaRepository.GetAll()
-                .Select(p => new LookupItem
-                {
-                    Id = p.Id,
-                    DisplayMember1 = LookupItem.ShortenStringForDisplay(p.Nombre, 25),
-                    DisplayMember2 = p.Nif,
-                    Imagen = p.Imagen
-                }).ToList();
-
-            Personas = new PaginatedCollectionView(_Personas,
-                _Settings.ListadoDePersonasItemsPerPage);
+            OnActualizarServidor();
 
             SeleccionarPersonaCommand = new DelegateCommand<object>(OnSeleccionarPersonaCommandExecute);
             PaginaAnteriorCommand = new DelegateCommand(() => Personas.MoveToPreviousPage());
             PaginaSiguienteCommand = new DelegateCommand(() => Personas.MoveToNextPage());
-            
+
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnNuevaPersonaEvent);
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
             _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
 
+        }
+
+        public override void OnActualizarServidor()
+        {
+            _Personas = _PersonaRepository.GetAll()
+                            .Select(p => new LookupItem
+                            {
+                                Id = p.Id,
+                                DisplayMember1 = LookupItem.ShortenStringForDisplay(p.Nombre, 25),
+                                DisplayMember2 = p.Nif,
+                                Imagen = p.Imagen
+                            }).ToList();
+
+            Personas = new PaginatedCollectionView(_Personas,
+                _Settings.ListadoDePersonasItemsPerPage);
+            OnPropertyChanged(nameof(Personas));
         }
 
         public ICommand SeleccionarPersonaCommand { get; private set; }

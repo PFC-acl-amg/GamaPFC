@@ -78,6 +78,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
         }
 
+        public override void OnActualizarServidor()
+        {
+            foreach (var viewModel in ViewModels)
+                ((ViewModelBase)viewModel).OnActualizarServidor();
+        }
+
         private void SetActiveTab()
         {
             foreach (var viewModel in ViewModels)
@@ -231,15 +237,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnPersonaCreadaEvent(int id)
         {
             NavegarAPersona(id);
-        }
-
-        public override void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-        }
-
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            _EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
         }
     }
 }

@@ -21,14 +21,12 @@ namespace Core
         protected IRegionManager RegionManager { get; private set; }
         public bool Debug { get; set; }
         public Entorno Entorno { get; set; }
-        public bool SeedDatabase { get; set; }
 
         public ModuleBase(IUnityContainer container, IRegionManager regionManager)
         {
             this.Container = container;
             this.RegionManager = regionManager;
             this.Entorno = Entorno.Desarrollo;
-            this.SeedDatabase = false;
         }
 
         public abstract void Initialize();
