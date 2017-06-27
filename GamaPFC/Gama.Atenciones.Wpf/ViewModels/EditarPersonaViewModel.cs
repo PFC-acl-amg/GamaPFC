@@ -13,6 +13,7 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
+using Gama.Common.Eventos;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -23,6 +24,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private PersonaViewModel _PersonaVM;
         private EditarAtencionesViewModel _AtencionesVM;
         private EditarCitasViewModel _CitasVM;
+        private Preferencias _Preferencias;
 
         public EditarPersonaViewModel(
             IEventAggregator eventAggregator,
@@ -30,7 +32,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             PersonaViewModel personaVM,
             EditarAtencionesViewModel atencionesVM,
             EditarCitasViewModel citasVM,
-            ISession session)
+            ISession session,
+            Preferencias preferencias)
         {
             _EventAggregator = eventAggregator;
             _PersonaRepository = personaRepository;
@@ -41,16 +44,18 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _CitasVM = citasVM;
             _CitasVM.Session = session;
 
+            _Preferencias = preferencias;
+
             CitasIsVisible = true;
             AtencionesIsVisible = false;
 
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
-                () => !_PersonaVM.EdicionHabilitada);
+                () => !Persona.IsInEditionMode);
             ActualizarCommand = new DelegateCommand(
                 OnActualizarCommand,
                 () =>
-                _PersonaVM.EdicionHabilitada
+                Persona.IsInEditionMode
                    && Persona.IsChanged
                    && Persona.IsValid
                    );
@@ -142,26 +147,27 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
         }
 
-        public void Load(int id)
-        {
-            try
-            {
-                if (Persona.Nombre != null)
-                    return;
+        //public void Load(int id)
+        //{
+        //    try
+        //    {
+        //        if (Persona.Nombre != null)
+        //            return;
 
-                var personaModel = _PersonaRepository.GetById(id);
-                var persona = new PersonaWrapper(personaModel);
+        //        var personaModel = _PersonaRepository.GetById(id);
+        //        var persona = new PersonaWrapper(personaModel);
 
-                _PersonaVM.Load(persona);
-                _AtencionesVM.Load(_PersonaVM.Persona);
-                _CitasVM.Load(_PersonaVM.Persona);
-                RefrescarTitulo(persona.Nombre);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //        _PersonaVM.Load(persona);
+        //        _AtencionesVM.Load(_PersonaVM.Persona);
+        //        _CitasVM.Load(_PersonaVM.Persona);
+        //        RefrescarTitulo(persona.Nombre);
+        //        Persona.IsInEditionMode = _Preferencias.General_EdicionHabilitadaPorDefecto;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
         public bool IsNavigationTarget(int id)
         {
@@ -197,6 +203,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                         .DecryptFluent());
 
                     _PersonaVM.Load(persona);
+                    Persona.IsInEditionMode = _Preferencias.General_EdicionHabilitadaPorDefecto;
+                    //InvalidateCommands();
                     _AtencionesVM.Load(_PersonaVM.Persona);
                     _CitasVM.Load(_PersonaVM.Persona);
                     RefrescarTitulo(persona.Nombre);
@@ -205,7 +213,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 
                 if (atencionId.HasValue)
                 {
-                    _AtencionesVM.EdicionHabilitada = false;
+                    //_AtencionesVM.EdicionHabilitada = false;
+                    _AtencionesVM.EdicionHabilitada = _Preferencias.General_EdicionHabilitadaPorDefecto;
 
                     if (_AtencionesVM.Atenciones != null)
                         _AtencionesVM.AtencionSeleccionada = _AtencionesVM.Atenciones.Where(x => x.Id == atencionId.Value).FirstOrDefault();
@@ -257,7 +266,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void _PersonaVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(_PersonaVM.EdicionHabilitada))
+            if (e.PropertyName == nameof(Persona.IsInEditionMode))
             {
                 InvalidateCommands();
             }

@@ -16,6 +16,18 @@ namespace Gama.Atenciones.Wpf.Wrappers
         }
 
         ///
+        /// General
+        /// 
+
+        public bool General_EdicionHabilitadaPorDefecto
+        {
+            get { return GetValue<bool>(); }
+            set { SetValue(value); }
+        }
+        public bool General_EdicionHabilitadaPorDefectoOriginalValue => GetOriginalValue<bool>(nameof(General_EdicionHabilitadaPorDefecto));
+        public bool General_EdicionHabilitadaPorDefectoIsChanged => GetIsChanged(nameof(General_EdicionHabilitadaPorDefecto));
+
+        ///
         /// Copias de Seguridad
         ///
         public string AutomaticBackupPath

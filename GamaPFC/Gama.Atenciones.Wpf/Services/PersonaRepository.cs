@@ -36,7 +36,7 @@ namespace Gama.Atenciones.Wpf.Services
 
         private void RaiseActualizarServidor() 
         {
-            AtencionesResources.ClientService.EnviarMensaje($"Cliente {AtencionesResources.ClientId} ha hecho un broadcast");
+            AtencionesResources.ClientService.EnviarMensaje($"Cliente {AtencionesResources.ClientId} ha hecho un broadcast @@{Guid.NewGuid()}%%");
         }
 
         public override void UpdateClient()

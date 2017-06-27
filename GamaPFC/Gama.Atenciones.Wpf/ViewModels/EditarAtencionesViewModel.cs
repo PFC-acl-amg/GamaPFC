@@ -30,11 +30,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private IEventAggregator _EventAggregator;
         private IPersonaRepository _PersonaRepository;
         private IRegionManager _RegionManager;
+        private Preferencias _Preferencias;
 
         public EditarAtencionesViewModel(IAtencionRepository atencionRepository,
             IEventAggregator eventAggregator, IPersonaRepository personaRepository,
             ICitaRepository citaRepository,
-            IRegionManager regionManager)
+            IRegionManager regionManager, 
+            Preferencias preferencias)
         {
             _EdicionHabilitada = true;
             Persona = new PersonaWrapper(new Persona());
@@ -43,6 +45,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _CitaRepository = citaRepository;
             _EventAggregator = eventAggregator;
             _RegionManager = regionManager;
+            _Preferencias = preferencias;
 
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommandExecute,
@@ -136,7 +139,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public void Load(PersonaWrapper wrapper)
         {
-            EdicionHabilitada = false;
+            EdicionHabilitada = _Preferencias.General_EdicionHabilitadaPorDefecto;
             Persona = wrapper;
             Atenciones = new ObservableCollection<AtencionWrapper>(
                 Persona.Citas.Select(c => c.Atencion).Where(a => a != null && a.Id != 0).ToList());
@@ -214,13 +217,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 CitaSeleccionada.AcceptChanges();
             }
 
-            EdicionHabilitada = false;
+            //EdicionHabilitada = false;
+            EdicionHabilitada = _Preferencias.General_EdicionHabilitadaPorDefecto;
         }
 
         private void OnCancelarEdicionCommandExecute()
         {
             AtencionSeleccionada.RejectChanges();
-            EdicionHabilitada = false;
+            //EdicionHabilitada = false;
+            EdicionHabilitada = _Preferencias.General_EdicionHabilitadaPorDefecto;
         }
 
         private void OnEditarCitaCommandExecute()

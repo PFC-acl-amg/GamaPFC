@@ -25,7 +25,7 @@
   <!--<GroupBox Header="Datos Personales">-->
   <Border BorderBrush="#CC104F6A" BorderThickness="0" Margin="{StaticResource Margin}">
     <ScrollViewer >
-      <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding EdicionHabilitada}">
+      <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding Persona.IsInEditionMode}">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" MaxWidth="300"/>
           <ColumnDefinition Width="*" MaxWidth="300"/>
