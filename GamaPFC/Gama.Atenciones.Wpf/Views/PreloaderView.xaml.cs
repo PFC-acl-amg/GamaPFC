@@ -6,13 +6,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using System;
+using System.ComponentModel;
 
 namespace Gama.Atenciones.Wpf.Views
 {
     /// <summary>
     /// Interaction logic for PreloaderView.xaml
     /// </summary>
-    public partial class PreloaderView : MetroWindow
+    public partial class PreloaderView : MetroWindow, System.ComponentModel.INotifyPropertyChanged
     {
         private List<Label> _Labels;
         private DispatcherTimer _Timer;
@@ -20,13 +21,15 @@ namespace Gama.Atenciones.Wpf.Views
         public PreloaderView(ObservableCollection<string> coleccion)
         {
             InitializeComponent();
-            //_Timer = new DispatcherTimer();
-            //_Timer.Tick += _timer_Tick;
-            //_Timer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            _Timer = new DispatcherTimer();
+            _Timer.Tick += _timer_Tick;
+            _Timer.Interval = new TimeSpan(0, 0, 0, 0, 250);
             _Labels = new List<Label>();
             _Labels.AddRange(new[] {_Label1, _Label2, _Label3, _Label4, _Label5 });
+            _Timer.Start();
 
             coleccion.CollectionChanged += Coleccion_CollectionChanged;
+            DataContext = this;
 
         }
 
@@ -36,11 +39,39 @@ namespace Gama.Atenciones.Wpf.Views
             Next();
         }
 
+        private string _TituloBase = "CARGANDO";
+        private string _Titulo = "CARGANDO...";
+        public string Titulo
+        {
+            get { return _Titulo; }
+            set
+            {
+                _Titulo = value;
+                OnPropertyChanged(nameof(Titulo));
+            }
+        }
+        int contador = 3;
+        
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         private void _timer_Tick(object sender, EventArgs e)
         {
-            Next();
+            if (contador > 3)
+            {
+                contador = 0;
+                Titulo = _TituloBase;
+            }
+
+            Titulo += ".";
+
+            contador++;
             _Timer.Start();
+
         }
 
         public void Next()

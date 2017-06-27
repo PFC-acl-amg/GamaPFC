@@ -8,7 +8,9 @@ using Prism.Commands;
 using Prism.Events;
 using System.Collections.Generic;
 using System.Linq;
+using Gama.Common.Eventos;
 using System.Windows.Input;
+using System;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -40,7 +42,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnNuevaPersonaEvent);
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
             _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
+            _EventAggregator.GetEvent<PreferenciasActualizadasEvent>().Subscribe(OnPreferenciasActualizadasEvent);
 
+        }
+
+        private void OnPreferenciasActualizadasEvent()
+        {
+            Personas.ItemsPerPage = _Settings.ListadoDePersonasItemsPerPage;
         }
 
         public override void OnActualizarServidor()

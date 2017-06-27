@@ -13,7 +13,7 @@
         IsCloseButtonEnabled="False"
         IsMinButtonEnabled="False"
         IsMaxRestoreButtonEnabled="False"
-        Title="CARGANDO..." Height="472" Width="564">
+        Title="{Binding Titulo, UpdateSourceTrigger=PropertyChanged}" Height="472" Width="564">
   <Window.Resources>
     <Style TargetType="Label">
       <Setter Property="Foreground" Value="White"/>
