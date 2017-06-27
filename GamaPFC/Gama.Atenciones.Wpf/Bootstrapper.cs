@@ -20,6 +20,7 @@ using System.Security.Permissions;
 using System.ComponentModel;
 using System.Windows.Threading;
 using System.Collections.ObjectModel;
+using Gama.Common.Eventos;
 
 namespace Gama.Atenciones.Wpf
 {
@@ -105,6 +106,11 @@ namespace Gama.Atenciones.Wpf
             Application.Current.MainWindow.Show();
 
             _KillTheThread();
+
+            //if (AtencionesResources.ClientService.IsConnected())
+            //    Container.Resolve<EventAggregator>().GetEvent<LaConexionConElServidorHaCambiadoEvent>().Publish(MensajeDeConexion.Conectado);
+            //else
+            //    Container.Resolve<EventAggregator>().GetEvent<LaConexionConElServidorHaCambiadoEvent>().Publish(MensajeDeConexion.NoConectado);
         }
 
         private void InicializarDirectorios()

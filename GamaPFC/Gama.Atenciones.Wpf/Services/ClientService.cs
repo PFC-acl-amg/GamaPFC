@@ -1,4 +1,5 @@
 ﻿using Gama.Atenciones.Wpf.Eventos;
+using Gama.Common.Eventos;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,11 @@ namespace Gama.Atenciones.Wpf.Services
             _ConectarAlServidor();
         }
 
+        public bool IsConnected()
+        {
+            return (_ClientSocket != null && _ClientSocket.Connected);
+        }
+
         public void TryConnect()
         {
             _ConectarAlServidor();
@@ -39,6 +45,11 @@ namespace Gama.Atenciones.Wpf.Services
         { 
             try
             {
+                if (_ClientSocket.Connected)
+                {
+                    _EventAggregator.GetEvent<LaConexionConElServidorHaCambiadoEvent>().Publish(MensajeDeConexion.Conectado);
+                    return;
+                }
                 _ClientSocket.Connect("80.59.101.181", 8888);
                 _ServerStream = _ClientSocket.GetStream();
 
@@ -49,9 +60,12 @@ namespace Gama.Atenciones.Wpf.Services
 
                 _ClientThread = new Thread(_RecibirMensaje);
                 _ClientThread.Start();
+
+                _EventAggregator.GetEvent<LaConexionConElServidorHaCambiadoEvent>().Publish(MensajeDeConexion.Conectado);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _EventAggregator.GetEvent<LaConexionConElServidorHaCambiadoEvent>().Publish(MensajeDeConexion.NoConectado);
                 // No se ha podido conectar con la herramienta servidor
             }
         }
@@ -79,6 +93,7 @@ namespace Gama.Atenciones.Wpf.Services
                 }
             } catch (Exception ex)
             {
+                _EventAggregator.GetEvent<LaConexionConElServidorHaCambiadoEvent>().Publish(MensajeDeConexion.NoConectado);
                 // El servidor se ha desconectado
             }
         }
