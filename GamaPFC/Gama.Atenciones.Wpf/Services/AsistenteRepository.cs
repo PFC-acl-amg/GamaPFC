@@ -36,9 +36,6 @@ namespace Gama.Atenciones.Wpf.Services
             AtencionesResources.ClientService.EnviarMensaje($"Cliente {AtencionesResources.ClientId} ha hecho un broadcast");
         }
 
-        private void RaiseActualizarServidor() =>
-            _EventAggregator.GetEvent<ServidorActualizadoDesdeFueraEvent>().Publish(AtencionesResources.ClientId);
-
         public override void UpdateClient()
         {
             _Asistentes = base.GetAll();

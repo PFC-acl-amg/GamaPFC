@@ -219,7 +219,8 @@
               <Border BorderThickness="1" CornerRadius="50,50,50,50" BorderBrush="LightGray" Background="#FF466C90" Margin="{StaticResource Margin}">
                 <Ellipse Height="55" Width="53" OpacityMask="{StaticResource _RadialGradientBrush}">
                   <Ellipse.Fill>
-                    <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                    <!--<ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>-->
+                    <ImageBrush ImageSource="pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/add atencion.png" Stretch="Uniform"/>
                   </Ellipse.Fill>
                 </Ellipse>
               </Border>

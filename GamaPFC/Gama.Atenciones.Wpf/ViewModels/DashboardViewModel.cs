@@ -73,8 +73,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
             FiltrarPorPersonaCommand = new DelegateCommand<object>(OnFiltrarPorPersonaCommandExecute);
             ResetearFechasCommand = new DelegateCommand(() =>
             {
-                FechaDeInicio = null;
-                FechaDeFin = null;
+                _FechaDeInicio = null;
+                _FechaDeFin = null;
+                FiltrarPorFecha();
             });
 
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnPersonaCreadaEvent);
@@ -138,8 +139,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             atencion =>
             { 
                 atencion.Seguimiento = LookupItem.ShortenStringForDisplay(atencion.Seguimiento, 30);
-                atencion.Imagen = Converters.BinaryImageConverter.GetBitmapImageFromUriSource(
-                                 new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/add atencion.png"));
+                //atencion.Imagen = Converters.BinaryImageConverter.GetBitmapImageFromUriSource(
+                //                 new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/add atencion.png"));
                 return atencion;
             };
 
@@ -157,21 +158,39 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var fechaDeInicio = FechaDeInicio ?? DateTime.Now.AddYears(-100);
             var fechaDeFin = FechaDeFin ?? DateTime.Now.AddYears(10);
 
+            //Personas.Clear();
+            //Personas.AddRange(_Personas
+            //    .Where(p => p.CreatedAt.IsBetween(FechaDeInicio, FechaDeFin)
+            //        || p.UpdatedAt.IsBetween(FechaDeInicio, FechaDeFin)
+            //        || p.Citas.Any(c => c.Fecha.IsBetween(FechaDeInicio, FechaDeFin)))
+            //    .Where(p => p.Nombre.ToLower().Contains(_TextoDeBusqueda.Trim().ToLower()))
+            //    .OrderBy(p => p.Nombre)
+            //    .ToList());
             Personas = new ObservableCollection<Persona>(
                 _Personas
-                .Where(p => p.CreatedAt.IsBetween(FechaDeInicio, FechaDeFin) 
+                .Where(p => p.CreatedAt.IsBetween(FechaDeInicio, FechaDeFin)
                     || p.UpdatedAt.IsBetween(FechaDeInicio, FechaDeFin)
                     || p.Citas.Any(c => c.Fecha.IsBetween(FechaDeInicio, FechaDeFin)))
                 .Where(p => p.Nombre.ToLower().Contains(_TextoDeBusqueda.Trim().ToLower()))
                 .OrderBy(p => p.Nombre)
                 .ToList());
 
+            //Atenciones.Clear();
+            //Atenciones.AddRange(_Atenciones
+            //    .Where(x => x.Fecha.IsBetween(FechaDeInicio, FechaDeFin))
+            //    .OrderBy(a => a.Fecha)
+            //    .Select(_AtencionToFullAtencion));
             Atenciones = new ObservableCollection<Atencion>(
                 _Atenciones
                 .Where(x => x.Fecha.IsBetween(FechaDeInicio, FechaDeFin))
                 .OrderBy(a => a.Fecha)
                 .Select(_AtencionToFullAtencion));
 
+            //ProximasCitas.Clear();
+            //ProximasCitas.AddRange(_Citas
+            //    .Where(x => x.Fecha.IsBetween(FechaDeInicio, FechaDeFin))
+            //    .OrderBy(c => c.Fecha)
+            //    .ToList());
             ProximasCitas = new ObservableCollection<Cita>(
                 _Citas
                 .Where(x => x.Fecha.IsBetween(FechaDeInicio, FechaDeFin))

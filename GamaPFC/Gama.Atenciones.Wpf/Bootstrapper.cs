@@ -14,6 +14,12 @@ using Gama.Atenciones.DataAccess;
 using Gama.Atenciones.Wpf.FakeServices;
 using Gama.Atenciones.Business;
 using Gama.Common;
+using System.Threading;
+using Gama.Atenciones.Wpf.Views;
+using System.Security.Permissions;
+using System.ComponentModel;
+using System.Windows.Threading;
+using System.Collections.ObjectModel;
 
 namespace Gama.Atenciones.Wpf
 {
@@ -21,14 +27,38 @@ namespace Gama.Atenciones.Wpf
     {
         private bool _CLEAR_DATABASE = false;
         private bool _SEED_DATABASE = false;
+        private Thread _PreloadThread;
+        public static PreloaderView _PreloaderView;
+        private BackgroundWorker backgroundWorker;
+        private ObservableCollection<string> coleccion;
 
         protected override DependencyObject CreateShell()
         {
-            InicializarDirectorios();
-            ConfigurarPreferencias();
-            ConectarConServidor();
-            RegisterServices();
-            ConfigureDatabase();
+            coleccion = new ObservableCollection<string>();
+            _PreloaderView = new PreloaderView(coleccion);
+            //_PreloaderView.Show();
+            _PreloadThread = new Thread(_PreLoad);
+            _PreloadThread.SetApartmentState(ApartmentState.STA);
+            _PreloadThread.Start();
+
+            //_PreloaderView = new PreloaderView();
+            //_PreloaderView.ShowDialog();
+
+            //backgroundWorker.RunWorkerAsync();
+
+            //_PreloaderView.Next(); ConfigurarPreferencias();
+            //_PreloaderView.Next(); ConectarConServidor();
+            //_PreloaderView.Next(); RegisterServices();
+            //_PreloaderView.Next(); ConfigureDatabase();
+            Thread.Sleep(200);
+            lock (_PreloaderView)
+            {
+                coleccion.Add("x"); InicializarDirectorios();
+                coleccion.Add("x"); ConfigurarPreferencias();
+                coleccion.Add("x"); RegisterServices(); 
+                coleccion.Add("x"); ConfigureDatabase(); 
+                coleccion.Add("x"); ConectarConServidor();
+            }
 
             var session = Container.Resolve<ISession>();
             var personaRepository = Container.Resolve<IPersonaRepository>();
@@ -36,6 +66,45 @@ namespace Gama.Atenciones.Wpf
             personaRepository.Session = session;
             asistenteRepository.Session = session;
             return Container.Resolve<Shell>();
+        }
+
+        private void _PreLoad()
+        {
+             _PreloaderView = new PreloaderView(coleccion);
+            _PreloaderView.ShowDialog();
+        }
+
+        [SecurityPermissionAttribute(SecurityAction.Demand, ControlThread = true)]
+        private void _KillTheThread()
+        {
+            coleccion.Add("<END>");
+            //_PreloaderView.Close();
+            _PreloadThread.Abort();
+            _PreloadThread = null;
+        }
+
+        protected override void InitializeShell()
+        {
+            base.InitializeShell();
+
+            string title = "";
+            BitmapImage icon = new BitmapImage();
+
+            title = "SERVICIO DE ATENCIONES";
+            icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/icono_modulo_atenciones.png"));
+
+            ((ShellViewModel)((FrameworkElement)Shell).DataContext).Title = title;
+            ((ShellViewModel)((FrameworkElement)Shell).DataContext).IconSource = icon;
+
+            //_PreloaderView.Close();
+            //_PreloaderView = null;
+            //lock(_PreloaderView)
+
+            Application.Current.MainWindow = Shell as Window;
+            Application.Current.MainWindow.ShowActivated = true;
+            Application.Current.MainWindow.Show();
+
+            _KillTheThread();
         }
 
         private void InicializarDirectorios()
@@ -220,23 +289,6 @@ namespace Gama.Atenciones.Wpf
             {
                 throw;
             }
-        }
-
-        protected override void InitializeShell()
-        {
-            base.InitializeShell();
-
-            string title = "";
-            BitmapImage icon = new BitmapImage();
-
-            title = "SERVICIO DE ATENCIONES";
-            icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/icono_modulo_atenciones.png"));
-
-            ((ShellViewModel)((FrameworkElement)Shell).DataContext).Title = title;
-            ((ShellViewModel)((FrameworkElement)Shell).DataContext).IconSource = icon;
-
-            Application.Current.MainWindow = Shell as Window;
-            Application.Current.MainWindow.Show();
         }
 
         protected override void ConfigureModuleCatalog()

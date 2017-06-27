@@ -1,0 +1,38 @@
+﻿<mahapps:MetroWindow x:Class="Gama.Atenciones.Wpf.Views.PreloaderView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
+        xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+	      xmlns:Behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        IsCloseButtonEnabled="False"
+        IsMinButtonEnabled="False"
+        IsMaxRestoreButtonEnabled="False"
+        Title="CARGANDO..." Height="472" Width="564">
+  <Window.Resources>
+    <Style TargetType="Label">
+      <Setter Property="Foreground" Value="White"/>
+    </Style>
+  </Window.Resources>
+  <i:Interaction.Behaviors>
+    <Behaviours:BorderlessWindowBehavior />
+  </i:Interaction.Behaviors>
+  <Grid>
+    <Image 
+      Source="pack://application:,,,/Gama.Common;component/Resources/Images/gama_logo_grande.png" 
+           Stretch="Uniform"
+           Margin="{StaticResource Margin}"/>
+    <StackPanel VerticalAlignment="Bottom" Margin="8">
+      <Label x:Name="_Label1" Content="Inicializando directorios..." Visibility="Visible"/>
+      <Label x:Name="_Label2" Content="Inicializando preferencias..."  Visibility="Hidden"/>
+      <Label x:Name="_Label3" Content="Registrado servicios..."  Visibility="Hidden"/>
+      <Label x:Name="_Label4" Content="Configurando la conexión a la base de datos..."  Visibility="Hidden"/>
+      <Label x:Name="_Label5" Content="Conectando con el servidor..." Visibility="Hidden" />
+    </StackPanel>
+  </Grid>
+</mahapps:MetroWindow>

@@ -30,53 +30,81 @@ namespace Gama.Atenciones.Wpf.Services
             _ConectarAlServidor();
         }
 
+        public void TryConnect()
+        {
+            _ConectarAlServidor();
+        }
+
         private void _ConectarAlServidor()
         { 
-            _ClientSocket.Connect("80.59.101.181", 8888);
-            _ServerStream = _ClientSocket.GetStream();
+            try
+            {
+                _ClientSocket.Connect("80.59.101.181", 8888);
+                _ServerStream = _ClientSocket.GetStream();
 
-            AtencionesResources.ClientId = System.Security.Principal.WindowsIdentity.GetCurrent().Name + Guid.NewGuid().ToString();
-            _ClientName = AtencionesResources.ClientId.ToString();
+                AtencionesResources.ClientId = Guid.NewGuid().ToString();
+                _ClientName = AtencionesResources.ClientId.ToString();
 
-            EnviarMensaje($"{AtencionesResources.ClientId}" + INICIO_DE_CONEXION);
+                EnviarMensaje($"{INICIO_DE_CONEXION}{AtencionesResources.ClientId}");
 
-            _ClientThread = new Thread(_RecibirMensaje);
-            _ClientThread.Start();
+                _ClientThread = new Thread(_RecibirMensaje);
+                _ClientThread.Start();
+            }
+            catch (Exception)
+            {
+                // No se ha podido conectar con la herramienta servidor
+            }
         }
 
         private void _RecibirMensaje()
         {
-            while (true)
+            try
             {
-                _ServerStream = _ClientSocket.GetStream();
+                while (true)
+                {
+                    _ServerStream = _ClientSocket.GetStream();
 
-                int bufferSize = 0;
-                byte[] inStream = new byte[10025];
-                bufferSize = _ClientSocket.ReceiveBufferSize;
-                bufferSize = 8196;
+                    int bufferSize = 0;
+                    byte[] inStream = new byte[10025];
+                    bufferSize = _ClientSocket.ReceiveBufferSize;
+                    bufferSize = 8196;
 
-                _ServerStream.Read(inStream, 0, bufferSize);
+                    _ServerStream.Read(inStream, 0, bufferSize);
 
-                string dataFromServer = Encoding.ASCII.GetString(inStream);
-                dataFromServer = dataFromServer.Substring(0, dataFromServer.IndexOf("$"));
+                    string dataFromServer = Encoding.ASCII.GetString(inStream);
+                    dataFromServer = dataFromServer.Substring(0, dataFromServer.IndexOf("$"));
 
-                if (!dataFromServer.Contains(INICIO_DE_CONEXION))
-                    _EventAggregator.GetEvent<ServidorActualizadoDesdeFueraEvent>().Publish(dataFromServer);
+                    if (!dataFromServer.Contains(INICIO_DE_CONEXION))
+                        _EventAggregator.GetEvent<ServidorActualizadoDesdeFueraEvent>().Publish(dataFromServer);
+                }
+            } catch (Exception ex)
+            {
+                // El servidor se ha desconectado
             }
         }
 
         public void EnviarMensaje(string mensaje)
         {
-            byte[] message = Encoding.ASCII.GetBytes(mensaje + "$");
-            _ServerStream.Write(message, 0, message.Length);
-            _ServerStream.Flush();
+            try
+            {
+                byte[] message = Encoding.ASCII.GetBytes(mensaje + "$");
+                _ServerStream.Write(message, 0, message.Length);
+                _ServerStream.Flush();
+            }
+            catch (Exception)
+            {
+                // El servidor se ha desconectado
+            }
         }
 
         public void Desconectar()
         {
-            EnviarMensaje("<EOC>" + _ClientName + "XXX");
-            _ClientSocket.Close();
-            _ClientThread.Abort();
+            if (_ClientSocket.Connected)
+            {
+                EnviarMensaje("<EOC>");
+                _ClientSocket.Close();
+                _ClientThread.Abort();
+            }
         }
     }
 }
