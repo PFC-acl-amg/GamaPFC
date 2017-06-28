@@ -67,7 +67,6 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<ListadoDePersonasViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<PanelSwitcherViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<PersonasContentViewModel>(new ContainerControlledLifetimeManager());
-            //Container.RegisterType<PreferenciasViewModel>();
             Container.RegisterType<RightCommandsViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<SearchBoxViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<StatusBarViewModel>(new ContainerControlledLifetimeManager());

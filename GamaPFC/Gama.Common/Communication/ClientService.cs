@@ -1,5 +1,4 @@
-﻿using Gama.Atenciones.Wpf.Eventos;
-using Gama.Common.Eventos;
+﻿using Gama.Common.Eventos;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -8,9 +7,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Threading;
 
-namespace Gama.Atenciones.Wpf.Services
+namespace Gama.Common.Communication
 {
     public class ClientService
     {
@@ -22,11 +20,12 @@ namespace Gama.Atenciones.Wpf.Services
         Thread _ClientThread;
         EventAggregator _EventAggregator;
 
-        public ClientService(EventAggregator eventAggregator)
+        public ClientService(EventAggregator eventAggregator, string clientName)
         {
             _ClientSocket = new TcpClient();
             _ServerStream = default(NetworkStream);
             _ReadData = null;
+            _ClientName = clientName;
 
             _EventAggregator = eventAggregator;
             _ConectarAlServidor();
@@ -43,7 +42,7 @@ namespace Gama.Atenciones.Wpf.Services
         }
 
         private void _ConectarAlServidor()
-        { 
+        {
             try
             {
                 if (_ClientSocket.Connected)
@@ -53,11 +52,8 @@ namespace Gama.Atenciones.Wpf.Services
                 }
                 _ClientSocket.Connect("80.59.101.181", 8888);
                 _ServerStream = _ClientSocket.GetStream();
-
-                AtencionesResources.ClientId = Guid.NewGuid().ToString();
-                _ClientName = AtencionesResources.ClientId.ToString();
-
-                EnviarMensaje($"{INICIO_DE_CONEXION}{AtencionesResources.ClientId}");
+                
+                EnviarMensaje($"{INICIO_DE_CONEXION}{_ClientName}");
 
                 _ClientThread = new Thread(_RecibirMensaje);
                 _ClientThread.Start();
@@ -92,7 +88,8 @@ namespace Gama.Atenciones.Wpf.Services
                     if (!dataFromServer.Contains(INICIO_DE_CONEXION))
                         _EventAggregator.GetEvent<ServidorActualizadoDesdeFueraEvent>().Publish(dataFromServer);
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 _EventAggregator.GetEvent<LaConexionConElServidorHaCambiadoEvent>().Publish(MensajeDeConexion.NoConectado);
                 // El servidor se ha desconectado

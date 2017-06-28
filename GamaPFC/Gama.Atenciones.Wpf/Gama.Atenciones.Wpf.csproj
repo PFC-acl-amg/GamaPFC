@@ -253,7 +253,6 @@
     <Compile Include="FakeServices\FakePersonaRepository.cs" />
     <Compile Include="FakeServices\FakeRepository.cs" />
     <Compile Include="Services\AsistenteRepository.cs" />
-    <Compile Include="Services\ClientService.cs" />
     <Compile Include="Services\ExportService.cs" />
     <Compile Include="Services\IAsistenteRepository.cs" />
     <Compile Include="Services\Preferencias.cs" />

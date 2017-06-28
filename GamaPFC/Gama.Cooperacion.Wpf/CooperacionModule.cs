@@ -38,118 +38,24 @@ namespace Gama.Cooperacion.Wpf
         public class CooperacionModule : ModuleBase
     {
         private DateTime _FechaTest;
+
         public CooperacionModule(IUnityContainer container, IRegionManager regionManager)
            : base(container, regionManager)
         {
-            this.Entorno = Entorno.Desarrollo;
-            this.SeedDatabase = false; // A falso no entra en el if this.UseFaker y no crea nada mas
+
         }
 
         public override void Initialize()
         {
             EstablecerFecha();
+
             RegisterViews();
             RegisterViewModels();
-            RegisterServices();
+            InitializeNavigation();
+
             ActualizarEstadosActividades();
             
             // Aqui se pueden poner las comprobaciones de estado de las actividades.
-
-            //ILoggerFacade log = Container.Resolve<ILoggerFacade>();
-            //log.Log("ok", Category.Exception, Priority.None);
-
-            if (this.SeedDatabase)
-            {
-                var session = Container.Resolve<ISession>();
-                var cooperanteRepository = Container.Resolve<ICooperanteRepository>();
-                cooperanteRepository.Session = session;
-                var cooperantesDummy = new FakeCooperanteRepository().GetAll().Take(2);
-
-                foreach (var cooperante in cooperantesDummy) // Crea tambien mas cooperantes de forma automatica
-                {
-                    cooperanteRepository.Create(cooperante);
-                }
-
-                var actividadRepository = Container.Resolve<IActividadRepository>();
-                //var eventoRepository = Container.Resolve<IEventoRepository>();
-     
-                actividadRepository.Session = session;
-                cooperanteRepository.Session = session;
-                //eventoRepository.Session = session;
-
-                foreach (var cooperante in cooperantesDummy)
-                {
-                    //cooperanteRepository.Create(cooperante); // para crear cooperantes nuevos forma automatica
-                }
-
-                //var cooperanteRepository = Container.Resolve<ICooperanteRepository>();
-                //var actividadRepository = Container.Resolve<IActividadRepository>();
-                //var session = Container.Resolve<ISession>();
-                //actividadRepository.Session = session;
-                //cooperanteRepository.Session = session;
-
-                var coordinador = cooperanteRepository.GetAll().First();
-                var actividadesFake = new FakeActividadRepository().GetAll();
-
-                foreach (var actividad in actividadesFake.Take(1))
-                {
-                    var eventosFake = new FakeEventoRepository().GetAll();
-                    var foroFake = new FakeForoRepository().GetAll();
-                    var mensajeForoFake = new FakeMensajeRepository().GetAll();
-                    var tareaFake = new FakeTareaRepository().GetAll();
-                    var seguimientoFake = new FakeSeguimientoRepository().GetAll();
-                    var incidenciaFake = new FakeIncidenciaRepository().GetAll();
-                    //foreach (var tarea in tareaFake)
-                    //{
-                    //    var seguimientoFake = new FakeSeguimientoRepository().GetAll();
-                    //    var incidenciaFake = new FakeIncidenciaRepository().GetAll();
-                    //    int j = 0;
-                    //    int k = 0;
-                    //    int l = 0;
-                    //    foreach (var seguimiento in seguimientoFake)
-                    //    {
-                    //        tarea.Seguimiento.Insert(j, seguimiento);
-                    //        j++;
-                    //    }
-                    //    foreach (var incidencia in incidenciaFake)
-                    //    {
-                    //        tarea.Incidencias.Insert(l, incidencia);
-                    //        l++;
-                    //    }
-                    //    actividad.Tareas.Insert(k, tarea);
-                    //    k++;
-                    //}
-                    actividad.Coordinador = coordinador;
-                    //foreach (var InsertandoTareas in tareaFake)
-                    //{
-                    //    foreach (var InsertandoSeguimientos in seguimientoFake)
-                    //    {
-                    //        InsertandoTareas.AddSeguimiento(InsertandoSeguimientos);
-                    //    }
-                    //    foreach(var InsertandoIncidencias in incidenciaFake)
-                    //    {
-                    //        InsertandoTareas.AddIncidencia(InsertandoIncidencias);
-                    //    }
-                    //    InsertandoTareas.Responsable = coordinador;
-                    //    actividad.AddTarea(InsertandoTareas);
-                    //}
-                    //foreach (var InsertandoEvento in eventosFake)
-                    //{
-                    //    actividad.AddEvento(InsertandoEvento);
-                    //}
-                    //foreach (var InsertandoForos in foroFake)
-                    //{
-                    //    foreach (var InsertandoMensajesForos in mensajeForoFake)
-                    //    {
-                    //        InsertandoForos.AddMensaje(InsertandoMensajesForos);
-                    //    }
-                    //    actividad.AddForo(InsertandoForos);
-                    //}
-                    actividadRepository.Create(actividad);
-                }
-            }
-
-                InitializeNavigation();
         }
 
         private void RegisterViews()
@@ -178,31 +84,33 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterType<ToolbarViewModel>();
             Container.RegisterType<TareasDeActividadViewModel>();
         }
-        private void RegisterServices()
-        {
-            Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
-            Container.RegisterType<ISession>(new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
-            Container.RegisterType<IActividadRepository, ActividadRepository>();
-            Container.RegisterType<ICooperanteRepository, CooperanteRepository>();
-            Container.RegisterType<IForoRepository, ForoRepository>();
-            Container.RegisterType<ITareaRepository, TareaRepository>();
-            // Añido para eventos
-            //Container.RegisterType<IEventoRepository, EventoRepository>();
-            //Container.RegisterType<IIncidenciaRepository, IncidenciaRepository>();
-            //Container.RegisterType<ITareaRepository, TareaRepository>();
-            //Container.RegisterType<ISeguimientoRepository, SeguimientoRepository>();
 
-            Container.RegisterInstance<ICooperacionSettings>(
-                new CooperacionSettings());
+        //private void RegisterServices()
+        //{
+        //    Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
+        //    Container.RegisterType<ISession>(new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
+        //    Container.RegisterType<IActividadRepository, ActividadRepository>();
+        //    Container.RegisterType<ICooperanteRepository, CooperanteRepository>();
+        //    Container.RegisterType<IForoRepository, ForoRepository>();
+        //    Container.RegisterType<ITareaRepository, TareaRepository>();
+        //    // Añido para eventos
+        //    //Container.RegisterType<IEventoRepository, EventoRepository>();
+        //    //Container.RegisterType<IIncidenciaRepository, IncidenciaRepository>();
+        //    //Container.RegisterType<ITareaRepository, TareaRepository>();
+        //    //Container.RegisterType<ISeguimientoRepository, SeguimientoRepository>();
 
-            //
-            // Fake
-            //
-            //Container.RegisterInstance<ISession>(new Mock<ISession>().Object);
-            //Container.RegisterType<IActividadRepository, FakeActividadRepository>();
-            //Container.RegisterType<ICooperanteRepository, FakeCooperanteRepository>();
-            //Container.RegisterInstance<ICooperacionSettings>(new CooperacionSettings());
-        }
+        //    Container.RegisterInstance<ICooperacionSettings>(
+        //        new CooperacionSettings());
+
+        //    //
+        //    // Fake
+        //    //
+        //    //Container.RegisterInstance<ISession>(new Mock<ISession>().Object);
+        //    //Container.RegisterType<IActividadRepository, FakeActividadRepository>();
+        //    //Container.RegisterType<ICooperanteRepository, FakeCooperanteRepository>();
+        //    //Container.RegisterInstance<ICooperacionSettings>(new CooperacionSettings());
+        //}
+
         private void ActualizarEstadosActividades()
         {
             var actividadRepository = Container.Resolve<IActividadRepository>();
@@ -278,6 +186,8 @@ namespace Gama.Cooperacion.Wpf
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
             RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<ActividadesContentView>());
             RegionManager.AddToRegion(RegionNames.ActividadesTabContentRegion, Container.Resolve<ListadoDeActividadesView>());
+            RegionManager.RegisterViewWithRegion(RegionNames.RightCommandsRegion, typeof(RightCommandsView));
+
         }
         public ObservableCollection<Actividad> ListaCompletaActividades { get; private set; }
     }

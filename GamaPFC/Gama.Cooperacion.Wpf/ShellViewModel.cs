@@ -1,4 +1,5 @@
 ﻿using Core;
+using Gama.Common.Communication;
 using Gama.Common.Eventos;
 using Gama.Cooperacion.Wpf.Services;
 using Prism.Events;
@@ -14,13 +15,13 @@ namespace Gama.Cooperacion.Wpf
 {
     public class ShellViewModel : ViewModelBase
     {
-        private IEventAggregator _EventAggregator;
+        private EventAggregator _EventAggregator;
         private ImageSource _IconSource;
         Dictionary<string, bool> _Panels = new Dictionary<string, bool>();
         private Preferencias _Preferencias;
         private Thread _PreloadThread;
 
-        public ShellViewModel(IEventAggregator eventAggregator)
+        public ShellViewModel(EventAggregator eventAggregator)
         {
             _EventAggregator = eventAggregator;
 
@@ -83,7 +84,7 @@ namespace Gama.Cooperacion.Wpf
 
         private void ConectarConServidor()
         {
-            //AtencionesResources.ClientService = new ClientService(_EventAggregator);
+            CooperacionResources.ClientService = new ClientService(_EventAggregator, CooperacionResources.ClientId);
         }
 
         private void SetVisiblePanel(string panel)

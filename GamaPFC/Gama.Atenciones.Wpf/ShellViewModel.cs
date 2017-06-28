@@ -4,6 +4,7 @@ using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.UIEvents;
 using Gama.Atenciones.Wpf.ViewModels;
+using Gama.Common.Communication;
 using Gama.Common.Eventos;
 using NHibernate;
 using Prism.Events;
@@ -136,7 +137,7 @@ namespace Gama.Atenciones.Wpf
 
         private void ConectarConServidor()
         {
-            AtencionesResources.ClientService = new ClientService(_EventAggregator);
+            AtencionesResources.ClientService = new ClientService(_EventAggregator, AtencionesResources.ClientId);
         }
 
         private void SetVisiblePanel(string panel)

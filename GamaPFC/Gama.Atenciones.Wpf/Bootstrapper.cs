@@ -1,6 +1,4 @@
 ﻿using Prism.Modularity;
-using Prism.Unity;
-using Prism.Events;
 using System;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -14,14 +12,6 @@ using Gama.Atenciones.DataAccess;
 using Gama.Atenciones.Wpf.FakeServices;
 using Gama.Atenciones.Business;
 using Gama.Common;
-using System.Threading;
-using Gama.Atenciones.Wpf.Views;
-using System.Security.Permissions;
-using System.ComponentModel;
-using System.Windows.Threading;
-using System.Collections.ObjectModel;
-using Gama.Common.Eventos;
-using Gama.Common.Views;
 using Gama.Common.BaseClasses;
 
 namespace Gama.Atenciones.Wpf
@@ -71,7 +61,7 @@ namespace Gama.Atenciones.Wpf
                     encoder.Frames.Add(BitmapFrame.Create(icon));
 
                     using (var fileStream =
-                        new System.IO.FileStream(ResourceNames.DefaultSearchIconPath, System.IO.FileMode.Create))
+                        new FileStream(ResourceNames.DefaultSearchIconPath, System.IO.FileMode.Create))
                     {
                         encoder.Save(fileStream);
                     }
