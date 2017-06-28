@@ -61,7 +61,7 @@
     </UserControl.Resources>
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Background="#EE959595" Margin="0,4,4,0">
         <cc:CircleIconButton 
-            Command="{Binding NuevaActividadCommand}"
+            Command="{Binding NuevoActividadCommand}"
             Icon="{StaticResource appbar_text_size_plus}" 
             ToolTip="Nueva Actividad"/>
 
