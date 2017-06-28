@@ -356,9 +356,6 @@
     <Compile Include="Views\PersonaView.xaml.cs">
       <DependentUpon>PersonaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PreloaderView.xaml.cs">
-      <DependentUpon>PreloaderView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\RightCommandsView.xaml.cs">
       <DependentUpon>RightCommandsView.xaml</DependentUpon>
     </Compile>
@@ -502,10 +499,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PersonaView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PreloaderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

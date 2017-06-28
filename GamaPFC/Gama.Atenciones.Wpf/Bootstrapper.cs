@@ -21,6 +21,7 @@ using System.ComponentModel;
 using System.Windows.Threading;
 using System.Collections.ObjectModel;
 using Gama.Common.Eventos;
+using Gama.Common.Views;
 
 namespace Gama.Atenciones.Wpf
 {
@@ -30,36 +31,24 @@ namespace Gama.Atenciones.Wpf
         private bool _SEED_DATABASE = false;
         private Thread _PreloadThread;
         public static PreloaderView _PreloaderView;
-        private BackgroundWorker backgroundWorker;
-        private ObservableCollection<string> coleccion;
+        private ObservableCollection<string> _NotifyCollection;
 
         protected override DependencyObject CreateShell()
         {
-            coleccion = new ObservableCollection<string>();
-            _PreloaderView = new PreloaderView(coleccion);
-            //_PreloaderView.Show();
+            _NotifyCollection = new ObservableCollection<string>();
+
             _PreloadThread = new Thread(_PreLoad);
             _PreloadThread.SetApartmentState(ApartmentState.STA);
             _PreloadThread.Start();
 
-            //_PreloaderView = new PreloaderView();
-            //_PreloaderView.ShowDialog();ç
-            backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork += BackgroundWorker_DoWork; ;
-
-            //_PreloaderView.Next(); ConfigurarPreferencias();
-            //_PreloaderView.Next(); ConectarConServidor();
-            //_PreloaderView.Next(); RegisterServices();
-            //_PreloaderView.Next(); ConfigureDatabase();
             Thread.Sleep(200);
             lock (_PreloaderView)
             {
-                coleccion.Add("x"); InicializarDirectorios();
-                coleccion.Add("x"); ConfigurarPreferencias();
-                coleccion.Add("x"); RegisterServices(); 
-                coleccion.Add("x"); ConfigureDatabase(); 
-                coleccion.Add("x"); //ConectarConServidor();
-                //backgroundWorker.RunWorkerAsync();
+                _NotifyCollection.Add("x"); InicializarDirectorios();
+                _NotifyCollection.Add("x"); ConfigurarPreferencias();
+                _NotifyCollection.Add("x"); RegisterServices(); 
+                _NotifyCollection.Add("x"); ConfigureDatabase(); 
+                _NotifyCollection.Add("x");
             }
 
             var session = Container.Resolve<ISession>();
@@ -70,21 +59,17 @@ namespace Gama.Atenciones.Wpf
             return Container.Resolve<Shell>();
         }
 
-        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            ConectarConServidor();
-        }
-
         private void _PreLoad()
         {
-             _PreloaderView = new PreloaderView(coleccion);
+             _PreloaderView = new PreloaderView(_NotifyCollection);
+            _PreloaderView.Titulo = "SERVICIO DE ATENCIONES";
             _PreloaderView.ShowDialog();
         }
 
         [SecurityPermissionAttribute(SecurityAction.Demand, ControlThread = true)]
         private void _KillTheThread()
         {
-            coleccion.Add("<END>");
+            _NotifyCollection.Add("<END>");
             //_PreloaderView.Close();
             _PreloadThread.Abort();
             _PreloadThread = null;

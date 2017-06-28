@@ -151,6 +151,9 @@
     <Compile Include="Views\ExceptionMessageView.xaml.cs">
       <DependentUpon>ExceptionMessageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PreloaderView.xaml.cs">
+      <DependentUpon>PreloaderView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Resources\Constants\Colores.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -234,6 +237,10 @@
     <Page Include="Views\ExceptionMessageView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PreloaderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
