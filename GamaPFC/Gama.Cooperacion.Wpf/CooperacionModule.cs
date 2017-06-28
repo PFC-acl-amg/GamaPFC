@@ -94,10 +94,10 @@ namespace Gama.Cooperacion.Wpf
         //    Container.RegisterType<IForoRepository, ForoRepository>();
         //    Container.RegisterType<ITareaRepository, TareaRepository>();
         //    // Añido para eventos
-        //    //Container.RegisterType<IEventoRepository, EventoRepository>();
-        //    //Container.RegisterType<IIncidenciaRepository, IncidenciaRepository>();
-        //    //Container.RegisterType<ITareaRepository, TareaRepository>();
-        //    //Container.RegisterType<ISeguimientoRepository, SeguimientoRepository>();
+        ////Container.RegisterType<IEventoRepository, EventoRepository>();
+        ////Container.RegisterType<IIncidenciaRepository, IncidenciaRepository>();
+        ////Container.RegisterType<ITareaRepository, TareaRepository>();
+        ////Container.RegisterType<ISeguimientoRepository, SeguimientoRepository>();
 
         //    Container.RegisterInstance<ICooperacionSettings>(
         //        new CooperacionSettings());

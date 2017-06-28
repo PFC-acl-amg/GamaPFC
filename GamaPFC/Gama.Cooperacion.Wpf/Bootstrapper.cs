@@ -139,6 +139,11 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterType<ICooperanteRepository, CooperanteRepository>();
             Container.RegisterType<IForoRepository, ForoRepository>();
             Container.RegisterType<ITareaRepository, TareaRepository>();
+            Container.RegisterType<IEventoRepository, EventoRepository>();
+            Container.RegisterType<IIncidenciaRepository, IncidenciaRepository>();
+            Container.RegisterType<ITareaRepository, TareaRepository>();
+            Container.RegisterType<ISeguimientoRepository, SeguimientoRepository>();
+
             Container.RegisterInstance<ICooperacionSettings>(new CooperacionSettings());
         }
 

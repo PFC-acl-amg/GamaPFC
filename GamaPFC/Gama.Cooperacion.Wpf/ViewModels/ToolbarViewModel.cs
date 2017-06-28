@@ -22,6 +22,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _eventAggregator = eventAggregator;
 
             NuevoCooperanteCommand = new DelegateCommand(OnNuevoCooperante);
+            NuevoActividadCommand = new DelegateCommand(OnNuevoActividad);
         }
 
         public ICommand NuevoCooperanteCommand { get; private set; }
