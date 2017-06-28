@@ -44,11 +44,7 @@
                Width="139" 
                Margin="{StaticResource Margin}" 
                OpacityMask="{StaticResource _RadialGradientBrush}" 
-               AllowDrop="True"
-               
-               DragEnter="Ellipse_DragEnter" 
-               DragLeave="Ellipse_DragLeave"
-               Drop="Ellipse_Drop">
+               AllowDrop="True">
         <Ellipse.Fill>
           <ImageBrush x:Name="_ImagenImageBrush" ImageSource="{Binding Asistente.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
         </Ellipse.Fill>

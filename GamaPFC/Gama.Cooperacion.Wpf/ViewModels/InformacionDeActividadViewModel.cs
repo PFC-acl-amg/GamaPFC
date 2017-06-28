@@ -26,6 +26,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private ICooperanteRepository _CooperanteRepository;
         private IEventAggregator _EventAggregator;
         private IEnumerable _MensajeDeEspera;
+        private DateTime? _FechaInicioActividad;
+        private DateTime? _FechaFinActividad;
+        private string _EstadoActividad;
+        private string _EstadoEscogido;
         private string _Modo;
         private bool _PopupEstaAbierto = false;
         private IEnumerable _ResultadoDeBusqueda;
@@ -63,9 +67,17 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             }
             sessionNuevaTarea.Close();
             Actividad = new ActividadWrapper(new Actividad() { Titulo = "", Descripcion = "" });
+            EstadosValidos = new List<string>();
+            EstadosValidos.Add(Estado.Comenzado.ToString());
+            EstadosValidos.Add(Estado.NoComenzado.ToString());
+            EstadosValidos.Add(Estado.ProximasFinalizaciones.ToString());
+            EstadosValidos.Add(Estado.FueraPlazo.ToString());
+            EstadosValidos.Add(Estado.Finalizado.ToString());
 
             // Añadimos 'Cooperante Dummy' para que se muestre una fila del formulario para añadir el primero
             Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
+            Actividad.FechaDeFin = DateTime.Today;
+            Actividad.FechaDeInicio = DateTime.Today;
 
             AbrirPopupCommand = new DelegateCommand<CooperanteWrapper>(OnAbrirPopupCommand);
             NuevoCooperanteCommand = new DelegateCommand(OnNuevoCooperanteCommand, OnNuevoCooperanteCommand_CanExecute);
@@ -75,7 +87,26 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             SelectCooperanteEventCommand = new DelegateCommand<CooperanteWrapper>(OnSelectCooperanteEventCommand);
             SelectCoordinadorCommand = new DelegateCommand(OnSelectCoordinadorEventCommand);
         }
-
+        public string EstadoEscogido
+        {
+            get { return _EstadoEscogido; }
+            set { SetProperty(ref _EstadoEscogido, value); }
+        }
+        public string EstadoActividad
+        {
+            get { return _EstadoActividad; }
+            set { SetProperty(ref _EstadoActividad, value); }
+        }
+        public DateTime? FechaInicioActividad
+        {
+            get { return _FechaInicioActividad; }
+            set { SetProperty(ref _FechaInicioActividad, value); }
+        }
+        public DateTime? FechaFinActividad
+        {
+            get { return _FechaFinActividad; }
+            set { SetProperty(ref _FechaFinActividad, value); }
+        }
         public bool EdicionHabilitada
         {
             get { return _EdicionHabilitada; }
@@ -123,6 +154,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ObservableCollection<CooperanteWrapper> CooperantesDisponibles { get; private set; }
         public CooperanteWrapper CooperantePreviamenteSeleccionado { get; set; }
         public CooperanteWrapper CooperanteEmergenteSeleccionado { get; set; }
+        public List<string> EstadosValidos { get; set; }
         public IEnumerable MensajeDeEspera => _MensajeDeEspera;
         public IEnumerable ResultadoDeBusqueda => _ResultadoDeBusqueda;
 
@@ -154,9 +186,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             Actividad = wrapper;
             foreach (var cooperante in Actividad.Cooperantes)
             {
-                CooperantesDisponibles.Remove(CooperantesDisponibles.Where(c => c.Id == cooperante.Id).First());
+                CooperantesDisponibles.Remove(CooperantesDisponibles.Where(c => c.Id == cooperante.Id).FirstOrDefault());
             }
-            CooperantesDisponibles.Remove(CooperantesDisponibles.Where(c => c.Id == Actividad.Coordinador.Id).First());
+            CooperantesDisponibles.Remove(CooperantesDisponibles.Where(c => c.Id == Actividad.Coordinador.Id).FirstOrDefault());
             Actividad.AcceptChanges();
         }
 
@@ -294,6 +326,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             // Si antes de quitarlo no había más cooperantes disponibles, ahora
             // sí lo habrá así que incluímos el Dummy para poder añadirlo
+
+            // Cuando se esta modificando no esta disponible el dumy.
+            // => si quitas el último cooperante no podras meter ninguno nuevo
+            // Cuando estas modicicando.
+            // Controlamos si se va a quitar el ultimo cooperante para añadir el dumy.
+            if (Actividad.Cooperantes.Count==1) Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
             if (CooperantesDisponibles.Count == 0)
             {
                 Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));

@@ -26,6 +26,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private bool? _Cerrar; // Debe ser nulo al inicializarse el VM, o hay excepción con DialogCloser
         private IEventAggregator _EventAggregator;
         private InformacionDeActividadViewModel _ActividadVM;
+        private int _ModificarActividad;    // Controlar si se modifica una actividad o se crea una nueva
 
         public NuevaActividadViewModel(IActividadRepository actividadRepository,
             IEventAggregator eventAggregator,
@@ -38,6 +39,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _ActividadRepository.Session = session;
             _ActividadVM._ActividadRepository = _ActividadRepository;
             Actividad.PropertyChanged += Actividad_PropertyChanged;
+            _ModificarActividad = 0;
 
             AceptarCommand = new DelegateCommand(OnAceptarCommand, OnAceptarCommand_CanExecute);
             CancelarCommand = new DelegateCommand(OnCancelarCommand);
@@ -61,52 +63,73 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             get { return _Cerrar; }
             set { SetProperty(ref _Cerrar, value); }
         }
-
         public ICommand AceptarCommand { get; private set; }
         public ICommand CancelarCommand { get; private set; }
 
+        public void Load(Actividad actividad)
+        {
+            var wrapper = new ActividadWrapper(actividad);
+            // Si la actividad no tenia cooperantes colocamos el dumy para poder añadir cooperantes a la actividad
+            if (actividad.Cooperantes.Count == 0) wrapper.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
+            _ModificarActividad = 1;
+            _ActividadVM.Load(wrapper);
+            _ActividadVM.EdicionHabilitada = true;
+            Actividad.PropertyChanged += Actividad_PropertyChanged;
+        }
+
         private void OnAceptarCommand()
         {
-            // Eliminamos el cooperante dummy
-            Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == null).First());
-            // Creamos el evento de nueva actividad creada
-            var evento = new Evento()
+            if (_ModificarActividad == 0)   // Si es 0 se va a crear una nueva actividad
             {
-                Titulo = Actividad.Titulo,
-                FechaDePublicacion = DateTime.Now,
-                Ocurrencia = Ocurrencia.Nueva_Actividad,
-            };
-            // -------
-            // Evento creado se añade a la actidivad
-            Actividad.Model.AddEvento(evento);
-            // ------
-            // Crear Foro
-            var foro = new Foro()
+                // Eliminamos el cooperante dummy
+                Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == null).FirstOrDefault());
+                // Creamos el evento de nueva actividad creada
+                var evento = new Evento()
+                {
+                    Titulo = Actividad.Titulo,
+                    FechaDePublicacion = DateTime.Now,
+                    Ocurrencia = Ocurrencia.Nueva_Actividad,
+                };
+                Actividad.Model.AddEvento(evento);   // Evento creado se añade a la actidivad
+                var foro = new Foro()               // Crear Foro
+                {
+                    Titulo = "Primer Foro",
+                    FechaDePublicacion = DateTime.Now,
+                };
+                var mensajeForo = new Mensaje()     // Primer Mensaje para el foro
+                {
+                    Titulo = "Primer mensaje del foro",
+                    FechaDePublicacion = DateTime.Now,
+                };
+                foro.AddMensaje(mensajeForo);       // El mensaje se añade al foro  
+                Actividad.Model.AddForo(foro);      // El foro se añade a la actividad
+                Actividad.CreatedAt = DateTime.Now;
+                _ActividadRepository.Create(Actividad.Model);   // Se crea la actividad
+                _EventAggregator.GetEvent<NuevaActividadEvent>().Publish(Actividad.Id);
+                Cerrar = true;
+            }
+            else
             {
-                Titulo = "Primer Foro",
-                FechaDePublicacion = DateTime.Now,   
-            };
-            var mensajeForo = new Mensaje()
-            {
-                Titulo = "Primer mensaje del foro",
-                FechaDePublicacion = DateTime.Now,
-            };
-            foro.AddMensaje(mensajeForo);
-            // -------
-            // Evento creado se añade a la actidivad
-            Actividad.Model.AddForo(foro);
-            //----
-            Actividad.CreatedAt = DateTime.Now;
-            _ActividadRepository.Create(Actividad.Model);
-            _EventAggregator.GetEvent<NuevaActividadEvent>().Publish(Actividad.Id);
-            Cerrar = true;
+                if(_ModificarActividad== 1) // Si es 1 se va a modificar una actividad ya existente en la base de datos
+                {
+                    Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == null).FirstOrDefault()); // Si se deja el cooperanre dumy falla insercion BBDD
+                    Actividad.UpdatedAt = DateTime.Now;
+                    _ActividadRepository.Update(Actividad.Model);
+                    Actividad.AcceptChanges();
+                    _ModificarActividad = 0;
+                    _EventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(Actividad.Id);
+                    Cerrar = true;
+                }
+            }
+            
         }
 
         private bool OnAceptarCommand_CanExecute()
         {
             // Para que el boton de Aceptarse muestre activo tieneque cumpplirse que se haya
             // escrito un titulo y se haya escogido a un coordinador
-            var resultado = Actividad.Titulo != null && Actividad.Coordinador.Nombre != null;
+            //var resultado = Actividad.Titulo != null && Actividad.Coordinador.Nombre != null;
+            var resultado = Actividad.IsChanged && Actividad.IsValid;
             return resultado;
         }
 

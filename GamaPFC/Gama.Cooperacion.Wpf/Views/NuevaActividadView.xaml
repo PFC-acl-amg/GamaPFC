@@ -15,6 +15,7 @@
   WindowStartupLocation="CenterScreen"
   BorderThickness="1"
   MaxWidth="550"
+  Height="600"
   BorderBrush="{StaticResource AccentColorBrush}"
   actions:DialogCloser.DialogResult="{Binding Cerrar}">
   <metro:MetroWindow.Resources>

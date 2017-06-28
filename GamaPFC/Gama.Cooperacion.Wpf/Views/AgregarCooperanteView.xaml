@@ -35,7 +35,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4" 
+        <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="3" Background="#9999AB" Padding="4" 
                                             CornerRadius="3"
                                             Margin="5">
             <Border.Effect>
@@ -74,16 +74,52 @@
                             </Image.BitmapEffect>
                         </Image>-->
                         
-                        <Ellipse Height="100" Width="100" OpacityMask="{StaticResource _RadialGradientBrush}">
+                        <!--
+                        
+                       wrtgsg
+                        -->
+                        <Ellipse Height="139"
+                           Width="139" 
+                           Margin="{StaticResource Margin}" 
+                           OpacityMask="{StaticResource _RadialGradientBrush}" 
+                           AllowDrop="True">
+                            <Ellipse.Fill>
+                                <ImageBrush x:Name="_ImagenImageBrush" ImageSource="{Binding NuevoCooperante.Foto, Converter={StaticResource BinaryImageConverter}}" Stretch="Uniform"/>
+                            </Ellipse.Fill>
+                            <Ellipse.Style>
+                                <Style TargetType="Ellipse">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Ellipse.Style>
+                            <Ellipse.InputBindings>
+                                <MouseBinding MouseAction="LeftClick" Command="{Binding ExaminarAvatarCommand}"/>
+                            </Ellipse.InputBindings>
+                        </Ellipse>
+
+
+
+
+
+                        <!--
+                        
+                       wrtgsg
+                        -->
+
+                        <!--<Ellipse Height="100" Width="100" OpacityMask="{StaticResource _RadialGradientBrush}">
                             <Ellipse.Fill>
                                 <ImageBrush ImageSource="{Binding NuevoCooperante.Foto, Converter={StaticResource BinaryImageConverter}}" Stretch="Uniform"/>
                             </Ellipse.Fill>
-                            <!--<i:Interaction.Triggers>
+                            --><!--<i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseDoubleClick">
                                     <prism:InvokeCommandAction Command="{Binding ExaminarFotoCommand}"/>
                                 </i:EventTrigger>
-                            </i:Interaction.Triggers>-->
-                        </Ellipse>
+                            </i:Interaction.Triggers>--><!--
+                        </Ellipse>-->
+                        
                         <!--<Image Source="{Binding NuevoCooperante.Foto, 
                                     Converter={StaticResource BinaryImageConverter}}" 
                                     Stretch="Uniform"
@@ -94,10 +130,7 @@
                             </Image.BitmapEffect>
                         </Image>-->
                     </Border>   <!--Zona Foto -->
-                    <Label Grid.Row="3" Margin="0,-4,0,-2" VerticalAlignment="Bottom" 
-                     VerticalContentAlignment="Bottom" HorizontalAlignment="Right">
-                        <Hyperlink Command="{Binding ExaminarFotoCommand}" FontSize="12">Examinar...</Hyperlink>
-                    </Label> <!-- Explorador Archivos-->
+                    
                     <TextBox  Name="NombreCooperante"
                                       Grid.Row="0" Grid.Column="1"
                                       BorderThickness="1"
@@ -122,11 +155,11 @@
                     <DatePicker HorizontalAlignment="Left" Grid.Row="3" Grid.Column="1"
                                  SelectedDate="{Binding NuevoCooperante.FechaDeNacimiento, 
                                     UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                    Height="24" />
+                                    Height="24" Width="180" />
                 </Grid>
             </StackPanel>                             <!--FIN DATOS DNI-->
         </Border>
-        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
+        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="3" Background="#9999AB" Padding="4"
                                             CornerRadius="3"
                                             Margin="5">
             <Border.Effect>
@@ -213,7 +246,7 @@
                 </Grid>
             </StackPanel>       <!--FIN DATOS DIRECCION-->
         </Border>
-        <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
+        <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="3" Background="#9999AB" Padding="4"
                                             CornerRadius="3"
                                             Margin="5">
             <Border.Effect>

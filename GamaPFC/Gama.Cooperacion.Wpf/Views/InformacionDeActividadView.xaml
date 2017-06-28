@@ -12,7 +12,7 @@
   xmlns:selector="clr-namespace:Gama.Common.Resources.DataTemplateSelectors;assembly=Gama.Common"
   xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
   mc:Ignorable="d" 
-  d:DesignHeight="415.5" d:DesignWidth="422.26">
+  d:DesignHeight="455.5" d:DesignWidth="400.26">
     <UserControl.Resources>
         <!-- Colleción de personas buscables. Se corresponde al total
              de personas activas en la base de datos. -->
@@ -34,6 +34,7 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
       <RowDefinition />
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
@@ -49,29 +50,97 @@
     </Popup>
 
     <GroupBox Grid.Row="0" Header="Información Básica">
-      <StackPanel>
-      <ScrollViewer  HorizontalAlignment="Left" VerticalScrollBarVisibility="Hidden">
-            <TextBox  BorderThickness="1"
-                Height="40" Width="355"
-                VerticalScrollBarVisibility="Auto"
-                Text="{Binding Actividad.Titulo, UpdateSourceTrigger=PropertyChanged}"
-                metro:TextBoxHelper.Watermark="Introduce el título..."
-                TextWrapping="Wrap"
-                Margin="{StaticResource Margin}"/>
-        </ScrollViewer>
-        <ScrollViewer  HorizontalAlignment="Left" VerticalScrollBarVisibility="Hidden">
-            <TextBox
-                Height="80" Width="355"
-                VerticalScrollBarVisibility="Auto"
-                Text="{Binding Actividad.Descripcion, UpdateSourceTrigger=PropertyChanged}"
-                metro:TextBoxHelper.Watermark="Introduce la descripción..."
-                TextWrapping="Wrap"
-                Margin="{StaticResource Margin}"
-                MinLines="4"
-                AcceptsReturn="True"/>
-        </ScrollViewer>
-            </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="360" />
+                    <!--<ColumnDefinition Width="220" />-->
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <ScrollViewer  HorizontalAlignment="Left" VerticalScrollBarVisibility="Hidden">
+                        <TextBox  BorderThickness="1"
+                                Height="40" Width="355"
+                                VerticalScrollBarVisibility="Auto"
+                                Text="{Binding Actividad.Titulo, UpdateSourceTrigger=PropertyChanged}"
+                                metro:TextBoxHelper.Watermark="Introduce el título..."
+                                TextWrapping="Wrap"
+                                Margin="{StaticResource Margin}"/>
+                    </ScrollViewer>
+                    <ScrollViewer  HorizontalAlignment="Left" VerticalScrollBarVisibility="Hidden">
+                        <TextBox
+                                Height="80" Width="355"
+                                VerticalScrollBarVisibility="Auto"
+                                Text="{Binding Actividad.Descripcion, UpdateSourceTrigger=PropertyChanged}"
+                                metro:TextBoxHelper.Watermark="Introduce la descripción..."
+                                TextWrapping="Wrap"
+                                Margin="{StaticResource Margin}"
+                                MinLines="4"
+                                AcceptsReturn="True"/>
+                    </ScrollViewer>
+                    <StackPanel Orientation="Horizontal" Margin="{StaticResource Margin}">
+                        <ComboBox  Width="200"
+                              metro:TextBoxHelper.Watermark="Estado de la Actividad..."
+                              ItemsSource="{Binding EstadosValidos}"
+                                  SelectedItem="{Binding Actividad.Estado, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    </StackPanel>
+                </StackPanel>
+                <!--<StackPanel Grid.Column="1">
+
+                    <StackPanel Orientation="Horizontal">
+                        <DatePicker Margin="10,5,0,0" 
+                                    metro:TextBoxHelper.Watermark="Fecha de Inicio"
+                                    SelectedDate="{Binding Actividad.FechaDeInicio, 
+                                    UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                            
+                        </DatePicker>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="10,5,0,0">
+                        <DatePicker SelectedDate="{Binding Actividad.FechaDeFin, 
+                                    UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            metro:TextBoxHelper.Watermark="Fecha Finalización"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox Margin="10,5,1,1" Width="200"
+                              metro:TextBoxHelper.Watermark="Estado de la Actividad..."
+                              ItemsSource="{Binding EstadosValidos}"
+                                  SelectedItem="{Binding Actividad.Estado, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </StackPanel>-->
+            </Grid>
+     
     </GroupBox>
+
+        <GroupBox Grid.Row="1" Header="Fechas">
+            <StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Label Margin="5,5,0,0">Inicio</Label>
+                    <DatePicker Margin="5,5,0,0" 
+                                    metro:TextBoxHelper.Watermark="Fecha de Inicio"
+                                    SelectedDate="{Binding Actividad.FechaDeInicio, 
+                                    UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+
+                    </DatePicker>
+                    <Label Margin="5,5,0,0">Final</Label>
+                    <DatePicker Margin="5,5,0,0" SelectedDate="{Binding Actividad.FechaDeFin, 
+                                    UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            metro:TextBoxHelper.Watermark="Fecha Finalización"/>
+                </StackPanel>
+                <!--<StackPanel Orientation="Horizontal" Margin="10,5,0,0">
+                    <Label>asdvassdfvsd</Label>
+                    <DatePicker SelectedDate="{Binding Actividad.FechaDeFin, 
+                                    UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            metro:TextBoxHelper.Watermark="Fecha Finalización"/>
+                </StackPanel>-->
+                <!--<StackPanel Orientation="Horizontal">
+                    <ComboBox Margin="10,5,1,1" Width="200"
+                              metro:TextBoxHelper.Watermark="Estado de la Actividad..."
+                              ItemsSource="{Binding EstadosValidos}"
+                                  SelectedItem="{Binding Actividad.Estado, UpdateSourceTrigger=PropertyChanged}"/>
+
+                </StackPanel>-->
+            </StackPanel>
+        </GroupBox>
 
         <!--<ScrollViewer  HorizontalAlignment="Left" VerticalScrollBarVisibility="Auto">
             <StackPanel>
