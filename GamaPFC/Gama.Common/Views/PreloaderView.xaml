@@ -37,7 +37,7 @@
     <Image Panel.ZIndex="-99"
       Source="pack://application:,,,/Gama.Common;component/Resources/Images/gama_logo_grande.png" 
            Stretch="Uniform"
-           Margin="{StaticResource Margin}"/>
+           Margin="-1,0,-1,0"/>
     <StackPanel Orientation="Vertical" HorizontalAlignment="Right">
       <Label x:Name="_Label1" Content="Inicializando directorios..." Visibility="Visible"/>
       <Label x:Name="_Label2" Content="Inicializando preferencias..."  Visibility="Hidden"/>

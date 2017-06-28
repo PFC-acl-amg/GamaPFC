@@ -30,47 +30,43 @@ namespace Gama.Atenciones.Wpf
         private bool _CLEAR_DATABASE = false;
         private bool _SEED_DATABASE = false;
         private Thread _PreloadThread;
-        public static PreloaderView _PreloaderView;
-        private ObservableCollection<string> _NotifyCollection;
+        public PreloaderView _PreloaderView;
 
         protected override DependencyObject CreateShell()
         {
-            _NotifyCollection = new ObservableCollection<string>();
+            _LanzarPreloader();
 
+            return Container.Resolve<Shell>();
+        }
+
+        private void _LanzarPreloader()
+        {
             _PreloadThread = new Thread(_PreLoad);
             _PreloadThread.SetApartmentState(ApartmentState.STA);
             _PreloadThread.Start();
 
-            Thread.Sleep(200);
+            Thread.Sleep(200); // Para dar tiempo al nuevo hilo a crear la vista.
+
             lock (_PreloaderView)
             {
-                _NotifyCollection.Add("x"); InicializarDirectorios();
-                _NotifyCollection.Add("x"); ConfigurarPreferencias();
-                _NotifyCollection.Add("x"); RegisterServices(); 
-                _NotifyCollection.Add("x"); ConfigureDatabase(); 
-                _NotifyCollection.Add("x");
+                _PreloaderView.Avanzar(); InicializarDirectorios();
+                _PreloaderView.Avanzar(); ConfigurarPreferencias();
+                _PreloaderView.Avanzar(); RegisterServices();
+                _PreloaderView.Avanzar(); ConfigureDatabase();
+                _PreloaderView.Avanzar();
             }
-
-            var session = Container.Resolve<ISession>();
-            var personaRepository = Container.Resolve<IPersonaRepository>();
-            var asistenteRepository = Container.Resolve<IAsistenteRepository>();
-            personaRepository.Session = session;
-            asistenteRepository.Session = session;
-            return Container.Resolve<Shell>();
         }
 
         private void _PreLoad()
         {
-             _PreloaderView = new PreloaderView(_NotifyCollection);
+             _PreloaderView = new PreloaderView();
             _PreloaderView.Titulo = "SERVICIO DE ATENCIONES";
             _PreloaderView.ShowDialog();
         }
 
         [SecurityPermissionAttribute(SecurityAction.Demand, ControlThread = true)]
-        private void _KillTheThread()
+        private void _TerminarPreload()
         {
-            _NotifyCollection.Add("<END>");
-            //_PreloaderView.Close();
             _PreloadThread.Abort();
             _PreloadThread = null;
         }
@@ -79,30 +75,16 @@ namespace Gama.Atenciones.Wpf
         {
             base.InitializeShell();
 
-            string title = "";
-            BitmapImage icon = new BitmapImage();
-
-            title = "SERVICIO DE ATENCIONES";
-            icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/icono_modulo_atenciones.png"));
-
-            ((ShellViewModel)((FrameworkElement)Shell).DataContext).Title = title;
-            ((ShellViewModel)((FrameworkElement)Shell).DataContext).IconSource = icon;
-
-            //_PreloaderView.Close();
-            //_PreloaderView = null;
-            //lock(_PreloaderView)
+            ((ShellViewModel)((FrameworkElement)Shell).DataContext).Title = "SERVICIO DE ATENCIONES";
+            ((ShellViewModel)((FrameworkElement)Shell).DataContext).IconSource = 
+                new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/icono_modulo_atenciones.png"));
 
             Application.Current.MainWindow = Shell as Window;
             Application.Current.MainWindow.ShowActivated = true;
             Application.Current.MainWindow.Show();
 
-            _KillTheThread();
-
-            //if (AtencionesResources.ClientService.IsConnected())
-            //    Container.Resolve<EventAggregator>().GetEvent<LaConexionConElServidorHaCambiadoEvent>().Publish(MensajeDeConexion.Conectado);
-            //else
-            //    Container.Resolve<EventAggregator>().GetEvent<LaConexionConElServidorHaCambiadoEvent>().Publish(MensajeDeConexion.NoConectado);
-        }
+            _TerminarPreload();
+          }
 
         private void InicializarDirectorios()
         {
@@ -116,9 +98,7 @@ namespace Gama.Atenciones.Wpf
                 BitmapImage icon;
                 BitmapEncoder encoder;
 
-                //
                 // Default Search Icon
-                //
                 if (!File.Exists(ResourceNames.DefaultSearchIconPath))
                 {
                     icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_search_icon.png"));
@@ -132,9 +112,7 @@ namespace Gama.Atenciones.Wpf
                     }
                 }
 
-                //
                 // Default User Icon
-                //
                 if (!File.Exists(ResourceNames.DefaultUserIconPath))
                 {
                     icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png"));
@@ -142,15 +120,13 @@ namespace Gama.Atenciones.Wpf
                     encoder.Frames.Add(BitmapFrame.Create(icon));
 
                     using (var fileStream =
-                        new System.IO.FileStream(ResourceNames.DefaultUserIconPath, System.IO.FileMode.Create))
+                        new FileStream(ResourceNames.DefaultUserIconPath, System.IO.FileMode.Create))
                     {
                         encoder.Save(fileStream);
                     }
                 }
 
-                //
                 // Atención Icon
-                //
                 if (!File.Exists(ResourceNames.AtencionIconPath))
                 {
                     icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png"));
@@ -158,7 +134,7 @@ namespace Gama.Atenciones.Wpf
                     encoder.Frames.Add(BitmapFrame.Create(icon));
 
                     using (var fileStream =
-                        new System.IO.FileStream(ResourceNames.AtencionIconPath, System.IO.FileMode.Create))
+                        new FileStream(ResourceNames.AtencionIconPath, System.IO.FileMode.Create))
                     {
                         encoder.Save(fileStream);
                     }
@@ -166,7 +142,7 @@ namespace Gama.Atenciones.Wpf
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -190,11 +166,6 @@ namespace Gama.Atenciones.Wpf
             }
 
             Container.RegisterInstance(preferencias);
-        }
-
-        private void ConectarConServidor()
-        {
-            AtencionesResources.ClientService = new ClientService(Container.Resolve<EventAggregator>());
         }
 
         private void RegisterServices()

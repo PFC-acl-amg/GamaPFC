@@ -25,27 +25,24 @@ namespace Gama.Common.Views
     public partial class PreloaderView : MetroWindow, INotifyPropertyChanged
     {
         private List<Label> _Labels;
+        private int _ContadorDePuntosSuspensivos;
         private DispatcherTimer _Timer;
 
-        public PreloaderView(ObservableCollection<string> coleccion)
+        public PreloaderView()
         {
             InitializeComponent();
-            _Timer = new DispatcherTimer();
-            _Timer.Tick += _timer_Tick;
-            _Timer.Interval = new TimeSpan(0, 0, 0, 0, 250);
+
+            _ContadorDePuntosSuspensivos = 3;
+
             _Labels = new List<Label>();
             _Labels.AddRange(new[] { _Label1, _Label2, _Label3, _Label4, _Label5 });
+
+            _Timer = new DispatcherTimer();
+            _Timer.Tick += _Timer_Tick;
+            _Timer.Interval = new TimeSpan(0, 0, 0, 0, 250);
             _Timer.Start();
-
-            coleccion.CollectionChanged += Coleccion_CollectionChanged;
+            
             DataContext = this;
-
-        }
-
-        private void Coleccion_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            //_Timer.Start();
-            Next();
         }
 
         private string _LabelDeCargarBase = "Conectando con el servidor";
@@ -71,31 +68,21 @@ namespace Gama.Common.Views
             }
         }
 
-        int contador = 3;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        private void _Timer_Tick(object sender, EventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void _timer_Tick(object sender, EventArgs e)
-        {
-            if (contador > 2)
+            if (_ContadorDePuntosSuspensivos > 2)
             {
-                contador = 0;
+                _ContadorDePuntosSuspensivos = 0;
                 LabelDeCargar = _LabelDeCargarBase;
             }
 
             LabelDeCargar += ".";
 
-            contador++;
+            _ContadorDePuntosSuspensivos++;
             _Timer.Start();
-
         }
 
-        public void Next()
+        public void Avanzar()
         {
             if (_Labels.Count == 0)
                 Dispatcher.Invoke((Action)delegate { Close(); });
@@ -105,6 +92,13 @@ namespace Gama.Common.Views
                 label.Dispatcher.Invoke((Action)delegate { label.Visibility = Visibility.Visible; });
                 Dispatcher.Invoke((Action)delegate { _Labels.Remove(_Labels.First()); });
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
