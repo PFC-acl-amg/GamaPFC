@@ -28,7 +28,7 @@ namespace Gama.Atenciones.DataAccess
                         NHibernate.Cfg.Configuration configuration;
 
                         var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\www\nh_atenciones.cfg";
-                        //File.Delete(path);
+                        File.Delete(path);
                         if (File.Exists(path))
                         {
                             var file = File.Open(path, FileMode.Open);

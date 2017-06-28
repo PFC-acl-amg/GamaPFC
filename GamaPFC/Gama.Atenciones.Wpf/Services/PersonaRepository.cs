@@ -3,10 +3,7 @@ using Gama.Atenciones.Business;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Gama.Common.CustomControls;
-using Core.Util;
 using Prism.Events;
 using Gama.Atenciones.Wpf.Eventos;
 using NHibernate;
@@ -26,25 +23,6 @@ namespace Gama.Atenciones.Wpf.Services
             _CitaRepository = citaRepository;
         }
 
-        private void OnCitaCreadaEvent(int citaId)
-        {
-            Cita cita = _CitaRepository.GetById(citaId);
-            Persona persona = _Personas.Find(x => x.Id == cita.Persona.Id);
-            persona.Citas.Add(cita);
-        }
-
-        private void OnCitaActualizadaEvent(int citaId)
-        {
-            Cita cita = _CitaRepository.GetById(citaId);
-            List<Cita> citas = _Personas
-                .Select(p => p.Citas)
-                .First(x => x.Any(c => c.Id == citaId))
-                .ToList();
-
-            Cita citaDesactualizada = citas.First(c => c.Id == citaId);
-            citaDesactualizada.CopyValuesFrom(cita);
-        }
-
         public List<Persona> Personas
         {
             get
@@ -54,6 +32,19 @@ namespace Gama.Atenciones.Wpf.Services
 
                 return _Personas;
             }
+        }
+
+        private void RaiseActualizarServidor() 
+        {
+            if (AtencionesResources.ClientService != null && AtencionesResources.ClientService.IsConnected())
+                AtencionesResources.ClientService.EnviarMensaje($"Cliente {AtencionesResources.ClientId} ha hecho un broadcast @@{Guid.NewGuid()}%%");
+        }
+
+        public override void UpdateClient()
+        {
+            _Personas = base.GetAll();
+            Nifs.Clear();
+            Nifs.AddRange(_Personas.Select(p => p.Nif));
         }
 
         public static List<string> Nifs { get; set; }
@@ -94,6 +85,7 @@ namespace Gama.Atenciones.Wpf.Services
             Personas.Add(entity);
             AddNif(entity.Nif);
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Publish(entity.Id);
+            RaiseActualizarServidor();
         }
 
         public override bool Update(Persona entity)
@@ -108,6 +100,7 @@ namespace Gama.Atenciones.Wpf.Services
                     entity._SavedNif = entity.Nif;
                 }
                 _EventAggregator.GetEvent<PersonaActualizadaEvent>().Publish(entity.Id);
+                RaiseActualizarServidor();
 
                 return true;
             }
@@ -176,50 +169,25 @@ namespace Gama.Atenciones.Wpf.Services
 
             return resultado;
         }
+
+        private void OnCitaCreadaEvent(int citaId)
+        {
+            Cita cita = _CitaRepository.GetById(citaId);
+            Persona persona = _Personas.Find(x => x.Id == cita.Persona.Id);
+            persona.Citas.Add(cita);
+        }
+
+        private void OnCitaActualizadaEvent(int citaId)
+        {
+            Cita cita = _CitaRepository.GetById(citaId);
+            List<Cita> citas = _Personas
+                .Select(p => p.Citas)
+                .First(x => x.Any(c => c.Id == citaId))
+                .ToList();
+
+            Cita citaDesactualizada = citas.First(c => c.Id == citaId);
+            citaDesactualizada.CopyValuesFrom(cita);
+        }
+
     }
 }
-
-
-
-//List<string> temp;
-//List<string> resultado = new List<string>();
-
-//try
-//{
-//    temp = Session.QueryOver<Persona>()
-//        .Select(x => x.Nif)
-//        .List<string>()
-//        .ToList();
-
-//    foreach (var nif in temp)
-//    {
-//        resultado.Add(EncryptionService.Decrypt(nif));
-//    }
-
-//    Session.Clear();
-//}
-//catch (Exception ex)
-//{
-//    throw ex;
-//}
-
-//return resultado;
-
-//var personas = Session.CreateCriteria<Persona>().List<Persona>()
-//    .Select(x => {
-//        x.IsEncrypted = true;
-//        x.DecryptFluent();
-//        return x;
-//    })
-//    .Select(
-//        x => new LookupItem
-//        {
-//            Id = x.Id,
-//            DisplayMember1 = x.Nombre,
-//            DisplayMember2 = x.Nif,
-//            Imagen = x.Imagen
-//        }).ToList();
-
-//Session.Clear();
-
-//return personas;

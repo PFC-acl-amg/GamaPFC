@@ -152,6 +152,7 @@
     <Compile Include="Converters\BinaryImageConverter.cs" />
     <Compile Include="Converters\BooleanToVisivilityConverter.cs" />
     <Compile Include="CooperacionModule.cs" />
+    <Compile Include="CooperacionResources.cs" />
     <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />
     <Compile Include="DesignTimeData\DesignTimeDataViewModel.cs" />
     <Compile Include="DesignTimeData\InformacionTareaViewModel_DTD.cs" />
@@ -192,6 +193,8 @@
     <Compile Include="Services\IncidenciaRepository.cs" />
     <Compile Include="Services\ISeguimientoRepository.cs" />
     <Compile Include="Services\ITareaRepository.cs" />
+    <Compile Include="Services\Preferencias.cs" />
+    <Compile Include="Services\RightCommandsViewModel.cs" />
     <Compile Include="Services\SeguimientoRepository.cs" />
     <Compile Include="Services\TareaRepository.cs" />
     <Compile Include="Shell.xaml.cs">
@@ -250,6 +253,12 @@
     </Compile>
     <Compile Include="Views\MensajesForoView.xaml.cs">
       <DependentUpon>MensajesForoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PreferenciasView.xaml.cs">
+      <DependentUpon>PreferenciasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RightCommandsView.xaml.cs">
+      <DependentUpon>RightCommandsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SeguimientoTareaView.xaml.cs">
       <DependentUpon>SeguimientoTareaView.xaml</DependentUpon>
@@ -345,6 +354,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MensajesForoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PreferenciasView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RightCommandsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

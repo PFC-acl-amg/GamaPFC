@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    public class ModelBase : IEncryptable
+    public abstract class ModelBase : IEncryptable
     {
         public virtual List<string> EncryptedFields { get; set; }
 
@@ -122,5 +122,7 @@ namespace Core
             Decrypt();
             return this;
         }
+
+        public virtual void CopyValuesFrom() { }
     }
 }

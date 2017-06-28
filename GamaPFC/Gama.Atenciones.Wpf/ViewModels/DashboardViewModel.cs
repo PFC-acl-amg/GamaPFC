@@ -6,6 +6,7 @@ using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.UIEvents;
 using Gama.Common.CustomControls;
+using Gama.Common.Eventos;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
@@ -49,7 +50,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _AtencionRepository.Session = session;
 
             _Personas = new List<Persona>(_PersonaRepository.GetAll());
-            _Atenciones = new List<Atencion>(atencionRepository.GetAll());
+            _Atenciones = new List<Atencion>(_AtencionRepository.GetAll());
             _Citas = new List<Cita>(_CitaRepository.GetAll());
 
             Personas = new ObservableCollection<Persona>(
@@ -73,8 +74,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
             FiltrarPorPersonaCommand = new DelegateCommand<object>(OnFiltrarPorPersonaCommandExecute);
             ResetearFechasCommand = new DelegateCommand(() =>
             {
-                FechaDeInicio = null;
-                FechaDeFin = null;
+                _FechaDeInicio = null;
+                _FechaDeFin = null;
+                FiltrarPorFecha();
             });
 
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnPersonaCreadaEvent);
@@ -89,6 +91,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<AtencionCreadaEvent>().Subscribe(OnAtencionCreadaEvent);
             _EventAggregator.GetEvent<AtencionActualizadaEvent>().Subscribe(OnAtencionActualizadaEvent);
             _EventAggregator.GetEvent<AtencionEliminadaEvent>().Subscribe(OnAtencionEliminadaEvent);
+
+
+            DoMagicCommand = new DelegateCommand(OnDoMagicCommandExecute);
+            StopMagicCommand = new DelegateCommand(OnStopMagicCommandExecute);
         }
 
         private Persona _PersonaSeleccionada;
@@ -134,14 +140,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
             atencion =>
             { 
                 atencion.Seguimiento = LookupItem.ShortenStringForDisplay(atencion.Seguimiento, 30);
-                atencion.Imagen = Converters.BinaryImageConverter.GetBitmapImageFromUriSource(
-                                 new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png"));
+                //atencion.Imagen = Converters.BinaryImageConverter.GetBitmapImageFromUriSource(
+                //                 new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/add atencion.png"));
                 return atencion;
             };
 
         /// 
         /// FUNCIONES PRIVADAS Y MÉTODOS PÚBLICOS
         /// 
+        
 
         // Filtra por fecha si éstas están definidas en la interfaz.
         // Si no, carga todos los elementos. Cada vez que hay algún cambio
@@ -152,21 +159,39 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var fechaDeInicio = FechaDeInicio ?? DateTime.Now.AddYears(-100);
             var fechaDeFin = FechaDeFin ?? DateTime.Now.AddYears(10);
 
+            //Personas.Clear();
+            //Personas.AddRange(_Personas
+            //    .Where(p => p.CreatedAt.IsBetween(FechaDeInicio, FechaDeFin)
+            //        || p.UpdatedAt.IsBetween(FechaDeInicio, FechaDeFin)
+            //        || p.Citas.Any(c => c.Fecha.IsBetween(FechaDeInicio, FechaDeFin)))
+            //    .Where(p => p.Nombre.ToLower().Contains(_TextoDeBusqueda.Trim().ToLower()))
+            //    .OrderBy(p => p.Nombre)
+            //    .ToList());
             Personas = new ObservableCollection<Persona>(
                 _Personas
-                .Where(p => p.CreatedAt.IsBetween(FechaDeInicio, FechaDeFin) 
+                .Where(p => p.CreatedAt.IsBetween(FechaDeInicio, FechaDeFin)
                     || p.UpdatedAt.IsBetween(FechaDeInicio, FechaDeFin)
                     || p.Citas.Any(c => c.Fecha.IsBetween(FechaDeInicio, FechaDeFin)))
                 .Where(p => p.Nombre.ToLower().Contains(_TextoDeBusqueda.Trim().ToLower()))
                 .OrderBy(p => p.Nombre)
                 .ToList());
 
+            //Atenciones.Clear();
+            //Atenciones.AddRange(_Atenciones
+            //    .Where(x => x.Fecha.IsBetween(FechaDeInicio, FechaDeFin))
+            //    .OrderBy(a => a.Fecha)
+            //    .Select(_AtencionToFullAtencion));
             Atenciones = new ObservableCollection<Atencion>(
                 _Atenciones
                 .Where(x => x.Fecha.IsBetween(FechaDeInicio, FechaDeFin))
                 .OrderBy(a => a.Fecha)
                 .Select(_AtencionToFullAtencion));
 
+            //ProximasCitas.Clear();
+            //ProximasCitas.AddRange(_Citas
+            //    .Where(x => x.Fecha.IsBetween(FechaDeInicio, FechaDeFin))
+            //    .OrderBy(c => c.Fecha)
+            //    .ToList());
             ProximasCitas = new ObservableCollection<Cita>(
                 _Citas
                 .Where(x => x.Fecha.IsBetween(FechaDeInicio, FechaDeFin))
@@ -349,6 +374,29 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             _Citas.Remove(_Citas.Find(x => x.Id == citaId));
             _Atenciones.RemoveAll(x => x.Cita.Id == citaId);
+            FiltrarPorFecha();
+        }
+
+        int _Contador = 0;
+        public ICommand DoMagicCommand { get; private set; }
+        public ICommand StopMagicCommand { get; private set; }
+
+        private void OnDoMagicCommandExecute()
+        {
+            AtencionesResources.ClientService.EnviarMensaje("uohh ihh jiji");
+        }
+
+        private void OnStopMagicCommandExecute()
+        {
+            AtencionesResources.ClientService.Desconectar();
+        }
+
+        public override void OnActualizarServidor()
+        {
+            _Personas = new List<Persona>(_PersonaRepository.GetAll());
+            _Atenciones = new List<Atencion>(_AtencionRepository.GetAll());
+            _Citas = new List<Cita>(_CitaRepository.GetAll());
+
             FiltrarPorFecha();
         }
     }

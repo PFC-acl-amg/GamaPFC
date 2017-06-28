@@ -1,6 +1,7 @@
 ﻿using Core;
 using Gama.Atenciones.Wpf.UIEvents;
 using Gama.Common;
+using Gama.Common.Eventos;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;

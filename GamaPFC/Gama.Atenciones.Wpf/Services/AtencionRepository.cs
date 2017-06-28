@@ -30,6 +30,17 @@ namespace Gama.Atenciones.Wpf.Services
             }
         }
 
+        private void RaiseActualizarServidor()
+        {
+            if (AtencionesResources.ClientService != null && AtencionesResources.ClientService.IsConnected())
+                AtencionesResources.ClientService.EnviarMensaje($"Cliente {AtencionesResources.ClientId} ha hecho un broadcast @@{Guid.NewGuid()}%%");
+        }
+
+        public override void UpdateClient()
+        {
+            _Atenciones = base.GetAll();
+        }
+
         public override Atencion GetById(int id)
         {
             return Atenciones.Find(x => x.Id == id);
@@ -38,19 +49,6 @@ namespace Gama.Atenciones.Wpf.Services
         public override List<Atencion> GetAll()
         {
             return Atenciones;
-            //try
-            //{
-            //    var atenciones = Session.CreateCriteria<Atencion>()
-            //        .SetFetchMode("Cita", NHibernate.FetchMode.Eager).List<Atencion>().ToList();
-
-            //    Session.Clear();
-
-            //    return atenciones;
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
         }
 
         public override void Create(Atencion entity)
@@ -58,6 +56,7 @@ namespace Gama.Atenciones.Wpf.Services
             base.Create(entity);
             Atenciones.Add(entity);
             _EventAggregator.GetEvent<AtencionCreadaEvent>().Publish(entity.Id);
+            RaiseActualizarServidor();
         }
 
         public override bool Update(Atencion entity)
@@ -68,6 +67,7 @@ namespace Gama.Atenciones.Wpf.Services
                 Atenciones.Remove(Atenciones.Find(x => x.Id == entity.Id));
                 Atenciones.Add(entity);
                 _EventAggregator.GetEvent<AtencionActualizadaEvent>().Publish(entity.Id);
+                RaiseActualizarServidor();
                 return true;
             }
 
@@ -100,32 +100,5 @@ namespace Gama.Atenciones.Wpf.Services
 
             return resultado;
         }
-
-        //public override Atencion GetById(int id)
-        //{
-        //    try
-        //    {
-        //        var entity = Session.Get<Atencion>((object)id);
-
-        //        var encryptableEntity = entity as IEncryptable;
-        //        if (encryptableEntity != null)
-        //        {
-        //            //encryptableEntity.IsEncrypted = true;
-        //            //encryptableEntity.Decrypt();
-        //            if (encryptableEntity.IsEncrypted)
-        //            {
-        //                encryptableEntity.Decrypt();
-        //            }
-        //        }
-
-        //        //Session.Clear();
-
-        //        return entity;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
     }
 }

@@ -124,7 +124,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Business\Usuario.cs" />
+    <Compile Include="BaseClasses\UnityBootstrapperBase.cs" />
+    <Compile Include="Communication\ClientService.cs" />
     <Compile Include="CustomControls\CircleIconButton.cs" />
     <Compile Include="CustomControls\LimitedCollectionView.cs" />
     <Compile Include="CustomControls\LimitedListCollectionView.cs" />
@@ -133,9 +134,11 @@
     <Compile Include="CustomControls\PaginatedCollectionView.cs" />
     <Compile Include="CustomControls\SearchBox.cs" />
     <Compile Include="CustomControls\SearchBoxDataTemplateSelector.cs" />
-    <Compile Include="Data\UsuarioMap.cs" />
     <Compile Include="Eventos\AbrirPreferenciasEvent.cs" />
+    <Compile Include="Eventos\ActiveViewChanged.cs" />
+    <Compile Include="Eventos\LaConexionConElServidorHaCambiadoEvent.cs" />
     <Compile Include="Eventos\PreferenciasActualizadasEvent.cs" />
+    <Compile Include="Eventos\ServidorActualizadoDesdeFueraEvent.cs" />
     <Compile Include="Eventos\VolverASeleccionarDeModuloEvent.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="ResourceNames.cs" />
@@ -151,6 +154,9 @@
     </Compile>
     <Compile Include="Views\ExceptionMessageView.xaml.cs">
       <DependentUpon>ExceptionMessageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PreloaderView.xaml.cs">
+      <DependentUpon>PreloaderView.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Constants\Colores.xaml">
       <SubType>Designer</SubType>
@@ -235,6 +241,10 @@
     <Page Include="Views\ExceptionMessageView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PreloaderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -335,7 +345,9 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\lines.png" />
+    <Resource Include="Resources\Images\gama_logo_grande.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -208,6 +208,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AtencionesResources.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controls\CustomCalendar.cs" />
     <Compile Include="Controls\Day.cs" />
@@ -248,6 +249,7 @@
     <Compile Include="FakeServices\FakeAsistenteRepository.cs" />
     <Compile Include="FakeServices\FakeAtencionRepository.cs" />
     <Compile Include="FakeServices\FakeCitaRepository.cs" />
+    <Compile Include="FakeServices\FakeDerivacionRepository.cs" />
     <Compile Include="FakeServices\FakePersonaRepository.cs" />
     <Compile Include="FakeServices\FakeRepository.cs" />
     <Compile Include="Services\AsistenteRepository.cs" />
@@ -265,7 +267,6 @@
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShellViewModel.cs" />
-    <Compile Include="UIEvents\ActiveViewChanged.cs" />
     <Compile Include="DataTemplateSelectors\ViewModelDataTemplateSelector.cs" />
     <Compile Include="UIEvents\PersonaEnBusquedaEvent.cs" />
     <Compile Include="ViewModels\AsistentesContentViewModel.cs" />
@@ -321,6 +322,7 @@
     <Compile Include="Views\Graficas\AtencionesGraficasView.xaml.cs">
       <DependentUpon>AtencionesGraficasView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\ChartPiePieceLabelConverter.cs" />
     <Compile Include="Views\Graficas\DatosPersonalesGraficasView.xaml.cs">
       <DependentUpon>DatosPersonalesGraficasView.xaml</DependentUpon>
     </Compile>
@@ -598,12 +600,15 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\icono_nuevo_asistente.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Images\persona_dummy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Doctor-WF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\add atencion.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

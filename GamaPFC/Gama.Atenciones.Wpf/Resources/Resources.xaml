@@ -13,11 +13,12 @@
     <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Templates/CircleIconButton.xaml"/>
   </ResourceDictionary.MergedDictionaries>
   <BitmapImage x:Key="IconoNuevaPersona" UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/icono_nueva_persona.png"/>
-  <BitmapImage x:Key="IconoNuevoAsistente" UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/icono_nuevo_asistente.png"/>
+  <BitmapImage x:Key="IconoNuevoAsistente" UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/Doctor-WF.png"/>
   <BitmapImage x:Key="IconoAtenciones" UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/icono_atenciones.png"/>
   <BitmapImage x:Key="IconoPersonas" UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/icono_personas.png"/>
   <BitmapImage x:Key="IconoEliminarPersona" UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/icono_eliminar_persona.png"/>
   <BitmapImage x:Key="IconoExportarPersona" UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/icono_exportar_persona.png"/>
+  <BitmapImage x:Key="IconoAtencion" UriSource="/Gama.Atenciones.Wpf;component/Resources/Images/add atencion.png"/>
 
   <charts:ResourceDictionaryCollection x:Key="MyColorPalette">
     <ResourceDictionary>

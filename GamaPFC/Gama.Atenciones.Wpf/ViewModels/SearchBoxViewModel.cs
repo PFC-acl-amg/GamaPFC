@@ -41,9 +41,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             SearchCommand = new DelegateCommand(OnSearchCommandExecute);
             SelectResultCommand = new DelegateCommand(OnSelectResultCommandExecute);
 
-            Personas = new ObservableCollection<LookupItem>(personaRepository.GetAllForLookup());
-
-            //_PersonaRepository.Session.Clear();
+            Personas = new ObservableCollection<LookupItem>(_PersonaRepository.GetAllForLookup());
 
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnPersonaCreadaEvent);
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
@@ -68,6 +66,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public ICommand SearchCommand { get; private set; }
         public ICommand SelectResultCommand { get; private set; }
 
+        public override void OnActualizarServidor()
+        {
+            Personas = new ObservableCollection<LookupItem>(_PersonaRepository.GetAllForLookup());
+        }
+
         private void OnSearchCommandExecute()
         {
             _EventAggregator.GetEvent<PersonaEnBusquedaEvent>().Publish(TextoDeBusqueda);
@@ -86,7 +89,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnPersonaCreadaEvent(int id)
         {
             var persona = _PersonaRepository.GetById(id);
-            //_PersonaRepository.Session.Evict(persona);
 
             Personas.Add(new LookupItem
             {

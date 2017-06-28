@@ -6,7 +6,7 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:Gama.Atenciones.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True"
+             prism:ViewModelLocator.AutoWireViewModel="False"
              xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              mc:Ignorable="d" d:DesignHeight="76.452" d:DesignWidth="377.055">
@@ -37,9 +37,18 @@
             ToolTip="Nueva Persona"/>
 
     <cc:CircleIconButton 
-            Command="{Binding NuevoAsistenteCommand}"
-            Icon="{StaticResource appbar_user_add}" 
-            ToolTip="Nuevo Asistente"/>
+      Command="{Binding NuevoAsistenteCommand}"
+      IconWidth="24"
+      IconHeight="25"
+      ToolTip="Nuevo Asistente">
+      <cc:CircleIconButton.Icon>
+        <Viewbox>
+          <Grid>
+            <Image Source="{StaticResource IconoNuevoAsistente}" />
+          </Grid>
+        </Viewbox>
+      </cc:CircleIconButton.Icon>
+    </cc:CircleIconButton>
 
     <cc:CircleIconButton 
             Command="{Binding ExportarCommand}"

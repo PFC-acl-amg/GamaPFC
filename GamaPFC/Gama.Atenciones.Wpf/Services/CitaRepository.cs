@@ -29,6 +29,17 @@ namespace Gama.Atenciones.Wpf.Services
             }
         }
 
+        private void RaiseActualizarServidor()
+        {
+            if (AtencionesResources.ClientService != null && AtencionesResources.ClientService.IsConnected())
+                AtencionesResources.ClientService.EnviarMensaje($"Cliente {AtencionesResources.ClientId} ha hecho un broadcast @@{Guid.NewGuid()}%%");
+        }
+
+        public override void UpdateClient()
+        {
+            _Citas = base.GetAll();
+        }
+
         public override Cita GetById(int id)
         {
             return Citas.Find(x => x.Id == id);
@@ -44,6 +55,7 @@ namespace Gama.Atenciones.Wpf.Services
             base.Create(entity);
             Citas.Add(entity);
             _EventAggregator.GetEvent<CitaCreadaEvent>().Publish(entity.Id);
+            RaiseActualizarServidor();
         }
 
         public override bool Update(Cita entity)
@@ -54,38 +66,11 @@ namespace Gama.Atenciones.Wpf.Services
                 Citas.Remove(Citas.Find(x => x.Id == entity.Id));
                 Citas.Add(entity);
                 _EventAggregator.GetEvent<CitaActualizadaEvent>().Publish(entity.Id);
+                RaiseActualizarServidor();
                 return true;
             }
 
             return false;
         }
-        //public override List<Cita> GetAll()
-        //{
-        //    try
-        //    {
-        //        var citas = Session.CreateCriteria<Cita>()
-        //            .SetFetchMode("Persona", NHibernate.FetchMode.Eager)
-        //            .SetFetchMode("Asistente", NHibernate.FetchMode.Eager)
-        //            .List<Cita>().ToList();
-
-        //        foreach (var cita in citas)
-        //        {
-        //            cita.Decrypt();
-        //        }
-
-        //        Session.Clear();
-
-        //        return citas;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-
-        //public List<LookupItem> GetAllForLookup()
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

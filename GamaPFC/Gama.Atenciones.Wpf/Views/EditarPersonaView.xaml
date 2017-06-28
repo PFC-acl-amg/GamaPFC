@@ -189,13 +189,13 @@
             <!-- Actualizar Button -->
             <cc:CircleIconButton 
               Icon="{StaticResource appbar_save}"
-              Visibility="{Binding PersonaVM.EdicionHabilitada, Converter={StaticResource BooleanToVisibilityConverter}}"
+              Visibility="{Binding Persona.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
               Command="{Binding ActualizarCommand}"/>
 
             <!-- Cancelar Button -->
             <cc:CircleIconButton
               Icon="{StaticResource appbar_close}"
-              Visibility="{Binding PersonaVM.EdicionHabilitada, Converter={StaticResource BooleanToVisibilityConverter}}"
+              Visibility="{Binding Persona.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
               Command="{Binding CancelarEdicionCommand}"/>
 
             <!-- Habilitar Edición Button -->

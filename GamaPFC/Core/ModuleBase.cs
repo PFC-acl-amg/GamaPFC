@@ -28,7 +28,6 @@ namespace Core
             this.Container = container;
             this.RegionManager = regionManager;
             this.Entorno = Entorno.Desarrollo;
-            this.SeedDatabase = false;
         }
 
         public abstract void Initialize();

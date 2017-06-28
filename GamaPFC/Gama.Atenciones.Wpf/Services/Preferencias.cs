@@ -34,11 +34,15 @@ namespace Gama.Atenciones.Wpf.Services
             AutomaticBackupPath = PreferenciasPathFolder;
 
             DoBackupOnClose = true;
+
+            General_EdicionHabilitadaPorDefecto = false;
         }
 
         public string AutomaticBackupPath { get; set; }
         public bool DoBackupOnClose { get; set; }
         public DateTime? BackupDeleteDateLimit { get; set; }
+
+        public bool General_EdicionHabilitadaPorDefecto { get; set; }
         
         public bool Dashboard_MostrarFiltroDeFechaPorDefecto { get; set; }
         public bool CitasContent_MostrarFiltroDeFechaPorDefecto { get; set; }

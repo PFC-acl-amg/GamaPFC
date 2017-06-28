@@ -16,19 +16,19 @@ namespace Gama.Atenciones.DataAccess
     {
         private static string _connectionString = ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString;
 
-        private ISessionFactory _sessionFactory = null;
+        private ISessionFactory _SessionFactory = null;
         public ISessionFactory SessionFactory
         {
             get
             {
-                if (_sessionFactory == null)
+                if (_SessionFactory == null)
                 {
                     try
                     {
                         NHibernate.Cfg.Configuration configuration;
 
                         var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\nh_atenciones.cfg";
-                        File.Delete(path);
+                        //File.Delete(path);
                         if (File.Exists(path))
                         {
                             var file = File.Open(path, FileMode.Open);
@@ -42,14 +42,7 @@ namespace Gama.Atenciones.DataAccess
                             new BinaryFormatter().Serialize(File.Create(path), configuration);
                         }
 
-                        try
-                        {
-                            _sessionFactory = configuration.BuildSessionFactory();
-                        }
-                        catch (Exception ex)
-                        {
-                            throw ex;
-                        }
+                         _SessionFactory = configuration.BuildSessionFactory();
                     }
                     catch (FluentConfigurationException ex)
                     {
@@ -57,7 +50,7 @@ namespace Gama.Atenciones.DataAccess
                     }
                 }
 
-                return _sessionFactory;
+                return _SessionFactory;
             }
         }
 
@@ -69,13 +62,11 @@ namespace Gama.Atenciones.DataAccess
                 .Mappings(m =>
                     m.FluentMappings
                         .AddFromAssemblyOf<PersonaMap>()
-                        //.Add<ActividadMap>()
-                        //.Add<CooperanteMap>()
                         .Conventions.Add(DefaultCascade.All(), DefaultLazy.Always()))
                 .ExposeConfiguration(
                     c => {
                         var schema = new SchemaExport(c);
-                        //c.SetProperty("current_session_context_class", "thread_static");
+                        c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: false,
                             execute: false,

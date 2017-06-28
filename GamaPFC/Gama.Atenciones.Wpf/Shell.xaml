@@ -1,32 +1,32 @@
-﻿<mahapps:MetroWindow x:Class="Gama.Atenciones.Wpf.Shell"
-                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                  xmlns:prism="http://prismlibrary.com/"
-                  xmlns:common="clr-namespace:Gama.Common;assembly=Gama.Common"
-                  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-                  xmlns:views="clr-namespace:Gama.Atenciones.Wpf.Views"
-                  xmlns:viewModels="clr-namespace:Gama.Atenciones.Wpf.ViewModels"
-                     xmlns:dataTemplateSelectors="clr-namespace:Gama.Atenciones.Wpf.DataTemplateSelectors"
-                     xmlns:converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
-                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                  mc:Ignorable="d"
-                  prism:ViewModelLocator.AutoWireViewModel="True"
-                  ResizeMode="CanResizeWithGrip"
-                  WindowStartupLocation="CenterScreen" 
-                  WindowState="Maximized"
-                  WindowTitleBrush="{StaticResource AccentColorBrush}"
-                  Style="{StaticResource CustomMetroWindowStyle}"
-                  Title="{Binding Title}" 
-                     x:Name="_Root"
-                  Icon="{Binding IconSource}"
-                   Height="350" Width="887">
+﻿<mahapps:MetroWindow 
+  x:Class="Gama.Atenciones.Wpf.Shell"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:prism="http://prismlibrary.com/"
+  xmlns:common="clr-namespace:Gama.Common;assembly=Gama.Common"
+  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+  xmlns:views="clr-namespace:Gama.Atenciones.Wpf.Views"
+  xmlns:dataTemplateSelectors="clr-namespace:Gama.Atenciones.Wpf.DataTemplateSelectors"
+  xmlns:converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
+  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+  mc:Ignorable="d"
+  prism:ViewModelLocator.AutoWireViewModel="True"
+  ResizeMode="CanResizeWithGrip"
+  WindowStartupLocation="CenterScreen" 
+  WindowState="Maximized"
+  WindowTitleBrush="{StaticResource AccentColorBrush}"
+  Style="{StaticResource CustomMetroWindowStyle}"
+  Title="SERVICIO DE ATENCIONES" 
+  x:Name="_Root"
+  Icon="{Binding IconSource}"
+  Height="350" Width="887">
   <mahapps:MetroWindow.Resources>
     <sys:Double x:Key="_SocialIconSize">13</sys:Double>
       <sys:Double x:Key="WindowTitleFontSize">14</sys:Double>
 
-    <converters:BooleanToVisibilityConverter x:Key="_BooleanToVisibilityConverter"/>
+    <BooleanToVisibilityConverter x:Key="_BooleanToVisibilityConverter"/>
   </mahapps:MetroWindow.Resources>
 
   <!--#region Icon Template y Windows Commands -->
@@ -75,22 +75,15 @@
       </Button>
     </mahapps:WindowCommands>
   </mahapps:MetroWindow.LeftWindowCommands>
-  
+
   <mahapps:MetroWindow.RightWindowCommands>
     <mahapps:WindowCommands>
       <ContentControl prism:RegionManager.RegionName="{x:Static common:RegionNames.RightCommandsRegion}" />
     </mahapps:WindowCommands>
   </mahapps:MetroWindow.RightWindowCommands>
   
-  <!--<mahapps:MetroWindow.Flyouts>
-    <mahapps:FlyoutsControl>
-      <mahapps:Flyout Header="Preferencias" Position="Right" IsOpen="{Binding PreferenciasFlyoutIsOpen}">
-        <ContentControl prism:RegionManager.RegionName="{x:Static common:RegionNames.PreferenciasRegion}"/>
-      </mahapps:Flyout>
-    </mahapps:FlyoutsControl>
-  </mahapps:MetroWindow.Flyouts>-->
   <!--#endregion-->
-  
+
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" MaxHeight="60"/>
@@ -110,53 +103,51 @@
 
     <!-- Cuadro de búsqueda -->
     <ContentControl Grid.Row="0" Grid.Column="1" Margin="0">
-      <views:SearchBoxView />
+      <views:SearchBoxView DataContext="{Binding SearchBoxViewModel}"/>
     </ContentControl>
 
     <!-- Toolbar -->
     <ContentControl Grid.Row="0" Grid.Column="2" Margin="0">
-      <views:ToolbarView />
+      <views:ToolbarView DataContext="{Binding ToolbarViewModel}"/>
     </ContentControl>
 
     <!-- Región de contenido -->
     <ContentControl Grid.Row="1" Grid.ColumnSpan="3" Margin="0">
       <Grid>
+        <!-- Dashboard -->
         <views:DashboardView DataContext="{Binding DashboardViewModel}" 
                              Visibility="{Binding DataContext.DashboardViewIsVisible,
                               ElementName=_Root, 
                               Converter={StaticResource _BooleanToVisibilityConverter}}"/>
-        
+
+        <!-- Personas -->
         <views:PersonasContentView DataContext="{Binding PersonasContentViewModel}"
                                    Visibility="{Binding DataContext.PersonasContentViewIsVisible,
                                     ElementName=_Root,
                                     Converter={StaticResource _BooleanToVisibilityConverter}}"/>
 
+        <!-- Citas -->
         <views:CitasContentView DataContext="{Binding CitasContentViewModel}"
                                 Visibility="{Binding DataContext.CitasContentViewIsVisible,
                                   ElementName=_Root,
                                   Converter={StaticResource _BooleanToVisibilityConverter}}"/>
-        
+
+        <!-- Asistentes -->
         <views:AsistentesContentView DataContext="{Binding AsistentesContentViewModel}"
                                 Visibility="{Binding DataContext.AsistentesContentViewIsVisible,
                                   ElementName=_Root,
                                   Converter={StaticResource _BooleanToVisibilityConverter}}"/>
-        
+
+        <!-- Graficas -->
         <views:GraficasContentView DataContext="{Binding GraficasContentViewModel}"
                                 Visibility="{Binding DataContext.GraficasContentViewIsVisible,
                                   ElementName=_Root,
                                   Converter={StaticResource _BooleanToVisibilityConverter}}"/>
       </Grid>
     </ContentControl>
-    <!--<Grid Grid.Row="1" Grid.ColumnSpan="3" Background="#FFF4ECE2" Panel.ZIndex="-5">
-      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                 FontSize="26" FontWeight="Thin" FontStretch="UltraCondensed"
-                 FontStyle="Italic">El módulo está cargando...</TextBlock>
-    </Grid>-->
-    <!--<Grid Grid.Row="1" Grid.ColumnSpan="3" x:Name="preloaderRegion"></Grid>-->
+
 
     <!-- Status Bar -->
     <views:StatusBarView Grid.Row="2" Grid.ColumnSpan="3" DataContext="{Binding StatusBarViewModel}"/>
-    <!--<ContentControl Grid.Row="2" Grid.ColumnSpan="3"
-                    prism:RegionManager.RegionName="{x:Static common:RegionNames.StatusBarRegion}"/>-->
   </Grid>
 </mahapps:MetroWindow>

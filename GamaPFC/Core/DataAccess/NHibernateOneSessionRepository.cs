@@ -31,6 +31,11 @@ namespace Core.DataAccess
 
         }
 
+        public virtual void UpdateClient()
+        {
+
+        }
+
         public virtual TEntity GetById(int id)
         {
             try

@@ -7,6 +7,7 @@ using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.UIEvents;
 using Gama.Atenciones.Wpf.Views;
 using Gama.Atenciones.Wpf.Wrappers;
+using Gama.Common.Eventos;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
@@ -49,6 +50,20 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _Session = session;
             Preferencias = preferencias;
 
+            OnActualizarServidor();
+
+            _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
+            _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
+            _EventAggregator.GetEvent<CitaEliminadaEvent>().Subscribe(OnCitaEliminadaEvent);
+
+            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
+            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
+
+            _EventAggregator.GetEvent<AsistenteActualizadoEvent>().Subscribe(OnAsistenteActualizadoEvent);
+        }
+
+        public override void OnActualizarServidor()
+        {
             _Citas = new List<CitaWrapper>(_CitaRepository.GetAll()
                 .Select(x => new CitaWrapper(x))
                 .OrderBy(c => c.Fecha));
@@ -63,15 +78,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 FechaDeInicio = null;
                 FechaDeFin = null;
             });
-
-            _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
-            _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
-            _EventAggregator.GetEvent<CitaEliminadaEvent>().Subscribe(OnCitaEliminadaEvent);
-
-            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
-            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
-
-            _EventAggregator.GetEvent<AsistenteActualizadoEvent>().Subscribe(OnAsistenteActualizadoEvent);
         }
 
         public Preferencias Preferencias { get; private set; }

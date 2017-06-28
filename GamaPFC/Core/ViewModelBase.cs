@@ -38,5 +38,8 @@ namespace Core
         public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
         }
+
+        public virtual void OnActualizarServidor() {
+        }
     }
 }

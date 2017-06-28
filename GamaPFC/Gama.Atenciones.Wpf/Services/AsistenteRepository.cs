@@ -31,6 +31,20 @@ namespace Gama.Atenciones.Wpf.Services
             }
         }
 
+        private void RaiseActualizarServidor()
+        {
+            if (AtencionesResources.ClientService != null && AtencionesResources.ClientService.IsConnected())
+                AtencionesResources.ClientService.EnviarMensaje($"Cliente {AtencionesResources.ClientId} ha hecho un broadcast @@{Guid.NewGuid()}%%");
+        }
+
+        public override void UpdateClient()
+        {
+            _Asistentes = base.GetAll();
+
+            AtencionesResources.TodosLosNifDeAsistentes.Clear();
+            AtencionesResources.TodosLosNifDeAsistentes.AddRange(_Asistentes.Select(x => x.Nif));
+        }
+
         public override Asistente GetById(int id)
         {
             return _Asistentes.Find(x => x.Id == id);
@@ -39,19 +53,6 @@ namespace Gama.Atenciones.Wpf.Services
         public override List<Asistente> GetAll()
         {
             return Asistentes;
-            //try
-            //{
-            //    var atenciones = Session.CreateCriteria<Atencion>()
-            //        .SetFetchMode("Cita", NHibernate.FetchMode.Eager).List<Atencion>().ToList();
-
-            //    Session.Clear();
-
-            //    return atenciones;
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
         }
 
         public override void Create(Asistente entity)
@@ -61,6 +62,7 @@ namespace Gama.Atenciones.Wpf.Services
             _Asistentes.Add(entity);
             AtencionesResources.AddNifAAsistente(entity.Nif);
             _EventAggregator.GetEvent<AsistenteCreadoEvent>().Publish(entity.Id);
+            RaiseActualizarServidor();
         }
 
         public override bool Update(Asistente entity)
@@ -71,66 +73,11 @@ namespace Gama.Atenciones.Wpf.Services
                 _Asistentes.Remove(Asistentes.Find(x => x.Id == entity.Id));
                 _Asistentes.Add(entity);
                 _EventAggregator.GetEvent<AsistenteActualizadoEvent>().Publish(entity.Id);
+                RaiseActualizarServidor();
             }
 
             return false;
         }
-        //List<Asistente> _Asistentes;
-
-        //public AsistenteRepository(IEventAggregator eventAggregator) : base(eventAggregator) { }
-
-        //public override Asistente GetById(int id)
-        //{
-        //    try
-        //    {
-        //        var entity = Session.Get<Asistente>((object)id);
-
-        //        entity.Decrypt();
-        //        foreach (var cita in entity.Citas)
-        //        {
-        //            cita.Persona.Decrypt();
-        //        }
-
-        //        Session.Clear();
-
-        //        return entity;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-
-        //public override List<Asistente> GetAll()
-        //{
-        //    if (_Asistentes != null)
-        //        return _Asistentes;
-
-        //    try
-        //    {
-        //        var asistentes = Session.CreateCriteria<Asistente>()
-        //            .SetFetchMode("Citas", NHibernate.FetchMode.Eager)
-        //            .List<Asistente>().ToList();
-
-        //        foreach (var asistente in asistentes)
-        //        {
-        //            asistente.Decrypt();
-        //            foreach (var cita in asistente.Citas)
-        //            {
-        //                cita.Persona.Decrypt();
-        //            }
-        //        }
-
-        //        Session.Clear();
-
-        //        _Asistentes = asistentes;
-        //        return _Asistentes;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
 
         public List<string> GetNifs()
         {
@@ -147,7 +94,6 @@ namespace Gama.Atenciones.Wpf.Services
                 foreach (var nif in temp)
                 {
                     resultado.Add(EncryptionService.Decrypt(nif));
-                    //resultado.Add(nif);
                 }
 
                 Session.Clear();

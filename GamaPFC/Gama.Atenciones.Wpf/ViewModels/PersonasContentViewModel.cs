@@ -18,6 +18,7 @@ using Gama.Atenciones.Wpf.Wrappers;
 using Prism;
 using Gama.Atenciones.Wpf.Services;
 using NHibernate;
+using Gama.Common.Eventos;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -31,6 +32,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ICitaRepository citaRepository,
             IEventAggregator eventAggregator,
             IRegionManager regionManager, 
+            ListadoDePersonasViewModel listadoDePersonasViewModel,
             IUnityContainer container,
             ISession session)
         {
@@ -41,7 +43,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _Container = container;
 
             ViewModels = new ObservableCollection<object>();
-            ViewModels.Add(_Container.Resolve<ListadoDePersonasViewModel>());
+            //ViewModels.Add(_Container.Resolve<ListadoDePersonasViewModel>());
+            ViewModels.Add(listadoDePersonasViewModel);
             ViewModelSeleccionado = ViewModels.First();
             SelectedIndex = 0;
 
@@ -74,6 +77,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 SetProperty(ref _ViewModelSeleccionado, value);
                 SetActiveTab();
             }
+        }
+
+        public override void OnActualizarServidor()
+        {
+            foreach (var viewModel in ViewModels)
+                ((ViewModelBase)viewModel).OnActualizarServidor();
         }
 
         private void SetActiveTab()
@@ -229,15 +238,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnPersonaCreadaEvent(int id)
         {
             NavegarAPersona(id);
-        }
-
-        public override void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-        }
-
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            _EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
         }
     }
 }

@@ -23,9 +23,9 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
                 new PersonaViewModel(),
                 new EditarAtencionesViewModel
                     (new FakeAtencionRepository(), new EventAggregator(), new FakePersonaRepository(), 
-                    new FakeCitaRepository(), null),
+                    new FakeCitaRepository(), null, null),
                 new EditarCitasViewModel(new FakeCitaRepository(), new EventAggregator()),
-                null);
+                null, null);
             vm.PersonaVM.Persona = new Wrappers.PersonaWrapper(new Business.Persona
             {
                 Nombre =

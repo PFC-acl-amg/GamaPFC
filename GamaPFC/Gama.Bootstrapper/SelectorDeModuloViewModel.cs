@@ -33,7 +33,7 @@ namespace Gama.Bootstrapper
 
             Usuario = "admin";
             Password = "clave";
-            SeleccionarModuloCommand.Execute("atenciones");
+            //SeleccionarModuloCommand.Execute("atenciones");
 
             _EventAggregator.GetEvent<VolverASeleccionDeModuloEvent>().Subscribe(OnVolverASeleccionDeModuloEvent);
 

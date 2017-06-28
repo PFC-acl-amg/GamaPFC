@@ -22,189 +22,17 @@ using System.Windows.Media.Imaging;
 
 namespace Gama.Atenciones.Wpf
 {
-    public static class AtencionesResources
-    {
-        public static List<string> TodosLosNifDeAsistentes { get; set; }
-
-        public static void AddNifAAsistente(string nif)
-        {
-            if (!TodosLosNifDeAsistentes.Contains(nif))
-            {
-                TodosLosNifDeAsistentes.Add(nif);
-            }
-        }
-
-        public static List<Persona> Personas { get; set; }
-    }
-
     public class AtencionesModule : ModuleBase
     {
-        public bool ClearDatabase { get; private set; }
-
         public AtencionesModule(IUnityContainer container, IRegionManager regionManager)
            : base(container, regionManager)
-        {
-            this.Entorno = Entorno.Desarrollo;
-            this.ClearDatabase = false;
-            this.SeedDatabase = false;
-        }
+        { }
 
         public override void Initialize()
         {
-            RegisterServices();
-
-            var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
-            var personaRepository = Container.Resolve <IPersonaRepository>();
-            var citaRepository = Container.Resolve<ICitaRepository>();
-            var asistenteRepository = Container.Resolve<IAsistenteRepository>();
-            var session = sessionFactory.OpenSession();
-            personaRepository.Session = session;
-            citaRepository.Session = session;
-            asistenteRepository.Session = session;
-
-            var personaRepository2 = new NHibernateOneSessionRepository<Persona, int>()
-            {
-                Session = session
-            };
-
-            if (ClearDatabase)
-            {
-                citaRepository.DeleteAll();
-                asistenteRepository.DeleteAll();
-                personaRepository.DeleteAll();
-            }
-
-            #region Database Seeding
-            try
-            {
-                if (SeedDatabase)
-                {
-
-                    var personas = new FakePersonaRepository().GetAll(); //personaRepository.GetAll();
-                    var citas = new FakeCitaRepository().GetAll();
-                    var atenciones = new FakeAtencionRepository().GetAll();
-
-                    personas.ForEach(p => p.Id = 0);
-                    //citas.ForEach(c => c.Id = 0);
-                    //atenciones.ForEach(a => a.Id = 0);
-
-                    var random = new Random();
-                    var opciones = new bool[] { true, false, true, false, true, true, false, true, false };
-
-                    for (int i = 0; i < personas.Count; i++)
-                    {
-                        var persona = personas[i];
-                        //var cita = citas[i];
-                        //var atencion = atenciones[i];
-                        //var derivacion = new Derivacion
-                        //{
-                        //    Id = 0,
-                        //    Atencion = atencion,
-                        //    EsDeFormacion = opciones[random.Next(0, 8)],
-                        //    EsDeFormacion_Realizada = opciones[random.Next(0, 8)],
-                        //    EsDeOrientacionLaboral = opciones[random.Next(0, 8)],
-                        //    EsDeOrientacionLaboral_Realizada = opciones[random.Next(0, 8)],
-                        //    EsExterna = opciones[random.Next(0, 8)],
-                        //    EsExterna_Realizada = opciones[random.Next(0, 8)],
-                        //    EsJuridica = opciones[random.Next(0, 8)],
-                        //    EsJuridica_Realizada = opciones[random.Next(0, 8)],
-                        //    EsPsicologica = opciones[random.Next(0, 8)],
-                        //    EsPsicologica_Realizada = opciones[random.Next(0, 8)],
-                        //    EsSocial = opciones[random.Next(0, 8)],
-                        //    EsSocial_Realizada = opciones[random.Next(0, 8)],
-                        //    Externa = "Externa",
-                        //    Externa_Realizada = "Externa realizada",
-                        //    Tipo = "",
-                        //};
-
-                        //atencion.Derivacion = derivacion;
-
-                        //cita.SetAtencion(atencion);
-                        //persona.AddCita(citas[i]);
-
-                        personaRepository2.Create(persona);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                var message = ex.Message;
-                throw;
-            }
-            #endregion
-
-            // Preparamos la estructura de carpeta para la primera vez
-            InicializarDirectorios();
-
             RegisterViews();
             RegisterViewModels();
             InitializeNavigation();
-        }
-
-        private void InicializarDirectorios()
-        {
-            if (!Directory.Exists(ResourceNames.IconsAndImagesFolder))
-            {
-                Directory.CreateDirectory(ResourceNames.IconsAndImagesFolder);
-            }
-
-            try
-            {
-                BitmapImage icon;
-                BitmapEncoder encoder;
-
-                //
-                // Default Search Icon
-                //
-                if (!File.Exists(ResourceNames.DefaultSearchIconPath))
-                {
-                    icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_search_icon.png"));
-                    encoder = new PngBitmapEncoder();
-                    encoder.Frames.Add(BitmapFrame.Create(icon));
-
-                    using (var fileStream = 
-                        new System.IO.FileStream(ResourceNames.DefaultSearchIconPath, System.IO.FileMode.Create))
-                    {
-                        encoder.Save(fileStream);
-                    }
-                }
-
-                //
-                // Default User Icon
-                //
-                if (!File.Exists(ResourceNames.DefaultUserIconPath))
-                {
-                    icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png"));
-                    encoder = new PngBitmapEncoder();
-                    encoder.Frames.Add(BitmapFrame.Create(icon));
-
-                    using (var fileStream = 
-                        new System.IO.FileStream(ResourceNames.DefaultUserIconPath, System.IO.FileMode.Create))
-                    {
-                        encoder.Save(fileStream);
-                    }
-                }
-
-                //
-                // Atención Icon
-                //
-                if (!File.Exists(ResourceNames.AtencionIconPath))
-                {
-                    icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/atencion_icon.png"));
-                    encoder = new PngBitmapEncoder();
-                    encoder.Frames.Add(BitmapFrame.Create(icon));
-
-                    using (var fileStream =
-                        new System.IO.FileStream(ResourceNames.AtencionIconPath, System.IO.FileMode.Create))
-                    {
-                        encoder.Save(fileStream);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
         }
 
         private void RegisterViews()
@@ -239,15 +67,10 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<ListadoDePersonasViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<PanelSwitcherViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<PersonasContentViewModel>(new ContainerControlledLifetimeManager());
-            //Container.RegisterType<PreferenciasViewModel>();
             Container.RegisterType<RightCommandsViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<SearchBoxViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<StatusBarViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<ToolbarViewModel>(new ContainerControlledLifetimeManager());
-        }
-
-        private void RegisterServices()
-        {
         }
 
         private void InitializeNavigation()

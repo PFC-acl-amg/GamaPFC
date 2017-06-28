@@ -20,25 +20,35 @@ namespace Gama.Atenciones.Wpf.FakeServices
         public FakeCitaRepository()
         {
             Citas = new List<Cita>();
+            Random random = new Random();
 
             int createdAt = 0;
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 120; i++)
             {
                 var cita = new Cita()
                 {
                     Id = i + 1,
                     AsistenteEnTexto = Faker.NameFaker.Name(),
                     Atencion = null,
-                    Fecha = DateTime.Now.AddDays(i % 7),
+                    Fecha = i % 2 == 0 ? DateTime.Now.AddDays(i % 26) : DateTime.Now.AddDays(-(i % 26)),
                     Fin = DateTime.Now.AddHours(2),
+                    Hora = random.Next(0, 23),
+                    Minutos = random.Next(0, 59),
                     Sala = "Sala B",
                     HaTenidoLugar = true,
-                    Persona = new Persona {
-                        Id = 0, Nombre = Faker.NameFaker.FirstName(),
-                        Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png")),
+                    Persona = new Persona
+                    {
+                        Id = 0,
+                        Nombre = Faker.NameFaker.FirstName(),
+                        //Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png")),
                     },
                     CreatedAt = DateTime.Now.AddMonths(createdAt)
                 };
+
+                while (Citas.Where(c => c.Fecha.Day == cita.Fecha.Day).Count(c => true) > 3)
+                {
+                    cita.Fecha = cita.Fecha.AddDays(1);
+                }
 
                 Citas.Add(cita);
 

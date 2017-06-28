@@ -40,7 +40,7 @@ namespace Gama.Atenciones.Wpf
                     return _container.Resolve(type);
                 });
 
-            var bootstrapper = new Bootstrapper();
+            var bootstrapper = new Bootstrapper("SERVICIO DE ATENCIONES");
             bootstrapper.Run();
         }
 

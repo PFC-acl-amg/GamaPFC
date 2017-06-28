@@ -49,5 +49,17 @@ namespace Gama.Atenciones.Wpf.Services
                 }
             }
         }
+
+        private string _StringValue;
+        public string StringValue
+        {
+            get { return _StringValue; }
+            set
+            {
+                if (_StringValue != value)
+                    _StringValue = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

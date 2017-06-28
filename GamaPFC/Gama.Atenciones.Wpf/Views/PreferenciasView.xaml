@@ -155,8 +155,24 @@
       </Grid>
     </GroupBox>
 
-    <GroupBox Header="Atenciones" Grid.Row="2" Grid.Column="1">
+    <GroupBox Header="General" Grid.Row="2" Grid.Column="1">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
+        <StackPanel Grid.Column="0" Orientation="Vertical">
+          <Label Margin="{StaticResource Margin}">Edición habilitada por defecto</Label>
+        </StackPanel>
+
+        <StackPanel  Grid.Column="1" Orientation="Vertical">
+          <CheckBox IsChecked="{Binding Preferencias.General_EdicionHabilitadaPorDefecto}"
+                    VerticalAlignment="Bottom" VerticalContentAlignment="Bottom"
+                     Height="20"
+                    Margin="{StaticResource Margin}"/>
+        </StackPanel>
+      </Grid>
     </GroupBox>
 
     <StackPanel Grid.Row="4" Grid.ColumnSpan="2" 

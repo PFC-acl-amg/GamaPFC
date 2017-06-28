@@ -1,0 +1,61 @@
+﻿@model Gama.Atenciones.Business.Persona
+
+@{
+    ViewBag.Title = "Detalles";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Persona</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dd>
+            @{
+                var base64 = Convert.ToBase64String(Model.Imagen);
+                var imgSrc = String.Format("data:image;base64,{0}", base64);
+            }
+            <img src="@imgSrc" width="150" height="150" />
+        </dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Nombre)</dt>
+        <dd>@Html.DisplayFor(model => model.Nombre)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Nif)</dt>
+        <dd>@Html.DisplayFor(model => model.Nif)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Email)</dt>
+        <dd>@Html.DisplayFor(model => model.Email)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Nacionalidad)</dt>
+        <dd>@Html.DisplayFor(model => model.Nacionalidad)</dd>
+        <dt>@Html.DisplayNameFor(model => model.DireccionPostal)</dt>
+        <dd>@Html.DisplayFor(model => model.DireccionPostal)</dd>
+        <dt>@Html.DisplayNameFor(model => model.EstadoCivil)</dt>
+        <dd>@Html.DisplayFor(model => model.EstadoCivil)</dd>
+        <dt>@Html.DisplayNameFor(model => model.FechaDeNacimiento)</dt>
+        <dd>@Html.DisplayFor(model => model.FechaDeNacimiento)</dd>
+        <dt>@Html.DisplayNameFor(model => model.IdentidadSexual)</dt>
+        <dd>@Html.DisplayFor(model => model.IdentidadSexual)</dd>
+        <dt>@Html.DisplayNameFor(model => model.OrientacionSexual)</dt>
+        <dd>@Html.DisplayFor(model => model.OrientacionSexual)</dd>
+        <dt>@Html.DisplayNameFor(model => model.NivelAcademico)</dt>
+        <dd>@Html.DisplayFor(model => model.NivelAcademico)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Telefono)</dt>
+        <dd>@Html.DisplayFor(model => model.Telefono)</dd>
+        <dt>@Html.DisplayNameFor(model => model.ComoConocioAGama)</dt>
+        <dd>@Html.DisplayFor(model => model.ComoConocioAGama)</dd>
+        <dt>@Html.DisplayNameFor(model => model.ViaDeAccesoAGama)</dt>
+        <dd>@Html.DisplayFor(model => model.ViaDeAccesoAGama)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Twitter)</dt>
+        <dd>@Html.DisplayFor(model => model.Twitter)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Facebook)</dt>
+        <dd>@Html.DisplayFor(model => model.Facebook)</dd>
+        <dt>@Html.DisplayNameFor(model => model.LinkedIn)</dt>
+        <dd>@Html.DisplayFor(model => model.LinkedIn)</dd>
+        <dt>@Html.DisplayNameFor(model => model.CreatedAt)</dt>
+        <dd>@Html.DisplayFor(model => model.CreatedAt)</dd>
+        <dt>@Html.DisplayNameFor(model => model.UpdatedAt)</dt>
+        <dd>@Html.DisplayFor(model => model.UpdatedAt)</dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Volver al listado", "Index")
+</p>

@@ -7,6 +7,7 @@ using Gama.Cooperacion.DataAccess.Mappings;
 using NHibernate;
 using NHibernate.Context;
 using NHibernate.Tool.hbm2ddl;
+using System;
 using System.Configuration;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -17,32 +18,34 @@ namespace Gama.Cooperacion.DataAccess
     {
         private static string _connectionString = ConfigurationManager.ConnectionStrings["GamaCooperacionMySql"].ConnectionString;
 
-        private ISessionFactory _sessionFactory = null;
+        private ISessionFactory _SessionFactory = null;
         public ISessionFactory SessionFactory
         {
             get
             {
-                if (_sessionFactory == null)
+                if (_SessionFactory == null)
                 {
                     try
                     {
                         NHibernate.Cfg.Configuration configuration;
 
-                        //File.Delete("nh.cfg");
-                        if (File.Exists("nh.cfg"))
+                        var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\nh_cooperacion.cfg";
+
+                        //File.Delete(path);
+                        if (File.Exists(path))
                         {
-                            var file = File.Open("nh.cfg", FileMode.Open);
+                            var file = File.Open(path, FileMode.Open);
                             configuration = (NHibernate.Cfg.Configuration)new BinaryFormatter()
                                 .Deserialize(file);
-                            //file.Close();
+                            file.Close();
                         }
                         else
                         {
                             configuration = Configure();
-                            new BinaryFormatter().Serialize(File.Create("nh.cfg"), configuration);
+                            new BinaryFormatter().Serialize(File.Create(path), configuration);
                         }
 
-                        _sessionFactory = configuration.BuildSessionFactory();
+                        _SessionFactory = configuration.BuildSessionFactory();
                     }
                     catch (FluentConfigurationException ex)
                     {
@@ -50,7 +53,7 @@ namespace Gama.Cooperacion.DataAccess
                     }
                 }
 
-                return _sessionFactory;
+                return _SessionFactory;
             }
         }
 
@@ -66,15 +69,7 @@ namespace Gama.Cooperacion.DataAccess
                 //.ShowSql())
                 .Mappings(m => 
                     m.FluentMappings
-                        //.AddFromAssemblyOf<ActividadMap>()
-                        .Add<ActividadMap>()
-                        .Add<CooperanteMap>()
-                        .Add<EventoMap>()
-                        .Add<ForoMap>()
-                        .Add<MensajeMap>()
-                        .Add<TareaMap>()
-                        .Add<SeguimientoMap>()
-                        .Add<IncidenciaMap>()
+                        .AddFromAssemblyOf<ActividadMap>()
                         .Conventions.Add(DefaultCascade.Delete(), DefaultLazy.Always()))
                 .ExposeConfiguration(
                     c => {
@@ -82,7 +77,7 @@ namespace Gama.Cooperacion.DataAccess
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: false,
-                            execute: false,// A true trunca las tablas cada vez ejecutas el programa
+                            execute: true,// A true trunca las tablas cada vez ejecutas el programa
                             justDrop: false);
                     })
                 .BuildConfiguration();
@@ -98,30 +93,6 @@ namespace Gama.Cooperacion.DataAccess
             var session = SessionFactory.OpenSession();
             session.FlushMode = FlushMode.Commit;
             return session;
-        }
-
-        public void CreateSession()
-        {
-            CurrentSessionContext.Bind(OpenSession());
-        }
-
-        public void CloseSession()
-        {
-            if (CurrentSessionContext.HasBind(SessionFactory))
-            {
-                CurrentSessionContext.Unbind(SessionFactory).Dispose();
-            }
-        }
-
-        public ISession GetCurrentSession()
-        {
-            if (!CurrentSessionContext.HasBind(SessionFactory))
-            {
-                CurrentSessionContext.Bind(SessionFactory.OpenSession());
-            }
-
-            //return SessionFactory.OpenSession();
-            return SessionFactory.GetCurrentSession();
         }
     }
 }

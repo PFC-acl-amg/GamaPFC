@@ -1,0 +1,134 @@
+﻿@model IEnumerable<Gama.Atenciones.Business.Cita>
+
+@{
+    ViewBag.Title = "Citas";
+}
+
+<h2>Citas</h2>
+<table class="table-bordered table-responsive">
+    <thead>
+        <tr>
+            <th> @Html.DisplayNameFor(model => model.Id) </th> 
+            <th> @Html.DisplayNameFor(model => model.Fecha) </th>
+            <th> @Html.DisplayNameFor(model => model.Persona) </th>
+            <th> @Html.DisplayNameFor(model => model.Asistente) </th>
+            @*<th> @Html.DisplayNameFor(model => model.Nif) </th>
+                <th> @Html.DisplayNameFor(model => model.Email)</th>
+                <th> @Html.DisplayNameFor(model => model.Nacionalidad)</th>
+                <th> @Html.DisplayNameFor(model => model.DireccionPostal)</th>
+                <th> @Html.DisplayNameFor(model => model.EstadoCivil)</th>
+                <th> @Html.DisplayNameFor(model => model.FechaDeNacimiento)</th>
+                <th> @Html.DisplayNameFor(model => model.IdentidadSexual)</th>
+                <th> @Html.DisplayNameFor(model => model.OrientacionSexual)</th>
+                <th> @Html.DisplayNameFor(model => model.NivelAcademico)</th>
+                <th> @Html.DisplayNameFor(model => model.Ocupacion)</th>
+                <th> @Html.DisplayNameFor(model => model.Telefono) </th>
+                <th> @Html.DisplayNameFor(model => model.ComoConocioAGama) </th>
+                <th> @Html.DisplayNameFor(model => model.ViaDeAccesoAGama) </th>
+                <th> @Html.DisplayNameFor(model => model.Twitter)</th>
+                <th> @Html.DisplayNameFor(model => model.LinkedIn) </th>
+                <th> @Html.DisplayNameFor(model => model.Facebook) </th>*@
+            <th> @Html.DisplayNameFor(model => model.CreatedAt) </th>
+            <th> @Html.DisplayNameFor(model => model.UpdatedAt) </th>
+            <th>Detalles</th>
+        </tr>
+    </thead>
+    @*</table>
+        <div style="overflow-y:auto;">
+            <table class="table table-condensed">*@
+    @foreach (var item in Model)
+            {
+        <tr>
+            <td >@Html.DisplayFor(modelItem => item.Id)</td>
+
+            <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
+
+            <td>
+                @{
+                    var base64 = Convert.ToBase64String(item.Persona.Imagen);
+                    var imgSrc = String.Format("data:image;base64,{0}", base64);
+                }
+                <p><img src="@imgSrc" width="80" height="80" /></p>
+                <p>@Html.DisplayFor(modelItem => item.Persona.Nombre)</p>
+            </td>
+
+            <td>
+                @{
+                    base64 = Convert.ToBase64String(item.Asistente.Imagen);
+                    imgSrc = String.Format("data:image;base64,{0}", base64);
+                }
+                <p><img src="@imgSrc" width="80" height="80" /></p>
+                <p>@Html.DisplayFor(modelItem => item.Asistente.Nombre)</p>
+            </td>
+
+            @*<td>@Html.DisplayFor(modelItem => item.Nif)</td>
+                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                <td>@Html.DisplayFor(modelItem => item.Nacionalidad)</td>
+                <td>@Html.DisplayFor(modelItem => item.DireccionPostal)</td>
+                <td>@Html.DisplayFor(modelItem => item.EstadoCivil)</td>
+                <td>@Html.DisplayFor(modelItem => item.FechaDeNacimiento)</td>
+                <td>@Html.DisplayFor(modelItem => item.IdentidadSexual)</td>
+                <td>@Html.DisplayFor(modelItem => item.OrientacionSexual)</td>
+                <td>@Html.DisplayFor(modelItem => item.NivelAcademico)</td>
+                <td>@Html.DisplayFor(modelItem => item.Telefono)</td>
+                <td>@Html.DisplayFor(modelItem => item.ComoConocioAGama)</td>
+                <td>@Html.DisplayFor(modelItem => item.ViaDeAccesoAGama)</td>
+                <td>@Html.DisplayFor(modelItem => item.Twitter)</td>
+                <td>@Html.DisplayFor(modelItem => item.Facebook)</td>
+                <td>@Html.DisplayFor(modelItem => item.LinkedIn)</td>*@
+            <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+            <td>@Html.DisplayFor(modelItem => item.UpdatedAt)</td>
+            <td>
+                @Html.ActionLink("Detalles", "Details", new { id = item.Id }) 
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="8">
+                <div class="col-sm-4">
+                    <fieldset>
+                        <legend>Atención Solicitada</legend>
+                        <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeAcogida) <span>Acogida</span> </p>
+                        <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeFormacion) <span>Formación</span> </p>
+                        <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeOrientacionLaboral) <span>Orientación laboral</span> </p>
+                        <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeParticipacion) <span>Participación en Gamá</span> </p>
+                        <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDePrevencionParaLaSalud) <span>Prevención para la salud</span> </p>
+                        <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsPsicologica) <span>Psicológica</span> </p>
+                        <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsJuridica) <span>Jurídica</span> </p>
+                        <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsSocial) <span>Social</span> </p>
+                        <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsOtra) <span>Otra</span> </p>
+                    </fieldset>
+                </div>
+
+                <div class="col-sm-8">
+                    <fieldset>
+                        <legend>Derivación Propuesta/Realizada</legend>
+
+                        <div class="col-sm-6">
+                            <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeAcogida) <span>Acogida</span> </p>
+                            <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeFormacion) <span>Formación</span> </p>
+                            <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeFormacion) <span>Orientación laboral</span> </p>
+                            <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeFormacion) <span>Participación en Gamá</span> </p>
+                            <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeFormacion) <span>Prevención para la salud</span> </p>
+                            <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeFormacion) <span>Psicológica</span> </p>
+                            <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeFormacion) <span>Jurídica</span> </p>
+                            <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeFormacion) <span>Social</span> </p>
+
+                        </div>
+                        <div class="col-sm-6">
+                            <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeAcogida) <span>Acogida</span> </p>
+                            <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeFormacion) <span>Formación</span> </p>
+                            <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeFormacion) <span>Orientación laboral</span> </p>
+                            <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeFormacion) <span>Participación en Gamá</span> </p>
+                            <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeFormacion) <span>Prevención para la salud</span> </p>
+                            <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeFormacion) <span>Psicológica</span> </p>
+                            <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeFormacion) <span>Jurídica</span> </p>
+                            <p> @Html.CheckBoxFor(modelItem => item.Atencion.EsDeFormacion) <span>Social</span> </p>
+                        </div>
+                    </fieldset>
+                </div>
+            </td>
+        </tr>
+                    }
+
+</table>

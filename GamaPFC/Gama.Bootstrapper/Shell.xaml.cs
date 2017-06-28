@@ -25,6 +25,7 @@ namespace Gama.Bootstrapper
         {
             InitializeComponent();
         }
+
         private void FacebookButton_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.facebook.com/colectivogama/");

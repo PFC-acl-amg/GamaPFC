@@ -9,13 +9,14 @@
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
              xmlns:business="clr-namespace:Gama.Atenciones.Business;assembly=Gama.Atenciones.Business"
              xmlns:converters="clr-namespace:Gama.Common.Resources.Converters;assembly=Gama.Common"
+             xmlns:atencionesConverters="clr-namespace:Gama.Atenciones.Wpf.Converters"
              xmlns:designData="clr-namespace:Gama.Atenciones.Wpf.DesignTimeData"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=designData:PersonaViewModelDTD, IsDesignTimeCreatable=True}"
              d:DesignHeight="715.274" d:DesignWidth="318.493">
   <UserControl.Resources>
-    <util:BinaryImageConverter x:Key="_BinaryImageConverter" />
+    <atencionesConverters:BinaryImageConverter x:Key="_BinaryImageConverter" />
     <RadialGradientBrush x:Key="_RadialGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9">
       <GradientStop Color="#ffffffff" Offset="0.5" />
       <GradientStop Color="#00ffffff" Offset="0.8" />
@@ -24,7 +25,7 @@
   <!--<GroupBox Header="Datos Personales">-->
   <Border BorderBrush="#CC104F6A" BorderThickness="0" Margin="{StaticResource Margin}">
     <ScrollViewer >
-      <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding EdicionHabilitada}">
+      <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding Persona.IsInEditionMode}">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" MaxWidth="300"/>
           <ColumnDefinition Width="*" MaxWidth="300"/>
@@ -92,16 +93,20 @@
           </Grid>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+        <StackPanel Grid.Row="1" Grid.Column="1">
           <Label Margin="{DynamicResource Margin}">DNI/NIF</Label>
           <TextBox Margin="{DynamicResource Margin}" 
                        Text="{Binding Persona.Nif, UpdateSourceTrigger=PropertyChanged}"
                         MinWidth="80"/>
         </StackPanel>
-
-        <StackPanel Grid.Row="2" Grid.Column="0">
+        <StackPanel Grid.Row="1" Grid.Column="0">
           <Label Margin="{StaticResource Margin}">Nombre</Label>
           <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.Nombre, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="0">
+          <Label Margin="{StaticResource Margin}">Teléfono</Label>
+          <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.Telefono, UpdateSourceTrigger=PropertyChanged}"/>
 
           <Label Margin="{StaticResource Margin}">Fecha de Nacimiento</Label>
           <DatePicker Margin="{StaticResource Margin}" 
@@ -109,14 +114,18 @@
             UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                 Height="18"/>
 
-          <Label Margin="{StaticResource Margin}">Teléfono</Label>
-          <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.Telefono, UpdateSourceTrigger=PropertyChanged}"/>
-
           <Label Margin="{StaticResource Margin}">Dirección</Label>
           <TextBox Margin="{StaticResource Margin}" Text="{Binding Persona.DireccionPostal, UpdateSourceTrigger=PropertyChanged}"/>
 
           <Label Margin="{StaticResource Margin}">Nacionalidad</Label>
           <TextBox Margin="{DynamicResource Margin}" Text="{Binding Persona.Nacionalidad, UpdateSourceTrigger=PropertyChanged}"/>
+          
+          <Label Margin="{DynamicResource Margin}">Estado Civil</Label>
+          <ComboBox Margin="{DynamicResource Margin}" 
+                    IsEditable="False"
+            ItemsSource="{Binding Source={util:EnumBindingSource {x:Type business:EstadoCivil}}}"
+            Text="{Binding Persona.EstadoCivil, UpdateSourceTrigger=PropertyChanged}"
+            SelectedItem="{Binding Persona.EstadoCivil, UpdateSourceTrigger=PropertyChanged}"/>
 
           <Label Margin="{StaticResource Margin}">Identidad Sexual</Label>
           <ComboBox Margin="{DynamicResource Margin}" 
