@@ -246,7 +246,6 @@
     <Compile Include="Eventos\PersonaEliminadaEvent.cs" />
     <Compile Include="Eventos\PersonaSeleccionadaChangedEvent.cs" />
     <Compile Include="Eventos\PersonaSeleccionadaEvent.cs" />
-    <Compile Include="Eventos\ServidorActualizadoDesdeFueraEvent.cs" />
     <Compile Include="FakeServices\FakeAsistenteRepository.cs" />
     <Compile Include="FakeServices\FakeAtencionRepository.cs" />
     <Compile Include="FakeServices\FakeCitaRepository.cs" />
@@ -269,7 +268,6 @@
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShellViewModel.cs" />
-    <Compile Include="UIEvents\ActiveViewChanged.cs" />
     <Compile Include="DataTemplateSelectors\ViewModelDataTemplateSelector.cs" />
     <Compile Include="UIEvents\PersonaEnBusquedaEvent.cs" />
     <Compile Include="ViewModels\AsistentesContentViewModel.cs" />

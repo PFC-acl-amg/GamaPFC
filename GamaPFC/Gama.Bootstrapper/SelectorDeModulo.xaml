@@ -104,7 +104,7 @@
         Margin="{StaticResource _MargenBotones}" 
         MinWidth="150" 
         MaxWidth="150" 
-        IsChecked="True"
+        IsChecked="False"
         Checked="_AtencionesButton_Checked"
         Command="{Binding SeleccionarModuloCommand}" 
         CommandParameter="atenciones">
@@ -168,6 +168,7 @@
         Margin="{StaticResource _MargenBotones}" 
         MinWidth="150"
         Checked="_CooperacionButton_Checked"
+        IsChecked="True"
         MaxWidth="150" 
         Command="{Binding SeleccionarModuloCommand}" 
         CommandParameter="cooperacion">

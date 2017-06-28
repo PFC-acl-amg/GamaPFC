@@ -14,6 +14,7 @@ using Prism.Events;
 using Gama.Atenciones.Wpf.Eventos;
 using System.Windows.Input;
 using Prism.Commands;
+using Gama.Common.Eventos;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {

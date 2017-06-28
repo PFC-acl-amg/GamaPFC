@@ -7,6 +7,7 @@ using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.UIEvents;
 using Gama.Atenciones.Wpf.Views;
 using Gama.Atenciones.Wpf.Wrappers;
+using Gama.Common.Eventos;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;

@@ -31,7 +31,8 @@ namespace Gama.Atenciones.Wpf.Services
 
         private void RaiseActualizarServidor()
         {
-            AtencionesResources.ClientService.EnviarMensaje($"Cliente {AtencionesResources.ClientId} ha hecho un broadcast");
+            if (AtencionesResources.ClientService != null && AtencionesResources.ClientService.IsConnected())
+                AtencionesResources.ClientService.EnviarMensaje($"Cliente {AtencionesResources.ClientId} ha hecho un broadcast @@{Guid.NewGuid()}%%");
         }
 
         public override void UpdateClient()
@@ -71,33 +72,5 @@ namespace Gama.Atenciones.Wpf.Services
 
             return false;
         }
-        //public override List<Cita> GetAll()
-        //{
-        //    try
-        //    {
-        //        var citas = Session.CreateCriteria<Cita>()
-        //            .SetFetchMode("Persona", NHibernate.FetchMode.Eager)
-        //            .SetFetchMode("Asistente", NHibernate.FetchMode.Eager)
-        //            .List<Cita>().ToList();
-
-        //        foreach (var cita in citas)
-        //        {
-        //            cita.Decrypt();
-        //        }
-
-        //        Session.Clear();
-
-        //        return citas;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-
-        //public List<LookupItem> GetAllForLookup()
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

@@ -1,28 +1,32 @@
-﻿<mahapps:MetroWindow x:Class="Gama.Cooperacion.Wpf.Shell"
-                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                  xmlns:prism="http://prismlibrary.com/"
-                  xmlns:common="clr-namespace:Gama.Common;assembly=Gama.Common"
-                  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-                     xmlns:views="clr-namespace:Gama.Cooperacion.Wpf.Views"
-                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                  mc:Ignorable="d"
-                  prism:ViewModelLocator.AutoWireViewModel="True"
-                  ResizeMode="CanResizeWithGrip"
-                  WindowStartupLocation="CenterScreen" 
-                  WindowState="Maximized"
-                  WindowTitleBrush="{StaticResource AccentColorBrush}"
-                  Style="{StaticResource CustomMetroWindowStyle}"
-                  Title="{Binding Title}" 
-                  Icon="{Binding IconSource}"
-                   Height="350" Width="525">
+﻿<mahapps:MetroWindow 
+  x:Class="Gama.Cooperacion.Wpf.Shell"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:prism="http://prismlibrary.com/"
+  xmlns:common="clr-namespace:Gama.Common;assembly=Gama.Common"
+  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+  xmlns:views="clr-namespace:Gama.Cooperacion.Wpf.Views"
+  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+  mc:Ignorable="d"
+  prism:ViewModelLocator.AutoWireViewModel="True"
+  ResizeMode="CanResizeWithGrip"
+  WindowStartupLocation="CenterScreen" 
+  WindowState="Maximized"
+  WindowTitleBrush="{StaticResource AccentColorBrush}"
+  Style="{StaticResource CustomMetroWindowStyle}"
+  Title="COOPERACIÓN" 
+  Icon="{Binding IconSource}"
+  Height="350" Width="525">
   <mahapps:MetroWindow.Resources>
     <sys:Double x:Key="_SocialIconSize">13</sys:Double>
     <sys:Double x:Key="WindowTitleFontSize">14</sys:Double>
+    
+    <BooleanToVisibilityConverter x:Key="_BooleanToVisibilityConverter"/>
   </mahapps:MetroWindow.Resources>
-
+  
+  <!--#region Icon Template y Windows Commands -->
   <mahapps:MetroWindow.IconTemplate>
     <DataTemplate>
       <Viewbox Margin="{StaticResource Margin}">
@@ -30,6 +34,7 @@
       </Viewbox>
     </DataTemplate>
   </mahapps:MetroWindow.IconTemplate>
+  
   <mahapps:MetroWindow.LeftWindowCommands>
     <mahapps:WindowCommands>
       <!--Acceso directo al sitio web del colectivo -->
@@ -67,18 +72,15 @@
       </Button>
     </mahapps:WindowCommands>
   </mahapps:MetroWindow.LeftWindowCommands>
+  
   <mahapps:MetroWindow.RightWindowCommands>
     <mahapps:WindowCommands>
       <ContentControl prism:RegionManager.RegionName="{x:Static common:RegionNames.RightCommandsRegion}" />
     </mahapps:WindowCommands>
   </mahapps:MetroWindow.RightWindowCommands>
-  <mahapps:MetroWindow.Flyouts>
-    <mahapps:FlyoutsControl>
-      <mahapps:Flyout Header="Preferencias" Position="Right" IsOpen="{Binding PreferenciasFlyoutIsOpen}">
-        <ContentControl prism:RegionManager.RegionName="{x:Static common:RegionNames.PreferenciasRegion}"/>
-      </mahapps:Flyout>
-    </mahapps:FlyoutsControl>
-  </mahapps:MetroWindow.Flyouts>
+  
+  <!--#endregion-->
+  
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" MaxHeight="60"/>
@@ -93,8 +95,9 @@
 
 
     <!-- Panel Switcher -->
-    <ContentControl Grid.Row="0" Grid.Column="0" Margin="0"
-                    prism:RegionManager.RegionName="{x:Static common:RegionNames.PanelSwitcherRegion}" />
+    <ContentControl Grid.Row="0" Grid.Column="0" Margin="0">
+      <views:PanelSwitcherView />
+    </ContentControl>
 
     <!-- Cuadro de búsqueda -->
     <ContentControl Grid.Row="0" Grid.Column="1" Margin="0"

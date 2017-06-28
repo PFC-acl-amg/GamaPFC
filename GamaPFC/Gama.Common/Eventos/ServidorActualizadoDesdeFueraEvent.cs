@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gama.Atenciones.Wpf.Eventos
+namespace Gama.Common.Eventos
 {
-    public class ServidorActualizadoDesdeFueraEvent : PubSubEvent<string>
+    public class ServidorActualizadoDesdeFueraEvent: PubSubEvent<string>
     {
     }
 }

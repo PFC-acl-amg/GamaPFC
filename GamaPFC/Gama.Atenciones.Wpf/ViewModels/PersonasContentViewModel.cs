@@ -18,6 +18,7 @@ using Gama.Atenciones.Wpf.Wrappers;
 using Prism;
 using Gama.Atenciones.Wpf.Services;
 using NHibernate;
+using Gama.Common.Eventos;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {

@@ -32,7 +32,8 @@ namespace Gama.Atenciones.Wpf.Services
 
         private void RaiseActualizarServidor()
         {
-            AtencionesResources.ClientService.EnviarMensaje($"Cliente {AtencionesResources.ClientId} ha hecho un broadcast");
+            if (AtencionesResources.ClientService != null && AtencionesResources.ClientService.IsConnected())
+                AtencionesResources.ClientService.EnviarMensaje($"Cliente {AtencionesResources.ClientId} ha hecho un broadcast @@{Guid.NewGuid()}%%");
         }
 
         public override void UpdateClient()
@@ -48,19 +49,6 @@ namespace Gama.Atenciones.Wpf.Services
         public override List<Atencion> GetAll()
         {
             return Atenciones;
-            //try
-            //{
-            //    var atenciones = Session.CreateCriteria<Atencion>()
-            //        .SetFetchMode("Cita", NHibernate.FetchMode.Eager).List<Atencion>().ToList();
-
-            //    Session.Clear();
-
-            //    return atenciones;
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
         }
 
         public override void Create(Atencion entity)
@@ -112,32 +100,5 @@ namespace Gama.Atenciones.Wpf.Services
 
             return resultado;
         }
-
-        //public override Atencion GetById(int id)
-        //{
-        //    try
-        //    {
-        //        var entity = Session.Get<Atencion>((object)id);
-
-        //        var encryptableEntity = entity as IEncryptable;
-        //        if (encryptableEntity != null)
-        //        {
-        //            //encryptableEntity.IsEncrypted = true;
-        //            //encryptableEntity.Decrypt();
-        //            if (encryptableEntity.IsEncrypted)
-        //            {
-        //                encryptableEntity.Decrypt();
-        //            }
-        //        }
-
-        //        //Session.Clear();
-
-        //        return entity;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
     }
 }

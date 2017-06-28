@@ -21,9 +21,9 @@ namespace Gama.Atenciones.Wpf
     {
         private EventAggregator _EventAggregator;
         private ImageSource _IconSource;
-        private bool _PreferenciasFlyoutIsOpen = false;
         Dictionary<string, bool> _Panels = new Dictionary<string, bool>();
         private Preferencias _Preferencias;
+        private Thread _PreloadThread;
 
         public ShellViewModel(
             EventAggregator eventAggregator,
@@ -63,8 +63,6 @@ namespace Gama.Atenciones.Wpf
             _AsistenteRepository.Session = session;
 
             _EventAggregator = eventAggregator;
-            Title = "SERVICIO DE ATENCIONES";
-            _EventAggregator.GetEvent<AbrirPreferenciasEvent>().Subscribe(OnTogglePreferenciasEvent);
             _EventAggregator.GetEvent<ActiveViewChanged>().Subscribe(OnActiveViewChangedEvent);
             _EventAggregator.GetEvent<ServidorActualizadoDesdeFueraEvent>().Subscribe(OnServidorActualizadoDesdeFueraEvent);
 
@@ -76,28 +74,9 @@ namespace Gama.Atenciones.Wpf
 
             SetVisiblePanel("DashboardView");
 
-
-            _PreloadThread = new Thread(_PreLoad);
+            _PreloadThread = new Thread(ConectarConServidor);
             _PreloadThread.SetApartmentState(ApartmentState.STA);
             _PreloadThread.Start();
-
-        }
-
-        private Thread _PreloadThread;
-        private BackgroundWorker backgroundWorker;
-        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            ConectarConServidor();
-        }
-
-        private void _PreLoad()
-        {
-            ConectarConServidor();
-        }
-
-        private void ConectarConServidor()
-        {
-            AtencionesResources.ClientService = new ClientService(_EventAggregator);
         }
 
         public PersonasContentViewModel PersonasContentViewModel { get; set; }
@@ -138,15 +117,26 @@ namespace Gama.Atenciones.Wpf
         }
 
         private bool _GraficasViewIsVisible = false;
+        public bool GraficasContentViewIsVisible
+        {
+            get { return _GraficasViewIsVisible; }
+            set { SetProperty(ref _GraficasViewIsVisible, value); }
+        }
+
+        public ImageSource IconSource
+        {
+            get { return _IconSource; }
+            set { SetProperty(ref _IconSource, value); }
+        }
+
         private PersonaRepository _PersonaRepository;
         private CitaRepository _CitaRepository;
         private AtencionRepository _AtencionRepository;
         private AsistenteRepository _AsistenteRepository;
 
-        public bool GraficasContentViewIsVisible
+        private void ConectarConServidor()
         {
-            get { return _GraficasViewIsVisible; }
-            set { SetProperty(ref _GraficasViewIsVisible, value); }
+            AtencionesResources.ClientService = new ClientService(_EventAggregator);
         }
 
         private void SetVisiblePanel(string panel)
@@ -187,47 +177,38 @@ namespace Gama.Atenciones.Wpf
 
         public void OnCloseApplication()
         {
-            var preferencias = _Preferencias;
-            if (preferencias.DoBackupOnClose)
+            try
             {
-                string connectionString =
-                    ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString;
-                DBHelper.Backup(
-                    connectionString: connectionString, 
-                    fileName: preferencias.AutomaticBackupPath + DateTime.Now.ToString().Replace('/', '-').Replace(':','-') + " - atenciones backup.sql");
+                var preferencias = _Preferencias;
+                if (preferencias.DoBackupOnClose)
+                {
+                    string connectionString =
+                        ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString;
+                    DBHelper.Backup(
+                        connectionString: connectionString,
+                        fileName: preferencias.AutomaticBackupPath + DateTime.Now.ToString().Replace('/', '-').Replace(':', '-') + " - atenciones backup.sql");
 
-                DirectoryInfo directory = new DirectoryInfo(preferencias.AutomaticBackupPath);
+                    DirectoryInfo directory = new DirectoryInfo(preferencias.AutomaticBackupPath);
 
-                if (preferencias.BackupDeleteDateLimit.HasValue)
-                    foreach (FileInfo fileInfo in directory.GetFiles())
-                        if (fileInfo.CreationTime < preferencias.BackupDeleteDateLimit.Value
-                            && fileInfo.CreationTime < DateTime.Now.Date) // Para no borrar el que acabamos de poner
-                            fileInfo.Delete();
+                    if (preferencias.BackupDeleteDateLimit.HasValue)
+                        foreach (FileInfo fileInfo in directory.GetFiles())
+                            if (fileInfo.CreationTime < preferencias.BackupDeleteDateLimit.Value
+                                && fileInfo.CreationTime < DateTime.Now.Date) // Para no borrar el que acabamos de poner
+                                fileInfo.Delete();
 
-                AtencionesResources.ClientService.Desconectar();
+                    if (AtencionesResources.ClientService != null)
+                        AtencionesResources.ClientService.Desconectar();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
 
         private void OnActiveViewChangedEvent(string viewName)
         {
             SetVisiblePanel(viewName);
-        }
-
-        private void OnTogglePreferenciasEvent()
-        {
-            PreferenciasFlyoutIsOpen = true;
-        }
-
-        public bool PreferenciasFlyoutIsOpen
-        {
-            get { return _PreferenciasFlyoutIsOpen; }
-            set { SetProperty(ref _PreferenciasFlyoutIsOpen, value); }
-        }
-
-        public ImageSource IconSource
-        {
-            get { return _IconSource; }
-            set { SetProperty(ref _IconSource, value); }
         }
     }
 }

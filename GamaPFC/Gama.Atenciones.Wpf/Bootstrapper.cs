@@ -22,53 +22,20 @@ using System.Windows.Threading;
 using System.Collections.ObjectModel;
 using Gama.Common.Eventos;
 using Gama.Common.Views;
+using Gama.Common.BaseClasses;
 
 namespace Gama.Atenciones.Wpf
 {
-    public class Bootstrapper : UnityBootstrapper
+    public class Bootstrapper : UnityBootstrapperBase
     {
-        private bool _CLEAR_DATABASE = false;
-        private bool _SEED_DATABASE = false;
-        private Thread _PreloadThread;
-        public PreloaderView _PreloaderView;
+        public Bootstrapper(string title = "SERVICIO DE ATENCIONES") : base(title)
+        {
+
+        }
 
         protected override DependencyObject CreateShell()
         {
-            _LanzarPreloader();
-
             return Container.Resolve<Shell>();
-        }
-
-        private void _LanzarPreloader()
-        {
-            _PreloadThread = new Thread(_PreLoad);
-            _PreloadThread.SetApartmentState(ApartmentState.STA);
-            _PreloadThread.Start();
-
-            Thread.Sleep(200); // Para dar tiempo al nuevo hilo a crear la vista.
-
-            lock (_PreloaderView)
-            {
-                _PreloaderView.Avanzar(); InicializarDirectorios();
-                _PreloaderView.Avanzar(); ConfigurarPreferencias();
-                _PreloaderView.Avanzar(); RegisterServices();
-                _PreloaderView.Avanzar(); ConfigureDatabase();
-                _PreloaderView.Avanzar();
-            }
-        }
-
-        private void _PreLoad()
-        {
-             _PreloaderView = new PreloaderView();
-            _PreloaderView.Titulo = "SERVICIO DE ATENCIONES";
-            _PreloaderView.ShowDialog();
-        }
-
-        [SecurityPermissionAttribute(SecurityAction.Demand, ControlThread = true)]
-        private void _TerminarPreload()
-        {
-            _PreloadThread.Abort();
-            _PreloadThread = null;
         }
 
         protected override void InitializeShell()
@@ -83,15 +50,13 @@ namespace Gama.Atenciones.Wpf
             Application.Current.MainWindow.ShowActivated = true;
             Application.Current.MainWindow.Show();
 
-            _TerminarPreload();
+            TerminarPreload();
           }
 
-        private void InicializarDirectorios()
+        protected override void InitializeDirectories()
         {
             if (!Directory.Exists(ResourceNames.IconsAndImagesFolder))
-            {
                 Directory.CreateDirectory(ResourceNames.IconsAndImagesFolder);
-            }
 
             try
             {
@@ -146,7 +111,7 @@ namespace Gama.Atenciones.Wpf
             }
         }
 
-        private void ConfigurarPreferencias()
+        protected override void ConfigurePreferences()
         {
             Preferencias preferencias;
 
@@ -168,7 +133,7 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterInstance(preferencias);
         }
 
-        private void RegisterServices()
+        protected override void RegisterServices()
         {
             Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
             Container.RegisterType<ISession>(
@@ -179,7 +144,7 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<IAsistenteRepository, AsistenteRepository>(new ContainerControlledLifetimeManager());
         }
 
-        private void ConfigureDatabase()
+        protected override void GenerateDatabaseConfiguration()
         {
             var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
 

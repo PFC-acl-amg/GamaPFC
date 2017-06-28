@@ -23,6 +23,18 @@ namespace Gama.Cooperacion.Wpf
         public Shell()
         {
             InitializeComponent();
+
+            Closed += Shell_Closed;
+        }
+
+        private void Shell_Closed(object sender, EventArgs e)
+        {
+            var vm = (ShellViewModel)this.DataContext;
+            vm.OnCloseApplication();
+
+           // CooperacionResources.ClientService.Desconectar();
+
+            Environment.Exit(0);
         }
 
         private void WebsiteButton_Click(object sender, RoutedEventArgs e)

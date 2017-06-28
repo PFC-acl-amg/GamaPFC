@@ -6,6 +6,7 @@ using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.UIEvents;
 using Gama.Common.CustomControls;
+using Gama.Common.Eventos;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
