@@ -160,6 +160,7 @@
     <Compile Include="DesignTimeData\StatusBarViewModelDTD.cs" />
     <Compile Include="Eventos\ActividadActualizadaEvent.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaChangedEvent.cs" />
+    <Compile Include="Eventos\Modificar.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaEvent.cs" />
     <Compile Include="Eventos\CooperanteCreadoEvent.cs" />
     <Compile Include="Eventos\NuevaActividadEvent.cs" />
@@ -197,7 +198,10 @@
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShellViewModel.cs" />
+    <Compile Include="UIEvents\ActiveViewChanged.cs" />
     <Compile Include="ViewModels\AgregarCooperanteViewModel.cs" />
+    <Compile Include="ViewModels\CalendarioActividadesViewModel.cs" />
+    <Compile Include="ViewModels\CooperanteViewModel.cs" />
     <Compile Include="ViewModels\CrearNuevaTareaViewModel.cs" />
     <Compile Include="ViewModels\CrearNuevoForoViewModel.cs" />
     <Compile Include="ViewModels\EditarActividadViewModel.cs" />
@@ -206,6 +210,7 @@
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\InformacionTareaViewModel.cs" />
     <Compile Include="ViewModels\ListadoDeActividadesViewModel.cs" />
+    <Compile Include="ViewModels\ListarActividadesDataGridViewModel.cs" />
     <Compile Include="ViewModels\MensajesForoViewModel.cs" />
     <Compile Include="ViewModels\NuevaActividadViewModel.cs" />
     <Compile Include="ViewModels\PanelSwitcherViewModel.cs" />
@@ -215,6 +220,12 @@
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="Views\AgregarCooperanteView.xaml.cs">
       <DependentUpon>AgregarCooperanteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CalendarioActividadesView.xaml.cs">
+      <DependentUpon>CalendarioActividadesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CooperanteView.xaml.cs">
+      <DependentUpon>CooperanteView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CrearNuevaTareaView.xaml.cs">
       <DependentUpon>CrearNuevaTareaView.xaml</DependentUpon>
@@ -233,6 +244,9 @@
     </Compile>
     <Compile Include="Views\InformacionTareaView.xaml.cs">
       <DependentUpon>InformacionTareaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ListarActividadesDataGridView.xaml.cs">
+      <DependentUpon>ListarActividadesDataGridView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MensajesForoView.xaml.cs">
       <DependentUpon>MensajesForoView.xaml</DependentUpon>
@@ -294,6 +308,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\CalendarioActividadesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CooperanteView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CrearNuevaTareaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -315,6 +337,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InformacionTareaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ListarActividadesDataGridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -387,7 +413,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Images\lines.png" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{61c764bb-5692-463a-bc70-55b6ad46b1a3}</Project>

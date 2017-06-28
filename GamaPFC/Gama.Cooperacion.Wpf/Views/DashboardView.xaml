@@ -20,6 +20,107 @@
         <designData:DashboardViewModelDTD />
     </d:DataContext>
     <UserControl.Resources>
+        <DataTemplate x:Key="_EliminarButtonCellTemplate">
+            <cc:CircleIconButton
+                      HorizontalAlignment="Center"
+                      Icon="{StaticResource appbar_delete}"
+                      Width="36"
+                      Height="36"
+                      IconWidth="13"
+                      IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.SelectActividadCommand}"
+                      CommandParameter="{Binding}">
+                <Button.Style>
+                    <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                        <Setter Property="Opacity" Value="0.5"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </cc:CircleIconButton>
+        </DataTemplate>
+        <DataTemplate x:Key="_IrButtonCellTemplate">
+            <cc:CircleIconButton
+                      HorizontalAlignment="Left"
+                      Icon="{StaticResource appbar_arrow_right}"
+                      Width="36"
+                      Height="36"
+                      IconWidth="13"
+                      IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.SelectActividadCommand}"
+                      CommandParameter="{Binding}">
+                <Button.Style>
+                    <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                        <Setter Property="Opacity" Value="0.5"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </cc:CircleIconButton>
+        </DataTemplate>
+        <DataTemplate x:Key="_EditarButtonCellTemplate">
+            <cc:CircleIconButton
+                      Icon="{StaticResource appbar_edit}"
+                      Width="36"
+                      Height="36"
+                      IconWidth="13"
+                      IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.EditarActividadCommand}"
+                      CommandParameter="{Binding}">
+                <Button.Style>
+                    <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                        <Setter Property="Opacity" Value="0.5"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </cc:CircleIconButton>
+        </DataTemplate>
+        <Style x:Key="DGCHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="BorderThickness" Value="1,1,1,2"/>
+            <Setter Property="BorderBrush" Value="#B6000000"/>
+            <Setter Property="Background" Value="#D12B3336" />
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+            <Setter Property="Padding" Value="3,0,3,3"/>
+        </Style>
+        <Style x:Key="DGHeaderStyle" TargetType="{x:Type DataGrid}">
+            <Setter Property="ColumnHeaderStyle" Value="{StaticResource DGCHeaderStyle}"/>
+            <Setter Property="RowHeaderWidth" Value="0"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="AlternatingRowBackground" Value="#B99BA5AB"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+        <Style TargetType="Label" x:Key="_EstiloLabelActividades">
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="10,0,0,0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
         <BooleanToVisibilityConverter x:Key="BooleanToVisivilityConverter"/>
         <util:BinaryImageConverter x:Key="BinaryImageConverter"/>
         <RadialGradientBrush x:Key="_RadialGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9">
@@ -44,32 +145,28 @@
         </ControlTemplate>
         <ControlTemplate x:Key="DataItemControlTemplate">
             <Grid Name="DatoListBoxActividades" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="800"/>
-                    <ColumnDefinition Width="200" />
-                </Grid.ColumnDefinitions>
                 <Label Name="SinEnlace" Grid.Column="0">
-                    <TextBlock  Foreground="Black" FontSize="18" FontWeight="Bold" Visibility="Visible">
-                        <Run Text="{Binding Id}" FontSize="18" />
-                        <Run Text=" " FontSize="18" />
-                        <Run Text="{Binding DisplayMember1}" FontSize="18" />
+                    <TextBlock  Foreground="Black" FontSize="16" FontWeight="Bold" Visibility="Visible">
+                        <Run Text="{Binding Id}" FontSize="16" />
+                        <Run Text=" " FontSize="16" />
+                        <Run Text="{Binding DisplayMember1}" FontSize="16" />
                     </TextBlock>
                 </Label>
                 <Label Name="Enlace" Grid.Column="0" Visibility="Hidden">
                     <Hyperlink Foreground="Blue" FontWeight="Bold" Command="{Binding DataContext.SelectActividadCommand, ElementName=_Root}" CommandParameter="{Binding}">
-                        <TextBlock FontSize="18" Visibility="Visible">
-                            <Run Text="{Binding Id}" FontSize="18" />
-                            <Run Text=" " FontSize="18" />
-                            <Run Text="{Binding DisplayMember1}" FontSize="18" />
+                        <TextBlock FontSize="16" Visibility="Visible">
+                            <Run Text="{Binding Id}" FontSize="16" />
+                            <Run Text=" " FontSize="16" />
+                            <Run Text="{Binding DisplayMember1}" FontSize="16" />
                         </TextBlock>
                     </Hyperlink>
                     <i:Interaction.Triggers>
-                      <i:EventTrigger EventName="MouseEnter" >
+                        <i:EventTrigger EventName="MouseEnter" >
                             <i:InvokeCommandAction Command="{Binding DataContext.InfoActividadCommand, ElementName=_Root}" CommandParameter="{Binding}" />
-                      </i:EventTrigger>
-                      <i:EventTrigger EventName="MouseLeave" >
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave" >
                             <i:InvokeCommandAction Command="{Binding DataContext.InfoActividadCommand2, ElementName=_Root}" CommandParameter="{Binding}" />
-                      </i:EventTrigger>
+                        </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Label>
             </Grid>
@@ -85,15 +182,645 @@
                 </DataTrigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
-
     </UserControl.Resources>
-
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="17" />
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <!--<ColumnDefinition Width="120"/>-->
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="374" />
+        </Grid.ColumnDefinitions>
+        <!--IsReadOnly="True"
+                  SelectionUnit="Cell"
+         CanUserResizeColumns="True"
+                  CanUserSortColumns="False"
+                  GridLinesVisibility="All" 
+                  AutoGenerateColumns="False"
+                  VerticalAlignment="Top"-->
+        <StackPanel Name="VerOpcionesActividades" Grid.Row="0" Grid.ColumnSpan="2" Background="White" HorizontalAlignment="Center" 
+                    ToolTip="Mostrar/Ocultar Ociones">
+            <!--<Image Source="{StaticResource IconoLines}" Height="20" />-->
+            <Rectangle Width="300" Height="2" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="2" />
+            <Rectangle Width="300" Height="2" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="2" />
+            <Rectangle Width="300" Height="2" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="2"/>
+            
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <prism:InvokeCommandAction Command="{Binding VerFiltroCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </StackPanel>
+        <!--<Label Grid.Row="0" Background="Black" Margin="4,4,0,0" Foreground="White" Grid.ColumnSpan="2"> BOTON para la busqueda, filtros,...</Label>-->
+        <!--<Label Grid.Row="1" Background="Black" Margin="4,4,0,0" Foreground="White" Grid.ColumnSpan="2">GroupBox con las opciones pa filtros,...</Label>-->
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" Visibility="{Binding VisibleOpcionesListar, 
+                                                Converter={StaticResource BooleanToVisivilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="374" />
+            </Grid.ColumnDefinitions>
+            <GroupBox Grid.Row="1" Grid.Column="0"  Width="600" Header="Opciones">
+                <GroupBox.Style>
+                    <Style TargetType="GroupBox"></Style>
+                </GroupBox.Style>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="2" VerticalAlignment="Top">
+                        <cc:CircleIconButton
+                            Icon="{StaticResource appbar_checkmark_thick}"
+                            Width="31"
+                            Height="31"
+                            IconWidth="12"
+                            IconHeight="12"
+                            ToolTip="Aplicar Opciones Seleccionadas"
+                            Command="{Binding BotonListarTodoCommand}">
+                            <Button.Style>
+                                <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Opacity" Value="1"/>
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </cc:CircleIconButton>
+                        <cc:CircleIconButton
+                            Icon="{StaticResource appbar_refresh}"
+                            Width="31"
+                            Height="31"
+                            IconWidth="12"
+                            IconHeight="12"
+                            ToolTip="Resetear Fechas"
+                            Command="{Binding ResetearCheckBoxCommand}">
+                            <Button.Style>
+                                <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Opacity" Value="1"/>
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </cc:CircleIconButton>
+                    </StackPanel>
+                    <StackPanel Grid.Column="0" Margin="0,10,0,0">
+                        <!--<CheckBox Content="Personal" IsChecked="{Binding ViaDeAccesoAGamaFilter[Personal].Value}"/>-->
+                        <CheckBox Margin="0,5,0,0" Content="Actividades En Curso"
+                                                  IsChecked="{Binding EnCursoSeleccionado}"/>
+                        <CheckBox Margin="0,5,0,0" Content="Actividades Por Comenzar"
+                                                  IsChecked="{Binding PorComenzarSeleccionado}"/>
+                        <CheckBox Margin="0,5,0,0" Content="Proximas Fechas de Finalizacion"
+                                                  IsChecked="{Binding ProximasFechasSeleccionado}"/>
+                        <CheckBox Margin="0,5,0,0" Content="Actividades Fuera de Plazo"
+                                                  IsChecked="{Binding FueraPlazoSeleccionado}"/>
+                        <CheckBox Margin="0,5,0,0" Content="Actividades Finalizadas"
+                                                  IsChecked="{Binding FinalizadasSeleccionado}"/>
+                    </StackPanel>
+                    <Grid Grid.Column="1" Margin="0,10,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <!--<RowDefinition Height="30" />-->
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0">
+                            <Border BorderBrush="Black" BorderThickness="1,1,1,1" Margin="-43,0,0,0">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="100" />
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0" Margin="2,2,2,2">
+                                        <Grid Background="Blue">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="30" />
+                                            </Grid.ColumnDefinitions>
+                                            <cc:CircleIconButton
+                                                Icon="{StaticResource appbar_chevron_left}"
+                                                VerticalAlignment="Center"
+                                                Width="28"
+                                                Height="28"
+                                                IconWidth="9"
+                                                IconHeight="9"
+                                                Grid.Column="0"
+                                                Command="{Binding PaginaAnteriorCommand}">
+                                                <Button.Style>
+                                                    <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                                                        <Setter Property="Opacity" Value="0.5"/>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Opacity" Value="1"/>
+                                                                <Setter Property="Cursor" Value="Hand"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </cc:CircleIconButton>
+                                            <cc:CircleIconButton
+                                                Icon="{StaticResource appbar_chevron_right}"
+                                                VerticalAlignment="Center"
+                                                Width="28"
+                                                Height="28"
+                                                IconWidth="9"
+                                                IconHeight="9"
+                                                Grid.Column="2"
+                                                Command="{Binding PaginaSiguienteCommand}">
+                                                <Button.Style>
+                                                    <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                                                        <Setter Property="Opacity" Value="0.5"/>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Opacity" Value="1"/>
+                                                                <Setter Property="Cursor" Value="Hand"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </cc:CircleIconButton>
+                                            <TextBlock Grid.Column="1"  
+                                                       Text="{Binding OpcionYear}" 
+                                                       FontSize="18" TextAlignment="Center" Foreground="White"></TextBlock>
+                                        </Grid>
+                                    </StackPanel>
+
+                                    <Grid Grid.Row="1" Margin="2,2,2,2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <CheckBox Grid.Row="0" Grid.Column="0" Content="Enero"
+                                                  IsChecked="{Binding Enero}"/>
+                                        <CheckBox Grid.Row="0" Grid.Column="1" Content="Febrero"
+                                                  IsChecked="{Binding Febrero}"/>
+                                        <CheckBox Grid.Row="0" Grid.Column="2" Content="Marzo"
+                                                  IsChecked="{Binding Marzo}"/>
+                                        <CheckBox Grid.Row="0" Grid.Column="3"  Content="Abril"
+                                                  IsChecked="{Binding Abril}"/>
+                                        <CheckBox Grid.Row="1" Grid.Column="0"  Content="Mayo"
+                                                  IsChecked="{Binding Mayo}"/>
+                                        <CheckBox Grid.Row="1" Grid.Column="1" Content="Junio"
+                                                  IsChecked="{Binding Junio}"/>
+                                        <CheckBox Grid.Row="1" Grid.Column="2" Content="Julio"
+                                                  IsChecked="{Binding Julio}"/>
+                                        <CheckBox Grid.Row="1" Grid.Column="3" Content="Agosto"
+                                                  IsChecked="{Binding Agosto}"/>
+                                        <CheckBox Grid.Row="2" Grid.Column="0" Content="Septiemb."
+                                                  IsChecked="{Binding Septiembre}"/>
+                                        <CheckBox Grid.Row="2" Grid.Column="1" Content="Octubre"
+                                                  IsChecked="{Binding Octubre}"/>
+                                        <CheckBox Grid.Row="2" Grid.Column="2" Content="Noviemb."
+                                                  IsChecked="{Binding Noviembre}"/>
+                                        <CheckBox Grid.Row="2" Grid.Column="3"  Content="Diciemb."
+                                                  IsChecked="{Binding Diciembre}"/>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                        <!--<StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
+                            <Button Margin="0,0,10,0" Command="{Binding DataContext.BotonListarTodoCommand, ElementName=_Root}">
+                                Filtrar
+                            </Button>
+                        </StackPanel>-->
+                    </Grid>
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="1" Grid.Column="1"  Width="240"  Header="Opciones">
+                <GroupBox.Style>
+                    <Style TargetType="GroupBox"></Style>
+                </GroupBox.Style>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                            </Grid.RowDefinitions>
+                            <Label Grid.Column="0" Grid.Row="0" VerticalContentAlignment="Center">Desde</Label>
+                            <Label Grid.Column="0" Grid.Row="1" VerticalContentAlignment="Center">Hasta</Label>
+                            <DatePicker Grid.Column="1" Grid.Row="0" Margin="{StaticResource Margin}" VerticalAlignment="Center"
+                                    SelectedDate="{Binding FechaInicioOpcion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+                            <DatePicker Grid.Column="1" Grid.Row="1" Margin="{StaticResource Margin}" VerticalAlignment="Center" 
+                                    SelectedDate="{Binding FechaFinOpcion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+                        </Grid>
+                        
+                    </StackPanel>
+                    <Grid Grid.Column="1" Margin="0,10,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0">
+
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
+                            <cc:CircleIconButton
+                            Icon="{StaticResource appbar_refresh}"
+                            Width="31"
+                            Height="31"
+                            IconWidth="12"
+                            IconHeight="12"
+                            ToolTip="Resetear Fechas"
+                            Command="{Binding ResetearFechaEventosCommand}">
+                                <Button.Style>
+                                    <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Opacity" Value="1"/>
+                                                <Setter Property="Cursor" Value="Hand"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </cc:CircleIconButton>
+                            <cc:CircleIconButton
+                            Icon="{StaticResource appbar_checkmark_thick}"
+                            Width="31"
+                            Height="31"
+                            IconWidth="12"
+                            IconHeight="12"
+                            ToolTip="Aplicar Opciones Seleccionadas"
+                            Command="{Binding DataContext.BotonFiltarEventosCommand, ElementName=_Root}">
+                                <Button.Style>
+                                    <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Opacity" Value="1"/>
+                                                <Setter Property="Cursor" Value="Hand"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </cc:CircleIconButton>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+
+        </Grid>
+        <!--<GroupBox Grid.Row="1" Grid.Column="0"  Width="500"  Header="Opciones" Visibility="{Binding VisibleOpcionesListar, 
+                                                Converter={StaticResource BooleanToVisivilityConverter}}" >
+            <GroupBox.Style>
+                <Style TargetType="GroupBox"></Style>
+            </GroupBox.Style>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="0,10,0,0">
+                    --><!--<CheckBox Content="Personal" IsChecked="{Binding ViaDeAccesoAGamaFilter[Personal].Value}"/>--><!--
+                    <CheckBox Margin="0,5,0,0" Content="Actividades En Curso"
+                                                  IsChecked="{Binding EnCursoSeleccionado}"/>
+                    <CheckBox Margin="0,5,0,0" Content="Actividades Por Comenzar"
+                                                  IsChecked="{Binding PorComenzarSeleccionado}"/>
+                    <CheckBox Margin="0,5,0,0" Content="Proximas Fechas de Finalizacion"
+                                                  IsChecked="{Binding ProximasFechasSeleccionado}"/>
+                </StackPanel>
+                <Grid Grid.Column="1" Margin="0,10,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0">
+                        <CheckBox Margin="0,5,0,0" Content="Actividades Fuera de Plazo"
+                                                  IsChecked="{Binding FueraPlazoSeleccionado}"/>
+                        <CheckBox Margin="0,5,0,0" Content="Actividades Finalizadas"
+                                                  IsChecked="{Binding FinalizadasSeleccionado}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
+                        <Button Margin="0,0,10,0" Command="{Binding DataContext.BotonListarTodoCommand, ElementName=_Root}">
+                            Filtrar
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Grid.Column="1"  Width="200"  Header="Opciones" Visibility="{Binding VisibleOpcionesListar, 
+                                                Converter={StaticResource BooleanToVisivilityConverter}}" >
+            <GroupBox.Style>
+                <Style TargetType="GroupBox"></Style>
+            </GroupBox.Style>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="0,10,0,0">
+                    --><!--<CheckBox Content="Personal" IsChecked="{Binding ViaDeAccesoAGamaFilter[Personal].Value}"/>--><!--
+                    <CheckBox Margin="0,5,0,0" Content="Actividades En Curso"
+                                                  IsChecked="{Binding EnCursoSeleccionado}"/>
+                    <CheckBox Margin="0,5,0,0" Content="Actividades Por Comenzar"
+                                                  IsChecked="{Binding PorComenzarSeleccionado}"/>
+                    <CheckBox Margin="0,5,0,0" Content="Proximas Fechas de Finalizacion"
+                                                  IsChecked="{Binding ProximasFechasSeleccionado}"/>
+                </StackPanel>
+                <Grid Grid.Column="1" Margin="0,10,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0">
+                        <CheckBox Margin="0,5,0,0" Content="Actividades Fuera de Plazo"
+                                                  IsChecked="{Binding FueraPlazoSeleccionado}"/>
+                        <CheckBox Margin="0,5,0,0" Content="Actividades Finalizadas"
+                                                  IsChecked="{Binding FinalizadasSeleccionado}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
+                        <Button Margin="0,0,10,0" Command="{Binding DataContext.BotonListarTodoCommand, ElementName=_Root}">
+                            Filtrar
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </GroupBox>-->
+        <Grid Grid.Row="2" Margin="4,4,4,0">
+            <DataGrid
+                  BorderThickness="1"
+                  Grid.Row="1"
+                  Margin="0,-2,6,2"
+                  CanUserResizeColumns="False"
+                  Style="{StaticResource DGHeaderStyle}"
+                  ItemsSource="{Binding ListaParcialActividades}">
+                <DataGrid.Resources>
+                    <DataTemplate x:Key="_HeaderTemplate" >
+                        <TextBlock Text="{Binding}" Margin="{StaticResource Margin}"/>
+                    </DataTemplate>
+                </DataGrid.Resources>
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Foreground" Value="Black" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.CellStyle>
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="FontSize" Value="13"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#D95796BE"/>
+                                <Setter Property="BorderThickness" Value="0" />
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Background" Value="#D972BCE9"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="ID"
+                                        HeaderTemplate="{StaticResource _HeaderTemplate}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left"
+                                    Width="30"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{Binding Id}"
+                                    Padding="{StaticResource Margin}"
+                                    Margin="{StaticResource Margin}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Titulo" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left"
+                                    Width="400"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{Binding Titulo, UpdateSourceTrigger=PropertyChanged}"
+                                    Padding="{StaticResource Margin}"
+                                    Margin="{StaticResource Margin}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Estado" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left"
+                                    Width="150"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{Binding Estado, UpdateSourceTrigger=PropertyChanged}"
+                                    Padding="{StaticResource Margin}"
+                                    Margin="{StaticResource Margin}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--<DataGridTemplateColumn Header="Fecha Inicio" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center"
+                                       Width="80"
+                                       VerticalAlignment="Center"
+                                       FontSize="14"
+                                       Text="{Binding FechaDeInicio, StringFormat=d}"
+                                       Padding="{StaticResource Margin}"
+                                       Margin="{StaticResource Margin}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>-->
+                    <DataGridTemplateColumn Header="Fecha Final" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center"
+                                       Width="80"
+                                       VerticalAlignment="Center"
+                                       FontSize="14"
+                                       Text="{Binding FechaDeFin, StringFormat=d}"
+                                       Padding="{StaticResource Margin}"
+                                       Margin="{StaticResource Margin}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Coordinador" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left"
+                                    Width="100"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{Binding Coordinador.Nombre, UpdateSourceTrigger=PropertyChanged}" 
+                                    Padding="{StaticResource Margin}"
+                                    Margin="{StaticResource Margin}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Editar"
+                                    HeaderTemplate="{StaticResource _HeaderTemplate}" 
+                                    CellTemplate="{StaticResource _EditarButtonCellTemplate}"/>
+                    <DataGridTemplateColumn Header="Eliminar"
+                                    HeaderTemplate="{StaticResource _HeaderTemplate}" 
+                                    CellTemplate="{StaticResource _EliminarButtonCellTemplate}"/>
+                    <DataGridTemplateColumn Header="Abrir"  
+                                    HeaderTemplate="{StaticResource _HeaderTemplate}" 
+                                    CellTemplate="{StaticResource _IrButtonCellTemplate}"/>
+                    <!--<DataGridTextColumn 
+                      Header="ID"
+                      Binding="{Binding Id}"
+                      MinWidth="40" 
+                      Width="40"
+                      IsReadOnly="True"/>
+                <DataGridTextColumn 
+                      Header="Titulo" 
+                      Binding="{Binding Titulo, UpdateSourceTrigger=PropertyChanged}" 
+                      MinWidth="100" 
+                      Width="100"/>
+                <DataGridTextColumn 
+                      Header="Estado" 
+                      Binding="{Binding Estado, UpdateSourceTrigger=PropertyChanged}" 
+                      MinWidth="150" 
+                      Width="100"/>
+                <DataGridTextColumn 
+                      Header="Fecha Inicio" 
+                      Binding="{Binding FechaDeInicio,StringFormat='dd/MM/yyyy', UpdateSourceTrigger=PropertyChanged}" 
+                      MinWidth="100" 
+                      Width="100"/>
+                <DataGridTextColumn 
+                      Header="Fecha Final" 
+                      Binding="{Binding FechaDeFin,StringFormat='dd/MM/yyyy', UpdateSourceTrigger=PropertyChanged}" 
+                      MinWidth="100" 
+                      Width="100"/>
+                <DataGridTextColumn 
+                      Header="Coordinador" 
+                      Binding="{Binding Coordinador.Nombre, UpdateSourceTrigger=PropertyChanged}" 
+                      MinWidth="300" 
+                      Width="100"/>-->
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+       
+        <GroupBox Grid.Row="2" Grid.Column="1" Name="ListaEventos" Margin="{StaticResource Margin}">
+            <GroupBox.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" HorizontalAlignment="Center" Content="EVENTOS" Foreground="White" Padding="0"></Label>
+                    
+                </Grid>
+            </GroupBox.Header>
+            <Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ListBox x:Name="Eventosss"
+                                    ItemsSource="{Binding EventoActividad}" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border  BorderBrush="Black"
+                                            BorderThickness="1" 
+                                            CornerRadius="3"
+                                            Margin="{StaticResource MarginHalfNoHorizontal}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Grid.Row="0" HorizontalAlignment="Center" Margin="{StaticResource Margin}" 
+                                                                   Text="{Binding FechaDePublicacion.Date,StringFormat='dd/MM/yyyy'}"/>
+                                                <TextBlock Grid.Row="1" HorizontalAlignment="Center" Margin="{StaticResource Margin}" 
+                                                                   Text="{Binding FechaDePublicacion,StringFormat='HH:mm:ss'}"/>
+                                            </Grid>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Grid.Row="0" Margin="{StaticResource Margin}" Text="{Binding Ocurrencia}"/>
+                                                <TextBlock Grid.Row="1" Margin="{StaticResource Margin}" Text="{Binding Titulo}"/>
+                                                
+                                            </Grid>
+                                        </StackPanel>
+                                        <cc:CircleIconButton
+                                                    Grid.Column="2"
+                                                    HorizontalAlignment="Left"
+                                                    Icon="{StaticResource appbar_arrow_right}"
+                                                    Width="36"
+                                                    Height="36"
+                                                    IconWidth="13"
+                                                    IconHeight="13"
+                                                    Margin="{StaticResource Margin}"
+                                                   Command="{Binding ElementName=_Root, Path=DataContext.EventoSelectActividadCommand}"
+                                                    CommandParameter="{Binding}">
+                                            <Button.Style>
+                                                <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                                                    <Setter Property="Opacity" Value="0.5"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Opacity" Value="1"/>
+                                                            <Setter Property="Cursor" Value="Hand"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </cc:CircleIconButton>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </ScrollViewer>
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+
+    <!--Version 2 de Vista de Actividades-->
+    <!--<Grid Margin="4,0,4,0">
+        <Grid.ColumnDefinitions>
+            --><!--<ColumnDefinition Width="120"/>--><!--
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <!--Botonera. Nwcwsita de la columna de 120 de dos lineas mas arriba (75)-->
+        --><!--Botonera. Nwcwsita de la columna de 120 de dos lineas mas arriba (75)-->
         <!--<StackPanel>
            
             <Grid>
@@ -179,20 +906,19 @@
             </Grid>
 
         </StackPanel>-->
-        <!--Botonera-->
+        <!--Botonera--><!--
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
+                --><!--<RowDefinition Height="40"/>--><!--
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="200"/>
             </Grid.RowDefinitions>
-            <!--<Grid.ColumnDefinitions>
+            --><!--<Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>-->
-            <Border  BorderBrush="Black" BorderThickness="0,0,0,0" Background="#FAF7F7" 
+            <!--<Border  BorderBrush="Black" BorderThickness="0,0,0,0" Background="#FAF7F7" 
                 Margin="0,0,0,0" Grid.Row="0" Grid.ColumnSpan="2">
-
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="200" />
@@ -200,8 +926,6 @@
                         <ColumnDefinition Width="150" />
                         <ColumnDefinition Width="150" />
                         <ColumnDefinition Width="*" />
-                        <!--<ColumnDefinition Width="150" />-->
-
                     </Grid.ColumnDefinitions>
                     <Label x:Name="Titulomenu" Grid.Row="0"
                                                 Content="Centro de Actividades"  
@@ -236,12 +960,12 @@
                                 </Style.Triggers>
                             </Style>
                         </Label.Style>
-                        <!--<Label.InputBindings>
+                        --><!--<Label.InputBindings>
                             <MouseBinding MouseAction="LeftClick" 
                                         Command="{Binding ElementName=_Root,Path=DataContext.ListaDeActividadesCommand}"
                                         CommandParameter="{Binding}"    
                                                               />
-                        </Label.InputBindings>-->
+                        </Label.InputBindings>--><!--
                     </Label>
                     <Label x:Name="SeleccionarCalendario" Grid.Column="2"
                                                 Content="Calendario"  
@@ -282,16 +1006,16 @@
                         </Label.Style>
                     </Label>
                 </Grid>
-            </Border>
-            <Border Background="White" Grid.Row="1" Visibility="Visible">
-                <Border.Effect>
+            </Border>--><!--
+            <Border Background="White" Grid.Row="0" Visibility="Visible">
+                --><!--<Border.Effect>
                     <DropShadowEffect Color="Gray" Opacity="1.0" ShadowDepth="0" />
-                </Border.Effect>
+                </Border.Effect>--><!--
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="240" />
+                        <ColumnDefinition Width="190" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="240" />
+                        <ColumnDefinition Width="190" />
                     </Grid.ColumnDefinitions>
                     <Border Name="BorderContieneInfoAct" Grid.Column="2" Background="LightGray">
                         <Grid>
@@ -301,110 +1025,142 @@
                                 <RowDefinition Height="200" />
                                 <RowDefinition Height="30" />
                                 <RowDefinition Height="30" />
+                                <RowDefinition Height="30" />
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="1" Content="Informacion Relevante" FontSize="14" Foreground="red" Visibility="{Binding VisibleInfoAct, 
-                                                Converter={StaticResource BooleanToVisivilityConverter}}"></Label>
-                            <Border Grid.Row="2" x:Name="BorderInfoAct" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Red"
-                                CornerRadius="5" BorderThickness="1,1,1,1" Height="200" Width="200" Background="LightGray" Visibility="{Binding VisibleInfoAct, 
+                            <GroupBox Grid.Row="2" x:Name="BorderInfoAct" Header="Informacion" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                               Height="200" Width="170" Background="LightGray" Visibility="{Binding VisibleInfoAct, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
-                                <Border.Effect>
-                                    <DropShadowEffect Color="Red" Opacity="3.0" ShadowDepth="0" />
-                                </Border.Effect>
-
+                                <GroupBox.Style>
+                                    <Style TargetType="GroupBox"></Style>
+                                </GroupBox.Style>
                                 <StackPanel Grid.Row="2">
                                     <Grid>
-                                        <!--<Grid.ColumnDefinitions>
+                                        --><!--<Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="90" />
                                             <ColumnDefinition Width="90" />
-                                        </Grid.ColumnDefinitions>-->
+                                        </Grid.ColumnDefinitions>--><!--
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="30" />
                                             <RowDefinition Height="30" />
                                             <RowDefinition Height="30" />
                                             <RowDefinition Height="30" />
                                             <RowDefinition Height="30" />
+                                            <RowDefinition Height="30" />
                                         </Grid.RowDefinitions>
-                                        <Label Grid.Row="0" Background="LightGray" Content="Coordinador"
-                                                VerticalAlignment="Center" FontSize="14">
+                                        <Label Grid.Row="0" Background="LightGray"
+                                                HorizontalAlignment="Left">
+                                            <Label.Content>
+                                                <TextBlock>
+                                                    <Run Text="Coordinador: " />
+                                                </TextBlock>
+                                            </Label.Content>
+                                            <Label.Style>
+                                                <Style TargetType="Label" BasedOn="{StaticResource _EstiloLabelActividades}" />
+                                            </Label.Style>
                                         </Label>
                                         <Label Grid.Row="1" Background="LightGray" Margin="10,0,0,0"
-                                                VerticalAlignment="Center" FontSize="14">
+                                                HorizontalAlignment="Center">
                                             <Label.Content>
                                                 <TextBlock>
                                                     <Run Text="{Binding NombreCoordinador}"/>
-                                                    <Run Text=" " />
+                                                    <Run Text=" ("/>
                                                     <Run Text="{Binding ApellidoCoordinador}"/>
+                                                    <Run Text=")"/>
                                                 </TextBlock>
                                             </Label.Content>
+                                            <Label.Style>
+                                                <Style TargetType="Label" BasedOn="{StaticResource _EstiloLabelActividades}" />
+                                            </Label.Style>
                                         </Label>
-                                        <Label Grid.Row="2" Background="LightGray" Content="Fechas Actividad"
-                                                VerticalAlignment="Center" FontSize="14">
+                                        <Label Grid.Row="2" Background="LightGray" Content="Fecha de Inicio"
+                                                HorizontalAlignment="Left">
+                                            <Label.Style>
+                                                <Style TargetType="Label" BasedOn="{StaticResource _EstiloLabelActividades}" />
+                                            </Label.Style>
                                         </Label>
                                         <Label Grid.Row="3" Background="LightGray" Margin="10,0,0,0"
-                                                VerticalAlignment="Center" FontSize="14">
+                                                HorizontalAlignment="Center">
                                             <Label.Content>
                                                 <TextBlock>
-                                                    <Run Text="Inicio: " />
                                                     <Run Text="{Binding FechaInicioActividad.Date,StringFormat='dd/MM/yyyy',Mode=OneWay}"/>
                                                 </TextBlock>
                                             </Label.Content>
+                                            <Label.Style>
+                                                <Style TargetType="Label" BasedOn="{StaticResource _EstiloLabelActividades}" />
+                                            </Label.Style>
                                         </Label>
-                                        <Label Grid.Row="4" Background="LightGray" Margin="10,0,0,0"
-                                                VerticalAlignment="Center" FontSize="10">
+                                        <Label Grid.Row="4" Background="LightGray" Content="Fecha Final"
+                                                HorizontalAlignment="Left">
+                                            <Label.Style>
+                                                <Style TargetType="Label" BasedOn="{StaticResource _EstiloLabelActividades}" />
+                                            </Label.Style>
+                                        </Label>
+                                        <Label Grid.Row="5" Background="LightGray" Margin="10,0,0,0"
+                                                HorizontalAlignment="Center">
                                             <Label.Content>
                                                 <TextBlock>
-                                                    <Run Text="Final: " />
                                                     <Run Text="{Binding FechaFinalActividad.Date,StringFormat='dd/MM/yyyy',Mode=OneWay}"/>
                                                 </TextBlock>
                                             </Label.Content>
+                                            <Label.Style>
+                                                <Style TargetType="Label" BasedOn="{StaticResource _EstiloLabelActividades}" />
+                                            </Label.Style>
                                         </Label>
                                         
-                                        <!--<TextBlock Grid.Row="1" Text="Fecha de Final" ></TextBlock>
+                                        --><!--<TextBlock Grid.Row="1" Text="Fecha de Final" ></TextBlock>
                                         <TextBlock Grid.Row="2" Text="Coordinador" ></TextBlock>
                                         <TextBlock Grid.Row="3" Text="Cooperantes" FontSize="14" FontWeight="Regular"></TextBlock>
                                         <TextBox Grid.Column="1" Text="{Binding IdActividad}" />
                                         <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding FechaActividadFinal}" />
                                         <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding NombreCoordinador}" />-->
-                                        <!--<TextBox Grid.Column="1" Grid.Row="3" Text="{Binding IdActividad}" />-->
+                                        <!--<TextBox Grid.Column="1" Grid.Row="3" Text="{Binding IdActividad}" />--><!--
                                     </Grid>
 
                                 </StackPanel>
 
-                            </Border>
+                            </GroupBox>
                             <Label Grid.Row="3" Background="LightGray" Margin="10,0,0,0" Visibility="{Binding VisibleAviso, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}"
-                                                VerticalAlignment="Center" FontSize="14" Foreground="Red">
+                                                HorizontalAlignment="Center" FontSize="14" Foreground="Red">
                                 <Label.Content>
                                     <TextBlock>
                                         <Run Text="¡¡¡AVISO!!! " />
+                                    </TextBlock>
+                                </Label.Content>
+                            </Label>
+                            <Label Grid.Row="4" Background="LightGray" Margin="10,0,0,0" Visibility="{Binding VisibleAviso, 
+                                                Converter={StaticResource BooleanToVisivilityConverter}}"
+                                                HorizontalAlignment="Center" FontSize="14" Foreground="Red">
+                                <Label.Content>
+                                    <TextBlock>
                                         <Run Text="{Binding NumeroDias}"/>
                                         <Run Text="{Binding MensajeAviso}"/>
                                     </TextBlock>
                                 </Label.Content>
                             </Label>
-                            <!--<Label >
+                            --><!--<Label >
                             <TextBlock FontSize="18" Visibility="Visible">
                                 
                             <Run Text="{Binding IdActividad}" FontSize="18" />
                             <Run Text=" " FontSize="18" />
                             <Run Text="{Binding FechaDeInicioActividad.Date,StringFormat='dd/MM/yyyy',Mode=OneWay}"  FontSize="18" />
                             </TextBlock>
-                        </Label>-->
+                        </Label>--><!--
                         </Grid>
                     </Border>
                     <Border Grid.Column="0" Background="LightGray">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="150" />
-                                <!--Espacio en blanco icon_document_add_01-->
                                 <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
+                                --><!--Espacio en blanco icon_document_add_01--><!--
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="30" />
                             </Grid.RowDefinitions>
-                            <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                            --><!--<StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" >
                                 <Rectangle  Margin="{StaticResource MarginNoBottom}" Width="70" Height="70" HorizontalAlignment="Center" >
                                     <Rectangle.Fill>
                                         <VisualBrush Visual="{StaticResource appbar_page_add}"/>
@@ -430,12 +1186,10 @@
                                         <prism:InvokeCommandAction Command="{Binding NuevaActividadCommand}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-                            </StackPanel>
+                            </StackPanel>--><!--
                             <Label x:Name="SeleccionarListaActividadesActivas" Grid.Row="1" Margin="10,0,0,0"
                                                 MouseLeftButtonDown="Label_ActividadesActivas"
-                                                FontSize="16" HorizontalContentAlignment="Left"
-                                                Background="White"
-                                                VerticalAlignment="Center">
+                                                Background="White">
                                 <Label.Content >
                                     <TextBlock>
                                         <Run Text="En Curso" />
@@ -445,10 +1199,7 @@
                                     </TextBlock>
                                 </Label.Content>
                                 <Label.Style>
-                                    <Style TargetType="Label">
-                                        <Setter Property="Foreground" Value="Black" />
-                                        <Setter Property="FontSize" Value="14" />
-                                        <Setter Property="Background" Value="White"/>
+                                    <Style TargetType="Label" BasedOn="{StaticResource _EstiloLabelActividades}">
                                         <Style.Triggers>
                                             <Trigger  Property="IsMouseOver" Value="True">
                                                 <Setter Property="Cursor" Value="Hand" />
@@ -459,10 +1210,7 @@
                                 </Label.Style>
                             </Label>
                             <Label x:Name="SeleccionarListaActividadesPorComenzar" Grid.Row="2" Margin="10,0,0,0" 
-                                                MouseLeftButtonDown="Label_ActividadesPorComenzar"
-                                                FontSize="18" HorizontalContentAlignment="Left"
-                                                Background="LightGray"
-                                                VerticalAlignment="Center">
+                                                MouseLeftButtonDown="Label_ActividadesPorComenzar">
                                 <Label.Content >
                                     <TextBlock>
                                         <Run Text="Por Comenzar" />
@@ -472,10 +1220,7 @@
                                     </TextBlock>
                                 </Label.Content>
                                 <Label.Style>
-                                    <Style TargetType="Label">
-                                        <Setter Property="Foreground" Value="Black" />
-                                        <Setter Property="FontSize" Value="14" />
-                                        <Setter Property="Background" Value="White"/>
+                                    <Style TargetType="Label" BasedOn="{StaticResource _EstiloLabelActividades}">
                                         <Style.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter Property="Cursor" Value="Hand" />
@@ -486,10 +1231,7 @@
                                 </Label.Style>
                             </Label>
                             <Label x:Name="SeleccionarListaActividadesProximosVencimientos" Grid.Row="3" Margin="10,0,0,0"
-                                                MouseLeftButtonDown="Label_ActividadesProximosVencimientos"
-                                                FontSize="18" HorizontalContentAlignment="Left"
-                                                Background="LightGray"
-                                                VerticalAlignment="Center">
+                                                MouseLeftButtonDown="Label_ActividadesProximosVencimientos">
                                 <Label.Content >
                                     <TextBlock>
                                         <Run Text="Próximas Fechas" />
@@ -499,10 +1241,7 @@
                                     </TextBlock>
                                 </Label.Content>
                                 <Label.Style>
-                                    <Style TargetType="Label">
-                                        <Setter Property="Foreground" Value="Black" />
-                                        <Setter Property="FontSize" Value="14" />
-                                        <Setter Property="Background" Value="White"/>
+                                    <Style TargetType="Label" BasedOn="{StaticResource _EstiloLabelActividades}">
                                         <Style.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter Property="Cursor" Value="Hand" />
@@ -513,10 +1252,7 @@
                                 </Label.Style>
                             </Label>
                             <Label x:Name="SeleccionarListaActividadesRetrasadas" Grid.Row="4" Margin="10,0,0,0"
-                                                MouseLeftButtonDown="Label_ActividadesRetrasadas"
-                                                FontSize="18" HorizontalContentAlignment="Left"
-                                                Background="LightGray"
-                                                VerticalAlignment="Center">
+                                                MouseLeftButtonDown="Label_ActividadesRetrasadas">
                                 <Label.Content >
                                     <TextBlock>
                                         <Run Text="Fuera de Plazo" />
@@ -526,10 +1262,7 @@
                                     </TextBlock>
                                 </Label.Content>
                                 <Label.Style>
-                                    <Style TargetType="Label">
-                                        <Setter Property="Foreground" Value="Black" />
-                                        <Setter Property="FontSize" Value="14" />
-                                        <Setter Property="Background" Value="White"/>
+                                    <Style TargetType="Label" BasedOn="{StaticResource _EstiloLabelActividades}">
                                         <Style.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter Property="Cursor" Value="Hand" />
@@ -540,10 +1273,7 @@
                                 </Label.Style>
                             </Label>
                             <Label x:Name="SeleccionarListaActividadesFinalizadas" Grid.Row="5" Margin="10,0,0,0" 
-                                                MouseLeftButtonDown="Label_ActividadesFinalizadas"
-                                                FontSize="18" HorizontalContentAlignment="Left"
-                                                Background="LightGray"
-                                                VerticalAlignment="Center">
+                                                MouseLeftButtonDown="Label_ActividadesFinalizadas">
                                 <Label.Content >
                                     <TextBlock>
                                         <Run Text="Finalizadas" />
@@ -553,10 +1283,7 @@
                                     </TextBlock>
                                 </Label.Content>
                                 <Label.Style>
-                                    <Style TargetType="Label">
-                                        <Setter Property="Foreground" Value="Black" />
-                                        <Setter Property="FontSize" Value="14" />
-                                        <Setter Property="Background" Value="White"/>
+                                    <Style TargetType="Label" BasedOn="{StaticResource _EstiloLabelActividades}">
                                         <Style.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter Property="Cursor" Value="Hand" />
@@ -568,10 +1295,10 @@
                             </Label>
                         </Grid>
                     </Border>
-                    <StackPanel Name="ListaActividades" Grid.Column="1" Margin="50,50,0,50" Visibility="{Binding VisibleListaActividades, 
+                    <StackPanel Name="ListaActividades" Grid.Column="1" Margin="50,20,100,20" Visibility="{Binding VisibleListaActividades, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
-                        <ScrollViewer HorizontalScrollBarVisibility="Auto" Height="450">
-                            <ListBox ItemsSource="{Binding ListaDeActividades}">
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                            <ListBox ItemsSource="{Binding ListaDeActividades}" >
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <ContentControl Template="{StaticResource DataItemControlTemplate}" />
@@ -615,9 +1342,111 @@
                 </Grid>
             </Border>
             
-            <!--FIN Listado de Actividades -->
-            <!--ZONA COOPERANTES -->
-            <Border Background="White" Grid.Row="2" Margin="10" Visibility="{Binding VisibleListaCooperantes, 
+            --><!--FIN Listado de Actividades -->
+            <!--ZONA COOPERANTES --><!--
+            <Grid Grid.Row="1" Margin="0,0,0,4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100" />
+                    <RowDefinition Height="100" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="190" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="190" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Background="LightGray">
+                </Label>
+                <Label Grid.Column="0" Grid.Row="1" Background="#AEACAC">
+                </Label>
+                <Label Grid.Column="1" Background="White" Grid.RowSpan="2">
+                </Label>
+                <Border Grid.Column="2" BorderBrush="Gray" BorderThickness="0,1,0,0" Grid.RowSpan="2">
+                    <StackPanel Grid.Column="1" Background="White">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />   --><!--Botonera--><!--
+                                <RowDefinition Height="160" />  --><!--Preferencias--><!--
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
+                                <Label Name="EnlaceNuevo" Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Center" Margin="0,0,10,0">
+                                    <Hyperlink Foreground="Blue" Command="{Binding DataContext.NuevaActividadCommand, ElementName=_Root}" CommandParameter="{Binding}">
+                                        <TextBlock FontSize="16" Text="Nuevo" />
+                                    </Hyperlink>
+                                </Label>
+                                <Label Name="EnlaceListar" Grid.Row="0" Grid.Column="1"  HorizontalAlignment="Center" Margin="0,0,10,0">
+                                    <Hyperlink Foreground="Blue" Command="{Binding DataContext.BotonListarTodoCommand, ElementName=_Root}" CommandParameter="CooperanteView">
+                                        <TextBlock FontSize="16" Text="Listar" />
+                                    </Hyperlink>
+                                </Label>
+                                <Label Name="EnlaceExportar" Grid.Row="0" Grid.Column="2"  HorizontalAlignment="Center" Margin="0,0,10,0">
+                                    <Hyperlink Foreground="Blue" Command="{Binding DataContext.ListarActividadesCommand, ElementName=_Root}" CommandParameter="{Binding}">
+                                        <TextBlock FontSize="16" Text="Exportar" />
+                                    </Hyperlink>
+                                </Label>
+                            </StackPanel>
+                            <GroupBox Grid.Row="1" Grid.ColumnSpan="3" Width="500"  Header="Opciones" Visibility="{Binding VisibleOpcionesActividades, 
+                                                Converter={StaticResource BooleanToVisivilityConverter}}">
+                                <GroupBox.Style>
+                                    <Style TargetType="GroupBox"></Style>
+                                </GroupBox.Style>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" Margin="0,10,0,0">
+                                        --><!--<CheckBox Content="Personal" IsChecked="{Binding ViaDeAccesoAGamaFilter[Personal].Value}"/>--><!--
+                                        <CheckBox Margin="0,5,0,0" Content="Actividades En Curso"
+                                                  IsChecked="{Binding EnCursoSeleccionado}"/>
+                                        <CheckBox Margin="0,5,0,0" Content="Actividades Por Comenzar"
+                                                  IsChecked="{Binding PorComenzarSeleccionado}"/>
+                                        <CheckBox Margin="0,5,0,0" Content="Proximas Fechas de Finalizacion"
+                                                  IsChecked="{Binding ProximasFechasSeleccionado}"/>
+                                    </StackPanel>
+                                    <Grid Grid.Column="1" Margin="0,10,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Grid.Row="0">
+                                            <CheckBox Margin="0,5,0,0" Content="Actividades Fuera de Plazo"
+                                                  IsChecked="{Binding FueraPlazoSeleccionado}"/>
+                                            <CheckBox Margin="0,5,0,0" Content="Actividades Finalizadas"
+                                                  IsChecked="{Binding FinalizadasSeleccionado}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
+                                            <Button Margin="0,0,10,0" Command="{Binding DataContext.BotonListarTodoCommand, ElementName=_Root}"
+                                                    CommandParameter="CooperanteView">
+                                                Todos
+                                            </Button>
+                                            <Button Margin="0,0,10,0" Command="{Binding DataContext.BotonListarTodoCommand, ElementName=_Root}"
+                                                    CommandParameter="CooperanteView">
+                                                Aceptar</Button>
+                                            <Button Margin="0,0,10,0">Cancelar</Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                            </GroupBox>
+                        </Grid>
+
+                    </StackPanel>
+                </Border>
+                <Label Grid.Column="3" Background="White" Grid.RowSpan="2">
+                </Label>
+                <Label Grid.Column="4" Background="LightGray">
+                </Label>
+                <Label Grid.Column="4" Grid.Row="1" Background="#AEACAC">
+                </Label>
+            </Grid>
+
+            --><!--<Border Background="White" Grid.Row="1" Margin="10" Visibility="{Binding VisibleListaCooperantes, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
                 <Border.Effect>
                     <DropShadowEffect Color="Blue" Opacity="1.0" ShadowDepth="0" />
@@ -627,7 +1456,7 @@
                         <ColumnDefinition Width="200" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <!--<Border Grid.Column="0" Background="White" Margin="10">
+                    --><!--<Border Grid.Column="0" Background="White" Margin="10">
                         <Border.Effect>
                             <DropShadowEffect Color="Red" Opacity="1.0" ShadowDepth="0" />
                         </Border.Effect>
@@ -660,7 +1489,7 @@
                                 </Label.Style>
                             </Label>
                         </Grid>
-                    </Border>-->
+                    </Border>--><!--
                     <StackPanel Name="ListaCooperantes" Background="White" Grid.Column="1" Margin="50,50,0,50" >
                         <Grid Height="540">
                             <Grid.ColumnDefinitions>
@@ -706,7 +1535,7 @@
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="80"/>
                                                         <RowDefinition  Height="Auto"/>
-                                                        <!--<RowDefinition  Height="Auto"/>-->
+                                                        --><!--<RowDefinition  Height="Auto"/>--><!--
                                                     </Grid.RowDefinitions>
                                                     <Image HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Source="{Binding Foto, 
                                                    Converter={StaticResource BinaryImageConverter}}" 
@@ -724,7 +1553,7 @@
                                                         <TextBlock Text="{Binding Apellido}" VerticalAlignment="Center"
                                                        TextWrapping="Wrap" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
                                                     </StackPanel>
-                                                    <!--<Label Grid.Row="2">Hola</Label>-->
+                                                    --><!--<Label Grid.Row="2">Hola</Label>--><!--
                                                 </Grid>
                                             </StackPanel>
                                             <Border.InputBindings>
@@ -768,7 +1597,7 @@
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition Height="80"/>
                                                             <RowDefinition  Height="Auto"/>
-                                                            <!--<RowDefinition  Height="Auto"/>-->
+                                                            --><!--<RowDefinition  Height="Auto"/>--><!--
                                                         </Grid.RowDefinitions>
                                                         <Image HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Source="{Binding Foto, 
                                                        Converter={StaticResource BinaryImageConverter}}" 
@@ -786,7 +1615,7 @@
                                                             <TextBlock Text="{Binding Apellido}" VerticalAlignment="Center"
                                                            TextWrapping="Wrap" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
                                                         </StackPanel>
-                                                        <!--<Label Grid.Row="2">Hola</Label>-->
+                                                        --><!--<Label Grid.Row="2">Hola</Label>--><!--
                                                     </Grid>
                                                 </StackPanel>
 
@@ -797,7 +1626,7 @@
 
                                                 </Border.InputBindings>
                                             </Border>
-                                            <!--<Label Grid.Row="1">Jose</Label>-->
+                                            --><!--<Label Grid.Row="1">Jose</Label>--><!--
                                             <Label x:Name="_EscogerCooperante" Height="35" Grid.Row="1"
                                                 Content="Escoger otro Cooperante"  
                                                 MouseLeftButtonDown="Label_EscogerCooperante"
@@ -807,8 +1636,8 @@
                                                         <Setter Property="Foreground" Value="Black" />
                                                         <Setter Property="FontSize" Value="14" />
                                                         <Setter Property="Background" Value="White"/>
-                                                        <!--<Setter Property="BorderBrush" Value="Black"/>
-                                                <Setter Property="BorderThickness" Value="3,3,0,3" />-->
+                                                        --><!--<Setter Property="BorderBrush" Value="Black"/>
+                                                <Setter Property="BorderThickness" Value="3,3,0,3" />--><!--
                                                         <Style.Triggers>
                                                             <Trigger Property="IsMouseOver" Value="True">
                                                                 <Setter Property="Cursor" Value="Hand" />
@@ -817,16 +1646,16 @@
                                                     </Style>
                                                 </Label.Style>
                                             </Label>
-                                            <!--<Border Grid.Row="1" BorderBrush="Green" BorderThickness="3" Background="Beige" Padding="4"
+                                            --><!--<Border Grid.Row="1" BorderBrush="Green" BorderThickness="3" Background="Beige" Padding="4"
                                                 CornerRadius="3" Margin="20">
                                         
-                                    </Border>-->
+                                    </Border>--><!--
                                         </Grid>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
 
-                            <!--<ItemsControl x:Name="CooperanteSeleccionado" ItemsSource="{Binding ListaParcialCooperantes}" 
+                            --><!--<ItemsControl x:Name="CooperanteSeleccionado" ItemsSource="{Binding ListaParcialCooperantes}" 
                                   Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding VisibleCooperanteSeleccionado, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
                         <ItemsControl.Template>
@@ -919,7 +1748,7 @@
 
 
 
-                            <!--<Label Grid.Row="0">Zona Datos cooperantes</Label>-->
+                            <!--<Label Grid.Row="0">Zona Datos cooperantes</Label>--><!--
 
                             <Border Grid.Column="1" Margin="10,0,10,0" BorderBrush="Black"  Background="Beige" BorderThickness="1,1,1,1" Visibility="{Binding VisibleDatosCooperanteSeleccionado, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
@@ -961,7 +1790,7 @@
                                             <Label x:Name="_ZonaAzul2Label" Height="35" Background="#0079F7"  
                                            BorderBrush="Black" BorderThickness="0,0,3,0"></Label>
 
-                                            <!--</Border>-->
+                                            --><!--</Border>--><!--
                                             <Label x:Name="_DatosDNILabel" Height="35" Margin="10,0,0,0"  Background="#0079F7"  BorderBrush="Black" BorderThickness="0,0,3,0"  Content="Datos DNI" Foreground="White" 
                                                FontSize="14" HorizontalContentAlignment="Center"
                                                MouseLeftButtonDown="Label_DatosDNI">
@@ -1072,7 +1901,7 @@
 
                                             </StackPanel>
                                         </Border>
-                                        <!-- Border Para Poner la lista de actividades -->
+                                        --><!-- Border Para Poner la lista de actividades --><!--
                                         <Border BorderBrush="Black"  Background="White" BorderThickness="0,1,1,1" Visibility="{Binding VisibleListaActividadesCooperante, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}"
                                              Grid.Column="1" Grid.Row="0">
@@ -1206,7 +2035,7 @@
                                             </StackPanel>
                                         </Border>
 
-                                        <!--<Border BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
+                                        --><!--<Border BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
                                             CornerRadius="3" Grid.Column="0" Grid.Row="0"
                                             Margin="5">
                                 <Border.Effect>
@@ -1225,10 +2054,10 @@
                                 <StackPanel >
 
                                 </StackPanel>
-                            </Border>-->
+                            </Border>--><!--
                                     </Grid>
 
-                                    <!--<Grid>
+                                    --><!--<Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
@@ -1447,7 +2276,7 @@
                                 <Button Content="Guardar" Command="{Binding AceptarCommand}"  Margin="{StaticResource Margin}"/>
                                 <Button Content=" Editar" Command="{Binding CancelarCommand}"  Margin="{StaticResource Margin}"/>
                             </StackPanel>
-                        </Grid>-->
+                        </Grid>--><!--
                                 </StackPanel>
                             </Border>
                             <Border Grid.Column="1" Margin="10,0,10,0"  Background="White" Visibility="{Binding VisibleImagenSeleccionCooperante, 
@@ -1461,18 +2290,18 @@
                                     </Label>
                                 </StackPanel>
                             </Border>
-                            <!--<Label Grid.Row="2" HorizontalAlignment="Center">Seleccione un Cooperante</Label>-->
+                            --><!--<Label Grid.Row="2" HorizontalAlignment="Center">Seleccione un Cooperante</Label>--><!--
                         </Grid>
                     </StackPanel>
                 </Grid>
-            </Border>
+            </Border>--><!--
         </Grid>
-    </Grid>
+    </Grid>-->
 
 
 
 
-    <!--Anterior vista de Actividades-->
+    <!--Version 1 de Vista de Actividades-->
     <!--<Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="*" MinHeight="200" MaxHeight="300"/>

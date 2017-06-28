@@ -155,6 +155,9 @@ namespace Gama.Cooperacion.Wpf
         private void RegisterViews()
         {
             Container.RegisterType<object, ActividadesContentView>("ActividadesContentView");
+            Container.RegisterType<object, CooperanteView>("CooperanteView");
+            Container.RegisterType<object, ListarActividadesDataGridView>("ListarActividadesDataGridView");
+            Container.RegisterType<object, CalendarioActividadesView>("CalendarioActividadesView");
             Container.RegisterType<object, DashboardView>("DashboardView");
             Container.RegisterType<object, EditarActividadView>("EditarActividadView");
             Container.RegisterType<object, InformacionDeActividadView>("InformacionDeActividadView");
@@ -168,6 +171,9 @@ namespace Gama.Cooperacion.Wpf
         private void RegisterViewModels()
         {
             Container.RegisterType<ActividadesContentViewModel>();
+            Container.RegisterType<CooperanteViewModel>();
+            Container.RegisterType<ListarActividadesDataGridViewModel>();
+            Container.RegisterType<CalendarioActividadesViewModel>();
             Container.RegisterType<DashboardViewModel>();
             Container.RegisterType<EditarActividadViewModel>();
             Container.RegisterType<InformacionDeActividadViewModel>();
@@ -186,6 +192,7 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterType<ICooperanteRepository, CooperanteRepository>();
             Container.RegisterType<IForoRepository, ForoRepository>();
             Container.RegisterType<ITareaRepository, TareaRepository>();
+            Container.RegisterType<IEventoRepository, EventoRepository>();
             // Añido para eventos
             //Container.RegisterType<IEventoRepository, EventoRepository>();
             //Container.RegisterType<IIncidenciaRepository, IncidenciaRepository>();
@@ -276,8 +283,13 @@ namespace Gama.Cooperacion.Wpf
             //RegionManager.AddToRegion(RegionNames.ActividadesTabContentRegion, new ListadoDeActividadesView());
             //RegionManager.RequestNavigate(RegionNames.ActividadesTabContentRegion, "ListadoDeActividadesView");
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
+            //RegionManager.RequestNavigate(RegionNames.ContentRegion, "CooperanteView");
+            RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<CooperanteView>());
+            RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<ListarActividadesDataGridView>());
+            RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<CalendarioActividadesView>());
             RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<ActividadesContentView>());
             RegionManager.AddToRegion(RegionNames.ActividadesTabContentRegion, Container.Resolve<ListadoDeActividadesView>());
+
         }
         public ObservableCollection<Actividad> ListaCompletaActividades { get; private set; }
     }

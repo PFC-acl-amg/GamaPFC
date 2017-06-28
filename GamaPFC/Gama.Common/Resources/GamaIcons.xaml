@@ -7,5 +7,7 @@
   <BitmapImage x:Key="IconoGraficas" UriSource="/Gama.Common;component/Resources/Images/icono_graficas.png"/>
   <BitmapImage x:Key="IconoExportar" UriSource="/Gama.Common;component/Resources/Images/icono_exportar.png"/>
   <BitmapImage x:Key="IconoDedoAcusador" UriSource="/Gama.Common;component/Resources/Images/DedoAcusador.jpg"/>
+    <BitmapImage x:Key="IconoLines" UriSource="/Gama.Common;component/Resources/Images/lines.png"/>
   <BitmapImage x:Key="IconoDeBackup" UriSource="/Gama.Common;component/Resources/Images/backup icon.png"/>
+  
 </ResourceDictionary>

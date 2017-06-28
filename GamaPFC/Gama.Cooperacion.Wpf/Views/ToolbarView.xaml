@@ -4,15 +4,19 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
   xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
   xmlns:prism="http://prismlibrary.com/"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
   prism:ViewModelLocator.AutoWireViewModel="True"
-  mc:Ignorable="d" d:DesignWidth="401" d:DesignHeight="58.424">
-  <UserControl.Resources>
+     mc:Ignorable="d" d:DesignHeight="76.452" d:DesignWidth="377.055">
+ 
+  <!--<UserControl.Resources>
     <SolidColorBrush x:Key="AccentColor" Color="{StaticResource AccentColor}"/>
-  </UserControl.Resources>
-  <Grid>
+  </UserControl.Resources>-->
+  <!--<Grid>
     <Border BorderBrush="{StaticResource AccentColor}" BorderThickness="0" CornerRadius="5">
     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
       <Rectangle Margin="{StaticResource MarginNoBottom}" Width="27" Height="27" HorizontalAlignment="Center">
@@ -33,5 +37,50 @@
       </i:Interaction.Triggers>
     </StackPanel>
     </Border>
-  </Grid>
+  </Grid>-->
+
+    <UserControl.Resources>
+        <sys:Double x:Key="_NavigationIconSize">11</sys:Double>
+        <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+            <Setter Property="Opacity" Value="0.8"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Background" Value="#E7EBFF"/>
+            <Setter Property="Width" Value="38"/>
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="IconWidth" Value="{StaticResource _NavigationIconSize}"/>
+            <Setter Property="IconHeight" Value="{StaticResource _NavigationIconSize}"/>
+            <Setter Property="Margin" Value="4,0,4,0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Background="#EE959595" Margin="0,4,4,0">
+        <cc:CircleIconButton 
+            Command="{Binding NuevaActividadCommand}"
+            Icon="{StaticResource appbar_text_size_plus}" 
+            ToolTip="Nueva Actividad"/>
+
+        <cc:CircleIconButton 
+            Command="{Binding NuevoCooperanteCommand}"
+            Icon="{StaticResource appbar_user_add}" 
+            ToolTip="Nuevo Cooperante"/>
+
+        <cc:CircleIconButton 
+            Command="{Binding ExportarCommand}"
+            Icon="{StaticResource appbar_archive}" 
+            ToolTip="Exportar..."/>
+        <cc:CircleIconButton 
+            Command="{Binding HacerBackupCommand}"
+            Icon="{StaticResource appbar_database_sql}" 
+            ToolTip="Hacer copia de seguridad"/>
+        <cc:CircleIconButton 
+            Command="{Binding HacerRestoreCommand}"
+            Icon="{StaticResource appbar_reset}" 
+            ToolTip="Restaurar copia de seguridad..."/>
+    </StackPanel>
 </UserControl>

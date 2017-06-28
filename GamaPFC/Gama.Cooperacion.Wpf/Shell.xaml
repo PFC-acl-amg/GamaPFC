@@ -93,12 +93,12 @@
 
 
     <!-- Panel Switcher -->
-    <ContentControl Grid.Row="0" Grid.Column="0" Margin="0"
+    <ContentControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0"
                     prism:RegionManager.RegionName="{x:Static common:RegionNames.PanelSwitcherRegion}" />
 
     <!-- Cuadro de búsqueda -->
-    <ContentControl Grid.Row="0" Grid.Column="1" Margin="0"
-                    prism:RegionManager.RegionName="{x:Static common:RegionNames.SearchBoxRegion}"  />
+    <!--<ContentControl Grid.Row="0" Grid.Column="1" Margin="0"
+                    prism:RegionManager.RegionName="{x:Static common:RegionNames.SearchBoxRegion}"  />-->
 
     <!-- Toolbar -->
     <ContentControl Grid.Row="0" Grid.Column="2" Margin="0"

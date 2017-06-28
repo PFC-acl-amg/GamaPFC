@@ -6,10 +6,11 @@
              xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-             d:DesignHeight="61.644" d:DesignWidth="300">
-  <Grid>
-    <StackPanel Orientation="Horizontal">
+             d:DesignHeight="35" d:DesignWidth="779.132">
+  <!--<Grid>
+    --><!--<StackPanel Orientation="Horizontal">
       <Button Background="Transparent" BorderThickness="0"
             Command="{Binding NavigateCommand}"
               CommandParameter="DashboardView">
@@ -29,6 +30,137 @@
           <Image Source="{StaticResource IconoGraficas}" Height="{StaticResource NavigationIconSize}"/>
         </StackPanel>
       </Button>
-    </StackPanel>
-  </Grid>
+    </StackPanel>--><!--
+  </Grid>-->
+
+    <UserControl.Resources>
+        <Style TargetType="controls:Tile" x:Key="_EstiloDeTitulosStyle">
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Foreground" Value="#F4F2F2"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="VerticalTitleAlignment" Value="Center"/>
+            <Setter Property="HorizontalTitleAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+        </Style>
+        <Style TargetType="Label" x:Key="_EstiloLabel">
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Foreground" Value="#F4F2F2"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </UserControl.Resources>
+    <Grid Background="#EE959595" Margin="4,4,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <!-- Dashboard -->
+            <controls:Tile
+                Title="Dashboard"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="DashboardView">
+                <controls:Tile.Style>
+                    <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Foreground" Value="Red" />
+                            </Trigger>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="DashboardView">
+                                <Setter Property="Foreground" Value="#275B6D"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:Tile.Style>
+            </controls:Tile>
+            <!-- Actividades -->
+            <controls:Tile
+                Title="Actividades"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="ActividadesContentView">
+                <controls:Tile.Style>
+                    <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Foreground" Value="Red" />
+                            </Trigger>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="ActividadesContentView">
+                                <Setter Property="Foreground" Value="#275B6D"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:Tile.Style>
+            </controls:Tile>
+            <!-- Cooperantes -->
+            <controls:Tile 
+                Title=" Cooperantes"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="CooperanteView">
+                <controls:Tile.Style>
+                    <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Foreground" Value="Red" />
+                            </Trigger>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="CooperanteView">
+                                <Setter Property="Foreground" Value="#275B6D"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:Tile.Style>
+            </controls:Tile>
+            <!-- Calendario -->
+            <controls:Tile 
+                Title="Calendario"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="CalendarioActividadesView">
+                <controls:Tile.Style>
+                    <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Foreground" Value="Red" />
+                            </Trigger>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="CalendarioActividadesView">
+                                <Setter Property="Foreground" Value="#275B6D"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:Tile.Style>
+            </controls:Tile>
+            <!-- Gráficas -->
+            <controls:Tile 
+                Title="Gráficas"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="GraficasContentView">
+                <controls:Tile.Style>
+                    <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Foreground" Value="Red" />
+                            </Trigger>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="GraficasContentView">
+                                <Setter Property="Foreground" Value="#275B6D"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:Tile.Style>
+            </controls:Tile>
+        </StackPanel>
+    </Grid>
+
+
+
 </UserControl>

@@ -1,4 +1,5 @@
 ﻿using Core;
+using Gama.Common;
 using Gama.Common.CustomControls;
 using Gama.Cooperacion.Business;
 using Gama.Cooperacion.Wpf.Eventos;
@@ -10,6 +11,7 @@ using LiveCharts.Wpf;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,8 +22,16 @@ using System.Windows.Input;
 
 namespace Gama.Cooperacion.Wpf.ViewModels
 {
+    public static class ActividadesOpciones
+    {
+        public static string SeleccionParaListar = "None";
+        public static List<bool> CheckBoxSeleccionados;
+        public static List<bool> CheckBoxMeses;
+    }
+    
     public class DashboardViewModel : ViewModelBase
     {
+        private IRegionManager _regionManager;
         private IActividadRepository _actividadRepository;
         private IEventAggregator _eventAggregator;
         private ICooperanteRepository _cooperanteRepository;
@@ -42,39 +52,65 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private bool _VisibleListaTodosCooperantes;
         private bool _VisibleImagenSeleccionCooperante;
         private bool _VisibleDatosCooperanteSeleccionado;
+        private bool _VisibleOpcionesActividades;
         private int _EnCursoCount;
         private int _NoComenzado;
         private int _Finalizado;
         private int _ProximasFinalizaciones;
         private int _FueraPlazo;
+        private bool _FueraPlazoSeleccionado;
+        private bool _FinalizadasSeleccionadas;
         private int _IdActividad;
         private bool _VisibleInfoAct;
         private bool _VisibleAviso;
         private DateTime _FechaInicioActividad;
         private DateTime _FechaFinalActividad;
         private string _NombreCoordinador;
-        private string _ApellidoCoordinador;
+        private int _ApellidoCoordinador;
         private string _MensajeAviso;
-        private int _NumeroDias;
-
+        private int _OpcionYear;
+        private bool _EnCursoSeleccionado;
+        private bool _PorComenzarSeleccionado;
+        private bool _ProximasFechasSeleccionado;
+        private bool _Enero;
+        private bool _Febrero;
+        private bool _Marzo;
+        private bool _Abril;
+        private bool _Mayo;
+        private bool _Junio;
+        private bool _Julio;
+        private bool _Agosto;
+        private bool _Septiembre;
+        private bool _Octubre;
+        private bool _Noviembre;
+        private bool _Diciembre;
+        private IEventoRepository _EventoRepository;
+        private bool _VisibleOpcionesListar;
+        private List<Evento> _Evento;
 
         private readonly int itemCount;
 
         public DashboardViewModel(
+            IRegionManager regionManager,
             IActividadRepository actividadRepository,
             ICooperanteRepository cooperanteRepository,
+            IEventoRepository eventoRepository,
             IEventAggregator eventAggregator, 
             ICooperacionSettings settings,
             ISession session)
         {
+            _regionManager = regionManager;
             _actividadRepository = actividadRepository;
             _cooperanteRepository = cooperanteRepository;
+            _EventoRepository = eventoRepository;
             _actividadRepository.Session = session;
             _cooperanteRepository.Session = session;
+            _EventoRepository.Session = session;
             _eventAggregator = eventAggregator;
             _settings = settings;
             _CooperantesMostrados = 0;
 
+            _VisibleOpcionesListar = false;
             _VisibleInfoAct = false;
             _VisibleListaActividades = true;
             _VisibleListaCooperantes = false;
@@ -86,7 +122,18 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _VisibleListaTodosCooperantes = false;
             _VisibleImagenSeleccionCooperante = true;
             _VisibleDatosCooperanteSeleccionado = false;
+            _VisibleOpcionesActividades = false;
+            _EnCursoSeleccionado = true;
+            _PorComenzarSeleccionado = true;
+            _ProximasFechasSeleccionado = true;
+            _FueraPlazoSeleccionado = true;
+            _FinalizadasSeleccionadas = true;
+
+            ActividadesOpciones.CheckBoxSeleccionados = new List<bool>();
+            ActividadesOpciones.CheckBoxMeses = new List<bool>();
+            _Evento = new List<Evento>();
             _IdActividad = 100;
+            _OpcionYear = DateTime.Today.Year;
             _EnCursoCount = ColeccionEstadosActividades.EstadosActividades["Comenzado"];
             _NoComenzado = ColeccionEstadosActividades.EstadosActividades["NoComenzado"];
             _FueraPlazo = ColeccionEstadosActividades.EstadosActividades["FueraPlazo"];
@@ -100,8 +147,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 this.Items.Add(new Item("Thi is item number " + i));
             }
+            EventoActividad = new ObservableCollection<Evento>(_EventoRepository.GetAll());
+            EventosFiltrados = new ObservableCollection<Evento>(_EventoRepository.GetAll());
             //Where(x => x.Id == obj.Id).FirstOrDefault();
             ListaCompletaActividades = new ObservableCollection<Actividad>(_actividadRepository.GetAll());
+            ListaParcialActividades = new ObservableCollection<Actividad>(_actividadRepository.GetAll());
             ListaDeActividades = new ObservableCollection<LookupItem>(
                 _actividadRepository.GetAll()
                     .Where(a=> a.Estado == Estado.Comenzado)
@@ -163,6 +213,15 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             ActividadesActividadesActivasCommand = new DelegateCommand(OnActividadesActividadesActivasCommandExecute);
             InfoActividadCommand = new DelegateCommand<object>(OnInfoActividadCommandExecute);
             InfoActividadCommand2 = new DelegateCommand<object>(OnInfoActividadCommand2Execute);
+            ListarActividadesCommand = new DelegateCommand(OnListarActividadesCommandExecute);
+            BotonListarTodoCommand = new DelegateCommand<string>(OnBotonListarTodoCommandExecute);
+            VerFiltroCommand = new DelegateCommand(OnVerFiltroCommandExecute);
+            ResetearCheckBoxCommand = new DelegateCommand(OnResetearCheckBoxCommandExecute);
+            BotonFiltarEventosCommand = new DelegateCommand(OnBotonFiltarEventosCommandExecute);
+            ResetearFechaEventosCommand = new DelegateCommand(OnResetearFechaEventosCommandExecute);
+            EditarActividadCommand = new DelegateCommand<object>(OnEditarActividadCommandExecute);
+            EventoSelectActividadCommand = new DelegateCommand<object>(OnEventoSelectActividadCommandExecute);
+            
 
         }
         
@@ -193,7 +252,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 FechaInicioActividad = Act.FechaDeInicio;
                 FechaFinalActividad = Act.FechaDeFin;
                 NombreCoordinador = Coord.Nombre;
-                ApellidoCoordinador = Coord.Apellido;
+                ApellidoCoordinador = Coord.Id;
                 VisibleInfoAct = true;
                 var FechaHoy = new DateTime();
                 FechaHoy = DateTime.Today;
@@ -203,15 +262,14 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     var NumDias = (Act.FechaDeFin - FechaHoy);
                     VisibleAviso = true;
                     MensajeAviso = "Dias de Retraso";
-                    NumeroDias = -1*(NumDias.Days);
+                    //NumeroDias = -1*(NumDias.Days);
                 }
             }
         }
         private void OnInfoActividadCommand2Execute(object param)
         {
-           
-                VisibleInfoAct = false;
-               
+            VisibleInfoAct = false;
+            VisibleAviso = false;
         }
         private void OnListaCooperantesCommandExecute()
         {
@@ -271,13 +329,17 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 SetProperty(ref _CooperanteSeleccionado, value);
             }
-        }
+        }//Copiado
         public ObservableCollection<Actividad> ListaCompletaActividades { get; private set; }
+        public ObservableCollection<Actividad> ListaParcialActividades { get; private set; }
         public ObservableCollection<LookupItem> ListaDeActividades { get; private set; }
         public ObservableCollection<LookupItem> ListaDeActividadesCooperante { get; private set; }
         public ObservableCollection<LookupItem> ListaDeActividadesCoordina { get; private set; }
         public ObservableCollection<Cooperante> ListaCooperantes { get; private set; }
         public ObservableCollection<Cooperante> ListaParcialCooperantes { get; private set; }
+        public ObservableCollection<Evento> EventoActividad { get; private set; }
+        public ObservableCollection<Evento> EventosFiltrados { get; private set; }
+        
 
         public ChartValues<int> ActividadesNuevasPorMes { get; private set; }
         public ChartValues<int> CooperantesNuevosPorMes { get; private set; }
@@ -307,7 +369,211 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand ActividadesActividadesActivasCommand { get; set; }
         public ICommand InfoActividadCommand { get; set; }
         public ICommand InfoActividadCommand2 { get; set; }
+        public ICommand ListarActividadesCommand { get; set; }
+        public ICommand BotonListarTodoCommand { get; set; }
+        public ICommand VerFiltroCommand { get; set; }
+        public ICommand ResetearCheckBoxCommand { get; set; }
+        public ICommand BotonFiltarEventosCommand { get; set; }
+        public ICommand ResetearFechaEventosCommand { get; set; }
+        public ICommand EditarActividadCommand { get; set; }
+        public ICommand EventoSelectActividadCommand { get; set; }
 
+        private void OnEventoSelectActividadCommandExecute(object param)
+        {
+            var lookup = param as Evento;
+
+            if (lookup != null) _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish(lookup.Actividad.Id);
+        }
+        private void OnEditarActividadCommandExecute(object param)
+        {
+            //var o = new CrearNuevoForo();
+            //var vm = (CrearNuevoForoViewModel)o.DataContext;
+            //vm.Session = _Session;
+            //vm.Load(Actividad);
+            //o.ShowDialog();
+            var lookup = param as Actividad;
+            var o = new NuevaActividadView();
+            var vm = (NuevaActividadViewModel)o.DataContext;
+            
+            vm.Load(lookup);
+            o.Title = "Editar Actividad";
+             o.ShowDialog();
+        }
+        private void OnResetearFechaEventosCommandExecute()
+        {
+            FechaInicioOpcion = null;
+            FechaFinOpcion = null;
+            EventoActividad.Clear();
+            foreach(var Event in EventosFiltrados)
+            {
+                EventoActividad.Add(Event);
+            }
+        }
+
+        private void OnBotonFiltarEventosCommandExecute()
+        {
+            DateTime? Inicio = FechaInicioOpcion;
+            DateTime? Final = FechaFinOpcion;
+            _Evento.Clear();
+            if ((Inicio != null) && (Final == null))
+            {
+                foreach (var EventoSel in EventoActividad)
+                {
+                    if (EventoSel.FechaDePublicacion.Date == Inicio)
+                    {
+                        _Evento.Add(EventoSel);
+                    } 
+                }
+                EventoActividad.Clear();
+                foreach(var EventoValido in _Evento)
+                {
+                    EventoActividad.Add(EventoValido);
+                }
+            }
+            else
+            {
+                if ((Inicio != null) && (Final != null))
+                {
+                    foreach (var EventoSel in EventoActividad)
+                    {
+                        if ((EventoSel.FechaDePublicacion.Date >= Inicio)&& (EventoSel.FechaDePublicacion.Date <= Final))
+                        {
+                            _Evento.Add(EventoSel);
+                        }
+                    }
+                    EventoActividad.Clear();
+                    foreach (var EventoValido in _Evento)
+                    {
+                        EventoActividad.Add(EventoValido);
+                    }
+                }
+            }
+        }
+        private void OnResetearCheckBoxCommandExecute()
+        {
+            Enero = false;
+            Febrero = false;
+            Marzo = false;
+            Abril = false;
+            Mayo = false;
+            Junio = false;
+            Julio = false;
+            Agosto = false;
+            Septiembre = false;
+            Octubre = false;
+            Noviembre = false;
+            Diciembre = false;
+            EnCursoSeleccionado = true;
+            PorComenzarSeleccionado = true;
+            ProximasFechasSeleccionado = true;
+            FueraPlazoSeleccionado = true;
+            FinalizadasSeleccionado = true;
+            OpcionYear = DateTime.Today.Year;
+        }
+
+        private void OnVerFiltroCommandExecute()
+        {
+            if (VisibleOpcionesListar == false) VisibleOpcionesListar = true;
+            else VisibleOpcionesListar = false;
+        }
+        private void OnListarActividadesCommandExecute() // Mostrar el GroupBox de Opciones
+        {
+            if (VisibleOpcionesActividades == false) VisibleOpcionesActividades = true;
+            else VisibleOpcionesActividades = false;
+        }
+        private void OnBotonListarTodoCommandExecute(string AListar)    // Pulsado el boton de listar todo
+        {
+            //_regionManager.RequestNavigate(RegionNames.ContentRegion, "ListarActividadesDataGridView");
+            ActividadesOpciones.CheckBoxSeleccionados.Clear();
+            ActividadesOpciones.CheckBoxMeses.Clear();
+            ListaParcialActividades.Clear();
+            if (EnCursoSeleccionado == true) ActividadesOpciones.CheckBoxSeleccionados.Add(true);
+            else ActividadesOpciones.CheckBoxSeleccionados.Add(false);
+            if (PorComenzarSeleccionado == true) ActividadesOpciones.CheckBoxSeleccionados.Add(true);
+            else ActividadesOpciones.CheckBoxSeleccionados.Add(false);
+            if (ProximasFechasSeleccionado == true) ActividadesOpciones.CheckBoxSeleccionados.Add(true);
+            else ActividadesOpciones.CheckBoxSeleccionados.Add(false);
+            if (FueraPlazoSeleccionado == true) ActividadesOpciones.CheckBoxSeleccionados.Add(true);
+            else ActividadesOpciones.CheckBoxSeleccionados.Add(false);
+            if (FinalizadasSeleccionado == true) ActividadesOpciones.CheckBoxSeleccionados.Add(true);
+            else ActividadesOpciones.CheckBoxSeleccionados.Add(false);
+            if (Enero == true) ActividadesOpciones.CheckBoxMeses.Add(true);
+            else ActividadesOpciones.CheckBoxMeses.Add(false);
+            if (Febrero == true) ActividadesOpciones.CheckBoxMeses.Add(true);
+            else ActividadesOpciones.CheckBoxMeses.Add(false);
+            if (Marzo == true) ActividadesOpciones.CheckBoxMeses.Add(true);
+            else ActividadesOpciones.CheckBoxMeses.Add(false);
+            if (Abril == true) ActividadesOpciones.CheckBoxMeses.Add(true);
+            else ActividadesOpciones.CheckBoxMeses.Add(false);
+            if (Mayo == true) ActividadesOpciones.CheckBoxMeses.Add(true);
+            else ActividadesOpciones.CheckBoxMeses.Add(false);
+            if (Junio == true) ActividadesOpciones.CheckBoxMeses.Add(true);
+            else ActividadesOpciones.CheckBoxMeses.Add(false);
+            if (Julio == true) ActividadesOpciones.CheckBoxMeses.Add(true);
+            else ActividadesOpciones.CheckBoxMeses.Add(false);
+            if (Agosto == true) ActividadesOpciones.CheckBoxMeses.Add(true);
+            else ActividadesOpciones.CheckBoxMeses.Add(false);
+            if (Septiembre == true) ActividadesOpciones.CheckBoxMeses.Add(true);
+            else ActividadesOpciones.CheckBoxMeses.Add(false);
+            if (Octubre == true) ActividadesOpciones.CheckBoxMeses.Add(true);
+            else ActividadesOpciones.CheckBoxMeses.Add(false);
+            if (Noviembre == true) ActividadesOpciones.CheckBoxMeses.Add(true);
+            else ActividadesOpciones.CheckBoxMeses.Add(false);
+            if (Diciembre == true) ActividadesOpciones.CheckBoxMeses.Add(true);
+            else ActividadesOpciones.CheckBoxMeses.Add(false);
+            string EstadosSeleccionados = "";
+            int MesSelecionado = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                if ((ActividadesOpciones.CheckBoxSeleccionados[i] == true) && i == 0) EstadosSeleccionados = "Comenzado";
+                if ((ActividadesOpciones.CheckBoxSeleccionados[i] == true) && i == 1) EstadosSeleccionados = "NoComenzado";
+                if ((ActividadesOpciones.CheckBoxSeleccionados[i] == true) && i == 2) EstadosSeleccionados = "ProximasFinalizaciones";
+                if ((ActividadesOpciones.CheckBoxSeleccionados[i] == true) && i == 3) EstadosSeleccionados = "FueraPlazo";
+                if ((ActividadesOpciones.CheckBoxSeleccionados[i] == true) && i == 4) EstadosSeleccionados = "Finalizado";
+                if (EstadosSeleccionados != "")
+                {
+                    foreach (var ActividadSeleccionada in ListaCompletaActividades)
+                    {
+                        if (ActividadSeleccionada.Estado.ToString() == EstadosSeleccionados)  // Si  esta seleccionadose anade de ListaParcialActividades
+                        {
+                            // Antes de añadirlo se comprueba si se filtra por algun mes
+                            for (int j = 0; j < 11; j++)
+                            {
+                                if ((ActividadesOpciones.CheckBoxMeses[j] == true) && j == 0) MesSelecionado = 1;
+                                if ((ActividadesOpciones.CheckBoxMeses[j] == true) && j == 1) MesSelecionado = 2;
+                                if ((ActividadesOpciones.CheckBoxMeses[j] == true) && j == 2) MesSelecionado = 3;
+                                if ((ActividadesOpciones.CheckBoxMeses[j] == true) && j == 3) MesSelecionado = 4;
+                                if ((ActividadesOpciones.CheckBoxMeses[j] == true) && j == 4) MesSelecionado = 5;
+                                if ((ActividadesOpciones.CheckBoxMeses[j] == true) && j == 5) MesSelecionado = 6;
+                                if ((ActividadesOpciones.CheckBoxMeses[j] == true) && j == 6) MesSelecionado = 7;
+                                if ((ActividadesOpciones.CheckBoxMeses[j] == true) && j == 7) MesSelecionado = 8;
+                                if ((ActividadesOpciones.CheckBoxMeses[j] == true) && j == 8) MesSelecionado = 9;
+                                if ((ActividadesOpciones.CheckBoxMeses[j] == true) && j == 9) MesSelecionado = 10;
+                                if ((ActividadesOpciones.CheckBoxMeses[j] == true) && j == 10) MesSelecionado = 11;
+                                if ((ActividadesOpciones.CheckBoxMeses[j] == true) && j == 11) MesSelecionado = 12;
+                                if (ActividadSeleccionada.FechaDeFin.Month == MesSelecionado)
+                                {
+                                    ListaParcialActividades.Add(ActividadSeleccionada);
+                                    var Coord = _cooperanteRepository.GetById(ActividadSeleccionada.Coordinador.Id);
+                                    string NombreCompleto = Coord.Nombre + Coord.Apellido;
+                                    j = 0;
+                                    break;
+                                }
+                            }
+                            if (MesSelecionado == 0) // AL salirdel for no hay mes seleccionado se muestra la actividad
+                            {
+                                ListaParcialActividades.Add(ActividadSeleccionada);
+                                var Coord = _cooperanteRepository.GetById(ActividadSeleccionada.Coordinador.Id);
+                                string NombreCompleto = Coord.Nombre + Coord.Apellido;
+                            }
+                           
+                        }
+                    }
+                    EstadosSeleccionados = "";
+                    MesSelecionado = 0;
+                }
+            }
+        }
         private void OnActividadesActividadesActivasCommandExecute()
         {
             ListaDeActividades.Clear();
@@ -412,35 +678,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnPaginaSiguienteCommandExecute()
         {
-            int indiceSuperior;
-            int indiceInferior = _CooperantesMostrados;
-            if (indiceInferior <= ListaCooperantes.Count)
-            {
-                if (_CooperantesMostrados + 4 > ListaCooperantes.Count) indiceSuperior = ListaCooperantes.Count;
-                else indiceSuperior = _CooperantesMostrados + 4;
-                _CooperantesMostrados = _CooperantesMostrados + 4;
-                ListaParcialCooperantes.Clear();
-                for (int i = indiceInferior; i < indiceSuperior; i++)
-                {
-                    ListaParcialCooperantes.Add(ListaCooperantes[i]);
-                }
-            }
+            OpcionYear = OpcionYear + 1;
         }
         private void OnPaginaAnteriorCommandExecute()
         {
-            int indiceSuperior;
-            int indiceInferior = _CooperantesMostrados-8;
-            if (indiceInferior >= 0)
-            {
-                if (_CooperantesMostrados - 4 > 0) indiceSuperior = _CooperantesMostrados-4;
-                else indiceSuperior = _CooperantesMostrados - 4;
-                _CooperantesMostrados = _CooperantesMostrados - 4;
-                ListaParcialCooperantes.Clear();
-                for (int i = indiceInferior; i < indiceSuperior; i++)
-                {
-                    ListaParcialCooperantes.Add(ListaCooperantes[i]);
-                }
-            }
+            OpcionYear = OpcionYear - 1;
         }
         private void InicializarGraficos()
         {
@@ -503,7 +745,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnSelectActividadCommand(object param)
         {
-            var lookup = param as LookupItem;
+            //var lookup = param as LookupItem;
+            var lookup = param as Actividad;
+
             if (lookup != null)  _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish(lookup.Id);
 
         }
@@ -511,25 +755,19 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private void OnNuevaActividadEvent(int id)
         {
             var actividad = _actividadRepository.GetById(id);
-            var lookupItem = new LookupItem
-            {
-                Id = actividad.Id,
-                DisplayMember1 = actividad.Titulo,
-            };
-            ListaDeActividades.Insert(0, lookupItem);
+            ListaParcialActividades.Add(actividad);
         }
+        
 
         private void OnActividadActualizadaEvent(int id)
         {
             var actividadActualizada = _actividadRepository.GetById(id);
-            if (ListaDeActividades.Any(a => a.Id == id))
+            if (ListaParcialActividades.Any(a => a.Id == id))
             {
-                var indice = ListaDeActividades.IndexOf(ListaDeActividades.Single(a => a.Id == id));
-                ListaDeActividades[indice] = new LookupItem
-                {
-                    Id = actividadActualizada.Id,
-                    DisplayMember1=actividadActualizada.Titulo
-                };
+                var indice = ListaParcialActividades.IndexOf(ListaParcialActividades.Single(a => a.Id == id));
+                ListaParcialActividades.RemoveAt(indice);
+                ListaParcialActividades.Insert(0,actividadActualizada);
+                
             }
         }
         public bool VisibleInfoAct
@@ -546,7 +784,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             get { return _VisibleListaActividadesCooperante; }
             set { SetProperty(ref _VisibleListaActividadesCooperante, value); }
-        }
+        }//Copiado
         public bool VisibleListaCooperantes
         {
             get { return _VisibleListaCooperantes; }
@@ -556,6 +794,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             get { return _VisibleDatosDNI; }
             set { SetProperty(ref _VisibleDatosDNI, value); }
+        }
+        public bool VisibleOpcionesListar
+        {
+            get { return _VisibleOpcionesListar; }
+            set { SetProperty(ref _VisibleOpcionesListar, value); }
         }
         public bool VisibleContacto
         {
@@ -571,26 +814,56 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             get { return _VisibleCooperanteSeleccionado; }
             set { SetProperty(ref _VisibleCooperanteSeleccionado, value); }
-        }
+        } // Copiado
         public bool VisibleAviso
         {
             get { return _VisibleAviso; }
             set { SetProperty(ref _VisibleAviso, value); }
         }
+        public bool EnCursoSeleccionado
+        {
+            get { return _EnCursoSeleccionado; }
+            set { SetProperty(ref _EnCursoSeleccionado, value); }
+        }
+        public bool PorComenzarSeleccionado
+        {
+            get { return _PorComenzarSeleccionado; }
+            set { SetProperty(ref _PorComenzarSeleccionado, value); }
+        }
+        public bool ProximasFechasSeleccionado
+        {
+            get { return _ProximasFechasSeleccionado; }
+            set { SetProperty(ref _ProximasFechasSeleccionado, value); }
+        }
+        public bool FueraPlazoSeleccionado
+        {
+            get { return _FueraPlazoSeleccionado; }
+            set { SetProperty(ref _FueraPlazoSeleccionado, value); }
+        }
+        public bool FinalizadasSeleccionado
+        {
+            get { return _FinalizadasSeleccionadas; }
+            set { SetProperty(ref _FinalizadasSeleccionadas, value); }
+        }
         public bool VisibleListaTodosCooperantes
         {
             get { return _VisibleListaTodosCooperantes; }
             set { SetProperty(ref _VisibleListaTodosCooperantes, value); }
-        }
+        }// copiado
         public bool VisibleImagenSeleccionCooperante
         {
             get { return _VisibleImagenSeleccionCooperante; }
             set { SetProperty(ref _VisibleImagenSeleccionCooperante, value); }
-        }
+        }// Copiado
         public bool VisibleDatosCooperanteSeleccionado
         {
             get { return _VisibleDatosCooperanteSeleccionado; }
             set { SetProperty(ref _VisibleDatosCooperanteSeleccionado, value); }
+        }
+            public bool VisibleOpcionesActividades
+        {
+            get { return _VisibleOpcionesActividades; }
+            set { SetProperty(ref _VisibleOpcionesActividades, value); }
         }
         public int EnCursoCount
         {
@@ -637,7 +910,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             get { return _NombreCoordinador; }
             set { SetProperty(ref _NombreCoordinador, value); }
         }
-        public string ApellidoCoordinador
+        public int ApellidoCoordinador
         {
             get { return _ApellidoCoordinador; }
             set { SetProperty(ref _ApellidoCoordinador, value); }
@@ -647,10 +920,100 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             get { return _MensajeAviso; }
             set { SetProperty(ref _MensajeAviso, value); }
         }
-        public int NumeroDias
+        public int OpcionYear
         {
-            get { return _NumeroDias; }
-            set { SetProperty(ref _NumeroDias, value); }
+            get { return _OpcionYear; }
+            set { SetProperty(ref _OpcionYear, value); }
+        }
+        public bool Enero
+        {
+            get { return _Enero; }
+            set { SetProperty(ref _Enero, value); }
+        }
+        public bool Febrero
+        {
+            get { return _Febrero; }
+            set { SetProperty(ref _Febrero, value); }
+        }
+        public bool Marzo
+        {
+            get { return _Marzo; }
+            set { SetProperty(ref _Marzo, value); }
+        }
+        public bool Abril
+        {
+            get { return _Abril; }
+            set { SetProperty(ref _Abril, value); }
+        }
+        public bool Mayo
+        {
+            get { return _Mayo; }
+            set { SetProperty(ref _Mayo, value); }
+        }
+        public bool Junio
+        {
+            get { return _Junio; }
+            set { SetProperty(ref _Junio, value); }
+        }
+        public bool Julio
+        {
+            get { return _Julio; }
+            set { SetProperty(ref _Julio, value); }
+        }
+        public bool Agosto
+        {
+            get { return _Agosto; }
+            set { SetProperty(ref _Agosto, value); }
+        }
+        public bool Septiembre
+        {
+            get { return _Septiembre; }
+            set { SetProperty(ref _Septiembre, value); }
+        }
+        public bool Octubre
+        {
+            get { return _Octubre; }
+            set { SetProperty(ref _Octubre, value); }
+        }
+        public bool Noviembre
+        {
+            get { return _Noviembre; }
+            set { SetProperty(ref _Noviembre, value); }
+        }
+        public bool Diciembre
+        {
+            get { return _Diciembre; }
+            set { SetProperty(ref _Diciembre, value); }
+        }
+        private DateTime? _FechaInicioOpcion;
+        public DateTime? FechaInicioOpcion
+        {
+            get { return _FechaInicioOpcion; }
+            set { SetProperty(ref _FechaInicioOpcion, value);}
+        }
+
+        private DateTime? _FechaFinOpcion;
+        public DateTime? FechaFinOpcion
+        {
+            get { return _FechaFinOpcion; }
+            set { SetProperty(ref _FechaFinOpcion, value);}
+        }
+        private void FiltrarPorFecha()
+        {
+            var fechaDeInicio = FechaInicioOpcion;
+            var fechaDeFin = FechaFinOpcion;
+            if ((fechaDeInicio != null) && (fechaDeFin == null)) // Listar solo lo del dia seleccionado
+            {
+                EventoActividad.Clear();
+                foreach (var EventoSel in EventosFiltrados)
+                {
+                    //int CompararFecha = DateTime.Compare((DateTime)fechaDeInicio, EventoSel.FechaDePublicacion); // Comprabando si comenzo el proyecto
+                    //if (CompararFecha == 0) EventoActividad.Add(EventoSel);
+                   
+                }
+            }
+            //EventoActividad.Clear();
+            //OnPropertyChanged(nameof(EventoActividad));
         }
     }
 }

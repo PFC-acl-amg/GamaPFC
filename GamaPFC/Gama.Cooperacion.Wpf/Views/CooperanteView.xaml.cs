@@ -16,104 +16,248 @@ using System.Windows.Shapes;
 
 namespace Gama.Cooperacion.Wpf.Views
 {
+    //Brush _SelectedBrush = Brushes.Black;
+    ////Brush _AzulPersonal  = (Brush) System.Windows.Media.BrushConverter().
+    //BrushConverter _ConverterColor;
+
+    //var converter = new System.Windows.Media.BrushConverter();
+    //var brush = (Brush)converter.ConvertFromString("#0079F7");
     /// <summary>
-    /// Interaction logic for DashboardView.xaml
+    /// Lógica de interacción para CooperanteView.xaml
     /// </summary>
-    public partial class DashboardView : UserControl
+    public partial class CooperanteView : UserControl
     {
-        Brush _SelectedBrush = Brushes.Black;
-        //Brush _AzulPersonal  = (Brush) System.Windows.Media.BrushConverter().
-        BrushConverter _ConverterColor;
-        
-        //var converter = new System.Windows.Media.BrushConverter();
-        //var brush = (Brush)converter.ConvertFromString("#0079F7");
-        public DashboardView()
+        public CooperanteView()
         {
             InitializeComponent();
-            
         }
-        public Brush AzulPersonal
-        {
-            get
-            {
-                _ConverterColor = new BrushConverter();
-                return (Brush)_ConverterColor.ConvertFromString("#0079F7");
-            }
-            set { }
-        }
+        //public Brush AzulPersonal
+        //{
+        //    get
+        //    {
+        //        _ConverterColor = new BrushConverter();
+        //        return (Brush)_ConverterColor.ConvertFromString("#0079F7");
+        //    }
+        //    set { }
+        //}
         private void Label_ActividadesCooperante(object sender, MouseButtonEventArgs e)
         {
-            //// Seleccionado Label Actividades del Cooperante seleccinado
-            //// Se ponen el reto de etiquetas a su forma original => todo azul con letras blancas
+            // Seleccionado Label Actividades del Cooperante seleccinado
+            // Se ponen el reto de etiquetas a su forma original => todo azul con letras blancas
 
-            //// 1º => Forma original de la etiqueta DatosDNI => _DatosDNILabel
-            //// Se modifica la etiqueta pulsada => _DatosDNI
-            //var labelDatosDNI = _DatosDNILabel;
-            //labelDatosDNI.Foreground = Brushes.White;
+            // 1º => Forma original de la etiqueta DatosDNI => _DatosDNILabel
+            // Se modifica la etiqueta pulsada => _DatosDNI
+            var labelDatosDNI = _DatosDNILabel;
+            labelDatosDNI.Foreground = Brushes.White;
             //labelDatosDNI.Background = AzulPersonal;
-            //labelDatosDNI.BorderBrush = Brushes.Black;
-            //labelDatosDNI.BorderThickness = new Thickness(0, 0, 3, 0);
+            labelDatosDNI.BorderBrush = Brushes.Black;
+            labelDatosDNI.BorderThickness = new Thickness(0, 0, 3, 0);
 
-            //// 2º => Forma original dela etiqueta Contacto => _ContactoLabel
-            //var labelContacto = _ContactoLabel;
-            //labelContacto.Foreground = Brushes.White;
+            // 2º => Forma original dela etiqueta Contacto => _ContactoLabel
+            var labelContacto = _ContactoLabel;
+            labelContacto.Foreground = Brushes.White;
             //labelContacto.Background = AzulPersonal;
-            //labelContacto.BorderBrush = Brushes.Black;
-            //labelContacto.BorderThickness = new Thickness(0, 0, 3, 0);
+            labelContacto.BorderBrush = Brushes.Black;
+            labelContacto.BorderThickness = new Thickness(0, 0, 3, 0);
 
-            //// 3º => Forma original de la etiqueta Direccion => _DireccionLabel
-            //var labelDireccion = _DireccionLabel;
-            //labelDireccion.Foreground = Brushes.White;
+            // 3º => Forma original de la etiqueta Direccion => _DireccionLabel
+            var labelDireccion = _DireccionLabel;
+            labelDireccion.Foreground = Brushes.White;
             //labelDireccion.Background = AzulPersonal;
-            //labelDireccion.BorderBrush = Brushes.Black;
-            //labelDireccion.BorderThickness = new Thickness(0, 0, 3, 0);
+            labelDireccion.BorderBrush = Brushes.Black;
+            labelDireccion.BorderThickness = new Thickness(0, 0, 3, 0);
 
-            //// Se modifica la etiqueta pulsada => _DatosDNILabel
-            //var labelActividades = _ActividadesLabel;
-            //labelActividades.Foreground = Brushes.Black;
-            //labelActividades.Background = Brushes.White;
-            //labelActividades.BorderBrush = Brushes.Black;
-            //labelActividades.BorderThickness = new Thickness(3, 3, 0, 3);
+            // Se modifica la etiqueta pulsada => _DatosDNILabel
+            var labelActividades = _ActividadesLabel;
+            labelActividades.Foreground = Brushes.Black;
+            labelActividades.Background = Brushes.White;
+            labelActividades.BorderBrush = Brushes.Black;
+            labelActividades.BorderThickness = new Thickness(3, 3, 0, 3);
 
-            //// Se pone a visible la zona de datos seleccinada y a hidden el resto
-            //var vm = this.DataContext as DashboardViewModel;
-            //vm.VisibleListaActividades = false;
-            //vm.VisibleListaActividadesCooperante = true;
-            //vm.VisibleContacto = false;
-            //vm.VisibleDireccion = false;
-            //vm.VisibleDatosDNI = true;
+            // Se pone a visible la zona de datos seleccinada y a hidden el resto
+            var vm = this.DataContext as DashboardViewModel;
+            vm.VisibleListaActividades = false;
+            vm.VisibleListaActividadesCooperante = true;
+            vm.VisibleContacto = false;
+            vm.VisibleDireccion = false;
+            vm.VisibleDatosDNI = true;
 
         }
         private void Label_DatosDNI(object sender, MouseButtonEventArgs e)
         {
-            //// Seleccionado Label DatosDNI
-            //// Se ponen el reto de etiquetas a su forma original => todo azul con letras blancas
+            // Seleccionado Label DatosDNI
+            // Se ponen el reto de etiquetas a su forma original => todo azul con letras blancas
 
-            //// 1º => Forma original de la etiqueta Actividades => _ActividadesLabel
-            //var labelActividades = _ActividadesLabel;
-            //labelActividades.Foreground = Brushes.White;
+            // 1º => Forma original de la etiqueta Actividades => _ActividadesLabel
+            var labelActividades = _ActividadesLabel;
+            labelActividades.Foreground = Brushes.White;
             //labelActividades.Background = AzulPersonal;
-            //labelActividades.BorderBrush = Brushes.Black;
-            //labelActividades.BorderThickness = new Thickness(0, 0, 3, 0);
+            labelActividades.BorderBrush = Brushes.Black;
+            labelActividades.BorderThickness = new Thickness(0, 0, 3, 0);
 
-            //// 2º => Forma original dela etiqueta Contacto => _ContactoLabel
-            //var labelContacto = _ContactoLabel;
-            //labelContacto.Foreground = Brushes.White;
+            // 2º => Forma original dela etiqueta Contacto => _ContactoLabel
+            var labelContacto = _ContactoLabel;
+            labelContacto.Foreground = Brushes.White;
             //labelContacto.Background = AzulPersonal;
-            //labelContacto.BorderBrush = Brushes.Black;
-            //labelContacto.BorderThickness = new Thickness(0, 0, 3, 0);
-            //// 3º => Forma original de la etiqueta Direccion => _DireccionLabel
-            //var labelDireccion = _DireccionLabel;
-            //labelDireccion.Foreground = Brushes.White;
+            labelContacto.BorderBrush = Brushes.Black;
+            labelContacto.BorderThickness = new Thickness(0, 0, 3, 0);
+            // 3º => Forma original de la etiqueta Direccion => _DireccionLabel
+            var labelDireccion = _DireccionLabel;
+            labelDireccion.Foreground = Brushes.White;
             //labelDireccion.Background = AzulPersonal;
-            //labelDireccion.BorderBrush = Brushes.Black;
-            //labelDireccion.BorderThickness = new Thickness(0, 0, 3, 0);
-            //// Se modifica la etiqueta pulsada => _DatosDNI
-            //var labelDatosDNI = _DatosDNILabel;
-            //labelDatosDNI.Foreground = Brushes.Black;
-            //labelDatosDNI.Background = Brushes.White;
-            //labelDatosDNI.BorderBrush = Brushes.Black;
-            //labelDatosDNI.BorderThickness = new Thickness(3, 3, 0, 3);
+            labelDireccion.BorderBrush = Brushes.Black;
+            labelDireccion.BorderThickness = new Thickness(0, 0, 3, 0);
+            // Se modifica la etiqueta pulsada => _DatosDNI
+            var labelDatosDNI = _DatosDNILabel;
+            labelDatosDNI.Foreground = Brushes.Black;
+            labelDatosDNI.Background = Brushes.White;
+            labelDatosDNI.BorderBrush = Brushes.Black;
+            labelDatosDNI.BorderThickness = new Thickness(3, 3, 0, 3);
+
+            //var converter = new System.Windows.Media.BrushConverter();
+            //var brush = (Brush)converter.ConvertFromString("#0079F7");
+
+            //< Setter Property = "Foreground" Value = "Black" />
+
+            //   < Setter Property = "Background" Value = "White" />
+
+            //      < Setter Property = "BorderThickness" Value = "1,1,0,1" />
+
+            //         < Setter Property = "BorderBrush" Value = "Black" />
+
+            //            < Setter Property = "Cursor" Value = "Hand    
+            //< Setter Property = "Foreground" Value = "White" />
+
+            //                                       < Setter Property = "Background" Value = "#0079F7" />
+
+            //                                          < Setter Property = "BorderBrush" Value = "#0079F7" />
+
+            //                                             < Setter Property = "BorderThickness" Value = "0,0,0,0" />
+            //var labelActividades = _ActividadesLabel;
+            //labelActividades.Foreground = Brushes.MediumBlue;
+
+            //labelActividades.BorderBrush = Brushes.Blue;
+            //labelActividades.BorderThickness = new Thickness(0, 0, 0, 0);
+            //var converter = new System.Windows.Media.BrushConverter();
+            //var brush = (Brush)converter.ConvertFromString("#0079F7");
+            //labelActividades.Background = AzulPersonal;
+
+
+
+            // Se pone a visible la zona de datos seleccinada y a hidden el resto
+            var vm = this.DataContext as DashboardViewModel;
+            //vm.VisibleListaActividades = false; // Comprobar si esto hace falta o es porqueria arrastrada de otras pruebas
+            vm.VisibleListaActividadesCooperante = false;
+            vm.VisibleContacto = false;
+            vm.VisibleDireccion = false;
+            vm.VisibleDatosDNI = true;
+
+        }
+        private void Label_Contacto(object sender, MouseButtonEventArgs e)
+        {
+            // Seleccionado Label Contacto
+            // Se ponen el reto de etiquetas a su forma original => todo azul con letras blancas
+
+            // 1º => Forma original de la etiqueta Actividades => _ActividadesLabel
+            var labelActividades = _ActividadesLabel;
+            labelActividades.Foreground = Brushes.White;
+            //labelActividades.Background = AzulPersonal;
+            labelActividades.BorderBrush = Brushes.Black;
+            labelActividades.BorderThickness = new Thickness(0, 0, 3, 0);
+
+            // 2º => Forma original dela etiqueta DatosDNI => _DatosDNILabel
+            var labelDatosDNI = _DatosDNILabel;
+            labelDatosDNI.Foreground = Brushes.White;
+            //labelDatosDNI.Background = AzulPersonal;
+            labelDatosDNI.BorderBrush = Brushes.Black;
+            labelDatosDNI.BorderThickness = new Thickness(0, 0, 3, 0);
+
+            // 3º => Forma original de la etiqueta Direccion => _DireccionLabel
+            var labelDireccion = _DireccionLabel;
+            labelDireccion.Foreground = Brushes.White;
+            //labelDireccion.Background = AzulPersonal;
+            labelDireccion.BorderBrush = Brushes.Black;
+            labelDireccion.BorderThickness = new Thickness(0, 0, 3, 0);
+
+            // Se modifica la etiqueta pulsada => _ContactoLabel
+            var labelContacto = _ContactoLabel;
+            labelContacto.Foreground = Brushes.Black;
+            labelContacto.Background = Brushes.White;
+            labelContacto.BorderBrush = Brushes.Black;
+            labelContacto.BorderThickness = new Thickness(3, 3, 0, 3);
+
+
+            //var converter = new System.Windows.Media.BrushConverter();
+            //var brush = (Brush)converter.ConvertFromString("#0079F7");
+
+            //< Setter Property = "Foreground" Value = "Black" />
+
+            //   < Setter Property = "Background" Value = "White" />
+
+            //      < Setter Property = "BorderThickness" Value = "1,1,0,1" />
+
+            //         < Setter Property = "BorderBrush" Value = "Black" />
+
+            //            < Setter Property = "Cursor" Value = "Hand    
+            //< Setter Property = "Foreground" Value = "White" />
+
+            //                                       < Setter Property = "Background" Value = "#0079F7" />
+
+            //                                          < Setter Property = "BorderBrush" Value = "#0079F7" />
+
+            //                                             < Setter Property = "BorderThickness" Value = "0,0,0,0" />
+            //var labelActividades = _ActividadesLabel;
+            //labelActividades.Foreground = Brushes.MediumBlue;
+
+            //labelActividades.BorderBrush = Brushes.Blue;
+            //labelActividades.BorderThickness = new Thickness(0, 0, 0, 0);
+            //var converter = new System.Windows.Media.BrushConverter();
+            //var brush = (Brush)converter.ConvertFromString("#0079F7");
+            //labelActividades.Background = AzulPersonal;
+
+
+
+            // Se pone a visible la zona de datos seleccinada y a hidden el resto
+            var vm = this.DataContext as DashboardViewModel;
+            //vm.VisibleListaActividades = false; // Comprobar si esto hace falta o es porqueria arrastrada de otras pruebas
+            vm.VisibleListaActividadesCooperante = false;
+            vm.VisibleContacto = true;
+            vm.VisibleDireccion = false;
+            vm.VisibleDatosDNI = false;
+
+        }
+        private void Label_Direccion(object sender, MouseButtonEventArgs e)
+        {
+            // Seleccionado Label Contacto
+            // Se ponen el reto de etiquetas a su forma original => todo azul con letras blancas
+
+            // 1º => Forma original de la etiqueta Actividades => _ActividadesLabel
+            var labelActividades = _ActividadesLabel;
+            labelActividades.Foreground = Brushes.White;
+            //labelActividades.Background = AzulPersonal;
+            labelActividades.BorderBrush = Brushes.Black;
+            labelActividades.BorderThickness = new Thickness(0, 0, 3, 0);
+
+            // 2º => Forma original dela etiqueta DatosDNI => _DatosDNILabel
+            var labelDatosDNI = _DatosDNILabel;
+            labelDatosDNI.Foreground = Brushes.White;
+            //labelDatosDNI.Background = AzulPersonal;
+            labelDatosDNI.BorderBrush = Brushes.Black;
+            labelDatosDNI.BorderThickness = new Thickness(0, 0, 3, 0);
+
+            // 3º => Forma original de la etiqueta Direccion => _ContactoLabel
+            var labelContacto = _ContactoLabel;
+            labelContacto.Foreground = Brushes.White;
+            //labelContacto.Background = AzulPersonal;
+            labelContacto.BorderBrush = Brushes.Black;
+            labelContacto.BorderThickness = new Thickness(0, 0, 3, 0);
+
+            // Se modifica la etiqueta pulsada => _DireccionLabel
+            var labelDireccion = _DireccionLabel;
+            labelDireccion.Foreground = Brushes.Black;
+            labelDireccion.Background = Brushes.White;
+            labelDireccion.BorderBrush = Brushes.Black;
+            labelDireccion.BorderThickness = new Thickness(3, 3, 0, 3);
 
             //var converter = new System.Windows.Media.BrushConverter();
             //var brush = (Brush)converter.ConvertFromString("#0079F7");
@@ -147,159 +291,14 @@ namespace Gama.Cooperacion.Wpf.Views
 
             // Se pone a visible la zona de datos seleccinada y a hidden el resto
             //var vm = this.DataContext as DashboardViewModel;
-            ////vm.VisibleListaActividades = false; // Comprobar si esto hace falta o es porqueria arrastrada de otras pruebas
-            //vm.VisibleListaActividadesCooperante = false;
-            //vm.VisibleContacto = false;
-            //vm.VisibleDireccion = false;
-            //vm.VisibleDatosDNI = true;
-            
-        }
-        private void Label_Contacto(object sender, MouseButtonEventArgs e)
-        {
-            //// Seleccionado Label Contacto
-            //// Se ponen el reto de etiquetas a su forma original => todo azul con letras blancas
-
-            //// 1º => Forma original de la etiqueta Actividades => _ActividadesLabel
-            //var labelActividades = _ActividadesLabel;
-            //labelActividades.Foreground = Brushes.White;
-            //labelActividades.Background = AzulPersonal;
-            //labelActividades.BorderBrush = Brushes.Black;
-            //labelActividades.BorderThickness = new Thickness(0, 0, 3, 0);
-
-            //// 2º => Forma original dela etiqueta DatosDNI => _DatosDNILabel
-            //var labelDatosDNI = _DatosDNILabel;
-            //labelDatosDNI.Foreground = Brushes.White;
-            //labelDatosDNI.Background = AzulPersonal;
-            //labelDatosDNI.BorderBrush = Brushes.Black;
-            //labelDatosDNI.BorderThickness = new Thickness(0, 0, 3, 0);
-      
-            //// 3º => Forma original de la etiqueta Direccion => _DireccionLabel
-            //var labelDireccion = _DireccionLabel;
-            //labelDireccion.Foreground = Brushes.White;
-            //labelDireccion.Background = AzulPersonal;
-            //labelDireccion.BorderBrush = Brushes.Black;
-            //labelDireccion.BorderThickness = new Thickness(0, 0, 3, 0);
-
-            //// Se modifica la etiqueta pulsada => _ContactoLabel
-            //var labelContacto = _ContactoLabel;
-            //labelContacto.Foreground = Brushes.Black;
-            //labelContacto.Background = Brushes.White;
-            //labelContacto.BorderBrush = Brushes.Black;
-            //labelContacto.BorderThickness = new Thickness(3, 3, 0, 3);
-            
-
-            //var converter = new System.Windows.Media.BrushConverter();
-            //var brush = (Brush)converter.ConvertFromString("#0079F7");
-
-            //< Setter Property = "Foreground" Value = "Black" />
-
-            //   < Setter Property = "Background" Value = "White" />
-
-            //      < Setter Property = "BorderThickness" Value = "1,1,0,1" />
-
-            //         < Setter Property = "BorderBrush" Value = "Black" />
-
-            //            < Setter Property = "Cursor" Value = "Hand    
-            //< Setter Property = "Foreground" Value = "White" />
-
-            //                                       < Setter Property = "Background" Value = "#0079F7" />
-
-            //                                          < Setter Property = "BorderBrush" Value = "#0079F7" />
-
-            //                                             < Setter Property = "BorderThickness" Value = "0,0,0,0" />
-            //var labelActividades = _ActividadesLabel;
-            //labelActividades.Foreground = Brushes.MediumBlue;
-
-            //labelActividades.BorderBrush = Brushes.Blue;
-            //labelActividades.BorderThickness = new Thickness(0, 0, 0, 0);
-            //var converter = new System.Windows.Media.BrushConverter();
-            //var brush = (Brush)converter.ConvertFromString("#0079F7");
-            //labelActividades.Background = AzulPersonal;
-
-
-
-            //// Se pone a visible la zona de datos seleccinada y a hidden el resto
-            //var vm = this.DataContext as DashboardViewModel;
-            ////vm.VisibleListaActividades = false; // Comprobar si esto hace falta o es porqueria arrastrada de otras pruebas
-            //vm.VisibleListaActividadesCooperante = false;
-            //vm.VisibleContacto = true;
-            //vm.VisibleDireccion = false;
-            //vm.VisibleDatosDNI = false;
-
-        }
-        private void Label_Direccion(object sender, MouseButtonEventArgs e)
-        {
-            //// Seleccionado Label Contacto
-            //// Se ponen el reto de etiquetas a su forma original => todo azul con letras blancas
-
-            //// 1º => Forma original de la etiqueta Actividades => _ActividadesLabel
-            //var labelActividades = _ActividadesLabel;
-            //labelActividades.Foreground = Brushes.White;
-            //labelActividades.Background = AzulPersonal;
-            //labelActividades.BorderBrush = Brushes.Black;
-            //labelActividades.BorderThickness = new Thickness(0, 0, 3, 0);
-
-            //// 2º => Forma original dela etiqueta DatosDNI => _DatosDNILabel
-            //var labelDatosDNI = _DatosDNILabel;
-            //labelDatosDNI.Foreground = Brushes.White;
-            //labelDatosDNI.Background = AzulPersonal;
-            //labelDatosDNI.BorderBrush = Brushes.Black;
-            //labelDatosDNI.BorderThickness = new Thickness(0, 0, 3, 0);
-
-            //// 3º => Forma original de la etiqueta Direccion => _ContactoLabel
-            //var labelContacto = _ContactoLabel;
-            //labelContacto.Foreground = Brushes.White;
-            //labelContacto.Background = AzulPersonal;
-            //labelContacto.BorderBrush = Brushes.Black;
-            //labelContacto.BorderThickness = new Thickness(0, 0, 3, 0);
-
-            //// Se modifica la etiqueta pulsada => _DireccionLabel
-            //var labelDireccion = _DireccionLabel;
-            //labelDireccion.Foreground = Brushes.Black;
-            //labelDireccion.Background = Brushes.White;
-            //labelDireccion.BorderBrush = Brushes.Black;
-            //labelDireccion.BorderThickness = new Thickness(3, 3, 0, 3);
-
-            //var converter = new System.Windows.Media.BrushConverter();
-            //var brush = (Brush)converter.ConvertFromString("#0079F7");
-
-            //< Setter Property = "Foreground" Value = "Black" />
-
-            //   < Setter Property = "Background" Value = "White" />
-
-            //      < Setter Property = "BorderThickness" Value = "1,1,0,1" />
-
-            //         < Setter Property = "BorderBrush" Value = "Black" />
-
-            //            < Setter Property = "Cursor" Value = "Hand    
-            //< Setter Property = "Foreground" Value = "White" />
-
-            //                                       < Setter Property = "Background" Value = "#0079F7" />
-
-            //                                          < Setter Property = "BorderBrush" Value = "#0079F7" />
-
-            //                                             < Setter Property = "BorderThickness" Value = "0,0,0,0" />
-            //var labelActividades = _ActividadesLabel;
-            //labelActividades.Foreground = Brushes.MediumBlue;
-
-            //labelActividades.BorderBrush = Brushes.Blue;
-            //labelActividades.BorderThickness = new Thickness(0, 0, 0, 0);
-            //var converter = new System.Windows.Media.BrushConverter();
-            //var brush = (Brush)converter.ConvertFromString("#0079F7");
-            //labelActividades.Background = AzulPersonal;
-
-
-
-            //// Se pone a visible la zona de datos seleccinada y a hidden el resto
-            //var vm = this.DataContext as DashboardViewModel;
-            ////vm.VisibleListaActividades = false; // Comprobar si esto hace falta o es porqueria arrastrada de otras pruebas
+            //vm.VisibleListaActividades = false; // Comprobar si esto hace falta o es porqueria arrastrada de otras pruebas
             //vm.VisibleListaActividadesCooperante = false;
             //vm.VisibleContacto = false;
             //vm.VisibleDireccion = true;
             //vm.VisibleDatosDNI = false;
 
         }
-        private void Label_EscogerCooperante (object sender, MouseButtonEventArgs e)
+        private void Label_EscogerCooperante(object sender, MouseButtonEventArgs e)
         {
             //var vm = this.DataContext as DashboardViewModel;
             //vm.VisibleImagenSeleccionCooperante = true;
@@ -317,47 +316,47 @@ namespace Gama.Cooperacion.Wpf.Views
             //vm.ListaDeActividadesCommand.Execute(null);
 
         }
-        private void Label_ActividadesPorComenzar (object sender, MouseButtonEventArgs e)
+        private void Label_ActividadesPorComenzar(object sender, MouseButtonEventArgs e)
         {
             //var ActPorComenzar = SeleccionarListaActividadesPorComenzar;
             //var ActProximoVencimiento = SeleccionarListaActividadesProximosVencimientos;
             //var ActRetrasadas = SeleccionarListaActividadesRetrasadas;
             //var ActFinalizadas = SeleccionarListaActividadesFinalizadas;
             //var ActActivas = SeleccionarListaActividadesActivas;
-            //ActPorComenzar.Foreground = Brushes.Red;
-            //ActProximoVencimiento.Foreground = Brushes.Black;
-            //ActRetrasadas.Foreground = Brushes.Black;
-            //ActFinalizadas.Foreground = Brushes.Black;
-            //ActActivas.Foreground = Brushes.Black;
+            ////ActPorComenzar.Foreground = Brushes.Red;
+            ////ActProximoVencimiento.Foreground = Brushes.Black;
+            ////ActRetrasadas.Foreground = Brushes.Black;
+            ////ActFinalizadas.Foreground = Brushes.Black;
+            ////ActActivas.Foreground = Brushes.Black;
             //ActPorComenzar.Background = Brushes.White;
             //ActProximoVencimiento.Background = Brushes.LightGray;
             //ActRetrasadas.Background = Brushes.LightGray;
             //ActFinalizadas.Background = Brushes.LightGray;
             //ActActivas.Background = Brushes.LightGray;
 
-            var vm = this.DataContext as DashboardViewModel;
-            vm.ActividadesPorComenzarCommand.Execute(null);
+            //var vm = this.DataContext as DashboardViewModel;
+            //vm.ActividadesPorComenzarCommand.Execute(null);
         }
-        private void Label_ActividadesProximosVencimientos (object sender,MouseButtonEventArgs e)
+        private void Label_ActividadesProximosVencimientos(object sender, MouseButtonEventArgs e)
         {
             //var ActPorComenzar = SeleccionarListaActividadesPorComenzar;
             //var ActProximoVencimiento = SeleccionarListaActividadesProximosVencimientos;
             //var ActRetrasadas = SeleccionarListaActividadesRetrasadas;
             //var ActFinalizadas = SeleccionarListaActividadesFinalizadas;
             //var ActActivas = SeleccionarListaActividadesActivas;
-            //ActPorComenzar.Foreground = Brushes.Black;
-            //ActProximoVencimiento.Foreground = Brushes.Red;
-            //ActRetrasadas.Foreground = Brushes.Black;
-            //ActFinalizadas.Foreground = Brushes.Black;
-            //ActActivas.Foreground = Brushes.Black;
+            ////ActPorComenzar.Foreground = Brushes.Black;
+            ////ActProximoVencimiento.Foreground = Brushes.Red;
+            ////ActRetrasadas.Foreground = Brushes.Black;
+            ////ActFinalizadas.Foreground = Brushes.Black;
+            ////ActActivas.Foreground = Brushes.Black;
             //ActPorComenzar.Background = Brushes.LightGray;
             //ActProximoVencimiento.Background = Brushes.White;
             //ActRetrasadas.Background = Brushes.LightGray;
             //ActFinalizadas.Background = Brushes.LightGray;
             //ActActivas.Background = Brushes.LightGray;
 
-            var vm = this.DataContext as DashboardViewModel;
-            vm.ActividadesProximosVencimientosCommand.Execute(null);
+            //var vm = this.DataContext as DashboardViewModel;
+            //vm.ActividadesProximosVencimientosCommand.Execute(null);
         }
         private void Label_ActividadesRetrasadas(object sender, MouseButtonEventArgs e)
         {
@@ -366,19 +365,19 @@ namespace Gama.Cooperacion.Wpf.Views
             //var ActRetrasadas = SeleccionarListaActividadesRetrasadas;
             //var ActFinalizadas = SeleccionarListaActividadesFinalizadas;
             //var ActActivas = SeleccionarListaActividadesActivas;
-            //ActPorComenzar.Foreground = Brushes.Black;
-            //ActProximoVencimiento.Foreground = Brushes.Black;
-            //ActRetrasadas.Foreground = Brushes.Red;
-            //ActFinalizadas.Foreground = Brushes.Black;
-            //ActActivas.Foreground = Brushes.Black;
+            ////ActPorComenzar.Foreground = Brushes.Black;
+            ////ActProximoVencimiento.Foreground = Brushes.Black;
+            ////ActRetrasadas.Foreground = Brushes.Red;
+            ////ActFinalizadas.Foreground = Brushes.Black;
+            ////ActActivas.Foreground = Brushes.Black;
             //ActPorComenzar.Background = Brushes.LightGray;
             //ActProximoVencimiento.Background = Brushes.LightGray;
             //ActRetrasadas.Background = Brushes.White;
             //ActFinalizadas.Background = Brushes.LightGray;
             //ActActivas.Background = Brushes.LightGray;
 
-            var vm = this.DataContext as DashboardViewModel;
-            vm.ActividadesActividadesRetrasadasCommand.Execute(null);
+            //var vm = this.DataContext as DashboardViewModel;
+            //vm.ActividadesActividadesRetrasadasCommand.Execute(null);
         }
         private void Label_ActividadesFinalizadas(object sender, MouseButtonEventArgs e)
         {
@@ -387,19 +386,19 @@ namespace Gama.Cooperacion.Wpf.Views
             //var ActRetrasadas = SeleccionarListaActividadesRetrasadas;
             //var ActFinalizadas = SeleccionarListaActividadesFinalizadas;
             //var ActActivas = SeleccionarListaActividadesActivas;
-            //ActPorComenzar.Foreground = Brushes.Black;
-            //ActProximoVencimiento.Foreground = Brushes.Black;
-            //ActRetrasadas.Foreground = Brushes.Black;
-            //ActFinalizadas.Foreground = Brushes.Red;
-            //ActActivas.Foreground = Brushes.Black;
+            ////ActPorComenzar.Foreground = Brushes.Black;
+            ////ActProximoVencimiento.Foreground = Brushes.Black;
+            ////ActRetrasadas.Foreground = Brushes.Black;
+            ////ActFinalizadas.Foreground = Brushes.Red;
+            ////ActActivas.Foreground = Brushes.Black;
             //ActPorComenzar.Background = Brushes.LightGray;
             //ActProximoVencimiento.Background = Brushes.LightGray;
             //ActRetrasadas.Background = Brushes.LightGray;
             //ActFinalizadas.Background = Brushes.White;
             //ActActivas.Background = Brushes.LightGray;
 
-            var vm = this.DataContext as DashboardViewModel;
-            vm.ActividadesActividadesFinalizadasCommand.Execute(null);
+            //var vm = this.DataContext as DashboardViewModel;
+            //vm.ActividadesActividadesFinalizadasCommand.Execute(null);
         }
         private void Label_ActividadesActivas(object sender, MouseButtonEventArgs e)
         {
@@ -408,19 +407,19 @@ namespace Gama.Cooperacion.Wpf.Views
             //var ActRetrasadas = SeleccionarListaActividadesRetrasadas;
             //var ActFinalizadas = SeleccionarListaActividadesFinalizadas;
             //var ActActivas = SeleccionarListaActividadesActivas;
-            //ActPorComenzar.Foreground = Brushes.Black;
-            //ActProximoVencimiento.Foreground = Brushes.Black;
-            //ActRetrasadas.Foreground = Brushes.Black;
-            //ActFinalizadas.Foreground = Brushes.Black;
-            //ActActivas.Foreground = Brushes.Red;
+            ////ActPorComenzar.Foreground = Brushes.Black;
+            ////ActProximoVencimiento.Foreground = Brushes.Black;
+            ////ActRetrasadas.Foreground = Brushes.Black;
+            ////ActFinalizadas.Foreground = Brushes.Black;
+            ////ActActivas.Foreground = Brushes.Red;
             //ActPorComenzar.Background = Brushes.LightGray;
             //ActProximoVencimiento.Background = Brushes.LightGray;
             //ActRetrasadas.Background = Brushes.LightGray;
             //ActFinalizadas.Background = Brushes.LightGray;
             //ActActivas.Background = Brushes.White;
 
-            var vm = this.DataContext as DashboardViewModel;
-            vm.ActividadesActividadesActivasCommand.Execute(null);
+            //var vm = this.DataContext as DashboardViewModel;
+            //vm.ActividadesActividadesActivasCommand.Execute(null);
         }
     }
 }
