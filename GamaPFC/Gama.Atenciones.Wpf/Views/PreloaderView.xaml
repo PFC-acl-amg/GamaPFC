@@ -13,26 +13,44 @@
         IsCloseButtonEnabled="False"
         IsMinButtonEnabled="False"
         IsMaxRestoreButtonEnabled="False"
-        Title="{Binding Titulo, UpdateSourceTrigger=PropertyChanged}" Height="472" Width="564">
+        Title="LANZAMIENTO DEL MÓDULO" Height="350" Width="404"
+                     >
   <Window.Resources>
     <Style TargetType="Label">
-      <Setter Property="Foreground" Value="White"/>
+      <Setter Property="Foreground" Value="Black"/>
+      <Setter Property="FontWeight" Value="Normal"/>
+      <Setter Property="FontSize" Value="11"/>
+      <Setter Property="FontFamily" Value="Verdana"/>
+      <Setter Property="HorizontalAlignment" Value="Right"/>
     </Style>
   </Window.Resources>
   <i:Interaction.Behaviors>
     <Behaviours:BorderlessWindowBehavior />
   </i:Interaction.Behaviors>
   <Grid>
-    <Image 
+    <Label Content="SERVICIO DE ATENCIONES" 
+           Foreground="#302C44"
+           FontSize="28"
+           FontWeight="ExtraLight"
+           FontFamily="Global User Interface"
+           HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="39,0,39,35"/>
+    <Separator HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="176,0,176,46" Visibility="Hidden"
+               Width="300">
+      <Separator.LayoutTransform>
+        <ScaleTransform ScaleY="2"/>
+      </Separator.LayoutTransform>
+    </Separator>
+    <Image Panel.ZIndex="-99"
       Source="pack://application:,,,/Gama.Common;component/Resources/Images/gama_logo_grande.png" 
            Stretch="Uniform"
            Margin="{StaticResource Margin}"/>
-    <StackPanel VerticalAlignment="Bottom" Margin="8">
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Right">
       <Label x:Name="_Label1" Content="Inicializando directorios..." Visibility="Visible"/>
       <Label x:Name="_Label2" Content="Inicializando preferencias..."  Visibility="Hidden"/>
       <Label x:Name="_Label3" Content="Registrado servicios..."  Visibility="Hidden"/>
       <Label x:Name="_Label4" Content="Configurando la conexión a la base de datos..."  Visibility="Hidden"/>
-      <Label x:Name="_Label5" Content="Conectando con el servidor..." Visibility="Hidden" />
+      <!--<Label x:Name="_Label5" Content="Conectando con el servidor..." Visibility="Hidden" />-->
+      <Label x:Name="_Label5" Content="{Binding Titulo, UpdateSourceTrigger=PropertyChanged}" Visibility="Hidden" />
     </StackPanel>
   </Grid>
 </mahapps:MetroWindow>

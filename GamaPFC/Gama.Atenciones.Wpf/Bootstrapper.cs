@@ -43,9 +43,9 @@ namespace Gama.Atenciones.Wpf
             _PreloadThread.Start();
 
             //_PreloaderView = new PreloaderView();
-            //_PreloaderView.ShowDialog();
-
-            //backgroundWorker.RunWorkerAsync();
+            //_PreloaderView.ShowDialog();ç
+            backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork += BackgroundWorker_DoWork; ;
 
             //_PreloaderView.Next(); ConfigurarPreferencias();
             //_PreloaderView.Next(); ConectarConServidor();
@@ -58,7 +58,8 @@ namespace Gama.Atenciones.Wpf
                 coleccion.Add("x"); ConfigurarPreferencias();
                 coleccion.Add("x"); RegisterServices(); 
                 coleccion.Add("x"); ConfigureDatabase(); 
-                coleccion.Add("x"); ConectarConServidor();
+                coleccion.Add("x"); //ConectarConServidor();
+                //backgroundWorker.RunWorkerAsync();
             }
 
             var session = Container.Resolve<ISession>();
@@ -67,6 +68,11 @@ namespace Gama.Atenciones.Wpf
             personaRepository.Session = session;
             asistenteRepository.Session = session;
             return Container.Resolve<Shell>();
+        }
+
+        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            ConectarConServidor();
         }
 
         private void _PreLoad()

@@ -27,10 +27,10 @@ namespace Gama.Atenciones.WpfTests
             _PersonaRepositoryMock = new Mock<IPersonaRepository>();
             _EventAggregatorMock = new Mock<IEventAggregator>();
             _RegionManagerMock = new Mock<IRegionManager>();
-            _Vm = new EditarAtencionesViewModel(_AtencionRepositoryMock.Object,
-                _EventAggregatorMock.Object, _PersonaRepositoryMock.Object,
-                _CitaRepositoryMock.Object,
-                _RegionManagerMock.Object);
+            //_Vm = new EditarAtencionesViewModel(_AtencionRepositoryMock.Object,
+            //    _EventAggregatorMock.Object, _PersonaRepositoryMock.Object,
+            //    _CitaRepositoryMock.Object,
+            //    _RegionManagerMock.Object);
         }
 
         [Fact]

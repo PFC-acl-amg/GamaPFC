@@ -54,7 +54,7 @@
         MinWidth="150" 
         MaxWidth="150" 
         Checked="_SociosButton_Checked"
-        IsChecked="True"
+        IsChecked="False"
         Command="{Binding SeleccionarModuloCommand}" 
         CommandParameter="socios">
         <ToggleButton.Style>
@@ -104,6 +104,7 @@
         Margin="{StaticResource _MargenBotones}" 
         MinWidth="150" 
         MaxWidth="150" 
+        IsChecked="True"
         Checked="_AtencionesButton_Checked"
         Command="{Binding SeleccionarModuloCommand}" 
         CommandParameter="atenciones">

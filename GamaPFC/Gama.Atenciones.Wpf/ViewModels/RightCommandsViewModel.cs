@@ -24,7 +24,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private const string MensajeBaseIntentandoConectar = "Estado: No conectado. Intentando reconectar en ";
         private const string MensajeBaseConectado = "Estado: Conectado";
         private DispatcherTimer _Timer;
-        private int _ContadorDeSegundosParaReintentarConexion = 5;
+        private int _ContadorDeSegundosParaReintentarConexion = 0;
         private BackgroundWorker _BackgroundWorker;
 
         //public RightCommandsViewModel()
@@ -45,7 +45,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _Timer.Tick += _timer_Tick;
             _Timer.Interval = new TimeSpan(0, 0, 1);
 
-            if (AtencionesResources.ClientService.IsConnected())
+            if (AtencionesResources.ClientService != null && AtencionesResources.ClientService.IsConnected())
             {
                 EstaConectadoAlServidor = true;
                 MensajeAMostrar = MensajeBaseConectado;
@@ -116,7 +116,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             _ContadorDeSegundosParaReintentarConexion--;
             MensajeAMostrar = MensajeBaseIntentandoConectar + $"{_ContadorDeSegundosParaReintentarConexion} segundos";
-            if (_ContadorDeSegundosParaReintentarConexion == 0)
+            if (_ContadorDeSegundosParaReintentarConexion <= 0)
             {
                 MensajeAMostrar = "Estado: No conectado. Intentando reconectar en estos momentos...";
                 _Timer.Stop();

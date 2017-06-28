@@ -9,8 +9,10 @@ using NHibernate;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.IO;
+using System.Threading;
 using System.Windows.Media;
 
 namespace Gama.Atenciones.Wpf
@@ -73,6 +75,29 @@ namespace Gama.Atenciones.Wpf
             _Panels.Add("GraficasContentView", false);
 
             SetVisiblePanel("DashboardView");
+
+
+            _PreloadThread = new Thread(_PreLoad);
+            _PreloadThread.SetApartmentState(ApartmentState.STA);
+            _PreloadThread.Start();
+
+        }
+
+        private Thread _PreloadThread;
+        private BackgroundWorker backgroundWorker;
+        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            ConectarConServidor();
+        }
+
+        private void _PreLoad()
+        {
+            ConectarConServidor();
+        }
+
+        private void ConectarConServidor()
+        {
+            AtencionesResources.ClientService = new ClientService(_EventAggregator);
         }
 
         public PersonasContentViewModel PersonasContentViewModel { get; set; }
