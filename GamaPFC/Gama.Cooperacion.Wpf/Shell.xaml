@@ -95,7 +95,7 @@
 
 
     <!-- Panel Switcher -->
-    <ContentControl Grid.Row="0" Grid.Column="0" Margin="0">
+    <ContentControl Grid.Row="0" Grid.Column="0" Margin="0" Grid.ColumnSpan="2">
       <views:PanelSwitcherView />
     </ContentControl>
 
