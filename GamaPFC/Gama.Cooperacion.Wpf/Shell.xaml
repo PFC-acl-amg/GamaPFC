@@ -93,10 +93,14 @@
       <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
 
-
     <!-- Panel Switcher -->
     <ContentControl Grid.Row="0" Grid.Column="0" Margin="0" Grid.ColumnSpan="2">
-      <views:PanelSwitcherView />
+      <views:PanelSwitcherView DataContext="{Binding PanelSwitcherViewModel}"/>
+    </ContentControl>
+
+    <!-- Toolbar -->
+    <ContentControl Grid.Row="0" Grid.Column="2" Margin="0">
+      <views:ToolbarView DataContext="{Binding ToolbarViewModel}"/>
     </ContentControl>
 
     <!-- Cuadro de búsqueda -->
@@ -104,20 +108,13 @@
                     prism:RegionManager.RegionName="{x:Static common:RegionNames.SearchBoxRegion}"  />
 
     <!-- Toolbar -->
-    <ContentControl Grid.Row="0" Grid.Column="2" Margin="0"
-                    prism:RegionManager.RegionName="{x:Static common:RegionNames.ToolbarRegion}"  />
+    <ContentControl Grid.Row="0" Grid.Column="2" Margin="0" />
 
     <!-- Región de contenido -->
     <ContentControl Grid.Row="1" Grid.ColumnSpan="3" prism:RegionManager.RegionName="{x:Static common:RegionNames.ContentRegion}" />
-    <!--<Grid Grid.Row="1" Grid.ColumnSpan="3" Background="#FFF4ECE2" Panel.ZIndex="-5">
-      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                 FontSize="26" FontWeight="Thin" FontStretch="UltraCondensed"
-                 FontStyle="Italic">El módulo está cargando...</TextBlock>
-    </Grid>-->
-    <!--<Grid Grid.Row="1" Grid.ColumnSpan="3" x:Name="preloaderRegion"></Grid>-->
 
     <!-- Status Bar -->
-    <ContentControl Grid.Row="2" Grid.ColumnSpan="3" prism:RegionManager.RegionName="{x:Static common:RegionNames.StatusBarRegion}"/>
+    <views:StatusBarView Grid.Row="2" Grid.ColumnSpan="3" DataContext="{Binding StatusBarViewModel}"/>
   </Grid>
 </mahapps:MetroWindow>
 

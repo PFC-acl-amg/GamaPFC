@@ -32,6 +32,7 @@ namespace Gama.Atenciones.Wpf
             CitaRepository citaRepository,
             AtencionRepository atencionRepository,
             AsistenteRepository asistenteRepository,
+            PanelSwitcherViewModel panelSwitcherViewModel,
             StatusBarViewModel statusBarViewModel,
             SearchBoxViewModel searchBoxViewModel,
             PersonasContentViewModel personasContentViewModel,
@@ -44,6 +45,7 @@ namespace Gama.Atenciones.Wpf
             ISession session)
         {
             SearchBoxViewModel = searchBoxViewModel;
+            PanelSwitcherViewModel = panelSwitcherViewModel;
             PersonasContentViewModel = personasContentViewModel;
             DashboardViewModel = dashboardViewModel;
             CitasContentViewModel = citasContentViewModel;
@@ -80,6 +82,7 @@ namespace Gama.Atenciones.Wpf
             _PreloadThread.Start();
         }
 
+        public PanelSwitcherViewModel PanelSwitcherViewModel { get; set; }
         public PersonasContentViewModel PersonasContentViewModel { get; set; }
         public DashboardViewModel DashboardViewModel { get; set; }
         public CitasContentViewModel CitasContentViewModel { get; set; }

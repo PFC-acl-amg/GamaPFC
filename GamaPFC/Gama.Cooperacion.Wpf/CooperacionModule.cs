@@ -85,32 +85,6 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterType<TareasDeActividadViewModel>();
         }
 
-        //private void RegisterServices()
-        //{
-        //    Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
-        //    Container.RegisterType<ISession>(new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
-        //    Container.RegisterType<IActividadRepository, ActividadRepository>();
-        //    Container.RegisterType<ICooperanteRepository, CooperanteRepository>();
-        //    Container.RegisterType<IForoRepository, ForoRepository>();
-        //    Container.RegisterType<ITareaRepository, TareaRepository>();
-        //    // Añido para eventos
-        ////Container.RegisterType<IEventoRepository, EventoRepository>();
-        ////Container.RegisterType<IIncidenciaRepository, IncidenciaRepository>();
-        ////Container.RegisterType<ITareaRepository, TareaRepository>();
-        ////Container.RegisterType<ISeguimientoRepository, SeguimientoRepository>();
-
-        //    Container.RegisterInstance<ICooperacionSettings>(
-        //        new CooperacionSettings());
-
-        //    //
-        //    // Fake
-        //    //
-        //    //Container.RegisterInstance<ISession>(new Mock<ISession>().Object);
-        //    //Container.RegisterType<IActividadRepository, FakeActividadRepository>();
-        //    //Container.RegisterType<ICooperanteRepository, FakeCooperanteRepository>();
-        //    //Container.RegisterInstance<ICooperacionSettings>(new CooperacionSettings());
-        //}
-
         private void ActualizarEstadosActividades()
         {
             var actividadRepository = Container.Resolve<IActividadRepository>();
@@ -177,9 +151,8 @@ namespace Gama.Cooperacion.Wpf
         }
         private void InitializeNavigation()
         {
-            RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
-            RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
-            RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
+            //RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
+            //RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
             //RegionManager.RequestNavigate(RegionNames.ContentRegion, "ActividadesContentView");
             //RegionManager.AddToRegion(RegionNames.ActividadesTabContentRegion, new ListadoDeActividadesView());
             //RegionManager.RequestNavigate(RegionNames.ActividadesTabContentRegion, "ListadoDeActividadesView");
