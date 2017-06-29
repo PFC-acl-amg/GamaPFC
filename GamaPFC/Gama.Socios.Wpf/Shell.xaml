@@ -21,8 +21,12 @@
   <mahapps:MetroWindow.Resources>
     <sys:Double x:Key="_SocialIconSize">13</sys:Double>
     <sys:Double x:Key="WindowTitleFontSize">14</sys:Double>
+
+    <BooleanToVisibilityConverter x:Key="_BooleanToVisibilityConverter"/>
   </mahapps:MetroWindow.Resources>
 
+
+  <!--#region Icon Template y Windows Commands -->
   <mahapps:MetroWindow.IconTemplate>
     <DataTemplate>
       <Viewbox Margin="{StaticResource Margin}">
@@ -72,13 +76,9 @@
       <ContentControl prism:RegionManager.RegionName="{x:Static common:RegionNames.RightCommandsRegion}" />
     </mahapps:WindowCommands>
   </mahapps:MetroWindow.RightWindowCommands>
-  <mahapps:MetroWindow.Flyouts>
-    <mahapps:FlyoutsControl>
-      <mahapps:Flyout Header="Preferencias" Position="Right" IsOpen="{Binding PreferenciasFlyoutIsOpen}">
-        <ContentControl prism:RegionManager.RegionName="{x:Static common:RegionNames.PreferenciasRegion}"/>
-      </mahapps:Flyout>
-    </mahapps:FlyoutsControl>
-  </mahapps:MetroWindow.Flyouts>
+  
+  <!--#endregion-->
+
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" MaxHeight="60"/>
@@ -93,28 +93,25 @@
 
 
     <!-- Panel Switcher -->
-    <ContentControl Grid.Row="0" Grid.Column="0" Margin="0"
-                    prism:RegionManager.RegionName="{x:Static common:RegionNames.PanelSwitcherRegion}" />
+    <ContentControl Grid.Row="0" Grid.Column="0" Margin="0" Grid.ColumnSpan="2">
+      <views:PanelSwitcherView DataContext="{Binding PanelSwitcherViewModel}"/>
+    </ContentControl>
 
     <!-- Cuadro de búsqueda -->
-    <ContentControl Grid.Row="0" Grid.Column="1" Margin="0"
-                    prism:RegionManager.RegionName="{x:Static common:RegionNames.SearchBoxRegion}"  />
+    <ContentControl Grid.Row="0" Grid.Column="1" Margin="0">
+      <views:SearchBoxView DataContext="{Binding SearchBoxViewModel}"/>
+    </ContentControl>
 
     <!-- Toolbar -->
-    <ContentControl Grid.Row="0" Grid.Column="2" Margin="0"
-                    prism:RegionManager.RegionName="{x:Static common:RegionNames.ToolbarRegion}"  />
+    <ContentControl Grid.Row="0" Grid.Column="2" Margin="0">
+      <views:ToolbarView DataContext="{Binding ToolbarViewModel}"/>
+    </ContentControl>
 
     <!-- Región de contenido -->
     <ContentControl Grid.Row="1" Grid.ColumnSpan="3" prism:RegionManager.RegionName="{x:Static common:RegionNames.ContentRegion}" />
-    <!--<Grid Grid.Row="1" Grid.ColumnSpan="3" Background="#FFF4ECE2" Panel.ZIndex="-5">
-      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                 FontSize="26" FontWeight="Thin" FontStretch="UltraCondensed"
-                 FontStyle="Italic">El módulo está cargando...</TextBlock>
-    </Grid>-->
-    <!--<Grid Grid.Row="1" Grid.ColumnSpan="3" x:Name="preloaderRegion"></Grid>-->
 
     <!-- Status Bar -->
-    <ContentControl Grid.Row="2" Grid.ColumnSpan="3" prism:RegionManager.RegionName="{x:Static common:RegionNames.StatusBarRegion}"/>
+    <views:StatusBarView Grid.Row="2" Grid.ColumnSpan="3" DataContext="{Binding StatusBarViewModel}"/>
   </Grid>
 </mahapps:MetroWindow>
 

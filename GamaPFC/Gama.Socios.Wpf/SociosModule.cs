@@ -19,63 +19,18 @@ using System.Threading.Tasks;
 
 namespace Gama.Socios.Wpf
 {
-    public static class SociosResources
-    {
-        public static List<string> TodosLosNif { get; set; }
-
-        public static void AddNif(string nif)
-        {
-            if (!TodosLosNif.Contains(nif))
-            {
-                TodosLosNif.Add(nif);
-            }
-        }
-    }
-
     public class SociosModule : ModuleBase
     {
         public SociosModule(IUnityContainer container, IRegionManager regionManager)
            : base(container, regionManager)
         {
-            this.Entorno = Entorno.Desarrollo;
-            this.SeedDatabase = false;
+
         }
 
         public override void Initialize()
         {
             RegisterViews();
             RegisterViewModels();
-            RegisterServices();
-
-            var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
-            var socioRepository = new SocioRepository();
-            var session = sessionFactory.OpenSession();
-            socioRepository.Session = session;
-
-            #region Database Seeding
-            try
-            {
-                if (SeedDatabase)
-                {
-
-                    foreach(var socio in (new FakeSocioRepository().GetAll()))
-                    {
-                        socioRepository.Create(socio);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                var message = ex.Message;
-                throw ex;
-            }
-            #endregion
-
-            // Recogemos todos los NIF para usarlos en validación
-            // No lo hacemos en el wrapper directamente para eliminar el acomplamiento
-            // del wrapper a los servicios. 
-            SociosResources.TodosLosNif = socioRepository.GetNifs();
-
             InitializeNavigation();
         }
 
@@ -112,42 +67,14 @@ namespace Gama.Socios.Wpf
             Container.RegisterType<RightCommandsViewModel>();
         }
 
-        private void RegisterServices()
-        {
-            Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
-            Container.RegisterType<ISession>(
-                new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
-
-            Container.RegisterType<ISocioRepository, SocioRepository>();
-
-            PreferenciasDeSocios preferencias;
-            string preferenciasPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) 
-                + @"\preferencias_de_socios.cfg";
-
-            if (File.Exists(preferenciasPath))
-            {
-                var preferenciasFile = File.Open(preferenciasPath, FileMode.Open);
-                preferencias = (PreferenciasDeSocios)new BinaryFormatter().Deserialize(preferenciasFile);
-                preferenciasFile.Close();
-            }
-            else
-            {
-                preferencias = new PreferenciasDeSocios();
-                new BinaryFormatter().Serialize(File.Create(preferenciasPath), preferencias);
-            }
-
-            Container.RegisterInstance<PreferenciasDeSocios>(preferencias);
-            Container.RegisterInstance<ExportService>(new ExportService());
-        }
-
         private void InitializeNavigation()
         {
-            RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
-            RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
-            RegionManager.RegisterViewWithRegion(RegionNames.SearchBoxRegion, typeof(SearchBoxView));
-            RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
+            //RegionManager.RegisterViewWithRegion(RegionNames.PanelSwitcherRegion, typeof(PanelSwitcherView));
+            //RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
+            //RegionManager.RegisterViewWithRegion(RegionNames.SearchBoxRegion, typeof(SearchBoxView));
+            //RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
             RegionManager.RegisterViewWithRegion(RegionNames.RightCommandsRegion, typeof(RightCommandsView));
-            RegionManager.RegisterViewWithRegion(RegionNames.PreferenciasRegion, typeof(PreferenciasView));
+            //RegionManager.RegisterViewWithRegion(RegionNames.PreferenciasRegion, typeof(PreferenciasView));
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
 
             RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<SociosContentView>());

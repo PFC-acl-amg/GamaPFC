@@ -163,6 +163,7 @@
     <Compile Include="Services\ISocioRepository.cs" />
     <Compile Include="Services\IPreferenciasDeSocios.cs" />
     <Compile Include="Services\LookupItemSocio.cs" />
+    <Compile Include="Services\Preferencias.cs" />
     <Compile Include="Services\SocioRepository.cs" />
     <Compile Include="Services\PreferenciasDeSocios.cs" />
     <Compile Include="Shell.xaml.cs">
@@ -170,6 +171,7 @@
     </Compile>
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="SociosModule.cs" />
+    <Compile Include="SociosResources.cs" />
     <Compile Include="ViewModels\ContabilidadViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\EditarCuotasViewModel.cs" />

@@ -1,5 +1,8 @@
 ﻿using Core;
 using Gama.Common.Eventos;
+using Gama.Socios.Wpf.Services;
+using Gama.Socios.Wpf.ViewModels;
+using NHibernate;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -16,7 +19,14 @@ namespace Gama.Socios.Wpf
         private ImageSource _IconSource;
         private bool _PreferenciasFlyoutIsOpen = false;
 
-        public ShellViewModel(IEventAggregator eventAggregator)
+        public ShellViewModel(
+            EventAggregator eventAggregator,
+            PanelSwitcherViewModel panelSwitcherViewModel,
+            ToolbarViewModel toolbarViewModel,
+            StatusBarViewModel statusBarViewModel,
+            Preferencias preferencias,
+            ISession session
+           )
         {
             _EventAggregator = eventAggregator;
             Title = "Módulo no cargado";
