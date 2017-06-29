@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Gama.Socios.Wpf.Services
     public class Preferencias
     {
         public static string PreferenciasPath => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-                + @"\GamaData\preferencias_de_atenciones.cfg";
+                + @"\GamaData\preferencias_de_socios.cfg";
         public static string PreferenciasPathFolder => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
                 + @"\GamaData\";
 

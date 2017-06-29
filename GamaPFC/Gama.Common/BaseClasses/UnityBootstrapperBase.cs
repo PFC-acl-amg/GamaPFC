@@ -15,7 +15,7 @@ namespace Gama.Common.BaseClasses
         protected bool _CLEAR_DATABASE = false;
         protected bool _SEED_DATABASE = false;
         protected Thread _PreloadThread;
-        protected PreloaderView _PreloaderView;
+        protected SplashScreenView _PreloaderView;
         private string _Title;
 
         public UnityBootstrapperBase(string title)
@@ -40,18 +40,18 @@ namespace Gama.Common.BaseClasses
 
             lock (_PreloaderView)
             {
-                _PreloaderView.Avanzar(); InitializeDirectories();
-                _PreloaderView.Avanzar(); ConfigurePreferences();
-                _PreloaderView.Avanzar(); RegisterServices();
-                _PreloaderView.Avanzar(); GenerateDatabaseConfiguration();
-                _PreloaderView.Avanzar();
+                _PreloaderView.Next(); InitializeDirectories();
+                _PreloaderView.Next(); ConfigurePreferences();
+                _PreloaderView.Next(); RegisterServices();
+                _PreloaderView.Next(); GenerateDatabaseConfiguration();
+                _PreloaderView.Next();
             }
         }
 
         protected virtual void PreLoad()
         {
-            _PreloaderView = new PreloaderView();
-            _PreloaderView.Titulo = _Title;
+            _PreloaderView = new SplashScreenView();
+            _PreloaderView.ProductName = _Title;
             _PreloaderView.ShowDialog();
         }
 

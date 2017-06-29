@@ -98,7 +98,7 @@
 
     <!-- Panel Switcher -->
     <ContentControl Grid.Row="0" Grid.Column="0" Margin="0">
-      <views:PanelSwitcherView />
+      <views:PanelSwitcherView x:Name="OK" DataContext="{Binding PanelSwitcherViewModel}"/>
     </ContentControl>
 
     <!-- Cuadro de búsqueda -->
