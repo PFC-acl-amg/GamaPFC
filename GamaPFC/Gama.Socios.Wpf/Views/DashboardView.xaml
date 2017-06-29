@@ -9,7 +9,7 @@
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
-             prism:ViewModelLocator.AutoWireViewModel="True"
+             prism:ViewModelLocator.AutoWireViewModel="False"
              mc:Ignorable="d" 
              d:DesignHeight="414.411" d:DesignWidth="751.603">
   <d:DataContext>

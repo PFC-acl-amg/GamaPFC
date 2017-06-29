@@ -24,14 +24,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
 {
     public class PersonasContentViewModel : ViewModelBase
     {
-        private IEventAggregator _EventAggregator;
-        private IRegionManager _RegionManager;
+        private EventAggregator _EventAggregator;
         private IUnityContainer _Container;
 
         public PersonasContentViewModel(
             ICitaRepository citaRepository,
-            IEventAggregator eventAggregator,
-            IRegionManager regionManager, 
+            EventAggregator eventAggregator,     
             ListadoDePersonasViewModel listadoDePersonasViewModel,
             IUnityContainer container,
             ISession session)
@@ -39,11 +37,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _CitaRepository = citaRepository;
             _CitaRepository.Session = session;
             _EventAggregator = eventAggregator;
-            _RegionManager = regionManager;
             _Container = container;
 
             ViewModels = new ObservableCollection<object>();
-            //ViewModels.Add(_Container.Resolve<ListadoDePersonasViewModel>());
             ViewModels.Add(listadoDePersonasViewModel);
             ViewModelSeleccionado = ViewModels.First();
             SelectedIndex = 0;

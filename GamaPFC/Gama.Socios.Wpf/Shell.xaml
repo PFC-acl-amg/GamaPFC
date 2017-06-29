@@ -16,6 +16,7 @@
                   WindowTitleBrush="{StaticResource AccentColorBrush}"
                   Style="{StaticResource CustomMetroWindowStyle}"
                   Title="{Binding Title}" 
+                     x:Name="_Root"
                   Icon="{Binding IconSource}"
                    Height="350" Width="525">
   <mahapps:MetroWindow.Resources>
@@ -73,7 +74,7 @@
   </mahapps:MetroWindow.LeftWindowCommands>
   <mahapps:MetroWindow.RightWindowCommands>
     <mahapps:WindowCommands>
-      <ContentControl prism:RegionManager.RegionName="{x:Static common:RegionNames.RightCommandsRegion}" />
+      <views:RightCommandsView DataContext="{Binding RightCommandsViewModel}" />
     </mahapps:WindowCommands>
   </mahapps:MetroWindow.RightWindowCommands>
   
@@ -91,7 +92,6 @@
       <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
 
-
     <!-- Panel Switcher -->
     <ContentControl Grid.Row="0" Grid.Column="0" Margin="0" Grid.ColumnSpan="2">
       <views:PanelSwitcherView DataContext="{Binding PanelSwitcherViewModel}"/>
@@ -108,7 +108,25 @@
     </ContentControl>
 
     <!-- Región de contenido -->
-    <ContentControl Grid.Row="1" Grid.ColumnSpan="3" prism:RegionManager.RegionName="{x:Static common:RegionNames.ContentRegion}" />
+    <ContentControl Grid.Row="1" Grid.ColumnSpan="3" Margin="0">
+      <Grid>
+        <!-- Dashboard -->
+        <views:DashboardView DataContext="{Binding DashboardViewModel}" 
+                             Visibility="{Binding DataContext.DashboardViewIsVisible,
+                              ElementName=_Root, 
+                              Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+        <!-- Contabilidad -->
+        <views:ContabilidadView DataContext="{Binding ContabilidadViewModel}" 
+                             Visibility="{Binding DataContext.ContabilidadViewIsVisible,
+                              ElementName=_Root, 
+                              Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+        <!-- Socios -->
+        <views:SociosContentView DataContext="{Binding SociosContentViewModel}" 
+                             Visibility="{Binding DataContext.SociosContentViewIsVisible,
+                              ElementName=_Root, 
+                              Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+      </Grid>
+    </ContentControl>
 
     <!-- Status Bar -->
     <views:StatusBarView Grid.Row="2" Grid.ColumnSpan="3" DataContext="{Binding StatusBarViewModel}"/>

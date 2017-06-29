@@ -75,11 +75,11 @@ namespace Gama.Socios.Wpf
             //RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
             RegionManager.RegisterViewWithRegion(RegionNames.RightCommandsRegion, typeof(RightCommandsView));
             //RegionManager.RegisterViewWithRegion(RegionNames.PreferenciasRegion, typeof(PreferenciasView));
-            RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
+            //RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
 
-            RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<SociosContentView>());
-            RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<ContabilidadView>());
-            RegionManager.AddToRegion(RegionNames.SociosTabContentRegion, Container.Resolve<ListadoDeSociosView>());
+            //RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<SociosContentView>());
+            //RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<ContabilidadView>());
+            //RegionManager.AddToRegion(RegionNames.SociosTabContentRegion, Container.Resolve<ListadoDeSociosView>());
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Gama.Socios.Wpf.Views
     /// <summary>
     /// Interaction logic for SettingsView.xaml
     /// </summary>
-    public partial class PreferenciasView : UserControl
+    public partial class PreferenciasView : Window
     {
         public PreferenciasView()
         {

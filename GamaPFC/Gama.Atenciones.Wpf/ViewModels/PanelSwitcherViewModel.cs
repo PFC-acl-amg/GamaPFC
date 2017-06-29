@@ -17,15 +17,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
     public class PanelSwitcherViewModel : ViewModelBase
     {
         private string _ActivePanel;
-        private IEventAggregator _EventAggregator;
-        private IRegionManager _RegionManager;
+        private EventAggregator _EventAggregator;
 
-        public PanelSwitcherViewModel() { }
-
-        public PanelSwitcherViewModel(IRegionManager regionManager,
-            IEventAggregator eventAggregator)
+        public PanelSwitcherViewModel(EventAggregator eventAggregator)
         {
-            _RegionManager = regionManager;
             _EventAggregator = eventAggregator;
 
             ActivePanel = "DashboardView";
@@ -52,8 +47,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             ActivePanel = viewName;
             _EventAggregator.GetEvent<ActiveViewChanged>().Publish(viewName);
-
-            //_RegionManager.RequestNavigate(RegionNames.ContentRegion, viewName);
         }
 
     }

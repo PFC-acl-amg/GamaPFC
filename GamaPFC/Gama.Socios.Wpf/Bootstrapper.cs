@@ -35,7 +35,7 @@ namespace Gama.Socios.Wpf
 
             BitmapImage icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/icono_modulo_cooperacion.png"));
 
-            ((ShellViewModel)((FrameworkElement)Shell).DataContext).Title = "SERVICIO DE ATENCIONES";
+            ((ShellViewModel)((FrameworkElement)Shell).DataContext).Title = "GESTIÓN DE SOCIOS";
             ((ShellViewModel)((FrameworkElement)Shell).DataContext).IconSource = icon;
 
             Application.Current.MainWindow = Shell as Window;

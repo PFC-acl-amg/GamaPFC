@@ -15,7 +15,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="211.152" d:DesignWidth="490.303"
              x:Name="_Root">
-  <!--d:DataContext="{d:DesignInstance Type=designData:PersonasContentViewModelDTD, IsDesignTimeCreatable=True}"-->
   <UserControl.Resources>
     <Style TargetType="metro:MetroTabItem">
       <Setter Property="Header" Value="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
@@ -42,7 +41,7 @@
                   </Style.Triggers>
                 </Style>
               </Border.Style>
-            <StackPanel Orientation="Horizontal">
+              <StackPanel Orientation="Horizontal">
                 <ContentControl Content="{Binding}" Margin="{StaticResource Margin}">
                   <ContentControl.Style>
                     <Style TargetType="ContentControl">
@@ -68,38 +67,38 @@
                     Foreground="White"
                     Command="{Binding ElementName=_Root, Path=DataContext.CloseTabCommand}"
                     CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}">
-                <Button.Style>
-                  <Style TargetType="Button">
-                    <Setter Property="Width" Value="20"/>
-                    <Setter Property="Height" Value="20"/>
-                    <Setter Property="BorderThickness" Value="0"/>
-                    <Setter Property="FontWeight" Value="Bold"/>
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="Padding" Value="0"/>
-                    <Setter Property="Margin" Value="{StaticResource Margin}"/>
-                    <Setter Property="VerticalAlignment" Value="Center"/>
-                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                    <Style.Triggers>
-                      <DataTrigger Binding="{Binding}" Value="Todas">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                      </DataTrigger>
-                      <DataTrigger Binding="{Binding}" Value="CITAS">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                      </DataTrigger>
-                      <DataTrigger Binding="{Binding}" Value="ATENCIONES">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                      </DataTrigger>
-                    </Style.Triggers>
-                  </Style>
-                </Button.Style>
-                <i:Interaction.Triggers>
-                  <i:EventTrigger EventName="Click">
-                    <util:CloseTabAction/>
-                  </i:EventTrigger>
-                </i:Interaction.Triggers>
+                  <Button.Style>
+                    <Style TargetType="Button">
+                      <Setter Property="Width" Value="20"/>
+                      <Setter Property="Height" Value="20"/>
+                      <Setter Property="BorderThickness" Value="0"/>
+                      <Setter Property="FontWeight" Value="Bold"/>
+                      <Setter Property="Background" Value="Transparent"/>
+                      <Setter Property="Padding" Value="0"/>
+                      <Setter Property="Margin" Value="{StaticResource Margin}"/>
+                      <Setter Property="VerticalAlignment" Value="Center"/>
+                      <Setter Property="VerticalContentAlignment" Value="Center"/>
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding}" Value="Todas">
+                          <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding}" Value="CITAS">
+                          <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding}" Value="ATENCIONES">
+                          <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </Button.Style>
+                  <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                      <util:CloseTabAction/>
+                    </i:EventTrigger>
+                  </i:Interaction.Triggers>
                 </Button>
-            </StackPanel>
-              </Border>
+              </StackPanel>
+            </Border>
           </DataTemplate>
         </Setter.Value>
       </Setter>
@@ -111,9 +110,7 @@
       <local:ListadoDePersonasView />
     </DataTemplate>
   </UserControl.Resources>
-  <!--<metro:MetroAnimatedSingleRowTabControl 
-            prism:RegionManager.RegionName="{x:Static common:RegionNames.PersonasTabContentRegion}">
-  </metro:MetroAnimatedSingleRowTabControl>-->
+  
   <metro:MetroAnimatedSingleRowTabControl
     ItemsSource="{Binding ViewModels}"
     SelectedItem="{Binding ViewModelSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

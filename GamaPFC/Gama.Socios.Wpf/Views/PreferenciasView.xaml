@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Gama.Socios.Wpf.Views.PreferenciasView"
+﻿<Window x:Class="Gama.Socios.Wpf.Views.PreferenciasView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -11,6 +11,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              MinWidth="800"
+        Title="PREFERENCIAS"
              d:DesignHeight="341" d:DesignWidth="684">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -112,4 +113,4 @@
                 Command="{Binding CancelarCambiosCommand}"/>
         </StackPanel>
     </Grid>
-</UserControl>
+</Window>
