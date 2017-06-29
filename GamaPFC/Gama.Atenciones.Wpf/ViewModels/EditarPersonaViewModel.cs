@@ -116,8 +116,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _PersonaRepository.Update(Persona.Model);
             _PersonaVM.Persona.AcceptChanges();
             _PersonaVM.EdicionHabilitada = false;
+            _PersonaVM.Persona.IsInEditionMode = false;
             RefrescarTitulo(Persona.Nombre);
-            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Publish(Persona.Id);
         }
 
         private void OnHabilitarEdicionCommand()
@@ -233,16 +233,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             //Persona.Citas.Add(new CitaWrapper(cita));
             Persona.AcceptChanges();
-        }
-
-        public override bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return IsNavigationTarget((int)navigationContext.Parameters["Id"]);
-        }
-
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            OnNavigatedTo((int)navigationContext.Parameters["Id"], (int?)navigationContext.Parameters["AtencionId"]);
         }
 
         private void RefrescarTitulo(string nombre)

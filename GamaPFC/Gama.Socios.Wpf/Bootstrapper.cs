@@ -157,11 +157,6 @@ namespace Gama.Socios.Wpf
                 var message = ex.Message;
                 throw ex;
             }
-
-            // Recogemos todos los NIF para usarlos en validación
-            // No lo hacemos en el wrapper directamente para eliminar el acomplamiento
-            // del wrapper a los servicios. 
-            SociosResources.TodosLosNif = socioRepository.GetNifs();
         }
 
         protected override void ConfigureModuleCatalog()

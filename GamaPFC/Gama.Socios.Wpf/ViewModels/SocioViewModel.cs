@@ -14,16 +14,11 @@ namespace Gama.Socios.Wpf.ViewModels
     {
         private bool _EdicionHabilitada;
         private SocioWrapper _Socio;
-        private byte[] _imageBytes = null;
-        private string _rutaImagen;
-        private string _nombreImagen;
-        private BitmapImage _imagenSocio;
 
         public SocioViewModel()
         {
             _EdicionHabilitada = true;
             Socio = new SocioWrapper(new Socio());
-            //RutaImagen = new BitmapImage();
 
             ExaminarAvatarCommand = new DelegateCommand(OnExaminarAvatarCommandExecute);
         }
@@ -32,53 +27,25 @@ namespace Gama.Socios.Wpf.ViewModels
 
         private void OnExaminarAvatarCommandExecute()
         {
-            OpenFileDialog Abrir = new OpenFileDialog();
-            BitmapImage auxImagen = new BitmapImage();
-            Abrir.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            BitmapImage imagenAuxiliar = new BitmapImage();
+            openFileDialog.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
               "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
               "Portable Network Graphic (*.png)|*.png";
-            if (Abrir.ShowDialog() == true)
+            if (openFileDialog.ShowDialog() == true)
             {
-                auxImagen.BeginInit();
-                auxImagen.UriSource = new Uri(Abrir.FileName);
-                auxImagen.EndInit();
+                imagenAuxiliar.BeginInit();
+                imagenAuxiliar.UriSource = new Uri(openFileDialog.FileName);
+                imagenAuxiliar.EndInit();
 
-                string path = auxImagen.UriSource.OriginalString;
-                FileStream sr = new FileStream(path, FileMode.Open, FileAccess.Read);
-                byte[] bytes = new byte[sr.Length];
-                sr.Read(bytes, 0, bytes.Length);
-                Socio.ImagenSocio = bytes;
-                //ImagenSocio = new BitmapImage(new Uri(Abrir.FileName, UriKind.Absolute));
-                //_rutaImagen = Abrir.FileName;
-                //RutaImagen = new BitmapImage(new Uri(_rutaImagen));
-                //Socio.ImagenSocio = new BitmapImage(new Uri(_rutaImagen));
+                string imagenPath = imagenAuxiliar.UriSource.OriginalString;
+                FileStream imagenFileStream = new FileStream(imagenPath, FileMode.Open, FileAccess.Read);
+                byte[] bytes = new byte[imagenFileStream.Length];
+                imagenFileStream.Read(bytes, 0, bytes.Length);
 
+                Socio.Imagen = bytes;
             }
-            //OpenFileDialog op = new OpenFileDialog();
-            //op.Title = "Selecciona una imagen";
-            //op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
-            //  "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
-            //  "Portable Network Graphic (*.png)|*.png";
-            //if (op.ShowDialog() == true)
-            //{
-            //    //Socio.AvatarPath = new BitmapImage(new Uri(op.FileName));
-            //    Socio.AvatarPath = Socio.Id + "-" + DateTime.Now.Ticks +
-            //        op.FileName.Substring(
-            //            op.FileName.IndexOf(".", op.FileName.Length - 5));
 
-            //    File.Copy(op.FileName, Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-            //        + @"\IconsAndImages\" + Socio.AvatarPath, true);
-            //}
-        }
-        public BitmapImage ImagenSocio
-        {
-            get { return _imagenSocio; }
-            set { SetProperty(ref _imagenSocio, value); }
-        }
-        public bool EdicionHabilitada
-        {
-            get { return _EdicionHabilitada; }
-            set { SetProperty(ref _EdicionHabilitada, value); }
         }
 
         public SocioWrapper Socio
@@ -89,7 +56,7 @@ namespace Gama.Socios.Wpf.ViewModels
 
         public void Load(SocioWrapper wrapper)
         {
-            EdicionHabilitada = false;
+            Socio.IsInEditionMode = false;
             Socio = wrapper;
         }
     }

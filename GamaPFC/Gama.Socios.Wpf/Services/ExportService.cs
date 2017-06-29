@@ -92,7 +92,7 @@ namespace Gama.Socios.Wpf.Services
             }
 
 
-            MemoryStream stream = new MemoryStream(socio.ImagenSocio);
+            MemoryStream stream = new MemoryStream(socio.Imagen);
             Novacode.Image img = document.AddImage(stream); // Create image.
             Picture pic1 = img.CreatePicture();     // Create picture.
             //pic1.Height = 179;

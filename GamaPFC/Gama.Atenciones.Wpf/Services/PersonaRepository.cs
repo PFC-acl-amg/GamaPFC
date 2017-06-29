@@ -34,6 +34,13 @@ namespace Gama.Atenciones.Wpf.Services
             }
         }
 
+        // Se llama al establecerse la propiedad 'Session'
+        public override void Initialize()
+        {
+            // Generará las personas Y los nifs
+            Nifs = Personas.Select(x => x.Nif).ToList();
+        }
+
         private void RaiseActualizarServidor() 
         {
             if (AtencionesResources.ClientService != null && AtencionesResources.ClientService.IsConnected())
@@ -48,13 +55,6 @@ namespace Gama.Atenciones.Wpf.Services
         }
 
         public static List<string> Nifs { get; set; }
-
-        // Se llama al establecerse la propiedad 'Session'
-        public override void Initialize()
-        {
-            // Generará las personas Y los nifs
-            Nifs = Personas.Select(x => x.Nif).ToList();
-        }
 
         public override Persona GetById(int id)
         {

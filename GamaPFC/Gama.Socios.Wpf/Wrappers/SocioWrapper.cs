@@ -1,5 +1,6 @@
 ﻿using Core;
 using Gama.Socios.Business;
+using Gama.Socios.Wpf.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -92,14 +93,14 @@ namespace Gama.Socios.Wpf.Wrappers
 
         public bool FacebookIsChanged => GetIsChanged(nameof(Facebook));
 
-        public byte[] ImagenSocio
+        public byte[] Imagen
         {
             get { return GetValue<byte[]>(); }
             set { SetValue(value); }
         }
-        public byte[] ImagenSocioOriginalValue => GetOriginalValue<byte[]>(nameof(ImagenSocio));
+        public byte[] ImagenOriginalValue => GetOriginalValue<byte[]>(nameof(Imagen));
 
-        public bool ImagenSocioIsChanded => GetIsChanged(nameof(ImagenSocio));
+        public bool ImagenIsChanded => GetIsChanged(nameof(Imagen));
 
         public string LinkedIn
         {
@@ -183,7 +184,7 @@ namespace Gama.Socios.Wpf.Wrappers
             {
                 results.Add(new ValidationResult("El campo de NIF es obligatorio", new[] { nameof(Nif) }));
             }
-            else if (Nif != _SavedNif && SociosResources.TodosLosNif.Contains(Nif))
+            else if (Nif != _SavedNif && SocioRepository.Nifs.Contains(Nif))
             {
                 results.Add(new ValidationResult("El NIF introducido ya existe", new[] { nameof(Nif) }));
             }
@@ -198,9 +199,9 @@ namespace Gama.Socios.Wpf.Wrappers
                 results.Add(new ValidationResult("El campo de fecha de nacimiento es obligatorio", new[] { nameof(FechaDeNacimiento) }));
             }
 
-            if (ImagenSocio != null && ImagenSocio.Length > 524288)
+            if (Imagen != null && Imagen.Length > 524288)
             {
-                results.Add(new ValidationResult("La imagen no debe superar los 512 KB", new[] { nameof(ImagenSocio) }));
+                results.Add(new ValidationResult("La imagen no debe superar los 512 KB", new[] { nameof(Imagen) }));
             }
 
             var pattern =

@@ -46,12 +46,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 imagenAuxiliar.UriSource = new Uri(openFileDialog.FileName);
                 imagenAuxiliar.EndInit();
 
-                //var imagenAuxiliar2 = new BitmapImage();
-                //imagenAuxiliar2.BeginInit();
-                //imagenAuxiliar2.UriSource = new Uri(openFileDialog.FileName);
-                //imagenAuxiliar2.Width = imagenAuxiliar.Width;
-                //imagenAuxiliar2.EndInit();
-
                 string imagenPath = imagenAuxiliar.UriSource.OriginalString;
                 FileStream imagenFileStream = new FileStream(imagenPath, FileMode.Open, FileAccess.Read);
                 byte[] bytes = new byte[imagenFileStream.Length];
@@ -80,25 +74,3 @@ namespace Gama.Atenciones.Wpf.ViewModels
         }
     }
 }
-
-
-        //Se mantiene comentado porque nos resulta código útil
-        //private void OnExaminarAvatarCommandExecute()
-        //{
-        //    OpenFileDialog op = new OpenFileDialog();
-        //    op.Title = "Selecciona una imagen";
-        //    op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
-        //      "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
-        //      "Portable Network Graphic (*.png)|*.png";
-        //    if (op.ShowDialog() == true)
-        //    {
-        //        Persona.AvatarPath = Persona.Id + "-" + DateTime.Now.Ticks +
-        //            op.FileName.Substring(
-        //                op.FileName.IndexOf(".", op.FileName.Length - 5));
-        //
-        //        File.Copy(op.FileName, Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-        //            + @"\IconsAndImages\" + Persona.AvatarPath, true);
-        //
-        //        OnPropertyChanged(nameof(Persona));
-        //    }
-        //}

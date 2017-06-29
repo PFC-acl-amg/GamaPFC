@@ -49,16 +49,16 @@ namespace Gama.Socios.Wpf.ViewModels
 
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
-                () => !_SocioVM.EdicionHabilitada);
+                () => !_SocioVM.Socio.IsInEditionMode);
 
             ActualizarCommand = new DelegateCommand(
                 OnActualizarCommand,
-                () => _SocioVM.EdicionHabilitada
+                () => _SocioVM.Socio.IsInEditionMode
                    && Socio.IsChanged
                    && Socio.IsValid);
 
             CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand,
-                () => _SocioVM.EdicionHabilitada);
+                () => _SocioVM.Socio.IsInEditionMode);
 
             DarDeAltaBajaCommand = new DelegateCommand(OnDarDeAltaBajaCommandExecute);
 
@@ -121,29 +121,22 @@ namespace Gama.Socios.Wpf.ViewModels
 
         private void OnActualizarCommand()
         {
-            Socio.UpdatedAt = DateTime.Now;
             _SocioRepository.Update(Socio.Model);
             _SocioVM.Socio.AcceptChanges();
-            _SocioVM.EdicionHabilitada = false;
+            _SocioVM.Socio.IsInEditionMode = false;
+            _SocioVM.Socio.IsInEditionMode = false;
             RefrescarTitulo(Socio.Nombre);
-            if (Socio._SavedNif != Socio.Nif)
-            {
-                SociosResources.TodosLosNif.Remove(Socio._SavedNif);
-                SociosResources.TodosLosNif.Add(Socio.Nif);
-                Socio._SavedNif = Socio.Nif;
-            }
-            _EventAggregator.GetEvent<SocioActualizadoEvent>().Publish(this.Socio.Model);
         }
 
         private void OnHabilitarEdicionCommand()
         {
-            _SocioVM.EdicionHabilitada = true;
+            _SocioVM.Socio.IsInEditionMode = true;
         }
 
         private void OnCancelarEdicionCommand()
         {
             Socio.RejectChanges();
-            _SocioVM.EdicionHabilitada = false;
+            _SocioVM.Socio.IsInEditionMode = false;
         }
 
         private void OnDarDeAltaBajaCommandExecute()
@@ -162,14 +155,9 @@ namespace Gama.Socios.Wpf.ViewModels
             _EventAggregator.GetEvent<SocioActualizadoEvent>().Publish(Socio.Model);
         }
 
-        public override bool IsNavigationTarget(NavigationContext navigationContext)
+        public bool IsNavigationTarget(int id)
         {
-            var id = (int)navigationContext.Parameters["Id"];
-
-            if (Socio.Id == id)
-                return true;
-
-            return false;
+            return (Socio.Id == id);
         }
 
         public override void OnActualizarServidor()
@@ -189,7 +177,7 @@ namespace Gama.Socios.Wpf.ViewModels
             //}
         }
 
-        public void Load(int id)
+        public void OnNavigatedTo(int id)
         {
             try
             {
@@ -200,27 +188,16 @@ namespace Gama.Socios.Wpf.ViewModels
                     _SocioRepository.GetById(id));
 
                 _SocioVM.Load(Socio);
-               // _CuotasVM.Load(_SocioVM.Socio);
+                // _CuotasVM.Load(_SocioVM.Socio);
                 _EditarPeriodosDeAltaViewModel.Load(_SocioVM.Socio);
                 RefrescarTitulo(Socio.Nombre);
                 TextoDeDarDeAltaBaja = Socio.EstaDadoDeAlta ? "Dar de baja" : "Dar de alta";
-                
+
             }
             catch (Exception)
             {
                 throw;
             }
-        }
-
-        public void OnNavigatedTo(int id)
-        {
-            Load(id);
-        }
-
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            var id = (int)navigationContext.Parameters["Id"];
-            Load(id);
         }
 
         private void RefrescarTitulo(string nombre)
@@ -244,7 +221,7 @@ namespace Gama.Socios.Wpf.ViewModels
 
         private void SocioVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(_SocioVM.EdicionHabilitada))
+            if (e.PropertyName == nameof(_SocioVM.Socio.IsInEditionMode))
             {
                 InvalidateCommands();
             }

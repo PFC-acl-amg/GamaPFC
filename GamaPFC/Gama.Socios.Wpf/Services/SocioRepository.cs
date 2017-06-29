@@ -2,6 +2,7 @@
 using Core.Util;
 using Gama.Common.CustomControls;
 using Gama.Socios.Business;
+using Gama.Socios.Wpf.Eventos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,143 @@ namespace Gama.Socios.Wpf.Services
 {
     public class SocioRepository : NHibernateOneSessionRepository<Socio, int>, ISocioRepository
     {
+        private List<Socio> _Socios;
+
+        public List<Socio> Socios
+        {
+            get
+            {
+                if (_Socios == null)
+                    _Socios = base.GetAll();
+
+                return _Socios;
+            }
+        }
+
+        public static List<string> Nifs { get; set; }
+
+        // Se llama al establecerse la propiedad 'Session'
+        public override void Initialize()
+        {
+            // Generará las personas Y los nifs
+            Nifs = Socios.Select(x => x.Nif).ToList();
+        }
+
+        private void RaiseActualizarServidor()
+        {
+            if (SociosResources.ClientService != null && SociosResources.ClientService.IsConnected())
+                SociosResources.ClientService.EnviarMensaje($"Cliente {SociosResources.ClientId} ha hecho un broadcast @@{Guid.NewGuid()}%%");
+        }
+
+        public override void UpdateClient()
+        {
+            _Socios = base.GetAll();
+            Nifs.Clear();
+            Nifs.AddRange(_Socios.Select(p => p.Nif));
+        }
+
+        public override Socio GetById(int id)
+        {
+            return Socios.Find(x => x.Id == id);
+        }
+
+        public override List<Socio> GetAll()
+        {
+            return Socios;
+        }
+
+        public List<LookupItem> GetAllForLookup()
+        {
+            return Socios
+                .Select(
+                    x => new LookupItem
+                    {
+                        Id = x.Id,
+                        DisplayMember1 = x.Nombre,
+                        DisplayMember2 = x.Nif,
+                        Imagen = x.Imagen
+                    }).ToList();
+        }
+
+        public override void Create(Socio entity)
+        {
+            base.Create(entity);
+            Socios.Add(entity);
+            AddNif(entity.Nif);
+            _EventAggregator.GetEvent<SocioCreadoEvent>().Publish(entity.Id);
+            RaiseActualizarServidor();
+        }
+
+        public override bool Update(Socio entity)
+        {
+            if (base.Update(entity))
+            {
+                Socios.Remove(Socios.Find(x => x.Id == entity.Id));
+                Socios.Add(entity);
+                if (entity._SavedNif != entity.Nif)
+                {
+                    ReplaceNif(entity._SavedNif, entity.Nif);
+                    entity._SavedNif = entity.Nif;
+                }
+                _EventAggregator.GetEvent<SocioActualizadoEvent>().Publish(entity);
+                RaiseActualizarServidor();
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public override void Delete(Socio entity)
+        {
+            // WARNING: Debe hacer antes la publicación del evento porque se recoge
+            // la persona para ver sus citas y atenciones desde otros viewmodels
+            _EventAggregator.GetEvent<SocioEliminadoEvent>().Publish(entity.Id);
+            base.Delete(entity);
+            Socios.Remove(Socios.Find(x => x.Id == entity.Id));
+            Nifs.Remove(entity.Nif);
+        }
+
+        public IEnumerable<int> GetSociosNuevasPorMes(int numeroDeMeses)
+        {
+            List<int> resultado;
+            try
+            {
+                resultado = Session.CreateSQLQuery(@"
+                SELECT COUNT(Id)
+                FROM `personas` 
+                GROUP BY
+                    YEAR(CreatedAt), 
+                    MONTH(CreatedAt) 
+                ORDER BY 
+                    YEAR(CreatedAt) DESC, 
+                    MONTH(CreatedAt) DESC")
+                        .SetMaxResults(numeroDeMeses)
+                        .List<object>()
+                        .Select(r => int.Parse(r.ToString()))
+                        .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return resultado;
+        }
+
+        public void AddNif(string nif)
+        {
+            if (!Nifs.Contains(nif))
+            {
+                Nifs.Add(nif);
+            }
+        }
+
+        public void ReplaceNif(string remove, string add)
+        {
+            Nifs.Remove(remove);
+            Nifs.Add(add);
+        }
         public IEnumerable<int> GetSociosNuevosPorMes(int numeroDeMeses)
         {
             List<int> resultado;
@@ -65,102 +203,5 @@ namespace Gama.Socios.Wpf.Services
 
             return resultado;
         }
-
-        public List<LookupItem> GetAllForLookup()
-        {
-            var socios = Session.CreateCriteria<Socio>().List<Socio>()
-                .Select(x => (Socio)x.DecryptFluent())
-                .Select(
-                x => new LookupItem
-                {
-                    Id = x.Id,
-                    DisplayMember1 = x.Nombre,
-                    DisplayMember2 = x.Nif
-                }).ToList();
-
-            //var result = new List<LookupItem>(socios);
-
-            return socios;
-        }
-
-        //public override List<Socio> GetAll()
-        //{
-        //    try
-        //    {
-        //        //using (var tx = Session.BeginTransaction())
-        //        //{
-        //        var result = Session.CreateCriteria<Socio>().List<Socio>()
-        //            .Select(x => x.DecryptFluent()).ToList();
-        //        //tx.Commit();
-        //        return result;
-        //        //}
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-
-        //public override void Create(Socio entity)
-        //{
-        //    try
-        //    {
-        //        using (var tx = Session.BeginTransaction())
-        //        {
-        //            entity.Encrypt();
-        //            Session.Save(entity);
-
-        //            tx.Commit();
-        //            //entity.Decrypt();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-
-        //public override Socio GetById(int id)
-        //{
-        //    try
-        //    {
-        //        //using (var tx = Session.BeginTransaction())
-        //        //{
-        //        var result = Session.Get<Socio>((object)id);
-        //        result.Decrypt();
-        //        //tx.Commit();
-        //        return result;
-        //        //}
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-
-        //public override bool Update(Socio entity)
-        //{
-        //    try
-        //    {
-        //        using (var tx = Session.BeginTransaction())
-        //        {
-        //            entity.Encrypt();
-        //            Session.Update(entity);
-        //            //Session.Merge(entity);
-        //            tx.Commit();
-        //            entity.Decrypt();
-
-        //        }
-
-        //        return true;
-        //    }
-        //    catch (NHibernate.Exceptions.GenericADOException e)
-        //    {
-        //        var message = e.Message;
-        //        throw e;
-        //    }
-        //}
-
-
     }
 }

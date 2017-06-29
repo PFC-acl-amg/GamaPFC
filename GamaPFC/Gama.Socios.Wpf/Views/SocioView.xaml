@@ -20,7 +20,7 @@
     </UserControl.Resources>
   <GroupBox Header="Datos Personales">
     <ScrollViewer>
-      <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding EdicionHabilitada}">
+      <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding Socio.IsInEditionMode}">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" MaxWidth="300"/>
           <ColumnDefinition Width="*" MaxWidth="300"/>
