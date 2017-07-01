@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 using Gama.Common.Eventos;
+using Core.Util;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -111,6 +112,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnActualizarCommand()
         {
+            UIServices.SetBusyState();
             _PersonaRepository.Update(Persona.Model);
             _PersonaVM.Persona.AcceptChanges();
             _PersonaVM.Persona.IsInEditionMode = false;
