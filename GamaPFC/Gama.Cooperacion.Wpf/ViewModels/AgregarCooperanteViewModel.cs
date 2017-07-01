@@ -21,9 +21,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 {
     public class AgregarCooperanteViewModel : ViewModelBase
     {
-        private IEventAggregator _EventAggregator;  // para cuando se agrege un nuevo cooperante actualizar las vistas necesarias
+        private IEventAggregator _EventAggregator;           // para cuando se agrege un nuevo cooperante actualizar las vistas necesarias
         private ICooperanteRepository _CooperanteRepository; // Para acceder a la BBDD, a la tabla "cooperantes"
-        private CooperanteWrapper _NuevoCooperante; //Contendrá la informacióndel nuevo cooperante
+        private CooperanteWrapper _NuevoCooperante;          //Contendrá la informacióndel nuevo cooperante
         private double _TamW;
         private double _TamH;
         private BitmapImage _Fotito;
@@ -56,9 +56,25 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             ((DelegateCommand)CancelarCommand).RaiseCanExecuteChanged();
         }
 
+
+        //--------------
+        // Command Interface
+        //--------------
         public ICommand AceptarCommand { get; set; }
         public ICommand CancelarCommand { get; set; }
         public ICommand ExaminarFotoCommand { get; private set; }
+
+        private void OnAceptarCommand_Execute()
+        {
+            NuevoCooperante.CreatedAt = DateTime.Now;
+            _CooperanteRepository.Create(NuevoCooperante.Model);
+            _EventAggregator.GetEvent<CooperanteCreadoEvent>().Publish(NuevoCooperante);
+            Cerrar = true;
+        }
+        private void OnCancelarCommand_Execute()
+        {
+            Cerrar = true;
+        }
         private void OnExaminarFotoCommandExecute()
         {
             OpenFileDialog Abrir = new OpenFileDialog();
@@ -71,7 +87,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 auxImagen.BeginInit();
                 auxImagen.UriSource = new Uri(Abrir.FileName);
                 auxImagen.EndInit();
-                //-------
                 string path = auxImagen.UriSource.OriginalString;
                 FileStream sr = new FileStream(path, FileMode.Open, FileAccess.Read);
                 byte[] bytes = new byte[sr.Length];
@@ -83,13 +98,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             if (NuevoCooperante.Foto != null) VisibleFotoSeleccionada = true;
             else VisibleFotoSeleccionada = false;
         }
-        private void OnAceptarCommand_Execute()
-        {
-            NuevoCooperante.CreatedAt = DateTime.Now;
-            _CooperanteRepository.Create(NuevoCooperante.Model);
-           _EventAggregator.GetEvent<CooperanteCreadoEvent>().Publish(NuevoCooperante);
-            Cerrar = true;
-        }
+       
         private bool OnAceptarCommand_CanExecute()
         {
             var Activar = NuevoCooperante.Nombre != null && NuevoCooperante.Apellido != null &&
@@ -97,39 +106,44 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             return Activar;
 
         }
-        private void OnCancelarCommand_Execute()
-        {
-            Cerrar = true;
-        }
         private bool OnCancelarCommand_CanExecute()
         {
             return true;
         }
+
+        //--------------
+        // Bindings
+        //--------------
         public BitmapImage Fotito
         {
             get { return _Fotito; }
             set { SetProperty(ref _Fotito, value); }
-        }
-        public CooperanteWrapper NuevoCooperante
-        {
-            get { return _NuevoCooperante; }
-            set { SetProperty(ref _NuevoCooperante, value); }
         }
         public bool? Cerrar
         {
             get { return _Cerrar; }
             set { SetProperty(ref _Cerrar, value); }
         }
-        public double TamW
+        public CooperanteWrapper NuevoCooperante
         {
-            get { return _TamW; }
-            set { SetProperty(ref _TamW, value); }
+            get { return _NuevoCooperante; }
+            set { SetProperty(ref _NuevoCooperante, value); }
         }
         public double TamH
         {
             get { return _TamH; }
             set { SetProperty(ref _TamH, value); }
         }
+        public double TamW
+        {
+            get { return _TamW; }
+            set { SetProperty(ref _TamW, value); }
+        }
+
+        //--------------------------
+        // Visibility Property
+        //--------------------------
+
         public bool VisibleFotoSeleccionada
         {
             get { return _VisibleFotoSeleccionada; }

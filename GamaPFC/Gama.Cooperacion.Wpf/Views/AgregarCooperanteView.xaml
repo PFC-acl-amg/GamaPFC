@@ -30,7 +30,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="160" />
+            <RowDefinition Height="170" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="40" />
@@ -53,82 +53,26 @@
                         <RowDefinition Height="35" />
                         <RowDefinition Height="35" />
                     </Grid.RowDefinitions>
-                    <!--<StackPanel Grid.Column="0" Grid.Row="0">
-                        <Label>dfvadsv</Label>
-                    </StackPanel>-->
-                    <!--<StackPanel Grid.Column="0" Grid.RowSpan="4">
-                        <Button Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Margin="0,50,0,-7" Command="{Binding ExaminarFotoCommand}" HorizontalAlignment="Center">
-                            <Rectangle Width="18" Height="18" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_camera_switch}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button>
-                    </StackPanel>-->
-
-                             <!--<Image Grid.Column="0" Grid.Row="0" Source="{Binding Fotito}" Stretch="Fill" StretchDirection="Both">
-                            <Image.BitmapEffect>
-                                <DropShadowBitmapEffect Color="Black" />
-                            </Image.BitmapEffect>
-                        </Image>-->
-                        
-                        <!--
-                        
-                       wrtgsg
-                        -->
-                        <Ellipse Height="139"
+                    <Ellipse Height="139"
                                  Grid.Row="0" Grid.RowSpan="4"
-                           Width="139" 
-                           
-                           OpacityMask="{StaticResource _RadialGradientBrush}" 
-                           AllowDrop="True">
-                            <Ellipse.Fill>
-                                <ImageBrush x:Name="_ImagenImageBrush" ImageSource="{Binding NuevoCooperante.Foto, Converter={StaticResource BinaryImageConverter}}" Stretch="Uniform"/>
-                            </Ellipse.Fill>
-                            <Ellipse.Style>
-                                <Style TargetType="Ellipse">
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Cursor" Value="Hand"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Ellipse.Style>
-                            <Ellipse.InputBindings>
+                                 Width="139" 
+                                 OpacityMask="{StaticResource _RadialGradientBrush}" AllowDrop="True">
+                        <Ellipse.Fill>
+                            <ImageBrush x:Name="_ImagenImageBrush" ImageSource="{Binding NuevoCooperante.Foto, Converter={StaticResource BinaryImageConverter}}" Stretch="Uniform"/>
+                        </Ellipse.Fill>
+                        <Ellipse.Style>
+                            <Style TargetType="Ellipse">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                        <Ellipse.InputBindings>
                             <MouseBinding MouseAction="LeftClick" Command="{Binding ExaminarFotoCommand}"/>
-                            </Ellipse.InputBindings>
-                        </Ellipse>
-
-
-
-
-
-                        <!--
-                        
-                       wrtgsg
-                        -->
-
-                        <!--<Ellipse Height="100" Width="100" OpacityMask="{StaticResource _RadialGradientBrush}">
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="{Binding NuevoCooperante.Foto, Converter={StaticResource BinaryImageConverter}}" Stretch="Uniform"/>
-                            </Ellipse.Fill>
-                            --><!--<i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseDoubleClick">
-                                    <prism:InvokeCommandAction Command="{Binding ExaminarFotoCommand}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>--><!--
-                        </Ellipse>-->
-                        
-                        <!--<Image Source="{Binding NuevoCooperante.Foto, 
-                                    Converter={StaticResource BinaryImageConverter}}" 
-                                    Stretch="Uniform"
-                                       MinHeight="105" MaxHeight="105"
-                                    StretchDirection="Both">
-                            <Image.BitmapEffect>
-                                <DropShadowBitmapEffect Color="Black" />
-                            </Image.BitmapEffect>
-                        </Image>-->
-                       <!--Zona Foto -->
+                        </Ellipse.InputBindings>
+                    </Ellipse>
                     
                     <TextBox  Name="NombreCooperante"
                                       Grid.Row="0" Grid.Column="1"
@@ -152,12 +96,11 @@
                                       Margin="{StaticResource Margin}"
                                       Text="{Binding NuevoCooperante.Dni,UpdateSourceTrigger=PropertyChanged}"/>
                     <DatePicker HorizontalAlignment="Left" Grid.Row="3" Grid.Column="1"
-                                 SelectedDate="{Binding NuevoCooperante.FechaDeNacimiento, 
-                                    UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                Margin="{StaticResource Margin}"
-                                    Height="24" Width="180" />
+                                SelectedDate="{Binding NuevoCooperante.FechaDeNacimiento, 
+                                UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                Margin="{StaticResource Margin}"/>
                 </Grid>
-            </StackPanel>                             <!--FIN DATOS DNI-->
+            </StackPanel> 
         </Border>
         <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="3" Background="#9999AB" Padding="4"
                                             CornerRadius="3"

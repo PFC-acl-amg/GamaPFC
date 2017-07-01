@@ -25,6 +25,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private ISession _Session;
         private DateTime _Now;
         private bool _VisibleListaCooperantes;
+        private CooperanteViewModel _CooperanteViewModel;
+        private CooperanteWrapper _CooperanteSeleccionado;
 
         public CooperantesContentViewModel(
             IEventAggregator eventAggregator,
@@ -62,52 +64,30 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             CancelarBotonEditarCommand = new DelegateCommand(OnCancelarEdicionCommand,
                 () => _CooperanteViewModel.Cooperante.IsInEditionMode);
 
-            VerListaCooperantesCommand = new DelegateCommand(OnVerListaCooperantesCommand);
-            //EditarCitaCommand = new DelegateCommand<CitaWrapper>(OnEditarCitaCommandExecute);
-
-            //SeleccionarPersonaCommand = new DelegateCommand<CitaWrapper>(OnSeleccionarPersonaCommand);
-
             _EventAggregator.GetEvent<CooperanteCreadoEvent>().Subscribe(OnCooperanteCreadoEvent);
             _EventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
             _EventAggregator.GetEvent<ActividadEliminadaEvent>().Subscribe(OnActividadEliminadaEvent);
             _EventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnActividadNuevaEvent);
-            //_EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
-            //_EventAggregator.GetEvent<AsistenteCreadoEvent>().Subscribe(OnAsistenteCreadoEvent);
-            //_EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
-            //_EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
-            SelectActividadCommand = new DelegateCommand<object>(OnSelectActividadCommand);
-            EditarActividadCommand = new DelegateCommand<object>(OnEditarActividadCommandExecute);
+
             BorrarActividadCommand = new DelegateCommand<object>(OnBorrarActividadCommandExecute);
+            EditarActividadCommand = new DelegateCommand<object>(OnEditarActividadCommandExecute);
+            SelectActividadCommand = new DelegateCommand<object>(OnSelectActividadCommand);
+            VerListaCooperantesCommand = new DelegateCommand(OnVerListaCooperantesCommand);
+            
             Gama.Common.Debug.Debug.StopWatch("CooperantesContentViewModel");
 
         }
-        private void OnActividadNuevaEvent(int id)
-        {
-            var actividad = _ActividadRepository.GetById(id);
-            ListaCompletaActividades.Add(actividad);
-            RefrescarVista();
-            //CooperanteSeleccionado.
-            //var actividad = _ActividadRepository.GetById(id);
-            //if (actividad.Coordinador.Id == CooperanteSeleccionado.Id) ActividadesCoordina.Add(actividad);
-            //var Coop = actividad.Cooperantes.Where(x => x.Id == CooperanteSeleccionado.Id).FirstOrDefault();
-            //if (Coop != null) ActividadesCoopera.Add(actividad);
-            //var Coop = Cooperantes.Where(x => x.Id == obj.Id).FirstOrDefault();
+        //-------------------------------------------------
+        // Observable Collections
+        //-------------------------------------------------
+        public ObservableCollection<CooperanteWrapper> Cooperantes { get; private set; }
+        public ObservableCollection<Actividad> ListaCompletaActividades { get; private set; }
+        public ObservableCollection<Actividad> ActividadesCoordina { get; private set; }
+        public ObservableCollection<Actividad> ActividadesCoopera { get; private set; }
 
-
-        }
-        private void OnActividadEliminadaEvent(Actividad obj)
-        {
-            ActividadesCoopera.Remove(obj);
-            ActividadesCoordina.Remove(obj);
-
-        }
-        private void OnBorrarActividadCommandExecute(object param)
-        {
-            var lookup = param as Actividad;
-            _ActividadRepository.Delete(lookup);
-            _EventAggregator.GetEvent<ActividadEliminadaEvent>().Publish(lookup);
-
-        }
+        //--------------------------
+        // Events
+        //--------------------------
         private void OnActividadActualizadaEvent(int id)
         {
             var actividadActualizada = _ActividadRepository.GetById(id);
@@ -118,7 +98,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 ActividadesCoordina.Insert(0, actividadActualizada);
 
             }
-                if (ActividadesCoopera.Any(a => a.Id == id))
+            if (ActividadesCoopera.Any(a => a.Id == id))
             {
                 var indice = ActividadesCoopera.IndexOf(ActividadesCoopera.Single(a => a.Id == id));
                 ActividadesCoopera.RemoveAt(indice);
@@ -126,18 +106,46 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             }
         }
+        private void OnActividadEliminadaEvent(Actividad obj)
+        {
+            ActividadesCoopera.Remove(obj);
+            ActividadesCoordina.Remove(obj);
+
+        }
+        private void OnActividadNuevaEvent(int id)
+        {
+            var actividad = _ActividadRepository.GetById(id);
+            ListaCompletaActividades.Add(actividad);
+            RefrescarVista();
+        }
         private void OnCooperanteCreadoEvent(CooperanteWrapper param)
         {
-            //var NewCoop = _CooperanteRepository.GetById(param);
-            Cooperantes.Insert(0,param);
+            Cooperantes.Insert(0, param);
         }
 
-        private void OnSelectActividadCommand(object param)
+        //--------------------------------
+        // Commands Interfaces
+        //--------------------------------
+        public ICommand BorrarActividadCommand { get; set; }
+        public ICommand CancelarBotonEditarCommand { get; private set; }
+        public ICommand EditarActividadCommand { get; set; }
+        public ICommand GuardarBotonCommand { get; private set; }
+        public ICommand HabilitarBotonEditarCommand { get; private set; }
+        public ICommand SelectActividadCommand { get; set; }
+        public ICommand VerListaCooperantesCommand { get; set; }
+      
+        private void OnBorrarActividadCommandExecute(object param)
         {
             var lookup = param as Actividad;
-            if (lookup != null) _EventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish(lookup.Id);
-        }
+            _ActividadRepository.Delete(lookup);
+            _EventAggregator.GetEvent<ActividadEliminadaEvent>().Publish(lookup);
 
+        }
+        private void OnCancelarEdicionCommand()
+        {
+            _CooperanteViewModel.Cooperante.RejectChanges();
+            _CooperanteViewModel.Cooperante.IsInEditionMode = false;
+        }
         private void OnEditarActividadCommandExecute(object param)
         {
             var lookup = param as Actividad;
@@ -147,25 +155,31 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             o.Title = "Editar Actividad";
             o.ShowDialog();
         }
-
+        private void OnGuardarBotonCommand()
+        {
+            _CooperanteViewModel.Cooperante.UpdatedAt = DateTime.Now;
+            _CooperanteRepository.Update(_CooperanteViewModel.Cooperante.Model);
+            _CooperanteViewModel.Cooperante.AcceptChanges();
+            _CooperanteViewModel.Cooperante.IsInEditionMode = false;
+        }
+        private void OnHabilitarBotonEditarCommand()
+        {
+            _CooperanteViewModel.Cooperante.IsInEditionMode = true;
+        }
+        private void OnSelectActividadCommand(object param)
+        {
+            var lookup = param as Actividad;
+            if (lookup != null) _EventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish(lookup.Id);
+        }
         private void OnVerListaCooperantesCommand()
         {
             if (VisibleListaCooperantes == true) VisibleListaCooperantes = false;
             else VisibleListaCooperantes = true;
         }
 
-        public ObservableCollection<CooperanteWrapper> Cooperantes { get; private set; }
-        public ObservableCollection<Actividad> ListaCompletaActividades { get; private set; }
-        public ObservableCollection<Actividad> ActividadesCoordina { get; private set; }
-        public ObservableCollection<Actividad> ActividadesCoopera { get; private set; }
-
-        private CooperanteViewModel _CooperanteViewModel;
-        public CooperanteViewModel CooperanteViewModel
-        {
-            get { return _CooperanteViewModel; }
-            set { SetProperty(ref _CooperanteViewModel, value); }
-        }
-        private CooperanteWrapper _CooperanteSeleccionado;
+        //----------------------
+        // Bindings
+        //----------------------
         public CooperanteWrapper CooperanteSeleccionado
         {
             get { return _CooperanteSeleccionado; }
@@ -175,6 +189,40 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 RefrescarVista();
                 OnPropertyChanged();
             }
+        }
+        public CooperanteViewModel CooperanteViewModel
+        {
+            get { return _CooperanteViewModel; }
+            set { SetProperty(ref _CooperanteViewModel, value); }
+        }
+
+        //---------------------------
+        // Visibilities Properties
+        //---------------------------
+        public bool VisibleListaCooperantes
+        {
+            get { return _VisibleListaCooperantes; }
+            set { SetProperty(ref _VisibleListaCooperantes, value); }
+        }
+
+        //---------------------------
+        // Funciones/procedimientos 
+        //---------------------------
+        public override void OnActualizarServidor()
+        {
+            Cooperantes = new ObservableCollection<CooperanteWrapper>(
+                _CooperanteRepository.GetAll()
+                .Select(x => new CooperanteWrapper(x)));
+            ListaCompletaActividades = new ObservableCollection<Actividad>(
+                _ActividadRepository.GetAll());
+
+            ActividadesCoordina = new ObservableCollection<Actividad>();
+            ActividadesCoopera = new ObservableCollection<Actividad>();
+
+            if (Cooperantes.Count > 0)
+                CooperanteSeleccionado = Cooperantes.First();
+
+            OnPropertyChanged(nameof(Cooperantes));
         }
         private void RefrescarVista()
         {
@@ -205,66 +253,15 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             }
         }
-        public ICommand HabilitarBotonEditarCommand { get; private set; }
-        public ICommand GuardarBotonCommand { get; private set; }
-        public ICommand CancelarBotonEditarCommand { get; private set; }
-        public ICommand EditarCitaCommand { get; private set; }
-        public ICommand SeleccionarPersonaCommand { get; private set; }
-        public ICommand VerListaCooperantesCommand { get; set; }
-        public ICommand SelectActividadCommand { get; set; }
-        public ICommand EditarActividadCommand { get; set; }
-        public ICommand BorrarActividadCommand { get; set; }
-        public override void OnActualizarServidor()
-        {
-            Cooperantes = new ObservableCollection<CooperanteWrapper>(
-                _CooperanteRepository.GetAll()
-                .Select(x => new CooperanteWrapper(x)));
-            ListaCompletaActividades = new ObservableCollection<Actividad>(
-                _ActividadRepository.GetAll());
-
-            ActividadesCoordina = new ObservableCollection<Actividad>();
-            ActividadesCoopera = new ObservableCollection<Actividad>();
-
-            if (Cooperantes.Count > 0)
-                CooperanteSeleccionado = Cooperantes.First();
-
-            OnPropertyChanged(nameof(Cooperantes));
-        }
-        private void OnGuardarBotonCommand()
-        {
-            _CooperanteViewModel.Cooperante.UpdatedAt = DateTime.Now;
-            _CooperanteRepository.Update(_CooperanteViewModel.Cooperante.Model);
-            _CooperanteViewModel.Cooperante.AcceptChanges();
-            _CooperanteViewModel.Cooperante.IsInEditionMode = false;
-            //RefrescarTitulo(AsistenteSeleccionado.Nombre);
-            //if (_CooperanteViewModel.Cooperante._SavedNif != _CooperanteViewModel.Cooperante.Nif)
-            //{
-            //    //CooperacionResources.TodosLosNifDeAsistentes.Remove(_CooperanteViewModel.Cooperante._SavedNif);
-            //    //CooperacionResources.TodosLosNifDeAsistentes.Add(_CooperanteViewModel.Cooperante.Nif);
-            //    //CooperanteSeleccionado._SavedNif = _CooperanteViewModel.Cooperante.Nif;
-            //}
-            //_EventAggregator.GetEvent<AsistenteActualizadoEvent>().Publish(_AsistenteViewModel.Asistente.Id);
-
-        }
-        private void OnHabilitarBotonEditarCommand()
-        {
-            _CooperanteViewModel.Cooperante.IsInEditionMode = true;
-        }
-        private void OnCancelarEdicionCommand()
-        {
-            _CooperanteViewModel.Cooperante.RejectChanges();
-            _CooperanteViewModel.Cooperante.IsInEditionMode = false;
-        }
+      
+        //-----------------------------
+        // InvalidateCommands
+        //-----------------------------
         private void InvalidateCommands()
         {
             ((DelegateCommand)HabilitarBotonEditarCommand).RaiseCanExecuteChanged();
             ((DelegateCommand)GuardarBotonCommand).RaiseCanExecuteChanged();
             ((DelegateCommand)CancelarBotonEditarCommand).RaiseCanExecuteChanged();
         }
-        public bool VisibleListaCooperantes
-        {
-            get { return _VisibleListaCooperantes; }
-            set { SetProperty(ref _VisibleListaCooperantes, value); }
-        }// copiado
     }
 }

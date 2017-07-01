@@ -12,60 +12,52 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-  <UserControl.Resources>
-    <ResourceDictionary>
-      <!--<ResourceDictionary.MergedDictionaries>-->
-        <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Emerald.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"/>-->
-        <!--<ResourceDictionary>-->
-          <Style TargetType="metro:MetroTabItem">
-            <Setter Property="Header" Value="{Binding DataContext.Title, UpdateSourceTrigger=PropertyChanged}"/>
-            <Setter Property="metro:ControlsHelper.HeaderFontSize" Value="14"/>
-            <Setter Property="HeaderTemplate">
-              <Setter.Value>
-                <DataTemplate>
-                  <StackPanel Orientation="Horizontal">
-                    <ContentControl Content="{Binding}"
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="metro:MetroTabItem">
+                <Setter Property="Header" Value="{Binding DataContext.Title, UpdateSourceTrigger=PropertyChanged}"/>
+                <Setter Property="metro:ControlsHelper.HeaderFontSize" Value="14"/>
+                <Setter Property="HeaderTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <ContentControl Content="{Binding}"
                                         Margin="{StaticResource Margin}"/>
-                    <Button Content="x">
-                      <Button.Style>
-                        <Style TargetType="Button">
-                          <Setter Property="Width" Value="20"/>
-                          <Setter Property="Height" Value="20"/>
-                          <Setter Property="BorderThickness" Value="0"/>
-                          <Setter Property="FontWeight" Value="Bold"/>
-                          <Setter Property="Background" Value="Transparent"/>
-                          <Setter Property="Padding" Value="0"/>
-                          <Setter Property="Margin" Value="{StaticResource Margin}"/>
-                          <Setter Property="VerticalAlignment" Value="Center"/>
-                          <Setter Property="VerticalContentAlignment" Value="Center"/>
-                          <Style.Triggers>
-                            <DataTrigger Binding="{Binding}" Value="Todas">
-                              <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                          </Style.Triggers>
-                        </Style>
-                      </Button.Style>
-                      <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                          <util:CloseTabAction/>
-                        </i:EventTrigger>
-                      </i:Interaction.Triggers>
-                    </Button>
-                  </StackPanel>
-                </DataTemplate>
-              </Setter.Value>
-            </Setter>
-          </Style>
-        <!--</ResourceDictionary>-->
-      <!--</ResourceDictionary.MergedDictionaries>-->
-    </ResourceDictionary>
-  </UserControl.Resources>
-    <!--<ScrollViewer VerticalScrollBarVisibility="Visible">-->
-  <StackPanel >
-    <metro:MetroAnimatedSingleRowTabControl
-    prism:RegionManager.RegionName="{x:Static common:RegionNames.ActividadesTabContentRegion}">
-    </metro:MetroAnimatedSingleRowTabControl>
-  </StackPanel>
-    <!--</ScrollViewer>-->
+                                <Button Content="x">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Width" Value="20"/>
+                                            <Setter Property="Height" Value="20"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="Padding" Value="0"/>
+                                            <Setter Property="Margin" Value="{StaticResource Margin}"/>
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding}" Value="Todas">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <util:CloseTabAction/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <StackPanel >
+        <metro:MetroAnimatedSingleRowTabControl
+            prism:RegionManager.RegionName="{x:Static common:RegionNames.ActividadesTabContentRegion}">
+        </metro:MetroAnimatedSingleRowTabControl>
+    </StackPanel>
 </UserControl>

@@ -48,14 +48,10 @@ namespace Gama.Cooperacion.Wpf
         public override void Initialize()
         {
             EstablecerFecha();
-
             RegisterViews();
             RegisterViewModels();
             InitializeNavigation();
-
             ActualizarEstadosActividades();
-            
-            // Aqui se pueden poner las comprobaciones de estado de las actividades.
         }
 
         private void RegisterViews()
