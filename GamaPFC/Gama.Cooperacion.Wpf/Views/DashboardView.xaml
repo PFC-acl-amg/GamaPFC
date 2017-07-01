@@ -29,7 +29,7 @@
                       IconWidth="13"
                       IconHeight="13"
                       Margin="{StaticResource Margin}"
-                      Command="{Binding ElementName=_Root, Path=DataContext.SelectActividadCommand}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.BorrarActividadCommand}"
                       CommandParameter="{Binding}">
                 <Button.Style>
                     <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
@@ -647,19 +647,6 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <!--<DataGridTemplateColumn Header="Fecha Inicio" HeaderTemplate="{StaticResource _HeaderTemplate}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock HorizontalAlignment="Center"
-                                       Width="80"
-                                       VerticalAlignment="Center"
-                                       FontSize="14"
-                                       Text="{Binding FechaDeInicio, StringFormat=d}"
-                                       Padding="{StaticResource Margin}"
-                                       Margin="{StaticResource Margin}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>-->
                     <DataGridTemplateColumn Header="Fecha Final" HeaderTemplate="{StaticResource _HeaderTemplate}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
-namespace Gama.Socios.Wpf.Converters
+namespace Gama.Cooperacion.Wpf.Converters
 {
     // new Class
     public class BinaryImageConverter : IValueConverter

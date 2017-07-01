@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="Gama.Cooperacion.Wpf.Views.Cooperante.DireccionPostal"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views.Cooperante"
+             xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
+             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+ 
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             Height="190" Width="480">
+    <Grid>
+        <!--Background="#E6E6E6"-->
+        <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="3" Background="#E6E6E6" Padding="4"
+                                            CornerRadius="3"
+                                            Margin="5">
+            <Border.Effect>
+                <DropShadowEffect Color="Gray" Opacity=".50" ShadowDepth="16" />
+            </Border.Effect>
+            <StackPanel>
+                <!--DATOS CONTACTO-->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="45" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Teléfono Fijo" FontSize="14" />
+                    <Label Grid.Row="0" Grid.Column="1" Content="Teléfono Móvil" FontSize="14" />
+                    <Label Grid.Row="0" Grid.Column="2" Content="Teléfono Alternativo" FontSize="14" />
+                    <Label Grid.Row="2" Grid.Column="0" Content="Email" FontSize="14" />
+                    <Label Grid.Row="3" Grid.Column="0" Content="Email Alternativo" FontSize="14" />
+                    <Label Grid.Row="4" Grid.Column="0" Content="Observaciones" FontSize="14" />
+                    <TextBox  Name="XamlTlfFijo"
+                              FontSize="14"
+                                      Grid.Row="1" Grid.Column="0"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Telefono Fijo..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Cooperante.telefono}"/>
+                    <TextBox  Name="XamlTlfMovil"
+                              FontSize="14"        
+                              Grid.Row="1" Grid.Column="1"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Telefono Movil..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Cooperante.TelefonoMovil}"/>
+                    <TextBox  Name="XamlTlfAlternativo"
+                              FontSize="14"        
+                              Grid.Row="1" Grid.Column="2"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Telefono Alternativo..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Cooperante.TelefonoAlternativo}"/>
+                    <TextBox  Name="XamlEmail"
+                              FontSize="14"
+                              Grid.ColumnSpan="2"
+                                      Grid.Row="2" Grid.Column="1"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Correo Electrónico..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Cooperante.Email}"/>
+                    <TextBox  Name="XamlEmailAlternativo"
+                              FontSize="14"
+                              Grid.ColumnSpan="2"
+                                      Grid.Row="3" Grid.Column="1"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Correo Electrónico Alternativo..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Cooperante.EmailAlternativo}"/>
+                    <TextBox  Name="XamlOtrosDatos"
+                              FontSize="14"        
+                              Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Observaciones..."
+                                      TextWrapping="Wrap"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Cooperante.Observaciones,UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+            </StackPanel>
+            <!--fin datos contacto-->
+        </Border>
+
+    </Grid>
+</UserControl>

@@ -41,13 +41,16 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             // Fin campos nuevos
 
 
+
             HasMany(x => x.ActividadesDeQueEsCoordinador)
-                .LazyLoad()
+                .Not.LazyLoad()
+                .Cascade.None()
                 .Inverse();
 
             HasManyToMany(x => x.ActividadesEnQueParticipa)
                 .Table("CooperanteParticipaEnActividad")
-                .LazyLoad()
+                .Not.LazyLoad()
+                .Cascade.None()
                 .Inverse();
         }
     }

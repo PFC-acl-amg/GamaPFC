@@ -160,15 +160,18 @@
     <Compile Include="DesignTimeData\TareasDeActividadViewModelDTD.cs" />
     <Compile Include="DesignTimeData\StatusBarViewModelDTD.cs" />
     <Compile Include="Eventos\ActividadActualizadaEvent.cs" />
+    <Compile Include="Eventos\ActividadEliminadaEvent.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaChangedEvent.cs" />
     <Compile Include="Eventos\Modificar.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaEvent.cs" />
     <Compile Include="Eventos\CooperanteCreadoEvent.cs" />
     <Compile Include="Eventos\NuevaActividadEvent.cs" />
     <Compile Include="Eventos\NuevaTareaCreadaEvent.cs" />
+    <Compile Include="Eventos\NuevoCooperanteCreadoEvent.cs" />
     <Compile Include="Eventos\NuevoForoCreadoEvent.cs" />
     <Compile Include="Eventos\CargarNuevaActividadEvent.cs" />
     <Compile Include="Eventos\PublicarEventosActividad.cs" />
+    <Compile Include="Eventos\PublicarNuevaActividad.cs" />
     <Compile Include="Eventos\TareaModificadaEvent.cs" />
     <Compile Include="Services\ActividadRepository.cs" />
     <Compile Include="Services\CooperacionSettings.cs" />
@@ -204,6 +207,7 @@
     <Compile Include="UIEvents\ActiveViewChanged.cs" />
     <Compile Include="ViewModels\AgregarCooperanteViewModel.cs" />
     <Compile Include="ViewModels\CalendarioActividadesViewModel.cs" />
+    <Compile Include="ViewModels\CooperantesContentViewModel.cs" />
     <Compile Include="ViewModels\CooperanteViewModel.cs" />
     <Compile Include="ViewModels\CrearNuevaTareaViewModel.cs" />
     <Compile Include="ViewModels\CrearNuevoForoViewModel.cs" />
@@ -227,8 +231,20 @@
     <Compile Include="Views\CalendarioActividadesView.xaml.cs">
       <DependentUpon>CalendarioActividadesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CooperantesContentView.xaml.cs">
+      <DependentUpon>CooperantesContentView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CooperanteView.xaml.cs">
       <DependentUpon>CooperanteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cooperante\DatosDeContacto.xaml.cs">
+      <DependentUpon>DatosDeContacto.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cooperante\DatosPersonales.xaml.cs">
+      <DependentUpon>DatosPersonales.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cooperante\DireccionPostal.xaml.cs">
+      <DependentUpon>DireccionPostal.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CrearNuevaTareaView.xaml.cs">
       <DependentUpon>CrearNuevaTareaView.xaml</DependentUpon>
@@ -321,7 +337,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\CooperantesContentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CooperanteView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cooperante\DatosDeContacto.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cooperante\DatosPersonales.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cooperante\DireccionPostal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

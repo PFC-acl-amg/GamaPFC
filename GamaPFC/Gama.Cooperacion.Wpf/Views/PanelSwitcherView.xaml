@@ -105,7 +105,7 @@
             <controls:Tile 
                 Title=" Cooperantes"
                 Command="{Binding NavigateCommand}"
-                CommandParameter="CooperanteView">
+                CommandParameter="CooperantesContentView">
                 <controls:Tile.Style>
                     <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
                         <Style.Triggers>

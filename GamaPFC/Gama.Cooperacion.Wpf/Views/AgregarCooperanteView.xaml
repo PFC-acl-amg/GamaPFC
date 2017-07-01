@@ -66,9 +66,7 @@
                         </Button>
                     </StackPanel>-->
 
-                    <Border Grid.Column="0"
-                              Width="200" Height="105" Grid.Row="0" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="1.5" Background="Beige" CornerRadius="1">
-                        <!--<Image Grid.Column="0" Grid.Row="0" Source="{Binding Fotito}" Stretch="Fill" StretchDirection="Both">
+                             <!--<Image Grid.Column="0" Grid.Row="0" Source="{Binding Fotito}" Stretch="Fill" StretchDirection="Both">
                             <Image.BitmapEffect>
                                 <DropShadowBitmapEffect Color="Black" />
                             </Image.BitmapEffect>
@@ -79,8 +77,9 @@
                        wrtgsg
                         -->
                         <Ellipse Height="139"
+                                 Grid.Row="0" Grid.RowSpan="4"
                            Width="139" 
-                           Margin="{StaticResource Margin}" 
+                           
                            OpacityMask="{StaticResource _RadialGradientBrush}" 
                            AllowDrop="True">
                             <Ellipse.Fill>
@@ -96,7 +95,7 @@
                                 </Style>
                             </Ellipse.Style>
                             <Ellipse.InputBindings>
-                                <MouseBinding MouseAction="LeftClick" Command="{Binding ExaminarAvatarCommand}"/>
+                            <MouseBinding MouseAction="LeftClick" Command="{Binding ExaminarFotoCommand}"/>
                             </Ellipse.InputBindings>
                         </Ellipse>
 
@@ -129,7 +128,7 @@
                                 <DropShadowBitmapEffect Color="Black" />
                             </Image.BitmapEffect>
                         </Image>-->
-                    </Border>   <!--Zona Foto -->
+                       <!--Zona Foto -->
                     
                     <TextBox  Name="NombreCooperante"
                                       Grid.Row="0" Grid.Column="1"
@@ -155,6 +154,7 @@
                     <DatePicker HorizontalAlignment="Left" Grid.Row="3" Grid.Column="1"
                                  SelectedDate="{Binding NuevoCooperante.FechaDeNacimiento, 
                                     UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                Margin="{StaticResource Margin}"
                                     Height="24" Width="180" />
                 </Grid>
             </StackPanel>                             <!--FIN DATOS DNI-->

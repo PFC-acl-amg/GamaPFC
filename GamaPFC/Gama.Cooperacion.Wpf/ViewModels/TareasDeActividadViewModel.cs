@@ -426,6 +426,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
         private void OnCargarNuevaActividadEvent(int id)
         {
+            ForosDisponibles.Clear();
+            TareasDisponibles.Clear();
+            TareasFinalizadas.Clear();
+            EventoActividad.Clear();
             var actividad = _actividadRepository.GetById(id); // actividad contiene la información de la base de datos
             foreach (var forito in actividad.Foros)
             {

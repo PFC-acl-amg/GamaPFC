@@ -106,6 +106,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 Actividad.CreatedAt = DateTime.Now;
                 _ActividadRepository.Create(Actividad.Model);   // Se crea la actividad
                 _EventAggregator.GetEvent<NuevaActividadEvent>().Publish(Actividad.Id);
+                _EventAggregator.GetEvent<PublicarNuevaActividad>().Publish(evento);
                 Cerrar = true;
             }
             else
