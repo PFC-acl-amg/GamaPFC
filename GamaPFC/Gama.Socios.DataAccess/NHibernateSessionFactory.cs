@@ -31,9 +31,17 @@ namespace Gama.Socios.DataAccess
                     try
                     {
                         NHibernate.Cfg.Configuration configuration;
-                        var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\nh_socios.cfg";
 
-                        File.Delete(path);
+                        var directoryPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+                                + @"\GamaData\";
+
+                        if (!Directory.Exists(directoryPath))
+                            Directory.CreateDirectory(directoryPath);
+
+                        var path = directoryPath + @"\nh_socios.cfg";
+
+                        if (File.Exists(path)) { File.Delete(path); }
+
                         if (File.Exists(path))
                         {
                             var file = File.Open(path, FileMode.Open);

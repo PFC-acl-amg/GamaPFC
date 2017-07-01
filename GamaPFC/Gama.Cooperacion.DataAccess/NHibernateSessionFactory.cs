@@ -29,9 +29,16 @@ namespace Gama.Cooperacion.DataAccess
                     {
                         NHibernate.Cfg.Configuration configuration;
 
-                        var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\nh_cooperacion.cfg";
+                        var directoryPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+                                + @"\GamaData\";
 
-                        //File.Delete(path);
+                        if (!Directory.Exists(directoryPath))
+                            Directory.CreateDirectory(directoryPath);
+
+                        var path = directoryPath + @"\nh_cooperacion.cfg";
+
+                        if (File.Exists(path)) { File.Delete(path); }
+                            
                         if (File.Exists(path))
                         {
                             var file = File.Open(path, FileMode.Open);

@@ -15,10 +15,11 @@ using Gama.Socios.Wpf.Eventos;
 using System.ComponentModel;
 using Gama.Common.Views;
 using Gama.Socios.Business;
+using Prism;
 
 namespace Gama.Socios.Wpf.ViewModels
 {
-    public class EditarSocioViewModel : ViewModelBase
+    public class EditarSocioViewModel : ViewModelBase, IConfirmNavigationRequest, IActiveAware
     {
         private EditarCuotasViewModel _CuotasVM;
         private IEventAggregator _EventAggregator;
@@ -101,6 +102,18 @@ namespace Gama.Socios.Wpf.ViewModels
         public ICommand CancelarEdicionCommand { get; private set; }
         public ICommand DarDeAltaBajaCommand { get; private set; }
 
+        private bool _IsActive;
+        public bool IsActive
+        {
+            get { return _IsActive; }
+
+            set
+            {
+                SetProperty(ref _IsActive, value);
+                if (_IsActive)
+                    _EventAggregator.GetEvent<SocioSeleccionadoChangedEvent>().Publish(Socio.Id);
+            }
+        }
         private void OnNuevoPeriodoDeAltaCommandExecute()
         {
             _EditarPeriodosDeAltaViewModel.AddPeriodoDeAlta();
@@ -159,6 +172,23 @@ namespace Gama.Socios.Wpf.ViewModels
             return false;
         }
 
+        public override void OnActualizarServidor()
+        {
+            //if (!Persona.IsChanged)
+            //{
+            //    var persona = new PersonaWrapper(
+            //        (Persona)
+            //        _PersonaRepository.GetById(Persona.Id)
+            //        .DecryptFluent());
+
+            //    _PersonaVM.Load(persona);
+            //    _AtencionesVM.Load(_PersonaVM.Persona);
+            //    _CitasVM.Load(_PersonaVM.Persona);
+            //    RefrescarTitulo(persona.Nombre);
+            //    _AtencionesVM.VerAtenciones = false;
+            //}
+        }
+
         public void Load(int id)
         {
             try
@@ -180,6 +210,11 @@ namespace Gama.Socios.Wpf.ViewModels
             {
                 throw;
             }
+        }
+
+        public void OnNavigatedTo(int id)
+        {
+            Load(id);
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
@@ -223,6 +258,20 @@ namespace Gama.Socios.Wpf.ViewModels
                     }
                 };
             }
+        }
+
+        public bool ConfirmNavigationRequest()
+        {
+            if (Socio.IsChanged)
+            {
+                var o = new ConfirmarOperacionView();
+                o.Mensaje = "Si sale se perderán los cambios, ¿Desea salir de todas formas?";
+                o.ShowDialog();
+
+                return o.EstaConfirmado;
+            }
+
+            return true;
         }
 
         public void ConfirmNavigationRequest(NavigationContext navigationContext,

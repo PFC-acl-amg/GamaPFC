@@ -1,6 +1,8 @@
 ﻿using Core;
 using Gama.Common;
+using Gama.Common.Eventos;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
@@ -13,20 +15,38 @@ namespace Gama.Socios.Wpf.ViewModels
 {
     public class PanelSwitcherViewModel : ViewModelBase
     {
-        private IRegionManager _RegionManager;
+        private string _ActivePanel;
+        private EventAggregator _EventAggregator;
 
-        public PanelSwitcherViewModel(IRegionManager regionManager)
+        public PanelSwitcherViewModel(EventAggregator eventAggregator)
         {
-            _RegionManager = regionManager;
+            _EventAggregator = eventAggregator;
 
-            this.NavigateCommand = new DelegateCommand<string>(Navigate);
+            ActivePanel = "DashboardView";
+
+            _EventAggregator.GetEvent<ActiveViewChanged>().Subscribe(OnActiveViewChangedEvent);
+
+            NavigateCommand = new DelegateCommand<string>(Navigate);
+        }
+
+        public string ActivePanel
+        {
+            get { return _ActivePanel; }
+            set { SetProperty(ref _ActivePanel, value); }
+        }
+
+        public ICommand NavigateCommand { get; private set; }
+
+        private void OnActiveViewChangedEvent(string viewName)
+        {
+            ActivePanel = viewName;
         }
 
         private void Navigate(string viewName)
         {
-            _RegionManager.RequestNavigate(RegionNames.ContentRegion, viewName);
+            ActivePanel = viewName;
+            _EventAggregator.GetEvent<ActiveViewChanged>().Publish(viewName);
         }
 
-        public ICommand NavigateCommand { get; private set; }
     }
 }

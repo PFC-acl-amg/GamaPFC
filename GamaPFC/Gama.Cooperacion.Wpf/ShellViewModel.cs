@@ -2,6 +2,8 @@
 using Gama.Common.Communication;
 using Gama.Common.Eventos;
 using Gama.Cooperacion.Wpf.Services;
+using Gama.Cooperacion.Wpf.ViewModels;
+using NHibernate;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -21,9 +23,20 @@ namespace Gama.Cooperacion.Wpf
         private Preferencias _Preferencias;
         private Thread _PreloadThread;
 
-        public ShellViewModel(EventAggregator eventAggregator)
+        public ShellViewModel(
+            EventAggregator eventAggregator,
+            PanelSwitcherViewModel panelSwitcherViewModel,
+            ToolbarViewModel toolbarViewModel,
+            StatusBarViewModel statusBarViewModel,
+            Preferencias preferencias,
+            ISession session
+            )
         {
             _EventAggregator = eventAggregator;
+            PanelSwitcherViewModel = panelSwitcherViewModel;
+            ToolbarViewModel = toolbarViewModel;
+            StatusBarViewModel = statusBarViewModel;
+            _Preferencias = preferencias;
 
             _EventAggregator.GetEvent<ActiveViewChanged>().Subscribe(OnActiveViewChangedEvent);
             _EventAggregator.GetEvent<ServidorActualizadoDesdeFueraEvent>().Subscribe(OnServidorActualizadoDesdeFueraEvent);
@@ -40,6 +53,10 @@ namespace Gama.Cooperacion.Wpf
             _PreloadThread.SetApartmentState(ApartmentState.STA);
             _PreloadThread.Start();
         }
+
+        public PanelSwitcherViewModel PanelSwitcherViewModel { get; set; }
+        public ToolbarViewModel ToolbarViewModel { get; set; }
+        public StatusBarViewModel StatusBarViewModel { get; set; }
 
         private bool _DashboardViewIsVisible = true;
         public bool DashboardViewIsVisible

@@ -23,6 +23,14 @@ namespace Gama.Socios.Wpf
         public Shell()
         {
             InitializeComponent();
+
+            Closed += Shell_Closed;
+        }
+
+        private void Shell_Closed(object sender, EventArgs e)
+        {
+            var vm = (ShellViewModel)this.DataContext;
+            vm.OnCloseApplication();
         }
 
         private void WebsiteButton_Click(object sender, RoutedEventArgs e)

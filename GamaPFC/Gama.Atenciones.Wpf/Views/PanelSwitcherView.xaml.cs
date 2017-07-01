@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gama.Atenciones.Wpf.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +25,16 @@ namespace Gama.Atenciones.Wpf.Views
         {
             InitializeComponent();
         }
+
+        //public void DO()
+        //{
+
+        //    var vm = DataContext as PanelSwitcherViewModel;
+        //    vm.NavigateCommand.Execute("PersonasContentView");
+        //    vm.NavigateCommand.Execute("CitasContentView");
+        //    vm.NavigateCommand.Execute("AsistentesContentView");
+        //    vm.NavigateCommand.Execute("GraficasContentView");
+        //    vm.NavigateCommand.Execute("DashboardView");
+        //}
     }
 }

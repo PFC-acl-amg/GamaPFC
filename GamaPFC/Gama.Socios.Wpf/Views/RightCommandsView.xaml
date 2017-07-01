@@ -5,11 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gama.Socios.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True"
+             prism:ViewModelLocator.AutoWireViewModel="False"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <Button Content="Preferencias" Cursor="Hand"
+  <Grid>
+    <StackPanel Orientation="Horizontal">
+      <Label Content="{Binding MensajeAMostrar, UpdateSourceTrigger=PropertyChanged}"
+             Foreground="Black" VerticalAlignment="Top" HorizontalAlignment="Right"
+             Margin="4,0,4,0">
+      </Label>
+      <Button Content="Cambiar de Módulo" Cursor="Hand"
+              Margin="{StaticResource Margin}"
+            Command="{Binding VolverASeleccionDeModuloCommand}"/>
+      <Button Content="Preferencias" Cursor="Hand"
+              Margin="{StaticResource Margin}"
             Command="{Binding AbrirPreferenciasCommand}"/>
-    </Grid>
+    </StackPanel>
+  </Grid>
 </UserControl>
