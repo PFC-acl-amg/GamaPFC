@@ -19,5 +19,6 @@ namespace Gama.Atenciones.Wpf.Services
         void Delete(Cita entity);
         int CountAll();
         void DeleteAll();
+        List<Cita> Citas { get; set; }
     }
 }

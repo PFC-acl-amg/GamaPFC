@@ -26,8 +26,10 @@ namespace Gama.Common.Views
     {
         private int _DotCounter = 0;
         private const int MAX_NUMBER_OF_DOTS = 3;
-        private const double TIMER_INTERVAL = 250;
+        private const double TIMER_INTERVAL = 250; // Miliseconds
+        private const double AUTODESTRUCTION_TIMER_INTERVAL = 9999; // Seconds
         private DispatcherTimer _DotWritterTimer;
+        private DispatcherTimer _AutoDestructionTimer;
         private Label _CurrentLabel;
         private string _CurrentText;
         private List<Label> _Labels;
@@ -57,14 +59,19 @@ namespace Gama.Common.Views
             {
                 Interval = TimeSpan.FromMilliseconds(TIMER_INTERVAL),
             };
-
             _DotWritterTimer.Tick += _OnDotWritterTimerTickEvent;
+
+            _AutoDestructionTimer = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromSeconds(AUTODESTRUCTION_TIMER_INTERVAL),
+            };
+            _AutoDestructionTimer.Tick += _OnAutoDestructionTimerTickEvent;
 
             DataContext = this;
 
             _DotWritterTimer.Start();
+            //_AutoDestructionTimer.Start();
         }
-
 
         private string _ProductName;
         public string ProductName
@@ -86,6 +93,11 @@ namespace Gama.Common.Views
             OnPropertyChanged(nameof(_CurrentLabel.Content));
             _DotCounter++;
             _DotWritterTimer.Start();
+        }
+
+        private void _OnAutoDestructionTimerTickEvent(object sender, EventArgs e)
+        {
+            Close();
         }
 
         public void Next()

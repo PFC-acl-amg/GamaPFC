@@ -37,6 +37,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public RightCommandsViewModel(EventAggregator eventAggregator)
         {
+            AtencionesResources.StartStopWatch();
             _EventAggregator = eventAggregator;
             _BackgroundWorker = new BackgroundWorker();
             _BackgroundWorker.DoWork += BackgroundWorker_DoWork;
@@ -61,6 +62,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             VolverASeleccionDeModuloCommand = new DelegateCommand(OnVolverASeleccionDeModuloExecute);
 
             _EventAggregator.GetEvent<LaConexionConElServidorHaCambiadoEvent>().Subscribe(OnLaConexionConElServidorHaCambiadoEvent);
+            AtencionesResources.StopStopWatch("RightCommandsView");
         }
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)

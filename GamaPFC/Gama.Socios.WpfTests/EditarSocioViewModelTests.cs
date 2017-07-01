@@ -66,7 +66,7 @@ namespace Gama.Socios.WpfTests
                 _PeriodoDeAltaViewModelMock,
                 _SessionMock.Object);
 
-            _Vm.Load(_Socio.Id);
+            _Vm.OnNavigatedTo(_Socio.Id);
         }
 
         [Fact]

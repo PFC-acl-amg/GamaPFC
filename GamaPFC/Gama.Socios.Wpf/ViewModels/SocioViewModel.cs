@@ -12,13 +12,14 @@ namespace Gama.Socios.Wpf.ViewModels
 {
     public class SocioViewModel : ViewModelBase
     {
-        private bool _EdicionHabilitada;
         private SocioWrapper _Socio;
 
         public SocioViewModel()
         {
-            _EdicionHabilitada = true;
-            Socio = new SocioWrapper(new Socio());
+            Socio = new SocioWrapper(new Socio())
+            {
+                IsInEditionMode = true
+            };
 
             ExaminarAvatarCommand = new DelegateCommand(OnExaminarAvatarCommandExecute);
         }

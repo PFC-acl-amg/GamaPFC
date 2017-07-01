@@ -34,6 +34,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             IUnityContainer container,
             ISession session)
         {
+            AtencionesResources.StartStopWatch();
             _CitaRepository = citaRepository;
             _CitaRepository.Session = session;
             _EventAggregator = eventAggregator;
@@ -54,6 +55,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
             _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
             _EventAggregator.GetEvent<NuevaAtencionEvent>().Subscribe(OnNuevaAtencionEvent);
+            AtencionesResources.StopStopWatch("PersonasContentView");
         }
 
         private void OnCloseTabCommandExecute(EditarPersonaViewModel viewModelACerrar)

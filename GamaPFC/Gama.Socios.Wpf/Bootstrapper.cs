@@ -13,6 +13,7 @@ using Core.DataAccess;
 using Gama.Socios.DataAccess;
 using NHibernate;
 using Gama.Socios.Wpf.FakeServices;
+using Gama.Socios.Business;
 
 namespace Gama.Socios.Wpf
 {
@@ -129,7 +130,7 @@ namespace Gama.Socios.Wpf
             Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
             Container.RegisterType<ISession>(
                 new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
-            Container.RegisterType<ISocioRepository, SocioRepository>();
+            Container.RegisterType<ISocioRepository, SocioRepository>(new ContainerControlledLifetimeManager());
 
             Container.RegisterInstance(new ExportService());
         }
@@ -137,7 +138,7 @@ namespace Gama.Socios.Wpf
         protected override void GenerateDatabaseConfiguration()
         {
             var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
-            var socioRepository = new SocioRepository();
+            var socioRepository = new NHibernateOneSessionRepository<Socio, int>();
             var session = sessionFactory.OpenSession();
             socioRepository.Session = session;
 

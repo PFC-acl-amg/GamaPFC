@@ -35,26 +35,18 @@ namespace Gama.Atenciones.Wpf.Converters
                 catch (NotSupportedException ex)
                 {
                     throw;
-                    //BitmapImage image2 = new BitmapImage();
-                    //image2.BeginInit();
-                    
-                    ////image2.UriSource = new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/default_user_icon.png");
-                    //image2.EndInit();
-                    //return image2;
                 }
 
                 return image;
             }
 
-            // Imagen por defecto 
+            //Imagen por defecto
             if (value == null)
             {
-                //Image finalImage = new Image();
                 BitmapImage logo = new BitmapImage();
                 logo.BeginInit();
-                logo.UriSource = new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/persona_dummy.png");
+                logo.UriSource = new Uri("pack://application:,,,/Core;component/Resources/Images/persona_dummy.png");
                 logo.EndInit();
-                //finalImage.Source = logo;
                 return logo;
             }
 

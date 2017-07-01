@@ -11,6 +11,7 @@
              prism:ViewModelLocator.AutoWireViewModel="False"
              xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
              xmlns:converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
+            xmlns:behaviors="clr-namespace:Gama.Common.Resources.Behaviors;assembly=Gama.Common"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              mc:Ignorable="d" 
              d:DesignHeight="638" d:DesignWidth="1238.5">
@@ -95,10 +96,12 @@
           </Button.Style>
         </cc:CircleIconButton>
         <DatePicker Margin="{StaticResource Margin}" VerticalAlignment="Center"
+                    behaviors:ChangeBehavior.IsActive="False"
                     SelectedDate="{Binding FechaDeInicio, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                     ToolTip="Fecha de inicio del filtro (no actúa si está vacío)"/>
         <TextBlock FontFamily="Courier" FontSize="16" VerticalAlignment="Center">-</TextBlock>
         <DatePicker Margin="{StaticResource Margin}" VerticalAlignment="Center" 
+                    behaviors:ChangeBehavior.IsActive="False"
                     SelectedDate="{Binding FechaDeFin, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                     ToolTip="Fecha de fin del filtro (no actúa si está vacío)"/>
       </StackPanel>

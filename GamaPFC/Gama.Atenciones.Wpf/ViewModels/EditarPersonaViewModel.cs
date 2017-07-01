@@ -60,11 +60,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
                    && Persona.IsValid
                    );
             CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand,
-                () => _PersonaVM.EdicionHabilitada);
+                () => _PersonaVM.Persona.IsInEditionMode);
             EliminarPersonaCommand = new DelegateCommand(OnEliminarPersonaCommandExecute);
             ActivarVistaCommand = new DelegateCommand<string>(OnActivarVistaCommandExecute);
-
-            _PersonaVM.PropertyChanged += _PersonaVM_PropertyChanged;
         }
 
         private void OnActivarVistaCommandExecute(string param)
@@ -115,20 +113,19 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             _PersonaRepository.Update(Persona.Model);
             _PersonaVM.Persona.AcceptChanges();
-            _PersonaVM.EdicionHabilitada = false;
             _PersonaVM.Persona.IsInEditionMode = false;
             RefrescarTitulo(Persona.Nombre);
         }
 
         private void OnHabilitarEdicionCommand()
         {
-            _PersonaVM.EdicionHabilitada = true;
+            _PersonaVM.Persona.IsInEditionMode = true;
         }
 
         private void OnCancelarEdicionCommand()
         {
             Persona.RejectChanges();
-            _PersonaVM.EdicionHabilitada = false;
+            _PersonaVM.Persona.IsInEditionMode = false;
         }
 
         private void OnEliminarPersonaCommandExecute()
@@ -146,28 +143,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 _PersonaRepository.Delete(Persona.Model);
             }
         }
-
-        //public void Load(int id)
-        //{
-        //    try
-        //    {
-        //        if (Persona.Nombre != null)
-        //            return;
-
-        //        var personaModel = _PersonaRepository.GetById(id);
-        //        var persona = new PersonaWrapper(personaModel);
-
-        //        _PersonaVM.Load(persona);
-        //        _AtencionesVM.Load(_PersonaVM.Persona);
-        //        _CitasVM.Load(_PersonaVM.Persona);
-        //        RefrescarTitulo(persona.Nombre);
-        //        Persona.IsInEditionMode = _Preferencias.General_EdicionHabilitadaPorDefecto;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
 
         public bool IsNavigationTarget(int id)
         {
@@ -204,7 +179,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
                     _PersonaVM.Load(persona);
                     Persona.IsInEditionMode = _Preferencias.General_EdicionHabilitadaPorDefecto;
-                    //InvalidateCommands();
                     _AtencionesVM.Load(_PersonaVM.Persona);
                     _CitasVM.Load(_PersonaVM.Persona);
                     RefrescarTitulo(persona.Nombre);
@@ -222,6 +196,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     AtencionesIsVisible = true;
                     CitasIsVisible = false;
                 }
+
+                _PersonaVM.PropertyChanged += _PersonaVM_PropertyChanged;
+                _PersonaVM.Persona.PropertyChanged += _PersonaVM_PropertyChanged;
+                //PropertyChanged += _PersonaVM_PropertyChanged;
             }
             catch (Exception ex)
             {
@@ -256,20 +234,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void _PersonaVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(Persona.IsInEditionMode))
-            {
-                InvalidateCommands();
-            }
-            else if (e.PropertyName == nameof(Persona))
-            {
-                Persona.PropertyChanged += (s, ea) => {
-                    if (ea.PropertyName == nameof(Persona.IsChanged)
-                        || ea.PropertyName == nameof(Persona.IsValid))
-                    {
-                        InvalidateCommands();
-                    }
-                };
-            }
+            InvalidateCommands();
         }
 
         public bool ConfirmNavigationRequest()

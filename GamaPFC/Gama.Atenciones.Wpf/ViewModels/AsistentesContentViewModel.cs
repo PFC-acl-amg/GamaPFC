@@ -10,6 +10,7 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private IEventAggregator _EventAggregator;
         private ISession _Session;
         private DateTime _Now;
+        private BackgroundWorker _BackgroundWorker;
 
         public AsistentesContentViewModel(
             IEventAggregator eventAggregator,
@@ -33,6 +35,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             AsistenteViewModel asistenteViewModel,
             ISession session)
         {
+            AtencionesResources.StartStopWatch();
             _EventAggregator = eventAggregator;
             _PersonaRepository = personaRepository;
             _PersonaRepository.Session = session;
@@ -45,7 +48,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             _Now = DateTime.Now.Date;
 
-            OnActualizarServidor();
+            _BackgroundWorker = new BackgroundWorker();
+            _BackgroundWorker.DoWork += BackgroundWorker_DoWork;
+
+            _BackgroundWorker.RunWorkerAsync();
+            //OnActualizarServidor();
 
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
@@ -70,6 +77,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<AsistenteCreadoEvent>().Subscribe(OnAsistenteCreadoEvent);
             _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
             _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
+            AtencionesResources.StopStopWatch("AsistentesContenetView");
+        }
+
+        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            OnActualizarServidor();
         }
 
         public ObservableCollection<AsistenteWrapper> Asistentes { get; private set; }
@@ -110,6 +123,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 _AsistenteRepository.GetAll()
                 .Select(x => new AsistenteWrapper(x)));
 
+            foreach (var asistente in Asistentes)
+            {
+                asistente.Citas.AddRange(_CitaRepository.Citas.Where(c => c.Asistente.Id == asistente.Id).Select(c => new CitaWrapper(c)));
+            }
+
             CitasPasadas = new ObservableCollection<CitaWrapper>();
             CitasFuturas = new ObservableCollection<CitaWrapper>();
 
@@ -131,6 +149,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
                 CitasFuturas.Clear();
                 CitasFuturas.AddRange(AsistenteSeleccionado.Citas.Where(c => c.Fecha >= _Now));
+
+                OnPropertyChanged(nameof(CitasPasadas));
+                OnPropertyChanged(nameof(CitasFuturas));
             }
         }
 
@@ -179,17 +200,25 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnPersonaActualizadaEvent(int id)
         {
+            //OnActualizarServidor();
+            if (Asistentes == null)
+                return;
             var persona = _PersonaRepository.GetById(id);
             foreach (var asistente in Asistentes)
             {
                 foreach (var cita in asistente.Citas)
-                    cita.Persona.CopyValuesFrom(persona);
+                {
+                    if (cita.Persona.Id == id)
+                        cita.Persona.CopyValuesFrom(persona);
+                }
             }
             RefrescarVista();
         }
 
         private void OnAsistenteCreadoEvent(int id)
         {
+            if (Asistentes == null)
+                return;
             var asistente = _AsistenteRepository.GetById(id);
             var wrapper = new AsistenteWrapper(asistente);
 
@@ -200,6 +229,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnCitaCreadaEvent(int id)
         {
+            if (Asistentes == null)
+                return;
             Cita cita = _CitaRepository.GetById(id);
             AsistenteWrapper asistente = Asistentes.First(x => x.Id == cita.Asistente.Id);
             asistente.Citas.Add(new CitaWrapper(cita));
@@ -208,6 +239,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnCitaActualizadaEvent(int id)
         {
+            if (Asistentes == null)
+                return;
             var cita = _CitaRepository.GetById(id);
 
             var asistente = Asistentes.First(x => x.Id == cita.Asistente.Id);

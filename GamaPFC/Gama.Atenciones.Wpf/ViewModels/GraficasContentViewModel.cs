@@ -33,6 +33,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             IEventAggregator eventAggregator,
             ISession session)
         {
+            AtencionesResources.StartStopWatch();
             _PersonaRepository = personaRepository;
             _PersonaRepository.Session = session;
             _AtencionRepository = atencionRepository;
@@ -110,6 +111,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             InicializarViaDeAccesoAGama();
             InicializarAtencionSolicitada();
             InicializarDerivaciones();
+            AtencionesResources.StopStopWatch("GráficasContentView");
         }
 
         public ICommand RefrescarCommand { get; private set; }
@@ -397,7 +399,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             ValoresDeAtencionSolicitada = new ObservableCollection<ChartItem>();
 
-            var atenciones = _PersonaRepository.GetAtenciones();
+            _Atenciones = new List<Atencion>();
+            var atenciones = _PersonasFiltradas.SelectMany(p => p.Citas).Select(c => c.Atencion).Where(a => a != null);
 
             _Psicologica = atenciones.Count(x => x.EsPsicologica);
             _Juridica = atenciones.Count(x => x.EsJuridica);
@@ -434,12 +437,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private int _DerivacionDeFormacion_Realizada;
         private int _DerivacionDeOrientacionLaboral_Realizada;
         private int _DerivacionExterna_Realizada;
+        private List<Atencion> _Atenciones;
 
         private void InicializarDerivaciones()
         {
             ValoresDeDerivaciones = new ObservableCollection<ChartItem>();
 
-            List<Derivacion> derivaciones = _AtencionRepository.GetAll().Select(x => x.Derivacion).ToList();
+            List<Derivacion> derivaciones = _Atenciones.Select(a => a.Derivacion).Where(d => d != null).ToList();// _AtencionRepository.GetAll().Select(x => x.Derivacion).ToList();
 
             _DerivacionSocial = derivaciones.Count(x => x.EsSocial);
             _DerivacionJuridica = derivaciones.Count(x => x.EsJuridica);

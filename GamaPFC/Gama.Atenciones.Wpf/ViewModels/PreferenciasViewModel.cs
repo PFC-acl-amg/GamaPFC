@@ -26,6 +26,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public PreferenciasViewModel(Preferencias preferencias,
             IEventAggregator eventAggregator)
         {
+            AtencionesResources.StartStopWatch();
             _Preferencias = preferencias;
             _EventAggregator = eventAggregator;
 
@@ -40,6 +41,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ExaminarBackupPathCommand = new DelegateCommand(OnExaminarBackupPathCommand);
 
             Preferencias.PropertyChanged += Preferencias_PropertyChanged;
+            AtencionesResources.StopStopWatch("PreferenciasView");
         }
 
         private void Preferencias_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

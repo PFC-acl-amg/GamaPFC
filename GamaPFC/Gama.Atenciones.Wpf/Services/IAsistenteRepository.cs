@@ -26,5 +26,6 @@ namespace Gama.Atenciones.Wpf.Services
 
         int CountAll();
         void DeleteAll();
+        List<Asistente> Asistentes { get; set; }
     }
 }

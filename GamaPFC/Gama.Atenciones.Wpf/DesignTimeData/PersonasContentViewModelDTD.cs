@@ -17,22 +17,22 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
         {
             EditarPersonaViewModels = new ObservableCollection<object>();
 
-            var vm = new EditarPersonaViewModel(
-                new EventAggregator(),
-                new FakePersonaRepository(),
-                new PersonaViewModel(),
-                new EditarAtencionesViewModel
-                    (new FakeAtencionRepository(), new EventAggregator(), new FakePersonaRepository(), 
-                    new FakeCitaRepository(), null, null),
-                new EditarCitasViewModel(new FakeCitaRepository(), new EventAggregator()),
-                null, null);
-            vm.PersonaVM.Persona = new Wrappers.PersonaWrapper(new Business.Persona
-            {
-                Nombre =
-                Faker.NameFaker.Name()
-            });
+            //var vm = new EditarPersonaViewModel(
+            //    new EventAggregator(),
+            //    new FakePersonaRepository(),
+            //    new PersonaViewModel(new Preferencias()),
+            //    new EditarAtencionesViewModel
+            //        (new FakeAtencionRepository(), new EventAggregator(), new FakePersonaRepository(), 
+            //        new FakeCitaRepository(), null, null),
+            //    new EditarCitasViewModel(new FakeCitaRepository(), new EventAggregator()),
+            //    null, null);
+            //vm.PersonaVM.Persona = new Wrappers.PersonaWrapper(new Business.Persona
+            //{
+            //    Nombre =
+            //    Faker.NameFaker.Name()
+            //});
 
-            EditarPersonaViewModels.Add(vm);
+            //EditarPersonaViewModels.Add(vm);
     
         }
 

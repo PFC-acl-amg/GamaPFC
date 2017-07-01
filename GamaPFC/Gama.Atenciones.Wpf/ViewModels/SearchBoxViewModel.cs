@@ -33,6 +33,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             IEventAggregator eventAggregator,
             ISession session)
         {
+            AtencionesResources.StartStopWatch();
             _PersonaRepository = personaRepository;
             _PersonaRepository.Session = session;
             _EventAggregator = eventAggregator;
@@ -42,9 +43,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
             SelectResultCommand = new DelegateCommand(OnSelectResultCommandExecute);
 
             Personas = new ObservableCollection<LookupItem>(_PersonaRepository.GetAllForLookup());
+            AtencionesResources.StopStopWatch("SearchBoxView: GetAllForLookup()");
+            AtencionesResources.StartStopWatch();
 
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnPersonaCreadaEvent);
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
+            AtencionesResources.StopStopWatch("SearchBoxView");
         }
 
         public string TextoDeBusqueda

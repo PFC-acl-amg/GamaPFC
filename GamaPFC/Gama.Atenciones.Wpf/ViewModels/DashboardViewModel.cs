@@ -39,6 +39,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Preferencias settings,
             ISession session)
         {
+            AtencionesResources.StartStopWatch();
             _PersonaRepository = personaRepository;
             _CitaRepository = citaRepository;
             _AtencionRepository = atencionRepository;
@@ -50,9 +51,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _AtencionRepository.Session = session;
 
             _Personas = new List<Persona>(_PersonaRepository.GetAll());
+            //_Citas = new List<Cita>(_Personas.SelectMany(p => p.Citas));
+            //_Atenciones = new List<Atencion>(_Citas.Select(c => c.Atencion));
             _Atenciones = new List<Atencion>(_AtencionRepository.GetAll());
             _Citas = new List<Cita>(_CitaRepository.GetAll());
 
+            AtencionesResources.StopStopWatch("...Dashboard: Get Personas, Atenciones, Citas");
+            AtencionesResources.StartStopWatch();
             Personas = new ObservableCollection<Persona>(
                 _Personas
                 .OrderBy(p => p.Nombre)
@@ -68,6 +73,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 .OrderBy(c => c.Fecha)
                 .ToList());
 
+            AtencionesResources.StopStopWatch("...Dashboard: Crear colecciones para la vista");
             SelectPersonaCommand = new DelegateCommand<Persona>(OnSelectPersonaCommandExecute);
             SelectCitaCommand = new DelegateCommand<Cita>(OnSelectCitaCommandExecute);
             SelectAtencionCommand = new DelegateCommand<Atencion>(OnSelectAtencionCommandExecute);
@@ -95,6 +101,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             DoMagicCommand = new DelegateCommand(OnDoMagicCommandExecute);
             StopMagicCommand = new DelegateCommand(OnStopMagicCommandExecute);
+            AtencionesResources.StopStopWatch("DashboardView");
         }
 
         private Persona _PersonaSeleccionada;

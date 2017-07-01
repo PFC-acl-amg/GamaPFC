@@ -40,6 +40,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Preferencias preferencias,
             ISession session)
         {
+            AtencionesResources.StartStopWatch();
             _EventAggregator = eventAggregator;
             _CitaRepository = citaRepository;
             _CitaRepository.Session = session;
@@ -60,13 +61,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
 
             _EventAggregator.GetEvent<AsistenteActualizadoEvent>().Subscribe(OnAsistenteActualizadoEvent);
+            AtencionesResources.StopStopWatch("CitasContentView");
         }
 
         public override void OnActualizarServidor()
         {
-            _Citas = new List<CitaWrapper>(_CitaRepository.GetAll()
-                .Select(x => new CitaWrapper(x))
-                .OrderBy(c => c.Fecha));
+            //_Citas = new List<CitaWrapper>(_CitaRepository.GetAll()
+            //    .Select(x => new CitaWrapper(x))
+            //    .OrderBy(c => c.Fecha));
+            _Citas = new List<CitaWrapper>(_PersonaRepository.Personas.SelectMany(p => p.Citas).Select(c => new CitaWrapper(c)).OrderBy(c => c.Fecha));
             Citas = new ObservableCollection<CitaWrapper>(_Citas);
 
             NuevaCitaCommand = new DelegateCommand<Day>(OnNuevaCitaCommandExecute);

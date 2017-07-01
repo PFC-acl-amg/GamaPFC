@@ -38,7 +38,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
         {
             Personas = new List<Persona>();
             int createdAt = 0;
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 40; i++)
             {
                 var persona = new Persona()
                 {

@@ -3,6 +3,7 @@ using Core.Util;
 using Gama.Common.CustomControls;
 using Gama.Socios.Business;
 using Gama.Socios.Wpf.Eventos;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace Gama.Socios.Wpf.Services
     public class SocioRepository : NHibernateOneSessionRepository<Socio, int>, ISocioRepository
     {
         private List<Socio> _Socios;
+
+        public SocioRepository(EventAggregator eventAggregator) : base(eventAggregator) { }
 
         public List<Socio> Socios
         {
@@ -73,6 +76,7 @@ namespace Gama.Socios.Wpf.Services
 
         public override void Create(Socio entity)
         {
+            entity.EstaDadoDeAlta = true;
             base.Create(entity);
             Socios.Add(entity);
             AddNif(entity.Nif);

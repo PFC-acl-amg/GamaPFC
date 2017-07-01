@@ -27,6 +27,10 @@ namespace Gama.Atenciones.Wpf.Services
 
                 return _Citas;
             }
+            set
+            {
+                _Citas = value;
+            }
         }
 
         private void RaiseActualizarServidor()

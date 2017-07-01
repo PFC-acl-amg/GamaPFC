@@ -10,80 +10,56 @@
              xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
              mc:Ignorable="d" 
              prism:ViewModelLocator.AutoWireViewModel="True"
-             d:DesignHeight="475.685" d:DesignWidth="333.904">
+             d:DesignHeight="562.885" d:DesignWidth="333.904">
   <d:DataContext>
     <designData:SocioViewModelDTD/>
   </d:DataContext>
   <UserControl.Resources>
     <!--<converters:PathToFullPathConverter x:Key="_PathToFullPathConverter"/>-->
     <util:BinaryImageConverter x:Key="_BinaryImageConverter" />
-    </UserControl.Resources>
-  <GroupBox Header="Datos Personales">
-    <ScrollViewer>
-      <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding Socio.IsInEditionMode}">
+    <RadialGradientBrush x:Key="_RadialGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9">
+      <GradientStop Color="#ffffffff" Offset="0.5" />
+      <GradientStop Color="#00ffffff" Offset="0.8" />
+    </RadialGradientBrush>
+  </UserControl.Resources>
+  <Border BorderBrush="#CC104F6A" BorderThickness="0" Margin="{StaticResource Margin}">
+    <ScrollViewer >
+      <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding Persona.IsInEditionMode}">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" MaxWidth="300"/>
           <ColumnDefinition Width="*" MaxWidth="300"/>
         </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
           <RowDefinition Height="Auto"/>
           <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
         <StackPanel Grid.ColumnSpan="2">
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto"/>
-              <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-              <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
 
-            <StackPanel Orientation="Vertical">
-                            <Border MaxHeight="70" BorderBrush="Black" BorderThickness="1.5" CornerRadius="1">
-                                <!--<Image MinHeight="50" Stretch="Fill" Source="{Binding Socio.AvatarPath, 
-                  Converter={StaticResource _PathToFullPathConverter}, UpdateSourceTrigger=PropertyChanged}">
-                                </Image>-->
-                                <!--<Image MinHeight="50" Stretch="Fill" Source="{Binding ImagenSocio}">
-                                    
-                                </Image>-->
-
-                                <Image Source="{Binding Socio.ImagenSocio, 
-                                    Converter={StaticResource _BinaryImageConverter}}" 
-                                    Stretch="Fill"
-                                       MinHeight="50"
-                                    StretchDirection="Both">
-                                    <Image.BitmapEffect>
-                                        <DropShadowBitmapEffect Color="Black" />
-                                    </Image.BitmapEffect>
-                                </Image>
-
-                                <!--<Image x:Name="MyImage" MinHeight="50" Stretch="Fill">
-                                    <Image.Source>
-                                        <BitmapImage UriSource="{Binding ImagenSocio}" />
-                                    </Image.Source>
-                                </Image>-->
-                                <!--<Rectangle Width="60" Margin="{DynamicResource MarginNoBottom}">
-                  <Rectangle.Fill>
-                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_user}" />
-                  </Rectangle.Fill>
-                </Rectangle>-->
-                            </Border>
-                            <Label Margin="0,-4,0,-2" VerticalAlignment="Bottom" 
-                     VerticalContentAlignment="Bottom" HorizontalAlignment="Right">
-                <Hyperlink Command="{Binding ExaminarAvatarCommand}" FontSize="9">Examinar...</Hyperlink>
-              </Label>
+          <Ellipse Height="139" Width="139" OpacityMask="{StaticResource _RadialGradientBrush}" Margin="{StaticResource Margin}">
+                <Ellipse.Fill>
+                  <ImageBrush ImageSource="{Binding Socio.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                </Ellipse.Fill>
+                <Ellipse.Style>
+                  <Style TargetType="Ellipse">
+                    <Style.Triggers>
+                      <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Cursor" Value="Hand"/>
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Ellipse.Style>
+                <Ellipse.InputBindings>
+                  <MouseBinding MouseAction="LeftClick" Command="{Binding ExaminarAvatarCommand}"/>
+                </Ellipse.InputBindings>
+              </Ellipse>
             </StackPanel>
 
-            <StackPanel Grid.Column="1">
-              <Label Margin="{DynamicResource Margin}">DNI/NIF</Label>
-              <TextBox Margin="{DynamicResource Margin}" 
-                       Text="{Binding Socio.Nif, UpdateSourceTrigger=PropertyChanged}"
-                        MinWidth="80"/>
-            </StackPanel>
-          </Grid>
+        <StackPanel Grid.Column="1">
         </StackPanel>
-        
+
         <StackPanel Grid.Row="1">
           <Label Margin="{DynamicResource Margin}">Nombre</Label>
           <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Nombre, UpdateSourceTrigger=PropertyChanged}"
@@ -105,12 +81,16 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="1">
-          <Label Margin="{DynamicResource Margin}">Nacionalidad</Label>
-          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Nacionalidad, UpdateSourceTrigger=PropertyChanged}"
-                   TextWrapping="Wrap"/>
+          <Label Margin="{DynamicResource Margin}">DNI/NIF</Label>
+          <TextBox Margin="{DynamicResource Margin}" 
+                       Text="{Binding Socio.Nif, UpdateSourceTrigger=PropertyChanged}"
+                        MinWidth="80"/>
 
           <Label Margin="{DynamicResource Margin}">Email</Label>
           <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Email, UpdateSourceTrigger=PropertyChanged}"
+                   TextWrapping="Wrap"/>
+          <Label Margin="{DynamicResource Margin}">Nacionalidad</Label>
+          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Nacionalidad, UpdateSourceTrigger=PropertyChanged}"
                    TextWrapping="Wrap"/>
 
           <!--<Label Margin="{DynamicResource Margin}">Ocupación</Label>
@@ -124,8 +104,8 @@
           <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Twitter, UpdateSourceTrigger=PropertyChanged}"
                    TextWrapping="Wrap"/>
 
-        </StackPanel>
+      </StackPanel>
       </Grid>
     </ScrollViewer>
-  </GroupBox>
+  </Border>
 </UserControl>

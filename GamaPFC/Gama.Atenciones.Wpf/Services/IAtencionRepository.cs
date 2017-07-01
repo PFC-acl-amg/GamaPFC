@@ -12,7 +12,7 @@ namespace Gama.Atenciones.Wpf.Services
     public interface IAtencionRepository
     {
         ISession Session { get; set; }
-        List<Atencion> Atenciones { get; }
+        List<Atencion> Atenciones { get; set; }
         Atencion GetById(int id);
         List<Atencion> GetAll();
         void Create(Atencion entity);

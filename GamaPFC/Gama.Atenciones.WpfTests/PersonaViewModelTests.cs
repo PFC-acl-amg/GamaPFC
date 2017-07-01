@@ -17,13 +17,13 @@ namespace Gama.Atenciones.WpfTests
 
         public PersonaViewModelTests()
         {
-            _Vm = new PersonaViewModel();
+            //_Vm = new PersonaViewModel(new Wpf.Services.Preferencias());
         }
 
         [Fact]
         private void ShouldInitializeItsProperties()
         {
-            Assert.True(_Vm.EdicionHabilitada);
+            Assert.True(_Vm.Persona.IsInEditionMode);
             Assert.Null(_Vm.Persona.Nombre);
         }
 

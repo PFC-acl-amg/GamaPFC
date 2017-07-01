@@ -34,6 +34,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             IEventAggregator eventAggregator,
             ISession session)
         {
+            AtencionesResources.StartStopWatch();
             _PersonaRepository = PersonaRepository;
             _PersonaRepository.Session = session;
             //_ExportService = exportService;
@@ -50,6 +51,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             _EventAggregator.GetEvent<PersonaSeleccionadaChangedEvent>().Subscribe(OnPersonaSeleccionadaChangedEvent);
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaSeleccionadaChangedEvent);
+            AtencionesResources.StopStopWatch("Toolbar");
         }
 
 

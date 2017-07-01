@@ -42,7 +42,7 @@ namespace Gama.Cooperacion.Wpf.Services
                     Descripcion = Faker.TextFaker.Sentences(4),
                     CreatedAt = DateTime.Now.AddMonths(createdAt),
                     Coordinador = null,
-                    Cooperantes = null,
+                    Cooperantes = new List<Cooperante>(),
                 };
 
                 _actividades.Add(actividad);

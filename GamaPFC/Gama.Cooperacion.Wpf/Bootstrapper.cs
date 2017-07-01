@@ -13,6 +13,7 @@ using Core.DataAccess;
 using Gama.Cooperacion.DataAccess;
 using NHibernate;
 using System.Linq;
+using Gama.Cooperacion.Business;
 
 namespace Gama.Cooperacion.Wpf
 {
@@ -20,8 +21,8 @@ namespace Gama.Cooperacion.Wpf
     {
         public Bootstrapper(string title = "COOPERACIÓN") : base(title)
         {
-            _CLEAR_DATABASE = false;
-            _SEED_DATABASE = false;
+            _CLEAR_DATABASE = true;
+            _SEED_DATABASE = true;
         }
 
         protected override DependencyObject CreateShell()
@@ -149,93 +150,45 @@ namespace Gama.Cooperacion.Wpf
 
         protected override void GenerateDatabaseConfiguration()
         {
+            if (_CLEAR_DATABASE)
+            {
+                var session = Container.Resolve<ISession>();
+                var cooperanteRepository = new NHibernateOneSessionRepository<Cooperante, int>();
+                var actividadRepository = new NHibernateOneSessionRepository<Actividad, int>();
+                cooperanteRepository.Session = session;
+                actividadRepository.Session = session;
+
+                actividadRepository.DeleteAll();
+                cooperanteRepository.DeleteAll();
+            }
+
             if (_SEED_DATABASE)
             {
                 var session = Container.Resolve<ISession>();
-                var cooperanteRepository = Container.Resolve<ICooperanteRepository>();
+                var cooperanteRepository = new NHibernateOneSessionRepository<Cooperante, int>();
+                var actividadRepository = new NHibernateOneSessionRepository<Actividad, int>();
                 cooperanteRepository.Session = session;
-                var cooperantesDummy = new FakeCooperanteRepository().GetAll().Take(2);
-
-                foreach (var cooperante in cooperantesDummy) // Crea tambien mas cooperantes de forma automatica
-                {
-                    cooperanteRepository.Create(cooperante);
-                }
-
-                var actividadRepository = Container.Resolve<IActividadRepository>();
-                //var eventoRepository = Container.Resolve<IEventoRepository>();
-
                 actividadRepository.Session = session;
-                cooperanteRepository.Session = session;
-                //eventoRepository.Session = session;
 
-                foreach (var cooperante in cooperantesDummy)
-                {
-                    //cooperanteRepository.Create(cooperante); // para crear cooperantes nuevos forma automatica
-                }
-
-                //var cooperanteRepository = Container.Resolve<ICooperanteRepository>();
-                //var actividadRepository = Container.Resolve<IActividadRepository>();
-                //var session = Container.Resolve<ISession>();
-                //actividadRepository.Session = session;
-                //cooperanteRepository.Session = session;
-
-                var coordinador = cooperanteRepository.GetAll().First();
+                var cooperantesFake = new FakeCooperanteRepository().GetAll().Take(10).ToList();
                 var actividadesFake = new FakeActividadRepository().GetAll();
 
-                foreach (var actividad in actividadesFake.Take(1))
+                foreach (var cooperante in cooperantesFake) 
+                    cooperanteRepository.Create(cooperante);
+
+                var coordinador = cooperanteRepository.GetAll().First();
+
+                for (int i = 0; i < 3; i++)
                 {
+                    var actividad = actividadesFake[i];
                     var eventosFake = new FakeEventoRepository().GetAll();
                     var foroFake = new FakeForoRepository().GetAll();
                     var mensajeForoFake = new FakeMensajeRepository().GetAll();
                     var tareaFake = new FakeTareaRepository().GetAll();
                     var seguimientoFake = new FakeSeguimientoRepository().GetAll();
                     var incidenciaFake = new FakeIncidenciaRepository().GetAll();
-                    //foreach (var tarea in tareaFake)
-                    //{
-                    //    var seguimientoFake = new FakeSeguimientoRepository().GetAll();
-                    //    var incidenciaFake = new FakeIncidenciaRepository().GetAll();
-                    //    int j = 0;
-                    //    int k = 0;
-                    //    int l = 0;
-                    //    foreach (var seguimiento in seguimientoFake)
-                    //    {
-                    //        tarea.Seguimiento.Insert(j, seguimiento);
-                    //        j++;
-                    //    }
-                    //    foreach (var incidencia in incidenciaFake)
-                    //    {
-                    //        tarea.Incidencias.Insert(l, incidencia);
-                    //        l++;
-                    //    }
-                    //    actividad.Tareas.Insert(k, tarea);
-                    //    k++;
-                    //}
-                    actividad.Coordinador = coordinador;
-                    //foreach (var InsertandoTareas in tareaFake)
-                    //{
-                    //    foreach (var InsertandoSeguimientos in seguimientoFake)
-                    //    {
-                    //        InsertandoTareas.AddSeguimiento(InsertandoSeguimientos);
-                    //    }
-                    //    foreach(var InsertandoIncidencias in incidenciaFake)
-                    //    {
-                    //        InsertandoTareas.AddIncidencia(InsertandoIncidencias);
-                    //    }
-                    //    InsertandoTareas.Responsable = coordinador;
-                    //    actividad.AddTarea(InsertandoTareas);
-                    //}
-                    //foreach (var InsertandoEvento in eventosFake)
-                    //{
-                    //    actividad.AddEvento(InsertandoEvento);
-                    //}
-                    //foreach (var InsertandoForos in foroFake)
-                    //{
-                    //    foreach (var InsertandoMensajesForos in mensajeForoFake)
-                    //    {
-                    //        InsertandoForos.AddMensaje(InsertandoMensajesForos);
-                    //    }
-                    //    actividad.AddForo(InsertandoForos);
-                    //}
+                    actividad.Coordinador = cooperantesFake[i];
+                    actividad.AddCooperantes(cooperantesFake.Where(x => x.Id != actividad.Coordinador.Id));
                     actividadRepository.Create(actividad);
                 }
             }
@@ -254,3 +207,50 @@ namespace Gama.Cooperacion.Wpf
         }
     }
 }
+
+//foreach (var tarea in tareaFake)
+//{
+//    var seguimientoFake = new FakeSeguimientoRepository().GetAll();
+//    var incidenciaFake = new FakeIncidenciaRepository().GetAll();
+//    int j = 0;
+//    int k = 0;
+//    int l = 0;
+//    foreach (var seguimiento in seguimientoFake)
+//    {
+//        tarea.Seguimiento.Insert(j, seguimiento);
+//        j++;
+//    }
+//    foreach (var incidencia in incidenciaFake)
+//    {
+//        tarea.Incidencias.Insert(l, incidencia);
+//        l++;
+//    }
+//    actividad.Tareas.Insert(k, tarea);
+//    k++;
+//}
+
+//foreach (var InsertandoTareas in tareaFake)
+//{
+//    foreach (var InsertandoSeguimientos in seguimientoFake)
+//    {
+//        InsertandoTareas.AddSeguimiento(InsertandoSeguimientos);
+//    }
+//    foreach(var InsertandoIncidencias in incidenciaFake)
+//    {
+//        InsertandoTareas.AddIncidencia(InsertandoIncidencias);
+//    }
+//    InsertandoTareas.Responsable = coordinador;
+//    actividad.AddTarea(InsertandoTareas);
+//}
+//foreach (var InsertandoEvento in eventosFake)
+//{
+//    actividad.AddEvento(InsertandoEvento);
+//}
+//foreach (var InsertandoForos in foroFake)
+//{
+//    foreach (var InsertandoMensajesForos in mensajeForoFake)
+//    {
+//        InsertandoForos.AddMensaje(InsertandoMensajesForos);
+//    }
+//    actividad.AddForo(InsertandoForos);
+//}

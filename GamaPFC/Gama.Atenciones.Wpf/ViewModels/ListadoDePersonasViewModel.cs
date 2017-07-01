@@ -27,6 +27,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Preferencias settings,
             ISession session)
         {
+            AtencionesResources.StartStopWatch();
             Title = "Todas";
 
             _EventAggregator = eventAggregator;
@@ -43,6 +44,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
             _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
             _EventAggregator.GetEvent<PreferenciasActualizadasEvent>().Subscribe(OnPreferenciasActualizadasEvent);
+            AtencionesResources.StopStopWatch("ListadoDePersonasView");
         }
 
         private void OnPreferenciasActualizadasEvent()

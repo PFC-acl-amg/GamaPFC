@@ -50,7 +50,7 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Map(p => p.UpdatedAt);
 
             HasMany(x => x.Citas)
-                .Not.LazyLoad()
+                //.Not.LazyLoad()
                 .Cascade.None()
                 .Inverse();
         }

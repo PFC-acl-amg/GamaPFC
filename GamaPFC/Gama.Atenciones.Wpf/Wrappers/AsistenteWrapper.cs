@@ -104,7 +104,17 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public string LinkedInOriginalValue => GetOriginalValue<string>(nameof(LinkedIn));
 
-        public bool LinkedInIsChanded => GetIsChanged(nameof(LinkedIn));
+        public bool LinkedInIsChanged => GetIsChanged(nameof(LinkedIn));
+
+        public string Twitter
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string TwitterOriginalValue => GetOriginalValue<string>(nameof(Twitter));
+
+        public bool TwitterIsChanged => GetIsChanged(nameof(Twitter));
 
         public string NivelAcademico
         {

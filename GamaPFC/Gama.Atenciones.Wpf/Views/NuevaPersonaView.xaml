@@ -7,6 +7,7 @@
                    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
                    xmlns:prism="http://prismlibrary.com/"
                    xmlns:actions="clr-namespace:Core.Util;assembly=Core"
+  xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
                    mc:Ignorable="d"
                    Title="Nueva Persona"
                    d:DesignWidth="550" d:DesignHeight="515.781"
@@ -16,13 +17,6 @@
                    BorderThickness="2"
                    BorderBrush="{StaticResource AccentColorBrush}"
                    actions:DialogCloser.DialogResult="{Binding Cerrar}">
-  <!--<metro:MetroWindow.TitleTemplate>
-    <DataTemplate>
-      <Grid Background="Black">
-        <TextBlock Text="{Binding}"/> 
-      </Grid>
-    </DataTemplate>
-  </metro:MetroWindow.TitleTemplate>-->
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition />
@@ -30,9 +24,20 @@
     </Grid.RowDefinitions>
     <local:PersonaView DataContext="{Binding PersonaVM}"/>
     <StackPanel Grid.Row="1" Orientation="Horizontal"
-                    HorizontalAlignment="Right">
-      <Button Content="Aceptar" Command="{Binding AceptarCommand}"  Margin="{StaticResource Margin}"/>
-      <Button Content="Cancelar" Command="{Binding CancelarCommand}"  Margin="{StaticResource Margin}"/>
+                HorizontalAlignment="Right">
+      <!-- Actualizar Button -->
+      <cc:CircleIconButton 
+        Icon="{StaticResource appbar_save}"
+        Width="56" Height="56" IconHeight="20" IconWidth="20"
+        Margin="{StaticResource Margin}"
+        Command="{Binding AceptarCommand}"/>
+
+      <!-- Cancelar Button -->
+      <cc:CircleIconButton
+        Icon="{StaticResource appbar_close}"
+        Width="56" Height="56" IconHeight="20" IconWidth="20"
+        Margin="{StaticResource Margin}"
+        Command="{Binding CancelarCommand}"/>
     </StackPanel>
   </Grid>
 </metro:MetroWindow>

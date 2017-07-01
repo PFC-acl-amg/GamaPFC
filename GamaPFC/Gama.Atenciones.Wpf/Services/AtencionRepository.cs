@@ -28,6 +28,10 @@ namespace Gama.Atenciones.Wpf.Services
 
                 return _Atenciones;
             }
+            set
+            {
+                _Atenciones = value;
+            }
         }
 
         private void RaiseActualizarServidor()

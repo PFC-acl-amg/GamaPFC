@@ -17,13 +17,26 @@ namespace Gama.Atenciones.Wpf.FakeServices
 
         public ISession Session { get; set; }
 
+        List<Cita> ICitaRepository.Citas
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public FakeCitaRepository()
         {
             Citas = new List<Cita>();
             Random random = new Random();
 
             int createdAt = 0;
-            for (int i = 0; i < 120; i++)
+            for (int i = 0; i < 50; i++)
             {
                 var cita = new Cita()
                 {

@@ -32,6 +32,10 @@ namespace Gama.Atenciones.Wpf.Services
 
                 return _Personas;
             }
+            set
+            {
+                _Personas = value;
+            }
         }
 
         // Se llama al establecerse la propiedad 'Session'

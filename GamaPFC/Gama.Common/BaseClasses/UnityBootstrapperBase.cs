@@ -40,8 +40,8 @@ namespace Gama.Common.BaseClasses
 
             lock (_PreloaderView)
             {
-                _PreloaderView.Next(); InitializeDirectories();
-                _PreloaderView.Next(); ConfigurePreferences();
+                _PreloaderView.Next(); InitializeDirectories(); 
+                _PreloaderView.Next(); ConfigurePreferences(); 
                 _PreloaderView.Next(); RegisterServices();
                 _PreloaderView.Next(); GenerateDatabaseConfiguration();
                 _PreloaderView.Next();

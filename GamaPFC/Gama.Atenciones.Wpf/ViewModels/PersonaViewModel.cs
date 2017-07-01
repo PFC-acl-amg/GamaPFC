@@ -1,5 +1,6 @@
 ﻿using Core;
 using Gama.Atenciones.Business;
+using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.Wrappers;
 using Microsoft.Win32;
 using Prism.Commands;
@@ -12,21 +13,25 @@ namespace Gama.Atenciones.Wpf.ViewModels
 {
     public class PersonaViewModel : ViewModelBase
     {
-        private bool _EdicionHabilitada;
         private PersonaWrapper _Persona;
+        private Preferencias _Preferencias;
 
-        public PersonaViewModel()
+        public PersonaViewModel(Preferencias preferencias)
         {
-            _EdicionHabilitada = true;
-            Persona = new PersonaWrapper(new Persona()
+            _Preferencias = preferencias;
+            Persona = new PersonaWrapper(
+                new Persona()
+                {
+                    EstadoCivil = EstadoCivil.NoProporcionado.ToString(),
+                    ComoConocioAGama = ComoConocioAGama.NoProporcionado.ToString(),
+                    ViaDeAccesoAGama = ViaDeAccesoAGama.NoProporcionado.ToString(),
+                    OrientacionSexual = OrientacionSexual.NoProporcionado.ToString(),
+                    IdentidadSexual = IdentidadSexual.NoProporcionado.ToString(),
+                    NivelAcademico = NivelAcademico.NoProporcionado.ToString(),
+                })
             {
-                EstadoCivil = EstadoCivil.NoProporcionado.ToString(),
-                ComoConocioAGama = ComoConocioAGama.NoProporcionado.ToString(),
-                ViaDeAccesoAGama = ViaDeAccesoAGama.NoProporcionado.ToString(),
-                OrientacionSexual = OrientacionSexual.NoProporcionado.ToString(),
-                IdentidadSexual = IdentidadSexual.NoProporcionado.ToString(),
-                NivelAcademico = NivelAcademico.NoProporcionado.ToString(),
-            });
+                IsInEditionMode = _Preferencias.General_EdicionHabilitadaPorDefecto
+            };
 
             ExaminarAvatarCommand = new DelegateCommand(OnExaminarAvatarCommandExecute);
         }
@@ -55,12 +60,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
         }
 
-        public bool EdicionHabilitada
-        {
-            get { return _EdicionHabilitada; }
-            set { SetProperty(ref _EdicionHabilitada, value); }
-        }
-
         public PersonaWrapper Persona
         {
             get { return _Persona; }
@@ -69,8 +68,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
         
         public void Load(PersonaWrapper wrapper)
         {
-            EdicionHabilitada = false;
             Persona = wrapper;
+            Persona.IsInEditionMode = _Preferencias.General_EdicionHabilitadaPorDefecto;
         }
     }
 }
