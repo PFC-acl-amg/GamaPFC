@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="Gama.Cooperacion.Wpf.Views.Cooperante.DatosPersonales"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views.Cooperante"
+             xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
+             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+ 
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             Height="180" Width="480">
+    <UserControl.Resources>
+        <RadialGradientBrush x:Key="_RadialGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9">
+            <GradientStop Color="#ffffffff" Offset="0.5" />
+            <GradientStop Color="#00ffffff" Offset="0.8" />
+        </RadialGradientBrush>
+        <converters:BinaryImageConverter x:Key="_BinaryImageConverter"/>
+    </UserControl.Resources>
+    <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="3" Background="#E6E6E6" Padding="4" 
+                                            CornerRadius="3"
+                                            Margin="5">
+        <Border.Effect>
+            <DropShadowEffect Color="Gray" Opacity=".50" ShadowDepth="16" />
+        </Border.Effect>
+        <StackPanel Grid.Row="0"  Height="140">
+            <!--DATOS DNI-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35" />
+                </Grid.RowDefinitions>
+                <Ellipse Height="139"
+                                 Grid.Row="0" Grid.RowSpan="4"
+                           Width="139"
+                           OpacityMask="{StaticResource _RadialGradientBrush}" 
+                           AllowDrop="True">
+                    <Ellipse.Fill>
+                        <ImageBrush x:Name="_ImagenImageBrush" 
+                            ImageSource="{Binding Cooperante.Foto, 
+                            Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                    </Ellipse.Fill>
+                    <Ellipse.Style>
+                        <Style TargetType="Ellipse">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Ellipse.Style>
+                    <Ellipse.InputBindings>
+                        <MouseBinding MouseAction="LeftClick" Command="{Binding ExaminarFotoCommand}"/>
+                    </Ellipse.InputBindings>
+                </Ellipse>
+
+                <TextBox  Name="NombreCooperante"
+                                      Grid.Row="0" Grid.Column="1"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Nombre..."
+                                      TextWrapping="WrapWithOverflow"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Cooperante.Nombre, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox  Name="ApellidosCooperante"
+                                      Grid.Row="1" Grid.Column="1"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="Apellidos..."
+                                      TextWrapping="WrapWithOverflow"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Cooperante.Apellido,UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox  Name="DniCooperante"
+                                      Grid.Row="2" Grid.Column="1"
+                                      BorderThickness="1"
+                                      metro:TextBoxHelper.Watermark="DNI/NIE/Pasaporte..."
+                                      TextWrapping="WrapWithOverflow"
+                                      Margin="{StaticResource Margin}"
+                                      Text="{Binding Cooperante.Dni,UpdateSourceTrigger=PropertyChanged}"/>
+                <DatePicker HorizontalAlignment="Left" Grid.Row="3" Grid.Column="1"
+                                 SelectedDate="{Binding Cooperante.FechaDeNacimiento, 
+                                    UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                Margin="{StaticResource Margin}"
+                                    Height="25" Width="200" />
+            </Grid>
+        </StackPanel>
+        <!--FIN DATOS DNI-->
+    </Border>
+
+</UserControl>

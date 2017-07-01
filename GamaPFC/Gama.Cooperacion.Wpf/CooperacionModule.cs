@@ -61,6 +61,7 @@ namespace Gama.Cooperacion.Wpf
         private void RegisterViews()
         {
             Container.RegisterType<object, ActividadesContentView>("ActividadesContentView");
+            Container.RegisterType<object, CooperanteView>("CooperantesContentView");
             Container.RegisterType<object, DashboardView>("DashboardView");
             Container.RegisterType<object, EditarActividadView>("EditarActividadView");
             Container.RegisterType<object, InformacionDeActividadView>("InformacionDeActividadView");
@@ -74,6 +75,7 @@ namespace Gama.Cooperacion.Wpf
         private void RegisterViewModels()
         {
             Container.RegisterType<ActividadesContentViewModel>();
+            Container.RegisterType<CooperantesContentViewModel>();
             Container.RegisterType<DashboardViewModel>();
             Container.RegisterType<EditarActividadViewModel>();
             Container.RegisterType<InformacionDeActividadViewModel>();
@@ -184,6 +186,7 @@ namespace Gama.Cooperacion.Wpf
             //RegionManager.AddToRegion(RegionNames.ActividadesTabContentRegion, new ListadoDeActividadesView());
             //RegionManager.RequestNavigate(RegionNames.ActividadesTabContentRegion, "ListadoDeActividadesView");
             RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
+            RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<CooperantesContentView>());
             RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<ActividadesContentView>());
             RegionManager.AddToRegion(RegionNames.ActividadesTabContentRegion, Container.Resolve<ListadoDeActividadesView>());
             RegionManager.RegisterViewWithRegion(RegionNames.RightCommandsRegion, typeof(RightCommandsView));

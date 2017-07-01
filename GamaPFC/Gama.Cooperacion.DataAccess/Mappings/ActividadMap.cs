@@ -25,30 +25,27 @@ namespace Gama.Cooperacion.DataAccess.Mappings
 
             References(x => x.Coordinador)
                 .Not.LazyLoad()
-                .Fetch.Join();
+                .Cascade.None();
 
             HasMany(x => x.Eventos)
-                //.Cascade.SaveUpdate()
-                .Cascade.All()
                 .Not.LazyLoad()
+                .Cascade.All()
                 .Inverse();
 
             HasMany(x => x.Foros)
-                //.Cascade.SaveUpdate()
-                .Cascade.All()
                 .Not.LazyLoad()
+                .Cascade.All()
                 .Inverse();
 
             HasMany(x => x.Tareas)
-                // .Cascade.SaveUpdate()
-                .Cascade.All()
                 .Not.LazyLoad()
-                .Inverse();
+                .Cascade.All();
 
             HasManyToMany(x => x.Cooperantes)
+                .Table("CooperanteParticipaEnActividad")
                 .Not.LazyLoad()
-                //.Fetch.Join()
-                .Table("CooperanteParticipaEnActividad");
+                .Cascade.None();
+                
         }
     }
 }

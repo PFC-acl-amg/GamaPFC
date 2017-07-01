@@ -192,10 +192,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 .ToArray());
             _CooperantesMostrados = _CooperantesMostrados + 4;
             InicializarGraficos();
-
+            
+            _eventAggregator.GetEvent<ActividadEliminadaEvent>().Subscribe(OnActividadEliminadaEvent);
             _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
             _eventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
             _eventAggregator.GetEvent<CooperanteCreadoEvent>().Subscribe(PublicarCooperante);
+            _eventAggregator.GetEvent<PublicarNuevaActividad>().Subscribe(OnPublicarEventosActividad);
 
             SelectActividadCommand = new DelegateCommand<object>(OnSelectActividadCommand);
             SelectCooperanteCommand = new DelegateCommand<Cooperante>(OnSelectCooperanteCommand);
@@ -221,17 +223,34 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             ResetearFechaEventosCommand = new DelegateCommand(OnResetearFechaEventosCommandExecute);
             EditarActividadCommand = new DelegateCommand<object>(OnEditarActividadCommandExecute);
             EventoSelectActividadCommand = new DelegateCommand<object>(OnEventoSelectActividadCommandExecute);
-            
+            BorrarActividadCommand = new DelegateCommand<Actividad>(OnBorrarActividadCommandExecute);
+
+
 
         }
-        
+        private void OnPublicarEventosActividad(Evento GenerarEvento)
+        {
+            EventoActividad.Insert(0, GenerarEvento);
+        }
+        private void OnActividadEliminadaEvent(Actividad obj)
+        {
+            ListaParcialActividades.Remove(obj);
+        }
+
+        private void OnBorrarActividadCommandExecute(Actividad actividad)
+        {
+            _actividadRepository.Delete(actividad);
+            _eventAggregator.GetEvent<ActividadEliminadaEvent>().Publish(actividad);
+
+        }
+
         //    private void OnSelectActividadCommand(object param)
         //{
         //    var lookup = param as LookupItem;
         //    if (lookup != null) _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish(lookup.Id);
 
         //}
-        
+
         private void PublicarCooperante(CooperanteWrapper CooperanteInsertado)
         {
             ListaParcialCooperantes.Clear();
@@ -377,6 +396,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand ResetearFechaEventosCommand { get; set; }
         public ICommand EditarActividadCommand { get; set; }
         public ICommand EventoSelectActividadCommand { get; set; }
+        public ICommand BorrarActividadCommand { get; set; }
 
         private void OnEventoSelectActividadCommandExecute(object param)
         {

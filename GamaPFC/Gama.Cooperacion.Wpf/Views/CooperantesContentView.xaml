@@ -1,0 +1,557 @@
+﻿<UserControl x:Class="Gama.Cooperacion.Wpf.Views.CooperantesContentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="638" d:DesignWidth="1153"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+               xmlns:prism="http://prismlibrary.com/"
+  prism:ViewModelLocator.AutoWireViewModel="True"
+  xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
+  xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
+  xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
+  xmlns:util="clr-namespace:Core.Util;assembly=Core"
+  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+  xmlns:wrappers="clr-namespace:Gama.Cooperacion.Wpf.Wrappers"
+              xmlns:cooperanteViews="clr-namespace:Gama.Cooperacion.Wpf.Views.Cooperante"
+             Name="_Root">
+    <UserControl.Resources>
+        <converters:BooleanToVisivilityConverter x:Key="_BooleanToVisivilityConverter"/>
+        <DataTemplate x:Key="_EliminarButtonCellTemplate">
+            <cc:CircleIconButton
+                      HorizontalAlignment="Center"
+                      Icon="{StaticResource appbar_delete}"
+                      Width="36"
+                      Height="36"
+                      IconWidth="13"
+                      IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.BorrarActividadCommand}"
+                      CommandParameter="{Binding}">
+                <Button.Style>
+                    <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                        <Setter Property="Opacity" Value="0.5"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </cc:CircleIconButton>
+        </DataTemplate>
+        <DataTemplate x:Key="_IrButtonCellTemplate">
+            <cc:CircleIconButton
+                      HorizontalAlignment="Left"
+                      Icon="{StaticResource appbar_arrow_right}"
+                      Width="36"
+                      Height="36"
+                      IconWidth="13"
+                      IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.SelectActividadCommand}"
+                      CommandParameter="{Binding}">
+                <Button.Style>
+                    <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                        <Setter Property="Opacity" Value="0.5"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </cc:CircleIconButton>
+        </DataTemplate>
+        <DataTemplate x:Key="_EditarButtonCellTemplate">
+            <cc:CircleIconButton
+                      Icon="{StaticResource appbar_edit}"
+                      Width="36"
+                      Height="36"
+                      IconWidth="13"
+                      IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.EditarActividadCommand}"
+                      CommandParameter="{Binding}">
+                <Button.Style>
+                    <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                        <Setter Property="Opacity" Value="0.5"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </cc:CircleIconButton>
+        </DataTemplate>
+        <Style x:Key="DGCHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="BorderThickness" Value="1,1,1,2"/>
+            <Setter Property="BorderBrush" Value="#B6000000"/>
+            <Setter Property="Background" Value="#D12B3336" />
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+            <Setter Property="Padding" Value="3,0,3,3"/>
+        </Style>
+        <Style x:Key="DGHeaderStyle" TargetType="{x:Type DataGrid}">
+            <Setter Property="ColumnHeaderStyle" Value="{StaticResource DGCHeaderStyle}"/>
+            <Setter Property="RowHeaderWidth" Value="0"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="AlternatingRowBackground" Value="#B99BA5AB"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="15"/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <GroupBox Grid.Column="0" Background="black" Width="200" Visibility="{Binding VisibleListaCooperantes, 
+                                                Converter={StaticResource _BooleanToVisivilityConverter}}">
+            <GroupBox.Header>
+                <Label HorizontalAlignment="Center" Content="Lista de Cooperantes" 
+                       FontSize="14" Foreground="White" Height="30" />
+            </GroupBox.Header>
+            <ListBox 
+                ItemsSource="{Binding Cooperantes}"
+                SelectedItem="{Binding CooperanteSeleccionado, Mode=TwoWay}"
+                HorizontalContentAlignment="Left"
+                BorderThickness="0"
+                Cursor="Hand"
+                Background="White"
+                Foreground="Black"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                <!--<ListBox.Resources>
+                    --><!-- Style used if item is selected and listbox has keyboard focus --><!--
+                    <Style x:Key="NoFocusVisualStyle" TargetType="Control">
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                    </Style>
+                    --><!-- Apply this style --><!--
+                    <Style x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
+                        <Setter Property="FocusVisualStyle" Value="{StaticResource NoFocusVisualStyle}" />
+                    </Style>
+                    --><!-- Color used if item is selected and listbox has focus --><!--
+                    <SolidColorBrush
+             x:Key="{x:Static SystemColors.HighlightBrushKey}"
+             Color="Transparent"/>
+                    --><!-- Color used if item is selected and listbox does not have focus --><!--
+                    <SolidColorBrush
+             x:Key="{x:Static SystemColors.ControlBrushKey}"
+             Color="Transparent"/>
+                    --><!-- Font color used if item is selected and listbox has focus --><!--
+                    <SolidColorBrush
+             x:Key="{x:Static SystemColors.HighlightTextBrushKey}" 
+             Color="Black" />
+                </ListBox.Resources>-->
+                <ListBox.Resources>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <Border x:Name="Bd"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                                            Background="{TemplateBinding Background}"
+                                                            Padding="{TemplateBinding Padding}"
+                                                            SnapsToDevicePixels="true">
+                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="Red"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.Resources>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock FontSize="14" Margin="{StaticResource Margin}"  Grid.Row="1" HorizontalAlignment="Left">
+                                  <Run Text="{Binding Nombre}"/>
+                                  <Run Text="{Binding Apellido}"/>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+        </GroupBox>
+        <StackPanel Name="VerOpcionesActividades" Grid.Column="1" Background="White" VerticalAlignment="Center"
+                    Orientation="Horizontal" Margin="2,0,1,0"
+                    ToolTip="Mostrar/Ocultar Ociones">
+            <Rectangle Width="2" Height="300" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="1" />
+            <Rectangle Width="2" Height="300" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="1" />
+            <Rectangle Width="2" Height="300" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="1"/>
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <prism:InvokeCommandAction Command="{Binding VerListaCooperantesCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </StackPanel>
+        <Grid Grid.Column="2" Background="Beige" Margin="4,4,0,4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180" />
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock FontSize="20" Margin="20,0,0,0" VerticalAlignment="Center"
+                     Foreground="Gray"
+                     FontWeight="DemiBold" Text="Datos Personales"/>
+                <cc:CircleIconButton
+                      Icon="{StaticResource appbar_edit}"
+                      Grid.Column="1"
+                      Width="36"
+                      Height="36"
+                      IconWidth="13"
+                      IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.HabilitarBotonEditarCommand}">
+                    <Button.Style>
+                        <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                            <Setter Property="Opacity" Value="0.5"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </cc:CircleIconButton>
+                <cc:CircleIconButton
+                    Visibility="{Binding CooperanteSeleccionado.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Icon="{StaticResource appbar_close}"
+                      Grid.Column="2"
+                      Width="36"
+                      Height="36"
+                      IconWidth="13"
+                      IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.CancelarBotonEditarCommand}"
+                      CommandParameter="{Binding}">
+                    <Button.Style>
+                        <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                            <Setter Property="Opacity" Value="0.5"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </cc:CircleIconButton>
+                <cc:CircleIconButton
+                    Visibility="{Binding CooperanteSeleccionado.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Icon="{StaticResource appbar_save}"
+                      Grid.Column="3"
+                      Width="36"
+                      Height="36"
+                      IconWidth="13"
+                      IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.GuardarBotonCommand}"
+                      CommandParameter="{Binding}">
+                    <Button.Style>
+                        <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                            <Setter Property="Opacity" Value="0.5"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </cc:CircleIconButton>
+            </Grid>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <Grid  DataContext="{Binding CooperanteViewModel}"
+                    ScrollViewer.CanContentScroll="True"
+                    IsHitTestVisible="{Binding Cooperante.IsInEditionMode}"
+                    Grid.IsSharedSizeScope="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" SharedSizeGroup="A"/>
+                        <RowDefinition Height="Auto" SharedSizeGroup="A"/>
+                        <RowDefinition Height="Auto" SharedSizeGroup="A"/>
+                    </Grid.RowDefinitions>
+                    <cooperanteViews:DatosPersonales Grid.Row="0"/>
+                    <cooperanteViews:DatosDeContacto Grid.Row="1"/>
+                    <cooperanteViews:DireccionPostal Grid.Row="2" />
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+        <Grid Grid.Column="3" Background="Beige" Margin="0,4,4,4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock FontSize="20" Margin="{StaticResource Margin}"
+                     Foreground="Gray" VerticalAlignment="Center"
+                     FontWeight="DemiBold" Text="Coordinador"/>
+                <DataGrid BorderThickness="1" Margin="{StaticResource Margin}"
+                  Grid.Row="1"
+                  CanUserResizeColumns="False"
+                  Style="{StaticResource DGHeaderStyle}"
+                  ItemsSource="{Binding ActividadesCoordina}">
+                    <DataGrid.Resources>
+                        <DataTemplate x:Key="_HeaderTemplate" >
+                            <TextBlock Text="{Binding}" Margin="{StaticResource Margin}"/>
+                        </DataTemplate>
+                    </DataGrid.Resources>
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="13"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#D95796BE"/>
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Background" Value="#D972BCE9"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="ID"
+                                        HeaderTemplate="{StaticResource _HeaderTemplate}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Left"
+                                    Width="30"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{Binding Id}"
+                                    Padding="{StaticResource Margin}"
+                                    Margin="{StaticResource Margin}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Titulo" Width="*" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{Binding Titulo, UpdateSourceTrigger=PropertyChanged}"
+                                    Padding="{StaticResource Margin}"
+                                    Margin="{StaticResource Margin}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Fecha Final" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center"
+                                       Width="80"
+                                       VerticalAlignment="Center"
+                                       FontSize="14"
+                                       Text="{Binding FechaDeFin, StringFormat=d}"
+                                       Padding="{StaticResource Margin}"
+                                       Margin="{StaticResource Margin}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Editar"
+                                    HeaderTemplate="{StaticResource _HeaderTemplate}" 
+                                    CellTemplate="{StaticResource _EditarButtonCellTemplate}"/>
+                        <DataGridTemplateColumn Header="Eliminar"
+                                    HeaderTemplate="{StaticResource _HeaderTemplate}" 
+                                    CellTemplate="{StaticResource _EliminarButtonCellTemplate}"/>
+                        <DataGridTemplateColumn Header="Abrir"  
+                                    HeaderTemplate="{StaticResource _HeaderTemplate}" 
+                                    CellTemplate="{StaticResource _IrButtonCellTemplate}"/>
+                        <!--<DataGridTextColumn 
+                      Header="ID"
+                      Binding="{Binding Id}"
+                      MinWidth="40" 
+                      Width="40"
+                      IsReadOnly="True"/>
+                <DataGridTextColumn 
+                      Header="Titulo" 
+                      Binding="{Binding Titulo, UpdateSourceTrigger=PropertyChanged}" 
+                      MinWidth="100" 
+                      Width="100"/>
+                <DataGridTextColumn 
+                      Header="Estado" 
+                      Binding="{Binding Estado, UpdateSourceTrigger=PropertyChanged}" 
+                      MinWidth="150" 
+                      Width="100"/>
+                <DataGridTextColumn 
+                      Header="Fecha Inicio" 
+                      Binding="{Binding FechaDeInicio,StringFormat='dd/MM/yyyy', UpdateSourceTrigger=PropertyChanged}" 
+                      MinWidth="100" 
+                      Width="100"/>
+                <DataGridTextColumn 
+                      Header="Fecha Final" 
+                      Binding="{Binding FechaDeFin,StringFormat='dd/MM/yyyy', UpdateSourceTrigger=PropertyChanged}" 
+                      MinWidth="100" 
+                      Width="100"/>
+                <DataGridTextColumn 
+                      Header="Coordinador" 
+                      Binding="{Binding Coordinador.Nombre, UpdateSourceTrigger=PropertyChanged}" 
+                      MinWidth="300" 
+                      Width="100"/>-->
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock FontSize="20" Margin="{StaticResource Margin}"
+                     Foreground="Gray"
+                     FontWeight="DemiBold" Text="Cooperante"/>
+                <DataGrid BorderThickness="1" Margin="{StaticResource Margin}"
+                  Grid.Row="1"
+                          AutoGenerateColumns="False"
+                  CanUserResizeColumns="False"
+                  Style="{StaticResource DGHeaderStyle}"
+                  ItemsSource="{Binding ActividadesCoopera}">
+                    <DataGrid.Resources>
+                        <DataTemplate x:Key="_HeaderTemplate" >
+                            <TextBlock Text="{Binding}" Margin="{StaticResource Margin}"/>
+                        </DataTemplate>
+                    </DataGrid.Resources>
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="13"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#D95796BE"/>
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Background" Value="#D972BCE9"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="ID"
+                                        HeaderTemplate="{StaticResource _HeaderTemplate}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Left"
+                                    Width="30"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{Binding Id}"
+                                    Padding="{StaticResource Margin}"
+                                    Margin="{StaticResource Margin}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Titulo" Width="*" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Left"
+                                    
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{Binding Titulo, UpdateSourceTrigger=PropertyChanged}"
+                                    Padding="{StaticResource Margin}"
+                                    Margin="{StaticResource Margin}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Fecha Final" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center"
+                                       Width="80"
+                                       VerticalAlignment="Center"
+                                       FontSize="14"
+                                       Text="{Binding FechaDeFin, StringFormat=d}"
+                                       Padding="{StaticResource Margin}"
+                                       Margin="{StaticResource Margin}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Editar"
+                                    HeaderTemplate="{StaticResource _HeaderTemplate}" 
+                                    CellTemplate="{StaticResource _EditarButtonCellTemplate}"/>
+                        <DataGridTemplateColumn Header="Eliminar"
+                                    HeaderTemplate="{StaticResource _HeaderTemplate}" 
+                                    CellTemplate="{StaticResource _EliminarButtonCellTemplate}"/>
+                        <DataGridTemplateColumn Header="Abrir"  
+                                    HeaderTemplate="{StaticResource _HeaderTemplate}" 
+                                    CellTemplate="{StaticResource _IrButtonCellTemplate}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

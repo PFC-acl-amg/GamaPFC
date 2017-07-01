@@ -10,6 +10,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
 {
     public class CooperanteWrapper : TimestampedModelWrapper<Cooperante>
     {
+        public string _SavedNif;
         public CooperanteWrapper(Cooperante model) : base (model)
         {
         }
@@ -31,6 +32,11 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             this.RegisterCollection(this.Telefonos, model.Telefonos.ToList());
         }
         // Nuevos Campos añadidos a la clase Cooperante
+        public string Nif
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
         public string Provincia
         {
             get { return GetValue<string>(); }
