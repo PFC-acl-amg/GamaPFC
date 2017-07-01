@@ -27,6 +27,20 @@ namespace Gama.Common.BaseClasses
         {
             base.ConfigureContainer();
 
+            //Debug.Debug.StartWatch();
+            //InitializeDirectories();
+            //Debug.Debug.StopWatch("InitializeDirectories()");
+            //Debug.Debug.StartWatch();
+            //ConfigurePreferences();
+            //Debug.Debug.StopWatch("ConfigurePreferences()");
+            //Debug.Debug.StartWatch();
+            //RegisterServices();
+            //Debug.Debug.StopWatch("RegisterServices()");
+            //Debug.Debug.StartWatch();
+            //GenerateDatabaseConfiguration();
+            //Debug.Debug.StopWatch("DatabaseConfig()");
+            //Debug.Debug.StartWatch();
+
             LanzarPreloader();
         }
 

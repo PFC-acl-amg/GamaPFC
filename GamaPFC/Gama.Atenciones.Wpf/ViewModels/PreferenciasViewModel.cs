@@ -27,7 +27,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public PreferenciasViewModel(Preferencias preferencias,
             IEventAggregator eventAggregator)
         {
-            Debug.StartStopWatch();
+            Debug.StartWatch();
             _Preferencias = preferencias;
             _EventAggregator = eventAggregator;
 

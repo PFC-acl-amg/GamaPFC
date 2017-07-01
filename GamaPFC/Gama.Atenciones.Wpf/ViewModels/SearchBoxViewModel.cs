@@ -34,7 +34,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             IEventAggregator eventAggregator,
             ISession session)
         {
-            Debug.StartStopWatch();
+            Debug.StartWatch();
             _PersonaRepository = personaRepository;
             _PersonaRepository.Session = session;
             _EventAggregator = eventAggregator;
@@ -45,7 +45,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             Personas = new ObservableCollection<LookupItem>(_PersonaRepository.GetAllForLookup());
             Debug.StopWatch("SearchBoxView: GetAllForLookup()");
-            Debug.StartStopWatch();
+            Debug.StartWatch();
 
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnPersonaCreadaEvent);
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);

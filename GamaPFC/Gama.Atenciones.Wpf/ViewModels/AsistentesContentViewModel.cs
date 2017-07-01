@@ -36,7 +36,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             AsistenteViewModel asistenteViewModel,
             ISession session)
         {
-            Debug.StartStopWatch();
+            Debug.StartWatch();
             _EventAggregator = eventAggregator;
             _PersonaRepository = personaRepository;
             _PersonaRepository.Session = session;

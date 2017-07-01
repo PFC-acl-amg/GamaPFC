@@ -28,7 +28,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Preferencias settings,
             ISession session)
         {
-            Debug.StartStopWatch();
+            Debug.StartWatch();
             Title = "Todas";
 
             _EventAggregator = eventAggregator;

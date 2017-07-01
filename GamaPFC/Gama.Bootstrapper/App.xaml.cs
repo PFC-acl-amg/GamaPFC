@@ -47,15 +47,15 @@ namespace Gama.Bootstrapper
 
             Bootstrapper bootstrapper;
 
-            bool SALTAR_SELECCION_DE_MODULO = true; // Para hacer pruebas más rápido...
+            bool SALTAR_SELECCION_DE_MODULO = false; // Para hacer pruebas más rápido...
             if (SALTAR_SELECCION_DE_MODULO)
             {
-                //var atencionesBootstrapper = new Gama.Atenciones.Wpf.Bootstrapper();
-                //atencionesBootstrapper.Run();
+                var atencionesBootstrapper = new Gama.Atenciones.Wpf.Bootstrapper();
+                atencionesBootstrapper.Run();
                 //var sociosBootstrapper = new Gama.Socios.Wpf.Bootstrapper();
                 //sociosBootstrapper.Run();
-                var cooperacionBootstrapper = new Gama.Cooperacion.Wpf.Bootstrapper();
-                cooperacionBootstrapper.Run();
+                //var cooperacionBootstrapper = new Gama.Cooperacion.Wpf.Bootstrapper();
+                //cooperacionBootstrapper.Run();
             }
             else
             {

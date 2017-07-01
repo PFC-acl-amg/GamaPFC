@@ -59,7 +59,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             ITareaRepository tareaRepository,
             IEventAggregator eventAggregator)     // Constructor de la clase
         {
-            Gama.Common.Debug.Debug.StartStopWatch();
+            Gama.Common.Debug.Debug.StartWatch();
             _VisibleCrearForo = false;
             _VisibleCrearTarea = false;
             _OcultarCrearForo = true;

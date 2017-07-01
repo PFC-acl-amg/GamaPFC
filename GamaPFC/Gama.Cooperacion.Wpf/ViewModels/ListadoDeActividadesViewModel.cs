@@ -27,7 +27,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             IActividadRepository actividadRepository, 
             ICooperacionSettings userConfig, ISession session)
         {
-            Gama.Common.Debug.Debug.StartStopWatch();
+            Gama.Common.Debug.Debug.StartWatch();
             Title = "Todas";
 
             _eventAggregator = eventAggregator;

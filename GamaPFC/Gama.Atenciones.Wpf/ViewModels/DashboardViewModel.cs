@@ -40,7 +40,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Preferencias settings,
             ISession session)
         {
-            Debug.StartStopWatch();
+            Debug.StartWatch();
             _PersonaRepository = personaRepository;
             _CitaRepository = citaRepository;
             _AtencionRepository = atencionRepository;
@@ -58,7 +58,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _Citas = new List<Cita>(_CitaRepository.GetAll());
 
             Debug.StopWatch("...Dashboard: Get Personas, Atenciones, Citas");
-            Debug.StartStopWatch();
+            Debug.StartWatch();
             Personas = new ObservableCollection<Persona>(
                 _Personas
                 .OrderBy(p => p.Nombre)

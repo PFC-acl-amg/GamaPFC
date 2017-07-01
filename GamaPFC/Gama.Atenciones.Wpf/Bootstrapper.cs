@@ -225,27 +225,23 @@ namespace Gama.Atenciones.Wpf
 
         private void InitializeCollections()
         {
-
+            Debug.StartWatch();
             var session = Container.Resolve<ISession>();
             _personaRepository = Container.Resolve<IPersonaRepository>();
             _citaRepository = Container.Resolve<ICitaRepository>();
             _atencionRepository = Container.Resolve<IAtencionRepository>();
             _asistenteRepository = Container.Resolve<IAsistenteRepository>();
+            Gama.Common.Debug.Debug.StopWatch("Resolve ISession y repository");
 
-           _personaRepository.Session = session;
-           _citaRepository.Session = session;
-           _atencionRepository.Session = session;
-           _asistenteRepository.Session = session;
+            Debug.StartWatch(); _personaRepository.Session = session; Debug.StopWatch("Personas Session");
+            Debug.StartWatch(); _citaRepository.Session = session; Debug.StopWatch("Citas Session");
+            Debug.StartWatch(); _atencionRepository.Session = session; Debug.StopWatch("Atenciones Session");
+            Debug.StartWatch(); _asistenteRepository.Session = session; Debug.StopWatch("Asistentes Session");
 
-            Debug.StartStopWatch();
-            var personas = _personaRepository.Personas;
-            Debug.StopWatch("Personas");
-            Debug.StartStopWatch();
-            _citaRepository.Citas = personas.SelectMany(p => p.Citas).ToList();
-            Debug.StopWatch("Citas");
-            Debug.StartStopWatch();
-            _atencionRepository.Atenciones = _citaRepository.Citas.Select(c => c.Atencion).Where(a => a != null).ToList();
-            Debug.StopWatch("Atenciones");
+
+            Debug.StartWatch(); var personas = _personaRepository.Personas; Debug.StopWatch("Personas");
+            Debug.StartWatch(); _citaRepository.Citas = _personaRepository.Personas.SelectMany(p => p.Citas).ToList();Debug.StopWatch("Citas");
+            Debug.StartWatch();_atencionRepository.Atenciones = _citaRepository.Citas.Select(c => c.Atencion).Where(a => a != null).ToList();Debug.StopWatch("Atenciones");
 
             //_BackgroundWorker = new BackgroundWorker();
             //_BackgroundWorker.DoWork += BackgroundWorker_DoWork;

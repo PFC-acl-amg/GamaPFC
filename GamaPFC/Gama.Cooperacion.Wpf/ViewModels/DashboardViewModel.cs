@@ -99,7 +99,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             ICooperacionSettings settings,
             ISession session)
         {
-            Gama.Common.Debug.Debug.StartStopWatch();
+            Gama.Common.Debug.Debug.StartWatch();
             _regionManager = regionManager;
             _actividadRepository = actividadRepository;
             _cooperanteRepository = cooperanteRepository;

@@ -41,7 +41,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Preferencias preferencias,
             ISession session)
         {
-            Debug.StartStopWatch();
+            Debug.StartWatch();
             _EventAggregator = eventAggregator;
             _CitaRepository = citaRepository;
             _CitaRepository.Session = session;

@@ -35,7 +35,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             IUnityContainer container,
             ISession session)
         {
-            Debug.StartStopWatch();
+            Debug.StartWatch();
             _CitaRepository = citaRepository;
             _CitaRepository.Session = session;
             _EventAggregator = eventAggregator;

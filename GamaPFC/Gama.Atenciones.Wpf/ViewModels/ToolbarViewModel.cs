@@ -35,7 +35,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             IEventAggregator eventAggregator,
             ISession session)
         {
-            Debug.StartStopWatch();
+            Debug.StartWatch();
             _PersonaRepository = PersonaRepository;
             _PersonaRepository.Session = session;
             //_ExportService = exportService;

@@ -35,7 +35,7 @@ namespace Gama.Atenciones.DataAccess
 
                         var path = directoryPath + @"\nh_atenciones.cfg";
 
-                        //if (File.Exists(path)) { File.Delete(path); }
+                        if (File.Exists(path)) { File.Delete(path); }
 
                         if (File.Exists(path))
                         {

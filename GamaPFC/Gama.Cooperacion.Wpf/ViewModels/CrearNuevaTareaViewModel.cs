@@ -29,7 +29,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         public CrearNuevaTareaViewModel(IActividadRepository ActividadRepository, IEventAggregator EventAggregator)
         {
-            Gama.Common.Debug.Debug.StartStopWatch();
+            Gama.Common.Debug.Debug.StartWatch();
             _ActividadRepository = ActividadRepository;
             _EventAggregator = EventAggregator;
             _ModificarTarea = 0;

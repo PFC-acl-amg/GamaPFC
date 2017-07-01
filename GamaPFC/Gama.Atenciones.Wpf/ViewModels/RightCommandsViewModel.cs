@@ -38,7 +38,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public RightCommandsViewModel(EventAggregator eventAggregator)
         {
-            Debug.StartStopWatch();
+            Debug.StartWatch();
             _EventAggregator = eventAggregator;
             _BackgroundWorker = new BackgroundWorker();
             _BackgroundWorker.DoWork += BackgroundWorker_DoWork;

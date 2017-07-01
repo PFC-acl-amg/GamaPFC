@@ -11,7 +11,7 @@ namespace Gama.Common.Debug
         public static bool DEBUG = true;
         private static System.Diagnostics.Stopwatch _Stopwatch;
 
-        public static void StartStopWatch()
+        public static void StartWatch()
         {
             if (DEBUG)
                 _Stopwatch = System.Diagnostics.Stopwatch.StartNew();

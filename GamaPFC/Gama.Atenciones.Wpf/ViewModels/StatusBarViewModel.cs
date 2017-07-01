@@ -22,7 +22,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public StatusBarViewModel(
             IEventAggregator eventAggregator)
         {
-            Debug.StartStopWatch();
+            Debug.StartWatch();
             _EventAggregator = eventAggregator;
 
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(
