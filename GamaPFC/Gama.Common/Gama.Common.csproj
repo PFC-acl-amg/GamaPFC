@@ -134,6 +134,7 @@
     <Compile Include="CustomControls\PaginatedCollectionView.cs" />
     <Compile Include="CustomControls\SearchBox.cs" />
     <Compile Include="CustomControls\SearchBoxDataTemplateSelector.cs" />
+    <Compile Include="Debug\Debug.cs" />
     <Compile Include="Eventos\AbrirPreferenciasEvent.cs" />
     <Compile Include="Eventos\ActiveViewChanged.cs" />
     <Compile Include="Eventos\LaConexionConElServidorHaCambiadoEvent.cs" />

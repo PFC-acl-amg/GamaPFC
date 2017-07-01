@@ -33,6 +33,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             CooperanteViewModel CooperanteViewModel,
             ISession session)
         {
+            Gama.Common.Debug.Debug.StartStopWatch();
             _EventAggregator = eventAggregator;
             _CooperanteRepository = cooperanteRepository;
             _CooperanteRepository.Session = session;
@@ -77,6 +78,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             SelectActividadCommand = new DelegateCommand<object>(OnSelectActividadCommand);
             EditarActividadCommand = new DelegateCommand<object>(OnEditarActividadCommandExecute);
             BorrarActividadCommand = new DelegateCommand<object>(OnBorrarActividadCommandExecute);
+            Gama.Common.Debug.Debug.StopWatch("CooperantesContentViewModel");
 
         }
         private void OnActividadNuevaEvent(int id)

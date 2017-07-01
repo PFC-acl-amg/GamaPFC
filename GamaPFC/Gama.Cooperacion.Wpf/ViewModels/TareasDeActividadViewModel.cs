@@ -59,6 +59,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             ITareaRepository tareaRepository,
             IEventAggregator eventAggregator)     // Constructor de la clase
         {
+            Gama.Common.Debug.Debug.StartStopWatch();
             _VisibleCrearForo = false;
             _VisibleCrearTarea = false;
             _OcultarCrearForo = true;
@@ -95,6 +96,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             FinalizarTareaTDCommand = new DelegateCommand<object>(OnFinalizarTareaTDCommand, OnFinalizarTareaTDCommand_CanExecute);
             AceptarCrearTareaCommand = new DelegateCommand(OnAceptarCrearTareaCommand, OnAceptarCrearTareaCommand_CanExecute);
             AñadirCooperantesComboBox = new DelegateCommand (OnAñadirCooperantesComboBox, OnAñadirCooperantesComboBox_CanExecute);
+            Gama.Common.Debug.Debug.StopWatch("TareasDeActividadViewModel");
         }
 
         public ISession Session

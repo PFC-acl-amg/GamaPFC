@@ -27,6 +27,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             IActividadRepository actividadRepository, 
             ICooperacionSettings userConfig, ISession session)
         {
+            Gama.Common.Debug.Debug.StartStopWatch();
             Title = "Todas";
 
             _eventAggregator = eventAggregator;
@@ -50,6 +51,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             PaginaAnteriorCommand = new DelegateCommand(OnPaginaAnterior);
             PaginaSiguienteCommand = new DelegateCommand(OnPaginaSiguiente);
             SeleccionarActividadCommand = new DelegateCommand<object>(OnSeleccionarActividad);
+            Gama.Common.Debug.Debug.StopWatch("ListadoDeActividadesViewModel");
         }
 
         public PaginatedCollectionView Actividades { get; private set; }

@@ -1,5 +1,6 @@
 ﻿using Core;
 using Gama.Atenciones.Wpf.Eventos;
+using Gama.Common.Debug;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public StatusBarViewModel(
             IEventAggregator eventAggregator)
         {
-            AtencionesResources.StartStopWatch();
+            Debug.StartStopWatch();
             _EventAggregator = eventAggregator;
 
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(
@@ -55,7 +56,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _Timer = new DispatcherTimer();
             _Timer.Tick += _timer_Tick;
             _Timer.Interval = new TimeSpan(0, 0, 4);
-            AtencionesResources.StopStopWatch("StatusBar");
+            Debug.StopWatch("StatusBar");
         }
 
         public string Mensaje

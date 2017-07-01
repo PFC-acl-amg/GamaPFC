@@ -99,6 +99,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             ICooperacionSettings settings,
             ISession session)
         {
+            Gama.Common.Debug.Debug.StartStopWatch();
             _regionManager = regionManager;
             _actividadRepository = actividadRepository;
             _cooperanteRepository = cooperanteRepository;
@@ -225,8 +226,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             EventoSelectActividadCommand = new DelegateCommand<object>(OnEventoSelectActividadCommandExecute);
             BorrarActividadCommand = new DelegateCommand<Actividad>(OnBorrarActividadCommandExecute);
 
-
-
+            Gama.Common.Debug.Debug.StopWatch("DashboardViewModel");
         }
         private void OnPublicarEventosActividad(Evento GenerarEvento)
         {

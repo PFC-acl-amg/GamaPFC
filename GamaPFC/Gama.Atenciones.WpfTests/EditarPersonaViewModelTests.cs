@@ -55,7 +55,7 @@ namespace Gama.Atenciones.WpfTests
             _PersonaRepositoryMock.Setup(ar => ar.GetById(It.IsAny<int>()))
                 .Returns(_Persona.Model);
 
-            _PersonaViewModelMock = new PersonaViewModel();
+            //_PersonaViewModelMock = new PersonaViewModel();
             //_AtencionViewModelMock = new EditarAtencionesViewModel(_AtencionRepositoryMock.Object,
             //    _EventAggregatorMock.Object, _PersonaRepositoryMock.Object,
             //    _CitaRepositoryMock.Object,_RegionManagerMock.Object);

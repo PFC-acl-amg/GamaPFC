@@ -4,6 +4,7 @@ using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.Views;
 using Gama.Atenciones.Wpf.Wrappers;
+using Gama.Common.Debug;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
@@ -35,7 +36,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             AsistenteViewModel asistenteViewModel,
             ISession session)
         {
-            AtencionesResources.StartStopWatch();
+            Debug.StartStopWatch();
             _EventAggregator = eventAggregator;
             _PersonaRepository = personaRepository;
             _PersonaRepository.Session = session;
@@ -77,7 +78,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<AsistenteCreadoEvent>().Subscribe(OnAsistenteCreadoEvent);
             _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
             _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
-            AtencionesResources.StopStopWatch("AsistentesContenetView");
+            Debug.StopWatch("AsistentesContenetView");
         }
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)

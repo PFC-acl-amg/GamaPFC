@@ -7,6 +7,7 @@ using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.UIEvents;
 using Gama.Atenciones.Wpf.Views;
 using Gama.Atenciones.Wpf.Wrappers;
+using Gama.Common.Debug;
 using Gama.Common.Eventos;
 using NHibernate;
 using Prism.Commands;
@@ -40,7 +41,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Preferencias preferencias,
             ISession session)
         {
-            AtencionesResources.StartStopWatch();
+            Debug.StartStopWatch();
             _EventAggregator = eventAggregator;
             _CitaRepository = citaRepository;
             _CitaRepository.Session = session;
@@ -61,7 +62,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
 
             _EventAggregator.GetEvent<AsistenteActualizadoEvent>().Subscribe(OnAsistenteActualizadoEvent);
-            AtencionesResources.StopStopWatch("CitasContentView");
+            Debug.StopWatch("CitasContentView");
         }
 
         public override void OnActualizarServidor()

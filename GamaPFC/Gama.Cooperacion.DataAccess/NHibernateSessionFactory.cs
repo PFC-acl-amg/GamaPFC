@@ -37,7 +37,7 @@ namespace Gama.Cooperacion.DataAccess
 
                         var path = directoryPath + @"\nh_cooperacion.cfg";
 
-                        if (File.Exists(path)) { File.Delete(path); }
+                        //if (File.Exists(path)) { File.Delete(path); }
                             
                         if (File.Exists(path))
                         {
@@ -84,7 +84,7 @@ namespace Gama.Cooperacion.DataAccess
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: false,
-                            execute: true,// A true trunca las tablas cada vez ejecutas el programa
+                            execute: false,// A true trunca las tablas cada vez ejecutas el programa
                             justDrop: false);
                     })
                 .BuildConfiguration();

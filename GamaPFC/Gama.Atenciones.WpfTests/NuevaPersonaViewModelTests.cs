@@ -36,7 +36,7 @@ namespace Gama.Atenciones.WpfTests
             _EventAggregatorMock.Setup(e => e.GetEvent<PersonaCreadaEvent>()
                 .Publish(It.IsAny<int>())).Verifiable();
 
-            _PersonaViewModelMock = new PersonaViewModel();
+            //_PersonaViewModelMock = new PersonaViewModel();
 
             _Vm = new NuevaPersonaViewModel(
                 _PersonaRepositoryMock.Object,

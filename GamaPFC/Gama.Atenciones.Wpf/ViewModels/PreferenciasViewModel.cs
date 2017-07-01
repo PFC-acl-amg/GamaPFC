@@ -14,6 +14,7 @@ using System.Windows;
 using System.Windows.Input;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using static System.Environment;
+using Gama.Common.Debug;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -26,7 +27,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public PreferenciasViewModel(Preferencias preferencias,
             IEventAggregator eventAggregator)
         {
-            AtencionesResources.StartStopWatch();
+            Debug.StartStopWatch();
             _Preferencias = preferencias;
             _EventAggregator = eventAggregator;
 
@@ -41,7 +42,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ExaminarBackupPathCommand = new DelegateCommand(OnExaminarBackupPathCommand);
 
             Preferencias.PropertyChanged += Preferencias_PropertyChanged;
-            AtencionesResources.StopStopWatch("PreferenciasView");
+            Debug.StopWatch("PreferenciasView");
         }
 
         private void Preferencias_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

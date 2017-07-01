@@ -2,6 +2,7 @@
 using Core.Util;
 using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Views;
+using Gama.Common.Debug;
 using Gama.Common.Eventos;
 using Prism.Commands;
 using Prism.Events;
@@ -37,7 +38,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public RightCommandsViewModel(EventAggregator eventAggregator)
         {
-            AtencionesResources.StartStopWatch();
+            Debug.StartStopWatch();
             _EventAggregator = eventAggregator;
             _BackgroundWorker = new BackgroundWorker();
             _BackgroundWorker.DoWork += BackgroundWorker_DoWork;
@@ -62,7 +63,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             VolverASeleccionDeModuloCommand = new DelegateCommand(OnVolverASeleccionDeModuloExecute);
 
             _EventAggregator.GetEvent<LaConexionConElServidorHaCambiadoEvent>().Subscribe(OnLaConexionConElServidorHaCambiadoEvent);
-            AtencionesResources.StopStopWatch("RightCommandsView");
+            Debug.StopWatch("RightCommandsView");
         }
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)

@@ -29,6 +29,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         public CrearNuevaTareaViewModel(IActividadRepository ActividadRepository, IEventAggregator EventAggregator)
         {
+            Gama.Common.Debug.Debug.StartStopWatch();
             _ActividadRepository = ActividadRepository;
             _EventAggregator = EventAggregator;
             _ModificarTarea = 0;
@@ -39,6 +40,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 OnAceptarCommand_CanExecute);
             CancelarCommand = new DelegateCommand(OnCancelarCommand_Execute);
             AñadirCooperantesComboBox = new DelegateCommand(OnAñadirCooperantesComboBox, OnAñadirCooperantesComboBox_CanExecute);
+            Gama.Common.Debug.Debug.StopWatch("CrearNuevaTareaViewModel");
         }
         private void OnAñadirCooperantesComboBox()
         {

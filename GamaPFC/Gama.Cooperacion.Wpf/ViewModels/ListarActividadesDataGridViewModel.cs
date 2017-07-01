@@ -41,6 +41,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             ICooperacionSettings settings,
             ISession session)
         {
+            Gama.Common.Debug.Debug.StartStopWatch();
             _regionManager = regionManager;
             _actividadRepository = actividadRepository;
             _cooperanteRepository = cooperanteRepository;
@@ -61,6 +62,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             BotonListarTodoCommand = new DelegateCommand<string>(OnBotonListarTodoCommandExecute);
             ListarActividadesCommand = new DelegateCommand(OnListarActividadesCommandExecute);
+            Gama.Common.Debug.Debug.StopWatch("ListarActividadDataGridViewModel");
         }
         public ObservableCollection<Actividad> ListaParcialActividades { get; private set; }
         public ObservableCollection<Actividad> ListaCompletaActividades { get; private set; }

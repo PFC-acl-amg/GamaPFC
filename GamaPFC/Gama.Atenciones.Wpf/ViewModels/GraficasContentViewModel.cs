@@ -15,6 +15,7 @@ using Gama.Atenciones.Wpf.Eventos;
 using System.Windows.Input;
 using Prism.Commands;
 using Gama.Common.Eventos;
+using Gama.Common.Debug;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -33,7 +34,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             IEventAggregator eventAggregator,
             ISession session)
         {
-            AtencionesResources.StartStopWatch();
+            Debug.StartStopWatch();
             _PersonaRepository = personaRepository;
             _PersonaRepository.Session = session;
             _AtencionRepository = atencionRepository;
@@ -111,7 +112,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             InicializarViaDeAccesoAGama();
             InicializarAtencionSolicitada();
             InicializarDerivaciones();
-            AtencionesResources.StopStopWatch("GráficasContentView");
+            Debug.StopWatch("GráficasContentView");
         }
 
         public ICommand RefrescarCommand { get; private set; }

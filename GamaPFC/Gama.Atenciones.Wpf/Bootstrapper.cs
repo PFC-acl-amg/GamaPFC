@@ -15,6 +15,7 @@ using Gama.Common;
 using Gama.Common.BaseClasses;
 using System.Linq;
 using System.ComponentModel;
+using Gama.Common.Debug;
 
 namespace Gama.Atenciones.Wpf
 {
@@ -236,23 +237,22 @@ namespace Gama.Atenciones.Wpf
            _atencionRepository.Session = session;
            _asistenteRepository.Session = session;
 
-            AtencionesResources.StartStopWatch();
+            Debug.StartStopWatch();
             var personas = _personaRepository.Personas;
-            AtencionesResources.StopStopWatch("Personas");
-            AtencionesResources.StartStopWatch();
+            Debug.StopWatch("Personas");
+            Debug.StartStopWatch();
             _citaRepository.Citas = personas.SelectMany(p => p.Citas).ToList();
-            AtencionesResources.StopStopWatch("Citas");
-            AtencionesResources.StartStopWatch();
+            Debug.StopWatch("Citas");
+            Debug.StartStopWatch();
             _atencionRepository.Atenciones = _citaRepository.Citas.Select(c => c.Atencion).Where(a => a != null).ToList();
-            AtencionesResources.StopStopWatch("Atenciones");
+            Debug.StopWatch("Atenciones");
 
             //_BackgroundWorker = new BackgroundWorker();
             //_BackgroundWorker.DoWork += BackgroundWorker_DoWork;
 
             //_BackgroundWorker.RunWorkerAsync();
         }
-
-        private BackgroundWorker _BackgroundWorker;
+        
         private IAsistenteRepository _asistenteRepository;
         private IPersonaRepository _personaRepository;
         private ICitaRepository _citaRepository;
@@ -265,9 +265,9 @@ namespace Gama.Atenciones.Wpf
 
         private void ONDo()
         {
-            //AtencionesResources.StartStopWatch();
+            //Debug.StartStopWatch();
             //var asistentes = asistenteRepository.Asistentes;
-            //AtencionesResources.StopStopWatch("Asistentes");
+            //Debug.StopWatch("Asistentes");
         }
 
         protected override void ConfigureModuleCatalog()

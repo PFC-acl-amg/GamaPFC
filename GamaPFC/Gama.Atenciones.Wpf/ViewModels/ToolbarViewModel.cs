@@ -5,6 +5,7 @@ using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.Views;
+using Gama.Common.Debug;
 using Gama.Common.Views;
 using Microsoft.Win32;
 using MySql.Data.MySqlClient;
@@ -34,7 +35,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             IEventAggregator eventAggregator,
             ISession session)
         {
-            AtencionesResources.StartStopWatch();
+            Debug.StartStopWatch();
             _PersonaRepository = PersonaRepository;
             _PersonaRepository.Session = session;
             //_ExportService = exportService;
@@ -51,7 +52,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             _EventAggregator.GetEvent<PersonaSeleccionadaChangedEvent>().Subscribe(OnPersonaSeleccionadaChangedEvent);
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaSeleccionadaChangedEvent);
-            AtencionesResources.StopStopWatch("Toolbar");
+            Debug.StopWatch("Toolbar");
         }
 
 
