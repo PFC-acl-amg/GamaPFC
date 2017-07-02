@@ -35,7 +35,7 @@ namespace Gama.Atenciones.DataAccess
 
                         var path = directoryPath + @"\nh_atenciones.cfg";
 
-                        if (File.Exists(path)) { File.Delete(path); }
+                        //if (File.Exists(path)) { File.Delete(path); }
 
                         if (File.Exists(path))
                         {
@@ -66,7 +66,6 @@ namespace Gama.Atenciones.DataAccess
         {
             return Fluently.Configure()
                 .Database(MySQLConfiguration.Standard.ConnectionString(_connectionString))
-                //.ShowSql())
                 .Mappings(m =>
                     m.FluentMappings
                         .AddFromAssemblyOf<PersonaMap>()
@@ -74,7 +73,7 @@ namespace Gama.Atenciones.DataAccess
                 .ExposeConfiguration(
                     c => {
                         var schema = new SchemaExport(c);
-                        c.SetProperty("current_session_context_class", "thread_static");
+                        //c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: false,
                             execute: false,

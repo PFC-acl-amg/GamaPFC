@@ -7,6 +7,10 @@ using Gama.Common.CustomControls;
 using Prism.Events;
 using Gama.Atenciones.Wpf.Eventos;
 using NHibernate;
+using MySql.Data.MySqlClient;
+using Core.Util;
+using System.Configuration;
+using Gama.Common.Debug;
 
 namespace Gama.Atenciones.Wpf.Services
 {
@@ -36,6 +40,76 @@ namespace Gama.Atenciones.Wpf.Services
             {
                 _Personas = value;
             }
+        }
+
+        private void DoThings()
+        {
+            Debug.StartWatch();
+            _Personas = new List<Persona>();
+            var _Citas = new List<Cita>();
+            var _Atenciones = new List<Atencion>();
+            using (MySqlConnection mysqlConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString))
+            {
+                using (MySqlCommand sqlCommand = new MySqlCommand())
+                {
+                    sqlCommand.Connection = mysqlConnection;
+                    mysqlConnection.Open();
+                    //UIServices.SetBusyState();
+
+                    sqlCommand.CommandText = "SELECT * FROM personas";
+
+                    using (MySqlDataReader reader = sqlCommand.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var persona = new Persona()
+                            {
+                                Id = (int)reader["Id"],
+                                Nombre = reader["Nombre"].ToString(),
+                            };
+                            _Personas.Add(persona);
+                        }
+                    }
+
+                    sqlCommand.CommandText = "SELECT * FROM citas";
+                    using (MySqlDataReader reader = sqlCommand.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var cita = new Cita()
+                            {
+                                Id = (int)reader["Id"],
+                            };
+
+                            var persona = _Personas.Where(p => p.Id == (int)reader["Persona_Id"]).Single();
+                            persona.AddCita(cita);
+                        }
+                    }
+
+                    sqlCommand.CommandText = "SELECT * FROM atenciones";
+                    using (MySqlDataReader reader = sqlCommand.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var atencion = new Atencion()
+                            {
+                                Id = (int)reader["Id"],
+                            };
+
+                            //var persona = _Personas.Where(p => p.Id == (int)reader["Persona_Id"]).Single();
+                            //persona.AddCita(cita);
+                        }
+                    }
+
+                    mysqlConnection.Close();
+                }
+            }
+
+            Debug.StopWatch("RAW SQL");
+
+            Debug.StartWatch();
+            _Personas = base.GetAll();
+            Debug.StopWatch("NHIBERNATE SQL");
         }
 
         // Se llama al establecerse la propiedad 'Session'

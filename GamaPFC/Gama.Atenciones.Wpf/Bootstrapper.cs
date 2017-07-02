@@ -16,6 +16,9 @@ using Gama.Common.BaseClasses;
 using System.Linq;
 using System.ComponentModel;
 using Gama.Common.Debug;
+using System.Collections.Generic;
+using MySql.Data.MySqlClient;
+using System.Configuration;
 
 namespace Gama.Atenciones.Wpf
 {
@@ -140,6 +143,7 @@ namespace Gama.Atenciones.Wpf
 
         protected override void GenerateDatabaseConfiguration()
         {
+            #region Seeding
             if (_CLEAR_DATABASE || _SEED_DATABASE)
             {
                 var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
@@ -219,40 +223,228 @@ namespace Gama.Atenciones.Wpf
                     throw;
                 }
             }
+            #endregion
 
-            InitializeCollections();
+            DoThings();
+            //InitializeCollections();
         }
 
         private void InitializeCollections()
         {
             Debug.StartWatch();
             var session = Container.Resolve<ISession>();
-            _personaRepository = Container.Resolve<IPersonaRepository>();
-            _citaRepository = Container.Resolve<ICitaRepository>();
-            _atencionRepository = Container.Resolve<IAtencionRepository>();
-            _asistenteRepository = Container.Resolve<IAsistenteRepository>();
+            _PersonaRepository = Container.Resolve<IPersonaRepository>();
+            _CitaRepository = Container.Resolve<ICitaRepository>();
+            _AtencionRepository = Container.Resolve<IAtencionRepository>();
+            _AsistenteRepository = Container.Resolve<IAsistenteRepository>();
             Gama.Common.Debug.Debug.StopWatch("Resolve ISession y repository");
 
-            Debug.StartWatch(); _personaRepository.Session = session; Debug.StopWatch("Personas Session");
-            Debug.StartWatch(); _citaRepository.Session = session; Debug.StopWatch("Citas Session");
-            Debug.StartWatch(); _atencionRepository.Session = session; Debug.StopWatch("Atenciones Session");
-            Debug.StartWatch(); _asistenteRepository.Session = session; Debug.StopWatch("Asistentes Session");
+            Debug.StartWatch(); _PersonaRepository.Session = session; Debug.StopWatch("Personas Session");
+            Debug.StartWatch(); _CitaRepository.Session = session; Debug.StopWatch("Citas Session");
+            Debug.StartWatch(); _AtencionRepository.Session = session; Debug.StopWatch("Atenciones Session");
+            Debug.StartWatch(); _AsistenteRepository.Session = session; Debug.StopWatch("Asistentes Session");
 
 
-            Debug.StartWatch(); var personas = _personaRepository.Personas; Debug.StopWatch("Personas");
-            Debug.StartWatch(); _citaRepository.Citas = _personaRepository.Personas.SelectMany(p => p.Citas).ToList();Debug.StopWatch("Citas");
-            Debug.StartWatch();_atencionRepository.Atenciones = _citaRepository.Citas.Select(c => c.Atencion).Where(a => a != null).ToList();Debug.StopWatch("Atenciones");
-
-            //_BackgroundWorker = new BackgroundWorker();
-            //_BackgroundWorker.DoWork += BackgroundWorker_DoWork;
-
-            //_BackgroundWorker.RunWorkerAsync();
+            Debug.StartWatch(); var personas = _PersonaRepository.Personas; Debug.StopWatch("Personas");
+            Debug.StartWatch(); _CitaRepository.Citas = _PersonaRepository.Personas.SelectMany(p => p.Citas).ToList(); Debug.StopWatch("Citas");
+            Debug.StartWatch(); _AtencionRepository.Atenciones = _CitaRepository.Citas.Select(c => c.Atencion).Where(a => a != null).ToList(); Debug.StopWatch("Atenciones");
         }
-        
-        private IAsistenteRepository _asistenteRepository;
-        private IPersonaRepository _personaRepository;
-        private ICitaRepository _citaRepository;
-        private IAtencionRepository _atencionRepository;
+
+
+
+        private List<Cita> _Citas = new List<Cita>();
+        private List<Atencion> _Atenciones = new List<Atencion>();
+        private List<Derivacion> _Derivaciones = new List<Derivacion>();
+        private List<Asistente> _Asistentes = new List<Asistente>();
+        private List<Persona> _Personas = new List<Persona>();
+        private IAsistenteRepository _AsistenteRepository;
+        private IPersonaRepository _PersonaRepository;
+        private ICitaRepository _CitaRepository;
+        private IAtencionRepository _AtencionRepository;
+
+        private void DoThings()
+        {
+            Debug.StartWatch();
+            var session = Container.Resolve<ISession>();
+            _PersonaRepository = Container.Resolve<IPersonaRepository>();
+            _CitaRepository = Container.Resolve<ICitaRepository>();
+            _AtencionRepository = Container.Resolve<IAtencionRepository>();
+            _AsistenteRepository = Container.Resolve<IAsistenteRepository>();
+
+            Persona persona; MySqlDataReader reader;
+            try
+            {
+                using (MySqlConnection mysqlConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString))
+                {
+                    using (MySqlCommand sqlCommand = new MySqlCommand())
+                    {
+                        sqlCommand.Connection = mysqlConnection;
+                        mysqlConnection.Open();
+                        //UIServices.SetBusyState();
+
+                        sqlCommand.CommandText = "SELECT * FROM personas";
+                        using (reader = sqlCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                //System.Console.WriteLine(reader["Id"].ToString());
+                                //System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Nombre"].ToString()));
+                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Nif"].ToString()));
+                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Nif"].ToString()));
+                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["ComoConocioAGama"].ToString()));
+                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["DireccionPostal"].ToString()));
+                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Email"].ToString()));
+                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["EstadoCivil"].ToString()));
+                                //    System.Console.WriteLine((DateTime?)reader["FechaDeNacimiento"]);
+                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Facebook"].ToString()));
+                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["IdentidadSexual"].ToString()));
+                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["LinkedIn"].ToString()));
+                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Nacionalidad"].ToString()));
+                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["NivelAcademico"].ToString()));
+                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Ocupacion"].ToString()));
+                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["OrientacionSexual"].ToString()));
+                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Telefono"].ToString()));
+                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Twitter"].ToString()));
+                                //    //System.Console.WriteLinCore.Encryption.Cipher.Decrypt(( reader["Imagen"].GetType() == (typeof(DBNull)) ? null : reader["Imagen"] as byte[]);
+                                //    //System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Imagen"] as byte[]));
+                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["ViaDeAccesoAGama"].ToString()));
+                                //    System.Console.WriteLine("Created At: " + ((DateTime)reader["CreatedAt"]).ToString());
+                                //    System.Console.WriteLine("Updated At: " + (reader["UpdatedAt"] as DateTime?).ToString());
+                                persona = new Persona()
+                                {
+                                    Id = (int)reader["Id"],
+                                    Nombre = reader["Nombre"].ToString(),
+                                    Nif = reader["Nif"].ToString(),
+                                    _SavedNif = reader["Nif"].ToString(),
+                                    ComoConocioAGama = reader["ComoConocioAGama"].ToString(),
+                                    DireccionPostal = reader["DireccionPostal"].ToString(),
+                                    Email = reader["Email"].ToString(),
+                                    EstadoCivil = reader["EstadoCivil"].ToString(),
+                                    FechaDeNacimiento = reader["FechaDeNacimiento"] as DateTime?,
+                                    Facebook = reader["Facebook"].ToString(),
+                                    IdentidadSexual = reader["IdentidadSexual"].ToString(),
+                                    LinkedIn = reader["LinkedIn"].ToString(),
+                                    Nacionalidad = reader["Nacionalidad"].ToString(),
+                                    NivelAcademico = reader["NivelAcademico"].ToString(),
+                                    Ocupacion = reader["Ocupacion"].ToString(),
+                                    OrientacionSexual = reader["OrientacionSexual"].ToString(),
+                                    Telefono = reader["Telefono"].ToString(),
+                                    Twitter = reader["Twitter"].ToString(),
+                                    //Imagen = reader["Imagen"].GetType() == (typeof(DBNull)) ? null : reader["Imagen"] as byte[],
+                                    Imagen = reader["Imagen"] as byte[],
+                                    ViaDeAccesoAGama = reader["ViaDeAccesoAGama"].ToString(),
+                                    CreatedAt = (DateTime)reader["CreatedAt"],
+                                    UpdatedAt = reader["UpdatedAt"] as DateTime?,
+                                };
+
+                                //var ok = reader["Imagen"] as byte[];
+                                //if (ok != null)
+                                //{
+                                //    var type = ok.GetType();
+                                //    var type2 = (new byte[10]).GetType();
+                                //}
+
+                                persona.Decrypt();
+                                _Personas.Add(persona);
+                            }
+                        }
+
+                        sqlCommand.CommandText = "SELECT * FROM asistentes";
+                        using (reader = sqlCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var asistente = new Asistente()
+                                {
+                                    Id = (int)reader["Id"],
+                                    Nombre = reader["Nombre"].ToString(),
+                                };
+                                asistente.Decrypt();
+                                _Asistentes.Add(asistente);
+                            }
+                        }
+
+                        sqlCommand.CommandText = "SELECT * FROM citas";
+                        using (reader = sqlCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var cita = new Cita()
+                                {
+                                    Id = (int)reader["Id"],
+                                };
+                                cita.Decrypt();
+                                _Citas.Add(cita);
+
+                                persona = _Personas.Where(p => p.Id == (int)reader["Persona_id"]).Single();
+                                var asistente = _Asistentes.Where(a => a.Id == (int)reader["Asistente_id"]).Single();
+                                asistente.Citas.Add(cita);
+                                cita.Asistente = asistente;
+                                persona.AddCita(cita);
+                            }
+                        }
+
+                        sqlCommand.CommandText = "SELECT * FROM atenciones";
+                        using (reader = sqlCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var atencion = new Atencion()
+                                {
+                                    Id = (int)reader["Id"],
+                                };
+                                atencion.Decrypt();
+                                _Atenciones.Add(atencion);
+
+                                var cita = _Citas.Where(c => c.Id == (int)reader["Cita_id"]).Single();
+                                cita.Atencion = atencion;
+                                atencion.Cita = cita;
+                            }
+                        }
+
+                        sqlCommand.CommandText = "SELECT * FROM derivaciones";
+                        using (reader = sqlCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var derivacion = new Derivacion()
+                                {
+                                    Id = (int)reader["Id"],
+                                };
+                                _Derivaciones.Add(derivacion);
+
+                                var atencion = _Atenciones.Where(a => a.Id == (int)reader["Atencion_id"]).Single();
+                                derivacion.Atencion = atencion;
+                                atencion.Derivacion = derivacion;
+                            }
+                        }
+
+                        mysqlConnection.Close();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            _PersonaRepository.Personas = _Personas;
+            _CitaRepository.Citas = _Citas;
+            _AtencionRepository.Atenciones = _Atenciones;
+            _AsistenteRepository.Asistentes = _Asistentes;
+
+            _PersonaRepository.Session = session;
+            _CitaRepository.Session = session;
+            _AtencionRepository.Session = session;
+            _AsistenteRepository.Session = session;
+
+            Debug.StopWatch("RAW SQL");
+
+            Debug.StartWatch();
+            //_Personas = base.GetAll();
+            Debug.StopWatch("NHIBERNATE SQL");
+        }
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {

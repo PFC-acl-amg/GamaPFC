@@ -44,6 +44,7 @@ namespace Gama.Atenciones.Business
                 nameof(Nombre),
                 nameof(DireccionPostal),
                 nameof(Nif),
+                nameof(_SavedNif),
                 nameof(Facebook),
                 nameof(Nacionalidad),
                 nameof(LinkedIn),
