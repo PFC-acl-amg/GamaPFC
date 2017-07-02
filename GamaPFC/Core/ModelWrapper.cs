@@ -43,16 +43,12 @@ namespace Core
 
         public virtual bool IsChanged =>_originalValues.Count > 0 || _trackingObjects.Any(to => to.IsChanged);
 
-        public bool IsValid => !HasErrors && _trackingObjects.All(t => t.IsValid);
+        public bool IsValid => !HasErrors;// && _trackingObjects.All(t => t.IsValid);
 
         public bool IsInEditionMode
         {
             get { return _IsInEditionMode; }
-            set
-            {
-                _IsInEditionMode = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _IsInEditionMode, value); }
         }
 
         public virtual void AcceptChanges()
@@ -133,7 +129,7 @@ namespace Core
             }
         }
 
-        private void Validate()
+        protected void Validate()
         {
             ClearErrors();
 

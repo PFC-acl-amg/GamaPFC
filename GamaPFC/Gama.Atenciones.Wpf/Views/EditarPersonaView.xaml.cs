@@ -36,5 +36,10 @@ namespace Gama.Atenciones.Wpf.Views
                 _MainGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Auto);
             }
         }
+
+        private void KeyBinding_GotFocus(object sender, RoutedEventArgs e)
+        {
+            Keyboard.ClearFocus();
+        }
     }
 }

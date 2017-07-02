@@ -32,7 +32,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public PersonaWrapper(Persona model) : base(model)
         {
-            
+            Validate();
         }
 
         protected override void InitializeUniqueProperties(Persona model)
@@ -57,16 +57,6 @@ namespace Gama.Atenciones.Wpf.Wrappers
             get { return GetValue<int>(); }
             set { SetValue(value); }
         }
-
-        public string AvatarPath
-        {
-            get { return GetValue<string>(); }
-            set { SetValue(value); }
-        }
-
-        public string AvatarPathOriginalValue => GetOriginalValue<string>(nameof(AvatarPath));
-
-        public bool AvatarPathIsChanged => GetIsChanged(nameof(AvatarPath));
 
         public string ComoConocioAGama
         {

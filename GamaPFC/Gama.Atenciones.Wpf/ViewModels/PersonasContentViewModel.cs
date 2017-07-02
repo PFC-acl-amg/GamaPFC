@@ -135,7 +135,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     var editarPersonaViewModel = viewModel as EditarPersonaViewModel;
                     if (editarPersonaViewModel != null)
                     {
-                        if (editarPersonaViewModel.Persona.Id == personaId)
+                        if (editarPersonaViewModel.PersonaVM.Persona.Id == personaId)
                         {
                             editarPersonaViewModel.OnNavigatedTo(personaId, atencionId);
                             ViewModelSeleccionado = editarPersonaViewModel;
@@ -187,9 +187,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 var editarPersonaViewModel = viewModel as EditarPersonaViewModel;
                 if (editarPersonaViewModel != null)
                 {
-                    if (editarPersonaViewModel.Persona.Id == personaId)
+                    if (editarPersonaViewModel.PersonaVM.Persona.Id == personaId)
                     {
-                        editarPersonaViewModel.Persona.AcceptChanges();
+                        editarPersonaViewModel.PersonaVM.Persona.AcceptChanges();
                         break;
                     }
                 }
@@ -206,7 +206,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 var editarPersonaViewModel = viewModel as EditarPersonaViewModel;
                 if (editarPersonaViewModel != null)
                 {
-                    if (editarPersonaViewModel.Persona.Id == personaId)
+                    if (editarPersonaViewModel.PersonaVM.Persona.Id == personaId)
                     {
                         editarPersonaViewModel.CitasVM.ActualizarCita(cita);
                     }

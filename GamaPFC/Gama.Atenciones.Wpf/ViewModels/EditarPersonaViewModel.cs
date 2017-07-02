@@ -52,13 +52,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
-                () => !Persona.IsInEditionMode);
+                () => !PersonaVM.Persona.IsInEditionMode);
             ActualizarCommand = new DelegateCommand(
                 OnActualizarCommand,
                 () =>
-                Persona.IsInEditionMode
-                   && Persona.IsChanged
-                   && Persona.IsValid
+                PersonaVM.Persona.IsInEditionMode
+                   && PersonaVM.Persona.IsChanged
+                   && PersonaVM.Persona.IsValid
                    );
             CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand,
                 () => _PersonaVM.Persona.IsInEditionMode);
@@ -75,7 +75,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public PersonaViewModel PersonaVM               => _PersonaVM;
         public EditarAtencionesViewModel AtencionesVM   => _AtencionesVM;
         public EditarCitasViewModel CitasVM             => _CitasVM;
-        public PersonaWrapper Persona                   => _PersonaVM.Persona;
 
         public ICommand HabilitarEdicionCommand { get; private set; }
         public ICommand ActualizarCommand { get; private set; }
@@ -92,7 +91,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 SetProperty(ref _IsActive, value);
                 if (_IsActive)
-                    _EventAggregator.GetEvent<PersonaSeleccionadaChangedEvent>().Publish(Persona.Id);
+                    _EventAggregator.GetEvent<PersonaSeleccionadaChangedEvent>().Publish(PersonaVM.Persona.Id);
             }
         }
 
@@ -113,10 +112,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnActualizarCommand()
         {
             UIServices.SetBusyState();
-            _PersonaRepository.Update(Persona.Model);
+            _PersonaRepository.Update(_PersonaVM.Persona.Model);
             _PersonaVM.Persona.AcceptChanges();
             _PersonaVM.Persona.IsInEditionMode = false;
-            RefrescarTitulo(Persona.Nombre);
+            RefrescarTitulo(_PersonaVM.Persona.Nombre);
         }
 
         private void OnHabilitarEdicionCommand()
@@ -126,7 +125,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnCancelarEdicionCommand()
         {
-            Persona.RejectChanges();
+            _PersonaVM.Persona.RejectChanges();
             _PersonaVM.Persona.IsInEditionMode = false;
         }
 
@@ -138,27 +137,28 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             if (o.EstaConfirmado)
             {
-                int id = Persona.Id;
+                int id = _PersonaVM.Persona.Id;
                 // WARNING: Debe hacer antes la publicación del evento porque se recoge
                 // la persona para ver sus citas y atenciones desde otros viewmodels
                 //_EventAggregator.GetEvent<PersonaEliminadaEvent>().Publish(id);
-                _PersonaRepository.Delete(Persona.Model);
+                _PersonaRepository.Delete(_PersonaVM.Persona.Model);
             }
         }
 
         public bool IsNavigationTarget(int id)
         {
-            return (Persona.Id == id);
+            return (_PersonaVM.Persona.Id == id);
         }
 
         public override void OnActualizarServidor()
         {
-            if (!Persona.IsChanged)
+            if (!_PersonaVM.Persona.IsChanged)
             {
-                var persona = new PersonaWrapper(
+                var model =
                     (Persona)
-                    _PersonaRepository.GetById(Persona.Id)
-                    .DecryptFluent());
+                    _PersonaRepository.GetById(_PersonaVM.Persona.Id)
+                    .DecryptFluent();
+                var persona = new PersonaWrapper(model);
 
                 _PersonaVM.Load(persona);
                 _AtencionesVM.Load(_PersonaVM.Persona);
@@ -172,19 +172,20 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             try
             {
-                if (Persona.Nombre == null)
+                if (_PersonaVM.Persona.Nombre == null)
                 {
-                    var persona = new PersonaWrapper(
+                    var model =
                         (Persona)
                         _PersonaRepository.GetById(personaId)
-                        .DecryptFluent());
-
+                        .DecryptFluent();
+                    var persona = new PersonaWrapper(model);
                     _PersonaVM.Load(persona);
-                    Persona.IsInEditionMode = _Preferencias.General_EdicionHabilitadaPorDefecto;
+                    _PersonaVM.Persona.IsInEditionMode = _Preferencias.General_EdicionHabilitadaPorDefecto;
                     _AtencionesVM.Load(_PersonaVM.Persona);
                     _CitasVM.Load(_PersonaVM.Persona);
                     RefrescarTitulo(persona.Nombre);
                     _AtencionesVM.VerAtenciones = false;
+                    InvalidateCommands();
                 }
                 
                 if (atencionId.HasValue)
@@ -201,18 +202,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
                 _PersonaVM.PropertyChanged += _PersonaVM_PropertyChanged;
                 _PersonaVM.Persona.PropertyChanged += _PersonaVM_PropertyChanged;
-                //PropertyChanged += _PersonaVM_PropertyChanged;
+                PropertyChanged += _PersonaVM_PropertyChanged;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-        }
-
-        public void AddCita(Cita cita)
-        {
-            //Persona.Citas.Add(new CitaWrapper(cita));
-            Persona.AcceptChanges();
         }
 
         private void RefrescarTitulo(string nombre)
@@ -241,7 +236,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public bool ConfirmNavigationRequest()
         {
-            if (Persona.IsChanged)
+            if (_PersonaVM.Persona.IsChanged)
             {
                 var o = new ConfirmarOperacionView();
                 o.Mensaje = "Si sale se perderán los cambios, ¿Desea salir de todas formas?";
@@ -256,7 +251,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         public void ConfirmNavigationRequest(NavigationContext navigationContext,
             Action<bool> continuationCallback)
         {
-            if (Persona.IsChanged)
+            if (_PersonaVM.Persona.IsChanged)
             {
                 var o = new ConfirmarOperacionView();
                 o.Mensaje = "Si sale se perderán los cambios, ¿Desea salir de todas formas?";
