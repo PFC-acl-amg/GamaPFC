@@ -625,7 +625,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn Header="Titulo" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                    <DataGridTemplateColumn Header="Titulo" Width="*" HeaderTemplate="{StaticResource _HeaderTemplate}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock HorizontalAlignment="Left"
