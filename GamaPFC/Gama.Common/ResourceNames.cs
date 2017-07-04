@@ -13,5 +13,10 @@ namespace Gama.Common
         public static string DefaultSearchIconPath = IconsAndImagesFolder + @"default_search_icon.png";
         public static string DefaultUserIconPath = IconsAndImagesFolder + @"default_user_icon.png";
         public static string AtencionIconPath = IconsAndImagesFolder + @"atencion_icon.png";
+
+        public static string GetImagePath(int id)
+        {
+            return $"{IconsAndImagesFolder}User-{id.ToString()}.jpg";
+        }
     }
 }

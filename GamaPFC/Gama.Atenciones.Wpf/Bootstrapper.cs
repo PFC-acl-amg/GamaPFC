@@ -20,11 +20,23 @@ using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using System.Configuration;
 using Gama.Atenciones.Wpf.Converters;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace Gama.Atenciones.Wpf
 {
     public class Bootstrapper : UnityBootstrapperBase
     {
+        private List<Cita> _Citas = new List<Cita>();
+        private List<Atencion> _Atenciones = new List<Atencion>();
+        private List<Derivacion> _Derivaciones = new List<Derivacion>();
+        private List<Asistente> _Asistentes = new List<Asistente>();
+        private List<Persona> _Personas = new List<Persona>();
+        private IAsistenteRepository _AsistenteRepository;
+        private IPersonaRepository _PersonaRepository;
+        private ICitaRepository _CitaRepository;
+        private IAtencionRepository _AtencionRepository;
+
         public Bootstrapper(string title = "SERVICIO DE ATENCIONES") : base(title)
         {
             _CLEAR_DATABASE = false;
@@ -263,17 +275,14 @@ namespace Gama.Atenciones.Wpf
             Debug.StartWatch(); _AtencionRepository.Atenciones = _CitaRepository.Citas.Select(c => c.Atencion).Where(a => a != null).ToList(); Debug.StopWatch("Atenciones");
         }
 
-
-
-        private List<Cita> _Citas = new List<Cita>();
-        private List<Atencion> _Atenciones = new List<Atencion>();
-        private List<Derivacion> _Derivaciones = new List<Derivacion>();
-        private List<Asistente> _Asistentes = new List<Asistente>();
-        private List<Persona> _Personas = new List<Persona>();
-        private IAsistenteRepository _AsistenteRepository;
-        private IPersonaRepository _PersonaRepository;
-        private ICitaRepository _CitaRepository;
-        private IAtencionRepository _AtencionRepository;
+        public byte[] ImageToByteArray(System.Drawing.Image imageIn)
+        {
+            using (var ms = new MemoryStream())
+            {
+                imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
+                return ms.ToArray();
+            }
+        }
 
         private void DoThings()
         {
@@ -331,11 +340,34 @@ namespace Gama.Atenciones.Wpf
                                 };
 
                                 persona.Decrypt();
-                                persona.Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
-                         new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/6.jpg"));
                                 _Personas.Add(persona);
                             }
                         }
+
+                        foreach (var personaSinImagen in _Personas)
+                        {
+                            string path = ResourceNames.GetImagePath(personaSinImagen.Id);
+                            if (!File.Exists(ResourceNames.GetImagePath(personaSinImagen.Id)))
+                            {
+                                sqlCommand.CommandText = $"SELECT Imagen FROM personas WHERE Id = {personaSinImagen.Id}";
+                                using (reader = sqlCommand.ExecuteReader())
+                                {
+                                    if (reader.Read())
+                                    {
+                                        personaSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
+                                        using (Image image = Image.FromStream(new MemoryStream(personaSinImagen.Imagen)))
+                                        {
+                                            image.Save(path, ImageFormat.Jpeg);  // Or Png
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                personaSinImagen.Imagen = ImageToByteArray(new Bitmap(ResourceNames.GetImagePath(personaSinImagen.Id)));
+                            }
+                        }
+
                         //Debug.StopWatch("-----PERSONAS----");
                         //Debug.StartWatch();
 
