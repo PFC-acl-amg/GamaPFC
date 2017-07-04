@@ -25,6 +25,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private ICooperanteRepository _CooperanteRepository;
         private ISession _Session;
         private IEventAggregator _eventAggregator;
+        private bool _VisibleActividadInfo;
 
         public EditarActividadViewModel(
             IActividadRepository actividadRepository,
@@ -44,6 +45,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _InformacionDeActividadViewModel.Session = session;
             _TareasDeActividadViewModel = tareasActividadViewModel;
             _TareasDeActividadViewModel.Session = session;
+            _VisibleActividadInfo = false;
 
                 HabilitarEdicionCommand = new DelegateCommand(
                 OnHabilitarEdicionCommand,
@@ -55,8 +57,15 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             CancelarEdicionCommand = new DelegateCommand(OnCancelarEdicionCommand,
                 () => _InformacionDeActividadViewModel.EdicionHabilitada);
+            VerActividadInfoCommand = new DelegateCommand(OnVerActividadInfoCommand);
 
             _InformacionDeActividadViewModel.PropertyChanged += _ActividadVM_PropertyChanged;
+        }
+
+        private void OnVerActividadInfoCommand()
+        {
+            if (VisibleActividadInfo == true) VisibleActividadInfo = false;
+            else VisibleActividadInfo = true;
         }
 
         public InformacionDeActividadViewModel InformacionDeActividadViewModel
@@ -75,6 +84,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand HabilitarEdicionCommand { get; private set; }
         public ICommand ActualizarCommand { get; private set; }
         public ICommand CancelarEdicionCommand { get; private set; }
+        public ICommand VerActividadInfoCommand { get; set; }
 
         private void OnHabilitarEdicionCommand()
         {
@@ -163,6 +173,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     InvalidateCommands();
                 };
             }
+        }
+        public bool VisibleActividadInfo
+        {
+            get { return _VisibleActividadInfo; }
+            set { SetProperty(ref _VisibleActividadInfo, value); }
         }
     }
 }

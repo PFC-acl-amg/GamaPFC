@@ -9,30 +9,6 @@
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              d:DesignHeight="35" d:DesignWidth="779.132">
-  <!--<Grid>
-    --><!--<StackPanel Orientation="Horizontal">
-      <Button Background="Transparent" BorderThickness="0"
-            Command="{Binding NavigateCommand}"
-              CommandParameter="DashboardView">
-        <StackPanel>
-          <Image Source="{StaticResource IconoDashboard}" Height="{StaticResource NavigationIconSize}"/>
-        </StackPanel>
-      </Button>
-      <Button Style="{StaticResource EstiloBotonPredeterminado}"
-              Padding="0"
-              Content="A"
-              FontSize="24"
-              Command="{Binding NavigateCommand}" CommandParameter="ActividadesContentView"/>
-      <Button Background="Transparent" BorderThickness="0"
-            Command="{Binding NavigateCommand}"
-            CommandParameter="GraficasView">
-        <StackPanel>
-          <Image Source="{StaticResource IconoGraficas}" Height="{StaticResource NavigationIconSize}"/>
-        </StackPanel>
-      </Button>
-    </StackPanel>--><!--
-  </Grid>-->
-
     <UserControl.Resources>
         <Style TargetType="controls:Tile" x:Key="_EstiloDeTitulosStyle">
             <Setter Property="Height" Value="Auto"/>
@@ -160,7 +136,4 @@
             </controls:Tile>
         </StackPanel>
     </Grid>
-
-
-
 </UserControl>

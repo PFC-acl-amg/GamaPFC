@@ -3,16 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:designData="clr-namespace:Gama.Cooperacion.Wpf.DesignTimeData"
+             xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="509.467" d:DesignWidth="994.332">
+             d:DesignHeight="677.5" d:DesignWidth="994.754"
+             x:Name="_Root">
   <d:DataContext>
     <designData:DesignTimeDataViewModel/>
   </d:DataContext>
     <UserControl.Resources>
+        <!--<converters:BooleanToVisivilityConverter x:Key="_BooleanToVisivilityConverter"/>-->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml"/>
@@ -22,47 +26,61 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition MaxWidth="450" Width="auto"/>
-      <ColumnDefinition />
-    </Grid.ColumnDefinitions>
-        <Expander ExpandDirection="Right" Height="500" VerticalAlignment="Top">
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-        <RowDefinition Height="auto" />
-        <RowDefinition Height="Auto"/>
-      </Grid.RowDefinitions>
-            <!--<Expander ExpandDirection="Right">-->
-                <local:InformacionDeActividadView DataContext="{Binding InformacionDeActividadViewModel}" />
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition  Width="auto"/>
+          <ColumnDefinition Width="15"/>
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Visibility="{Binding VisibleActividadInfo, 
+                                                Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <local:InformacionDeActividadView DataContext="{Binding InformacionDeActividadViewModel}" />
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+                    <Label Margin="{StaticResource Margin}" Visibility="{Binding ActividadVM.EdicionHabilitada,
+                           Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Hyperlink 
+                        Command="{Binding ActualizarCommand}">
+                            Guardar
+                        </Hyperlink>
+                    </Label>
+                    <Label Margin="{StaticResource Margin}" Visibility="{Binding ActividadVM.EdicionHabilitada,
+                      Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Hyperlink 
+                        Command="{Binding CancelarEdicionCommand}">
+                            Cancelar
+                        </Hyperlink>
+                    </Label>
+                    <Label Margin="{StaticResource Margin}">
+                        <Hyperlink 
+                        Command="{Binding HabilitarEdicionCommand}">
+                            Editar
+                        </Hyperlink>
+                    </Label>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+        <StackPanel Name="VerOpcionesActividades" Grid.Column="1" Background="White" VerticalAlignment="Center"
+                    Orientation="Horizontal" Margin="2,0,1,0"
+                    ToolTip="Mostrar/Ocultar Ociones">
+            <Rectangle Width="2" Height="300" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="1" />
+            <Rectangle Width="2" Height="300" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="1" />
+            <Rectangle Width="2" Height="300" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="1"/>
 
-            <!--</Expander>-->
-            <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
-        <Label Margin="{StaticResource Margin}" Visibility="{Binding ActividadVM.EdicionHabilitada,
-          Converter={StaticResource BooleanToVisibilityConverter}}">
-          <Hyperlink 
-            Command="{Binding ActualizarCommand}">
-            Guardar
-          </Hyperlink>
-        </Label>
-        <Label Margin="{StaticResource Margin}" Visibility="{Binding ActividadVM.EdicionHabilitada,
-          Converter={StaticResource BooleanToVisibilityConverter}}">
-          <Hyperlink 
-            Command="{Binding CancelarEdicionCommand}">
-            Cancelar
-          </Hyperlink>
-        </Label>
-        <Label Margin="{StaticResource Margin}">
-          <Hyperlink 
-            Command="{Binding HabilitarEdicionCommand}">
-            Editar
-          </Hyperlink>
-        </Label>
-      </StackPanel>
-            
-        </Grid>
-        </Expander>
-        <Grid Grid.Column="1">
-        <local:TareasDeActividad  DataContext="{Binding TareasDeActividadViewModel}" Margin="{StaticResource Margin}"/>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <prism:InvokeCommandAction Command="{Binding VerActividadInfoCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </StackPanel>
+        <Grid Grid.Column="2">
+            <local:TareasDeActividad  DataContext="{Binding TareasDeActividadViewModel}" Margin="{StaticResource Margin}"/>
         </Grid>
         
     </Grid>

@@ -51,6 +51,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private IEventAggregator _EventAggregator;
         private bool _PopupEstaAbierto = false;
         private ForoWrapper _ForoSeleccionado;
+        private bool _VisibleTareasFinalizadas;
+        private bool _VisibleFiltroEventoTarea;
+        private bool _VisibleEventosTarea;
 
         public TareasDeActividadViewModel(
             IActividadRepository actividadRepository,
@@ -64,6 +67,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _VisibleCrearTarea = false;
             _OcultarCrearForo = true;
             _VisibleMensajeForo = false;
+            _VisibleTareasFinalizadas = false;
+            _VisibleFiltroEventoTarea = false;
+            _VisibleEventosTarea = false;
             _actividadRepository = actividadRepository;
             _ForoRepository = foroRepository;
             _TareaRepository = tareaRepository;
@@ -73,6 +79,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             MensajesDisponibleEnForo = new ObservableCollection<Mensaje>();
             ForosDisponibles = new ObservableCollection<ForoWrapper>();
             TareasDisponibles = new ObservableCollection<TareaWrapper>();
+            TareasDisponiblesAux = new ObservableCollection<TareaWrapper>();
             EventoActividad = new ObservableCollection<Evento>();
             TareasFinalizadas = new ObservableCollection<TareaWrapper>();
             CooperantesSeleccionados = new ObservableCollection<CooperanteWrapper>();
@@ -93,9 +100,14 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             AceptarNuevoMensajeCommand = new DelegateCommand<object>(OnAceptarNuevoMensajeCommand, OnAceptarNuevoMensajeCommand_CanExecute);
             AceptarIncidenciaTDCommand = new DelegateCommand<object>(OnAceptarIncidenciaTDCommand, OnAceptarIncidenciaTDCommand_CanExecute);
             AceptarSeguimientoTDCommand = new DelegateCommand<object>(OnAceptarSeguimientoTDCommand, OnAceptarSeguimientoTDCommand_CanExecute);
-            FinalizarTareaTDCommand = new DelegateCommand<object>(OnFinalizarTareaTDCommand, OnFinalizarTareaTDCommand_CanExecute);
+            FinalizarTareaTDCommand = new DelegateCommand<TareaWrapper>(OnFinalizarTareaTDCommand, OnFinalizarTareaTDCommand_CanExecute);
             AceptarCrearTareaCommand = new DelegateCommand(OnAceptarCrearTareaCommand, OnAceptarCrearTareaCommand_CanExecute);
             AñadirCooperantesComboBox = new DelegateCommand (OnAñadirCooperantesComboBox, OnAñadirCooperantesComboBox_CanExecute);
+            CargarTareasFinalizadas = new DelegateCommand(OnCargarTareasFinalizadas);
+            CargarTareasDisponibles = new DelegateCommand(OnCargarTareasDisponibles);
+            RecuperarTareaCommand = new DelegateCommand<TareaWrapper>(OnRecuperarTareaCommand);
+            MostarFiltroEventoTarea = new DelegateCommand(OnMostarFiltroEventoTarea);
+            VerEventosTareaCommand = new DelegateCommand(OnVerEventosTareaCommand);
             Gama.Common.Debug.Debug.StopWatch("TareasDeActividadViewModel");
         }
 
@@ -154,6 +166,31 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand CrearForoCommand { get; private set; }
         public ICommand CrearTareaCommand { get; private set; }
         public ICommand AñadirCooperantesComboBox { get; private set; }
+        public ICommand CargarTareasFinalizadas { get; set; }
+        public ICommand CargarTareasDisponibles { get; set; }
+        public ICommand RecuperarTareaCommand { get; set; }
+        public ICommand MostarFiltroEventoTarea { get; set; }
+        public ICommand VerEventosTareaCommand { get; set; }
+        private void OnVerEventosTareaCommand()
+        {
+            if (VisibleEventosTarea == false) VisibleEventosTarea = true;
+            else VisibleEventosTarea = false;
+        }
+        private void OnMostarFiltroEventoTarea()
+        {
+            if (VisibleFiltroEventoTarea == false) VisibleFiltroEventoTarea = true;
+            else VisibleFiltroEventoTarea = false;
+        }
+        private void OnCargarTareasDisponibles()
+        {
+            if (VisibleTareasFinalizadas == false) VisibleTareasFinalizadas = true;
+            else VisibleTareasFinalizadas = false;
+        }
+        private void OnCargarTareasFinalizadas()
+        {
+            if (VisibleTareasFinalizadas == false) VisibleTareasFinalizadas = true;
+            else VisibleTareasFinalizadas = false;
+        }
 
         private void OnAñadirCooperantesComboBox()
         {
@@ -312,12 +349,31 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             AuxiliarOnPublicarEventosActividad(Ocurrencia.SEGUIMIENGO_EN_TAREA, ((TareaWrapper)wrapper).Descripcion);
             NuevoSeguimientoTD = null;
         }
-        private void OnFinalizarTareaTDCommand(object wrapper)
+        private void OnFinalizarTareaTDCommand(TareaWrapper wrapper)
         {
             //TareasFinalizadas.Add((TareaWrapper)wrapper);
-            TareasFinalizadas.Insert(0, (TareaWrapper)wrapper);
-            TareasDisponibles.Remove((TareaWrapper)wrapper);
+            TareasFinalizadas.Insert(0,wrapper);
+            TareasDisponibles.Remove(wrapper);
+            TareasDisponiblesAux.Remove(wrapper);
+            Actividad.Tareas.Where(ident => ident.Id == wrapper.Id).First().HaFinalizado = true;
+            Actividad.UpdatedAt = DateTime.Now;
+            _actividadRepository.Update(Actividad.Model);
+            Actividad.AcceptChanges();
+            _EventAggregator.GetEvent<TareaModificadaEvent>().Publish(wrapper.Id);
             AuxiliarOnPublicarEventosActividad(Ocurrencia.TAREA_FINALIZADA, ((TareaWrapper)wrapper).Descripcion);
+        }
+        private void OnRecuperarTareaCommand(TareaWrapper wrapper)
+        {
+            //TareasFinalizadas.Add((TareaWrapper)wrapper);
+            TareasDisponibles.Insert(0, wrapper);
+            TareasFinalizadas.Remove(wrapper);
+            TareasDisponiblesAux.Add(wrapper);
+            Actividad.Tareas.Where(ident => ident.Id == wrapper.Id).First().HaFinalizado = false;
+            Actividad.UpdatedAt = DateTime.Now;
+            _actividadRepository.Update(Actividad.Model);
+            Actividad.AcceptChanges();
+            _EventAggregator.GetEvent<TareaModificadaEvent>().Publish(wrapper.Id);
+            AuxiliarOnPublicarEventosActividad(Ocurrencia.TAREA_RECUPERADA, ((TareaWrapper)wrapper).Descripcion);
         }
         private bool OnFinalizarTareaTDCommand_CanExecute(object wrapper)
         {
@@ -399,13 +455,30 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ObservableCollection<Mensaje> MensajesDisponibleEnForo { get; private set; }
         public ObservableCollection<Evento> EventoActividad { get; private set; }
         public ObservableCollection<TareaWrapper> TareasDisponibles { get; private set; }
+        public ObservableCollection<TareaWrapper> TareasDisponiblesAux { get; private set; }
         public ObservableCollection<TareaWrapper> TareasFinalizadas { get; private set; }
         public ObservableCollection<CooperanteWrapper> CooperantesSeleccionados { get; private set; }
         public ForoWrapper ForoSelecionado { get; set; }
+        
+        public bool VisibleEventosTarea
+        {
+            get { return _VisibleEventosTarea; }
+            set { SetProperty(ref _VisibleEventosTarea, value); }
+        }
         public bool CrearForoVisible
         {
             get { return _VisibleCrearForo; }
             set { SetProperty(ref _VisibleCrearForo, value); }
+        }
+        public bool VisibleFiltroEventoTarea
+        {
+            get { return _VisibleFiltroEventoTarea; }
+            set { SetProperty(ref _VisibleFiltroEventoTarea, value); }
+        }
+        public bool VisibleTareasFinalizadas
+        {
+            get { return _VisibleTareasFinalizadas; }
+            set { SetProperty(ref _VisibleTareasFinalizadas, value); }
         }
         public bool CrearTareaVisible
         {
@@ -461,6 +534,19 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                         Responsable = tarea.Responsable,
                     })
                     { SeguimientoVisible = false });
+                    TareasDisponiblesAux.Add(new TareaWrapper(
+                    new Tarea()
+                    {
+                        Id = tarea.Id,
+                        Descripcion = LookupItem.ShortenStringForDisplay(tarea.Descripcion, 100),
+                        //Descripcion = tarea.Descripcion,
+                        FechaDeFinalizacion = tarea.FechaDeFinalizacion,
+                        HaFinalizado = tarea.HaFinalizado,
+                        Seguimiento = tarea.Seguimiento,
+                        Incidencias = tarea.Incidencias,
+                        Responsable = tarea.Responsable,
+                    })
+                    { SeguimientoVisible = false });
                 }
                 else
                 {
@@ -495,6 +581,18 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private void OnNuevaTareaCreadaEvent(TareaWrapper NuevaTarea)
         {
             TareasDisponibles.Insert(0, (new TareaWrapper(new Tarea()
+            {
+                Id = NuevaTarea.Id,
+                Descripcion = NuevaTarea.Descripcion,
+                FechaDeFinalizacion = NuevaTarea.FechaDeFinalizacion,
+                HaFinalizado = NuevaTarea.HaFinalizado,
+                Responsable = NuevaTarea.Responsable.Model,
+                Seguimiento = NuevaTarea.Model.Seguimiento,
+                Incidencias = NuevaTarea.Model.Incidencias
+            })
+            { SeguimientoVisible = false }
+            ));
+            TareasDisponiblesAux.Insert(0, (new TareaWrapper(new Tarea()
             {
                 Id = NuevaTarea.Id,
                 Descripcion = NuevaTarea.Descripcion,

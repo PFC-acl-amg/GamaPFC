@@ -55,9 +55,9 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <StackPanel >
+    <Grid >
         <metro:MetroAnimatedSingleRowTabControl
             prism:RegionManager.RegionName="{x:Static common:RegionNames.ActividadesTabContentRegion}">
         </metro:MetroAnimatedSingleRowTabControl>
-    </StackPanel>
+    </Grid>
 </UserControl>

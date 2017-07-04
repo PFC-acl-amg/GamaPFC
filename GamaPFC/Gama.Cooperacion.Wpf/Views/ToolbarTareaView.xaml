@@ -1,6 +1,5 @@
-﻿<UserControl 
-      x:Class="Gama.Cooperacion.Wpf.Views.ToolbarView"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<UserControl x:Class="Gama.Cooperacion.Wpf.Views.ToolbarTareaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
@@ -34,27 +33,19 @@
         </Style>
     </UserControl.Resources>
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Background="#EE959595" Margin="0,4,4,0">
-        <cc:CircleIconButton 
-            Command="{Binding NuevoActividadCommand}"
-            Icon="{StaticResource appbar_text_size_plus}" 
-            ToolTip="Nueva Actividad"/>
+        <cc:CircleIconButton
+                    Command="{Binding NuevoActividadCommand}"
+                    Icon="{StaticResource appbar_clipboard}" 
+                    ToolTip="Nueva Tarea"/>
 
         <cc:CircleIconButton 
-            Command="{Binding NuevoCooperanteCommand}"
-            Icon="{StaticResource appbar_user_add}" 
-            ToolTip="Nuevo Cooperante"/>
+                    Command="{Binding NuevoCooperanteCommand}"
+                    Icon="{StaticResource appbar_chat}" 
+                    ToolTip="NUevo Foro"/>
 
         <cc:CircleIconButton 
-            Command="{Binding ExportarCommand}"
-            Icon="{StaticResource appbar_archive}" 
-            ToolTip="Exportar..."/>
-        <cc:CircleIconButton 
-            Command="{Binding HacerBackupCommand}"
-            Icon="{StaticResource appbar_database_sql}" 
-            ToolTip="Hacer copia de seguridad"/>
-        <cc:CircleIconButton 
-            Command="{Binding HacerRestoreCommand}"
-            Icon="{StaticResource appbar_reset}" 
-            ToolTip="Restaurar copia de seguridad..."/>
+                    Command="{Binding ExportarCommand}"
+                    Icon="{StaticResource appbar_camera_flash}" 
+                    ToolTip="Ver Eventos"/>
     </StackPanel>
 </UserControl>

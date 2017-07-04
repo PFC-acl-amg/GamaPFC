@@ -57,7 +57,7 @@
                         </Style>
                     </Ellipse.Style>
                     <Ellipse.InputBindings>
-                        <MouseBinding MouseAction="LeftClick" Command="{Binding ExaminarFotoCommand}"/>
+                        <MouseBinding MouseAction="LeftClick" Command="{Binding ExaminarAvatarCommand}"/>
                     </Ellipse.InputBindings>
                 </Ellipse>
 
