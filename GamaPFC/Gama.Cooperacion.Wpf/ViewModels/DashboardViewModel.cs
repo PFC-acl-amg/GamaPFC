@@ -765,11 +765,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnSelectActividadCommand(object param)
         {
-            //var lookup = param as LookupItem;
             var lookup = param as Actividad;
-
             if (lookup != null)  _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish(lookup.Id);
-
         }
 
         private void OnNuevaActividadEvent(int id)

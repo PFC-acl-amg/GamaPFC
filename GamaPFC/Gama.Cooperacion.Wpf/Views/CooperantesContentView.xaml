@@ -4,18 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
+             xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
+             xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
+             xmlns:util="clr-namespace:Core.Util;assembly=Core"
+             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:wrappers="clr-namespace:Gama.Cooperacion.Wpf.Wrappers"
+             xmlns:cooperanteViews="clr-namespace:Gama.Cooperacion.Wpf.Views.Cooperante"
              mc:Ignorable="d" 
              d:DesignHeight="638" d:DesignWidth="1153"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-               xmlns:prism="http://prismlibrary.com/"
-  prism:ViewModelLocator.AutoWireViewModel="True"
-  xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
-  xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
-  xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
-  xmlns:util="clr-namespace:Core.Util;assembly=Core"
-  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-  xmlns:wrappers="clr-namespace:Gama.Cooperacion.Wpf.Wrappers"
-              xmlns:cooperanteViews="clr-namespace:Gama.Cooperacion.Wpf.Views.Cooperante"
              Name="_Root">
     <UserControl.Resources>
         <converters:BooleanToVisivilityConverter x:Key="_BooleanToVisivilityConverter"/>
@@ -23,10 +23,7 @@
             <cc:CircleIconButton
                       HorizontalAlignment="Center"
                       Icon="{StaticResource appbar_delete}"
-                      Width="36"
-                      Height="36"
-                      IconWidth="13"
-                      IconHeight="13"
+                      Width="36" Height="36" IconWidth="13" IconHeight="13"
                       Margin="{StaticResource Margin}"
                       Command="{Binding ElementName=_Root, Path=DataContext.BorrarActividadCommand}"
                       CommandParameter="{Binding}">
@@ -47,10 +44,7 @@
             <cc:CircleIconButton
                       HorizontalAlignment="Left"
                       Icon="{StaticResource appbar_arrow_right}"
-                      Width="36"
-                      Height="36"
-                      IconWidth="13"
-                      IconHeight="13"
+                      Width="36" Height="36" IconWidth="13" IconHeight="13"
                       Margin="{StaticResource Margin}"
                       Command="{Binding ElementName=_Root, Path=DataContext.SelectActividadCommand}"
                       CommandParameter="{Binding}">
@@ -70,10 +64,7 @@
         <DataTemplate x:Key="_EditarButtonCellTemplate">
             <cc:CircleIconButton
                       Icon="{StaticResource appbar_edit}"
-                      Width="36"
-                      Height="36"
-                      IconWidth="13"
-                      IconHeight="13"
+                      Width="36" Height="36" IconWidth="13" IconHeight="13"
                       Margin="{StaticResource Margin}"
                       Command="{Binding ElementName=_Root, Path=DataContext.EditarActividadCommand}"
                       CommandParameter="{Binding}">
@@ -111,7 +102,7 @@
             <Setter Property="Margin" Value="0"/>
         </Style>
     </UserControl.Resources>
-    <Grid  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="15"/>
@@ -134,42 +125,20 @@
                 Foreground="Black"
                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                 ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-                <!--<ListBox.Resources>
-                    --><!-- Style used if item is selected and listbox has keyboard focus --><!--
-                    <Style x:Key="NoFocusVisualStyle" TargetType="Control">
-                        <Setter Property="BorderBrush" Value="Transparent" />
-                    </Style>
-                    --><!-- Apply this style --><!--
-                    <Style x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
-                        <Setter Property="FocusVisualStyle" Value="{StaticResource NoFocusVisualStyle}" />
-                    </Style>
-                    --><!-- Color used if item is selected and listbox has focus --><!--
-                    <SolidColorBrush
-             x:Key="{x:Static SystemColors.HighlightBrushKey}"
-             Color="Transparent"/>
-                    --><!-- Color used if item is selected and listbox does not have focus --><!--
-                    <SolidColorBrush
-             x:Key="{x:Static SystemColors.ControlBrushKey}"
-             Color="Transparent"/>
-                    --><!-- Font color used if item is selected and listbox has focus --><!--
-                    <SolidColorBrush
-             x:Key="{x:Static SystemColors.HighlightTextBrushKey}" 
-             Color="Black" />
-                </ListBox.Resources>-->
                 <ListBox.Resources>
                     <Style TargetType="{x:Type ListBoxItem}">
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                                     <Border x:Name="Bd"
-                                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                                            Background="{TemplateBinding Background}"
-                                                            Padding="{TemplateBinding Padding}"
-                                                            SnapsToDevicePixels="true">
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            Background="{TemplateBinding Background}"
+                                            Padding="{TemplateBinding Padding}"
+                                            SnapsToDevicePixels="true">
                                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                                     </Border>
                                 </ControlTemplate>
                             </Setter.Value>
@@ -189,7 +158,8 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock FontSize="14" Margin="{StaticResource Margin}"  Grid.Row="1" HorizontalAlignment="Left">
+                            <TextBlock FontSize="14" Margin="{StaticResource Margin}"  
+                                       Grid.Row="1" HorizontalAlignment="Left">
                                   <Run Text="{Binding Nombre}"/>
                                   <Run Text="{Binding Apellido}"/>
                             </TextBlock>
@@ -197,7 +167,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-
         </GroupBox>
         <StackPanel Name="VerOpcionesActividades" Grid.Column="1" Background="White" VerticalAlignment="Center"
                     Orientation="Horizontal" Margin="2,0,1,0"
@@ -230,11 +199,7 @@
                      FontWeight="DemiBold" Text="Datos Personales"/>
                 <cc:CircleIconButton
                       Icon="{StaticResource appbar_edit}"
-                      Grid.Column="1"
-                      Width="36"
-                      Height="36"
-                      IconWidth="13"
-                      IconHeight="13"
+                      Grid.Column="1" Width="36" Height="36" IconWidth="13" IconHeight="13"
                       Margin="{StaticResource Margin}"
                       Command="{Binding ElementName=_Root, Path=DataContext.HabilitarBotonEditarCommand}">
                     <Button.Style>
@@ -252,11 +217,7 @@
                 <cc:CircleIconButton
                     Visibility="{Binding CooperanteSeleccionado.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
                       Icon="{StaticResource appbar_close}"
-                      Grid.Column="2"
-                      Width="36"
-                      Height="36"
-                      IconWidth="13"
-                      IconHeight="13"
+                      Grid.Column="2" Width="36" Height="36" IconWidth="13" IconHeight="13"
                       Margin="{StaticResource Margin}"
                       Command="{Binding ElementName=_Root, Path=DataContext.CancelarBotonEditarCommand}"
                       CommandParameter="{Binding}">
@@ -275,11 +236,7 @@
                 <cc:CircleIconButton
                     Visibility="{Binding CooperanteSeleccionado.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
                       Icon="{StaticResource appbar_save}"
-                      Grid.Column="3"
-                      Width="36"
-                      Height="36"
-                      IconWidth="13"
-                      IconHeight="13"
+                      Grid.Column="3" Width="36" Height="36" IconWidth="13" IconHeight="13"
                       Margin="{StaticResource Margin}"
                       Command="{Binding ElementName=_Root, Path=DataContext.GuardarBotonCommand}"
                       CommandParameter="{Binding}">
@@ -380,7 +337,6 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-
                         <DataGridTemplateColumn Header="Titulo" Width="*" HeaderTemplate="{StaticResource _HeaderTemplate}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -415,37 +371,6 @@
                         <DataGridTemplateColumn Header="Abrir"  
                                     HeaderTemplate="{StaticResource _HeaderTemplate}" 
                                     CellTemplate="{StaticResource _IrButtonCellTemplate}"/>
-                        <!--<DataGridTextColumn 
-                      Header="ID"
-                      Binding="{Binding Id}"
-                      MinWidth="40" 
-                      Width="40"
-                      IsReadOnly="True"/>
-                <DataGridTextColumn 
-                      Header="Titulo" 
-                      Binding="{Binding Titulo, UpdateSourceTrigger=PropertyChanged}" 
-                      MinWidth="100" 
-                      Width="100"/>
-                <DataGridTextColumn 
-                      Header="Estado" 
-                      Binding="{Binding Estado, UpdateSourceTrigger=PropertyChanged}" 
-                      MinWidth="150" 
-                      Width="100"/>
-                <DataGridTextColumn 
-                      Header="Fecha Inicio" 
-                      Binding="{Binding FechaDeInicio,StringFormat='dd/MM/yyyy', UpdateSourceTrigger=PropertyChanged}" 
-                      MinWidth="100" 
-                      Width="100"/>
-                <DataGridTextColumn 
-                      Header="Fecha Final" 
-                      Binding="{Binding FechaDeFin,StringFormat='dd/MM/yyyy', UpdateSourceTrigger=PropertyChanged}" 
-                      MinWidth="100" 
-                      Width="100"/>
-                <DataGridTextColumn 
-                      Header="Coordinador" 
-                      Binding="{Binding Coordinador.Nombre, UpdateSourceTrigger=PropertyChanged}" 
-                      MinWidth="300" 
-                      Width="100"/>-->
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

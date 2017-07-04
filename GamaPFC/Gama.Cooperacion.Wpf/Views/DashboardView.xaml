@@ -206,7 +206,7 @@
             <Rectangle Width="300" Height="2" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="2" />
             <Rectangle Width="300" Height="2" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="2" />
             <Rectangle Width="300" Height="2" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="2"/>
-            
+
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseLeftButtonDown">
                     <prism:InvokeCommandAction Command="{Binding VerFiltroCommand}"/>
@@ -429,12 +429,12 @@
                                     SelectedDate="{Binding FechaFinOpcion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
                         </Grid>
-                        
+
                     </StackPanel>
                     <Grid Grid.Column="1" Margin="0,10,0,0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition />
+                            <RowDefinition Height="67" />
                         </Grid.RowDefinitions>
                         <StackPanel Grid.Row="0">
 
@@ -497,7 +497,9 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Margin="0,10,0,0">
-                    --><!--<CheckBox Content="Personal" IsChecked="{Binding ViaDeAccesoAGamaFilter[Personal].Value}"/>--><!--
+                    -->
+        <!--<CheckBox Content="Personal" IsChecked="{Binding ViaDeAccesoAGamaFilter[Personal].Value}"/>-->
+        <!--
                     <CheckBox Margin="0,5,0,0" Content="Actividades En Curso"
                                                   IsChecked="{Binding EnCursoSeleccionado}"/>
                     <CheckBox Margin="0,5,0,0" Content="Actividades Por Comenzar"
@@ -535,7 +537,9 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Margin="0,10,0,0">
-                    --><!--<CheckBox Content="Personal" IsChecked="{Binding ViaDeAccesoAGamaFilter[Personal].Value}"/>--><!--
+                    -->
+        <!--<CheckBox Content="Personal" IsChecked="{Binding ViaDeAccesoAGamaFilter[Personal].Value}"/>-->
+        <!--
                     <CheckBox Margin="0,5,0,0" Content="Actividades En Curso"
                                                   IsChecked="{Binding EnCursoSeleccionado}"/>
                     <CheckBox Margin="0,5,0,0" Content="Actividades Por Comenzar"
@@ -716,7 +720,7 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-       
+
         <GroupBox Grid.Row="2" Grid.Column="1" Name="ListaEventos" Margin="{StaticResource Margin}">
             <GroupBox.Header>
                 <Grid>
@@ -725,7 +729,7 @@
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" HorizontalAlignment="Center" Content="EVENTOS" Foreground="White" Padding="0"></Label>
-                    
+
                 </Grid>
             </GroupBox.Header>
             <Grid>
@@ -764,7 +768,7 @@
                                                 </Grid.RowDefinitions>
                                                 <TextBlock Grid.Row="0" Margin="{StaticResource Margin}" Text="{Binding Ocurrencia}"/>
                                                 <TextBlock Grid.Row="1" Margin="{StaticResource Margin}" Text="{Binding Titulo}"/>
-                                                
+
                                             </Grid>
                                         </StackPanel>
                                         <cc:CircleIconButton
@@ -804,11 +808,14 @@
     <!--Version 2 de Vista de Actividades-->
     <!--<Grid Margin="4,0,4,0">
         <Grid.ColumnDefinitions>
-            --><!--<ColumnDefinition Width="120"/>--><!--
+            -->
+    <!--<ColumnDefinition Width="120"/>-->
+    <!--
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        --><!--Botonera. Nwcwsita de la columna de 120 de dos lineas mas arriba (75)-->
-        <!--<StackPanel>
+        -->
+    <!--Botonera. Nwcwsita de la columna de 120 de dos lineas mas arriba (75)-->
+    <!--<StackPanel>
            
             <Grid>
                 <Grid.RowDefinitions>
@@ -893,18 +900,22 @@
             </Grid>
 
         </StackPanel>-->
-        <!--Botonera--><!--
+    <!--Botonera-->
+    <!--
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                --><!--<RowDefinition Height="40"/>--><!--
+                -->
+    <!--<RowDefinition Height="40"/>-->
+    <!--
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="200"/>
             </Grid.RowDefinitions>
-            --><!--<Grid.ColumnDefinitions>
+            -->
+    <!--<Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>-->
-            <!--<Border  BorderBrush="Black" BorderThickness="0,0,0,0" Background="#FAF7F7" 
+    <!--<Border  BorderBrush="Black" BorderThickness="0,0,0,0" Background="#FAF7F7" 
                 Margin="0,0,0,0" Grid.Row="0" Grid.ColumnSpan="2">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -947,12 +958,14 @@
                                 </Style.Triggers>
                             </Style>
                         </Label.Style>
-                        --><!--<Label.InputBindings>
+                        -->
+    <!--<Label.InputBindings>
                             <MouseBinding MouseAction="LeftClick" 
                                         Command="{Binding ElementName=_Root,Path=DataContext.ListaDeActividadesCommand}"
                                         CommandParameter="{Binding}"    
                                                               />
-                        </Label.InputBindings>--><!--
+                        </Label.InputBindings>-->
+    <!--
                     </Label>
                     <Label x:Name="SeleccionarCalendario" Grid.Column="2"
                                                 Content="Calendario"  
@@ -993,11 +1006,14 @@
                         </Label.Style>
                     </Label>
                 </Grid>
-            </Border>--><!--
+            </Border>-->
+    <!--
             <Border Background="White" Grid.Row="0" Visibility="Visible">
-                --><!--<Border.Effect>
+                -->
+    <!--<Border.Effect>
                     <DropShadowEffect Color="Gray" Opacity="1.0" ShadowDepth="0" />
-                </Border.Effect>--><!--
+                </Border.Effect>-->
+    <!--
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="190" />
@@ -1022,10 +1038,12 @@
                                 </GroupBox.Style>
                                 <StackPanel Grid.Row="2">
                                     <Grid>
-                                        --><!--<Grid.ColumnDefinitions>
+                                        -->
+    <!--<Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="90" />
                                             <ColumnDefinition Width="90" />
-                                        </Grid.ColumnDefinitions>--><!--
+                                        </Grid.ColumnDefinitions>-->
+    <!--
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="30" />
                                             <RowDefinition Height="30" />
@@ -1094,13 +1112,15 @@
                                             </Label.Style>
                                         </Label>
                                         
-                                        --><!--<TextBlock Grid.Row="1" Text="Fecha de Final" ></TextBlock>
+                                        -->
+    <!--<TextBlock Grid.Row="1" Text="Fecha de Final" ></TextBlock>
                                         <TextBlock Grid.Row="2" Text="Coordinador" ></TextBlock>
                                         <TextBlock Grid.Row="3" Text="Cooperantes" FontSize="14" FontWeight="Regular"></TextBlock>
                                         <TextBox Grid.Column="1" Text="{Binding IdActividad}" />
                                         <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding FechaActividadFinal}" />
                                         <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding NombreCoordinador}" />-->
-                                        <!--<TextBox Grid.Column="1" Grid.Row="3" Text="{Binding IdActividad}" />--><!--
+    <!--<TextBox Grid.Column="1" Grid.Row="3" Text="{Binding IdActividad}" />-->
+    <!--
                                     </Grid>
 
                                 </StackPanel>
@@ -1125,21 +1145,25 @@
                                     </TextBlock>
                                 </Label.Content>
                             </Label>
-                            --><!--<Label >
+                            -->
+    <!--<Label >
                             <TextBlock FontSize="18" Visibility="Visible">
                                 
                             <Run Text="{Binding IdActividad}" FontSize="18" />
                             <Run Text=" " FontSize="18" />
                             <Run Text="{Binding FechaDeInicioActividad.Date,StringFormat='dd/MM/yyyy',Mode=OneWay}"  FontSize="18" />
                             </TextBlock>
-                        </Label>--><!--
+                        </Label>-->
+    <!--
                         </Grid>
                     </Border>
                     <Border Grid.Column="0" Background="LightGray">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="50" />
-                                --><!--Espacio en blanco icon_document_add_01--><!--
+                                -->
+    <!--Espacio en blanco icon_document_add_01-->
+    <!--
                                 <RowDefinition Height="30" />
                                 <RowDefinition Height="30" />
                                 <RowDefinition Height="30" />
@@ -1147,7 +1171,8 @@
                                 <RowDefinition Height="30" />
                                 <RowDefinition Height="30" />
                             </Grid.RowDefinitions>
-                            --><!--<StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                            -->
+    <!--<StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" >
                                 <Rectangle  Margin="{StaticResource MarginNoBottom}" Width="70" Height="70" HorizontalAlignment="Center" >
                                     <Rectangle.Fill>
                                         <VisualBrush Visual="{StaticResource appbar_page_add}"/>
@@ -1173,7 +1198,8 @@
                                         <prism:InvokeCommandAction Command="{Binding NuevaActividadCommand}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-                            </StackPanel>--><!--
+                            </StackPanel>-->
+    <!--
                             <Label x:Name="SeleccionarListaActividadesActivas" Grid.Row="1" Margin="10,0,0,0"
                                                 MouseLeftButtonDown="Label_ActividadesActivas"
                                                 Background="White">
@@ -1329,8 +1355,10 @@
                 </Grid>
             </Border>
             
-            --><!--FIN Listado de Actividades -->
-            <!--ZONA COOPERANTES --><!--
+            -->
+    <!--FIN Listado de Actividades -->
+    <!--ZONA COOPERANTES -->
+    <!--
             <Grid Grid.Row="1" Margin="0,0,0,4">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="100" />
@@ -1358,8 +1386,12 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="30" />   --><!--Botonera--><!--
-                                <RowDefinition Height="160" />  --><!--Preferencias--><!--
+                                <RowDefinition Height="30" />   -->
+    <!--Botonera-->
+    <!--
+                                <RowDefinition Height="160" />  -->
+    <!--Preferencias-->
+    <!--
                             </Grid.RowDefinitions>
                             <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
                                 <Label Name="EnlaceNuevo" Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Center" Margin="0,0,10,0">
@@ -1389,7 +1421,9 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Grid.Column="0" Margin="0,10,0,0">
-                                        --><!--<CheckBox Content="Personal" IsChecked="{Binding ViaDeAccesoAGamaFilter[Personal].Value}"/>--><!--
+                                        -->
+    <!--<CheckBox Content="Personal" IsChecked="{Binding ViaDeAccesoAGamaFilter[Personal].Value}"/>-->
+    <!--
                                         <CheckBox Margin="0,5,0,0" Content="Actividades En Curso"
                                                   IsChecked="{Binding EnCursoSeleccionado}"/>
                                         <CheckBox Margin="0,5,0,0" Content="Actividades Por Comenzar"
@@ -1433,7 +1467,8 @@
                 </Label>
             </Grid>
 
-            --><!--<Border Background="White" Grid.Row="1" Margin="10" Visibility="{Binding VisibleListaCooperantes, 
+            -->
+    <!--<Border Background="White" Grid.Row="1" Margin="10" Visibility="{Binding VisibleListaCooperantes, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
                 <Border.Effect>
                     <DropShadowEffect Color="Blue" Opacity="1.0" ShadowDepth="0" />
@@ -1443,14 +1478,17 @@
                         <ColumnDefinition Width="200" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    --><!--<Border Grid.Column="0" Background="White" Margin="10">
+                    -->
+    <!--<Border Grid.Column="0" Background="White" Margin="10">
                         <Border.Effect>
                             <DropShadowEffect Color="Red" Opacity="1.0" ShadowDepth="0" />
                         </Border.Effect>
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="70" />
-                                --><!--Espacio en blanco--><!--
+                                -->
+    <!--Espacio en blanco-->
+    <!--
                                 <RowDefinition Height="50" />
                                 <RowDefinition Height="50" />
                                 <RowDefinition Height="50" />
@@ -1476,7 +1514,8 @@
                                 </Label.Style>
                             </Label>
                         </Grid>
-                    </Border>--><!--
+                    </Border>-->
+    <!--
                     <StackPanel Name="ListaCooperantes" Background="White" Grid.Column="1" Margin="50,50,0,50" >
                         <Grid Height="540">
                             <Grid.ColumnDefinitions>
@@ -1522,7 +1561,9 @@
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="80"/>
                                                         <RowDefinition  Height="Auto"/>
-                                                        --><!--<RowDefinition  Height="Auto"/>--><!--
+                                                        -->
+    <!--<RowDefinition  Height="Auto"/>-->
+    <!--
                                                     </Grid.RowDefinitions>
                                                     <Image HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Source="{Binding Foto, 
                                                    Converter={StaticResource BinaryImageConverter}}" 
@@ -1540,7 +1581,9 @@
                                                         <TextBlock Text="{Binding Apellido}" VerticalAlignment="Center"
                                                        TextWrapping="Wrap" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
                                                     </StackPanel>
-                                                    --><!--<Label Grid.Row="2">Hola</Label>--><!--
+                                                    -->
+    <!--<Label Grid.Row="2">Hola</Label>-->
+    <!--
                                                 </Grid>
                                             </StackPanel>
                                             <Border.InputBindings>
@@ -1584,7 +1627,9 @@
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition Height="80"/>
                                                             <RowDefinition  Height="Auto"/>
-                                                            --><!--<RowDefinition  Height="Auto"/>--><!--
+                                                            -->
+    <!--<RowDefinition  Height="Auto"/>-->
+    <!--
                                                         </Grid.RowDefinitions>
                                                         <Image HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Source="{Binding Foto, 
                                                        Converter={StaticResource BinaryImageConverter}}" 
@@ -1602,7 +1647,9 @@
                                                             <TextBlock Text="{Binding Apellido}" VerticalAlignment="Center"
                                                            TextWrapping="Wrap" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
                                                         </StackPanel>
-                                                        --><!--<Label Grid.Row="2">Hola</Label>--><!--
+                                                        -->
+    <!--<Label Grid.Row="2">Hola</Label>-->
+    <!--
                                                     </Grid>
                                                 </StackPanel>
 
@@ -1613,7 +1660,9 @@
 
                                                 </Border.InputBindings>
                                             </Border>
-                                            --><!--<Label Grid.Row="1">Jose</Label>--><!--
+                                            -->
+    <!--<Label Grid.Row="1">Jose</Label>-->
+    <!--
                                             <Label x:Name="_EscogerCooperante" Height="35" Grid.Row="1"
                                                 Content="Escoger otro Cooperante"  
                                                 MouseLeftButtonDown="Label_EscogerCooperante"
@@ -1623,8 +1672,10 @@
                                                         <Setter Property="Foreground" Value="Black" />
                                                         <Setter Property="FontSize" Value="14" />
                                                         <Setter Property="Background" Value="White"/>
-                                                        --><!--<Setter Property="BorderBrush" Value="Black"/>
-                                                <Setter Property="BorderThickness" Value="3,3,0,3" />--><!--
+                                                        -->
+    <!--<Setter Property="BorderBrush" Value="Black"/>
+                                                <Setter Property="BorderThickness" Value="3,3,0,3" />-->
+    <!--
                                                         <Style.Triggers>
                                                             <Trigger Property="IsMouseOver" Value="True">
                                                                 <Setter Property="Cursor" Value="Hand" />
@@ -1633,16 +1684,19 @@
                                                     </Style>
                                                 </Label.Style>
                                             </Label>
-                                            --><!--<Border Grid.Row="1" BorderBrush="Green" BorderThickness="3" Background="Beige" Padding="4"
+                                            -->
+    <!--<Border Grid.Row="1" BorderBrush="Green" BorderThickness="3" Background="Beige" Padding="4"
                                                 CornerRadius="3" Margin="20">
                                         
-                                    </Border>--><!--
+                                    </Border>-->
+    <!--
                                         </Grid>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
 
-                            --><!--<ItemsControl x:Name="CooperanteSeleccionado" ItemsSource="{Binding ListaParcialCooperantes}" 
+                            -->
+    <!--<ItemsControl x:Name="CooperanteSeleccionado" ItemsSource="{Binding ListaParcialCooperantes}" 
                                   Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding VisibleCooperanteSeleccionado, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
                         <ItemsControl.Template>
@@ -1658,10 +1712,10 @@
                                             CornerRadius="3"
                                             Margin="20">
                                     -->
-                            <!--<Border.Effect>
+    <!--<Border.Effect>
                                         <DropShadowEffect Color="Blue" Opacity=".50" ShadowDepth="16" />
                                     </Border.Effect>-->
-                            <!--
+    <!--
                                     <Border.Style>
                                         <Style TargetType="Border">
                                             <Style.Triggers>
@@ -1687,8 +1741,8 @@
                                                 <RowDefinition Height="80"/>
                                                 <RowDefinition  Height="Auto"/>
                                                 -->
-                            <!--<RowDefinition  Height="Auto"/>-->
-                            <!--
+    <!--<RowDefinition  Height="Auto"/>-->
+    <!--
                                             </Grid.RowDefinitions>
                                             <Image HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Source="{Binding Foto, 
                                                    Converter={StaticResource BinaryImageConverter}}" 
@@ -1707,8 +1761,8 @@
                                                        TextWrapping="Wrap" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
                                             </StackPanel>
                                             -->
-                            <!--<Label Grid.Row="2">Hola</Label>-->
-                            <!--
+    <!--<Label Grid.Row="2">Hola</Label>-->
+    <!--
                                         </Grid>
                                     </StackPanel>
                                     <Border.InputBindings>
@@ -1721,7 +1775,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>-->
-                            <!--<Button Height="50" Background="Blue"  BorderBrush="Black" Grid.Row="0"
+    <!--<Button Height="50" Background="Blue"  BorderBrush="Black" Grid.Row="0"
                                                BorderThickness="1,1,0,1" Content="Pa'Tras" Foreground="White" 
                                                FontSize="14" HorizontalContentAlignment="Center"
                                                 Command="{Binding PaginaAnteriorCommand}">
@@ -1735,7 +1789,8 @@
 
 
 
-                            <!--<Label Grid.Row="0">Zona Datos cooperantes</Label>--><!--
+    <!--<Label Grid.Row="0">Zona Datos cooperantes</Label>-->
+    <!--
 
                             <Border Grid.Column="1" Margin="10,0,10,0" BorderBrush="Black"  Background="Beige" BorderThickness="1,1,1,1" Visibility="{Binding VisibleDatosCooperanteSeleccionado, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
@@ -1777,7 +1832,9 @@
                                             <Label x:Name="_ZonaAzul2Label" Height="35" Background="#0079F7"  
                                            BorderBrush="Black" BorderThickness="0,0,3,0"></Label>
 
-                                            --><!--</Border>--><!--
+                                            -->
+    <!--</Border>-->
+    <!--
                                             <Label x:Name="_DatosDNILabel" Height="35" Margin="10,0,0,0"  Background="#0079F7"  BorderBrush="Black" BorderThickness="0,0,3,0"  Content="Datos DNI" Foreground="White" 
                                                FontSize="14" HorizontalContentAlignment="Center"
                                                MouseLeftButtonDown="Label_DatosDNI">
@@ -1888,7 +1945,9 @@
 
                                             </StackPanel>
                                         </Border>
-                                        --><!-- Border Para Poner la lista de actividades --><!--
+                                        -->
+    <!-- Border Para Poner la lista de actividades -->
+    <!--
                                         <Border BorderBrush="Black"  Background="White" BorderThickness="0,1,1,1" Visibility="{Binding VisibleListaActividadesCooperante, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}"
                                              Grid.Column="1" Grid.Row="0">
@@ -2022,7 +2081,8 @@
                                             </StackPanel>
                                         </Border>
 
-                                        --><!--<Border BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
+                                        -->
+    <!--<Border BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
                                             CornerRadius="3" Grid.Column="0" Grid.Row="0"
                                             Margin="5">
                                 <Border.Effect>
@@ -2041,10 +2101,12 @@
                                 <StackPanel >
 
                                 </StackPanel>
-                            </Border>--><!--
+                            </Border>-->
+    <!--
                                     </Grid>
 
-                                    --><!--<Grid>
+                                    -->
+    <!--<Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
@@ -2263,7 +2325,8 @@
                                 <Button Content="Guardar" Command="{Binding AceptarCommand}"  Margin="{StaticResource Margin}"/>
                                 <Button Content=" Editar" Command="{Binding CancelarCommand}"  Margin="{StaticResource Margin}"/>
                             </StackPanel>
-                        </Grid>--><!--
+                        </Grid>-->
+    <!--
                                 </StackPanel>
                             </Border>
                             <Border Grid.Column="1" Margin="10,0,10,0"  Background="White" Visibility="{Binding VisibleImagenSeleccionCooperante, 
@@ -2277,11 +2340,14 @@
                                     </Label>
                                 </StackPanel>
                             </Border>
-                            --><!--<Label Grid.Row="2" HorizontalAlignment="Center">Seleccione un Cooperante</Label>--><!--
+                            -->
+    <!--<Label Grid.Row="2" HorizontalAlignment="Center">Seleccione un Cooperante</Label>-->
+    <!--
                         </Grid>
                     </StackPanel>
                 </Grid>
-            </Border>--><!--
+            </Border>-->
+    <!--
         </Grid>
     </Grid>-->
 

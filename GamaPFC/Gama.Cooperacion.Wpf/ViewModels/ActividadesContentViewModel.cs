@@ -17,7 +17,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private IEventAggregator _eventAggregator;
         private IRegionManager _regionManager;
         private EditarActividadViewModel _selectedViewModel;
-        //private bool _cerrar = false;
 
         public ActividadesContentViewModel(IEventAggregator eventAggregator,
             IRegionManager regionManager)
@@ -65,10 +64,5 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _regionManager.RequestNavigate(RegionNames.ActividadesTabContentRegion,
                 "EditarActividadView", navigationParameters);
         }
-
-        //private void OnActividadEliminadaEvent(ActividadWrapper obj)
-        //{
-        //    Cerrar = true;
-        //}
     }
 }

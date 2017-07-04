@@ -18,7 +18,7 @@
   Style="{StaticResource CustomMetroWindowStyle}"
   Title="COOPERACIÓN" 
   Icon="{Binding IconSource}"
-  Height="350" Width="525">
+  Height="350" Width="1000">
   <mahapps:MetroWindow.Resources>
     <sys:Double x:Key="_SocialIconSize">13</sys:Double>
     <sys:Double x:Key="WindowTitleFontSize">14</sys:Double>
@@ -88,33 +88,36 @@
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="*"/>
-      <ColumnDefinition/>
+      <ColumnDefinition Width="470"/>
+      <ColumnDefinition />
+      <ColumnDefinition />
       <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
 
     <!-- Panel Switcher -->
-    <ContentControl Grid.Row="0" Grid.Column="0" Margin="0" Grid.ColumnSpan="2">
+    <ContentControl Grid.Row="0" Grid.Column="0" Margin="0" Grid.ColumnSpan="3">
       <views:PanelSwitcherView DataContext="{Binding PanelSwitcherViewModel}"/>
     </ContentControl>
 
     <!-- Toolbar -->
-    <ContentControl Grid.Row="0" Grid.Column="2" Margin="0">
+    <ContentControl Grid.Row="0" Grid.Column="3" Margin="0">
       <views:ToolbarView DataContext="{Binding ToolbarViewModel}"/>
     </ContentControl>
 
-    <!-- Cuadro de búsqueda -->
-    <ContentControl Grid.Row="0" Grid.Column="1" Margin="0"
+        <!-- ToolbarTareaView -->
+        <ContentControl Grid.Row="0" Grid.Column="2" Margin="0">
+            <views:ToolbarTareaView DataContext="{Binding ToolbarViewModel}"/>
+        </ContentControl>
+
+        <!-- Cuadro de búsqueda -->
+        <ContentControl Grid.Row="0" Grid.Column="1" Margin="0"
                     prism:RegionManager.RegionName="{x:Static common:RegionNames.SearchBoxRegion}"  />
 
-    <!-- Toolbar -->
-    <ContentControl Grid.Row="0" Grid.Column="2" Margin="0" />
-
-    <!-- Región de contenido -->
-    <ContentControl Grid.Row="1" Grid.ColumnSpan="3" prism:RegionManager.RegionName="{x:Static common:RegionNames.ContentRegion}" />
+        <!-- Región de contenido -->
+    <ContentControl Grid.Row="1" Grid.ColumnSpan="4" prism:RegionManager.RegionName="{x:Static common:RegionNames.ContentRegion}" />
 
     <!-- Status Bar -->
-    <views:StatusBarView Grid.Row="2" Grid.ColumnSpan="3" DataContext="{Binding StatusBarViewModel}"/>
+    <views:StatusBarView Grid.Row="2" Grid.ColumnSpan="4" DataContext="{Binding StatusBarViewModel}"/>
   </Grid>
 </mahapps:MetroWindow>
 

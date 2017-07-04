@@ -17,7 +17,8 @@ namespace Gama.Cooperacion.Business
         NUEVA_TAREA_PUBLICADA,
         Nueva_Actividad,
         FORO_CREADO,
-        Mensaje_Publicado
+        Mensaje_Publicado,
+        TAREA_RECUPERADA
     }
     public class Evento : TimestampedModel
     {
