@@ -19,6 +19,7 @@ using Gama.Common.Debug;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using System.Configuration;
+using Gama.Atenciones.Wpf.Converters;
 
 namespace Gama.Atenciones.Wpf
 {
@@ -45,6 +46,7 @@ namespace Gama.Atenciones.Wpf
 
             Application.Current.MainWindow = Shell as Window;
             Application.Current.MainWindow.ShowActivated = true;
+
             Application.Current.MainWindow.Show();
 
             TerminarPreload();
@@ -172,11 +174,11 @@ namespace Gama.Atenciones.Wpf
 
                 if (_CLEAR_DATABASE)
                 {
+                    derivacionRepository.DeleteAll();
+                    atencionRepository.DeleteAll();
                     citaRepository.DeleteAll();
                     asistenteRepository.DeleteAll();
                     personaRepository.DeleteAll();
-                    atencionRepository.DeleteAll();
-                    derivacionRepository.DeleteAll();
                 }
 
                 try
@@ -194,27 +196,38 @@ namespace Gama.Atenciones.Wpf
 
                         var random = new Random();
 
+                        int i = 0;
                         foreach (var asistente in asistentes)
+                        {
                             asistenteRepository.Create(asistente);
+                            Console.Write($"Asistente número {++i};");
+                        }
 
+                        i = 0;
                         foreach (var persona in personas)
+                        {
                             personaRepository.Create(persona);
+                            Console.Write($"Persona número {++i};");
+                        }
 
+                        i = 0;
                         foreach (var cita in citas)
                         {
                             var persona = personas[random.Next(0, personas.Count - 1)];
                             persona.AddCita(cita);
                             cita.Asistente = asistentes[random.Next(0, asistentes.Count - 1)];
                             citaRepository.Create(cita);
+                            Console.Write($"Cita número {++i};");
                         }
 
-                        int i = 0;
+                        i = 0;
                         foreach (var atencion in atenciones)
                         {
                             atencion.Cita = citas[i++];
                             atencion.Derivacion = FakeDerivacionRepository.Next(atencion);
 
                             atencionRepository.Create(atencion);
+                            Console.Write($"Atención número {i};");
                         }
                     }
                 }
@@ -264,7 +277,6 @@ namespace Gama.Atenciones.Wpf
 
         private void DoThings()
         {
-            Debug.StartWatch();
             var session = Container.Resolve<ISession>();
             _PersonaRepository = Container.Resolve<IPersonaRepository>();
             _CitaRepository = Container.Resolve<ICitaRepository>();
@@ -282,34 +294,16 @@ namespace Gama.Atenciones.Wpf
                         mysqlConnection.Open();
                         //UIServices.SetBusyState();
 
-                        sqlCommand.CommandText = "SELECT * FROM personas";
+                        sqlCommand.CommandText = "SELECT Id, Nombre, Nif, ComoConocioAGama, DireccionPostal, " +
+                            "Email, EstadoCivil, FechaDeNacimiento, Facebook, IdentidadSexual, Linkedin, Nacionalidad, " +
+                            "NivelAcademico, Ocupacion, OrientacionSexual, Telefono, Twitter, ViaDeAccesoAGama, CreatedAt, UpdatedAt " +
+                            "FROM personas";
+
+                        Debug.StartWatch();
                         using (reader = sqlCommand.ExecuteReader())
                         {
                             while (reader.Read())
                             {
-                                //System.Console.WriteLine(reader["Id"].ToString());
-                                //System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Nombre"].ToString()));
-                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Nif"].ToString()));
-                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Nif"].ToString()));
-                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["ComoConocioAGama"].ToString()));
-                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["DireccionPostal"].ToString()));
-                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Email"].ToString()));
-                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["EstadoCivil"].ToString()));
-                                //    System.Console.WriteLine((DateTime?)reader["FechaDeNacimiento"]);
-                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Facebook"].ToString()));
-                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["IdentidadSexual"].ToString()));
-                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["LinkedIn"].ToString()));
-                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Nacionalidad"].ToString()));
-                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["NivelAcademico"].ToString()));
-                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Ocupacion"].ToString()));
-                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["OrientacionSexual"].ToString()));
-                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Telefono"].ToString()));
-                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Twitter"].ToString()));
-                                //    //System.Console.WriteLinCore.Encryption.Cipher.Decrypt(( reader["Imagen"].GetType() == (typeof(DBNull)) ? null : reader["Imagen"] as byte[]);
-                                //    //System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["Imagen"] as byte[]));
-                                //    System.Console.WriteLine(Core.Encryption.Cipher.Decrypt(reader["ViaDeAccesoAGama"].ToString()));
-                                //    System.Console.WriteLine("Created At: " + ((DateTime)reader["CreatedAt"]).ToString());
-                                //    System.Console.WriteLine("Updated At: " + (reader["UpdatedAt"] as DateTime?).ToString());
                                 persona = new Persona()
                                 {
                                     Id = (int)reader["Id"],
@@ -330,26 +324,25 @@ namespace Gama.Atenciones.Wpf
                                     OrientacionSexual = reader["OrientacionSexual"].ToString(),
                                     Telefono = reader["Telefono"].ToString(),
                                     Twitter = reader["Twitter"].ToString(),
-                                    //Imagen = reader["Imagen"].GetType() == (typeof(DBNull)) ? null : reader["Imagen"] as byte[],
-                                    Imagen = reader["Imagen"] as byte[],
+                                    //Imagen = reader["Imagen"] as byte[],
                                     ViaDeAccesoAGama = reader["ViaDeAccesoAGama"].ToString(),
                                     CreatedAt = (DateTime)reader["CreatedAt"],
                                     UpdatedAt = reader["UpdatedAt"] as DateTime?,
                                 };
 
-                                //var ok = reader["Imagen"] as byte[];
-                                //if (ok != null)
-                                //{
-                                //    var type = ok.GetType();
-                                //    var type2 = (new byte[10]).GetType();
-                                //}
-
                                 persona.Decrypt();
+                                persona.Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
+                         new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/6.jpg"));
                                 _Personas.Add(persona);
                             }
                         }
+                        //Debug.StopWatch("-----PERSONAS----");
+                        //Debug.StartWatch();
 
-                        sqlCommand.CommandText = "SELECT * FROM asistentes";
+                        sqlCommand.CommandText = "SELECT Id, Nombre, Nif, Apellidos, FechaDeNacimiento, ComoConocioAGama, NivelAcademico, " + 
+                            "Ocupacion, Provincia, Municipio, Localidad, CodigoPostal, Calle, Numero, Portal, Piso, Puerta, " +
+                            "TelefonoFijo, TelefonoMovil, TelefonoAlternativo, Email, EmailAlternativo, Linkedin, Twitter, Facebook, Observaciones " +
+                            "FROM asistentes";
                         using (reader = sqlCommand.ExecuteReader())
                         {
                             while (reader.Read())
@@ -358,11 +351,42 @@ namespace Gama.Atenciones.Wpf
                                 {
                                     Id = (int)reader["Id"],
                                     Nombre = reader["Nombre"].ToString(),
+                                    Nif = reader["Nif"].ToString(),
+                                    Apellidos = reader["Apellidos"].ToString(),
+                                    FechaDeNacimiento = reader["FechaDeNacimiento"] as DateTime?,
+                                    //Imagen = reader["Imagen"] as byte[],
+
+                                    ComoConocioAGama = reader["ComoConocioAGama"].ToString(),
+                                    NivelAcademico = reader["NivelAcademico"].ToString(),
+                                    Ocupacion = reader["Ocupacion"].ToString(),
+
+                                    Provincia = reader["Provincia"].ToString(),
+                                    Municipio = reader["Municipio"].ToString(),
+                                    Localidad = reader["Localidad"].ToString(),
+                                    CodigoPostal = reader["CodigoPostal"].ToString(),
+                                    Calle = reader["Calle"].ToString(),
+                                    Numero = reader["Numero"].ToString(),
+                                    Portal = reader["Portal"].ToString(),
+                                    Piso = reader["Piso"].ToString(),
+                                    Puerta = reader["Puerta"].ToString(),
+
+                                    TelefonoFijo = reader["TelefonoFijo"].ToString(),
+                                    TelefonoMovil = reader["TelefonoMovil"].ToString(),
+                                    TelefonoAlternativo = reader["TelefonoAlternativo"].ToString(),
+                                    Email = reader["Email"].ToString(),
+                                    EmailAlternativo = reader["EmailAlternativo"].ToString(),
+                                    LinkedIn = reader["LinkedIn"].ToString(),
+                                    Twitter = reader["Twitter"].ToString(),
+                                    Facebook = reader["Facebook"].ToString(),
+                                    Observaciones = reader["Observaciones"].ToString()
                                 };
+
                                 asistente.Decrypt();
                                 _Asistentes.Add(asistente);
                             }
                         }
+                        //Debug.StopWatch("-----ASISTENTES----");
+                        //Debug.StartWatch();
 
                         sqlCommand.CommandText = "SELECT * FROM citas";
                         using (reader = sqlCommand.ExecuteReader())
@@ -372,7 +396,12 @@ namespace Gama.Atenciones.Wpf
                                 var cita = new Cita()
                                 {
                                     Id = (int)reader["Id"],
+                                    Fecha = (DateTime)reader["Fecha"],
+                                    Hora = (int)reader["Hora"],
+                                    Minutos = (int)reader["Minutos"],
+                                    Sala = reader["Sala"].ToString(),
                                 };
+
                                 cita.Decrypt();
                                 _Citas.Add(cita);
 
@@ -383,6 +412,8 @@ namespace Gama.Atenciones.Wpf
                                 persona.AddCita(cita);
                             }
                         }
+                        //Debug.StopWatch("-----CITAS----");
+                        //Debug.StartWatch();
 
                         sqlCommand.CommandText = "SELECT * FROM atenciones";
                         using (reader = sqlCommand.ExecuteReader())
@@ -392,7 +423,20 @@ namespace Gama.Atenciones.Wpf
                                 var atencion = new Atencion()
                                 {
                                     Id = (int)reader["Id"],
+                                    Fecha = (DateTime)reader["Fecha"],
+                                    Seguimiento = (string)reader["Seguimiento"],
+                                    EsSocial = (bool)reader["EsSocial"],
+                                    EsJuridica = (bool)reader["EsJuridica"],
+                                    EsPsicologica = (bool)reader["EsPsicologica"],
+                                    EsDeAcogida = (bool)reader["EsDeAcogida"],
+                                    EsDeOrientacionLaboral = (bool)reader["EsDeOrientacionLaboral"],
+                                    EsDePrevencionParaLaSalud = (bool)reader["EsDePrevencionParaLaSalud"],
+                                    EsDeFormacion = (bool)reader["EsDeFormacion"],
+                                    EsDeParticipacion = (bool)reader["EsDeParticipacion"],
+                                    EsOtra = (bool)reader["EsOtra"],
+                                    Otra = (string)reader["Otra"],
                                 };
+
                                 atencion.Decrypt();
                                 _Atenciones.Add(atencion);
 
@@ -401,6 +445,8 @@ namespace Gama.Atenciones.Wpf
                                 atencion.Cita = cita;
                             }
                         }
+                        //Debug.StopWatch("-----ATENCIONES----");
+                        //Debug.StartWatch();
 
                         sqlCommand.CommandText = "SELECT * FROM derivaciones";
                         using (reader = sqlCommand.ExecuteReader())
@@ -410,14 +456,32 @@ namespace Gama.Atenciones.Wpf
                                 var derivacion = new Derivacion()
                                 {
                                     Id = (int)reader["Id"],
-                                };
-                                _Derivaciones.Add(derivacion);
+                                    EsSocial = (bool)reader["EsSocial"],
+                                    EsJuridica = (bool)reader["EsJuridica"],
+                                    EsPsicologica = (bool)reader["EsPsicologica"],
+                                    EsDeFormacion = (bool)reader["EsDeFormacion"],
+                                    EsDeOrientacionLaboral = (bool)reader["EsDeOrientacionLaboral"],
+                                    EsExterna = (bool)reader["EsExterna"],
+                                    Externa = (string)reader["Externa"],
 
+                                    EsSocial_Realizada = (bool)reader["EsSocial_Realizada"],
+                                    EsJuridica_Realizada = (bool)reader["EsJuridica_Realizada"],
+                                    EsPsicologica_Realizada = (bool)reader["EsPsicologica_Realizada"],
+                                    EsDeFormacion_Realizada = (bool)reader["EsDeFormacion_Realizada"],
+                                    EsDeOrientacionLaboral_Realizada = (bool)reader["EsDeOrientacionLaboral_Realizada"],
+                                    EsExterna_Realizada = (bool)reader["EsExterna_Realizada"],
+                                    Externa_Realizada = (string)reader["Externa_Realizada"],
+
+                                };
+
+                                _Derivaciones.Add(derivacion);
                                 var atencion = _Atenciones.Where(a => a.Id == (int)reader["Atencion_id"]).Single();
                                 derivacion.Atencion = atencion;
                                 atencion.Derivacion = derivacion;
                             }
                         }
+                        //Debug.StopWatch("-----DERIVACIONES----");
+                        //Debug.StartWatch();
 
                         mysqlConnection.Close();
                     }
@@ -434,15 +498,20 @@ namespace Gama.Atenciones.Wpf
             _AtencionRepository.Atenciones = _Atenciones;
             _AsistenteRepository.Asistentes = _Asistentes;
 
-            _PersonaRepository.Session = session;
-            _CitaRepository.Session = session;
-            _AtencionRepository.Session = session;
-            _AsistenteRepository.Session = session;
+            Debug.StopWatch("-----RAW SQL----");
 
-            Debug.StopWatch("RAW SQL");
-
+            //_PersonaRepository.Personas = null;
             Debug.StartWatch();
-            //_Personas = base.GetAll();
+            //_PersonaRepository.Session = session;
+            //var p2 = _PersonaRepository.Personas;
+            ////_CitaRepository.Citas = null;
+            //_CitaRepository.Session = session;
+            //var c2 = _CitaRepository.Citas;
+            ////_AsistenteRepository.Asistentes = null;
+            //_AsistenteRepository.Session = session;
+            //var a2 = _AsistenteRepository.Asistentes;
+
+            //_AtencionRepository.Session = session;
             Debug.StopWatch("NHIBERNATE SQL");
         }
 

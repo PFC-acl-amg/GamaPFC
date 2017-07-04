@@ -29,19 +29,6 @@ namespace Gama.Atenciones.Wpf.Wrappers
             }
         }
 
-        public string AsistenteEnTexto
-        {
-            get
-            {
-                return Model.Asistente != null ? Model.Asistente.Nombre : "";
-            }
-            set { SetValue(value); }
-        }
-
-        public string AsistenteEnTextoOriginalValue => GetOriginalValue<string>(nameof(AsistenteEnTexto));
-
-        public bool AsistenteEnTextoIsChanged => GetIsChanged(nameof(AsistenteEnTexto));
-
         public DateTime? Fin
         {
             get { return GetValue<DateTime?>(); }
@@ -136,14 +123,11 @@ namespace Gama.Atenciones.Wpf.Wrappers
         public void CopyValuesFrom(Cita cita)
         {
             Id = cita.Id;
-            AsistenteEnTexto = cita.AsistenteEnTexto;
-            Fin = cita.Fin;
             Fecha = new DateTime(cita.Fecha.Ticks);
             Sala = cita.Sala;
             Hora = cita.Hora;
             Minutos = cita.Minutos;
             Asistente = cita.Asistente;
-            //Model.CopyValuesFrom(cita);
         }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

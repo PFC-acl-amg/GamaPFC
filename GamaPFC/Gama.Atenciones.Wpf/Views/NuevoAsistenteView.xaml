@@ -17,7 +17,7 @@
   MaxWidth="550"
   BorderThickness="2"
   BorderBrush="{StaticResource AccentColorBrush}"
-  actions:DialogCloser.DialogResult="{Binding Cerrar}" >
+  actions:DialogCloser.DialogResult="{Binding Cerrar}" Height="650.184" >
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition />

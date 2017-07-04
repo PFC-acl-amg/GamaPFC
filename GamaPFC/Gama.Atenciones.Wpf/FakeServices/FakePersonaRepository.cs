@@ -38,7 +38,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
         {
             Personas = new List<Persona>();
             int createdAt = 0;
-            for (int i = 0; i < 40; i++)
+            for (int i = 0; i < 20; i++)
             {
                 var persona = new Persona()
                 {
@@ -62,8 +62,8 @@ namespace Gama.Atenciones.Wpf.FakeServices
                     Twitter = Faker.InternetFaker.Domain(),
                     ViaDeAccesoAGama = ViaDeAccesoAGama.Personal.ToString(),
                     CreatedAt = DateTime.Now.AddMonths(createdAt),
-                    //Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
-                    //     new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/persona_dummy.png")),
+                    Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
+                         new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/6.jpg")),
 
                 };
 

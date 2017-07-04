@@ -61,7 +61,6 @@ namespace Gama.Atenciones.Wpf.DesignTimeData
                         EsSocial_Realizada = opciones[random.Next(0, 8)],
                         Externa = "Externa",
                         Externa_Realizada = "Externa realizada",
-                        Tipo = "",
                     };
 
                     atencion.Derivacion = derivacion;

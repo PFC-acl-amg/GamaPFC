@@ -36,19 +36,16 @@ namespace Gama.Atenciones.Wpf.FakeServices
             Random random = new Random();
 
             int createdAt = 0;
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 30; i++)
             {
                 var cita = new Cita()
                 {
                     Id = i + 1,
-                    AsistenteEnTexto = Faker.NameFaker.Name(),
                     Atencion = null,
                     Fecha = i % 2 == 0 ? DateTime.Now.AddDays(i % 26) : DateTime.Now.AddDays(-(i % 26)),
-                    Fin = DateTime.Now.AddHours(2),
                     Hora = random.Next(0, 23),
                     Minutos = random.Next(0, 59),
                     Sala = "Sala B",
-                    HaTenidoLugar = true,
                     Persona = new Persona
                     {
                         Id = 0,

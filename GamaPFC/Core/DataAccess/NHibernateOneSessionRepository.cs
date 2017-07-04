@@ -209,18 +209,24 @@ namespace Core.DataAccess
 
         public void DeleteAll()
         {
-            var entities = Session.CreateCriteria<TEntity>().List<TEntity>().ToList();
-            using (var tx = Session.BeginTransaction())
+            try
             {
-                foreach (var entity in entities)
+                var entities = Session.CreateCriteria<TEntity>().List<TEntity>().ToList();
+                using (var tx = Session.BeginTransaction())
                 {
-                    Session.Delete(entity);
+                    foreach (var entity in entities)
+                    {
+                        Session.Delete(entity);
+                    }
+
+                    tx.Commit();
+                    Session.Clear();
                 }
-
-                tx.Commit();
-                Session.Clear();
             }
-
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

@@ -22,16 +22,6 @@ namespace Gama.Atenciones.Wpf.Wrappers
             set { SetValue(value); }
         }
 
-        public string Tipo
-        {
-            get { return GetValue<string>(); }
-            set { SetValue(value); }
-        }
-
-        public string TipoOriginalValue => GetOriginalValue<string>(nameof(Tipo));
-
-        public bool TipoIsChanged => GetIsChanged(nameof(Tipo));
-
         public bool EsSocial
         {
             get { return GetValue<bool>(); }
@@ -174,11 +164,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (Tipo == null)
-            {
-                yield return new ValidationResult("El campo de tipo es obligatorio",
-                    new[] { nameof(Tipo) });
-            }
+            return new ValidationResult[0];
         }
     }
 }

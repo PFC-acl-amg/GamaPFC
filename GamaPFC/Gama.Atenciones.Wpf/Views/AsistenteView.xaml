@@ -39,21 +39,19 @@
       <Setter Property="Margin" Value="{StaticResource Margin}"/>
     </Style>
   </UserControl.Resources>
-  <ScrollViewer>
-    <Grid 
+  <Grid 
       ScrollViewer.VerticalScrollBarVisibility="Hidden" 
       IsHitTestVisible="{Binding Asistente.IsInEditionMode}"
       Grid.IsSharedSizeScope="True">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" SharedSizeGroup="A"/>
-        <RowDefinition Height="Auto" SharedSizeGroup="B"/>
-        <RowDefinition Height="Auto" SharedSizeGroup="C"/>
-      </Grid.RowDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" SharedSizeGroup="A"/>
+      <RowDefinition Height="Auto" SharedSizeGroup="B"/>
+      <RowDefinition Height="Auto" SharedSizeGroup="C"/>
+    </Grid.RowDefinitions>
 
-      <asistenteViews:DatosPersonales Grid.Row="0"/>
-      <asistenteViews:DireccionPostal Grid.Row="1"/>
-      <asistenteViews:DatosDeContacto Grid.Row="2"/>
-    </Grid>
-  </ScrollViewer>
+    <asistenteViews:DatosPersonales Grid.Row="0"/>
+    <asistenteViews:DireccionPostal Grid.Row="1"/>
+    <asistenteViews:DatosDeContacto Grid.Row="2"/>
+  </Grid>
 </UserControl>
 

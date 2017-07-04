@@ -25,7 +25,7 @@ namespace Gama.Atenciones.Wpf.FakeServices
 
             int createdAt = 0;
             var random = new Random();
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 30; i++)
             {
                 var atencion = new Atencion()
                 {

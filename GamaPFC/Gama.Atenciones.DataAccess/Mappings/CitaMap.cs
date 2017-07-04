@@ -14,10 +14,7 @@ namespace Gama.Atenciones.DataAccess.Mappings
         {
             Table("Citas");
             Id(c => c.Id).GeneratedBy.Identity();
-
-            Map(c => c.AsistenteEnTexto).Not.Nullable().Default("");
-            Map(c => c.Fin);
-            Map(c => c.HaTenidoLugar).Not.Nullable().Default("0");
+            
             Map(c => c.Fecha);
             Map(c => c.Sala).Not.Nullable().Default("");
             Map(x => x.Hora).Not.Nullable().Default("0");

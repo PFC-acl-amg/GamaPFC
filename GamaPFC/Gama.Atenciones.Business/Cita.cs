@@ -10,9 +10,6 @@ namespace Gama.Atenciones.Business
 {
     public class Cita : TimestampedModel
     {
-        public virtual string AsistenteEnTexto { get; set; } = "";
-        public virtual DateTime? Fin { get; set; }
-        public virtual bool HaTenidoLugar { get; set; }
         public virtual int Id { get; set; }
         public virtual DateTime Fecha { get; set; }
         public virtual string Sala { get; set; } = "";
@@ -46,9 +43,6 @@ namespace Gama.Atenciones.Business
         public virtual void CopyValuesFrom(Cita cita)
         {
             Id = cita.Id;
-            AsistenteEnTexto = cita.AsistenteEnTexto;
-            Fin = cita.Fin;
-            HaTenidoLugar = cita.HaTenidoLugar;
             Fecha = new DateTime(cita.Fecha.Year, cita.Fecha.Month, cita.Fecha.Day,
                 cita.Fecha.Hour, cita.Fecha.Minute, cita.Fecha.Second);
             Sala = cita.Sala;

@@ -32,7 +32,6 @@ namespace Gama.Atenciones.Wpf.FakeServices
                 EsSocial_Realizada = opciones[random.Next(0, 8)],
                 Externa = "Externa",
                 Externa_Realizada = "Externa realizada",
-                Tipo = "",
             };
         }
     }

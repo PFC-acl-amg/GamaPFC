@@ -33,7 +33,7 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Map(p => p.TieneTrabajo);
             Map(p => p.Twitter).Not.Nullable().Default("").Length(128);
             Map(p => p.ViaDeAccesoAGama);
-            Map(p => p.Imagen);
+            Map(p => p.Imagen).CustomSqlType("blob");
 
             Map(p => p.CreatedAt);
             Map(p => p.UpdatedAt);

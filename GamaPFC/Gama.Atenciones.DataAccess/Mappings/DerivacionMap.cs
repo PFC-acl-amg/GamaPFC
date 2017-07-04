@@ -15,7 +15,6 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Table("Derivaciones");
             Id(x => x.Id).GeneratedBy.Identity();
 
-            Map(x => x.Tipo).Not.Nullable().Default("");
             Map(x => x.EsDeFormacion);
             Map(x => x.EsDeOrientacionLaboral);
             Map(x => x.EsJuridica);
