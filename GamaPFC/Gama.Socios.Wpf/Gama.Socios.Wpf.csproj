@@ -154,6 +154,10 @@
     <Compile Include="DesignTimeData\ListadoDeSociosViewModelDTD.cs" />
     <Compile Include="DesignTimeData\SocioViewModelDTD.cs" />
     <Compile Include="DesignTimeData\StatusBarViewModelDTD.cs" />
+    <Compile Include="Eventos\CuotaActualizadaEvent.cs" />
+    <Compile Include="Eventos\CuotaCreadaEvent.cs" />
+    <Compile Include="Eventos\PeriodoDeAltaActualizadoEvent.cs" />
+    <Compile Include="Eventos\PeriodoDeAltaCreadoEvent.cs" />
     <Compile Include="Eventos\SocioActualizadoEvent.cs" />
     <Compile Include="Eventos\SocioCreadoEvent.cs" />
     <Compile Include="Eventos\SocioDadoDeBajaEvent.cs" />
@@ -161,10 +165,14 @@
     <Compile Include="Eventos\SocioSeleccionadoChangedEvent.cs" />
     <Compile Include="Eventos\SocioSeleccionadoEvent.cs" />
     <Compile Include="FakeServices\FakeSocioRepository.cs" />
+    <Compile Include="Services\CuotaRepository.cs" />
     <Compile Include="Services\ExportService.cs" />
+    <Compile Include="Services\ICuotaRepository.cs" />
+    <Compile Include="Services\IPeriodoDeAltaRepository.cs" />
     <Compile Include="Services\ISocioRepository.cs" />
     <Compile Include="Services\IPreferenciasDeSocios.cs" />
     <Compile Include="Services\LookupItemSocio.cs" />
+    <Compile Include="Services\PeriodoDeAltaRepository.cs" />
     <Compile Include="Services\Preferencias.cs" />
     <Compile Include="Services\SocioRepository.cs" />
     <Compile Include="Services\PreferenciasDeSocios.cs" />

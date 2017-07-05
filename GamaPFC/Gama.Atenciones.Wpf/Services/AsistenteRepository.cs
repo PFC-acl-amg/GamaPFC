@@ -43,8 +43,6 @@ namespace Gama.Atenciones.Wpf.Services
 
         public override void UpdateClient()
         {
-            //_Asistentes = base.GetAll();
-
             AtencionesResources.TodosLosNifDeAsistentes.Clear();
             AtencionesResources.TodosLosNifDeAsistentes.AddRange(_Asistentes.Select(x => x.Nif));
         }
@@ -61,6 +59,9 @@ namespace Gama.Atenciones.Wpf.Services
 
         public override void Create(Asistente entity)
         {
+            if (entity.Imagen != null)
+                entity.ImagenUpdatedAt = DateTime.Now;
+
             entity.CreatedAt = DateTime.Now;
             base.Create(entity);
             _Asistentes.Add(entity);

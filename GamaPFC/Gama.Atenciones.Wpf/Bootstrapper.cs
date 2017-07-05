@@ -255,28 +255,6 @@ namespace Gama.Atenciones.Wpf
             #endregion
 
             DoThings();
-            //InitializeCollections();
-        }
-
-        private void InitializeCollections()
-        {
-            Debug.StartWatch();
-            var session = Container.Resolve<ISession>();
-            _PersonaRepository = Container.Resolve<IPersonaRepository>();
-            _CitaRepository = Container.Resolve<ICitaRepository>();
-            _AtencionRepository = Container.Resolve<IAtencionRepository>();
-            _AsistenteRepository = Container.Resolve<IAsistenteRepository>();
-            Gama.Common.Debug.Debug.StopWatch("Resolve ISession y repository");
-
-            Debug.StartWatch(); _PersonaRepository.Session = session; Debug.StopWatch("Personas Session");
-            Debug.StartWatch(); _CitaRepository.Session = session; Debug.StopWatch("Citas Session");
-            Debug.StartWatch(); _AtencionRepository.Session = session; Debug.StopWatch("Atenciones Session");
-            Debug.StartWatch(); _AsistenteRepository.Session = session; Debug.StopWatch("Asistentes Session");
-
-
-            Debug.StartWatch(); var personas = _PersonaRepository.Personas; Debug.StopWatch("Personas");
-            Debug.StartWatch(); _CitaRepository.Citas = _PersonaRepository.Personas.SelectMany(p => p.Citas).ToList(); Debug.StopWatch("Citas");
-            Debug.StartWatch(); _AtencionRepository.Atenciones = _CitaRepository.Citas.Select(c => c.Atencion).Where(a => a != null).ToList(); Debug.StopWatch("Atenciones");
         }
 
         public byte[] ImageToByteArray(System.Drawing.Image imageIn)
@@ -299,20 +277,6 @@ namespace Gama.Atenciones.Wpf
             DoRawThings();
 
             Debug.StopWatch("-----RAW SQL----");
-
-            //_PersonaRepository.Personas = null;
-            Debug.StartWatch();
-            //_PersonaRepository.Session = session;
-            //var p2 = _PersonaRepository.Personas;
-            ////_CitaRepository.Citas = null;
-            //_CitaRepository.Session = session;
-            //var c2 = _CitaRepository.Citas;
-            ////_AsistenteRepository.Asistentes = null;
-            //_AsistenteRepository.Session = session;
-            //var a2 = _AsistenteRepository.Asistentes;
-
-            //_AtencionRepository.Session = session;
-            Debug.StopWatch("NHIBERNATE SQL");
         }
 
         private void DoRawThings()

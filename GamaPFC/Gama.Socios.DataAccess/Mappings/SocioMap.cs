@@ -22,17 +22,19 @@ namespace Gama.Socios.DataAccess.Mappings
             Map(x => x.LinkedIn).Not.Nullable().Default("");
             Map(x => x.Nacionalidad).Not.Nullable().Default("");
             Map(x => x.Nif).Not.Nullable().Unique().Length(128);
-            Map(x => x.Nombre).Not.Nullable();
+            Map(x => x.Nombre).Length(60).Not.Nullable().Length(128);
             Map(x => x.Telefono).Not.Nullable().Default("");
             Map(x => x.Twitter).Not.Nullable().Default("");
             Map(x => x.EstaDadoDeAlta);
-            Map(x => x.Imagen);
+            Map(p => p.Imagen).CustomSqlType("mediumblob");
+            Map(p => p.ImagenUpdatedAt);
 
             Map(x => x.CreatedAt);
             Map(x => x.UpdatedAt);
 
             HasMany(x => x.PeriodosDeAlta)
-                .Cascade.All()
+                .Not.LazyLoad()
+                .Cascade.Delete()
                 .Inverse();
         }
     }

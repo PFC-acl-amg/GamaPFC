@@ -17,6 +17,8 @@ namespace Gama.Atenciones.Wpf.Services
     public class PersonaRepository : NHibernateOneSessionRepository<Persona, int>, IPersonaRepository
     {
         private List<Persona> _Personas;
+        private List<Atencion> _Atenciones;
+        private List<Cita> _Citas;
         private ICitaRepository _CitaRepository;
 
         public PersonaRepository(EventAggregator eventAggregator,
@@ -42,75 +44,7 @@ namespace Gama.Atenciones.Wpf.Services
             }
         }
 
-        private void DoThings()
-        {
-            Debug.StartWatch();
-            _Personas = new List<Persona>();
-            var _Citas = new List<Cita>();
-            var _Atenciones = new List<Atencion>();
-            using (MySqlConnection mysqlConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString))
-            {
-                using (MySqlCommand sqlCommand = new MySqlCommand())
-                {
-                    sqlCommand.Connection = mysqlConnection;
-                    mysqlConnection.Open();
-                    //UIServices.SetBusyState();
-
-                    sqlCommand.CommandText = "SELECT * FROM personas";
-
-                    using (MySqlDataReader reader = sqlCommand.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            var persona = new Persona()
-                            {
-                                Id = (int)reader["Id"],
-                                Nombre = reader["Nombre"].ToString(),
-                            };
-                            _Personas.Add(persona);
-                        }
-                    }
-
-                    sqlCommand.CommandText = "SELECT * FROM citas";
-                    using (MySqlDataReader reader = sqlCommand.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            var cita = new Cita()
-                            {
-                                Id = (int)reader["Id"],
-                            };
-
-                            var persona = _Personas.Where(p => p.Id == (int)reader["Persona_Id"]).Single();
-                            persona.AddCita(cita);
-                        }
-                    }
-
-                    sqlCommand.CommandText = "SELECT * FROM atenciones";
-                    using (MySqlDataReader reader = sqlCommand.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            var atencion = new Atencion()
-                            {
-                                Id = (int)reader["Id"],
-                            };
-
-                            //var persona = _Personas.Where(p => p.Id == (int)reader["Persona_Id"]).Single();
-                            //persona.AddCita(cita);
-                        }
-                    }
-
-                    mysqlConnection.Close();
-                }
-            }
-
-            Debug.StopWatch("RAW SQL");
-
-            Debug.StartWatch();
-            _Personas = base.GetAll();
-            Debug.StopWatch("NHIBERNATE SQL");
-        }
+        public static List<string> Nifs { get; set; }
 
         // Se llama al establecerse la propiedad 'Session'
         public override void Initialize()
@@ -127,12 +61,9 @@ namespace Gama.Atenciones.Wpf.Services
 
         public override void UpdateClient()
         {
-            //_Personas = base.GetAll();
             Nifs.Clear();
             Nifs.AddRange(_Personas.Select(p => p.Nif));
         }
-
-        public static List<string> Nifs { get; set; }
 
         public override Persona GetById(int id)
         {

@@ -153,7 +153,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
         }
         public byte[] ImagenOriginalValue => GetOriginalValue<byte[]>(nameof(Imagen));
 
-        public bool ImagenIsChanded => GetIsChanged(nameof(Imagen));
+        public bool ImagenIsChanged => GetIsChanged(nameof(Imagen));
 
         public DateTime? ImagenUpdatedAt
         {

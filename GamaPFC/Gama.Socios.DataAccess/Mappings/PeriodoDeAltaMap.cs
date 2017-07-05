@@ -18,10 +18,13 @@ namespace Gama.Socios.DataAccess.Mappings
             Map(x => x.FechaDeBaja).CustomSqlType("DATE").Nullable();
 
             HasMany(x => x.Cuotas)
-                .Cascade.All()
+                .Not.LazyLoad()
+                .Cascade.Delete()
                 .Inverse();
 
-            References(x => x.Socio);
+            References(x => x.Socio)
+                .Cascade.None()
+                .Not.LazyLoad();
         }
     }
 }
