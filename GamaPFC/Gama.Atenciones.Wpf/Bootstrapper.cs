@@ -393,7 +393,8 @@ namespace Gama.Atenciones.Wpf
 
                         sqlCommand.CommandText = "SELECT Id, Nombre, Nif, Apellidos, FechaDeNacimiento, ComoConocioAGama, NivelAcademico, " +
                             "Ocupacion, Provincia, Municipio, Localidad, CodigoPostal, Calle, Numero, Portal, Piso, Puerta, " +
-                            "TelefonoFijo, TelefonoMovil, TelefonoAlternativo, Email, EmailAlternativo, Linkedin, Twitter, Facebook, Observaciones, ImagenUpdatedAt " +
+                            "TelefonoFijo, TelefonoMovil, TelefonoAlternativo, Email, EmailAlternativo, Linkedin, Twitter, Facebook, Observaciones, ImagenUpdatedAt, " +
+                            "CreatedAt, UpdatedAt " +
                             "FROM asistentes";
                         using (reader = sqlCommand.ExecuteReader())
                         {
@@ -434,7 +435,6 @@ namespace Gama.Atenciones.Wpf
                                     ImagenUpdatedAt = reader["ImagenUpdatedAt"] as DateTime?,
                                     CreatedAt = (DateTime)reader["CreatedAt"],
                                     UpdatedAt = reader["UpdatedAt"] as DateTime?,
-
                                 };
 
                                 asistente.Decrypt();
