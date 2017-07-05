@@ -2,6 +2,7 @@
 using Gama.Cooperacion.Business;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -163,7 +164,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
 
         public ActividadWrapper Actividad { get; set; }
         //public CooperanteWrapper Responsable { get;  set; } // Estaba puesto private set pero no me dejaba hacer la asignacion
-                                                            // TareasDisponibles[indice].Responsable = ResponsableTarea.Model;
-                                                            // para el nuevo evento OnTareaModificadaEvent
+        // TareasDisponibles[indice].Responsable = ResponsableTarea.Model;
+        // para el nuevo evento OnTareaModificadaEvent
     }
 }

@@ -214,6 +214,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private bool OnAceptarCommand_CanExecute()
         {
             //return TituloForo != null && TituloForoMensaje != null;
+            //var resultado = Actividad.IsChanged && Actividad.IsValid;
+            //return resultado;
             return true;
         }
         private void OnCancelarCommand_Execute()
