@@ -1,8 +1,10 @@
 ﻿using Core.DataAccess;
 using Core.Util;
 using Gama.Common.CustomControls;
+using Gama.Common.Debug;
 using Gama.Socios.Business;
 using Gama.Socios.Wpf.Eventos;
+using MySql.Data.MySqlClient;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -15,6 +17,8 @@ namespace Gama.Socios.Wpf.Services
     public class SocioRepository : NHibernateOneSessionRepository<Socio, int>, ISocioRepository
     {
         private List<Socio> _Socios;
+        private List<PeriodoDeAlta> _PeriodosDeAlta;
+        private List<Cuota> _Cuotas;
 
         public SocioRepository(EventAggregator eventAggregator) : base(eventAggregator) { }
 
@@ -27,6 +31,7 @@ namespace Gama.Socios.Wpf.Services
 
                 return _Socios;
             }
+            set { _Socios = value; }
         }
 
         public static List<string> Nifs { get; set; }
@@ -46,7 +51,6 @@ namespace Gama.Socios.Wpf.Services
 
         public override void UpdateClient()
         {
-            _Socios = base.GetAll();
             Nifs.Clear();
             Nifs.AddRange(_Socios.Select(p => p.Nif));
         }
@@ -76,6 +80,9 @@ namespace Gama.Socios.Wpf.Services
 
         public override void Create(Socio entity)
         {
+            if (entity.Imagen != null)
+                entity.ImagenUpdatedAt = DateTime.Now;
+
             entity.EstaDadoDeAlta = true;
             base.Create(entity);
             Socios.Add(entity);
@@ -172,33 +179,6 @@ namespace Gama.Socios.Wpf.Services
                         .List<object>()
                         .Select(r => int.Parse(r.ToString()))
                         .ToList();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            return resultado;
-        }
-
-        public List<string> GetNifs()
-        {
-            List<string> temp;
-            List<string> resultado = new List<string>();
-
-            try
-            {
-                temp = Session.QueryOver<Socio>()
-                    .Select(x => x.Nif)
-                    .List<string>()
-                    .ToList();
-
-                foreach(var nif in temp)
-                {
-                    resultado.Add(EncryptionService.Decrypt(nif));
-                }
-
-                Session.Clear();
             }
             catch (Exception ex)
             {

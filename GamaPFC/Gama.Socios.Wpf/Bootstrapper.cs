@@ -14,11 +14,18 @@ using Gama.Socios.DataAccess;
 using NHibernate;
 using Gama.Socios.Wpf.FakeServices;
 using Gama.Socios.Business;
+using System.Collections.Generic;
 
 namespace Gama.Socios.Wpf
 {
     public class Bootstrapper : UnityBootstrapperBase
     {
+        private List<Socio> _Socios = new List<Socio>();
+        private List<PeriodoDeAlta> _PeriodoDeAlta = new List<PeriodoDeAlta>();
+        private List<Cuota> _Cuotas = new List<Cuota>();
+        private ISocioRepository _SocioRepository;
+        private IPeriodoDeAltaRepository _PeriodoDeAltaRepository;
+
         public Bootstrapper(string title = "GESTIÓN DE SOCIOS") : base(title)
         {
             _CLEAR_DATABASE = false;

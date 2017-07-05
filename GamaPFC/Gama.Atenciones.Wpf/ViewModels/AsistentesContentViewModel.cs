@@ -159,6 +159,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnActualizarCommand()
         {
             _AsistenteViewModel.Asistente.UpdatedAt = DateTime.Now;
+            if (_AsistenteViewModel.Asistente.ImagenIsChanged)
+                _AsistenteViewModel.Asistente.ImagenUpdatedAt = DateTime.Now;
             _AsistenteRepository.Update(_AsistenteViewModel.Asistente.Model);
             _AsistenteViewModel.Asistente.AcceptChanges();
             _AsistenteViewModel.Asistente.IsInEditionMode = false;

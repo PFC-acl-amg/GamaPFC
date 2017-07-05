@@ -21,7 +21,9 @@ namespace Gama.Socios.DataAccess.Mappings
             Map(x => x.NoContabilizar);
             Map(x => x.Comentarios).Not.Nullable().Default("");
 
-            References(x => x.PeriodoDeAlta);
+            References(x => x.PeriodoDeAlta)
+                .Cascade.None()
+                .Not.LazyLoad();
         }
     }
 }
