@@ -112,6 +112,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnActualizarCommand()
         {
             UIServices.SetBusyState();
+            if (_PersonaVM.Persona.ImagenIsChanged)
+                _PersonaVM.Persona.ImagenUpdatedAt = DateTime.Now;
+
             _PersonaRepository.Update(_PersonaVM.Persona.Model);
             _PersonaVM.Persona.AcceptChanges();
             _PersonaVM.Persona.IsInEditionMode = false;
@@ -172,7 +175,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             try
             {
-                if (_PersonaVM.Persona.Nombre == null)
+                if (string.IsNullOrEmpty(_PersonaVM.Persona.Nombre))
                 {
                     var model =
                         (Persona)

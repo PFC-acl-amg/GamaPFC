@@ -135,7 +135,17 @@ namespace Gama.Atenciones.Wpf.Wrappers
         }
         public byte[] ImagenOriginalValue => GetOriginalValue<byte[]>(nameof(Imagen));
 
-        public bool ImagenIsChanded => GetIsChanged(nameof(Imagen));
+        public bool ImagenIsChanged => GetIsChanged(nameof(Imagen));
+
+        public DateTime? ImagenUpdatedAt
+        {
+            get { return GetValue<DateTime?>(); }
+            set { SetValue(value); }
+        }
+
+        public DateTime? ImagenUpdatedAtOriginalValue => GetOriginalValue<DateTime?>(nameof(ImagenUpdatedAt));
+
+        public bool ImagenUpdatedAtIsChanged => GetIsChanged(nameof(ImagenUpdatedAt));
 
         public string LinkedIn
         {
@@ -145,7 +155,7 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public string LinkedInOriginalValue => GetOriginalValue<string>(nameof(LinkedIn));
 
-        public bool LinkedInIsChanded => GetIsChanged(nameof(LinkedIn));
+        public bool LinkedInIsChanged => GetIsChanged(nameof(LinkedIn));
 
         public string Nacionalidad
         {

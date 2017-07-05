@@ -36,6 +36,7 @@ namespace Gama.Atenciones.Wpf
         private IPersonaRepository _PersonaRepository;
         private ICitaRepository _CitaRepository;
         private IAtencionRepository _AtencionRepository;
+        private ISession _Session;
 
         public Bootstrapper(string title = "SERVICIO DE ATENCIONES") : base(title)
         {
@@ -66,6 +67,15 @@ namespace Gama.Atenciones.Wpf
 
         protected override void InitializeDirectories()
         {
+            if (!Directory.Exists(ResourceNames.AppDataFolder))
+                Directory.CreateDirectory(ResourceNames.AppDataFolder);
+
+            if (!Directory.Exists(ResourceNames.PersonasFolder))
+                Directory.CreateDirectory(ResourceNames.PersonasFolder);
+
+            if (!Directory.Exists(ResourceNames.AsistentesFolder))
+                Directory.CreateDirectory(ResourceNames.AsistentesFolder);
+
             if (!Directory.Exists(ResourceNames.IconsAndImagesFolder))
                 Directory.CreateDirectory(ResourceNames.IconsAndImagesFolder);
 
@@ -157,10 +167,18 @@ namespace Gama.Atenciones.Wpf
 
         protected override void GenerateDatabaseConfiguration()
         {
+            var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
+            var session = sessionFactory.OpenSession();
+            
+            /// INICIALIZACIÓN 
+            /// En este caso sí necesitamos crear el servicio tal cual porque accedemos a una función espsecífica
+            var asisRep = Container.Resolve<IAsistenteRepository>();
+            asisRep.Session = session;
+            AtencionesResources.TodosLosNifDeAsistentes = asisRep.GetNifs();
+
             #region Seeding
             if (_CLEAR_DATABASE || _SEED_DATABASE)
             {
-                var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
 
                 // NOTA: No utilizamos los servicios directamente porque añaden código que afecta al resto de la aplicación
                 //, a través del EventAggregator por ejemplo. Sólo requerimos la funcionalidad de base de datos.
@@ -170,31 +188,17 @@ namespace Gama.Atenciones.Wpf
                 var atencionRepository = new NHibernateOneSessionRepository<Atencion, int>();// Container.Resolve<IAtencionRepository>();
                 var derivacionRepository = new NHibernateOneSessionRepository<Derivacion, int>();
 
-                var session = sessionFactory.OpenSession();
-
                 personaRepository.Session = session;
                 citaRepository.Session = session;
                 asistenteRepository.Session = session;
                 atencionRepository.Session = session;
                 derivacionRepository.Session = session;
 
-                /// INICIALIZACIÓN 
-                /// En este caso sí necesitamos crear el servicio tal cual porque accedemos a una función espsecífica
-                var asisRep = Container.Resolve<IAsistenteRepository>();
-                asisRep.Session = session;
-                AtencionesResources.TodosLosNifDeAsistentes = asisRep.GetNifs();
-
-                if (_CLEAR_DATABASE)
-                {
-                    derivacionRepository.DeleteAll();
-                    atencionRepository.DeleteAll();
-                    citaRepository.DeleteAll();
-                    asistenteRepository.DeleteAll();
-                    personaRepository.DeleteAll();
-                }
-
                 try
                 {
+                    if (_CLEAR_DATABASE)
+                        personaRepository.DeleteAll();
+                        
                     if (_SEED_DATABASE)
                     {
                         var personas = new FakePersonaRepository().GetAll(); //personaRepository.GetAll();
@@ -286,13 +290,35 @@ namespace Gama.Atenciones.Wpf
 
         private void DoThings()
         {
-            var session = Container.Resolve<ISession>();
+            _Session = Container.Resolve<ISession>();
             _PersonaRepository = Container.Resolve<IPersonaRepository>();
             _CitaRepository = Container.Resolve<ICitaRepository>();
             _AtencionRepository = Container.Resolve<IAtencionRepository>();
             _AsistenteRepository = Container.Resolve<IAsistenteRepository>();
 
-            Persona persona; MySqlDataReader reader;
+            DoRawThings();
+
+            Debug.StopWatch("-----RAW SQL----");
+
+            //_PersonaRepository.Personas = null;
+            Debug.StartWatch();
+            //_PersonaRepository.Session = session;
+            //var p2 = _PersonaRepository.Personas;
+            ////_CitaRepository.Citas = null;
+            //_CitaRepository.Session = session;
+            //var c2 = _CitaRepository.Citas;
+            ////_AsistenteRepository.Asistentes = null;
+            //_AsistenteRepository.Session = session;
+            //var a2 = _AsistenteRepository.Asistentes;
+
+            //_AtencionRepository.Session = session;
+            Debug.StopWatch("NHIBERNATE SQL");
+        }
+
+        private void DoRawThings()
+        {
+            Persona persona;
+            MySqlDataReader reader;
             try
             {
                 using (MySqlConnection mysqlConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString))
@@ -305,8 +331,8 @@ namespace Gama.Atenciones.Wpf
 
                         sqlCommand.CommandText = "SELECT Id, Nombre, Nif, ComoConocioAGama, DireccionPostal, " +
                             "Email, EstadoCivil, FechaDeNacimiento, Facebook, IdentidadSexual, Linkedin, Nacionalidad, " +
-                            "NivelAcademico, Ocupacion, OrientacionSexual, Telefono, Twitter, ViaDeAccesoAGama, CreatedAt, UpdatedAt " +
-                            "FROM personas";
+                            "NivelAcademico, Ocupacion, OrientacionSexual, Telefono, Twitter, ViaDeAccesoAGama, CreatedAt, UpdatedAt, ImagenUpdatedAt " +
+                            "FROM personas ORDER BY Nombre ASC";
 
                         Debug.StartWatch();
                         using (reader = sqlCommand.ExecuteReader())
@@ -337,6 +363,7 @@ namespace Gama.Atenciones.Wpf
                                     ViaDeAccesoAGama = reader["ViaDeAccesoAGama"].ToString(),
                                     CreatedAt = (DateTime)reader["CreatedAt"],
                                     UpdatedAt = reader["UpdatedAt"] as DateTime?,
+                                    ImagenUpdatedAt = reader["ImagenUpdatedAt"] as DateTime?,
                                 };
 
                                 persona.Decrypt();
@@ -346,8 +373,8 @@ namespace Gama.Atenciones.Wpf
 
                         foreach (var personaSinImagen in _Personas)
                         {
-                            string path = ResourceNames.GetImagePath(personaSinImagen.Id);
-                            if (!File.Exists(ResourceNames.GetImagePath(personaSinImagen.Id)))
+                            string path = ResourceNames.GetPersonaImagePath(personaSinImagen.Id);
+                            if (!File.Exists(path) && personaSinImagen.ImagenUpdatedAt != null)
                             {
                                 sqlCommand.CommandText = $"SELECT Imagen FROM personas WHERE Id = {personaSinImagen.Id}";
                                 using (reader = sqlCommand.ExecuteReader())
@@ -357,23 +384,42 @@ namespace Gama.Atenciones.Wpf
                                         personaSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
                                         using (Image image = Image.FromStream(new MemoryStream(personaSinImagen.Imagen)))
                                         {
-                                            image.Save(path, ImageFormat.Jpeg);  // Or Png
+                                            image.Save(path, ImageFormat.Png);  // Or Png
                                         }
                                     }
                                 }
                             }
                             else
                             {
-                                personaSinImagen.Imagen = ImageToByteArray(new Bitmap(ResourceNames.GetImagePath(personaSinImagen.Id)));
+                                // Si se ha actualizado la imagen de la persona
+                                DateTime lastWriteTime = File.GetLastWriteTime(path);
+                                DateTime updatedTime = (personaSinImagen.ImagenUpdatedAt ?? DateTime.Now.AddYears(-100));
+                                if (DateTime.Compare(lastWriteTime, updatedTime) < 0)
+                                {
+                                    sqlCommand.CommandText = $"SELECT Imagen FROM personas WHERE Id = {personaSinImagen.Id}";
+                                    using (reader = sqlCommand.ExecuteReader())
+                                    {
+                                        if (reader.Read())
+                                        {
+                                            personaSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
+                                            using (Image image = Image.FromStream(new MemoryStream(personaSinImagen.Imagen)))
+                                            {
+                                                image.Save(path, ImageFormat.Png);  // Or Png
+                                            }
+                                        }
+                                    }
+                                }
+
+                                personaSinImagen.Imagen = ImageToByteArray(new Bitmap(ResourceNames.GetPersonaImagePath(personaSinImagen.Id)));
                             }
                         }
 
                         //Debug.StopWatch("-----PERSONAS----");
                         //Debug.StartWatch();
 
-                        sqlCommand.CommandText = "SELECT Id, Nombre, Nif, Apellidos, FechaDeNacimiento, ComoConocioAGama, NivelAcademico, " + 
+                        sqlCommand.CommandText = "SELECT Id, Nombre, Nif, Apellidos, FechaDeNacimiento, ComoConocioAGama, NivelAcademico, " +
                             "Ocupacion, Provincia, Municipio, Localidad, CodigoPostal, Calle, Numero, Portal, Piso, Puerta, " +
-                            "TelefonoFijo, TelefonoMovil, TelefonoAlternativo, Email, EmailAlternativo, Linkedin, Twitter, Facebook, Observaciones " +
+                            "TelefonoFijo, TelefonoMovil, TelefonoAlternativo, Email, EmailAlternativo, Linkedin, Twitter, Facebook, Observaciones, ImagenUpdatedAt " +
                             "FROM asistentes";
                         using (reader = sqlCommand.ExecuteReader())
                         {
@@ -410,11 +456,55 @@ namespace Gama.Atenciones.Wpf
                                     LinkedIn = reader["LinkedIn"].ToString(),
                                     Twitter = reader["Twitter"].ToString(),
                                     Facebook = reader["Facebook"].ToString(),
-                                    Observaciones = reader["Observaciones"].ToString()
+                                    Observaciones = reader["Observaciones"].ToString(),
+                                    ImagenUpdatedAt = reader["ImagenUpdatedAt"] as DateTime?,
                                 };
 
                                 asistente.Decrypt();
                                 _Asistentes.Add(asistente);
+                            }
+                        }
+
+                        foreach (var asistenteSinImagen in _Asistentes)
+                        {
+                            string path = ResourceNames.GetAsistenteImagePath(asistenteSinImagen.Id);
+                            if (!File.Exists(path) && asistenteSinImagen.ImagenUpdatedAt != null)
+                            {
+                                sqlCommand.CommandText = $"SELECT Imagen FROM asistentes WHERE Id = {asistenteSinImagen.Id}";
+                                using (reader = sqlCommand.ExecuteReader())
+                                {
+                                    if (reader.Read())
+                                    {
+                                        asistenteSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
+                                        using (Image image = Image.FromStream(new MemoryStream(asistenteSinImagen.Imagen)))
+                                        {
+                                            image.Save(path, ImageFormat.Png);  // Or Png
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                // Si se ha actualizado la imagen de la persona
+                                DateTime lastWriteTime = File.GetLastWriteTime(path);
+                                DateTime updatedTime = (asistenteSinImagen.ImagenUpdatedAt ?? DateTime.Now.AddYears(-100));
+                                if (DateTime.Compare(lastWriteTime, updatedTime) < 0)
+                                {
+                                    sqlCommand.CommandText = $"SELECT Imagen FROM personas WHERE Id = {asistenteSinImagen.Id}";
+                                    using (reader = sqlCommand.ExecuteReader())
+                                    {
+                                        if (reader.Read())
+                                        {
+                                            asistenteSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
+                                            using (Image image = Image.FromStream(new MemoryStream(asistenteSinImagen.Imagen)))
+                                            {
+                                                image.Save(path, ImageFormat.Png);  // Or Png
+                                            }
+                                        }
+                                    }
+                                }
+
+                                asistenteSinImagen.Imagen = ImageToByteArray(new Bitmap(ResourceNames.GetAsistenteImagePath(asistenteSinImagen.Id)));
                             }
                         }
                         //Debug.StopWatch("-----ASISTENTES----");
@@ -529,22 +619,6 @@ namespace Gama.Atenciones.Wpf
             _CitaRepository.Citas = _Citas;
             _AtencionRepository.Atenciones = _Atenciones;
             _AsistenteRepository.Asistentes = _Asistentes;
-
-            Debug.StopWatch("-----RAW SQL----");
-
-            //_PersonaRepository.Personas = null;
-            Debug.StartWatch();
-            //_PersonaRepository.Session = session;
-            //var p2 = _PersonaRepository.Personas;
-            ////_CitaRepository.Citas = null;
-            //_CitaRepository.Session = session;
-            //var c2 = _CitaRepository.Citas;
-            ////_AsistenteRepository.Asistentes = null;
-            //_AsistenteRepository.Session = session;
-            //var a2 = _AsistenteRepository.Asistentes;
-
-            //_AtencionRepository.Session = session;
-            Debug.StopWatch("NHIBERNATE SQL");
         }
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)

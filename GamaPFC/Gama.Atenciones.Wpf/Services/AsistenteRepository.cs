@@ -38,12 +38,12 @@ namespace Gama.Atenciones.Wpf.Services
         private void RaiseActualizarServidor()
         {
             if (AtencionesResources.ClientService != null && AtencionesResources.ClientService.IsConnected())
-                AtencionesResources.ClientService.EnviarMensaje($"Cliente {AtencionesResources.ClientId} ha hecho un broadcast @@{Guid.NewGuid()}%%");
+                AtencionesResources.ClientService.EnviarMensaje($"Cliente {AtencionesResources.ClientId} ha hecho un broadcast @@{Guid.NewGuid()}%%ATENCIONES");
         }
 
         public override void UpdateClient()
         {
-            _Asistentes = base.GetAll();
+            //_Asistentes = base.GetAll();
 
             AtencionesResources.TodosLosNifDeAsistentes.Clear();
             AtencionesResources.TodosLosNifDeAsistentes.AddRange(_Asistentes.Select(x => x.Nif));

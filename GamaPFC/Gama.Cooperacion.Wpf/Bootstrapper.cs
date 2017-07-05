@@ -53,6 +53,9 @@ namespace Gama.Cooperacion.Wpf
 
         protected override void InitializeDirectories()
         {
+            if (!Directory.Exists(ResourceNames.AppDataFolder))
+                Directory.CreateDirectory(ResourceNames.AppDataFolder);
+
             if (!Directory.Exists(ResourceNames.IconsAndImagesFolder))
                 Directory.CreateDirectory(ResourceNames.IconsAndImagesFolder);
 

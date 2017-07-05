@@ -9,6 +9,7 @@ namespace Gama.Common.Debug
     public static class Debug
     {
         public static bool DEBUG = true;
+
         private static System.Diagnostics.Stopwatch _Stopwatch;
 
         public static void StartWatch()

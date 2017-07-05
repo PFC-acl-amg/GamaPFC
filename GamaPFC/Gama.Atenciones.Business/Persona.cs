@@ -25,13 +25,14 @@ namespace Gama.Atenciones.Business
         public virtual string LinkedIn { get; set; } = "";
         public virtual string Nacionalidad { get; set; } = "";
         public virtual string NivelAcademico { get; set; }
-        public virtual string Nombre { get; set; }
+        public virtual string Nombre { get; set; } = "";
         public virtual string Ocupacion { get; set; } = "";
         public virtual string OrientacionSexual { get; set; }
         public virtual string Telefono { get; set; } = "";
         public virtual bool TieneTrabajo { get; set; }
         public virtual string Twitter { get; set; } = "";
         public virtual byte[] Imagen { get; set; }
+        public virtual DateTime? ImagenUpdatedAt {get; set;}
         public virtual string ViaDeAccesoAGama { get; set; }
         public virtual IList<Cita> Citas { get; set; }
 

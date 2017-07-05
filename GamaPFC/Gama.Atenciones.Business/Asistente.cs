@@ -16,6 +16,7 @@ namespace Gama.Atenciones.Business
         public virtual string Apellidos { get; set; } = "";
         public virtual DateTime? FechaDeNacimiento { get; set; }
         public virtual byte[] Imagen { get; set; }
+        public virtual DateTime? ImagenUpdatedAt { get; set; }
 
         public virtual string ComoConocioAGama { get; set; }
         public virtual string NivelAcademico { get; set; }
