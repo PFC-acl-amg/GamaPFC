@@ -12,11 +12,16 @@
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
              prism:ViewModelLocator.AutoWireViewModel="False"
              mc:Ignorable="d" 
-             d:DesignHeight="414.411" d:DesignWidth="751.603">
+             d:DesignHeight="414.411" d:DesignWidth="751.603"
+             x:Name="_Root">
   <d:DataContext>
     <designData:DashboardViewModelDTD/>
   </d:DataContext>
   <UserControl.Resources>
+        <RadialGradientBrush x:Key="_RadialGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9">
+            <GradientStop Color="#ffffffff" Offset="0.5" />
+            <GradientStop Color="#00ffffff" Offset="0.8" />
+        </RadialGradientBrush>
         <util:BinaryImageConverter x:Key="_BinaryImageConverter" />
         <Style x:Key="DGCHeaderStyle" TargetType="DataGridColumnHeader">
             <Setter Property="Height" Value="28"/>
@@ -102,7 +107,7 @@
                       IconWidth="13"
                       IconHeight="13"
                       Margin="{StaticResource Margin}"
-                      Command="{Binding ElementName=_Root, Path=DataContext.SelectActividadCommand}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.SeleccionarSocioCommand}"
                       CommandParameter="{Binding}">
                 <Button.Style>
                     <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
@@ -181,7 +186,7 @@
                   Margin="0,-2,6,2"
                   CanUserResizeColumns="False"
                   Style="{StaticResource DGHeaderStyle}"
-                  ItemsSource="{Binding ListaParcialSocios}">
+                  ItemsSource="{Binding ListaCompletaSocios}">
                 <DataGrid.Resources>
                     <DataTemplate x:Key="_HeaderTemplate" >
                         <TextBlock Text="{Binding}" Margin="{StaticResource Margin}"/>
@@ -242,7 +247,7 @@
                                     Width="400"
                                     VerticalAlignment="Center"
                                     FontSize="14"
-                                    Text="{Binding Nombre, UpdateSourceTrigger=PropertyChanged}"
+                                    Text="{Binding DisplayMember1, UpdateSourceTrigger=PropertyChanged}"
                                     Padding="{StaticResource Margin}"
                                     Margin="{StaticResource Margin}"/>
                             </DataTemplate>
@@ -255,13 +260,13 @@
                                     Width="100"
                                     VerticalAlignment="Center"
                                     FontSize="14"
-                                    Text="{Binding Nif, UpdateSourceTrigger=PropertyChanged}"
+                                    Text="{Binding DisplayMember2, UpdateSourceTrigger=PropertyChanged}"
                                     Padding="{StaticResource Margin}"
                                     Margin="{StaticResource Margin}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Telefono" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                    <!--<DataGridTemplateColumn Header="Telefono" HeaderTemplate="{StaticResource _HeaderTemplate}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock HorizontalAlignment="Left"
@@ -273,7 +278,7 @@
                                     Margin="{StaticResource Margin}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    </DataGridTemplateColumn>-->
 
                     <DataGridTemplateColumn Header="Editar"
                                     HeaderTemplate="{StaticResource _HeaderTemplate}" 
@@ -300,14 +305,87 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </StackPanel>
-        <Grid Grid.Column="4" Width="300" Background="#D9D9D7">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                
-            </Grid.RowDefinitions>
+        <!--<GroupBox Grid.Column="4" Header="Detalles Contables" Width="200" Background="Black">
 
-        </Grid>
+        </GroupBox>-->
+        <GroupBox Grid.Column="4" Name="RetrasosImpagos" Margin="{StaticResource Margin}">
+            <GroupBox.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" HorizontalAlignment="Center" Content="Detalles Contables" Foreground="White" Padding="0"></Label>
+
+                </Grid>
+            </GroupBox.Header>
+            <Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ListBox x:Name="Eventosss"
+                                    ItemsSource="{Binding SociosMorosos}" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border  BorderBrush="Black"
+                                            BorderThickness="1" 
+                                            CornerRadius="3"
+                                            Margin="{StaticResource MarginHalfNoHorizontal}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="65" />
+                                            <ColumnDefinition Width="Auto" MinWidth="200"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Border BorderThickness="1" CornerRadius="50,50,50,50" BorderBrush="LightGray" Background="#4C797B7D"
+                                                  Margin="{StaticResource Margin}">
+                                            <Ellipse Height="55" Width="55" OpacityMask="{StaticResource _RadialGradientBrush}">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                        </Border>
+
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock FontSize="13" Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                                            <TextBlock FontSize="13" Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
+                                            <cc:CircleIconButton
+                                                Icon="{StaticResource appbar_arrow_right}"
+                                                Width="49"
+                                                Height="49"
+                                                IconWidth="17"
+                                                IconHeight="17"
+                                                Margin="{StaticResource Margin}"
+                                                Command="{Binding RelativeSource =
+                                                {RelativeSource FindAncestor,
+                                                 AncestorType={x:Type GroupBox}},
+                                                      Path=DataContext.SelectPersonaCommand}"
+                                                      CommandParameter="{Binding}">
+                                                <Button.Style>
+                                                    <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                                                        <Setter Property="Opacity" Value="0.5"/>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Opacity" Value="1"/>
+                                                                <Setter Property="Cursor" Value="Hand"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </cc:CircleIconButton>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </ScrollViewer>
+            </Grid>
+        </GroupBox>
     </Grid>
 
 

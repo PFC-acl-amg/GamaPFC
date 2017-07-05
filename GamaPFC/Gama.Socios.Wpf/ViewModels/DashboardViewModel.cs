@@ -36,8 +36,18 @@ namespace Gama.Socios.Wpf.ViewModels
             _SocioRepository.Session = session;
             _EventAggregator = eventAggregator;
             _Settings = settings;
+            _Socios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
+            ListaCompletaSocios = new ObservableCollection<LookupItem>(
+                    _Socios
+                    .OrderBy(x => x.Id)
+                    .Select(a => new LookupItem
+                    {
+                        Id = a.Id,
+                        DisplayMember1 = a.Nombre,
+                        DisplayMember2 = a.Nif,
+                        Imagen = a.Imagen
+                    }));
 
-            ListaCompletaSocios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
             ListaParcialSocios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
             _Socios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
 
@@ -155,7 +165,7 @@ namespace Gama.Socios.Wpf.ViewModels
         }
 
         public ObservableCollection<LookupItem> UltimosSocios { get; private set; }
-        public ObservableCollection<Socio> ListaCompletaSocios { get; private set; }
+        public ObservableCollection<LookupItem> ListaCompletaSocios { get; private set; }
         public ObservableCollection<Socio> ListaParcialSocios { get; private set; }
         public ObservableCollection<LookupItem> SociosCumpliendoBirthdays { get; private set; }
         public ObservableCollection<LookupItem> SociosMorosos { get; private set; }
