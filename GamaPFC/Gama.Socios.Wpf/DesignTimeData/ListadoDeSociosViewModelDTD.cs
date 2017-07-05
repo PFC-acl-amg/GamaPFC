@@ -22,7 +22,6 @@ namespace Gama.Socios.Wpf.DesignTimeData
                     Id = p.Id,
                     DisplayMember1 = p.Nombre,
                     DisplayMember2 = p.Nif,
-                    IconSource = p.AvatarPath
                 }).ToList();
             Socios = new PaginatedCollectionView(_Socios, 30);
         }

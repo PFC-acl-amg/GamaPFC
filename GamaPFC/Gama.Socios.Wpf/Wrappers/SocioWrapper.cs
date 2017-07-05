@@ -43,16 +43,6 @@ namespace Gama.Socios.Wpf.Wrappers
             set { SetValue(value); }
         }
 
-        public string AvatarPath
-        {
-            get { return GetValue<string>(); }
-            set { SetValue(value); }
-        }
-
-        public string AvatarPathOriginalValue => GetOriginalValue<string>(nameof(AvatarPath));
-
-        public bool AvatarPathIsChanged => GetIsChanged(nameof(AvatarPath));
-
         public string DireccionPostal
         {
             get { return GetValue<string>(); }
@@ -101,6 +91,16 @@ namespace Gama.Socios.Wpf.Wrappers
         public byte[] ImagenOriginalValue => GetOriginalValue<byte[]>(nameof(Imagen));
 
         public bool ImagenIsChanded => GetIsChanged(nameof(Imagen));
+
+        public DateTime? ImagenUpdatedAt
+        {
+            get { return GetValue<DateTime?>(); }
+            set { SetValue(value); }
+        }
+
+        public DateTime? ImagenUpdatedAtOriginalValue => GetOriginalValue<DateTime?>(nameof(ImagenUpdatedAt));
+
+        public bool ImagenUpdatedAtIsChanged => GetIsChanged(nameof(ImagenUpdatedAt));
 
         public string LinkedIn
         {

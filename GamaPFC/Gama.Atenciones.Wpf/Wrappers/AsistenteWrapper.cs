@@ -155,6 +155,16 @@ namespace Gama.Atenciones.Wpf.Wrappers
 
         public bool ImagenIsChanded => GetIsChanged(nameof(Imagen));
 
+        public DateTime? ImagenUpdatedAt
+        {
+            get { return GetValue<DateTime?>(); }
+            set { SetValue(value); }
+        }
+
+        public DateTime? ImagenUpdatedAtOriginalValue => GetOriginalValue<DateTime?>(nameof(ImagenUpdatedAt));
+
+        public bool ImagenUpdatedAtIsChanged => GetIsChanged(nameof(ImagenUpdatedAt));
+
         public string Observaciones
         {
             get { return GetValue<string>(); }

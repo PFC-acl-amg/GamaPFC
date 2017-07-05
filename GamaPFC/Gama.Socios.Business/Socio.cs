@@ -20,13 +20,13 @@ namespace Gama.Socios.Business
         public virtual string LinkedIn { get; set; } = "";
         public virtual string Nacionalidad { get; set; } = "";
         public virtual string Nif { get; set; } = "";
-        public virtual string Nombre { get; set; }
+        public virtual string Nombre { get; set; } = "";
         public virtual string Telefono { get; set; } = "";
         public virtual string Twitter { get; set; } = "";
-        public virtual string AvatarPath { get; set; }
         public virtual bool EstaDadoDeAlta { get; set; }
         public virtual byte[] Imagen { get; set; }
-        
+        public virtual DateTime? ImagenUpdatedAt { get; set; }
+
 
         public virtual IList<PeriodoDeAlta> PeriodosDeAlta { get; set; }
 

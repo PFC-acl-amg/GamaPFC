@@ -107,7 +107,6 @@ namespace Gama.Socios.Wpf.ViewModels
                 Id = socio.Id,
                 DisplayMember1 = socio.Nombre,
                 DisplayMember2 = socio.Nif,
-                IconSource = socio.AvatarPath
             });
         }
 
@@ -121,7 +120,6 @@ namespace Gama.Socios.Wpf.ViewModels
                 socioEncontrado.DisplayMember1 = socio.Nombre;
                 socioEncontrado.DisplayMember2 = socio.Nif;
                 socioEncontrado.Id = socio.Id;
-                socioEncontrado.IconSource = socio.AvatarPath;
             }
         }
 

@@ -36,7 +36,6 @@ namespace Gama.Socios.Wpf.DesignTimeData
                         Id = a.Id,
                         DisplayMember1 = a.Nombre,
                         DisplayMember2 = a.Nif,
-                        IconSource = a.AvatarPath
                     }));
 
             SociosCumpliendoBirthdays = new ObservableCollection<LookupItem>(
@@ -45,7 +44,6 @@ namespace Gama.Socios.Wpf.DesignTimeData
                     Id = a.Id,
                     DisplayMember1 = a.Nombre,
                     DisplayMember2 = a.Nif,
-                    IconSource = a.AvatarPath
                 }));
 
             SociosMorosos = new ObservableCollection<LookupItem>(
@@ -54,7 +52,6 @@ namespace Gama.Socios.Wpf.DesignTimeData
                     Id = a.Id,
                     DisplayMember1 = a.Nombre,
                     DisplayMember2 = a.Nif,
-                    IconSource = a.AvatarPath
                 }));
 
             InicializarGraficos();

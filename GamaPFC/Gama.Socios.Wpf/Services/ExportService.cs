@@ -79,17 +79,17 @@ namespace Gama.Socios.Wpf.Services
             Cuotas.SetColumnWidth(0, 2500);
             Cuotas.SetColumnWidth(1, 7000);
 
-            if (!string.IsNullOrEmpty(socio.AvatarPath))
-            {
-                string avatar = socio.AvatarPath;
-                //MemoryStream ms = new MemoryStream((byte)avatar);
-                Novacode.Image image = document.AddImage(socio.AvatarPath);
+            //if (!string.IsNullOrEmpty(socio.AvatarPath))
+            //{
+            //    string avatar = socio.AvatarPath;
+            //    //MemoryStream ms = new MemoryStream((byte)avatar);
+            //    Novacode.Image image = document.AddImage(socio.AvatarPath);
 
-                // Create a picture (A custom view of an Image).
-                Picture picture = image.CreatePicture();
-                picture.Rotation = 10;
-                picture.SetPictureShape(BasicShapes.cube);
-            }
+            //    // Create a picture (A custom view of an Image).
+            //    Picture picture = image.CreatePicture();
+            //    picture.Rotation = 10;
+            //    picture.SetPictureShape(BasicShapes.cube);
+            //}
 
 
             MemoryStream stream = new MemoryStream(socio.Imagen);
