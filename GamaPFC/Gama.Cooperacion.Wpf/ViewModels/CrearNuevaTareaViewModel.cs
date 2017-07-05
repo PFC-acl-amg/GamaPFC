@@ -27,11 +27,15 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private DateTime? _FechaFinTarea;
         private int _ModificarTarea;
         private int _TareaID;
+        private ITareaRepository _TareaRepository;
 
-        public CrearNuevaTareaViewModel(IActividadRepository ActividadRepository, IEventAggregator EventAggregator)
+        public CrearNuevaTareaViewModel(IActividadRepository actividadRepository, 
+            ITareaRepository tareaRepository,
+            IEventAggregator EventAggregator)
         {
             Gama.Common.Debug.Debug.StartWatch();
-            _ActividadRepository = ActividadRepository;
+            _ActividadRepository = actividadRepository;
+            _TareaRepository = tareaRepository;
             _EventAggregator = EventAggregator;
             _ModificarTarea = 0;
             _TareaID = 0;
@@ -106,6 +110,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             set
             {
                 _ActividadRepository.Session = value;
+                _TareaRepository.Session = value;
             }
         }
         public void LoadActividad(ActividadWrapper actividad)
@@ -178,7 +183,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 NuevaTarea.Seguimiento.Add(nuevoSeguimiento);
                 Actividad.Tareas.Add(NuevaTarea); // Como Tareas es un Changetrakincolection cuando modificas tareas tambien modificael .model
                 //Por lo que no tengo que hacer Actividad.Model.AddTarea(NuevaTarea.Model);
-                _ActividadRepository.Update(Actividad.Model);
+
+                _TareaRepository.Create(NuevaTarea.Model);
+                //_ActividadRepository.Update(Actividad.Model);
+
                 _EventAggregator.GetEvent<NuevaTareaCreadaEvent>().Publish(NuevaTarea);
                 var eventoDeActividad = new Evento()
                 {

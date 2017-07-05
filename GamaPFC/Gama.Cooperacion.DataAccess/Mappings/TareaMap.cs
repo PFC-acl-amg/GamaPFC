@@ -23,6 +23,7 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             Map(x => x.UpdatedAt);
 
             References(x => x.Actividad)
+                .Cascade.None()
                 .LazyLoad();
 
             References(x => x.Responsable)
