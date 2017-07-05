@@ -127,7 +127,7 @@ namespace Gama.Atenciones.Wpf.Services
 
         public override void UpdateClient()
         {
-            _Personas = base.GetAll();
+            //_Personas = base.GetAll();
             Nifs.Clear();
             Nifs.AddRange(_Personas.Select(p => p.Nif));
         }

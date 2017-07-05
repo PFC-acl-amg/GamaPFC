@@ -43,7 +43,7 @@ namespace Gama.Atenciones.Wpf.Services
 
         public override void UpdateClient()
         {
-            _Asistentes = base.GetAll();
+            //_Asistentes = base.GetAll();
 
             AtencionesResources.TodosLosNifDeAsistentes.Clear();
             AtencionesResources.TodosLosNifDeAsistentes.AddRange(_Asistentes.Select(x => x.Nif));

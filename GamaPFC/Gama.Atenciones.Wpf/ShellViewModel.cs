@@ -5,15 +5,21 @@ using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Atenciones.Wpf.UIEvents;
 using Gama.Atenciones.Wpf.ViewModels;
+using Gama.Common;
 using Gama.Common.Communication;
+using Gama.Common.Debug;
 using Gama.Common.Eventos;
+using MySql.Data.MySqlClient;
 using NHibernate;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Media;
 
@@ -161,316 +167,324 @@ namespace Gama.Atenciones.Wpf
             GraficasContentViewIsVisible = _Panels["GraficasContentView"];
         }
 
-        //private void DoRawThings()
-        //{
-        //    Persona persona;
-        //    MySqlDataReader reader;
-        //    try
-        //    {
-        //        using (MySqlConnection mysqlConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString))
-        //        {
-        //            using (MySqlCommand sqlCommand = new MySqlCommand())
-        //            {
-        //                sqlCommand.Connection = mysqlConnection;
-        //                mysqlConnection.Open();
-        //                //UIServices.SetBusyState();
+        private List<Cita> _Citas = new List<Cita>();
+        private List<Atencion> _Atenciones = new List<Atencion>();
+        private List<Derivacion> _Derivaciones = new List<Derivacion>();
+        private List<Asistente> _Asistentes = new List<Asistente>();
+        private List<Persona> _Personas = new List<Persona>();
 
-        //                sqlCommand.CommandText = "SELECT Id, Nombre, Nif, ComoConocioAGama, DireccionPostal, " +
-        //                    "Email, EstadoCivil, FechaDeNacimiento, Facebook, IdentidadSexual, Linkedin, Nacionalidad, " +
-        //                    "NivelAcademico, Ocupacion, OrientacionSexual, Telefono, Twitter, ViaDeAccesoAGama, CreatedAt, UpdatedAt, ImagenUpdatedAt " +
-        //                    "FROM personas ORDER BY Nombre ASC";
+        private void DoRawThings()
+        {
+            Persona persona;
+            MySqlDataReader reader;
+            try
+            {
+                using (MySqlConnection mysqlConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString))
+                {
+                    using (MySqlCommand sqlCommand = new MySqlCommand())
+                    {
+                        sqlCommand.Connection = mysqlConnection;
+                        mysqlConnection.Open();
+                        //UIServices.SetBusyState();
 
-        //                Debug.StartWatch();
-        //                using (reader = sqlCommand.ExecuteReader())
-        //                {
-        //                    while (reader.Read())
-        //                    {
-        //                        persona = new Persona()
-        //                        {
-        //                            Id = (int)reader["Id"],
-        //                            Nombre = reader["Nombre"].ToString(),
-        //                            Nif = reader["Nif"].ToString(),
-        //                            _SavedNif = reader["Nif"].ToString(),
-        //                            ComoConocioAGama = reader["ComoConocioAGama"].ToString(),
-        //                            DireccionPostal = reader["DireccionPostal"].ToString(),
-        //                            Email = reader["Email"].ToString(),
-        //                            EstadoCivil = reader["EstadoCivil"].ToString(),
-        //                            FechaDeNacimiento = reader["FechaDeNacimiento"] as DateTime?,
-        //                            Facebook = reader["Facebook"].ToString(),
-        //                            IdentidadSexual = reader["IdentidadSexual"].ToString(),
-        //                            LinkedIn = reader["LinkedIn"].ToString(),
-        //                            Nacionalidad = reader["Nacionalidad"].ToString(),
-        //                            NivelAcademico = reader["NivelAcademico"].ToString(),
-        //                            Ocupacion = reader["Ocupacion"].ToString(),
-        //                            OrientacionSexual = reader["OrientacionSexual"].ToString(),
-        //                            Telefono = reader["Telefono"].ToString(),
-        //                            Twitter = reader["Twitter"].ToString(),
-        //                            //Imagen = reader["Imagen"] as byte[],
-        //                            ViaDeAccesoAGama = reader["ViaDeAccesoAGama"].ToString(),
-        //                            CreatedAt = (DateTime)reader["CreatedAt"],
-        //                            UpdatedAt = reader["UpdatedAt"] as DateTime?,
-        //                            ImagenUpdatedAt = reader["ImagenUpdatedAt"] as DateTime?,
-        //                        };
+                        sqlCommand.CommandText = "SELECT Id, Nombre, Nif, ComoConocioAGama, DireccionPostal, " +
+                            "Email, EstadoCivil, FechaDeNacimiento, Facebook, IdentidadSexual, Linkedin, Nacionalidad, " +
+                            "NivelAcademico, Ocupacion, OrientacionSexual, Telefono, Twitter, ViaDeAccesoAGama, CreatedAt, UpdatedAt, ImagenUpdatedAt " +
+                            "FROM personas ORDER BY Nombre ASC";
 
-        //                        persona.Decrypt();
-        //                        _Personas.Add(persona);
-        //                    }
-        //                }
+                        Debug.StartWatch();
+                        using (reader = sqlCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                persona = new Persona()
+                                {
+                                    Id = (int)reader["Id"],
+                                    Nombre = reader["Nombre"].ToString(),
+                                    Nif = reader["Nif"].ToString(),
+                                    _SavedNif = reader["Nif"].ToString(),
+                                    ComoConocioAGama = reader["ComoConocioAGama"].ToString(),
+                                    DireccionPostal = reader["DireccionPostal"].ToString(),
+                                    Email = reader["Email"].ToString(),
+                                    EstadoCivil = reader["EstadoCivil"].ToString(),
+                                    FechaDeNacimiento = reader["FechaDeNacimiento"] as DateTime?,
+                                    Facebook = reader["Facebook"].ToString(),
+                                    IdentidadSexual = reader["IdentidadSexual"].ToString(),
+                                    LinkedIn = reader["LinkedIn"].ToString(),
+                                    Nacionalidad = reader["Nacionalidad"].ToString(),
+                                    NivelAcademico = reader["NivelAcademico"].ToString(),
+                                    Ocupacion = reader["Ocupacion"].ToString(),
+                                    OrientacionSexual = reader["OrientacionSexual"].ToString(),
+                                    Telefono = reader["Telefono"].ToString(),
+                                    Twitter = reader["Twitter"].ToString(),
+                                    //Imagen = reader["Imagen"] as byte[],
+                                    ViaDeAccesoAGama = reader["ViaDeAccesoAGama"].ToString(),
+                                    CreatedAt = (DateTime)reader["CreatedAt"],
+                                    UpdatedAt = reader["UpdatedAt"] as DateTime?,
+                                    ImagenUpdatedAt = reader["ImagenUpdatedAt"] as DateTime?,
+                                };
 
-        //                foreach (var personaSinImagen in _Personas)
-        //                {
-        //                    string path = ResourceNames.GetPersonaImagePath(personaSinImagen.Id);
-        //                    if (!File.Exists(path) && personaSinImagen.ImagenUpdatedAt != null)
-        //                    {
-        //                        sqlCommand.CommandText = $"SELECT Imagen FROM personas WHERE Id = {personaSinImagen.Id}";
-        //                        using (reader = sqlCommand.ExecuteReader())
-        //                        {
-        //                            if (reader.Read())
-        //                            {
-        //                                personaSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
-        //                                using (Image image = Image.FromStream(new MemoryStream(personaSinImagen.Imagen)))
-        //                                {
-        //                                    image.Save(path, ImageFormat.Png);  // Or Png
-        //                                }
-        //                            }
-        //                        }
-        //                    }
-        //                    else
-        //                    {
-        //                        // Si se ha actualizado la imagen de la persona
-        //                        DateTime lastWriteTime = File.GetLastWriteTime(path);
-        //                        DateTime updatedTime = (personaSinImagen.ImagenUpdatedAt ?? DateTime.Now.AddYears(-100));
-        //                        if (DateTime.Compare(lastWriteTime, updatedTime) < 0)
-        //                        {
-        //                            sqlCommand.CommandText = $"SELECT Imagen FROM personas WHERE Id = {personaSinImagen.Id}";
-        //                            using (reader = sqlCommand.ExecuteReader())
-        //                            {
-        //                                if (reader.Read())
-        //                                {
-        //                                    personaSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
-        //                                    using (Image image = Image.FromStream(new MemoryStream(personaSinImagen.Imagen)))
-        //                                    {
-        //                                        image.Save(path, ImageFormat.Png);  // Or Png
-        //                                    }
-        //                                }
-        //                            }
-        //                        }
+                                persona.Decrypt();
+                                _Personas.Add(persona);
+                            }
+                        }
 
-        //                        personaSinImagen.Imagen = ImageToByteArray(new Bitmap(ResourceNames.GetPersonaImagePath(personaSinImagen.Id)));
-        //                    }
-        //                }
+                        foreach (var personaSinImagen in _Personas)
+                        {
+                            string path = ResourceNames.GetPersonaImagePath(personaSinImagen.Id);
+                            if (!File.Exists(path) && personaSinImagen.ImagenUpdatedAt != null)
+                            {
+                                sqlCommand.CommandText = $"SELECT Imagen FROM personas WHERE Id = {personaSinImagen.Id}";
+                                using (reader = sqlCommand.ExecuteReader())
+                                {
+                                    if (reader.Read())
+                                    {
+                                        personaSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
+                                        using (Image image = Image.FromStream(new MemoryStream(personaSinImagen.Imagen)))
+                                        {
+                                            image.Save(path, ImageFormat.Png);  // Or Png
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                // Si se ha actualizado la imagen de la persona
+                                DateTime lastWriteTime = File.GetLastWriteTime(path);
+                                DateTime updatedTime = (personaSinImagen.ImagenUpdatedAt ?? DateTime.Now.AddYears(-100));
+                                if (DateTime.Compare(lastWriteTime, updatedTime) < 0)
+                                {
+                                    sqlCommand.CommandText = $"SELECT Imagen FROM personas WHERE Id = {personaSinImagen.Id}";
+                                    using (reader = sqlCommand.ExecuteReader())
+                                    {
+                                        if (reader.Read())
+                                        {
+                                            personaSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
+                                            using (Image image = Image.FromStream(new MemoryStream(personaSinImagen.Imagen)))
+                                            {
+                                                image.Save(path, ImageFormat.Png);  // Or Png
+                                            }
+                                        }
+                                    }
+                                }
 
-        //                //Debug.StopWatch("-----PERSONAS----");
-        //                //Debug.StartWatch();
+                                personaSinImagen.Imagen = ImageToByteArray(new Bitmap(ResourceNames.GetPersonaImagePath(personaSinImagen.Id)));
+                            }
+                        }
 
-        //                sqlCommand.CommandText = "SELECT Id, Nombre, Nif, Apellidos, FechaDeNacimiento, ComoConocioAGama, NivelAcademico, " +
-        //                    "Ocupacion, Provincia, Municipio, Localidad, CodigoPostal, Calle, Numero, Portal, Piso, Puerta, " +
-        //                    "TelefonoFijo, TelefonoMovil, TelefonoAlternativo, Email, EmailAlternativo, Linkedin, Twitter, Facebook, Observaciones, ImagenUpdatedAt " +
-        //                    "FROM asistentes";
-        //                using (reader = sqlCommand.ExecuteReader())
-        //                {
-        //                    while (reader.Read())
-        //                    {
-        //                        var asistente = new Asistente()
-        //                        {
-        //                            Id = (int)reader["Id"],
-        //                            Nombre = reader["Nombre"].ToString(),
-        //                            Nif = reader["Nif"].ToString(),
-        //                            Apellidos = reader["Apellidos"].ToString(),
-        //                            FechaDeNacimiento = reader["FechaDeNacimiento"] as DateTime?,
-        //                            //Imagen = reader["Imagen"] as byte[],
+                        //Debug.StopWatch("-----PERSONAS----");
+                        //Debug.StartWatch();
 
-        //                            ComoConocioAGama = reader["ComoConocioAGama"].ToString(),
-        //                            NivelAcademico = reader["NivelAcademico"].ToString(),
-        //                            Ocupacion = reader["Ocupacion"].ToString(),
+                        sqlCommand.CommandText = "SELECT Id, Nombre, Nif, Apellidos, FechaDeNacimiento, ComoConocioAGama, NivelAcademico, " +
+                            "Ocupacion, Provincia, Municipio, Localidad, CodigoPostal, Calle, Numero, Portal, Piso, Puerta, " +
+                            "TelefonoFijo, TelefonoMovil, TelefonoAlternativo, Email, EmailAlternativo, Linkedin, Twitter, Facebook, Observaciones, ImagenUpdatedAt " +
+                            "FROM asistentes";
+                        using (reader = sqlCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var asistente = new Asistente()
+                                {
+                                    Id = (int)reader["Id"],
+                                    Nombre = reader["Nombre"].ToString(),
+                                    Nif = reader["Nif"].ToString(),
+                                    Apellidos = reader["Apellidos"].ToString(),
+                                    FechaDeNacimiento = reader["FechaDeNacimiento"] as DateTime?,
+                                    //Imagen = reader["Imagen"] as byte[],
 
-        //                            Provincia = reader["Provincia"].ToString(),
-        //                            Municipio = reader["Municipio"].ToString(),
-        //                            Localidad = reader["Localidad"].ToString(),
-        //                            CodigoPostal = reader["CodigoPostal"].ToString(),
-        //                            Calle = reader["Calle"].ToString(),
-        //                            Numero = reader["Numero"].ToString(),
-        //                            Portal = reader["Portal"].ToString(),
-        //                            Piso = reader["Piso"].ToString(),
-        //                            Puerta = reader["Puerta"].ToString(),
+                                    ComoConocioAGama = reader["ComoConocioAGama"].ToString(),
+                                    NivelAcademico = reader["NivelAcademico"].ToString(),
+                                    Ocupacion = reader["Ocupacion"].ToString(),
 
-        //                            TelefonoFijo = reader["TelefonoFijo"].ToString(),
-        //                            TelefonoMovil = reader["TelefonoMovil"].ToString(),
-        //                            TelefonoAlternativo = reader["TelefonoAlternativo"].ToString(),
-        //                            Email = reader["Email"].ToString(),
-        //                            EmailAlternativo = reader["EmailAlternativo"].ToString(),
-        //                            LinkedIn = reader["LinkedIn"].ToString(),
-        //                            Twitter = reader["Twitter"].ToString(),
-        //                            Facebook = reader["Facebook"].ToString(),
-        //                            Observaciones = reader["Observaciones"].ToString(),
-        //                            ImagenUpdatedAt = reader["ImagenUpdatedAt"] as DateTime?,
-        //                        };
+                                    Provincia = reader["Provincia"].ToString(),
+                                    Municipio = reader["Municipio"].ToString(),
+                                    Localidad = reader["Localidad"].ToString(),
+                                    CodigoPostal = reader["CodigoPostal"].ToString(),
+                                    Calle = reader["Calle"].ToString(),
+                                    Numero = reader["Numero"].ToString(),
+                                    Portal = reader["Portal"].ToString(),
+                                    Piso = reader["Piso"].ToString(),
+                                    Puerta = reader["Puerta"].ToString(),
 
-        //                        asistente.Decrypt();
-        //                        _Asistentes.Add(asistente);
-        //                    }
-        //                }
+                                    TelefonoFijo = reader["TelefonoFijo"].ToString(),
+                                    TelefonoMovil = reader["TelefonoMovil"].ToString(),
+                                    TelefonoAlternativo = reader["TelefonoAlternativo"].ToString(),
+                                    Email = reader["Email"].ToString(),
+                                    EmailAlternativo = reader["EmailAlternativo"].ToString(),
+                                    LinkedIn = reader["LinkedIn"].ToString(),
+                                    Twitter = reader["Twitter"].ToString(),
+                                    Facebook = reader["Facebook"].ToString(),
+                                    Observaciones = reader["Observaciones"].ToString(),
+                                    ImagenUpdatedAt = reader["ImagenUpdatedAt"] as DateTime?,
+                                };
 
-        //                foreach (var asistenteSinImagen in _Asistentes)
-        //                {
-        //                    string path = ResourceNames.GetAsistenteImagePath(asistenteSinImagen.Id);
-        //                    if (!File.Exists(path) && asistenteSinImagen.ImagenUpdatedAt != null)
-        //                    {
-        //                        sqlCommand.CommandText = $"SELECT Imagen FROM asistentes WHERE Id = {asistenteSinImagen.Id}";
-        //                        using (reader = sqlCommand.ExecuteReader())
-        //                        {
-        //                            if (reader.Read())
-        //                            {
-        //                                asistenteSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
-        //                                using (Image image = Image.FromStream(new MemoryStream(asistenteSinImagen.Imagen)))
-        //                                {
-        //                                    image.Save(path, ImageFormat.Png);  // Or Png
-        //                                }
-        //                            }
-        //                        }
-        //                    }
-        //                    else
-        //                    {
-        //                        // Si se ha actualizado la imagen de la persona
-        //                        DateTime lastWriteTime = File.GetLastWriteTime(path);
-        //                        DateTime updatedTime = (asistenteSinImagen.ImagenUpdatedAt ?? DateTime.Now.AddYears(-100));
-        //                        if (DateTime.Compare(lastWriteTime, updatedTime) < 0)
-        //                        {
-        //                            sqlCommand.CommandText = $"SELECT Imagen FROM personas WHERE Id = {asistenteSinImagen.Id}";
-        //                            using (reader = sqlCommand.ExecuteReader())
-        //                            {
-        //                                if (reader.Read())
-        //                                {
-        //                                    asistenteSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
-        //                                    using (Image image = Image.FromStream(new MemoryStream(asistenteSinImagen.Imagen)))
-        //                                    {
-        //                                        image.Save(path, ImageFormat.Png);  // Or Png
-        //                                    }
-        //                                }
-        //                            }
-        //                        }
+                                asistente.Decrypt();
+                                _Asistentes.Add(asistente);
+                            }
+                        }
 
-        //                        asistenteSinImagen.Imagen = ImageToByteArray(new Bitmap(ResourceNames.GetAsistenteImagePath(asistenteSinImagen.Id)));
-        //                    }
-        //                }
-        //                //Debug.StopWatch("-----ASISTENTES----");
-        //                //Debug.StartWatch();
+                        foreach (var asistenteSinImagen in _Asistentes)
+                        {
+                            string path = ResourceNames.GetAsistenteImagePath(asistenteSinImagen.Id);
+                            if (!File.Exists(path) && asistenteSinImagen.ImagenUpdatedAt != null)
+                            {
+                                sqlCommand.CommandText = $"SELECT Imagen FROM asistentes WHERE Id = {asistenteSinImagen.Id}";
+                                using (reader = sqlCommand.ExecuteReader())
+                                {
+                                    if (reader.Read())
+                                    {
+                                        asistenteSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
+                                        using (Image image = Image.FromStream(new MemoryStream(asistenteSinImagen.Imagen)))
+                                        {
+                                            image.Save(path, ImageFormat.Png);  // Or Png
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                // Si se ha actualizado la imagen de la persona
+                                DateTime lastWriteTime = File.GetLastWriteTime(path);
+                                DateTime updatedTime = (asistenteSinImagen.ImagenUpdatedAt ?? DateTime.Now.AddYears(-100));
+                                if (DateTime.Compare(lastWriteTime, updatedTime) < 0)
+                                {
+                                    sqlCommand.CommandText = $"SELECT Imagen FROM personas WHERE Id = {asistenteSinImagen.Id}";
+                                    using (reader = sqlCommand.ExecuteReader())
+                                    {
+                                        if (reader.Read())
+                                        {
+                                            asistenteSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
+                                            using (Image image = Image.FromStream(new MemoryStream(asistenteSinImagen.Imagen)))
+                                            {
+                                                image.Save(path, ImageFormat.Png);  // Or Png
+                                            }
+                                        }
+                                    }
+                                }
 
-        //                sqlCommand.CommandText = "SELECT * FROM citas";
-        //                using (reader = sqlCommand.ExecuteReader())
-        //                {
-        //                    while (reader.Read())
-        //                    {
-        //                        var cita = new Cita()
-        //                        {
-        //                            Id = (int)reader["Id"],
-        //                            Fecha = (DateTime)reader["Fecha"],
-        //                            Hora = (int)reader["Hora"],
-        //                            Minutos = (int)reader["Minutos"],
-        //                            Sala = reader["Sala"].ToString(),
-        //                        };
+                                asistenteSinImagen.Imagen = ImageToByteArray(new Bitmap(ResourceNames.GetAsistenteImagePath(asistenteSinImagen.Id)));
+                            }
+                        }
+                        //Debug.StopWatch("-----ASISTENTES----");
+                        //Debug.StartWatch();
 
-        //                        cita.Decrypt();
-        //                        _Citas.Add(cita);
+                        sqlCommand.CommandText = "SELECT * FROM citas";
+                        using (reader = sqlCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var cita = new Cita()
+                                {
+                                    Id = (int)reader["Id"],
+                                    Fecha = (DateTime)reader["Fecha"],
+                                    Hora = (int)reader["Hora"],
+                                    Minutos = (int)reader["Minutos"],
+                                    Sala = reader["Sala"].ToString(),
+                                };
 
-        //                        persona = _Personas.Where(p => p.Id == (int)reader["Persona_id"]).Single();
-        //                        var asistente = _Asistentes.Where(a => a.Id == (int)reader["Asistente_id"]).Single();
-        //                        asistente.Citas.Add(cita);
-        //                        cita.Asistente = asistente;
-        //                        persona.AddCita(cita);
-        //                    }
-        //                }
-        //                //Debug.StopWatch("-----CITAS----");
-        //                //Debug.StartWatch();
+                                cita.Decrypt();
+                                _Citas.Add(cita);
 
-        //                sqlCommand.CommandText = "SELECT * FROM atenciones";
-        //                using (reader = sqlCommand.ExecuteReader())
-        //                {
-        //                    while (reader.Read())
-        //                    {
-        //                        var atencion = new Atencion()
-        //                        {
-        //                            Id = (int)reader["Id"],
-        //                            Fecha = (DateTime)reader["Fecha"],
-        //                            Seguimiento = (string)reader["Seguimiento"],
-        //                            EsSocial = (bool)reader["EsSocial"],
-        //                            EsJuridica = (bool)reader["EsJuridica"],
-        //                            EsPsicologica = (bool)reader["EsPsicologica"],
-        //                            EsDeAcogida = (bool)reader["EsDeAcogida"],
-        //                            EsDeOrientacionLaboral = (bool)reader["EsDeOrientacionLaboral"],
-        //                            EsDePrevencionParaLaSalud = (bool)reader["EsDePrevencionParaLaSalud"],
-        //                            EsDeFormacion = (bool)reader["EsDeFormacion"],
-        //                            EsDeParticipacion = (bool)reader["EsDeParticipacion"],
-        //                            EsOtra = (bool)reader["EsOtra"],
-        //                            Otra = (string)reader["Otra"],
-        //                        };
+                                persona = _Personas.Where(p => p.Id == (int)reader["Persona_id"]).Single();
+                                var asistente = _Asistentes.Where(a => a.Id == (int)reader["Asistente_id"]).Single();
+                                asistente.Citas.Add(cita);
+                                cita.Asistente = asistente;
+                                persona.AddCita(cita);
+                            }
+                        }
+                        //Debug.StopWatch("-----CITAS----");
+                        //Debug.StartWatch();
 
-        //                        atencion.Decrypt();
-        //                        _Atenciones.Add(atencion);
+                        sqlCommand.CommandText = "SELECT * FROM atenciones";
+                        using (reader = sqlCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var atencion = new Atencion()
+                                {
+                                    Id = (int)reader["Id"],
+                                    Fecha = (DateTime)reader["Fecha"],
+                                    Seguimiento = (string)reader["Seguimiento"],
+                                    EsSocial = (bool)reader["EsSocial"],
+                                    EsJuridica = (bool)reader["EsJuridica"],
+                                    EsPsicologica = (bool)reader["EsPsicologica"],
+                                    EsDeAcogida = (bool)reader["EsDeAcogida"],
+                                    EsDeOrientacionLaboral = (bool)reader["EsDeOrientacionLaboral"],
+                                    EsDePrevencionParaLaSalud = (bool)reader["EsDePrevencionParaLaSalud"],
+                                    EsDeFormacion = (bool)reader["EsDeFormacion"],
+                                    EsDeParticipacion = (bool)reader["EsDeParticipacion"],
+                                    EsOtra = (bool)reader["EsOtra"],
+                                    Otra = (string)reader["Otra"],
+                                };
 
-        //                        var cita = _Citas.Where(c => c.Id == (int)reader["Cita_id"]).Single();
-        //                        cita.Atencion = atencion;
-        //                        atencion.Cita = cita;
-        //                    }
-        //                }
-        //                //Debug.StopWatch("-----ATENCIONES----");
-        //                //Debug.StartWatch();
+                                atencion.Decrypt();
+                                _Atenciones.Add(atencion);
 
-        //                sqlCommand.CommandText = "SELECT * FROM derivaciones";
-        //                using (reader = sqlCommand.ExecuteReader())
-        //                {
-        //                    while (reader.Read())
-        //                    {
-        //                        var derivacion = new Derivacion()
-        //                        {
-        //                            Id = (int)reader["Id"],
-        //                            EsSocial = (bool)reader["EsSocial"],
-        //                            EsJuridica = (bool)reader["EsJuridica"],
-        //                            EsPsicologica = (bool)reader["EsPsicologica"],
-        //                            EsDeFormacion = (bool)reader["EsDeFormacion"],
-        //                            EsDeOrientacionLaboral = (bool)reader["EsDeOrientacionLaboral"],
-        //                            EsExterna = (bool)reader["EsExterna"],
-        //                            Externa = (string)reader["Externa"],
+                                var cita = _Citas.Where(c => c.Id == (int)reader["Cita_id"]).Single();
+                                cita.Atencion = atencion;
+                                atencion.Cita = cita;
+                            }
+                        }
+                        //Debug.StopWatch("-----ATENCIONES----");
+                        //Debug.StartWatch();
 
-        //                            EsSocial_Realizada = (bool)reader["EsSocial_Realizada"],
-        //                            EsJuridica_Realizada = (bool)reader["EsJuridica_Realizada"],
-        //                            EsPsicologica_Realizada = (bool)reader["EsPsicologica_Realizada"],
-        //                            EsDeFormacion_Realizada = (bool)reader["EsDeFormacion_Realizada"],
-        //                            EsDeOrientacionLaboral_Realizada = (bool)reader["EsDeOrientacionLaboral_Realizada"],
-        //                            EsExterna_Realizada = (bool)reader["EsExterna_Realizada"],
-        //                            Externa_Realizada = (string)reader["Externa_Realizada"],
+                        sqlCommand.CommandText = "SELECT * FROM derivaciones";
+                        using (reader = sqlCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var derivacion = new Derivacion()
+                                {
+                                    Id = (int)reader["Id"],
+                                    EsSocial = (bool)reader["EsSocial"],
+                                    EsJuridica = (bool)reader["EsJuridica"],
+                                    EsPsicologica = (bool)reader["EsPsicologica"],
+                                    EsDeFormacion = (bool)reader["EsDeFormacion"],
+                                    EsDeOrientacionLaboral = (bool)reader["EsDeOrientacionLaboral"],
+                                    EsExterna = (bool)reader["EsExterna"],
+                                    Externa = (string)reader["Externa"],
 
-        //                        };
+                                    EsSocial_Realizada = (bool)reader["EsSocial_Realizada"],
+                                    EsJuridica_Realizada = (bool)reader["EsJuridica_Realizada"],
+                                    EsPsicologica_Realizada = (bool)reader["EsPsicologica_Realizada"],
+                                    EsDeFormacion_Realizada = (bool)reader["EsDeFormacion_Realizada"],
+                                    EsDeOrientacionLaboral_Realizada = (bool)reader["EsDeOrientacionLaboral_Realizada"],
+                                    EsExterna_Realizada = (bool)reader["EsExterna_Realizada"],
+                                    Externa_Realizada = (string)reader["Externa_Realizada"],
 
-        //                        _Derivaciones.Add(derivacion);
-        //                        var atencion = _Atenciones.Where(a => a.Id == (int)reader["Atencion_id"]).Single();
-        //                        derivacion.Atencion = atencion;
-        //                        atencion.Derivacion = derivacion;
-        //                    }
-        //                }
-        //                //Debug.StopWatch("-----DERIVACIONES----");
-        //                //Debug.StartWatch();
+                                };
 
-        //                mysqlConnection.Close();
-        //            }
-        //        }
+                                _Derivaciones.Add(derivacion);
+                                var atencion = _Atenciones.Where(a => a.Id == (int)reader["Atencion_id"]).Single();
+                                derivacion.Atencion = atencion;
+                                atencion.Derivacion = derivacion;
+                            }
+                        }
+                        //Debug.StopWatch("-----DERIVACIONES----");
+                        //Debug.StartWatch();
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw;
-        //    }
+                        mysqlConnection.Close();
+                    }
+                }
 
-        //    _PersonaRepository.Personas = _Personas;
-        //    _CitaRepository.Citas = _Citas;
-        //    _AtencionRepository.Atenciones = _Atenciones;
-        //    _AsistenteRepository.Asistentes = _Asistentes;
-        //}
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            _PersonaRepository.Personas = _Personas;
+            _CitaRepository.Citas = _Citas;
+            _AtencionRepository.Atenciones = _Atenciones;
+            _AsistenteRepository.Asistentes = _Asistentes;
+        }
 
         private void OnServidorActualizadoDesdeFueraEvent(string code)
         {
             if (code != AtencionesResources.ClientId)
             {
+                DoRawThings();
+
                 _AsistenteRepository.UpdateClient();
                 _PersonaRepository.UpdateClient();
                 _CitaRepository.UpdateClient();

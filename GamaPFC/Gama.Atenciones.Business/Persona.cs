@@ -25,7 +25,7 @@ namespace Gama.Atenciones.Business
         public virtual string LinkedIn { get; set; } = "";
         public virtual string Nacionalidad { get; set; } = "";
         public virtual string NivelAcademico { get; set; }
-        public virtual string Nombre { get; set; }
+        public virtual string Nombre { get; set; } = "";
         public virtual string Ocupacion { get; set; } = "";
         public virtual string OrientacionSexual { get; set; }
         public virtual string Telefono { get; set; } = "";

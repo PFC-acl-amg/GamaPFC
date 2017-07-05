@@ -175,7 +175,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             try
             {
-                if (_PersonaVM.Persona.Nombre == null)
+                if (string.IsNullOrEmpty(_PersonaVM.Persona.Nombre))
                 {
                     var model =
                         (Persona)

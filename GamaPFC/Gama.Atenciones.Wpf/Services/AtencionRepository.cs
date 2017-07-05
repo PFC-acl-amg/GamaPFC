@@ -42,7 +42,7 @@ namespace Gama.Atenciones.Wpf.Services
 
         public override void UpdateClient()
         {
-            _Atenciones = base.GetAll();
+            //_Atenciones = base.GetAll();
         }
 
         public override Atencion GetById(int id)

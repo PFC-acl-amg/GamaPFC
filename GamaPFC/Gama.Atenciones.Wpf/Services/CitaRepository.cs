@@ -41,7 +41,7 @@ namespace Gama.Atenciones.Wpf.Services
 
         public override void UpdateClient()
         {
-            _Citas = base.GetAll();
+            //_Citas = base.GetAll();
         }
 
         public override Cita GetById(int id)
