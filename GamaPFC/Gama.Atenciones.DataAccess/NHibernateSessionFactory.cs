@@ -14,6 +14,7 @@ namespace Gama.Atenciones.DataAccess
 {
     public class NHibernateSessionFactory : INHibernateSessionFactory
     {
+        public static bool _EXECUTE_DDL = false;
         private static string _connectionString = ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString;
 
         private ISessionFactory _SessionFactory = null;
@@ -76,7 +77,7 @@ namespace Gama.Atenciones.DataAccess
                         //c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: false,
-                            execute: false,
+                            execute: _EXECUTE_DDL,
                             justDrop: false);
                     })
                 .BuildConfiguration();

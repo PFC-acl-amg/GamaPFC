@@ -11,6 +11,7 @@ namespace Gama.Socios.Wpf.Services
     public interface ICuotaRepository
     {
         ISession Session { get; set; }
+        List<Cuota> Cuotas { get; set; }
 
         Cuota GetById(int id);
 

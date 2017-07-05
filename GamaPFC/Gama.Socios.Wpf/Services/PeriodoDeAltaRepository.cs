@@ -16,7 +16,7 @@ namespace Gama.Socios.Wpf.Services
 
         public PeriodoDeAltaRepository(EventAggregator eventAggregator) : base(eventAggregator) { }
 
-        public List<PeriodoDeAlta> PeriodoDeAltas
+        public List<PeriodoDeAlta> PeriodosDeAlta
         {
             get
             {
@@ -41,18 +41,18 @@ namespace Gama.Socios.Wpf.Services
 
         public override PeriodoDeAlta GetById(int id)
         {
-            return PeriodoDeAltas.Find(x => x.Id == id);
+            return PeriodosDeAlta.Find(x => x.Id == id);
         }
 
         public override List<PeriodoDeAlta> GetAll()
         {
-            return PeriodoDeAltas;
+            return PeriodosDeAlta;
         }
 
         public override void Create(PeriodoDeAlta entity)
         {
             base.Create(entity);
-            PeriodoDeAltas.Add(entity);
+            PeriodosDeAlta.Add(entity);
             _EventAggregator.GetEvent<PeriodoDeAltaCreadoEvent>().Publish(entity.Id);
             RaiseActualizarServidor();
         }
@@ -62,8 +62,8 @@ namespace Gama.Socios.Wpf.Services
             if (base.Update(entity))
             {
                 //entity.Decrypt();
-                PeriodoDeAltas.Remove(PeriodoDeAltas.Find(x => x.Id == entity.Id));
-                PeriodoDeAltas.Add(entity);
+                PeriodosDeAlta.Remove(PeriodosDeAlta.Find(x => x.Id == entity.Id));
+                PeriodosDeAlta.Add(entity);
                 _EventAggregator.GetEvent<PeriodoDeAltaActualizadoEvent>().Publish(entity.Id);
                 RaiseActualizarServidor();
                 return true;

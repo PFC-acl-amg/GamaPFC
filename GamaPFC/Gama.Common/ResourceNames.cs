@@ -26,5 +26,10 @@ namespace Gama.Common
         {
             return $"{AsistentesFolder}Asistente-{id.ToString()}.png";
         }
+
+        public static string GetSocioImagePath(int id)
+        {
+            return $"{SociosFolder}Socio-{id.ToString()}.png";
+        }
     }
 }

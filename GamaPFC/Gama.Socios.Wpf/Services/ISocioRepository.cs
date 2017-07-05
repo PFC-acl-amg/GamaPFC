@@ -9,6 +9,8 @@ namespace Gama.Socios.Wpf.Services
     {
         ISession Session { get; set; }
 
+        List<Socio> Socios { get; set; }
+
         Socio GetById(int id);
 
         List<Socio> GetAll();

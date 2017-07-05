@@ -20,6 +20,7 @@ namespace Gama.Socios.DataAccess
     public class NHibernateSessionFactory : INHibernateSessionFactory
     {
         private static string _connectionString = ConfigurationManager.ConnectionStrings["GamaSociosMySql"].ConnectionString;
+        public static bool _EXECUTE_DDL = false;
 
         private ISessionFactory _sessionFactory = null;
         public ISessionFactory SessionFactory
@@ -91,7 +92,7 @@ namespace Gama.Socios.DataAccess
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: false,
-                            execute: false, 
+                            execute: _EXECUTE_DDL, 
                             justDrop: false);
                     })
                 .BuildConfiguration();

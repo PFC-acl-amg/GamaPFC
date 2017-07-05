@@ -40,6 +40,7 @@ namespace Gama.Atenciones.Wpf
 
         public Bootstrapper(string title = "SERVICIO DE ATENCIONES") : base(title)
         {
+            NHibernateSessionFactory._EXECUTE_DDL = false;
             _CLEAR_DATABASE = false;
             _SEED_DATABASE = false;
         }
@@ -274,6 +275,7 @@ namespace Gama.Atenciones.Wpf
 
         private void DoRawThings()
         {
+            Debug.StartWatch();
             Persona persona;
             MySqlDataReader reader;
             try
@@ -291,7 +293,6 @@ namespace Gama.Atenciones.Wpf
                             "NivelAcademico, Ocupacion, OrientacionSexual, Telefono, Twitter, ViaDeAccesoAGama, CreatedAt, UpdatedAt, ImagenUpdatedAt " +
                             "FROM personas ORDER BY Nombre ASC";
 
-                        Debug.StartWatch();
                         using (reader = sqlCommand.ExecuteReader())
                         {
                             while (reader.Read())
@@ -341,7 +342,15 @@ namespace Gama.Atenciones.Wpf
                                         personaSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
                                         using (Image image = Image.FromStream(new MemoryStream(personaSinImagen.Imagen)))
                                         {
-                                            image.Save(path, ImageFormat.Png);  // Or Png
+                                            using (MemoryStream memory = new MemoryStream())
+                                            {
+                                                using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+                                                {
+                                                    image.Save(memory, ImageFormat.Jpeg);
+                                                    byte[] bytes = memory.ToArray();
+                                                    fs.Write(bytes, 0, bytes.Length);
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -361,7 +370,15 @@ namespace Gama.Atenciones.Wpf
                                             personaSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
                                             using (Image image = Image.FromStream(new MemoryStream(personaSinImagen.Imagen)))
                                             {
-                                                image.Save(path, ImageFormat.Png);  // Or Png
+                                                using (MemoryStream memory = new MemoryStream())
+                                                {
+                                                    using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+                                                    {
+                                                        image.Save(memory, ImageFormat.Jpeg);
+                                                        byte[] bytes = memory.ToArray();
+                                                        fs.Write(bytes, 0, bytes.Length);
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -415,6 +432,9 @@ namespace Gama.Atenciones.Wpf
                                     Facebook = reader["Facebook"].ToString(),
                                     Observaciones = reader["Observaciones"].ToString(),
                                     ImagenUpdatedAt = reader["ImagenUpdatedAt"] as DateTime?,
+                                    CreatedAt = (DateTime)reader["CreatedAt"],
+                                    UpdatedAt = reader["UpdatedAt"] as DateTime?,
+
                                 };
 
                                 asistente.Decrypt();
@@ -437,7 +457,15 @@ namespace Gama.Atenciones.Wpf
                                         asistenteSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
                                         using (Image image = Image.FromStream(new MemoryStream(asistenteSinImagen.Imagen)))
                                         {
-                                            image.Save(path, ImageFormat.Png);  // Or Png
+                                            using (MemoryStream memory = new MemoryStream())
+                                            {
+                                                using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+                                                {
+                                                    image.Save(memory, ImageFormat.Jpeg);
+                                                    byte[] bytes = memory.ToArray();
+                                                    fs.Write(bytes, 0, bytes.Length);
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -457,7 +485,16 @@ namespace Gama.Atenciones.Wpf
                                             asistenteSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
                                             using (Image image = Image.FromStream(new MemoryStream(asistenteSinImagen.Imagen)))
                                             {
-                                                image.Save(path, ImageFormat.Png);  // Or Png
+                                                // image.Save(path, ImageFormat.Png);  // Or Png
+                                                using (MemoryStream memory = new MemoryStream())
+                                                {
+                                                    using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+                                                    {
+                                                        image.Save(memory, ImageFormat.Jpeg);
+                                                        byte[] bytes = memory.ToArray();
+                                                        fs.Write(bytes, 0, bytes.Length);
+                                                    }
+                                                }
                                             }
                                         }
                                     }

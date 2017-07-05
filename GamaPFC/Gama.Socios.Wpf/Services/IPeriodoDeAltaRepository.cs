@@ -11,6 +11,7 @@ namespace Gama.Socios.Wpf.Services
     public interface IPeriodoDeAltaRepository
     {
         ISession Session { get; set; }
+        List<PeriodoDeAlta> PeriodosDeAlta { get; set; }
 
         PeriodoDeAlta GetById(int id);
 
