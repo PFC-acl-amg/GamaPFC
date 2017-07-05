@@ -22,7 +22,7 @@ namespace Gama.Socios.Wpf
         public Bootstrapper(string title = "GESTIÓN DE SOCIOS") : base(title)
         {
             _CLEAR_DATABASE = false;
-            _SEED_DATABASE = false;
+            _SEED_DATABASE = true;
         }
 
         protected override DependencyObject CreateShell()
