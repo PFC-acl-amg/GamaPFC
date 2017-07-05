@@ -9,7 +9,8 @@
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
              xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
              mc:Ignorable="d" 
-             prism:ViewModelLocator.AutoWireViewModel="True"
+             prism:ViewModelLocator.AutoWireViewModel="False"
+             x:Name="_Root"
              d:DesignHeight="562.885" d:DesignWidth="333.904">
   <d:DataContext>
     <designData:SocioViewModelDTD/>
@@ -24,7 +25,7 @@
   </UserControl.Resources>
   <Border BorderBrush="#CC104F6A" BorderThickness="0" Margin="{StaticResource Margin}">
     <ScrollViewer >
-      <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding Persona.IsInEditionMode}">
+      <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding Socio.IsInEditionMode}">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" MaxWidth="300"/>
           <ColumnDefinition Width="*" MaxWidth="300"/>
