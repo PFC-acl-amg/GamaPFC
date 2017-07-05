@@ -35,7 +35,7 @@ namespace Gama.Atenciones.DataAccess
 
                         var path = directoryPath + @"\nh_atenciones.cfg";
 
-                        //if (File.Exists(path)) { File.Delete(path); }
+                        if (File.Exists(path)) { File.Delete(path); }
 
                         if (File.Exists(path))
                         {
@@ -76,7 +76,7 @@ namespace Gama.Atenciones.DataAccess
                         //c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: false,
-                            execute: false,
+                            execute: true,
                             justDrop: false);
                     })
                 .BuildConfiguration();

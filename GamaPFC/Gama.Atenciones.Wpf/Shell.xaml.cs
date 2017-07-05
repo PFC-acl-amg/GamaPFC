@@ -30,7 +30,7 @@ namespace Gama.Atenciones.Wpf
         private void Shell_Closed(object sender, EventArgs e)
         {
             var vm = (ShellViewModel)this.DataContext;
-            vm.OnCloseApplication();
+            //vm.OnCloseApplication();
         }
 
         private void WebsiteButton_Click(object sender, RoutedEventArgs e)

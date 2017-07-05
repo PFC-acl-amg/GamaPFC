@@ -159,6 +159,9 @@ namespace Gama.Atenciones.Wpf.Services
 
         public override void Create(Persona entity)
         {
+            if (entity.Imagen != null)
+                entity.ImagenUpdatedAt = DateTime.Now;
+
             base.Create(entity);
             Personas.Add(entity);
             AddNif(entity.Nif);
@@ -194,6 +197,38 @@ namespace Gama.Atenciones.Wpf.Services
             base.Delete(entity);
             Personas.Remove(Personas.Find(x => x.Id == entity.Id));
             Nifs.Remove(entity.Nif);
+        }
+
+        public override void DeleteAll()
+        {
+            try
+            {
+                using (MySqlConnection mysqlConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString))
+                {
+                    using (MySqlCommand sqlCommand = new MySqlCommand())
+                    {
+                        sqlCommand.Connection = mysqlConnection;
+                        mysqlConnection.Open();
+
+                        sqlCommand.CommandText = "DELETE FROM derivaciones WHERE TRUE";
+                        sqlCommand.ExecuteNonQuery();
+                        sqlCommand.CommandText = "DELETE FROM atenciones WHERE TRUE";
+                        sqlCommand.ExecuteNonQuery();
+                        sqlCommand.CommandText = "DELETE FROM citas WHERE TRUE";
+                        sqlCommand.ExecuteNonQuery();
+                        sqlCommand.CommandText = "DELETE FROM personas WHERE TRUE";
+                        sqlCommand.ExecuteNonQuery();
+                        sqlCommand.CommandText = "DELETE FROM asistentes WHERE TRUE";
+                        sqlCommand.ExecuteNonQuery();
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public IEnumerable<int> GetPersonasNuevasPorMes(int numeroDeMeses)

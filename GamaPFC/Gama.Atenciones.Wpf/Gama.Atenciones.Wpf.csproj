@@ -568,6 +568,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Actions\" />
+    <Folder Include="FakeServices\FakeImages\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\icono_atenciones.png">
@@ -612,6 +613,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\6.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -44,7 +44,8 @@ namespace Gama.Atenciones.DataAccess.Mappings
             Map(p => p.LinkedIn).Not.Nullable().Default("").Length(128);
             Map(p => p.Observaciones).Not.Nullable().Default("").CustomSqlType("MEDIUMTEXT");
 
-            Map(p => p.Imagen);
+            Map(p => p.Imagen).CustomSqlType("mediumblob");
+            Map(p => p.ImagenUpdatedAt);
 
             Map(p => p.CreatedAt);
             Map(p => p.UpdatedAt);

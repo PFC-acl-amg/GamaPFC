@@ -1,9 +1,11 @@
-﻿using NHibernate;
+﻿using MySql.Data.MySqlClient;
+using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Exceptions;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -207,7 +209,7 @@ namespace Core.DataAccess
             }
         }
 
-        public void DeleteAll()
+        public virtual void  DeleteAll()
         {
             try
             {
