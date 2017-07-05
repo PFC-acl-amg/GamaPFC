@@ -41,7 +41,7 @@ namespace Gama.Socios.Wpf.Services
         private void RaiseActualizarServidor()
         {
             if (SociosResources.ClientService != null && SociosResources.ClientService.IsConnected())
-                SociosResources.ClientService.EnviarMensaje($"Cliente {SociosResources.ClientId} ha hecho un broadcast @@{Guid.NewGuid()}%%");
+                SociosResources.ClientService.EnviarMensaje($"Cliente {SociosResources.ClientId} ha hecho un broadcast @@{Guid.NewGuid()}%%SOCIOS");
         }
 
         public override void UpdateClient()

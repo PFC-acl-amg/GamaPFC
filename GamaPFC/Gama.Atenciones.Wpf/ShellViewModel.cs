@@ -528,7 +528,10 @@ namespace Gama.Atenciones.Wpf
 
         private void OnServidorActualizadoDesdeFueraEvent(string code)
         {
-            if (code != AtencionesResources.ClientId)
+            string moduleName = code.Substring(code.IndexOf("@MODULO:@") + 9);
+            string codigo = code.Substring(0, AtencionesResources.ClientId.Length);
+
+            if (codigo != AtencionesResources.ClientId && moduleName.Contains("ATENCIONES"))
             {
                 DoRawThings();
 
