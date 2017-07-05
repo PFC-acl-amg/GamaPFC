@@ -11,29 +11,29 @@ namespace Gama.Cooperacion.Business
     {
         public virtual IList<Actividad> ActividadesDeQueEsCoordinador { get; protected set; }
         public virtual IList<Actividad> ActividadesEnQueParticipa { get; protected set; }
-        public virtual string Apellido { get; set; }
-        public virtual string Dni { get; set; }
+        public virtual string Apellido { get; set; } = "";
+        public virtual string Dni { get; set; } = "";
         public virtual IList<Email> Emails { get; set; }
         public virtual int Id { get; set; }
-        public virtual string Nombre { get; set; }
-        public virtual string telefono { get; set; }
+        public virtual string Nombre { get; set; } = "";
+        public virtual string telefono { get; set; } = "";
         public virtual byte[] Foto { get; set; }
-        public virtual string Observaciones { get; set; }
+        public virtual string Observaciones { get; set; } = "";
         // Campos Nuevos añadidos 05.04.2017
-        public virtual string Provincia { get; set; }
-        public virtual string Municipio { get; set; }
-        public virtual string CP { get; set; }
-        public virtual string Localidad { get; set; }
-        public virtual string Calle { get; set; }
-        public virtual string Numero { get; set; }
-        public virtual string Portal { get; set; }
-        public virtual string Piso { get; set; }
-        public virtual string Puerta { get; set; }
-        public virtual DateTime FechaDeNacimiento { get; set; }
-        public virtual string TelefonoMovil { get; set; }
-        public virtual string TelefonoAlternativo { get; set; }
-        public virtual string Email { get; set; }
-        public virtual string EmailAlternativo { get; set; }
+        public virtual string Provincia { get; set; } = "";
+        public virtual string Municipio { get; set; } = "";
+        public virtual string CP { get; set; } = "";
+        public virtual string Localidad { get; set; } = "";
+        public virtual string Calle { get; set; } = "";
+        public virtual string Numero { get; set; } = "";
+        public virtual string Portal { get; set; } = "";
+        public virtual string Piso { get; set; } = "";
+        public virtual string Puerta { get; set; } = "";
+        public virtual DateTime? FechaDeNacimiento { get; set; }
+        public virtual string TelefonoMovil { get; set; } = "";
+        public virtual string TelefonoAlternativo { get; set; } = "";
+        public virtual string Email { get; set; } = "";
+        public virtual string EmailAlternativo { get; set; } = "";
         // Fin Campos Nuevos
         public virtual IList<Telefono> Telefonos { get; protected set; }
 

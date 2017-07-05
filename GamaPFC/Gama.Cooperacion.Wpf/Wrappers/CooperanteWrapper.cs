@@ -121,12 +121,12 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         public string PuertaOriginalValue => GetOriginalValue<string>(nameof(Puerta));
         public bool PuertaIsChanged => GetIsChanged(nameof(Puerta));
 
-        public DateTime FechaDeNacimiento
+        public DateTime? FechaDeNacimiento
         {
-            get { return GetValue<DateTime>(); }
+            get { return GetValue<DateTime?>(); }
             set { SetValue(value); }
         }
-        public DateTime FechaDeNacimientoOriginalValue => GetOriginalValue<DateTime>(nameof(FechaDeNacimiento));
+        public DateTime? FechaDeNacimientoOriginalValue => GetOriginalValue<DateTime?>(nameof(FechaDeNacimiento));
         public bool FechaDeNacimientoIsChanged => GetIsChanged(nameof(FechaDeNacimiento));
 
         public string TelefonoMovil
@@ -212,6 +212,8 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             get { return GetValue<string>(); }
             set { SetValue(value); }
         }
+        public string telefonoOriginalValue => GetOriginalValue<string>(nameof(telefono));
+        public bool telefonoIsChanged => GetIsChanged(nameof(telefono));
         public byte[] Foto
         {
             get { return GetValue<byte[]>(); }
