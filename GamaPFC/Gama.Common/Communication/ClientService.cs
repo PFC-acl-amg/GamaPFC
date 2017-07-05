@@ -114,7 +114,7 @@ namespace Gama.Common.Communication
         {
             if (_ClientSocket.Connected)
             {
-                EnviarMensaje("<EOC>");
+                EnviarMensaje($"<EOC>Cliente {_ClientName} ha hecho un broadcast @@{Guid.NewGuid()}%%");
                 _ClientSocket.Close();
                 _ClientThread.Abort();
             }

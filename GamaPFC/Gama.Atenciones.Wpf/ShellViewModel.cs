@@ -175,6 +175,12 @@ namespace Gama.Atenciones.Wpf
 
         private void DoRawThings()
         {
+            _Personas.Clear();
+            _Asistentes.Clear();
+            _Citas.Clear();
+            _Atenciones.Clear();
+            _Derivaciones.Clear();
+
             Persona persona;
             MySqlDataReader reader;
             try
@@ -242,7 +248,14 @@ namespace Gama.Atenciones.Wpf
                                         personaSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
                                         using (Image image = Image.FromStream(new MemoryStream(personaSinImagen.Imagen)))
                                         {
-                                            image.Save(path, ImageFormat.Png);  // Or Png
+                                            try
+                                            {
+                                                image.Save(path, ImageFormat.Png);  // Or Png
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                throw;
+                                            }
                                         }
                                     }
                                 }
@@ -262,7 +275,24 @@ namespace Gama.Atenciones.Wpf
                                             personaSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
                                             using (Image image = Image.FromStream(new MemoryStream(personaSinImagen.Imagen)))
                                             {
-                                                image.Save(path, ImageFormat.Png);  // Or Png
+                                                try
+                                                {
+                                                    //image.Save(path, ImageFormat.Png);  // Or Png
+                                                    string outputFileName = path;
+                                                    using (MemoryStream memory = new MemoryStream())
+                                                    {
+                                                        using (FileStream fs = new FileStream(outputFileName, FileMode.Create, FileAccess.ReadWrite))
+                                                        {
+                                                            image.Save(memory, ImageFormat.Jpeg);
+                                                            byte[] bytes = memory.ToArray();
+                                                            fs.Write(bytes, 0, bytes.Length);
+                                                        }
+                                                    }
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    throw;
+                                                }
                                             }
                                         }
                                     }
@@ -356,7 +386,24 @@ namespace Gama.Atenciones.Wpf
                                             asistenteSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
                                             using (Image image = Image.FromStream(new MemoryStream(asistenteSinImagen.Imagen)))
                                             {
-                                                image.Save(path, ImageFormat.Png);  // Or Png
+                                                try
+                                                {
+                                                    //image.Save(path, ImageFormat.Png);  // Or Png
+                                                    string outputFileName = path;
+                                                    using (MemoryStream memory = new MemoryStream())
+                                                    {
+                                                        using (FileStream fs = new FileStream(outputFileName, FileMode.Create, FileAccess.ReadWrite))
+                                                        {
+                                                            image.Save(memory, ImageFormat.Jpeg);
+                                                            byte[] bytes = memory.ToArray();
+                                                            fs.Write(bytes, 0, bytes.Length);
+                                                        }
+                                                    }
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    throw;
+                                                }
                                             }
                                         }
                                     }
@@ -513,26 +560,26 @@ namespace Gama.Atenciones.Wpf
         {
             try
             {
-                var preferencias = _Preferencias;
-                if (preferencias.DoBackupOnClose)
-                {
-                    string connectionString =
-                        ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString;
-                    DBHelper.Backup(
-                        connectionString: connectionString,
-                        fileName: preferencias.AutomaticBackupPath + DateTime.Now.ToString().Replace('/', '-').Replace(':', '-') + " - atenciones backup.sql");
 
-                    DirectoryInfo directory = new DirectoryInfo(preferencias.AutomaticBackupPath);
+                if (AtencionesResources.ClientService != null)
+                    AtencionesResources.ClientService.Desconectar();
+                //var preferencias = _Preferencias;
+                //if (preferencias.DoBackupOnClose)
+                //{
+                //    string connectionString =
+                //        ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString;
+                //    DBHelper.Backup(
+                //        connectionString: connectionString,
+                //        fileName: preferencias.AutomaticBackupPath + DateTime.Now.ToString().Replace('/', '-').Replace(':', '-') + " - atenciones backup.sql");
 
-                    if (preferencias.BackupDeleteDateLimit.HasValue)
-                        foreach (FileInfo fileInfo in directory.GetFiles())
-                            if (fileInfo.CreationTime < preferencias.BackupDeleteDateLimit.Value
-                                && fileInfo.CreationTime < DateTime.Now.Date) // Para no borrar el que acabamos de poner
-                                fileInfo.Delete();
+                //    DirectoryInfo directory = new DirectoryInfo(preferencias.AutomaticBackupPath);
 
-                    if (AtencionesResources.ClientService != null)
-                        AtencionesResources.ClientService.Desconectar();
-                }
+                //    if (preferencias.BackupDeleteDateLimit.HasValue)
+                //        foreach (FileInfo fileInfo in directory.GetFiles())
+                //            if (fileInfo.CreationTime < preferencias.BackupDeleteDateLimit.Value
+                //                && fileInfo.CreationTime < DateTime.Now.Date) // Para no borrar el que acabamos de poner
+                //                fileInfo.Delete();
+                //}
             }
             catch (Exception ex)
             {
