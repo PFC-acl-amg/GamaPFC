@@ -59,7 +59,6 @@ namespace Gama.Atenciones.Wpf
 
             Application.Current.MainWindow = Shell as Window;
             Application.Current.MainWindow.ShowActivated = true;
-
             Application.Current.MainWindow.Show();
 
             TerminarPreload();
@@ -169,12 +168,6 @@ namespace Gama.Atenciones.Wpf
         {
             var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
             var session = sessionFactory.OpenSession();
-            
-            /// INICIALIZACIÓN 
-            /// En este caso sí necesitamos crear el servicio tal cual porque accedemos a una función espsecífica
-            var asisRep = Container.Resolve<IAsistenteRepository>();
-            asisRep.Session = session;
-            AtencionesResources.TodosLosNifDeAsistentes = asisRep.GetNifs();
 
             #region Seeding
             if (_CLEAR_DATABASE || _SEED_DATABASE)
@@ -428,6 +421,8 @@ namespace Gama.Atenciones.Wpf
                                 _Asistentes.Add(asistente);
                             }
                         }
+
+                        AtencionesResources.TodosLosNifDeAsistentes = _Asistentes.Select(x => x.Nif).ToList();
 
                         foreach (var asistenteSinImagen in _Asistentes)
                         {

@@ -25,11 +25,13 @@ namespace Gama.Socios.Wpf
         private List<Cuota> _Cuotas = new List<Cuota>();
         private ISocioRepository _SocioRepository;
         private IPeriodoDeAltaRepository _PeriodoDeAltaRepository;
+        private ICuotaRepository _CuotaRepository;
+        private ISession _Session;
 
         public Bootstrapper(string title = "GESTIÓN DE SOCIOS") : base(title)
         {
             _CLEAR_DATABASE = false;
-            _SEED_DATABASE = true;
+            _SEED_DATABASE = false;
         }
 
         protected override DependencyObject CreateShell()
@@ -47,6 +49,7 @@ namespace Gama.Socios.Wpf
             ((ShellViewModel)((FrameworkElement)Shell).DataContext).IconSource = icon;
 
             Application.Current.MainWindow = Shell as Window;
+            Application.Current.MainWindow.ShowActivated = true;
             Application.Current.MainWindow.Show();
 
             TerminarPreload();
@@ -54,6 +57,12 @@ namespace Gama.Socios.Wpf
 
         protected override void InitializeDirectories()
         {
+            if (!Directory.Exists(ResourceNames.AppDataFolder))
+                Directory.CreateDirectory(ResourceNames.AppDataFolder);
+
+            if (!Directory.Exists(ResourceNames.SociosFolder))
+                Directory.CreateDirectory(ResourceNames.PersonasFolder);
+
             if (!Directory.Exists(ResourceNames.IconsAndImagesFolder))
                 Directory.CreateDirectory(ResourceNames.IconsAndImagesFolder);
 
@@ -138,6 +147,8 @@ namespace Gama.Socios.Wpf
             Container.RegisterType<ISession>(
                 new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));// Desde preferencias de socios llega aqui y boora la BBDD
             Container.RegisterType<ISocioRepository, SocioRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IPeriodoDeAltaRepository, PeriodoDeAltaRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ICuotaRepository, CuotaRepository>(new ContainerControlledLifetimeManager());
 
             Container.RegisterInstance(new ExportService());
         }
@@ -146,25 +157,34 @@ namespace Gama.Socios.Wpf
         {
 
             var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
-            var socioRepository = new NHibernateOneSessionRepository<Socio, int>();
-            var session = sessionFactory.OpenSession();     // Se ejecuta y se carga la bade de datos siepmre
-            socioRepository.Session = session;
+            var session = sessionFactory.OpenSession();
 
-            try
+            if (_CLEAR_DATABASE || _SEED_DATABASE)
             {
-                if (_SEED_DATABASE)
-                {
+                // NOTA: No utilizamos los servicios directamente porque añaden código que afecta al resto de la aplicación
+                //, a través del EventAggregator por ejemplo. Sólo requerimos la funcionalidad de base de datos.
+                var socioRepository = new NHibernateOneSessionRepository<Socio, int>();
+                var periodoDeAltaRepository = new NHibernateOneSessionRepository<PeriodoDeAlta, int>();
+                var cuotaRepository = new NHibernateOneSessionRepository<Cuota, int>();
 
-                    foreach (var socio in (new FakeSocioRepository().GetAll()))
+                socioRepository.Session = session;
+                periodoDeAltaRepository.Session = session;
+                cuotaRepository.Session = session;
+                
+                try
+                {
+                    if (_CLEAR_DATABASE)
+                        socioRepository.DeleteAll();
+
+                    if (_SEED_DATABASE)
                     {
-                        socioRepository.Create(socio);
+                        var socios = new FakeSocioRepository().GetAll();
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                var message = ex.Message;
-                throw ex;
+                catch (Exception ex)
+                {
+                    throw;
+                }
             }
         }
 

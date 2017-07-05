@@ -8,7 +8,7 @@
              xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
              xmlns:converters="clr-namespace:Gama.Socios.Wpf.Converters"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
-             prism:ViewModelLocator.AutoWireViewModel="True"
+             prism:ViewModelLocator.AutoWireViewModel="False"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" d:DesignWidth="991" >
     <d:DataContext>

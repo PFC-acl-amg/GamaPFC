@@ -53,15 +53,15 @@ namespace Gama.Socios.Wpf
         private void RegisterViewModels()
         {
             Container.RegisterType<ContabilidadViewModel>();
-            Container.RegisterType<DashboardViewModel>();
+            Container.RegisterType<DashboardViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<EditarCuotasViewModel>();
             Container.RegisterType<EditarPeriodosDeAltaViewModel>();
             Container.RegisterType<EditarSocioViewModel>();
-            Container.RegisterType<ListadoDeSociosViewModel>();
+            Container.RegisterType<ListadoDeSociosViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<NuevoSocioViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
-            Container.RegisterType<SociosContentViewModel>();
-            Container.RegisterType<SocioViewModel>();
+            Container.RegisterType<SociosContentViewModel>(new ContainerControlledLifetimeManager());
+            //Container.RegisterType<SocioViewModel>();
             Container.RegisterType<ToolbarViewModel>();
             Container.RegisterType<PreferenciasViewModel>();
             Container.RegisterType<RightCommandsViewModel>();

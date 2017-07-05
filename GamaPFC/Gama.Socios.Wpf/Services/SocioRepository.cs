@@ -8,9 +8,11 @@ using MySql.Data.MySqlClient;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace Gama.Socios.Wpf.Services
 {
@@ -146,6 +148,34 @@ namespace Gama.Socios.Wpf.Services
             }
 
             return resultado;
+        }
+
+        public override void DeleteAll()
+        {
+            try
+            {
+                using (MySqlConnection mysqlConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString))
+                {
+                    using (MySqlCommand sqlCommand = new MySqlCommand())
+                    {
+                        sqlCommand.Connection = mysqlConnection;
+                        mysqlConnection.Open();
+
+                        sqlCommand.CommandText = "DELETE FROM cuotas WHERE TRUE";
+                        sqlCommand.ExecuteNonQuery();
+                        sqlCommand.CommandText = "DELETE FROM periodosDeAlta WHERE TRUE";
+                        sqlCommand.ExecuteNonQuery();
+                        sqlCommand.CommandText = "DELETE FROM socios WHERE TRUE";
+                        sqlCommand.ExecuteNonQuery();
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public void AddNif(string nif)

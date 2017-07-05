@@ -7,7 +7,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
-             prism:ViewModelLocator.AutoWireViewModel="True"
+             prism:ViewModelLocator.AutoWireViewModel="False"
              mc:Ignorable="d" 
              d:DesignHeight="506.507" d:DesignWidth="1023.288">
     <UserControl.Resources>
@@ -47,13 +47,13 @@
                         <!-- Actualizar Button -->
                         <cc:CircleIconButton 
                               Icon="{StaticResource appbar_save}"
-                              Visibility="{Binding SocioVM.EdicionHabilitada, Converter={StaticResource BooleanToVisibilityConverter}}"
+                              Visibility="{Binding SocioVM.Socio.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
                               Command="{Binding ActualizarCommand}"/>
 
                         <!-- Cancelar Button -->
                         <cc:CircleIconButton
                               Icon="{StaticResource appbar_close}"
-                              Visibility="{Binding SocioVM.EdicionHabilitada, Converter={StaticResource BooleanToVisibilityConverter}}"
+                              Visibility="{Binding SocioVM.Socio.IsInEditionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
                               Command="{Binding CancelarEdicionCommand}"/>
 
                         <!-- Habilitar Edición Button -->

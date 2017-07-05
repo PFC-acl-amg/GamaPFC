@@ -22,7 +22,7 @@ namespace Gama.Cooperacion.Wpf
         public Bootstrapper(string title = "COOPERACIÓN") : base(title)
         {
             _CLEAR_DATABASE = false;
-            _SEED_DATABASE = false;
+            _SEED_DATABASE = true;
         }
 
         protected override DependencyObject CreateShell()

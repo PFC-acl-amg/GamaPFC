@@ -11,6 +11,7 @@ namespace Gama.Common
         public static string AppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\GamaData\";
         public static string PersonasFolder = AppDataFolder + @"\Personas\";
         public static string AsistentesFolder = AppDataFolder + @"\Asistentes\";
+        public static string SociosFolder = AppDataFolder + @"\Socios\";
         public static string IconsAndImagesFolder = AppDataFolder + @"\IconsAndImages\";
         public static string DefaultSearchIconPath = IconsAndImagesFolder + @"default_search_icon.png";
         public static string DefaultUserIconPath = IconsAndImagesFolder + @"default_user_icon.png";

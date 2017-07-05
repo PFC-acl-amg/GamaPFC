@@ -57,8 +57,8 @@ namespace Gama.Socios.Wpf.ViewModels
 
         public void Load(SocioWrapper wrapper)
         {
-            Socio.IsInEditionMode = false;
             Socio = wrapper;
+            Socio.IsInEditionMode = false;
         }
     }
 }

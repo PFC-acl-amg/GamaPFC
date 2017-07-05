@@ -282,7 +282,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             var tareaBorrada = Actividad.Tareas.Where(x => x.Id == ((TareaWrapper)wrapper).Id).First();
             Actividad.Tareas.Remove(tareaBorrada);
-            _actividadRepository.Update(Actividad.Model);
+            _TareaRepository.Delete(tareaBorrada.Model);
+            //_actividadRepository.Update(Actividad.Model);
             Actividad.AcceptChanges();
         }
         private void OnEditarTareaCommand(object wrapper)
