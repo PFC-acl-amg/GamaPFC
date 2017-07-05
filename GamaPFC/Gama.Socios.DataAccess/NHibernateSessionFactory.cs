@@ -91,7 +91,7 @@ namespace Gama.Socios.DataAccess
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: false,
-                            execute: true,
+                            execute: false,
                             justDrop: false);
                     })
                 .BuildConfiguration();
@@ -99,7 +99,7 @@ namespace Gama.Socios.DataAccess
 
         public ISession OpenSession()
         {
-            var session = SessionFactory.OpenSession();
+            var session = SessionFactory.OpenSession(); // Se cargar la base de datos siempre que se ejecutar
             session.FlushMode = FlushMode.Commit;
             return session;
         }

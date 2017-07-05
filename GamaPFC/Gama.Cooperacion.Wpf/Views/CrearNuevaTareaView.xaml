@@ -47,7 +47,7 @@
                                               TextWrapping="Wrap"
                                               MinLines="2"
                                               AcceptsReturn="True"
-                                              Text="{Binding DescripcionNuevaTarea, Mode=TwoWay}"/>
+                                              Text="{Binding DescripcionNuevaTarea, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </Grid>
         </StackPanel>

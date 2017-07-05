@@ -27,7 +27,9 @@ namespace Gama.Cooperacion.DataAccess.Mappings
 
             References(x => x.Responsable)
                 .Not.LazyLoad()
-                .Fetch.Join();
+                .Cascade.None();
+            //.Not.LazyLoad();
+            //.Fetch.Join();
 
             HasMany(x => x.Seguimiento)
                 //.Cascade.SaveUpdate()

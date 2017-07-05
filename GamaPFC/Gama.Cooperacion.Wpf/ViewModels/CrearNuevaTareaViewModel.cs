@@ -23,7 +23,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private IEventAggregator _EventAggregator;
         private string _DescripcionNuevaTarea;
         private CooperanteWrapper _ResponsableTarea;
-        private DateTime _FechaFinTarea;
+        private TareaWrapper _NuevaTarea;
+        private DateTime? _FechaFinTarea;
         private int _ModificarTarea;
         private int _TareaID;
 
@@ -42,6 +43,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             AñadirCooperantesComboBox = new DelegateCommand(OnAñadirCooperantesComboBox, OnAñadirCooperantesComboBox_CanExecute);
             Gama.Common.Debug.Debug.StopWatch("CrearNuevaTareaViewModel");
         }
+        //public TareaWrapper NuevaTarea
+        //{
+        //    get { return _NuevaTarea; }
+        //    set { SetProperty(ref _NuevaTarea, value); }
+        //}
         private void OnAñadirCooperantesComboBox()
         {
             foreach (var cooperante in Actividad.Cooperantes)
@@ -83,7 +89,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 SetProperty(ref _ResponsableTarea, value);
             }
         }
-        public DateTime FechaFinTarea
+        public DateTime? FechaFinTarea
         {
             get { return _FechaFinTarea; }
             set { SetProperty(ref _FechaFinTarea, value); }
@@ -162,10 +168,16 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     Actividad = Actividad.Model
                 })
                 { SeguimientoVisible = false });
+                NuevaTarea.Responsable = ResponsableTarea;
+                NuevaTarea.Descripcion = DescripcionNuevaTarea;
+                NuevaTarea.FechaDeFinalizacion = FechaFinTarea;
+                NuevaTarea.Responsable = ResponsableTarea;
+                NuevaTarea.HaFinalizado = false;
+                NuevaTarea.Actividad = Actividad;
                 NuevaTarea.Incidencias.Add(incidenciaTarea);
                 NuevaTarea.Seguimiento.Add(nuevoSeguimiento);
                 Actividad.Tareas.Add(NuevaTarea); // Como Tareas es un Changetrakincolection cuando modificas tareas tambien modificael .model
-                                                  // Por lo que no tengo que hacer Actividad.Model.AddTarea(NuevaTarea.Model);
+                //Por lo que no tengo que hacer Actividad.Model.AddTarea(NuevaTarea.Model);
                 _ActividadRepository.Update(Actividad.Model);
                 _EventAggregator.GetEvent<NuevaTareaCreadaEvent>().Publish(NuevaTarea);
                 var eventoDeActividad = new Evento()
@@ -183,7 +195,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().FechaDeFinalizacion = FechaFinTarea;
                 Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().Responsable = new CooperanteWrapper(new Cooperante());
                 Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().Responsable = ResponsableTarea;
-                
+
                 Actividad.UpdatedAt = DateTime.Now;
                 _ActividadRepository.Update(Actividad.Model);
                 Actividad.AcceptChanges();
@@ -200,6 +212,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             Actividad.RejectChanges();
             Cerrar = true;
+        }
+        private void InvalidateCommands()
+        {
+            ((DelegateCommand)AceptarCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)CancelarCommand).RaiseCanExecuteChanged();
         }
     }
 }

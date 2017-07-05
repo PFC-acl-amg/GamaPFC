@@ -489,6 +489,16 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             FueraPlazoSeleccionado = true;
             FinalizadasSeleccionado = true;
             OpcionYear = DateTime.Today.Year;
+            ListaParcialActividades.Clear();
+            EventoActividad.Clear();
+            foreach(var act in ListaCompletaActividades)
+            {
+                ListaParcialActividades.Add(act);
+            }
+            foreach (var Event in EventosFiltrados)
+            {
+                EventoActividad.Add(Event);
+            }
         }
 
         private void OnVerFiltroCommandExecute()
@@ -591,6 +601,15 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     }
                     EstadosSeleccionados = "";
                     MesSelecionado = 0;
+                }
+            }
+            // En los eventos tendria que mostrar solo los eventos de las actividades mostradas.
+            EventoActividad.Clear();
+            foreach (var Act in ListaParcialActividades)
+            {
+                foreach (var Event in Act.Eventos)
+                {
+                    EventoActividad.Add(Event);
                 }
             }
         }

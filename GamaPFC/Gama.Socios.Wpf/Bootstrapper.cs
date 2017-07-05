@@ -129,7 +129,7 @@ namespace Gama.Socios.Wpf
         {
             Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
             Container.RegisterType<ISession>(
-                new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
+                new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));// Desde preferencias de socios llega aqui y boora la BBDD
             Container.RegisterType<ISocioRepository, SocioRepository>(new ContainerControlledLifetimeManager());
 
             Container.RegisterInstance(new ExportService());
@@ -137,9 +137,10 @@ namespace Gama.Socios.Wpf
 
         protected override void GenerateDatabaseConfiguration()
         {
+
             var sessionFactory = Container.Resolve<INHibernateSessionFactory>();
             var socioRepository = new NHibernateOneSessionRepository<Socio, int>();
-            var session = sessionFactory.OpenSession();
+            var session = sessionFactory.OpenSession();     // Se ejecuta y se carga la bade de datos siepmre
             socioRepository.Session = session;
 
             try

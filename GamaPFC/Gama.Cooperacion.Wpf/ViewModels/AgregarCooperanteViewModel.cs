@@ -101,10 +101,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
        
         private bool OnAceptarCommand_CanExecute()
         {
-            var Activar = NuevoCooperante.Nombre != null && NuevoCooperante.Apellido != null &&
-                          NuevoCooperante.Dni != null && NuevoCooperante.telefono != null;
-            return Activar;
+            //var Activar = NuevoCooperante.Nombre != null && NuevoCooperante.Apellido != null &&
+            //              NuevoCooperante.Dni != null;
+            //return Activar;
 
+            var resultado = NuevoCooperante.IsChanged && NuevoCooperante.IsValid;
+            return resultado;
         }
         private bool OnCancelarCommand_CanExecute()
         {

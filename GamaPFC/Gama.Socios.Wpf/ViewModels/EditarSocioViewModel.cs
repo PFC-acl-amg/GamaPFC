@@ -181,18 +181,21 @@ namespace Gama.Socios.Wpf.ViewModels
         {
             try
             {
-                if (this.Socio.Nombre != null)
-                    return;
 
-                var Socio = new SocioWrapper(
-                    _SocioRepository.GetById(id));
+                //if (this.Socio.Nombre != "")
+                //    return;
+                if (string.IsNullOrEmpty(this.Socio.Nombre))
+                {
+                    var Socio = new SocioWrapper(
+                   _SocioRepository.GetById(id));
 
-                _SocioVM.Load(Socio);
-                // _CuotasVM.Load(_SocioVM.Socio);
-                _EditarPeriodosDeAltaViewModel.Load(_SocioVM.Socio);
-                RefrescarTitulo(Socio.Nombre);
-                TextoDeDarDeAltaBaja = Socio.EstaDadoDeAlta ? "Dar de baja" : "Dar de alta";
-
+                    _SocioVM.Load(Socio);
+                    // _CuotasVM.Load(_SocioVM.Socio);
+                    _EditarPeriodosDeAltaViewModel.Load(_SocioVM.Socio);
+                    RefrescarTitulo(Socio.Nombre);
+                    TextoDeDarDeAltaBaja = Socio.EstaDadoDeAlta ? "Dar de baja" : "Dar de alta";
+                }
+                else return;
             }
             catch (Exception)
             {

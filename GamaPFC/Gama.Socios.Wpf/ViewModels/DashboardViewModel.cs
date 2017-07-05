@@ -37,6 +37,8 @@ namespace Gama.Socios.Wpf.ViewModels
             _EventAggregator = eventAggregator;
             _Settings = settings;
 
+            ListaCompletaSocios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
+            ListaParcialSocios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
             _Socios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
 
             UltimosSocios = new ObservableCollection<LookupItem>(
@@ -153,6 +155,8 @@ namespace Gama.Socios.Wpf.ViewModels
         }
 
         public ObservableCollection<LookupItem> UltimosSocios { get; private set; }
+        public ObservableCollection<Socio> ListaCompletaSocios { get; private set; }
+        public ObservableCollection<Socio> ListaParcialSocios { get; private set; }
         public ObservableCollection<LookupItem> SociosCumpliendoBirthdays { get; private set; }
         public ObservableCollection<LookupItem> SociosMorosos { get; private set; }
         public ChartValues<int> SociosNuevosPorMes { get; set;}

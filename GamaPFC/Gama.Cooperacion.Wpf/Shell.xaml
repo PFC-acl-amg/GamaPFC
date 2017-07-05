@@ -89,13 +89,12 @@
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="470"/>
-      <ColumnDefinition />
-      <ColumnDefinition />
-      <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
 
     <!-- Panel Switcher -->
-    <ContentControl Grid.Row="0" Grid.Column="0" Margin="0" Grid.ColumnSpan="3">
+    <ContentControl Grid.Row="0" Grid.Column="0" Margin="0" Grid.ColumnSpan="2">
       <views:PanelSwitcherView DataContext="{Binding PanelSwitcherViewModel}"/>
     </ContentControl>
 
@@ -103,11 +102,6 @@
     <ContentControl Grid.Row="0" Grid.Column="3" Margin="0">
       <views:ToolbarView DataContext="{Binding ToolbarViewModel}"/>
     </ContentControl>
-
-        <!-- ToolbarTareaView -->
-        <ContentControl Grid.Row="0" Grid.Column="2" Margin="0">
-            <views:ToolbarTareaView DataContext="{Binding ToolbarViewModel}"/>
-        </ContentControl>
 
         <!-- Cuadro de búsqueda -->
         <ContentControl Grid.Row="0" Grid.Column="1" Margin="0"

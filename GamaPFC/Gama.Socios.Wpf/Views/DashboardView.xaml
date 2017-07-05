@@ -7,6 +7,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:designData="clr-namespace:Gama.Socios.Wpf.DesignTimeData"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
              prism:ViewModelLocator.AutoWireViewModel="False"
@@ -15,9 +16,28 @@
   <d:DataContext>
     <designData:DashboardViewModelDTD/>
   </d:DataContext>
-    <UserControl.Resources>
+  <UserControl.Resources>
         <util:BinaryImageConverter x:Key="_BinaryImageConverter" />
-
+        <Style x:Key="DGCHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="BorderThickness" Value="1,1,1,2"/>
+            <Setter Property="BorderBrush" Value="#B6000000"/>
+            <Setter Property="Background" Value="#D12B3336" />
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+            <Setter Property="Padding" Value="3,0,3,3"/>
+        </Style>
+        <Style x:Key="DGHeaderStyle" TargetType="{x:Type DataGrid}">
+            <Setter Property="ColumnHeaderStyle" Value="{StaticResource DGCHeaderStyle}"/>
+            <Setter Property="RowHeaderWidth" Value="0"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="AlternatingRowBackground" Value="#B99BA5AB"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="Margin" Value="0"/>
+        </Style>
         <DataTemplate x:Key="_LookupItemDataTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -38,20 +58,264 @@
                         <DropShadowBitmapEffect Color="Black" />
                     </Image.BitmapEffect>
                 </Image>
-                
+
                 <!--<Image Margin="{StaticResource Margin}" 
                    Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>-->
-                
-                
+
+
                 <StackPanel Grid.Column="1">
                     <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
                     <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
+        <DataTemplate x:Key="_EliminarButtonCellTemplate">
+            <cc:CircleIconButton
+                      HorizontalAlignment="Center"
+                      Icon="{StaticResource appbar_delete}"
+                      Width="36"
+                      Height="36"
+                      IconWidth="13"
+                      IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.BorrarActividadCommand}"
+                      CommandParameter="{Binding}">
+                <Button.Style>
+                    <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                        <Setter Property="Opacity" Value="0.5"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </cc:CircleIconButton>
+        </DataTemplate>
+        <DataTemplate x:Key="_IrButtonCellTemplate">
+            <cc:CircleIconButton
+                      HorizontalAlignment="Left"
+                      Icon="{StaticResource appbar_arrow_right}"
+                      Width="36"
+                      Height="36"
+                      IconWidth="13"
+                      IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.SelectActividadCommand}"
+                      CommandParameter="{Binding}">
+                <Button.Style>
+                    <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                        <Setter Property="Opacity" Value="0.5"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </cc:CircleIconButton>
+        </DataTemplate>
+        <DataTemplate x:Key="_EditarButtonCellTemplate">
+            <cc:CircleIconButton
+                      Icon="{StaticResource appbar_edit}"
+                      Width="36"
+                      Height="36"
+                      IconWidth="13"
+                      IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.EditarActividadCommand}"
+                      CommandParameter="{Binding}">
+                <Button.Style>
+                    <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                        <Setter Property="Opacity" Value="0.5"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </cc:CircleIconButton>
+        </DataTemplate>
+        <DataTemplate x:Key="_FotoCellTemplate">
+            <Ellipse Height="50" Width="50" 
+                       Margin="{StaticResource Margin}" HorizontalAlignment="Center">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="{Binding Socio.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                </Ellipse.Fill>
+            </Ellipse>
+        </DataTemplate>
     </UserControl.Resources>
   <Grid>
-    <Grid.RowDefinitions>
+      
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="15" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="15" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+        <GroupBox Grid.Column="0" Header="Filtros" Width="200" Background="Black">
+            
+        </GroupBox>
+        <StackPanel Name="VerFiltroSocios" Grid.Column="1" Background="White" VerticalAlignment="Center"
+                    Orientation="Horizontal" Margin="2,0,1,0"
+                    ToolTip="Mostrar/Ocultar Ociones">
+            <Rectangle Width="2" Height="300" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="1" />
+            <Rectangle Width="2" Height="300" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="1" />
+            <Rectangle Width="2" Height="300" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="1"/>
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <prism:InvokeCommandAction Command="{Binding VisibleFiltroSociosCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </StackPanel>
+        <Grid Grid.Column="2" Margin="4,4,4,0">
+            <DataGrid
+                  BorderThickness="1"
+                  Grid.Row="1"
+                  Margin="0,-2,6,2"
+                  CanUserResizeColumns="False"
+                  Style="{StaticResource DGHeaderStyle}"
+                  ItemsSource="{Binding ListaParcialSocios}">
+                <DataGrid.Resources>
+                    <DataTemplate x:Key="_HeaderTemplate" >
+                        <TextBlock Text="{Binding}" Margin="{StaticResource Margin}"/>
+                    </DataTemplate>
+                </DataGrid.Resources>
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Foreground" Value="Black" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.CellStyle>
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="FontSize" Value="13"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#D95796BE"/>
+                                <Setter Property="BorderThickness" Value="0" />
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Background" Value="#D972BCE9"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Foto" 
+                                  HeaderTemplate="{StaticResource _HeaderTemplate}" 
+                                  CellTemplate="{StaticResource _FotoCellTemplate}"/>
+                    <!--<DataGridTemplateColumn Header="ID"
+                                        HeaderTemplate="{StaticResource _HeaderTemplate}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left"
+                                    Width="30"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{Binding Id}"
+                                    Padding="{StaticResource Margin}"
+                                    Margin="{StaticResource Margin}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>-->
+                    <DataGridTemplateColumn Header="Nombre" Width="*" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left"
+                                    Width="400"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{Binding Nombre, UpdateSourceTrigger=PropertyChanged}"
+                                    Padding="{StaticResource Margin}"
+                                    Margin="{StaticResource Margin}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Nif" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left"
+                                    Width="100"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{Binding Nif, UpdateSourceTrigger=PropertyChanged}"
+                                    Padding="{StaticResource Margin}"
+                                    Margin="{StaticResource Margin}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Telefono" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left"
+                                    Width="100"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{Binding Telefono, UpdateSourceTrigger=PropertyChanged}"
+                                    Padding="{StaticResource Margin}"
+                                    Margin="{StaticResource Margin}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Editar"
+                                    HeaderTemplate="{StaticResource _HeaderTemplate}" 
+                                    CellTemplate="{StaticResource _EditarButtonCellTemplate}"/>
+                    <DataGridTemplateColumn Header="Eliminar"
+                                    HeaderTemplate="{StaticResource _HeaderTemplate}" 
+                                    CellTemplate="{StaticResource _EliminarButtonCellTemplate}"/>
+                    <DataGridTemplateColumn Header="Abrir"  
+                                    HeaderTemplate="{StaticResource _HeaderTemplate}" 
+                                    CellTemplate="{StaticResource _IrButtonCellTemplate}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <StackPanel Name="VerDetallesSocio" Grid.Column="3" Background="White" VerticalAlignment="Center"
+                    Orientation="Horizontal" Margin="2,0,1,0"
+                    ToolTip="Mostrar/Ocultar Ociones">
+            <Rectangle Width="2" Height="300" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="1" />
+            <Rectangle Width="2" Height="300" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="1" />
+            <Rectangle Width="2" Height="300" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="1"/>
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <prism:InvokeCommandAction Command="{Binding VisibleDetallesSociosCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </StackPanel>
+        <Grid Grid.Column="4" Width="300" Background="#D9D9D7">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                
+            </Grid.RowDefinitions>
+
+        </Grid>
+    </Grid>
+
+
+
+
+
+    <!--Comienzo del viejo Dashboard-->
+    <!--<Grid.RowDefinitions>
       <RowDefinition Height="*" MinHeight="200" MaxHeight="300"/>
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
@@ -61,7 +325,7 @@
       <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Últimos Socios -->
+        --><!-- Últimos Socios --><!--
         <GroupBox Grid.Column="0" Grid.Row="0"
                  Margin="{StaticResource Margin}">
             <GroupBox.Header>
@@ -86,7 +350,7 @@
             </ListBox>
         </GroupBox>
 
-        <!-- Socios que cumplen años hoy -->
+        --><!-- Socios que cumplen años hoy --><!--
         <GroupBox Grid.Column="1" Grid.Row="0"
                  Margin="{StaticResource Margin}">
             <GroupBox.Header>
@@ -111,7 +375,7 @@
             </ListBox>
         </GroupBox>
       
-    <!-- Socios Morosos -->
+    --><!-- Socios Morosos --><!--
     <GroupBox Grid.Column="2" Grid.Row="0"
                  Margin="{StaticResource Margin}">
       <GroupBox.Header>
@@ -134,29 +398,8 @@
             </i:EventTrigger>
           </i:Interaction.Triggers>
         </ListBox>
-    </GroupBox>
+    </GroupBox>-->
 
-    <!-- SOCIOS NUEVOS POR MES-->
-    <lvc:CartesianChart  Grid.Column="0" Grid.Row="1" Margin="{StaticResource MarginDouble}" LegendLocation="Top"
-                         Grid.ColumnSpan="3">
-      <lvc:CartesianChart.Series>
-        <lvc:LineSeries Values="{Binding SociosNuevosPorMes}"
-                        Title="SOCIOS NUEVOS POR MES"
-                        Fill="Transparent" 
-                        Stroke="Green"
-                        LineSmoothness="0">
-        </lvc:LineSeries>
-      </lvc:CartesianChart.Series>
-      <lvc:CartesianChart.AxisY>
-        <lvc:Axis MinValue="0"></lvc:Axis>
-      </lvc:CartesianChart.AxisY>
-      <lvc:CartesianChart.AxisX>
-        <lvc:Axis Labels="{Binding SociosLabels}">
-          <lvc:Axis.Separator>
-            <lvc:Separator Step="1"></lvc:Separator>
-          </lvc:Axis.Separator>
-        </lvc:Axis>
-      </lvc:CartesianChart.AxisX>
-    </lvc:CartesianChart>
-  </Grid>
+    
+ 
 </UserControl>

@@ -54,7 +54,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private bool _VisibleTareasFinalizadas;
         private bool _VisibleFiltroEventoTarea;
         private bool _VisibleEventosTarea;
-
+        private List<Evento> _Evento;
         public TareasDeActividadViewModel(
             IActividadRepository actividadRepository,
             ICooperanteRepository cooperabteRepository,
@@ -81,8 +81,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             TareasDisponibles = new ObservableCollection<TareaWrapper>();
             TareasDisponiblesAux = new ObservableCollection<TareaWrapper>();
             EventoActividad = new ObservableCollection<Evento>();
+            EventoActividadAux = new ObservableCollection<Evento>();
             TareasFinalizadas = new ObservableCollection<TareaWrapper>();
             CooperantesSeleccionados = new ObservableCollection<CooperanteWrapper>();
+            _Evento = new List<Evento>();
 
             _EventAggregator.GetEvent<CargarNuevaActividadEvent>().Subscribe(OnCargarNuevaActividadEvent);
             _EventAggregator.GetEvent<NuevoForoCreadoEvent>().Subscribe(OnNuevoForoCreadoEvent);
@@ -108,6 +110,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             RecuperarTareaCommand = new DelegateCommand<TareaWrapper>(OnRecuperarTareaCommand);
             MostarFiltroEventoTarea = new DelegateCommand(OnMostarFiltroEventoTarea);
             VerEventosTareaCommand = new DelegateCommand(OnVerEventosTareaCommand);
+            BotonFiltarEventosCommand = new DelegateCommand(OnBotonFiltarEventosCommandExecute);
+            ResetearFechaEventosCommand = new DelegateCommand(OnResetearFechaEventosCommandExecute);
             Gama.Common.Debug.Debug.StopWatch("TareasDeActividadViewModel");
         }
 
@@ -171,6 +175,57 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand RecuperarTareaCommand { get; set; }
         public ICommand MostarFiltroEventoTarea { get; set; }
         public ICommand VerEventosTareaCommand { get; set; }
+        public ICommand BotonFiltarEventosCommand { get; set; }
+        public ICommand ResetearFechaEventosCommand { get; set; }
+        private void OnResetearFechaEventosCommandExecute()
+        {
+            FechaInicioOpcion = null;
+            FechaFinOpcion = null;
+            EventoActividad.Clear();
+            foreach (var Event in EventoActividadAux)
+            {
+                EventoActividad.Add(Event);
+            }
+        }
+        private void OnBotonFiltarEventosCommandExecute()
+        {
+            DateTime? Inicio = FechaInicioOpcion;
+            DateTime? Final = FechaFinOpcion;
+            _Evento.Clear();
+            if ((Inicio != null) && (Final == null))
+            {
+                foreach (var EventoSel in EventoActividad)
+                {
+                    if (EventoSel.FechaDePublicacion.Date == Inicio)
+                    {
+                        _Evento.Add(EventoSel);
+                    }
+                }
+                EventoActividad.Clear();
+                foreach (var EventoValido in _Evento)
+                {
+                    EventoActividad.Add(EventoValido);
+                }
+            }
+            else
+            {
+                if ((Inicio != null) && (Final != null))
+                {
+                    foreach (var EventoSel in EventoActividad)
+                    {
+                        if ((EventoSel.FechaDePublicacion.Date >= Inicio) && (EventoSel.FechaDePublicacion.Date <= Final))
+                        {
+                            _Evento.Add(EventoSel);
+                        }
+                    }
+                    EventoActividad.Clear();
+                    foreach (var EventoValido in _Evento)
+                    {
+                        EventoActividad.Add(EventoValido);
+                    }
+                }
+            }
+        }
         private void OnVerEventosTareaCommand()
         {
             if (VisibleEventosTarea == false) VisibleEventosTarea = true;
@@ -454,6 +509,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ObservableCollection<ForoWrapper> ForosDisponibles { get; private set; }
         public ObservableCollection<Mensaje> MensajesDisponibleEnForo { get; private set; }
         public ObservableCollection<Evento> EventoActividad { get; private set; }
+        public ObservableCollection<Evento> EventoActividadAux { get; private set; }
         public ObservableCollection<TareaWrapper> TareasDisponibles { get; private set; }
         public ObservableCollection<TareaWrapper> TareasDisponiblesAux { get; private set; }
         public ObservableCollection<TareaWrapper> TareasFinalizadas { get; private set; }
@@ -505,6 +561,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             TareasDisponibles.Clear();
             TareasFinalizadas.Clear();
             EventoActividad.Clear();
+            EventoActividadAux.Clear();
             var actividad = _actividadRepository.GetById(id); // actividad contiene la información de la base de datos
             foreach (var forito in actividad.Foros)
             {
@@ -569,6 +626,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             foreach (var evento in actividad.Eventos)
             {
                 EventoActividad.Add(evento);
+                EventoActividadAux.Add(evento);
             }
 
         }
@@ -706,6 +764,18 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         }
 
+        private DateTime? _FechaInicioOpcion;
+        public DateTime? FechaInicioOpcion
+        {
+            get { return _FechaInicioOpcion; }
+            set { SetProperty(ref _FechaInicioOpcion, value); }
+        }
 
+        private DateTime? _FechaFinOpcion;
+        public DateTime? FechaFinOpcion
+        {
+            get { return _FechaFinOpcion; }
+            set { SetProperty(ref _FechaFinOpcion, value); }
+        }
     }   // Clase TareasDeActividadVM
 }       // Fin namespace

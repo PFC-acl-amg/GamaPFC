@@ -119,9 +119,9 @@ namespace Gama.Cooperacion.Wpf.Wrappers
 
         public bool HaFinalizadoIsChanged => GetIsChanged(nameof(HaFinalizado));
 
-        public DateTime FechaDeFinalizacion
+        public DateTime? FechaDeFinalizacion
         {
-            get { return GetValue<DateTime>(); }
+            get { return GetValue<DateTime?>(); }
             set { SetValue(value); }
         }
 
@@ -161,7 +161,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             }
         }
 
-        public ActividadWrapper Actividad { get; private set; }
+        public ActividadWrapper Actividad { get; set; }
         //public CooperanteWrapper Responsable { get;  set; } // Estaba puesto private set pero no me dejaba hacer la asignacion
                                                             // TareasDisponibles[indice].Responsable = ResponsableTarea.Model;
                                                             // para el nuevo evento OnTareaModificadaEvent

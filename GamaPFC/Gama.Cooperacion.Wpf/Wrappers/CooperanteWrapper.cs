@@ -2,6 +2,7 @@
 using Gama.Cooperacion.Business;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,17 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             this.Telefonos = new ChangeTrackingCollection<TelefonoWrapper>
                 (model.Telefonos.Select(t => new TelefonoWrapper(t)));
             this.RegisterCollection(this.Telefonos, model.Telefonos.ToList());
+        }
+        public override bool IsChanged => base.IsChanged;
+
+        public override void AcceptChanges()
+        {
+            base.AcceptChanges();
+        }
+
+        public override void RejectChanges()
+        {
+            base.RejectChanges();
         }
         // Nuevos Campos añadidos a la clase Cooperante
         public string Nif
@@ -223,5 +235,29 @@ namespace Gama.Cooperacion.Wpf.Wrappers
 
         public ChangeTrackingCollection<EmailWrapper> Emails { get; private set; }
         public ChangeTrackingCollection<TelefonoWrapper> Telefonos { get; private set; }
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (string.IsNullOrWhiteSpace(Nombre))
+            {
+                yield return new ValidationResult("El Nombre es obligatorio",
+                    new[] { nameof(Nombre) });
+            }
+
+            if (string.IsNullOrWhiteSpace(Apellido))
+            {
+                yield return new ValidationResult("El Apellido es obligatorio",
+                    new[] { nameof(Apellido) });
+            }
+            if (string.IsNullOrWhiteSpace(Dni))
+            {
+                yield return new ValidationResult("El DNI es obligatorio",
+                    new[] { nameof(Dni) });
+            }
+            //if (Coordinador == null || Coordinador.Id == 0)
+            //{
+            //    yield return new ValidationResult("La actividad debe tener un coordinador",
+            //        new[] { nameof(Coordinador) });
+            //}
+        }
     }
 }

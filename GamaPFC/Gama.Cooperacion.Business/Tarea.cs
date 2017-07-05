@@ -14,7 +14,7 @@ namespace Gama.Cooperacion.Business
         public virtual int Id { get;  set; }
         public virtual string Descripcion { get; set;  }
         public virtual bool HaFinalizado { get; set; }
-        public virtual DateTime FechaDeFinalizacion { get; set; }
+        public virtual DateTime? FechaDeFinalizacion { get; set; }
         public virtual Cooperante Responsable { get; set; }
         public virtual IList<Seguimiento> Seguimiento { get; set; }
         public virtual IList<Incidencia> Incidencias { get; set; }
@@ -22,6 +22,7 @@ namespace Gama.Cooperacion.Business
         public Tarea() // cuando se crea una tarea se inicializa el historial de seguimiento y los mensajes de la tarea
         {
             //Historial = new List<Seguimiento>();
+            Responsable = new Cooperante();
             Seguimiento = new List<Seguimiento>();
             Incidencias = new List<Incidencia>();
         }
