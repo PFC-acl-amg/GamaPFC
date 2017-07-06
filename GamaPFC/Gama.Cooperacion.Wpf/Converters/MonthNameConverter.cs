@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Gama.Atenciones.Wpf.Converters
+namespace Gama.Cooperacion.Wpf.Converters
 {
     [ValueConversion(typeof(string), typeof(string))]
     public class MonthNameConverter : IValueConverter

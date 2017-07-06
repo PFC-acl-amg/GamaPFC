@@ -25,7 +25,11 @@ namespace Gama.Cooperacion.Wpf
 
         public ShellViewModel(
             EventAggregator eventAggregator,
+            DashboardViewModel dashboardViewModel,
+            ActividadesContentViewModel actividadesContentVieWModel,
             PanelSwitcherViewModel panelSwitcherViewModel,
+            CalendarioDeActividadesViewModel calendarioDeActividadesViewModel,
+            CooperantesContentViewModel cooperantesContentViewModel,
             ToolbarViewModel toolbarViewModel,
             StatusBarViewModel statusBarViewModel,
             Preferencias preferencias,
@@ -36,15 +40,19 @@ namespace Gama.Cooperacion.Wpf
             PanelSwitcherViewModel = panelSwitcherViewModel;
             ToolbarViewModel = toolbarViewModel;
             StatusBarViewModel = statusBarViewModel;
+            DashboardViewModel = dashboardViewModel;
             _Preferencias = preferencias;
+            CalendarioDeActividadesViewModel = calendarioDeActividadesViewModel;
+            CooperantesContentViewModel = cooperantesContentViewModel;
+            ActividadesContentViewModel = actividadesContentVieWModel;
 
             _EventAggregator.GetEvent<ActiveViewChanged>().Subscribe(OnActiveViewChangedEvent);
             _EventAggregator.GetEvent<ServidorActualizadoDesdeFueraEvent>().Subscribe(OnServidorActualizadoDesdeFueraEvent);
 
             _Panels.Add("DashboardView", false);
-            _Panels.Add("PersonasContentView", false);
-            _Panels.Add("CitasContentView", false);
-            _Panels.Add("AsistentesContentView", false);
+            _Panels.Add("CalendarioDeActividadesView", false);
+            _Panels.Add("CooperantesContentView", false);
+            _Panels.Add("ActividadesContentView", false);
             _Panels.Add("GraficasContentView", false);
 
             SetVisiblePanel("DashboardView");
@@ -57,6 +65,10 @@ namespace Gama.Cooperacion.Wpf
         public PanelSwitcherViewModel PanelSwitcherViewModel { get; set; }
         public ToolbarViewModel ToolbarViewModel { get; set; }
         public StatusBarViewModel StatusBarViewModel { get; set; }
+        public CalendarioDeActividadesViewModel CalendarioDeActividadesViewModel { get; set; }
+        public CooperantesContentViewModel CooperantesContentViewModel { get; set; }
+        public DashboardViewModel DashboardViewModel { get; set; }
+        public ActividadesContentViewModel ActividadesContentViewModel { get; set; }
 
         private bool _DashboardViewIsVisible = true;
         public bool DashboardViewIsVisible
@@ -65,32 +77,32 @@ namespace Gama.Cooperacion.Wpf
             set { SetProperty(ref _DashboardViewIsVisible, value); }
         }
 
-        private bool _PersonasContentViewIsVisible = false;
-        public bool PersonasContentViewIsVisible
+        private bool _CooperantesContentViewIsvisible = false;
+        public bool CooperantesContentViewIsVisible
         {
-            get { return _PersonasContentViewIsVisible; }
-            set { SetProperty(ref _PersonasContentViewIsVisible, value); }
+            get { return _CooperantesContentViewIsvisible; }
+            set { SetProperty(ref _CooperantesContentViewIsvisible, value); }
         }
 
-        private bool _CitasContentViewIsVisible = false;
-        public bool CitasContentViewIsVisible
+        private bool _ActividadesContentViewIsVisible = false;
+        public bool ActividadesContentViewIsVisible
         {
-            get { return _CitasContentViewIsVisible; }
-            set { SetProperty(ref _CitasContentViewIsVisible, value); }
+            get { return _ActividadesContentViewIsVisible; }
+            set { SetProperty(ref _ActividadesContentViewIsVisible, value); }
         }
 
-        private bool _AsistentesContentViewIsVisible = false;
-        public bool AsistentesContentViewIsVisible
+        private bool _CalendarioDeActividadesViewIsVisible = false;
+        public bool CalendarioDeActividadesViewIsVisible
         {
-            get { return _AsistentesContentViewIsVisible; }
-            set { SetProperty(ref _AsistentesContentViewIsVisible, value); }
+            get { return _CalendarioDeActividadesViewIsVisible; }
+            set { SetProperty(ref _CalendarioDeActividadesViewIsVisible, value); }
         }
 
-        private bool _GraficasViewIsVisible = false;
+        private bool _GraficasContentViewIsVisible = false;
         public bool GraficasContentViewIsVisible
         {
-            get { return _GraficasViewIsVisible; }
-            set { SetProperty(ref _GraficasViewIsVisible, value); }
+            get { return _GraficasContentViewIsVisible; }
+            set { SetProperty(ref _GraficasContentViewIsVisible, value); }
         }
 
         public ImageSource IconSource
@@ -107,17 +119,18 @@ namespace Gama.Cooperacion.Wpf
         private void SetVisiblePanel(string panel)
         {
             _Panels["DashboardView"] = false;
-            _Panels["PersonasContentView"] = false;
-            _Panels["CitasContentView"] = false;
-            _Panels["AsistentesContentView"] = false;
+            _Panels["CalendarioDeActividadesView"] = false;
+            _Panels["CooperantesContentView"] = false;
+            _Panels["ActividadesContentView"] = false;
+            //_Panels["AsistentesContentView"] = false;
             _Panels["GraficasContentView"] = false;
 
             _Panels[panel] = true;
 
             DashboardViewIsVisible = _Panels["DashboardView"];
-            PersonasContentViewIsVisible = _Panels["PersonasContentView"];
-            CitasContentViewIsVisible = _Panels["CitasContentView"];
-            AsistentesContentViewIsVisible = _Panels["AsistentesContentView"];
+            CalendarioDeActividadesViewIsVisible = _Panels["CalendarioDeActividadesView"];
+            CooperantesContentViewIsVisible = _Panels["CooperantesContentView"];
+            ActividadesContentViewIsVisible = _Panels["ActividadesContentView"];
             GraficasContentViewIsVisible = _Panels["GraficasContentView"];
         }
 

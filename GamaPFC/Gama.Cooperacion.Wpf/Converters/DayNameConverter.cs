@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows.Data;
 using System.Globalization;
 
-namespace Gama.Atenciones.Wpf.Converters
+namespace Gama.Cooperacion.Wpf.Converters
 {
     /// <summary>
     /// Converts the specified short day name to its normal counterpart.

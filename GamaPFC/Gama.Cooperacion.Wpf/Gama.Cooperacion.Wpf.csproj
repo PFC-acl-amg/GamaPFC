@@ -149,10 +149,16 @@
     <Compile Include="Actions\CloseWindowAction.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Converters\ActividadViewToViewModelConverter.cs" />
+    <Compile Include="Converters\AppointmentsConverter.cs" />
     <Compile Include="Converters\BinaryImageConverter.cs" />
     <Compile Include="Converters\BooleanToVisivilityConverter.cs" />
+    <Compile Include="Converters\DateConverter.cs" />
+    <Compile Include="Converters\DayNameConverter.cs" />
+    <Compile Include="Converters\MonthNameConverter.cs" />
     <Compile Include="CooperacionModule.cs" />
     <Compile Include="CooperacionResources.cs" />
+    <Compile Include="Controls\CustomCalendar.cs" />
+    <Compile Include="Controls\Day.cs" />
     <Compile Include="DesignTimeData\DashboardViewModelDTD.cs" />
     <Compile Include="DesignTimeData\DesignTimeDataViewModel.cs" />
     <Compile Include="DesignTimeData\InformacionTareaViewModel_DTD.cs" />
@@ -206,7 +212,7 @@
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="UIEvents\ActiveViewChanged.cs" />
     <Compile Include="ViewModels\AgregarCooperanteViewModel.cs" />
-    <Compile Include="ViewModels\CalendarioActividadesViewModel.cs" />
+    <Compile Include="ViewModels\CalendarioDeActividadesViewModel.cs" />
     <Compile Include="ViewModels\CooperantesContentViewModel.cs" />
     <Compile Include="ViewModels\CooperanteViewModel.cs" />
     <Compile Include="ViewModels\CrearNuevaTareaViewModel.cs" />
@@ -229,8 +235,8 @@
     <Compile Include="Views\AgregarCooperanteView.xaml.cs">
       <DependentUpon>AgregarCooperanteView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CalendarioActividadesView.xaml.cs">
-      <DependentUpon>CalendarioActividadesView.xaml</DependentUpon>
+    <Compile Include="Views\CalendarioDeActividadesView.xaml.cs">
+      <DependentUpon>CalendarioDeActividadesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CooperantesContentView.xaml.cs">
       <DependentUpon>CooperantesContentView.xaml</DependentUpon>
@@ -337,7 +343,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\CalendarioActividadesView.xaml">
+    <Page Include="Views\CalendarioDeActividadesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

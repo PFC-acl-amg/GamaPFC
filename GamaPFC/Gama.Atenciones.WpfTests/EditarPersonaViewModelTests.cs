@@ -79,7 +79,7 @@ namespace Gama.Atenciones.WpfTests
             navigationServiceMock.SetupGet(x => x.Journal).Returns(navigationJournalMock.Object);
 
             var context = new NavigationContext(navigationServiceMock.Object, uri, navigationParameters);
-            _Vm.OnNavigatedTo(context);
+            //_Vm.OnNavigatedTo(context);
         }
 
         [Fact]

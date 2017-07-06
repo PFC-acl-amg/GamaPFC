@@ -10,7 +10,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
-             prism:ViewModelLocator.AutoWireViewModel="True"
+             prism:ViewModelLocator.AutoWireViewModel="False"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
               xmlns:util="clr-namespace:Core.Util;assembly=Core"
              mc:Ignorable="d" 

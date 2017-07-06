@@ -135,11 +135,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _Evento = new List<Evento>();
             _IdActividad = 100;
             _OpcionYear = DateTime.Today.Year;
-            _EnCursoCount = ColeccionEstadosActividades.EstadosActividades["Comenzado"];
-            _NoComenzado = ColeccionEstadosActividades.EstadosActividades["NoComenzado"];
-            _FueraPlazo = ColeccionEstadosActividades.EstadosActividades["FueraPlazo"];
-            _ProximasFinalizaciones = ColeccionEstadosActividades.EstadosActividades["ProximasFinalizaciones"];
-            _Finalizado = ColeccionEstadosActividades.EstadosActividades["Finalizado"];
+            //_EnCursoCount = ColeccionEstadosActividades.EstadosActividades["Comenzado"];
+            //_NoComenzado = ColeccionEstadosActividades.EstadosActividades["NoComenzado"];
+            //_FueraPlazo = ColeccionEstadosActividades.EstadosActividades["FueraPlazo"];
+            //_ProximasFinalizaciones = ColeccionEstadosActividades.EstadosActividades["ProximasFinalizaciones"];
+            //_Finalizado = ColeccionEstadosActividades.EstadosActividades["Finalizado"];
             _FechaInicioActividad = new DateTime(2017, 01, 01);
             this.itemCount = 10;
             this.Items = new ObservableCollection<Item>();

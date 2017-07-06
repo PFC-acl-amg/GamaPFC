@@ -28,13 +28,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private IPersonaRepository _PersonaRepository;
         private IAsistenteRepository _AsistenteRepository;
         private ICitaRepository _CitaRepository;
-        private IEventAggregator _EventAggregator;
+        private EventAggregator _EventAggregator;
         private ISession _Session;
         private int _Refresh;
         private List<CitaWrapper> _Citas;
 
         public CitasContentViewModel(
-            IEventAggregator eventAggregator,
+            EventAggregator eventAggregator,
             ICitaRepository citaRepository,
             IPersonaRepository personaRepository,
             IAsistenteRepository asistenteRepository,
@@ -235,11 +235,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 wrapper.Asistente.CopyValuesFrom(asistente);
 
             Refresh++;
-        }
-
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            _EventAggregator.GetEvent<ActiveViewChanged>().Publish("CitasContentView");
         }
     }
 }

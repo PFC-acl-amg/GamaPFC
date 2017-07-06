@@ -89,7 +89,7 @@
                                 <Setter Property="Cursor" Value="Hand" />
                                 <Setter Property="Foreground" Value="Red" />
                             </Trigger>
-                            <DataTrigger Binding="{Binding ActivePanel}" Value="CooperanteView">
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="CooperantesContentView">
                                 <Setter Property="Foreground" Value="#275B6D"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -100,7 +100,7 @@
             <controls:Tile 
                 Title="Calendario"
                 Command="{Binding NavigateCommand}"
-                CommandParameter="CalendarioActividadesView">
+                CommandParameter="CalendarioDeActividadesView">
                 <controls:Tile.Style>
                     <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
                         <Style.Triggers>
@@ -108,7 +108,7 @@
                                 <Setter Property="Cursor" Value="Hand" />
                                 <Setter Property="Foreground" Value="Red" />
                             </Trigger>
-                            <DataTrigger Binding="{Binding ActivePanel}" Value="CalendarioActividadesView">
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="CalendarioDeActividadesView">
                                 <Setter Property="Foreground" Value="#275B6D"/>
                             </DataTrigger>
                         </Style.Triggers>

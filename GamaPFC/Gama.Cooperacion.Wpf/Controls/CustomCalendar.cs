@@ -1,4 +1,4 @@
-﻿using Gama.Atenciones.Wpf.Wrappers;
+﻿using Gama.Cooperacion.Wpf.Wrappers;
 using Prism.Commands;
 using System;
 using System.Collections.ObjectModel;
@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Collections.Specialized;
 
-namespace Gama.Atenciones.Wpf.Controls
+namespace Gama.Cooperacion.Wpf.Controls
 {
     public class CustomCalendar : Control
     {
@@ -28,7 +28,7 @@ namespace Gama.Atenciones.Wpf.Controls
         {
             Days = new ObservableCollection<Day>();
             DayNames = new ObservableCollection<string> { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo", };
-            
+
             BuildCalendar(DateTime.Today);
 
             SemanaAnteriorCommand = new DelegateCommand(OnSemanaAnteriorCommandExecute);
@@ -41,7 +41,7 @@ namespace Gama.Atenciones.Wpf.Controls
             var cc = d as CustomCalendar;
             if (cc != null)
             {
-                if (e.NewValue != null && !IsSameYearMonthDay((DateTime)e.NewValue,(DateTime)e.OldValue))
+                if (e.NewValue != null && !IsSameYearMonthDay((DateTime)e.NewValue, (DateTime)e.OldValue))
                 {
                     cc.OnCurrentDateChanged((DateTime)e.NewValue);
                 }
@@ -78,8 +78,8 @@ namespace Gama.Atenciones.Wpf.Controls
 
         public static readonly DependencyProperty DaysProperty =
             DependencyProperty.Register(
-                "Days", 
-                typeof(ObservableCollection<Day>), 
+                "Days",
+                typeof(ObservableCollection<Day>),
                 typeof(CustomCalendar),
                 new PropertyMetadata(new ObservableCollection<Day>()));
 
@@ -88,7 +88,7 @@ namespace Gama.Atenciones.Wpf.Controls
             DependencyProperty.Register
             (
                 "Appointments",
-                typeof(ObservableCollection<CitaWrapper>),
+                typeof(ObservableCollection<ActividadWrapper>),
                 typeof(CustomCalendar),
                 new FrameworkPropertyMetadata(new PropertyChangedCallback(OnAppointmentsPropertyChanged))
             );
@@ -98,9 +98,9 @@ namespace Gama.Atenciones.Wpf.Controls
             var cc = d as CustomCalendar;
             if (cc != null)
             {
-                var items = e.NewValue as ObservableCollection<CitaWrapper>;
+                var items = e.NewValue as ObservableCollection<ActividadWrapper>;
                 if (items == null)
-                    items = new ObservableCollection<CitaWrapper>();
+                    items = new ObservableCollection<ActividadWrapper>();
 
                 if (items != null)
                     items.CollectionChanged += new NotifyCollectionChangedEventHandler(cc.AppointmentsChanged);
@@ -109,7 +109,7 @@ namespace Gama.Atenciones.Wpf.Controls
 
         private void AppointmentsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-           this.Dispatcher.Invoke((Action)delegate { BuildCalendar(CurrentDate); });
+            this.Dispatcher.Invoke((Action)delegate { BuildCalendar(CurrentDate); });
         }
 
         public DateTime CurrentDate
@@ -201,7 +201,8 @@ namespace Gama.Atenciones.Wpf.Controls
             //Show 3 weeks each with 7 days = 21 42
             for (int box = 1; box <= 21; box++)
             {
-                Day day = new Day {
+                Day day = new Day
+                {
                     Date = startDate,
                     Enabled = true,
                     IsToday = startDate.Date == DateTime.Today.Date,
@@ -209,7 +210,7 @@ namespace Gama.Atenciones.Wpf.Controls
                 };
 
                 day.PropertyChanged += Day_Changed;
-                
+
                 Days.Add(day);
                 startDate = startDate.AddDays(1);
             }
@@ -228,7 +229,7 @@ namespace Gama.Atenciones.Wpf.Controls
             return (a.Year == b.Year && a.Month == b.Month && a.Day == b.Day);
         }
     }
-    
+
     public class DayChangedEventArgs : EventArgs
     {
         public Day Day { get; private set; }

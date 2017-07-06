@@ -8,12 +8,13 @@
 using Core;
 using Gama.Common;
 using Gama.Cooperacion.Wpf.Eventos;
-using Gama.Cooperacion.Wpf.UIEvents;
+using Gama.Common.Eventos;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
 using System.Windows.Input;
+using System;
 
 namespace Gama.Cooperacion.Wpf.ViewModels
 {
@@ -21,23 +22,29 @@ namespace Gama.Cooperacion.Wpf.ViewModels
     {
         private IRegionManager _regionManager;
         private string _ActivePanel;
-        private IEventAggregator _eventAggregator;
+        private IEventAggregator _EventAggregator;
         public PanelSwitcherViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
         {
-            _eventAggregator = eventAggregator;
-            _regionManager = regionManager;
+            _EventAggregator = eventAggregator;
             ActivePanel = "DashboardView";
             this.NavigateCommand = new DelegateCommand<string>(Navigate);
 
-            _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Subscribe(OnActividadSeleccionadaEvent);
-            _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
-            
+            _EventAggregator.GetEvent<ActividadSeleccionadaEvent>().Subscribe(OnActividadSeleccionadaEvent);
+            _EventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
+
+            _EventAggregator.GetEvent<ActiveViewChanged>().Subscribe(OnActiveViewChangedEvent);
+
+        }
+
+        private void OnActiveViewChangedEvent(string viewName)
+        {
+            ActivePanel = viewName;
         }
 
         private void Navigate(string viewName)
         {
             ActivePanel = viewName;
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, viewName);
+            _EventAggregator.GetEvent<ActiveViewChanged>().Publish(viewName);
         }
         private void OnNuevaActividadEvent(int id)
         {

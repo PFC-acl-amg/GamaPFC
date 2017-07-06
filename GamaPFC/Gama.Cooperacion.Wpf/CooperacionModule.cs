@@ -77,6 +77,7 @@ namespace Gama.Cooperacion.Wpf
         {
             Container.RegisterType<ActividadesContentViewModel>();
             Container.RegisterType<CooperantesContentViewModel>();
+            Container.RegisterType<CalendarioDeActividadesViewModel>();
             Container.RegisterType<DashboardViewModel>();
             Container.RegisterType<EditarActividadViewModel>();
             Container.RegisterType<InformacionDeActividadViewModel>();
@@ -159,10 +160,10 @@ namespace Gama.Cooperacion.Wpf
             //RegionManager.RequestNavigate(RegionNames.ContentRegion, "ActividadesContentView");
             //RegionManager.AddToRegion(RegionNames.ActividadesTabContentRegion, new ListadoDeActividadesView());
             //RegionManager.RequestNavigate(RegionNames.ActividadesTabContentRegion, "ListadoDeActividadesView");
-            RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
-            RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<CooperantesContentView>());
-            RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<ActividadesContentView>());
-            RegionManager.AddToRegion(RegionNames.ActividadesTabContentRegion, Container.Resolve<ListadoDeActividadesView>());
+            //RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
+            //RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<CooperantesContentView>());
+            //RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<ActividadesContentView>());
+            //RegionManager.AddToRegion(RegionNames.ActividadesTabContentRegion, Container.Resolve<ListadoDeActividadesView>());
             RegionManager.RegisterViewWithRegion(RegionNames.RightCommandsRegion, typeof(RightCommandsView));
 
         }

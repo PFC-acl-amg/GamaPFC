@@ -1,14 +1,15 @@
-﻿using Gama.Atenciones.Wpf.Controls;
-using Gama.Atenciones.Wpf.Wrappers;
+﻿using Gama.Cooperacion.Wpf.Controls;
+using Gama.Cooperacion.Wpf.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Gama.Atenciones.Wpf.Converters
+
+namespace Gama.Cooperacion.Wpf.Converters
 {
-    [ValueConversion(typeof(ObservableCollection<CitaWrapper>), typeof(ObservableCollection<CitaWrapper>))]
+    [ValueConversion(typeof(ObservableCollection<ActividadWrapper>), typeof(ObservableCollection<ActividadWrapper>))]
     public class AppointmentsConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -16,10 +17,10 @@ namespace Gama.Atenciones.Wpf.Converters
             try
             {
                 if (values == null)
-                    return new List<CitaWrapper>();
+                    return new List<ActividadWrapper>();
 
                 if (values[0] == null)
-                    return new List<CitaWrapper>();
+                    return new List<ActividadWrapper>();
 
                 Day day = values[1] as Day;
                 DateTime date;
@@ -27,16 +28,16 @@ namespace Gama.Atenciones.Wpf.Converters
                 if (day != null)
                     date = ((Day)values[1]).Date;
                 else
-                    return new List<CitaWrapper>();
+                    return new List<ActividadWrapper>();
 
-                ObservableCollection<CitaWrapper> appointments = new ObservableCollection<CitaWrapper>();
+                ObservableCollection<ActividadWrapper> appointments = new ObservableCollection<ActividadWrapper>();
 
                 if (values[0] != DependencyProperty.UnsetValue && values[0] != null)
                 {
 
-                    foreach (CitaWrapper appointment in (ObservableCollection<CitaWrapper>)values[0])
+                    foreach (ActividadWrapper appointment in (ObservableCollection<ActividadWrapper>)values[0])
                     {
-                        if (IsSameYearMonthDay(appointment.Fecha.Value, date))
+                        if (IsSameYearMonthDay(appointment.FechaDeFin, date))
                         {
                             appointments.Add(appointment);
                         }
@@ -46,7 +47,7 @@ namespace Gama.Atenciones.Wpf.Converters
             }
             catch (Exception ex)
             {
-                return new List<CitaWrapper>();
+                return new List<ActividadWrapper>();
             }
         }
 

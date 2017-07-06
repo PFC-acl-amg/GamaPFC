@@ -41,6 +41,8 @@ namespace Gama.Cooperacion.Business
             Eventos = new List<Evento>();
         }
 
+        public virtual string TituloCorto => Titulo.Length > 10 ? Titulo.Substring(0, 10) : Titulo;
+
         public virtual void AddCooperante(Cooperante cooperante)
         {
             Cooperantes.Add(cooperante);

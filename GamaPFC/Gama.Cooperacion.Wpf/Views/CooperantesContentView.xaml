@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True"
+             prism:ViewModelLocator.AutoWireViewModel="False"
              xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"

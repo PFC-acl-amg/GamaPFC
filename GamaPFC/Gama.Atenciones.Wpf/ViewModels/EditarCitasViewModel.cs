@@ -130,6 +130,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 Persona.Citas.Add(new CitaWrapper(cita));
             }
+            Persona.AcceptChanges();
+            Refresh++;
         }
     }
 }

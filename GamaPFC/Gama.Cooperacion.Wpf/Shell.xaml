@@ -17,6 +17,7 @@
   WindowTitleBrush="{StaticResource AccentColorBrush}"
   Style="{StaticResource CustomMetroWindowStyle}"
   Title="COOPERACIÓN" 
+  x:Name="_Root"
   Icon="{Binding IconSource}"
   Height="350" Width="1000">
   <mahapps:MetroWindow.Resources>
@@ -103,12 +104,36 @@
       <views:ToolbarView DataContext="{Binding ToolbarViewModel}"/>
     </ContentControl>
 
-        <!-- Cuadro de búsqueda -->
-        <ContentControl Grid.Row="0" Grid.Column="1" Margin="0"
-                    prism:RegionManager.RegionName="{x:Static common:RegionNames.SearchBoxRegion}"  />
+    <!-- Cuadro de búsqueda -->
+    <ContentControl Grid.Row="0" Grid.Column="1" Margin="0"
+                prism:RegionManager.RegionName="{x:Static common:RegionNames.SearchBoxRegion}"  />
 
-        <!-- Región de contenido -->
-    <ContentControl Grid.Row="1" Grid.ColumnSpan="4" prism:RegionManager.RegionName="{x:Static common:RegionNames.ContentRegion}" />
+    <!-- Región de contenido -->
+    <!-- Región de contenido -->
+    <ContentControl Grid.Row="1" Grid.ColumnSpan="3" Margin="0">
+      <Grid>
+        <!-- Dashboard -->
+        <views:DashboardView DataContext="{Binding DashboardViewModel}" 
+                             Visibility="{Binding DataContext.DashboardViewIsVisible,
+                              ElementName=_Root, 
+                              Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+        <!-- Contabilidad -->
+        <views:ActividadesContentView DataContext="{Binding ActividadesContentViewModel}" 
+                             Visibility="{Binding DataContext.ActividadesContentViewIsVisible,
+                              ElementName=_Root, 
+                              Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+        <!-- Cooperantes -->
+        <views:CooperantesContentView DataContext="{Binding CooperantesContentViewModel}" 
+                             Visibility="{Binding DataContext.CooperantesContentViewIsVisible,
+                              ElementName=_Root, 
+                              Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+        <!-- Calendario de Actividades -->
+        <views:CalendarioDeActividadesView DataContext="{Binding CalendarioDeActividadesViewModel}" 
+                             Visibility="{Binding DataContext.CalendarioDeActividadesViewIsVisible,
+                              ElementName=_Root, 
+                              Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+      </Grid>
+    </ContentControl>
 
     <!-- Status Bar -->
     <views:StatusBarView Grid.Row="2" Grid.ColumnSpan="4" DataContext="{Binding StatusBarViewModel}"/>

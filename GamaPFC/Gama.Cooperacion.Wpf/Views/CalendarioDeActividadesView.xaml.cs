@@ -1,4 +1,4 @@
-﻿using Gama.Atenciones.Wpf.ViewModels;
+﻿using Gama.Cooperacion.Wpf.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,21 +10,20 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Gama.Atenciones.Wpf.Views
+namespace Gama.Cooperacion.Wpf.Views
 {
     /// <summary>
-    /// Interaction logic for CitasContentView.xaml
+    /// Lógica de interacción para CalendarioActividadesView.xaml
     /// </summary>
-    public partial class CitasContentView : UserControl
+    public partial class CalendarioDeActividadesView : UserControl
     {
         private bool _ToggleCalendarStyleCheckboxIsChecked = false;
 
-        public CitasContentView()
+        public CalendarioDeActividadesView()
         {
             InitializeComponent();
         }
@@ -34,7 +33,7 @@ namespace Gama.Atenciones.Wpf.Views
             _ToggleCalendarStyleCheckboxIsChecked = !_ToggleCalendarStyleCheckboxIsChecked;
             _ToggleCalendarStyleCheckbox.IsChecked = !_ToggleCalendarStyleCheckbox.IsChecked;
 
-            var viewModel = DataContext as CitasContentViewModel;
+            var viewModel = DataContext as CalendarioDeActividadesViewModel;
             if (!_ToggleCalendarStyleCheckboxIsChecked)
             {
                 viewModel._AplicarFiltroDeFecha = false;
