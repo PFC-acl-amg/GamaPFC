@@ -34,7 +34,7 @@ namespace Gama.Socios.DataAccess.Mappings
 
             HasMany(x => x.PeriodosDeAlta)
                 .Not.LazyLoad()
-                .Cascade.Delete()
+                .Cascade.All()
                 .Inverse();
         }
     }

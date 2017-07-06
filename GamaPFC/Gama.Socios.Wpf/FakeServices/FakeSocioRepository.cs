@@ -18,7 +18,7 @@ namespace Gama.Socios.Wpf.FakeServices
         public List<Socio> Socios { get; set; }
 
         private List<Socio> _Socios;
-        public static int SEED_COUNT = 50;
+        public static int SEED_COUNT = 2;
 
         public FakeSocioRepository()
         {

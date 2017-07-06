@@ -36,7 +36,7 @@ namespace Gama.Socios.Wpf.Services
         public bool General_EdicionHabilitadaPorDefecto { get; set; }
         public int MesesParaSerConsideradoMoroso { get; set; }
         public int ListadoDeSociosItemsPerPage { get; set; }
-        public float CuotaMensualPredeterminada { get; set; }
+        public static float CuotaMensualPredeterminada { get; set; }
 
         public void Serializar()
         {

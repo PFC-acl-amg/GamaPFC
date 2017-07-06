@@ -27,6 +27,7 @@ namespace Gama.Socios.Wpf.FakeServices
                 {
                     Id = i + 1,
                     FechaDeAlta = DateTime.Now.AddMonths(-7),
+                    FechaDeBaja = DateTime.Now
                 };
 
                 _PeriodosDeAlta.Add(periodoDeAlta);
