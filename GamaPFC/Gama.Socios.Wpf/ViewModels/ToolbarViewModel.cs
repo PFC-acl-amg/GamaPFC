@@ -57,8 +57,14 @@ namespace Gama.Socios.Wpf.ViewModels
 
         private void OnExportarCommandExecute()
         {
-            if (Socio == null) return;
-            _ExportService.ExportarSocio(Socio, Socio.Nombre);
+            //var ListaSocios = _SocioRepository.GetAll();
+            //_ExportService.ExportarSocios(ListaSocios);
+            if (Socio == null)
+            {
+                var ListaSocios = _SocioRepository.GetAll();
+                _ExportService.ExportarSocios(ListaSocios);
+            }
+            else _ExportService.ExportarSocio(Socio, Socio.Nombre);
         }
     }
 }
