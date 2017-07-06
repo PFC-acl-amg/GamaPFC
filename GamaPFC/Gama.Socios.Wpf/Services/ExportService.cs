@@ -220,8 +220,92 @@ namespace Gama.Socios.Wpf.Services
                 return _DesktopPath + String.Format(@"\{0}", fileName);
         }
 
-        public void ExportarSocios(IEnumerable<Socio> socios)
+        public void ExportarSocios(List<Socio> socios)
         {
+            var destinyPath = GeneratePath("ListaSocios");
+            DocX document = DocX.Create(destinyPath);
+            string curFile = destinyPath;
+            bool isFileInUse;
+            isFileInUse = FileInUse(destinyPath);
+            // Insertar Parrafo con el titulo de la tabla que se mostrará a continuación
+            Paragraph title = document.InsertParagraph().Append("Listado Actual de Socios").
+                FontSize(20).Font(new FontFamily("Times New Roman"));
+            title.Alignment = Alignment.center;
+            // --------------- Llamda a Header ---------------
+            document.AddHeaders();
+            document.DifferentFirstPage = true;
+
+            Header header_first = document.Headers.first;
+            Header headers = document.Headers.odd; // El resto de headers
+
+            Paragraph p0 = header_first.InsertParagraph();
+            p0.Append("Gamá - Gestión de Socios").FontSize(20).Bold();
+            p0.Alignment = Alignment.center;
+            // Insert a Paragraph into this document.
+            Paragraph P_TablaDatosSocios = document.InsertParagraph();
+            P_TablaDatosSocios.Alignment = Alignment.center;
+            //-------------- Fin Llamada a Header-----------------
+            //-------------- Crear la Tabla-----------------------
+            // NumFilas = Socios.Cont + Titulos + Sumatoria
+            // NumColumnas = 6 (Nombre,Dni,Telefono,CantidadPagada,CuotasPorPagar,CuotasImpagadas)
+            // Tablas de Datos
+            int NumFilas = socios.Count +2;
+            int NumColumnas = 6;
+            Table DatosSocios = document.AddTable(NumFilas, NumColumnas); // Info Contenida en el DNI
+            DatosSocios.Alignment = Alignment.center;
+            // Diseño de las Tablas
+            DatosSocios.Design = TableDesign.MediumShading1;
+            
+            P_TablaDatosSocios.InsertTableBeforeSelf(DatosSocios);
+            P_TablaDatosSocios.AppendLine();
+
+            DatosSocios.AutoFit = AutoFit.ColumnWidth;
+            DatosSocios.SetColumnWidth(0, 2000);
+            DatosSocios.SetColumnWidth(1, 1700);
+            DatosSocios.SetColumnWidth(2, 1700);
+            DatosSocios.SetColumnWidth(3, 1700);
+            DatosSocios.SetColumnWidth(4, 1700);
+            DatosSocios.SetColumnWidth(5, 1900);
+
+            //Insertando los valores en las celda de DatosSocios
+            DatosSocios.Rows[0].Cells[0].Paragraphs.First().AppendLine("Nombre");
+            DatosSocios.Rows[0].Cells[1].Paragraphs.First().AppendLine("DNI");
+            DatosSocios.Rows[0].Cells[2].Paragraphs.First().AppendLine("Teléfono");
+            DatosSocios.Rows[0].Cells[3].Paragraphs.First().AppendLine("CantidadPagada");
+            DatosSocios.Rows[0].Cells[4].Paragraphs.First().AppendLine("CuotasPorPagar");
+            DatosSocios.Rows[0].Cells[5].Paragraphs.First().AppendLine("CuotasImpagadas");
+
+            int posSocio = 0;
+            for(int i= 1; i <= (NumFilas-2); i++)
+            {
+                posSocio = i - 1;
+                Socio socioLista = socios[posSocio];
+                DatosSocios.Rows[i].Cells[0].Paragraphs.First().AppendLine(socioLista.Nombre);
+                DatosSocios.Rows[i].Cells[1].Paragraphs.First().AppendLine(socioLista.Nif);
+                DatosSocios.Rows[i].Cells[2].Paragraphs.First().AppendLine(socioLista.Telefono);
+                DatosSocios.Rows[i].Cells[3].Paragraphs.First().AppendLine("Por Calcular");
+                DatosSocios.Rows[i].Cells[4].Paragraphs.First().AppendLine("Por Calcular");
+                DatosSocios.Rows[i].Cells[5].Paragraphs.First().AppendLine("Por Calcular");
+            }
+            // Relleno de la linea final con la sumatoria totasl de las cuotas
+            DatosSocios.Rows[NumFilas-1].Cells[1].Paragraphs.First().AppendLine("Cantidad Total");
+            DatosSocios.Rows[NumFilas-1].Cells[2].Paragraphs.First().AppendLine(socios.Count.ToString());
+            DatosSocios.Rows[NumFilas-1].Cells[3].Paragraphs.First().AppendLine("Por Calcular");
+            DatosSocios.Rows[NumFilas-1].Cells[4].Paragraphs.First().AppendLine("Por Calcular");
+            DatosSocios.Rows[NumFilas-1].Cells[5].Paragraphs.First().AppendLine("Por Calcular");
+
+            document.InsertParagraph();
+            // Save this document to disk.
+            if (!FileInUse(destinyPath))
+            {
+                document.Save();
+            }
+            else
+            {
+                MessageBox.Show("El fichero está abierto. No se realizaron los cambios");
+            }
+            //document.Save();
+            //Process.Start("WINWORD.EXE", destinyPath);  
 
         }
         static bool FileInUse(string path)
