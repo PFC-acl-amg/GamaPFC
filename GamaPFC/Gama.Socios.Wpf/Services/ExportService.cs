@@ -1,5 +1,7 @@
-﻿using Gama.Socios.Business;
+﻿using Gama.Common.Eventos;
+using Gama.Socios.Business;
 using Novacode;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,16 +17,48 @@ namespace Gama.Socios.Wpf.Services
 {
     public class ExportService
     {
+        private EventAggregator _EventAggregator;
+        private PreferenciasDeSocios _Settings;
+        private int _MesesParaMoroso = 0;
         private static string _DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
         //+ @"\HelloWorld.docx";
 
-        public ExportService()
+        public ExportService(EventAggregator EventAggregator, PreferenciasDeSocios Settings)
         {
+            _EventAggregator = EventAggregator;
+            _Settings = Settings;
+            _MesesParaMoroso = _Settings.MesesParaSerConsideradoMoroso;
+            _EventAggregator.GetEvent<PreferenciasActualizadasEvent>().Subscribe(OnPreferenciasActualizadasEvent);
+        }
 
+        private void OnPreferenciasActualizadasEvent()
+        {
+            _MesesParaMoroso = _Settings.MesesParaSerConsideradoMoroso;
         }
 
         public void ExportarSocio(Socio socio, string fileName)
         {
+            //Calculo contable---------------
+            double TotalPagado = 0;
+            double TotalSinPagar = 0;
+            double TotalImpagos = 0;
+            foreach(var Recibo in socio.PeriodosDeAlta)
+            {
+                foreach(var cuot in Recibo.Cuotas)
+                {
+                    if (cuot.EstaPagado) TotalPagado = TotalPagado + cuot.CantidadTotal;
+                    else
+                    {
+                        //int SemanaFin = DateTime.Compare(_FechaTest, ActividadSeleccionada.FechaDeFin.AddDays(-7));
+                        int FueraPlazo = DateTime.Compare(cuot.Fecha.AddMonths(_MesesParaMoroso),DateTime.Now.Date);
+                        if (FueraPlazo == -1) TotalImpagos = TotalImpagos + (cuot.CantidadTotal - cuot.CantidadPagada); 
+                        else TotalSinPagar = TotalSinPagar + (cuot.CantidadTotal - cuot.CantidadPagada);
+                    }
+                    //else TotalSinPagar = TotalSinPagar + cuot.CantidadPagada;
+                }
+            }
+            //Fin Calculo contable-----------
             var destinyPath = GeneratePath(fileName);
             DocX document = DocX.Create(destinyPath);
 
@@ -32,7 +66,6 @@ namespace Gama.Socios.Wpf.Services
             bool isFileInUse;
 
             isFileInUse = FileInUse(destinyPath);
-
 
 
             // Insertar Parrafo con el titulo de la tabla que se mostrará a continuación
@@ -65,9 +98,9 @@ namespace Gama.Socios.Wpf.Services
                 FontSize(20).Font(new FontFamily("Times New Roman"));
                 title3.Alignment = Alignment.center;
             Paragraph P_TablaCuotas = document.InsertParagraph();
-            Table Cuotas = document.AddTable(6, 2); // Info Contenida en el DNI
-            Cuotas.Design = TableDesign.MediumList2Accent4;
-            P_TablaCuotas.InsertTableBeforeSelf(OtrosDatos);
+            Table Cuotas = document.AddTable(4, 2); // Info Contenida en el DNI
+            Cuotas.Design = TableDesign.MediumList2Accent5;
+            P_TablaCuotas.InsertTableBeforeSelf(Cuotas);
 
             DatosDNI.AutoFit = AutoFit.ColumnWidth;
             OtrosDatos.AutoFit = AutoFit.ColumnWidth;
@@ -145,6 +178,12 @@ namespace Gama.Socios.Wpf.Services
             OtrosDatos.Rows[6].Cells[0].Paragraphs.First().AppendLine("Twitter");
             OtrosDatos.Rows[6].Cells[1].Paragraphs.First().AppendLine(socio.Twitter);
 
+            Cuotas.Rows[1].Cells[0].Paragraphs.First().AppendLine("Total Pagado");
+            Cuotas.Rows[1].Cells[1].Paragraphs.First().AppendLine(TotalPagado.ToString());
+            Cuotas.Rows[2].Cells[0].Paragraphs.First().AppendLine("Total Pendiente");
+            Cuotas.Rows[2].Cells[1].Paragraphs.First().AppendLine(TotalSinPagar.ToString());
+            Cuotas.Rows[3].Cells[0].Paragraphs.First().AppendLine("Total Impagos");
+            Cuotas.Rows[3].Cells[1].Paragraphs.First().AppendLine(TotalImpagos.ToString());
             document.InsertParagraph();
             // Save this document to disk.
             if (!FileInUse(destinyPath))
@@ -276,23 +315,51 @@ namespace Gama.Socios.Wpf.Services
             DatosSocios.Rows[0].Cells[5].Paragraphs.First().AppendLine("CuotasImpagadas");
 
             int posSocio = 0;
-            for(int i= 1; i <= (NumFilas-2); i++)
+
+            double TotalPagadoSocios = 0;
+            double TotalSinPagarSocios = 0;
+            double TotalImpagosSocios = 0;
+            double TotalPagado = 0;
+            double TotalSinPagar = 0;
+            double TotalImpagos = 0;
+            for (int i= 1; i <= (NumFilas-2); i++)
             {
                 posSocio = i - 1;
+                TotalPagado = 0;
+                TotalSinPagar = 0;
+                TotalImpagos = 0;
                 Socio socioLista = socios[posSocio];
+                foreach (var Recibo in socioLista.PeriodosDeAlta)
+                {
+                    foreach (var cuot in Recibo.Cuotas)
+                    {
+                        if (cuot.EstaPagado) TotalPagado = TotalPagado + cuot.CantidadTotal;
+                        else
+                        {
+                            //int SemanaFin = DateTime.Compare(_FechaTest, ActividadSeleccionada.FechaDeFin.AddDays(-7));
+                            int FueraPlazo = DateTime.Compare(cuot.Fecha.AddMonths(_MesesParaMoroso), DateTime.Now.Date);
+                            if (FueraPlazo == -1) TotalImpagos = TotalImpagos + (cuot.CantidadTotal - cuot.CantidadPagada);
+                            else TotalSinPagar = TotalSinPagar + (cuot.CantidadTotal - cuot.CantidadPagada);
+                        }
+                        //else TotalSinPagar = TotalSinPagar + cuot.CantidadPagada;
+                    }
+                }
+                TotalPagadoSocios += TotalPagado;
+                TotalSinPagarSocios += TotalSinPagar;
+                TotalImpagosSocios += TotalImpagos;
                 DatosSocios.Rows[i].Cells[0].Paragraphs.First().AppendLine(socioLista.Nombre);
                 DatosSocios.Rows[i].Cells[1].Paragraphs.First().AppendLine(socioLista.Nif);
                 DatosSocios.Rows[i].Cells[2].Paragraphs.First().AppendLine(socioLista.Telefono);
-                DatosSocios.Rows[i].Cells[3].Paragraphs.First().AppendLine("Por Calcular");
-                DatosSocios.Rows[i].Cells[4].Paragraphs.First().AppendLine("Por Calcular");
-                DatosSocios.Rows[i].Cells[5].Paragraphs.First().AppendLine("Por Calcular");
+                DatosSocios.Rows[i].Cells[3].Paragraphs.First().AppendLine(TotalPagado.ToString());
+                DatosSocios.Rows[i].Cells[4].Paragraphs.First().AppendLine(TotalSinPagar.ToString());
+                DatosSocios.Rows[i].Cells[5].Paragraphs.First().AppendLine(TotalImpagos.ToString());
             }
             // Relleno de la linea final con la sumatoria totasl de las cuotas
             DatosSocios.Rows[NumFilas-1].Cells[1].Paragraphs.First().AppendLine("Cantidad Total");
             DatosSocios.Rows[NumFilas-1].Cells[2].Paragraphs.First().AppendLine(socios.Count.ToString());
-            DatosSocios.Rows[NumFilas-1].Cells[3].Paragraphs.First().AppendLine("Por Calcular");
-            DatosSocios.Rows[NumFilas-1].Cells[4].Paragraphs.First().AppendLine("Por Calcular");
-            DatosSocios.Rows[NumFilas-1].Cells[5].Paragraphs.First().AppendLine("Por Calcular");
+            DatosSocios.Rows[NumFilas-1].Cells[3].Paragraphs.First().AppendLine(TotalPagadoSocios.ToString());
+            DatosSocios.Rows[NumFilas-1].Cells[4].Paragraphs.First().AppendLine(TotalSinPagarSocios.ToString());
+            DatosSocios.Rows[NumFilas-1].Cells[5].Paragraphs.First().AppendLine(TotalImpagosSocios.ToString());
 
             document.InsertParagraph();
             // Save this document to disk.

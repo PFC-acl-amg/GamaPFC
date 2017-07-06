@@ -187,6 +187,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 SetProperty(ref _CooperanteSeleccionado, value);
                 RefrescarVista();
+
                 OnPropertyChanged();
             }
         }

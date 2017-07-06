@@ -157,7 +157,7 @@ namespace Gama.Socios.Wpf
             Container.RegisterType<IPeriodoDeAltaRepository, PeriodoDeAltaRepository>(new ContainerControlledLifetimeManager());
             Container.RegisterType<ICuotaRepository, CuotaRepository>(new ContainerControlledLifetimeManager());
 
-            Container.RegisterInstance(new ExportService());
+           
         }
 
         protected override void GenerateDatabaseConfiguration()

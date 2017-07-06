@@ -1,4 +1,5 @@
 ﻿using Core;
+using Gama.Common.Eventos;
 using Gama.Socios.Business;
 using Gama.Socios.Wpf.Eventos;
 using Gama.Socios.Wpf.Services;
@@ -21,6 +22,7 @@ namespace Gama.Socios.Wpf.ViewModels
         private IEventAggregator _EventAggregator;
         private ISocioRepository _SocioRepository;
         private ExportService _ExportService;
+        private string VistaCargada;
 
         public ToolbarViewModel(
             ISocioRepository socioRepository,
@@ -37,6 +39,12 @@ namespace Gama.Socios.Wpf.ViewModels
             ExportarCommand = new DelegateCommand(OnExportarCommandExecute);
 
             _EventAggregator.GetEvent<SocioSeleccionadoEvent>().Subscribe(OnSocioSeleccionadoEvent);
+            _EventAggregator.GetEvent<ActiveViewChanged>().Subscribe(OnListaSociosExportarEvent);
+        }
+
+        private void OnListaSociosExportarEvent(string obj)
+        {
+            VistaCargada = obj;
         }
 
         private void OnSocioSeleccionadoEvent(int id)
@@ -59,12 +67,18 @@ namespace Gama.Socios.Wpf.ViewModels
         {
             //var ListaSocios = _SocioRepository.GetAll();
             //_ExportService.ExportarSocios(ListaSocios);
-            if (Socio == null)
+            if (VistaCargada != "SociosContentView")
             {
                 var ListaSocios = _SocioRepository.GetAll();
                 _ExportService.ExportarSocios(ListaSocios);
             }
             else _ExportService.ExportarSocio(Socio, Socio.Nombre);
+            //if (Socio == null)
+            //{
+            //    var ListaSocios = _SocioRepository.GetAll();
+            //    _ExportService.ExportarSocios(ListaSocios);
+            //}
+            //else _ExportService.ExportarSocio(Socio, Socio.Nombre);
         }
     }
 }
