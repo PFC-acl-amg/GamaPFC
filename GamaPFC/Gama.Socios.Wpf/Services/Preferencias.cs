@@ -12,29 +12,21 @@ namespace Gama.Socios.Wpf.Services
     public class Preferencias
     {
         public static string PreferenciasPath => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-                + @"\GamaData\preferencias_de_socios.cfg";
+                + @"\GamaData\Socios\preferencias_de_socios.cfg";
         public static string PreferenciasPathFolder => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-                + @"\GamaData\";
+                + @"\GamaData\Socios\";
 
         public Preferencias()
         {
-            DashboardUltimasPersonas = 15;
-            DashboardLongitudDeNombres = 60;
-            DashboardUltimasCitas = 10;
-            DashboardLongitudDeSeguimientos = 60;
-            DashboardUltimasAtenciones = 5;
-            DashboardMesesAMostrarDeAtencionesNuevas = 6;
-            DashboardMesesAMostrarDePersonasNuevas = 6;
+            ListadoDeSociosItemsPerPage = 10;
+            MesesParaSerConsideradoMoroso = 3;
 
-            ListadoDePersonasItemsPerPage = 10;
-            Dashboard_MostrarFiltroDeFechaPorDefecto = true;
-            CitasContent_MostrarFiltroDeFechaPorDefecto = true;
-
-            AutomaticBackupPath = PreferenciasPathFolder;
-
+            AutomaticBackupPath = PreferenciasPathFolder + @"\Backup\";
             DoBackupOnClose = true;
-
             General_EdicionHabilitadaPorDefecto = false;
+
+            if (!Directory.Exists(AutomaticBackupPath))
+                Directory.CreateDirectory(AutomaticBackupPath);
         }
 
         public string AutomaticBackupPath { get; set; }
@@ -42,18 +34,9 @@ namespace Gama.Socios.Wpf.Services
         public DateTime? BackupDeleteDateLimit { get; set; }
 
         public bool General_EdicionHabilitadaPorDefecto { get; set; }
-
-        public bool Dashboard_MostrarFiltroDeFechaPorDefecto { get; set; }
-        public bool CitasContent_MostrarFiltroDeFechaPorDefecto { get; set; }
-
-        public int DashboardLongitudDeNombres { get; set; }
-        public int DashboardUltimasPersonas { get; set; }
-        public int DashboardUltimasCitas { get; set; }
-        public int DashboardLongitudDeSeguimientos { get; set; }
-        public int DashboardUltimasAtenciones { get; set; }
-        public int DashboardMesesAMostrarDeAtencionesNuevas { get; set; }
-        public int DashboardMesesAMostrarDePersonasNuevas { get; set; }
-        public int ListadoDePersonasItemsPerPage { get; set; }
+        public int MesesParaSerConsideradoMoroso { get; set; }
+        public int ListadoDeSociosItemsPerPage { get; set; }
+        public float CuotaMensualPredeterminada { get; set; }
 
         public void Serializar()
         {

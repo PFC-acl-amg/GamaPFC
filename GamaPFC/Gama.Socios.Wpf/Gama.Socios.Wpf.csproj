@@ -247,7 +247,7 @@
     </Compile>
     <Compile Include="Wrappers\CuotaWrapper.cs" />
     <Compile Include="Wrappers\PeriodoDeAltaWrapper.cs" />
-    <Compile Include="Wrappers\PreferenciasDeSociosWrapper.cs" />
+    <Compile Include="Wrappers\PreferenciasWrapper.cs" />
     <Compile Include="Wrappers\SocioWrapper.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

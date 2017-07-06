@@ -12,9 +12,9 @@ namespace Gama.Cooperacion.Wpf.Services
     public class Preferencias
     {
         public static string PreferenciasPath => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-                + @"\GamaData\preferencias_de_cooperacion.cfg";
+                + @"\GamaData\Cooperacion\preferencias_de_cooperacion.cfg";
         public static string PreferenciasPathFolder => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-                + @"\GamaData\";
+                + @"\GamaData\Cooperacion\";
 
         public Preferencias()
         {
@@ -30,7 +30,10 @@ namespace Gama.Cooperacion.Wpf.Services
             Dashboard_MostrarFiltroDeFechaPorDefecto = true;
             CitasContent_MostrarFiltroDeFechaPorDefecto = true;
 
-            AutomaticBackupPath = PreferenciasPathFolder;
+            AutomaticBackupPath = PreferenciasPathFolder + @"\Backup\";
+
+            if (!Directory.Exists(AutomaticBackupPath))
+                Directory.CreateDirectory(AutomaticBackupPath);
 
             DoBackupOnClose = true;
 
