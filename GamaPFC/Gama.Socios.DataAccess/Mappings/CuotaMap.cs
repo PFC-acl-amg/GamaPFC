@@ -19,7 +19,7 @@ namespace Gama.Socios.DataAccess.Mappings
             Map(x => x.Fecha).Not.Nullable();
             Map(x => x.EstaPagado);
             Map(x => x.NoContabilizar);
-            Map(x => x.Comentarios).Not.Nullable().Default("");
+            Map(x => x.Comentarios).Not.Nullable().Default("").CustomSqlType("TEXT");
 
             References(x => x.PeriodoDeAlta)
                 .Cascade.None()
