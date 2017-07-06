@@ -126,7 +126,8 @@ namespace Gama.Socios.Wpf.ViewModels
 
         private void TryReconnect()
         {
-            SociosResources.ClientService.TryConnect();
+            if (SociosResources.ClientService != null)
+                SociosResources.ClientService.TryConnect();
         }
     }
 }
