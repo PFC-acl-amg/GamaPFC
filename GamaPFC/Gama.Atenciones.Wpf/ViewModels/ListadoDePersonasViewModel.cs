@@ -113,11 +113,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
             };
 
             Personas.AddItemAt(0, lookupItem);
+            OnPreferenciasActualizadasEvent();
         }
 
         private void OnPersonaEliminadaEvent(int id)
         {
             Personas.Remove(_Personas.Find(x => x.Id == id));
+            OnPreferenciasActualizadasEvent();
         }
 
         private void OnPersonaActualizadaEvent(int id)
@@ -135,6 +137,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
 
             Personas.Refresh();
+            OnPreferenciasActualizadasEvent();
         }
         
         private bool _IsActive;
