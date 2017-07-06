@@ -9,108 +9,165 @@
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              prism:ViewModelLocator.AutoWireViewModel="True"
+            xmlns:actions="clr-namespace:Core.Util;assembly=Core"
+            actions:DialogCloser.DialogResult="{Binding Cerrar}" 
+        ResizeMode="NoResize"
              mc:Ignorable="d" 
-             MinWidth="800"
-        Title="PREFERENCIAS"
-             d:DesignHeight="341" d:DesignWidth="684">
-    <Grid>
+        Title="PREFERENCIAS" Height="414.927" Width="907.891" >
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="450"/>
+      <ColumnDefinition Width="450"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <!-- Fila para dar espacio, para que los botones estén al final-->
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <Label Margin="{StaticResource Margin}" FontSize="24" FontWeight="Light">Preferencias</Label>
+
+    <!--<GroupBox Header="Dashboard" Grid.Row="1">
+      <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition /> <!-- Fila para dar espacio, para que los botones estén al final-->
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
 
-        <Label Margin="{StaticResource Margin}" FontSize="24" FontWeight="Light">Preferencias</Label>
+        <StackPanel Grid.Column="0" Orientation="Vertical">
+          <Label Margin="{StaticResource Margin}">Meses a mostrar de socios nuevos</Label>
+          <Label Margin="{StaticResource Margin}">Últimos socios a mostrar</Label>
+          <Label Margin="{StaticResource Margin}">Socios cumpleañeros a mostrar</Label>
+          <Label Margin="{StaticResource Margin}">Socios morosos a mostrar</Label>
+        </StackPanel>
 
-        <GroupBox Header="Dashboard" Grid.Row="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                
-                <StackPanel Grid.Column="0" Orientation="Vertical">
-                    <Label Margin="{StaticResource Margin}">Meses a mostrar de socios nuevos</Label>
-                    <Label Margin="{StaticResource Margin}">Últimos socios a mostrar</Label>
-                    <Label Margin="{StaticResource Margin}">Socios cumpleañeros a mostrar</Label>
-                    <Label Margin="{StaticResource Margin}">Socios morosos a mostrar</Label>
-                </StackPanel>
-                
-                <StackPanel  Grid.Column="1" Orientation="Vertical">
-                    <controls:NumericUpDown Minimum="1" Maximum="12"
+        <StackPanel  Grid.Column="1" Orientation="Vertical">
+          <controls:NumericUpDown Minimum="1" Maximum="12"
                                             Margin="{StaticResource Margin}"
                                             Value="{Binding Preferencias.DashboardMesesAMostrarDeSociosNuevos}"/>
-                    <controls:NumericUpDown Minimum="5" 
+          <controls:NumericUpDown Minimum="5" 
                                             Margin="{StaticResource Margin}"
                                             Value="{Binding Preferencias.DashboardUltimosSocios}"/>
-                    <controls:NumericUpDown Minimum="1" 
+          <controls:NumericUpDown Minimum="1" 
                                             Margin="{StaticResource Margin}"
                                             Value="{Binding Preferencias.DashboardSociosCumpliendoBirthdays}"/>
-                    <controls:NumericUpDown Minimum="1" 
+          <controls:NumericUpDown Minimum="1" 
                                             Margin="{StaticResource Margin}"
                                             Value="{Binding Preferencias.DashboardSociosMorosos}"/>
-                </StackPanel>
-            </Grid>
-        </GroupBox>
+        </StackPanel>
+      </Grid>
+    </GroupBox>-->
 
-        <GroupBox Header="Socios" Grid.Row="1" Grid.Column="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+    <GroupBox Header="Socios" Grid.Row="1" Grid.Column="0">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" Orientation="Vertical">
-                    <Label Margin="{StaticResource Margin}">Socios a mostrar en Listado de Socios</Label>
-                </StackPanel>
+        <StackPanel Grid.Column="0" Orientation="Vertical">
+          <Label Margin="{StaticResource Margin}">Socios a mostrar en Listado de Socios</Label>
+        </StackPanel>
 
-                <StackPanel  Grid.Column="1" Orientation="Vertical">
-                    <controls:NumericUpDown Minimum="10" 
+        <StackPanel  Grid.Column="1" Orientation="Vertical">
+          <controls:NumericUpDown Minimum="10" 
                                             Margin="{StaticResource Margin}"
                                             Value="{Binding Preferencias.ListadoDeSociosItemsPerPage}"/>
-                </StackPanel>
-            </Grid>
-        </GroupBox>
+        </StackPanel>
+      </Grid>
+    </GroupBox>
 
-        <GroupBox Header="Contabilidad" Grid.Row="2">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+    <GroupBox Header="Copias de Seguridad" Grid.Row="2" Grid.Column="0">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-                <StackPanel Grid.Column="0" Orientation="Vertical">
-                    <Label Margin="{StaticResource Margin}">Meses impagos para considerar morosidad</Label>
-                    <Label Margin="{StaticResource Margin}">Cuota mensual predeterminada</Label>
-                </StackPanel>
+        <Label Margin="{StaticResource Margin}" Grid.Row="0"
+               ToolTip="Automáticamente hace una copia de seguridad al cerrarse la aplicación">Hacer copia de seguridad al salir</Label>
+        <Label Margin="{StaticResource Margin}" Grid.Row="1"
+               ToolTip="Carpeta de destino de la copia de seguridad automática">Destino de la copia:</Label>
 
-                <StackPanel  Grid.Column="1" Orientation="Vertical">
-                    <controls:NumericUpDown Minimum="0" Maximum="12"
+        <CheckBox Grid.Row="0" Grid.Column="1"
+                  HorizontalAlignment="Right"
+                  Margin="4,4,-3,4"
+                  IsChecked="{Binding Preferencias.DoBackupOnClose}">
+          <CheckBox.LayoutTransform>
+            <ScaleTransform ScaleX="1.2" ScaleY="1.2"  />
+          </CheckBox.LayoutTransform>
+        </CheckBox>
+
+        <Grid Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <TextBox Margin="{StaticResource Margin}" 
+                     IsReadOnly="True" 
+                   Height="25"
+                     Text="{Binding Preferencias.AutomaticBackupPath, UpdateSourceTrigger=PropertyChanged}"/>
+          <Button Margin="{StaticResource Margin}" 
+                    Grid.Column="1"
+                  ToolTip="Examinar..."
+                    Content="..." 
+                    Command="{Binding ExaminarBackupPathCommand}"/>
+        </Grid>
+
+        <Label Margin="{StaticResource Margin}" Grid.Row="2">Eliminar copias previas a:</Label>
+        <DatePicker 
+          Margin="{StaticResource Margin}"
+          VerticalContentAlignment="Center"
+          Height="25"
+          Grid.Row="2" Grid.Column="1"
+          SelectedDate="{Binding Preferencias.BackupDeleteDateLimit, UpdateSourceTrigger=PropertyChanged}"/>
+
+      </Grid>
+    </GroupBox>
+
+    <GroupBox Header="Contabilidad" Grid.Row="1" Grid.Column="1">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Orientation="Vertical">
+          <Label Margin="{StaticResource Margin}">Meses impagos para considerar morosidad</Label>
+          <Label Margin="{StaticResource Margin}">Cuota mensual predeterminada</Label>
+        </StackPanel>
+
+        <StackPanel  Grid.Column="1" Orientation="Vertical">
+          <controls:NumericUpDown Minimum="0" Maximum="12"
                                             Margin="{StaticResource Margin}"
                                             Value="{Binding Preferencias.MesesParaSerConsideradoMoroso}"/>
-                    <controls:NumericUpDown Minimum="1" 
+          <controls:NumericUpDown Minimum="1" 
                                             Margin="{StaticResource Margin}"
                                             Value="{Binding Preferencias.CuotaMensualPredeterminada}"/>
-                </StackPanel>
-            </Grid>
-        </GroupBox>
+        </StackPanel>
+      </Grid>
+    </GroupBox>
 
-        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
-            <!-- Guardar cambios Button -->
-            <cc:CircleIconButton 
+    <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" Grid.ColumnSpan="2">
+      <!-- Guardar cambios Button -->
+      <cc:CircleIconButton 
+        Margin="{StaticResource Margin}"
                 Icon="{StaticResource appbar_save}"
                 Command="{Binding GuardarCambiosCommand}"/>
 
-            <!-- Cancelar Button -->
-            <cc:CircleIconButton
+      <!-- Cancelar Button -->
+      <cc:CircleIconButton
+        Margin="{StaticResource Margin}"
                 Icon="{StaticResource appbar_close}"
                 Command="{Binding CancelarCambiosCommand}"/>
-        </StackPanel>
-    </Grid>
+    </StackPanel>
+  </Grid>
 </Window>

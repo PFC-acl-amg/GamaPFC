@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.DataAccess;
 using Gama.Common.Communication;
 using Gama.Common.Eventos;
 using Gama.Socios.Wpf.Services;
@@ -7,6 +8,8 @@ using NHibernate;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -146,26 +149,26 @@ namespace Gama.Socios.Wpf
         {
             try
             {
-                //var preferencias = _Preferencias;
-                //if (preferencias.DoBackupOnClose)
-                //{
-                //    string connectionString =
-                //        ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString;
-                //    DBHelper.Backup(
-                //        connectionString: connectionString,
-                //        fileName: preferencias.AutomaticBackupPath + DateTime.Now.ToString().Replace('/', '-').Replace(':', '-') + " - atenciones backup.sql");
+                var preferencias = _Preferencias;
+                if (preferencias.DoBackupOnClose)
+                {
+                    string connectionString =
+                        ConfigurationManager.ConnectionStrings["GamaSociossMySql"].ConnectionString;
+                    DBHelper.Backup(
+                        connectionString: connectionString,
+                        fileName: preferencias.AutomaticBackupPath + DateTime.Now.ToString().Replace('/', '-').Replace(':', '-') + " - socios backup.sql");
 
-                //    DirectoryInfo directory = new DirectoryInfo(preferencias.AutomaticBackupPath);
+                    DirectoryInfo directory = new DirectoryInfo(preferencias.AutomaticBackupPath);
 
-                //    if (preferencias.BackupDeleteDateLimit.HasValue)
-                //        foreach (FileInfo fileInfo in directory.GetFiles())
-                //            if (fileInfo.CreationTime < preferencias.BackupDeleteDateLimit.Value
-                //                && fileInfo.CreationTime < DateTime.Now.Date) // Para no borrar el que acabamos de poner
-                //                fileInfo.Delete();
+                    if (preferencias.BackupDeleteDateLimit.HasValue)
+                        foreach (FileInfo fileInfo in directory.GetFiles())
+                            if (fileInfo.CreationTime < preferencias.BackupDeleteDateLimit.Value
+                                && fileInfo.CreationTime < DateTime.Now.Date) // Para no borrar el que acabamos de poner
+                                fileInfo.Delete();
 
-                //    if (AtencionesResources.ClientService != null)
-                //        AtencionesResources.ClientService.Desconectar();
-                //}
+                    if (SociosResources.ClientService != null)
+                        SociosResources.ClientService.Desconectar();
+                }
             }
             catch (Exception ex)
             {

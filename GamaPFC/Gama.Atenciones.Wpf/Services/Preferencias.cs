@@ -13,9 +13,9 @@ namespace Gama.Atenciones.Wpf.Services
     public class Preferencias
     {
         public static string PreferenciasPath => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-                + @"\GamaData\preferencias_de_atenciones.cfg";
+                + @"\GamaData\Atenciones\preferencias_de_atenciones.cfg";
         public static string PreferenciasPathFolder => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-                + @"\GamaData\";
+                + @"\GamaData\Atenciones\";
 
         public Preferencias()
         {
@@ -31,7 +31,10 @@ namespace Gama.Atenciones.Wpf.Services
             Dashboard_MostrarFiltroDeFechaPorDefecto = true;
             CitasContent_MostrarFiltroDeFechaPorDefecto = true;
 
-            AutomaticBackupPath = PreferenciasPathFolder;
+            AutomaticBackupPath = PreferenciasPathFolder + @"\Backup\";
+
+            if (!Directory.Exists(AutomaticBackupPath))
+                Directory.CreateDirectory(AutomaticBackupPath);
 
             DoBackupOnClose = true;
 

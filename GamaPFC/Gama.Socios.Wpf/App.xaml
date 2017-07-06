@@ -11,8 +11,8 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"/>
+                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"/>-->
                 <ResourceDictionary Source="pack://application:,,,/Gama.Socios.Wpf;component/Themes/Generic.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Gama.Socios.Wpf;component/Resources/Resources.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Styles/CheckBox.xaml"/>
