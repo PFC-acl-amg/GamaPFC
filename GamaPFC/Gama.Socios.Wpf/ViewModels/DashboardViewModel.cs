@@ -26,6 +26,7 @@ namespace Gama.Socios.Wpf.ViewModels
         private ObservableCollection<Socio> _Socios;
         private string[] _Labels;
         private int _MesInicialSocios;
+        private bool _VisibleOpcionesFiltro;
 
         public DashboardViewModel(ISocioRepository socioRepository,
             EventAggregator eventAggregator, 
@@ -36,6 +37,7 @@ namespace Gama.Socios.Wpf.ViewModels
             _SocioRepository.Session = session;
             _EventAggregator = eventAggregator;
             _Settings = settings;
+            _VisibleOpcionesFiltro = false;
             _Socios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
             ListaCompletaSocios = new ObservableCollection<LookupItem>(
                     _Socios
@@ -94,8 +96,15 @@ namespace Gama.Socios.Wpf.ViewModels
             _EventAggregator.GetEvent<PreferenciasActualizadasEvent>().Subscribe(OnPreferenciasActualizadasEvent);
 
             SeleccionarSocioCommand = new DelegateCommand<LookupItem>(OnSeleccionarSocioCommandExecute);
+            VisibleFiltroSociosCommand = new DelegateCommand(OnVisibleFiltroSociosCommand);
 
             InicializarGraficos();
+        }
+
+        private void OnVisibleFiltroSociosCommand()
+        {
+            if (VisibleOpcionesFiltro == true) VisibleOpcionesFiltro = false;
+            else VisibleOpcionesFiltro = true;
         }
 
         private void OnPreferenciasActualizadasEvent()
@@ -171,6 +180,8 @@ namespace Gama.Socios.Wpf.ViewModels
         public ObservableCollection<LookupItem> SociosMorosos { get; private set; }
         public ChartValues<int> SociosNuevosPorMes { get; set;}
         public ICommand SeleccionarSocioCommand { get; private set; }
+        public ICommand VisibleFiltroSociosCommand { get; private set; }
+        
 
         public string[] SociosLabels =>
             _Labels.Skip(_MesInicialSocios)
@@ -253,6 +264,11 @@ namespace Gama.Socios.Wpf.ViewModels
             {
                 SociosMorosos.Remove(SociosMorosos.FirstOrDefault(x => x.Id == id));
             }
+        }
+        public bool VisibleOpcionesFiltro
+        {
+            get { return _VisibleOpcionesFiltro; }
+            set { SetProperty(ref _VisibleOpcionesFiltro, value); }
         }
     }
 }

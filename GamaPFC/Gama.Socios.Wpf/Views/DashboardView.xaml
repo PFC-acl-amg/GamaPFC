@@ -18,6 +18,7 @@
     <designData:DashboardViewModelDTD/>
   </d:DataContext>
   <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisivilityConverter"/>
         <RadialGradientBrush x:Key="_RadialGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.9" RadiusY="0.9">
             <GradientStop Color="#ffffffff" Offset="0.5" />
             <GradientStop Color="#00ffffff" Offset="0.8" />
@@ -163,7 +164,8 @@
             <ColumnDefinition Width="15" />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
-        <GroupBox Grid.Column="0" Header="Filtros" Width="200" Background="Black">
+        <GroupBox Grid.Column="0" Header="Filtros" Width="200" Background="Black" Visibility="{Binding VisibleOpcionesFiltro, 
+                                                Converter={StaticResource BooleanToVisivilityConverter}}">
             
         </GroupBox>
         <StackPanel Name="VerFiltroSocios" Grid.Column="1" Background="White" VerticalAlignment="Center"

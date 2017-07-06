@@ -9,6 +9,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Core.DataAccess
 {
@@ -125,9 +126,18 @@ namespace Core.DataAccess
                     Session.Clear();
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                string ErrorCapturado = e.InnerException.ToString();
+                string MensajeError1 = "Duplicate entry";
+                string ClaveError1 = "for key 'Dni'";
+                if (ErrorCapturado.Contains(MensajeError1))
+                    if (ErrorCapturado.Contains(ClaveError1))
+                    {
+                        MessageBox.Show("El DNI ya está en la Base de Datos");
+                       
+                        //throw;
+                    }
             }
         }
 

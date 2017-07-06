@@ -17,8 +17,13 @@ using System.Linq;
 namespace Gama.Cooperacion.Wpf
 {
     // Clase para guardar los estados de las actividades que se usara en el Dashboard ViewModel de Cooperacion.
+    public static class GestionErrores
+    {
+        public static int ErrorDuplicateKey = 0;
+    }
     public static class ColeccionEstadosActividades
     {
+        
         public static Dictionary<string,int> EstadosActividades { get; set; }
         // EstadosActividades tiene que inicializarse para que cuando de compare por primera vez no falle por ser nulo
         // Esta inicializacion se realiza en Bootstrapper.cs de Cooperacion
