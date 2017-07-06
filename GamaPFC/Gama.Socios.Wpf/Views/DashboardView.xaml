@@ -310,18 +310,19 @@
         <!--<GroupBox Grid.Column="4" Header="Detalles Contables" Width="200" Background="Black">
 
         </GroupBox>-->
-        <Grid  Width="320" Grid.Column="4" Grid.RowSpan="2" Background="#DEDADA" Margin="4,4,4,4"  Visibility="{Binding VisibleContableGeneral, 
+        <Grid  Width="350" Grid.Column="4" Grid.RowSpan="2" Background="#DEDADA" Margin="4,4,4,4"  Visibility="{Binding VisibleContableGeneral, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
             <Grid Grid.Row="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="auto" />
-                    <RowDefinition />
+                    <RowDefinition Height="160"/>
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="40"/>
                         <ColumnDefinition Width="40"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock FontSize="20" Margin="20,0,0,0" VerticalAlignment="Center"
@@ -332,6 +333,28 @@
                       Grid.Column="1" Width="36" Height="36" IconWidth="13" IconHeight="13"
                       Margin="{StaticResource Margin}"
                       Command="{Binding ElementName=_Root, Path=DataContext.MostrarFiltroFechas}">
+                        <Button.Style>
+                            <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                                <Setter Property="Opacity" Value="0.5"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="1"/>
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </cc:CircleIconButton>
+                    <cc:CircleIconButton
+                        Grid.Column="2"
+                         Margin="{StaticResource Margin}"
+                                            Icon="{StaticResource appbar_refresh}"
+                                            Width="36"
+                                            Height="36"
+                                            IconWidth="13"
+                                            IconHeight="13"
+                                            ToolTip="Resetear datos"
+                                            Command="{Binding ResetearFechaEventosCommand}">
                         <Button.Style>
                             <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
                                 <Setter Property="Opacity" Value="0.5"/>
@@ -431,7 +454,44 @@
                         </Grid>
                     </GroupBox>
                 </Grid>
-                
+                <Grid Grid.Row="2" Margin="{StaticResource Margin}">
+                    <GroupBox Background="Black">
+                        <GroupBox.Header>
+                            <Label Grid.Column="0" HorizontalAlignment="Center" Content="Detalles Contables" Foreground="White" Padding="0"></Label>
+                        </GroupBox.Header>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Cuotas Por Pagar:"
+                                   Foreground="Black" />
+                            <Label Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Cantidad Total:"
+                                   Foreground="Black" />
+                            <Label Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Cuotas Impagadas:"
+                                   Foreground="Black" />
+                            <Label Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Cantidad Impagada:"
+                                   Foreground="Black" />
+                            <Label Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="{Binding CuotasPorPagar}"
+                                   Foreground="Black" />
+                            <Label Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="{Binding CantidadTotalPorPagar}"
+                                   Foreground="Black" />
+                            <Label Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="{Binding CuotasImpagadas}"
+                                   Foreground="Black" />
+                            <Label Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="{Binding CantidadTotalImpagadas}"
+                                   Foreground="Black" />
+                        </Grid>
+                    </GroupBox>
+                    
+                </Grid>
                 <GroupBox Grid.Row="3" Name="RetrasosImpagos" Margin="{StaticResource Margin}" Background="Black">
                     <GroupBox.Header>
                         <Grid>
@@ -439,7 +499,7 @@
                                 <ColumnDefinition Width="1*"></ColumnDefinition>
                                 <ColumnDefinition Width="auto"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" HorizontalAlignment="Center" Content="Detalles Contables" Foreground="White" Padding="0"></Label>
+                            <Label Grid.Column="0" HorizontalAlignment="Center" Content="Socios con Impagos" Foreground="White" Padding="0"></Label>
 
                         </Grid>
                     </GroupBox.Header>
@@ -455,8 +515,8 @@
                                             Margin="{StaticResource MarginHalfNoHorizontal}">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="65" />
-                                                    <ColumnDefinition Width="Auto" MinWidth="200"/>
+                                                    <ColumnDefinition Width="60" />
+                                                    <ColumnDefinition Width="Auto" MinWidth="180"/>
                                                     <ColumnDefinition/>
                                                 </Grid.ColumnDefinitions>
                                                 <Grid.RowDefinitions>

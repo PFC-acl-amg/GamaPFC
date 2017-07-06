@@ -29,6 +29,10 @@ namespace Gama.Socios.Wpf.ViewModels
         private bool _VisibleOpcionesFiltro;
         private bool _VisibleContableGeneral;
         private bool _VisibleFiltroFechas;
+        private int _CuotasPorPagar;
+        private int _CantidadTotalPorPagar;
+        private int _CuotasImpagadas;
+        private int _CantidadTotalImpagadas;
 
         public DashboardViewModel(ISocioRepository socioRepository,
             EventAggregator eventAggregator, 
@@ -42,6 +46,10 @@ namespace Gama.Socios.Wpf.ViewModels
             _VisibleOpcionesFiltro = false;
             _VisibleContableGeneral = false;
             _VisibleFiltroFechas = false;
+            _CuotasPorPagar = 1;
+            _CantidadTotalPorPagar =1;
+            _CuotasImpagadas = 1;
+            _CantidadTotalImpagadas=1;
             _Socios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
             ListaCompletaSocios = new ObservableCollection<LookupItem>(
                     _Socios
@@ -284,6 +292,26 @@ namespace Gama.Socios.Wpf.ViewModels
             {
                 SociosMorosos.Remove(SociosMorosos.FirstOrDefault(x => x.Id == id));
             }
+        }
+        public int CuotasPorPagar
+        {
+            get { return _CuotasPorPagar; }
+            set { SetProperty(ref _CuotasPorPagar, value); }
+        }
+        public int CantidadTotalPorPagar
+        {
+            get { return _CantidadTotalPorPagar; }
+            set { SetProperty(ref _CantidadTotalPorPagar, value); }
+        }
+        public int CuotasImpagadas
+        {
+            get { return _CuotasImpagadas; }
+            set { SetProperty(ref _CuotasImpagadas, value); }
+        }
+        public int CantidadTotalImpagadas
+        {
+            get { return _CantidadTotalImpagadas; }
+            set { SetProperty(ref _CantidadTotalImpagadas, value); }
         }
         public bool VisibleFiltroFechas
         {
