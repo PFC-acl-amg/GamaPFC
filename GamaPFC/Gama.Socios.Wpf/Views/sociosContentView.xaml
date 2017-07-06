@@ -12,6 +12,7 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="False"
              mc:Ignorable="d" 
+             x:Name="_Root"
              d:DesignHeight="211.152" d:DesignWidth="490.303">
   <UserControl.Resources>
     <Style TargetType="metro:MetroTabItem">

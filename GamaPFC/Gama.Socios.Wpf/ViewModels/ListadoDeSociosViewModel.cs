@@ -54,6 +54,7 @@ namespace Gama.Socios.Wpf.ViewModels
             PaginaAnteriorCommand = new DelegateCommand(OnPaginaAnteriorCommandExecute);
 
             _EventAggregator.GetEvent<SocioCreadoEvent>().Subscribe(OnSocioCreadoEvent);
+            _EventAggregator.GetEvent<SocioEliminadoEvent>().Subscribe(OnSocioEliminadoEvent);
             _EventAggregator.GetEvent<SocioActualizadoEvent>().Subscribe(OnSocioActualizadoEvent);
             _EventAggregator.GetEvent<PreferenciasActualizadasEvent>().Subscribe(OnPreferenciasActualizadasEvent);
         }
@@ -108,6 +109,7 @@ namespace Gama.Socios.Wpf.ViewModels
                 DisplayMember1 = socio.Nombre,
                 DisplayMember2 = socio.Nif,
             });
+            OnPreferenciasActualizadasEvent();
         }
 
         private void OnSocioActualizadoEvent(Socio socio)
@@ -123,13 +125,15 @@ namespace Gama.Socios.Wpf.ViewModels
             }
         }
 
+        private void OnSocioEliminadoEvent(int id)
+        {
+            Socios.Remove(_Socios.Find(x => x.Id == id));
+            OnPreferenciasActualizadasEvent();
+        }
+
         private void OnPreferenciasActualizadasEvent()
         {
-            if (Socios.Count != _Preferencias.ListadoDeSociosItemsPerPage)
-            {
-                Socios = new PaginatedCollectionView(_Socios, _Preferencias.ListadoDeSociosItemsPerPage);
-                OnPropertyChanged(nameof(Socios));
-            }
+            Socios.ItemsPerPage = _Preferencias.ListadoDeSociosItemsPerPage;
         }
     }
 }
