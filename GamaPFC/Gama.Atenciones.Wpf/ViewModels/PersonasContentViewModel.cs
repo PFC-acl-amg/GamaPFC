@@ -189,7 +189,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 {
                     if (editarPersonaViewModel.PersonaVM.Persona.Id == personaId)
                     {
+                        //editarPersonaViewModel.PersonaVM.Persona.Citas.Add(new CitaWrapper(cita));
                         editarPersonaViewModel.PersonaVM.Persona.AcceptChanges();
+                        editarPersonaViewModel.CitasVM.Refresh++;
                         break;
                     }
                 }
