@@ -341,7 +341,7 @@ namespace Gama.Socios.Wpf
                                 DateTime updatedTime = (socioSinImagen.ImagenUpdatedAt ?? DateTime.Now.AddYears(-100));
                                 if (DateTime.Compare(lastWriteTime, updatedTime) < 0)
                                 {
-                                    sqlCommand.CommandText = $"SELECT Imagen FROM personas WHERE Id = {socioSinImagen.Id}";
+                                    sqlCommand.CommandText = $"SELECT Imagen FROM socios WHERE Id = {socioSinImagen.Id}";
                                     using (reader = sqlCommand.ExecuteReader())
                                     {
                                         if (reader.Read())
