@@ -26,5 +26,6 @@ namespace Gama.Socios.Wpf.Services
         IEnumerable<int> GetSociosNuevosPorMes(int numeroDeMeses);
 
         int CountAll();
+        void UpdateClient();
     }
 }

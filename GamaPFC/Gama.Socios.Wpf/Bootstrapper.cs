@@ -36,9 +36,9 @@ namespace Gama.Socios.Wpf
 
         public Bootstrapper(string title = "GESTIÓN DE SOCIOS") : base(title)
         {
-            NHibernateSessionFactory._EXECUTE_DDL = true;
-            _CLEAR_DATABASE = true;
-            _SEED_DATABASE = true;
+            NHibernateSessionFactory._EXECUTE_DDL = false;
+            _CLEAR_DATABASE = false;
+            _SEED_DATABASE = false;
         }
 
         protected override DependencyObject CreateShell()
@@ -157,7 +157,7 @@ namespace Gama.Socios.Wpf
             Container.RegisterType<IPeriodoDeAltaRepository, PeriodoDeAltaRepository>(new ContainerControlledLifetimeManager());
             Container.RegisterType<ICuotaRepository, CuotaRepository>(new ContainerControlledLifetimeManager());
 
-            Container.RegisterInstance(new ExportService());
+           
         }
 
         protected override void GenerateDatabaseConfiguration()
