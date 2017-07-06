@@ -9,8 +9,6 @@ namespace Gama.Socios.Wpf
 {
     public static class SociosResources
     {
-        public static string Guid = new Guid().ToString();
-
         public static List<string> TodosLosNif { get; set; }
 
         public static void AddNif(string nif)
@@ -22,6 +20,6 @@ namespace Gama.Socios.Wpf
         }
 
         public static ClientService ClientService { get; set; }
-        public static string ClientId { get; set; }
+        public static string ClientId { get; set; } = Guid.NewGuid().ToString();
     }
 }

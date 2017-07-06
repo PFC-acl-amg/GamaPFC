@@ -33,7 +33,7 @@ namespace Gama.Common.Communication
 
         public bool IsConnected()
         {
-            return (_ClientSocket != null && _ClientSocket.Connected);
+            return (_ClientSocket != null && _ClientSocket.Client != null && _ClientSocket.Connected);
         }
 
         public void TryConnect()
@@ -45,11 +45,15 @@ namespace Gama.Common.Communication
         {
             try
             {
-                if (_ClientSocket.Connected)
+                if (IsConnected())
                 {
                     _EventAggregator.GetEvent<LaConexionConElServidorHaCambiadoEvent>().Publish(MensajeDeConexion.Conectado);
                     return;
                 }
+
+                _ClientSocket.Close();
+                _ClientSocket = new TcpClient();
+                _ServerStream = default(NetworkStream);
                 _ClientSocket.Connect("localhost", 8888); //"80.59.101.181"
                 _ServerStream = _ClientSocket.GetStream();
                 
@@ -104,9 +108,9 @@ namespace Gama.Common.Communication
                 _ServerStream.Write(message, 0, message.Length);
                 _ServerStream.Flush();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // El servidor se ha desconectado
+                Console.WriteLine(ex.Message);// El servidor se ha desconectado
             }
         }
 

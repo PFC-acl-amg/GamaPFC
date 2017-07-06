@@ -130,7 +130,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void TryReconnect()
         {
-            AtencionesResources.ClientService.TryConnect();
+            if (AtencionesResources.ClientService != null)
+                AtencionesResources.ClientService.TryConnect();
         }
     }
 }
