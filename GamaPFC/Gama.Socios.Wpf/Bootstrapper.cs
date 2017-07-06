@@ -363,7 +363,7 @@ namespace Gama.Socios.Wpf
                                     }
                                 }
 
-                                socioSinImagen.Imagen = ImageToByteArray(new Bitmap(ResourceNames.GetPersonaImagePath(socioSinImagen.Id)));
+                                socioSinImagen.Imagen = ImageToByteArray(new Bitmap(ResourceNames.GetSocioImagePath(socioSinImagen.Id)));
                             }
                         }
 
