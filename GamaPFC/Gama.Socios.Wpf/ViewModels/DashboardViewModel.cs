@@ -27,6 +27,8 @@ namespace Gama.Socios.Wpf.ViewModels
         private string[] _Labels;
         private int _MesInicialSocios;
         private bool _VisibleOpcionesFiltro;
+        private bool _VisibleContableGeneral;
+        private bool _VisibleFiltroFechas;
 
         public DashboardViewModel(ISocioRepository socioRepository,
             EventAggregator eventAggregator, 
@@ -38,6 +40,8 @@ namespace Gama.Socios.Wpf.ViewModels
             _EventAggregator = eventAggregator;
             _Settings = settings;
             _VisibleOpcionesFiltro = false;
+            _VisibleContableGeneral = false;
+            _VisibleFiltroFechas = false;
             _Socios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
             ListaCompletaSocios = new ObservableCollection<LookupItem>(
                     _Socios
@@ -97,8 +101,22 @@ namespace Gama.Socios.Wpf.ViewModels
 
             SeleccionarSocioCommand = new DelegateCommand<LookupItem>(OnSeleccionarSocioCommandExecute);
             VisibleFiltroSociosCommand = new DelegateCommand(OnVisibleFiltroSociosCommand);
+            MostarFiltroContable = new DelegateCommand(OnMostarFiltroContable);
+            MostrarFiltroFechas = new DelegateCommand(OnMostrarFiltroFechas);
 
             InicializarGraficos();
+        }
+
+        private void OnMostrarFiltroFechas()
+        {
+            if (VisibleFiltroFechas == false) VisibleFiltroFechas = true;
+            else VisibleFiltroFechas = false;
+        }
+
+        private void OnMostarFiltroContable()
+        {
+            if (VisibleContableGeneral == false) VisibleContableGeneral = true;
+            else VisibleContableGeneral = false;
         }
 
         private void OnVisibleFiltroSociosCommand()
@@ -181,7 +199,9 @@ namespace Gama.Socios.Wpf.ViewModels
         public ChartValues<int> SociosNuevosPorMes { get; set;}
         public ICommand SeleccionarSocioCommand { get; private set; }
         public ICommand VisibleFiltroSociosCommand { get; private set; }
-        
+        public ICommand MostarFiltroContable { get; set; }
+        public ICommand MostrarFiltroFechas { get; set; }
+
 
         public string[] SociosLabels =>
             _Labels.Skip(_MesInicialSocios)
@@ -264,6 +284,16 @@ namespace Gama.Socios.Wpf.ViewModels
             {
                 SociosMorosos.Remove(SociosMorosos.FirstOrDefault(x => x.Id == id));
             }
+        }
+        public bool VisibleFiltroFechas
+        {
+            get { return _VisibleFiltroFechas; }
+            set { SetProperty(ref _VisibleFiltroFechas, value); }
+        }
+        public bool VisibleContableGeneral
+        {
+            get { return _VisibleContableGeneral; }
+            set { SetProperty(ref _VisibleContableGeneral, value); }
         }
         public bool VisibleOpcionesFiltro
         {

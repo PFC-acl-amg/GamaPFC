@@ -97,6 +97,7 @@ namespace Gama.Socios.DataAccess
                     })
                 .BuildConfiguration();
         }
+        //_EXECUTE_DDL
 
         public ISession OpenSession()
         {

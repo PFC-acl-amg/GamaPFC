@@ -303,14 +303,345 @@
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseLeftButtonDown">
-                    <prism:InvokeCommandAction Command="{Binding VisibleDetallesSociosCommand}"/>
+                    <prism:InvokeCommandAction Command="{Binding MostarFiltroContable}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </StackPanel>
         <!--<GroupBox Grid.Column="4" Header="Detalles Contables" Width="200" Background="Black">
 
         </GroupBox>-->
-        <GroupBox Grid.Column="4" Name="RetrasosImpagos" Margin="{StaticResource Margin}">
+        <Grid  Width="320" Grid.Column="4" Grid.RowSpan="2" Background="#DEDADA" Margin="4,4,4,4"  Visibility="{Binding VisibleContableGeneral, 
+                                                Converter={StaticResource BooleanToVisivilityConverter}}">
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="40"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock FontSize="20" Margin="20,0,0,0" VerticalAlignment="Center"
+                        Foreground="#393232"
+                        FontWeight="DemiBold" Text="Detalles Contables"/>
+                    <cc:CircleIconButton
+                      Icon="{StaticResource appbar_calendar}"
+                      Grid.Column="1" Width="36" Height="36" IconWidth="13" IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.MostrarFiltroFechas}">
+                        <Button.Style>
+                            <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                                <Setter Property="Opacity" Value="0.5"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="1"/>
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </cc:CircleIconButton>
+                </Grid>
+                <Grid Grid.Row="1" Visibility="{Binding VisibleFiltroFechas, 
+                                                Converter={StaticResource BooleanToVisivilityConverter}}">
+                    <GroupBox Grid.Row="1" Grid.Column="1"  Width="320" Height="140"  Header="Opciones">
+                        <GroupBox.Style>
+                            <Style TargetType="GroupBox"></Style>
+                        </GroupBox.Style>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40" />
+                                        <RowDefinition Height="40" />
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Column="0" Grid.Row="0" VerticalContentAlignment="Center">Desde</Label>
+                                    <Label Grid.Column="0" Grid.Row="1" VerticalContentAlignment="Center">Hasta</Label>
+                                    <DatePicker Grid.Column="1" Grid.Row="0" Margin="{StaticResource Margin}" VerticalAlignment="Center"
+                                    SelectedDate="{Binding FechaInicioOpcion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+                                    <DatePicker Grid.Column="1" Grid.Row="1" Margin="{StaticResource Margin}" VerticalAlignment="Center" 
+                                    SelectedDate="{Binding FechaFinOpcion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+                                </Grid>
+
+                            </StackPanel>
+                            <Grid Grid.Column="1" Margin="0,10,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="67" />
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="0">
+
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
+                                    <cc:CircleIconButton
+                                            Icon="{StaticResource appbar_refresh}"
+                                            Width="31"
+                                            Height="31"
+                                            IconWidth="12"
+                                            IconHeight="12"
+                                            ToolTip="Resetear Fechas"
+                                            Command="{Binding ResetearFechaEventosCommand}">
+                                        <Button.Style>
+                                            <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                                                <Setter Property="Opacity" Value="0.5"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Opacity" Value="1"/>
+                                                        <Setter Property="Cursor" Value="Hand"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </cc:CircleIconButton>
+                                    <cc:CircleIconButton
+                                            Icon="{StaticResource appbar_checkmark_thick}"
+                                            Width="31"
+                                            Height="31"
+                                            IconWidth="12"
+                                            IconHeight="12"
+                                            ToolTip="Aplicar Opciones Seleccionadas"
+                                            Command="{Binding DataContext.BotonFiltarEventosCommand, ElementName=_Root}">
+                                        <Button.Style>
+                                            <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                                                <Setter Property="Opacity" Value="0.5"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Opacity" Value="1"/>
+                                                        <Setter Property="Cursor" Value="Hand"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </cc:CircleIconButton>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+                
+                <GroupBox Grid.Row="3" Name="RetrasosImpagos" Margin="{StaticResource Margin}" Background="Black">
+                    <GroupBox.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" HorizontalAlignment="Center" Content="Detalles Contables" Foreground="White" Padding="0"></Label>
+
+                        </Grid>
+                    </GroupBox.Header>
+                    <Grid>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ListBox x:Name="Eventosss"
+                                    ItemsSource="{Binding SociosMorosos}" >
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border  BorderBrush="Black"
+                                            BorderThickness="1" 
+                                            CornerRadius="3"
+                                            Margin="{StaticResource MarginHalfNoHorizontal}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="65" />
+                                                    <ColumnDefinition Width="Auto" MinWidth="200"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+                                                <Border BorderThickness="1" CornerRadius="50,50,50,50" BorderBrush="LightGray" Background="#4C797B7D"
+                                                  Margin="{StaticResource Margin}">
+                                                    <Ellipse Height="55" Width="55" OpacityMask="{StaticResource _RadialGradientBrush}">
+                                                        <Ellipse.Fill>
+                                                            <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                                                        </Ellipse.Fill>
+                                                    </Ellipse>
+                                                </Border>
+
+                                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                    <TextBlock FontSize="13" Text="{Binding DisplayMember1}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                                                    <TextBlock FontSize="13" Text="{Binding DisplayMember2}" VerticalAlignment="Center" Margin="{StaticResource Margin}"/>
+                                                </StackPanel>
+
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
+                                                    <cc:CircleIconButton
+                                                Icon="{StaticResource appbar_arrow_right}"
+                                                Width="49"
+                                                Height="49"
+                                                IconWidth="17"
+                                                IconHeight="17"
+                                                Margin="{StaticResource Margin}"
+                                                Command="{Binding RelativeSource =
+                                                {RelativeSource FindAncestor,
+                                                 AncestorType={x:Type GroupBox}},
+                                                      Path=DataContext.SelectPersonaCommand}"
+                                                      CommandParameter="{Binding}">
+                                                        <Button.Style>
+                                                            <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                                                                <Setter Property="Opacity" Value="0.5"/>
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Opacity" Value="1"/>
+                                                                        <Setter Property="Cursor" Value="Hand"/>
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Button.Style>
+                                                    </cc:CircleIconButton>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </ScrollViewer>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+            <!--<GroupBox Grid.Row="1" Grid.Column="1" Name="ListaEventos" Margin="4,4,4,4">
+                <GroupBox.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" HorizontalAlignment="Center" Content="EVENTOS" Foreground="White" Padding="0"></Label>
+
+                    </Grid>
+                </GroupBox.Header>
+                <StackPanel Grid.Row="0">
+                    <ListBox x:Name="Eventosss"
+                            ItemsSource="{Binding EventoActividad}" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border  BorderBrush="Black"
+                                            BorderThickness="1.5" 
+                                            CornerRadius="3"
+                                            Margin="{StaticResource MarginHalfNoHorizontal}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Grid.Row="0" HorizontalAlignment="Center" Margin="{StaticResource Margin}" 
+                                                                   Text="{Binding FechaDePublicacion.Date,StringFormat='dd/MM/yyyy'}"/>
+                                                <TextBlock Grid.Row="1" HorizontalAlignment="Center" Margin="{StaticResource Margin}" 
+                                                                   Text="{Binding FechaDePublicacion,StringFormat='HH:mm:ss'}"/>
+                                            </Grid>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Grid.Row="0" Margin="{StaticResource Margin}" Text="{Binding Ocurrencia}"/>
+                                                <TextBlock Grid.Row="1" Margin="{StaticResource Margin}" Text="{Binding Titulo}"/>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </GroupBox>-->
+            <!--<GroupBox Grid.Row="0" Grid.Column="1" Name="ListaForos" Margin="{StaticResource Margin}">
+                <GroupBox.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" HorizontalAlignment="Center" Content="Foros Disponibles" Foreground="White" Padding="0"></Label>
+
+                    </Grid>
+                </GroupBox.Header>
+                <Grid>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ListBox x:Name="Eventos"
+                                    ItemsSource="{Binding ForosDisponibles}" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border  BorderBrush="Black"
+                                            BorderThickness="1" 
+                                            CornerRadius="3"
+                                            Margin="{StaticResource MarginHalfNoHorizontal}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="160"/>
+                                                <ColumnDefinition Width="40"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" Margin="{StaticResource Margin}" 
+                                                                   Text="{Binding FechaDePublicacion.Date,StringFormat='dd/MM/yyyy'}"/>
+                                                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" Margin="{StaticResource Margin}" 
+                                                                   Text="{Binding FechaDePublicacion,StringFormat='HH:mm:ss'}"/>
+                                                </Grid>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="1">
+                                                <Grid>
+                                                    <TextBlock Margin="{StaticResource Margin}" Text="{Binding Titulo}"/>
+                                                </Grid>
+                                            </StackPanel>
+                                            <cc:CircleIconButton
+                                                    Grid.Column="2"
+                                                    HorizontalAlignment="Left"
+                                                    Icon="{StaticResource appbar_arrow_right}"
+                                                    Width="36"
+                                                    Height="36"
+                                                    IconWidth="13"
+                                                    IconHeight="13"
+                                                    Margin="{StaticResource Margin}"
+                                                   Command="{Binding ElementName=_Root, Path=DataContext.MensajesForoCommand}"
+                                                    CommandParameter="{Binding}">
+                                                <Button.Style>
+                                                    <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                                                        <Setter Property="Opacity" Value="0.5"/>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Opacity" Value="1"/>
+                                                                <Setter Property="Cursor" Value="Hand"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </cc:CircleIconButton>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </ScrollViewer>
+                </Grid>
+            </GroupBox>-->
+        </Grid>
+        <!--<GroupBox Grid.Column="4" Name="RetrasosImpagos" Margin="{StaticResource Margin}">
             <GroupBox.Header>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -387,7 +718,7 @@
                     </ListBox>
                 </ScrollViewer>
             </Grid>
-        </GroupBox>
+        </GroupBox>-->
     </Grid>
 
 
