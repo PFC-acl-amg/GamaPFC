@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.DataAccess;
+using Core.Util;
 using Gama.Atenciones.Business;
 using Gama.Atenciones.Wpf.Eventos;
 using Gama.Atenciones.Wpf.Services;
@@ -173,6 +174,30 @@ namespace Gama.Atenciones.Wpf
         private List<Asistente> _Asistentes = new List<Asistente>();
         private List<Persona> _Personas = new List<Persona>();
 
+        private void OnServidorActualizadoDesdeFueraEvent(string code)
+        {
+            string moduleName = code.Substring(code.IndexOf("@MODULO:@") + 9);
+            string codigo = code.Substring(0, AtencionesResources.ClientId.Length);
+
+            if (codigo != AtencionesResources.ClientId && moduleName.Contains("ATENCIONES"))
+            {
+                DoRawThings();
+
+                _AsistenteRepository.UpdateClient();
+                _PersonaRepository.UpdateClient();
+                _CitaRepository.UpdateClient();
+                _AtencionRepository.UpdateClient();
+
+                AsistentesContentViewModel.OnActualizarServidor();
+                CitasContentViewModel.OnActualizarServidor();
+                DashboardViewModel.OnActualizarServidor();
+                GraficasContentViewModel.OnActualizarServidor();
+                PersonasContentViewModel.OnActualizarServidor();
+                SearchBoxViewModel.OnActualizarServidor();
+                ToolbarViewModel.OnActualizarServidor();
+            }
+        }
+
         private void DoRawThings()
         {
             _Personas.Clear();
@@ -198,7 +223,6 @@ namespace Gama.Atenciones.Wpf
                             "NivelAcademico, Ocupacion, OrientacionSexual, Telefono, Twitter, ViaDeAccesoAGama, CreatedAt, UpdatedAt, ImagenUpdatedAt " +
                             "FROM personas ORDER BY Nombre ASC";
 
-                        Debug.StartWatch();
                         using (reader = sqlCommand.ExecuteReader())
                         {
                             while (reader.Read())
@@ -248,13 +272,14 @@ namespace Gama.Atenciones.Wpf
                                         personaSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
                                         using (Image image = Image.FromStream(new MemoryStream(personaSinImagen.Imagen)))
                                         {
-                                            try
+                                            using (MemoryStream memory = new MemoryStream())
                                             {
-                                                image.Save(path, ImageFormat.Png);  // Or Png
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                throw;
+                                                using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+                                                {
+                                                    image.Save(memory, ImageFormat.Jpeg);
+                                                    byte[] bytes = memory.ToArray();
+                                                    fs.Write(bytes, 0, bytes.Length);
+                                                }
                                             }
                                         }
                                     }
@@ -275,23 +300,14 @@ namespace Gama.Atenciones.Wpf
                                             personaSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
                                             using (Image image = Image.FromStream(new MemoryStream(personaSinImagen.Imagen)))
                                             {
-                                                try
+                                                using (MemoryStream memory = new MemoryStream())
                                                 {
-                                                    //image.Save(path, ImageFormat.Png);  // Or Png
-                                                    string outputFileName = path;
-                                                    using (MemoryStream memory = new MemoryStream())
+                                                    using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
                                                     {
-                                                        using (FileStream fs = new FileStream(outputFileName, FileMode.Create, FileAccess.ReadWrite))
-                                                        {
-                                                            image.Save(memory, ImageFormat.Jpeg);
-                                                            byte[] bytes = memory.ToArray();
-                                                            fs.Write(bytes, 0, bytes.Length);
-                                                        }
+                                                        image.Save(memory, ImageFormat.Jpeg);
+                                                        byte[] bytes = memory.ToArray();
+                                                        fs.Write(bytes, 0, bytes.Length);
                                                     }
-                                                }
-                                                catch (Exception ex)
-                                                {
-                                                    throw;
                                                 }
                                             }
                                         }
@@ -307,7 +323,8 @@ namespace Gama.Atenciones.Wpf
 
                         sqlCommand.CommandText = "SELECT Id, Nombre, Nif, Apellidos, FechaDeNacimiento, ComoConocioAGama, NivelAcademico, " +
                             "Ocupacion, Provincia, Municipio, Localidad, CodigoPostal, Calle, Numero, Portal, Piso, Puerta, " +
-                            "TelefonoFijo, TelefonoMovil, TelefonoAlternativo, Email, EmailAlternativo, Linkedin, Twitter, Facebook, Observaciones, ImagenUpdatedAt " +
+                            "TelefonoFijo, TelefonoMovil, TelefonoAlternativo, Email, EmailAlternativo, Linkedin, Twitter, Facebook, Observaciones, ImagenUpdatedAt, " +
+                            "CreatedAt, UpdatedAt " +
                             "FROM asistentes";
                         using (reader = sqlCommand.ExecuteReader())
                         {
@@ -346,12 +363,16 @@ namespace Gama.Atenciones.Wpf
                                     Facebook = reader["Facebook"].ToString(),
                                     Observaciones = reader["Observaciones"].ToString(),
                                     ImagenUpdatedAt = reader["ImagenUpdatedAt"] as DateTime?,
+                                    CreatedAt = (DateTime)reader["CreatedAt"],
+                                    UpdatedAt = reader["UpdatedAt"] as DateTime?,
                                 };
 
                                 asistente.Decrypt();
                                 _Asistentes.Add(asistente);
                             }
                         }
+
+                        AtencionesResources.TodosLosNifDeAsistentes = _Asistentes.Select(x => x.Nif).ToList();
 
                         foreach (var asistenteSinImagen in _Asistentes)
                         {
@@ -366,7 +387,15 @@ namespace Gama.Atenciones.Wpf
                                         asistenteSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
                                         using (Image image = Image.FromStream(new MemoryStream(asistenteSinImagen.Imagen)))
                                         {
-                                            image.Save(path, ImageFormat.Png);  // Or Png
+                                            using (MemoryStream memory = new MemoryStream())
+                                            {
+                                                using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+                                                {
+                                                    image.Save(memory, ImageFormat.Jpeg);
+                                                    byte[] bytes = memory.ToArray();
+                                                    fs.Write(bytes, 0, bytes.Length);
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -386,23 +415,15 @@ namespace Gama.Atenciones.Wpf
                                             asistenteSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
                                             using (Image image = Image.FromStream(new MemoryStream(asistenteSinImagen.Imagen)))
                                             {
-                                                try
+                                                // image.Save(path, ImageFormat.Png);  // Or Png
+                                                using (MemoryStream memory = new MemoryStream())
                                                 {
-                                                    //image.Save(path, ImageFormat.Png);  // Or Png
-                                                    string outputFileName = path;
-                                                    using (MemoryStream memory = new MemoryStream())
+                                                    using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
                                                     {
-                                                        using (FileStream fs = new FileStream(outputFileName, FileMode.Create, FileAccess.ReadWrite))
-                                                        {
-                                                            image.Save(memory, ImageFormat.Jpeg);
-                                                            byte[] bytes = memory.ToArray();
-                                                            fs.Write(bytes, 0, bytes.Length);
-                                                        }
+                                                        image.Save(memory, ImageFormat.Jpeg);
+                                                        byte[] bytes = memory.ToArray();
+                                                        fs.Write(bytes, 0, bytes.Length);
                                                     }
-                                                }
-                                                catch (Exception ex)
-                                                {
-                                                    throw;
                                                 }
                                             }
                                         }
@@ -427,6 +448,8 @@ namespace Gama.Atenciones.Wpf
                                     Hora = (int)reader["Hora"],
                                     Minutos = (int)reader["Minutos"],
                                     Sala = reader["Sala"].ToString(),
+                                    CreatedAt = (DateTime)reader["CreatedAt"],
+                                    UpdatedAt = reader["UpdatedAt"] as DateTime?,
                                 };
 
                                 cita.Decrypt();
@@ -526,30 +549,6 @@ namespace Gama.Atenciones.Wpf
             _AsistenteRepository.Asistentes = _Asistentes;
         }
 
-        private void OnServidorActualizadoDesdeFueraEvent(string code)
-        {
-            string moduleName = code.Substring(code.IndexOf("@MODULO:@") + 9);
-            string codigo = code.Substring(0, AtencionesResources.ClientId.Length);
-
-            if (codigo != AtencionesResources.ClientId && moduleName.Contains("ATENCIONES"))
-            {
-                DoRawThings();
-
-                _AsistenteRepository.UpdateClient();
-                _PersonaRepository.UpdateClient();
-                _CitaRepository.UpdateClient();
-                _AtencionRepository.UpdateClient();
-
-                AsistentesContentViewModel.OnActualizarServidor();
-                CitasContentViewModel.OnActualizarServidor();
-                DashboardViewModel.OnActualizarServidor();
-                GraficasContentViewModel.OnActualizarServidor();
-                PersonasContentViewModel.OnActualizarServidor();
-                SearchBoxViewModel.OnActualizarServidor();
-                ToolbarViewModel.OnActualizarServidor();
-            }
-        }
-
         public byte[] ImageToByteArray(System.Drawing.Image imageIn)
         {
             using (var ms = new MemoryStream())
@@ -563,26 +562,26 @@ namespace Gama.Atenciones.Wpf
         {
             try
             {
-
                 if (AtencionesResources.ClientService != null)
                     AtencionesResources.ClientService.Desconectar();
-                //var preferencias = _Preferencias;
-                //if (preferencias.DoBackupOnClose)
-                //{
-                //    string connectionString =
-                //        ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString;
-                //    DBHelper.Backup(
-                //        connectionString: connectionString,
-                //        fileName: preferencias.AutomaticBackupPath + DateTime.Now.ToString().Replace('/', '-').Replace(':', '-') + " - atenciones backup.sql");
 
-                //    DirectoryInfo directory = new DirectoryInfo(preferencias.AutomaticBackupPath);
+                var preferencias = _Preferencias;
+                if (preferencias.DoBackupOnClose)
+                {
+                    string connectionString =
+                        ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ConnectionString;
+                    DBHelper.Backup(
+                        connectionString: connectionString,
+                        fileName: preferencias.AutomaticBackupPath + DateTime.Now.ToString().Replace('/', '-').Replace(':', '-') + " - atenciones backup.sql");
 
-                //    if (preferencias.BackupDeleteDateLimit.HasValue)
-                //        foreach (FileInfo fileInfo in directory.GetFiles())
-                //            if (fileInfo.CreationTime < preferencias.BackupDeleteDateLimit.Value
-                //                && fileInfo.CreationTime < DateTime.Now.Date) // Para no borrar el que acabamos de poner
-                //                fileInfo.Delete();
-                //}
+                    DirectoryInfo directory = new DirectoryInfo(preferencias.AutomaticBackupPath);
+
+                    if (preferencias.BackupDeleteDateLimit.HasValue)
+                        foreach (FileInfo fileInfo in directory.GetFiles())
+                            if (fileInfo.CreationTime < preferencias.BackupDeleteDateLimit.Value
+                                && fileInfo.CreationTime < DateTime.Now.Date) // Para no borrar el que acabamos de poner
+                                fileInfo.Delete();
+                }
             }
             catch (Exception ex)
             {

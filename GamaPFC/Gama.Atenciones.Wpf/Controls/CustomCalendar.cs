@@ -105,21 +105,18 @@ namespace Gama.Atenciones.Wpf.Controls
             var cc = d as CustomCalendar;
             if (cc != null)
             {
-               // cc.BuildCalendar(cc.CurrentDate);
                 var items = e.NewValue as ObservableCollection<CitaWrapper>;
                 if (items == null)
                     items = new ObservableCollection<CitaWrapper>();
 
                 if (items != null)
                     items.CollectionChanged += new NotifyCollectionChangedEventHandler(cc.AppointmentsChanged);
-                //else
-                //    throw new Exception("problemón");
             }
         }
 
         private void AppointmentsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            BuildCalendar(CurrentDate);
+           this.Dispatcher.Invoke((Action)delegate { BuildCalendar(CurrentDate); });
         }
 
         public DateTime CurrentDate

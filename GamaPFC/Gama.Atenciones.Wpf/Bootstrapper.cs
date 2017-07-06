@@ -518,6 +518,8 @@ namespace Gama.Atenciones.Wpf
                                     Hora = (int)reader["Hora"],
                                     Minutos = (int)reader["Minutos"],
                                     Sala = reader["Sala"].ToString(),
+                                    CreatedAt = (DateTime)reader["CreatedAt"],
+                                    UpdatedAt = reader["UpdatedAt"] as DateTime?,
                                 };
 
                                 cita.Decrypt();

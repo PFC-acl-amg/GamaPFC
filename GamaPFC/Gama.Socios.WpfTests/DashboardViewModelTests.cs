@@ -17,7 +17,7 @@ namespace Gama.Socios.WpfTests
 {
     public class DashboardViewModelTests
     {
-        private Mock<IEventAggregator> _EventAggregatorMock;
+        private EventAggregator _EventAggregatorMock;
         private Mock<ISession> _SessionMock;
         private Mock<IPreferenciasDeSocios> _SettingsMock;
         private Mock<SocioCreadoEvent> _SocioCreadoEventMock;
@@ -33,7 +33,7 @@ namespace Gama.Socios.WpfTests
 
             _SocioRepositoryMock = new Mock<ISocioRepository>();
             _SettingsMock = new Mock<IPreferenciasDeSocios>();
-            _EventAggregatorMock = new Mock<IEventAggregator>();
+            _EventAggregatorMock = new EventAggregator();
             _SessionMock = new Mock<ISession>();
 
             _SocioRepositoryMock.Setup(x => x.GetAll()).Returns(_Socios);
@@ -42,19 +42,19 @@ namespace Gama.Socios.WpfTests
             _SocioEliminadoEventMock = new Mock<SocioDadoDeBajaEvent>();
             _SocioSeleccionadoEventMock = new Mock<SocioSeleccionadoEvent>();
 
-            _EventAggregatorMock.Setup(x => x.GetEvent<SocioCreadoEvent>()).Returns(
-                _SocioCreadoEventMock.Object);
-            _EventAggregatorMock.Setup(x => x.GetEvent<SocioDadoDeBajaEvent>()).Returns(
-                _SocioEliminadoEventMock.Object);
-            _EventAggregatorMock.Setup(x => x.GetEvent<SocioSeleccionadoEvent>()).Returns(
-                _SocioSeleccionadoEventMock.Object);
+            //_EventAggregatorMock.Setup(x => x.GetEvent<SocioCreadoEvent>()).Returns(
+            //    _SocioCreadoEventMock.Object);
+            //_EventAggregatorMock.Setup(x => x.GetEvent<SocioDadoDeBajaEvent>()).Returns(
+            //    _SocioEliminadoEventMock.Object);
+            //_EventAggregatorMock.Setup(x => x.GetEvent<SocioSeleccionadoEvent>()).Returns(
+            //    _SocioSeleccionadoEventMock.Object);
 
             _SettingsMock.SetupGet(x => x.DashboardMesesAMostrarDeSociosNuevos).Returns(6);
             _SettingsMock.SetupGet(x => x.DashboardUltimosSocios).Returns(15);
 
             _Vm = new DashboardViewModel(
                 _SocioRepositoryMock.Object,
-                _EventAggregatorMock.Object,
+                _EventAggregatorMock,
                 new PreferenciasDeSocios(),
                 _SessionMock.Object
                 );

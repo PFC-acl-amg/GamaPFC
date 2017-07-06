@@ -52,25 +52,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _Session = session;
             Preferencias = preferencias;
 
-            OnActualizarServidor();
-
-            _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
-            _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
-            _EventAggregator.GetEvent<CitaEliminadaEvent>().Subscribe(OnCitaEliminadaEvent);
-
-            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
-            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
-
-            _EventAggregator.GetEvent<AsistenteActualizadoEvent>().Subscribe(OnAsistenteActualizadoEvent);
-            Debug.StopWatch("CitasContentView");
-        }
-
-        public override void OnActualizarServidor()
-        {
-            //_Citas = new List<CitaWrapper>(_CitaRepository.GetAll()
-            //    .Select(x => new CitaWrapper(x))
-            //    .OrderBy(c => c.Fecha));
-            _Citas = new List<CitaWrapper>(_PersonaRepository.Personas.SelectMany(p => p.Citas).Select(c => new CitaWrapper(c)).OrderBy(c => c.Fecha));
+            //OnActualizarServidor();
+            _Citas = new List<CitaWrapper>(_CitaRepository.GetAll()
+                .Select(x => new CitaWrapper(x))
+                .OrderBy(c => c.Fecha));
             Citas = new ObservableCollection<CitaWrapper>(_Citas);
 
             NuevaCitaCommand = new DelegateCommand<Day>(OnNuevaCitaCommandExecute);
@@ -82,6 +67,16 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 FechaDeInicio = null;
                 FechaDeFin = null;
             });
+
+            _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
+            _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
+            _EventAggregator.GetEvent<CitaEliminadaEvent>().Subscribe(OnCitaEliminadaEvent);
+
+            _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(OnPersonaActualizadaEvent);
+            _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(OnPersonaEliminadaEvent);
+
+            _EventAggregator.GetEvent<AsistenteActualizadoEvent>().Subscribe(OnAsistenteActualizadoEvent);
+            Debug.StopWatch("CitasContentView");
         }
 
         public Preferencias Preferencias { get; private set; }
@@ -172,10 +167,21 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Refresh++;
         }
 
+        public override void OnActualizarServidor()
+        {
+            Citas.Clear();
+
+            _Citas = _CitaRepository.Citas.Select(x => new CitaWrapper(x)).ToList();
+            Citas.AddRange(_Citas);
+            //Refresh++;
+            //OnPropertyChanged(nameof(Citas));
+        }
+
         private void OnCitaCreadaEvent(int id)
         {
             Cita cita = _CitaRepository.GetById(id);
             Citas.Add(new CitaWrapper(cita));
+            Refresh++;
         }
 
         private void OnCitaActualizadaEvent(int citaId)
@@ -185,6 +191,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Cita citaDesactualizada = Citas.Select(x => x.Model).First(x => x.Id == citaId);
             citaDesactualizada.CopyValuesFrom(cita);
             OnPropertyChanged(nameof(Citas));
+            Refresh++;
         }
 
         private void OnCitaEliminadaEvent(int citaId)

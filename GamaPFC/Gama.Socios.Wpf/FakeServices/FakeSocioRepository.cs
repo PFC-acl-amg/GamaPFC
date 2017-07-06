@@ -120,5 +120,10 @@ namespace Gama.Socios.Wpf.FakeServices
         {
             throw new NotImplementedException();
         }
+
+        public void UpdateClient()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

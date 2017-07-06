@@ -50,7 +50,7 @@ namespace Gama.Common.Communication
                     _EventAggregator.GetEvent<LaConexionConElServidorHaCambiadoEvent>().Publish(MensajeDeConexion.Conectado);
                     return;
                 }
-                _ClientSocket.Connect("80.59.101.181", 8888);
+                _ClientSocket.Connect("localhost", 8888); //"80.59.101.181"
                 _ServerStream = _ClientSocket.GetStream();
                 
                 EnviarMensaje($"{INICIO_DE_CONEXION}{_ClientName}");
