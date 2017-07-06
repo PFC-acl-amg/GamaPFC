@@ -29,14 +29,14 @@ namespace Gama.Common.CustomControls
             get { return _itemsPerPage; }
             set
             {
-                if (_itemsPerPage != value)
-                {
+                //if (_itemsPerPage != value)
+                //{
                     _itemsPerPage = value;
                     CurrentPage = 1;
                     _count = Math.Min(_itemsPerPage, _innerList.Count);
                     PageCount = (_innerList.Count + _itemsPerPage - 1) / _itemsPerPage;
                     Refresh();
-                }
+                //}
             }
         }
 
