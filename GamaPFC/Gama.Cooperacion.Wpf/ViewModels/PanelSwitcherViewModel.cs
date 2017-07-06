@@ -29,14 +29,19 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             ActivePanel = "DashboardView";
             this.NavigateCommand = new DelegateCommand<string>(Navigate);
 
+            _eventAggregator.GetEvent<ActiveViewChanged>().Subscribe(OnActiveViewChangedEvent);
             _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Subscribe(OnActividadSeleccionadaEvent);
             _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
             
         }
-
+        private void OnActiveViewChangedEvent(string viewName)
+        {
+            ActivePanel = viewName;
+        }
         private void Navigate(string viewName)
         {
             ActivePanel = viewName;
+            _eventAggregator.GetEvent<ActiveViewChanged>().Publish(viewName);
             _regionManager.RequestNavigate(RegionNames.ContentRegion, viewName);
         }
         private void OnNuevaActividadEvent(int id)

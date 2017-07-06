@@ -124,6 +124,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -162,6 +163,7 @@
     <Compile Include="Eventos\ActividadActualizadaEvent.cs" />
     <Compile Include="Eventos\ActividadEliminadaEvent.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaChangedEvent.cs" />
+    <Compile Include="Eventos\CooperanteSeleccionadoEvent.cs" />
     <Compile Include="Eventos\Modificar.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaEvent.cs" />
     <Compile Include="Eventos\CooperanteCreadoEvent.cs" />
@@ -177,6 +179,7 @@
     <Compile Include="Services\CooperacionSettings.cs" />
     <Compile Include="Services\CooperanteRepository.cs" />
     <Compile Include="Services\EventoRepository.cs" />
+    <Compile Include="Services\ExportServices.cs" />
     <Compile Include="Services\FakeCooperanteRepository.cs" />
     <Compile Include="Services\FakeActividadRepository.cs" />
     <Compile Include="Services\FakeEventoRepository.cs" />
