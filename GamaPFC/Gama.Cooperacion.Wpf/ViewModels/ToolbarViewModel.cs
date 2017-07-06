@@ -18,22 +18,21 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 {
     public class ToolbarViewModel : ViewModelBase
     {
-        private IEventAggregator _eventAggregator;
         private Cooperante Cooperante;
-        private IEventAggregator _EventAggregator;
+        private EventAggregator _EventAggregator;
         private ICooperanteRepository _CooperanteRepository;
         private ExportService _ExportService;
         private string VistaCargada;
 
         public ToolbarViewModel(CooperanteRepository CooperanteRepository,
             ExportService ExportService,
-            IEventAggregator EventAggregator,
+            EventAggregator EventAggregator,
             ISession Session)
         {
             _CooperanteRepository = CooperanteRepository;
             _CooperanteRepository.Session = Session;
             _ExportService = ExportService;
-            _eventAggregator = EventAggregator;
+            _EventAggregator = EventAggregator;
 
             _EventAggregator.GetEvent<CooperanteSeleccionadoEvent>().Subscribe(OnCooperanteSeleccionadoEvent);
             _EventAggregator.GetEvent<ActiveViewChanged>().Subscribe(OnListaCooperantesExportarEvent);
