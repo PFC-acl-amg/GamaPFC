@@ -23,10 +23,17 @@ namespace Gama.Socios.Wpf.ViewModels
 
         public EditarPeriodosDeAltaViewModel(
             ISocioRepository socioRepository,
-            IEventAggregator eventAggregator, 
-            PreferenciasDeSocios settings)
+            IPeriodoDeAltaRepository periodoDeAltaRepository,
+            ICuotaRepository cuotaRepository,
+            IEventAggregator eventAggregator,
+            PreferenciasDeSocios settings,
+            ISession session)
         {
             _SocioRepository = socioRepository;
+            _PeriodoDeAltaRepository = periodoDeAltaRepository;
+            _PeriodoDeAltaRepository.Session = session;
+            _CuotaRepository = cuotaRepository;
+            _CuotaRepository.Session = session;
             _EventAggregator = eventAggregator;
             _Settings = settings;
 
@@ -53,6 +60,8 @@ namespace Gama.Socios.Wpf.ViewModels
 
         public PeriodoDeAltaWrapper _PeriodoDeAltaSeleccionado;
         private PreferenciasDeSocios _Settings;
+        private IPeriodoDeAltaRepository _PeriodoDeAltaRepository;
+        private ICuotaRepository _CuotaRepository;
 
         public PeriodoDeAltaWrapper PeriodoDeAltaSeleccionado
         {
@@ -83,39 +92,55 @@ namespace Gama.Socios.Wpf.ViewModels
             var cuotasPreexistentes = new List<Cuota>(wrapper.Cuotas.Select(x => x.Model));
 
             //wrapper.Cuotas.Clear();
-            wrapper.MesesAplicables.Clear();
+            //wrapper.MesesAplicables.Clear();
             // Los meses aplicables serán en forma de Cuota, desde el mes de alta hasta
             // el mes de baja o la fecha actual, en caso de no haber mes de baja establecido.
-            foreach (var mesAplicable in wrapper.GetMesesAplicables())
-            {
-                var cuota = cuotasPreexistentes.Where(x => x.Id == mesAplicable.Id).FirstOrDefault();
+            var mesesAplicables = wrapper.GetMesesAplicables();
+            wrapper.Cuotas.Clear();
 
-                // Si la cuota ya existe, la tomamos, actualizamos sus campos en caso de modificación
-                // y la añadimos a la lista de cuotas.
-                // Si no existe, es que es nueva o no tenía cambio, por lo que añadimos
-                // una predeterminada, que es una Cuota con sólo el campo de "CantidadTotal" especificado,
-                // que viene de los Settings según la Cuota Mensual Predeterminada
-                if (cuota == null)
-                {
-                    mesAplicable.CantidadTotal = _Settings.CuotaMensualPredeterminada;
-                    wrapper.AddCuota(mesAplicable);
-                    wrapper.MesesAplicables.Add(new CuotaWrapper(mesAplicable));
-                    //model.AddCuota(mesAplicable);
-                }
-                else // Se ha modificado una cuota existente
-                {
-                    cuota.CopyValuesFrom(mesAplicable);
-                    wrapper.MesesAplicables.Add(new CuotaWrapper(cuota));
-                    //wrapper.AddCuota(cuota);
-                }
+            foreach (var mesAplicable in mesesAplicables)
+            {
+                wrapper.Cuotas.Add(new CuotaWrapper(mesAplicable));
+                //var cuota = cuotasPreexistentes.Where(x => x.Id == mesAplicable.Id).FirstOrDefault();
+
+                //// Si la cuota ya existe, la tomamos, actualizamos sus campos en caso de modificación
+                //// y la añadimos a la lista de cuotas.
+                //// Si no existe, es que es nueva o no tenía cambio, por lo que añadimos
+                //// una predeterminada, que es una Cuota con sólo el campo de "CantidadTotal" especificado,
+                //// que viene de los Settings según la Cuota Mensual Predeterminada
+                //if (cuota == null || cuota.PeriodoDeAlta == null)
+                //{
+                //    mesAplicable.CantidadTotal = _Settings.CuotaMensualPredeterminada;
+                //    wrapper.AddCuota(mesAplicable);
+                //    wrapper.MesesAplicables.Add(new CuotaWrapper(mesAplicable));
+                //    //_CuotaRepository.Create(cuota);
+                //}
+                //else // Se ha modificado una cuota existente
+                //{
+                //    cuota.CopyValuesFrom(mesAplicable);
+                //    cuota.PeriodoDeAlta = wrapper.Model;
+                //    wrapper.MesesAplicables.Add(new CuotaWrapper(cuota));
+                //    //_CuotaRepository.Update(cuota);
+                //    //wrapper.AddCuota(cuota);
+                //}
+
 
             }
+            wrapper.MesesAplicables.Clear();
 
+            mesesAplicables.Select(x => new CuotaWrapper(x)).ToList().ForEach(c =>
+             {
+                 wrapper.MesesAplicables.Add(c);
+                 wrapper.Cuotas.Add(c);
+             }
+            );
+
+            //_PeriodoDeAltaRepository.Update(wrapper.Model);
             _SocioRepository.Update(Socio.Model);
             wrapper.AcceptChanges();
             InvalidateCommands();
 
-            _EventAggregator.GetEvent<SocioActualizadoEvent>().Publish(Socio.Model);
+            _EventAggregator.GetEvent<PeriodoDeAltaActualizadoEvent>().Publish(wrapper.Id);
         }
 
         public void AddPeriodoDeAlta()
@@ -154,6 +179,8 @@ namespace Gama.Socios.Wpf.ViewModels
             {
                 _Session = value;
                 _SocioRepository.Session = value;
+                _CuotaRepository.Session = value;
+                _PeriodoDeAltaRepository.Session = value;
             }
         }
     }

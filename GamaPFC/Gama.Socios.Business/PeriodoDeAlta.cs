@@ -39,7 +39,11 @@ namespace Gama.Socios.Business
                 Cuota nextCuota = ((ICollection<Cuota>)Cuotas).Where(x =>
                         DateUtility.IsSameYearMonth(startDate.Date, x.Fecha.Date)).FirstOrDefault();
 
-                nextCuota = nextCuota ?? new Cuota { Fecha = startDate.Date };
+                nextCuota = nextCuota ?? new Cuota {
+                    Fecha = startDate.Date,
+                    CantidadTotal = 10,
+                    PeriodoDeAlta = this,
+                };
                 resultado.Add(nextCuota); 
 
                 startDate = startDate.AddMonths(1);

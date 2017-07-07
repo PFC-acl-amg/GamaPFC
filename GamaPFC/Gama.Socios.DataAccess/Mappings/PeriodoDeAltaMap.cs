@@ -19,7 +19,7 @@ namespace Gama.Socios.DataAccess.Mappings
 
             HasMany(x => x.Cuotas)
                 .Not.LazyLoad()
-                .Cascade.Delete()
+                .Cascade.AllDeleteOrphan()
                 .Inverse();
 
             References(x => x.Socio)
