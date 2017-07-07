@@ -50,7 +50,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnPersonaCreadaEvent);
             _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
-            _EventAggregator.GetEvent<CitaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
+            _EventAggregator.GetEvent<CitaSeleccionadaEvent>().Subscribe(OnCitaSeleccionadaEvent);
             _EventAggregator.GetEvent<AtencionSeleccionadaEvent>().Subscribe(OnAtencionSeleccionadaEvent);
             _EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(OnCitaCreadaEvent);
             _EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(OnCitaActualizadaEvent);
@@ -110,15 +110,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public ObservableCollection<object> ViewModels { get; private set; }
 
-        private void NavegarAPersona(int personaId, int? atencionId = null)
+        private void NavegarAPersona(int personaId, int? atencionId = null, DateTime? fechaDeCita = null)
         {
-            if (!PersonaEstaAbierta(personaId, atencionId))
+            if (!PersonaEstaAbierta(personaId, atencionId, fechaDeCita))
             {
                 var newViewModel = _Container.Resolve<EditarPersonaViewModel>();
 
                 ViewModels.Add(newViewModel);
 
-                newViewModel.OnNavigatedTo(personaId, atencionId);
+                newViewModel.OnNavigatedTo(personaId, atencionId, fechaDeCita);
 
                 ViewModelSeleccionado = newViewModel;
             }
@@ -126,7 +126,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
         }
 
-        private bool PersonaEstaAbierta(int personaId, int? atencionId)
+        private bool PersonaEstaAbierta(int personaId, int? atencionId = null, DateTime? fechaDeCita = null)
         {
             try
             {
@@ -137,7 +137,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     {
                         if (editarPersonaViewModel.PersonaVM.Persona.Id == personaId)
                         {
-                            editarPersonaViewModel.OnNavigatedTo(personaId, atencionId);
+                            editarPersonaViewModel.OnNavigatedTo(personaId, atencionId, fechaDeCita);
                             ViewModelSeleccionado = editarPersonaViewModel;
                             return true;
                         }
@@ -229,6 +229,12 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnAtencionSeleccionadaEvent(IdentificadorDeModelosPayload payload)
         {
             NavegarAPersona(payload.PersonaId, payload.AtencionId);
+        }
+
+        private void OnCitaSeleccionadaEvent(int id)
+        {
+            var cita = _CitaRepository.GetById(id);
+            NavegarAPersona(cita.Persona.Id, null, cita.Fecha);
         }
 
         private void OnPersonaSeleccionadaEvent(int id)
