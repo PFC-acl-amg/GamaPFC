@@ -27,12 +27,14 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private bool _VisibleListaCooperantes;
         private CooperanteViewModel _CooperanteViewModel;
         private CooperanteWrapper _CooperanteSeleccionado;
+        private ToolbarViewModel _ToolbarViewModel;
 
         public CooperantesContentViewModel(
             IEventAggregator eventAggregator,
             IActividadRepository actividadRepository,
             ICooperanteRepository cooperanteRepository,
             CooperanteViewModel CooperanteViewModel,
+            ToolbarViewModel ToolbarViewModel,
             ISession session)
         {
             Gama.Common.Debug.Debug.StartWatch();
@@ -42,6 +44,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _ActividadRepository = actividadRepository;
             _ActividadRepository.Session = session;
             _CooperanteViewModel = CooperanteViewModel;
+            _ToolbarViewModel = ToolbarViewModel;
             _Session = session;
 
             _Now = DateTime.Now.Date;
@@ -187,7 +190,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 SetProperty(ref _CooperanteSeleccionado, value);
                 RefrescarVista();
-
+                _EventAggregator.GetEvent<CooperanteSeleccionadoEvent>().Publish(_CooperanteSeleccionado.Id);
                 OnPropertyChanged();
             }
         }
@@ -221,14 +224,17 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             ActividadesCoopera = new ObservableCollection<Actividad>();
 
             if (Cooperantes.Count > 0)
+            {
                 CooperanteSeleccionado = Cooperantes.First();
-
+            }
+              
             OnPropertyChanged(nameof(Cooperantes));
         }
         private void RefrescarVista()
         {
             if (_CooperanteSeleccionado != null)
             {
+                _ToolbarViewModel.LoadCooperante(_CooperanteSeleccionado.Id);
                 _CooperanteViewModel.Load(_CooperanteSeleccionado);
                 _CooperanteSeleccionado.PropertyChanged += (s, e) => InvalidateCommands();
 

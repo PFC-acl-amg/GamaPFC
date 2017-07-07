@@ -1,5 +1,6 @@
 ﻿using Core;
 using Gama.Common;
+using Gama.Common.Eventos;
 using Gama.Cooperacion.Wpf.Eventos;
 using NHibernate;
 using Prism.Events;
@@ -63,6 +64,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             // Segundamente navegamos al detalle de la Actividad a abrir
             _regionManager.RequestNavigate(RegionNames.ActividadesTabContentRegion,
                 "EditarActividadView", navigationParameters);
+
+            _eventAggregator.GetEvent<ActiveViewChanged>().Publish("ActividadesContentView");
         }
     }
 }

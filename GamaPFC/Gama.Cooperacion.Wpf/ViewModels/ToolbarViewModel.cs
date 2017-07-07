@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Gama.Cooperacion.Wpf.ViewModels
@@ -19,23 +20,28 @@ namespace Gama.Cooperacion.Wpf.ViewModels
     public class ToolbarViewModel : ViewModelBase
     {
         private Cooperante Cooperante;
+        private Actividad Actividad;
         private EventAggregator _EventAggregator;
         private ICooperanteRepository _CooperanteRepository;
+        private IActividadRepository _ActividadRepository;
         private ExportService _ExportService;
         private string VistaCargada;
 
-        public ToolbarViewModel(CooperanteRepository CooperanteRepository,
+        public ToolbarViewModel(CooperanteRepository CooperanteRepository, ActividadRepository ActividadRepository,
             ExportService ExportService,
             EventAggregator EventAggregator,
             ISession Session)
         {
             _CooperanteRepository = CooperanteRepository;
             _CooperanteRepository.Session = Session;
+            _ActividadRepository = ActividadRepository;
+            _ActividadRepository.Session = Session;
             _ExportService = ExportService;
             _EventAggregator = EventAggregator;
 
             _EventAggregator.GetEvent<CooperanteSeleccionadoEvent>().Subscribe(OnCooperanteSeleccionadoEvent);
-            _EventAggregator.GetEvent<ActiveViewChanged>().Subscribe(OnListaCooperantesExportarEvent);
+            _EventAggregator.GetEvent<ActividadSeleccionadaEvent>().Subscribe(OnActividadSeleccionadaEvent);
+            _EventAggregator.GetEvent<ActiveViewChanged>().Subscribe(OnContenidoVistaExportarEvent);
 
 
             NuevoActividadCommand = new DelegateCommand(OnNuevoActividad);
@@ -59,6 +65,30 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
         private void OnExportarCommandExecute()
         {
+
+            if (VistaCargada == "ActividadesContentView")
+            {
+                // Exportar datos de una solo Actividad Que ya se copio an Toolbar con el evento ActividadSeleccionadaEvent.
+                _ExportService.ExportarActividad(Actividad, Actividad.Titulo);
+            }
+            else
+            {
+                if (VistaCargada == "CooperantesContentView")
+                {
+                    _ExportService.ExportarCooperante(Cooperante, Cooperante.Nombre);
+                }
+                else
+                {
+                    var ListaActividades = _ActividadRepository.GetAll();
+                    _ExportService.ExportarTodasActividades(ListaActividades);
+                }
+            }
+           
+            //if (VistaCargada == "DashboardView")
+            //{
+                
+            //}
+
             //_ExportService.ExportarSocios(ListaSocios);
             //if (VistaCargada != "SociosContentView")
             //{
@@ -67,11 +97,23 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             //}
             //else _ExportService.ExportarSocio(Cooperante, Cooperante.Nombre);
         }
-        private void OnListaCooperantesExportarEvent(string obj)
+        private void OnContenidoVistaExportarEvent(string obj)
         {
             VistaCargada = obj;
         }
         private void OnCooperanteSeleccionadoEvent(int id)
+        {
+            var _cooperante = _CooperanteRepository.GetById(id);
+
+            Cooperante = _cooperante;
+        }
+        private void OnActividadSeleccionadaEvent(int id)
+        {
+            var _ActSel = _ActividadRepository.GetById(id);
+
+            Actividad = _ActSel;
+        }
+        public void LoadCooperante(int id)
         {
             var _cooperante = _CooperanteRepository.GetById(id);
 
