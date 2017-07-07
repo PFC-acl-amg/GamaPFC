@@ -26,10 +26,11 @@ namespace Gama.Atenciones.Wpf.Controls
 
         public CustomCalendar()
         {
+            CurrentDate = DateTime.Now;
             Days = new ObservableCollection<Day>();
             DayNames = new ObservableCollection<string> { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo", };
             
-            BuildCalendar(DateTime.Today);
+            BuildCalendar(CurrentDate);
 
             SemanaAnteriorCommand = new DelegateCommand(OnSemanaAnteriorCommandExecute);
             SemanaSiguienteCommand = new DelegateCommand(OnSemanaSiguienteCommandExecute);
@@ -67,7 +68,7 @@ namespace Gama.Atenciones.Wpf.Controls
                 "CurrentDate",
                 typeof(DateTime),
                 typeof(CustomCalendar),
-                new PropertyMetadata(DateTime.Now, OnCurrentDateChanged));
+                new PropertyMetadata(OnCurrentDateChanged));
 
         public static readonly DependencyProperty RefreshProperty =
             DependencyProperty.Register(
