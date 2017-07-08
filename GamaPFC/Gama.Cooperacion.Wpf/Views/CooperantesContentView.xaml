@@ -252,6 +252,27 @@
                         </Style>
                     </Button.Style>
                 </cc:CircleIconButton>
+                <StackPanel Grid.Column="4">
+                    <cc:CircleIconButton
+                      HorizontalAlignment="Right"
+                      Icon="{StaticResource appbar_save}"
+                      Grid.Column="3" Width="36" Height="36" IconWidth="13" IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.ExportarCooperanteView}"
+                      CommandParameter="{Binding}">
+                        <Button.Style>
+                            <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                                <Setter Property="Opacity" Value="0.5"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="1"/>
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </cc:CircleIconButton>
+                </StackPanel>
             </Grid>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                 <Grid  DataContext="{Binding CooperanteViewModel}"

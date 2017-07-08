@@ -26,11 +26,11 @@ namespace Gama.Cooperacion.Wpf
         public ShellViewModel(
             EventAggregator eventAggregator,
             DashboardViewModel dashboardViewModel,
+            ToolbarViewModel toolbarViewModel,
             ActividadesContentViewModel actividadesContentVieWModel,
             PanelSwitcherViewModel panelSwitcherViewModel,
             CalendarioDeActividadesViewModel calendarioDeActividadesViewModel,
             CooperantesContentViewModel cooperantesContentViewModel,
-            ToolbarViewModel toolbarViewModel,
             StatusBarViewModel statusBarViewModel,
             Preferencias preferencias,
             ISession session

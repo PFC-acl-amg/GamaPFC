@@ -10,7 +10,7 @@
       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
-      prism:ViewModelLocator.AutoWireViewModel="True"
+      prism:ViewModelLocator.AutoWireViewModel="False"
       mc:Ignorable="d" 
       d:DesignHeight="76.452" d:DesignWidth="377.055">
     <UserControl.Resources>

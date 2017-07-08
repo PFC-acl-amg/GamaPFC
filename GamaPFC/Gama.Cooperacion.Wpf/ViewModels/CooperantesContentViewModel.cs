@@ -27,14 +27,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private bool _VisibleListaCooperantes;
         private CooperanteViewModel _CooperanteViewModel;
         private CooperanteWrapper _CooperanteSeleccionado;
-        private ToolbarViewModel _ToolbarViewModel;
 
         public CooperantesContentViewModel(
             IEventAggregator eventAggregator,
             IActividadRepository actividadRepository,
             ICooperanteRepository cooperanteRepository,
             CooperanteViewModel CooperanteViewModel,
-            ToolbarViewModel ToolbarViewModel,
             ISession session)
         {
             Gama.Common.Debug.Debug.StartWatch();
@@ -44,7 +42,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _ActividadRepository = actividadRepository;
             _ActividadRepository.Session = session;
             _CooperanteViewModel = CooperanteViewModel;
-            _ToolbarViewModel = ToolbarViewModel;
             _Session = session;
 
             _Now = DateTime.Now.Date;
@@ -75,6 +72,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             BorrarActividadCommand = new DelegateCommand<object>(OnBorrarActividadCommandExecute);
             EditarActividadCommand = new DelegateCommand<object>(OnEditarActividadCommandExecute);
             SelectActividadCommand = new DelegateCommand<object>(OnSelectActividadCommand);
+            ExportarCooperanteView = new DelegateCommand(OnExportarCooperanteViewCommand);
             VerListaCooperantesCommand = new DelegateCommand(OnVerListaCooperantesCommand);
             
             Gama.Common.Debug.Debug.StopWatch("CooperantesContentViewModel");
@@ -135,8 +133,16 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand GuardarBotonCommand { get; private set; }
         public ICommand HabilitarBotonEditarCommand { get; private set; }
         public ICommand SelectActividadCommand { get; set; }
+        public ICommand ExportarCooperanteView { get; set; }
         public ICommand VerListaCooperantesCommand { get; set; }
-      
+
+
+        private void OnExportarCooperanteViewCommand()
+        {
+            _EventAggregator.GetEvent<CooperanteSeleccionadoEvent>().Publish(CooperanteSeleccionado.Id);
+        }
+
+
         private void OnBorrarActividadCommandExecute(object param)
         {
             var lookup = param as Actividad;
@@ -234,7 +240,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             if (_CooperanteSeleccionado != null)
             {
-                _ToolbarViewModel.LoadCooperante(_CooperanteSeleccionado.Id);
                 _CooperanteViewModel.Load(_CooperanteSeleccionado);
                 _CooperanteSeleccionado.PropertyChanged += (s, e) => InvalidateCommands();
 

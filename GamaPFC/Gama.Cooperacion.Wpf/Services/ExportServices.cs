@@ -372,7 +372,7 @@ namespace Gama.Cooperacion.Wpf.Services
             OtrosDatos.Rows[7].Cells[0].Paragraphs.First().AppendLine("Localidad");
             OtrosDatos.Rows[7].Cells[1].Paragraphs.First().AppendLine(coop.Localidad);
             OtrosDatos.Rows[8].Cells[0].Paragraphs.First().AppendLine("Dirección");
-            OtrosDatos.Rows[8].Cells[1].Paragraphs.First().AppendLine(coop.Calle+" Número "+coop.Numero+" Portal "+coop.Portal+" piso "+coop.Piso+" Puerta "+coop.Puerta);
+            OtrosDatos.Rows[8].Cells[1].Paragraphs.First().AppendLine(coop.Calle+", Número "+coop.Numero+", Portal "+coop.Portal+", Piso "+coop.Piso+", Puerta "+coop.Puerta);
             document.InsertParagraph();
             // Save this document to disk.
             if (!FileInUse(destinyPath))
@@ -385,6 +385,10 @@ namespace Gama.Cooperacion.Wpf.Services
             }
             //document.Save();
             //Process.Start("WINWORD.EXE", destinyPath);        
+        }
+        public void ExportarTodosCooperantes(List<Cooperante> cooperantes)
+        {
+
         }
 
 

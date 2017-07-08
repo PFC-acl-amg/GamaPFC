@@ -75,7 +75,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 if (VistaCargada == "CooperantesContentView")
                 {
-                    _ExportService.ExportarCooperante(Cooperante, Cooperante.Nombre);
+                    // Exportar la lista completa de cooperantes
+                    var ListaCooperantes = _CooperanteRepository.GetAll();
+                    _ExportService.ExportarTodosCooperantes(ListaCooperantes);
                 }
                 else
                 {
@@ -104,8 +106,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private void OnCooperanteSeleccionadoEvent(int id)
         {
             var _cooperante = _CooperanteRepository.GetById(id);
-
             Cooperante = _cooperante;
+            _ExportService.ExportarCooperante(Cooperante, Cooperante.Nombre);
         }
         private void OnActividadSeleccionadaEvent(int id)
         {
