@@ -69,6 +69,7 @@
     <None Include="App.config" />
     <None Include="Atenciones\DataAccess.cd" />
     <None Include="Atenciones\Modelos.cd" />
+    <None Include="Atenciones\Wpf.cd" />
     <None Include="Common\Common.cd" />
     <None Include="Core\BaseClasses.cd" />
     <None Include="DummyDiagram.cd" />
