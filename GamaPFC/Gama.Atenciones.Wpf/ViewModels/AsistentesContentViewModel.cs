@@ -105,6 +105,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             {
                 SetProperty(ref _AsistenteSeleccionado, value);
                 RefrescarVista();
+                _EventAggregator.GetEvent<AsistenteSeleccionadoChangedEvent>().Publish(AsistenteSeleccionado);
                 OnPropertyChanged();
             }
         }

@@ -4,6 +4,7 @@ using Gama.Common.Eventos;
 using Gama.Socios.Business;
 using Gama.Socios.Wpf.Eventos;
 using Gama.Socios.Wpf.Services;
+using Gama.Socios.Wpf.Views;
 using LiveCharts;
 using NHibernate;
 using Prism.Commands;
@@ -111,8 +112,20 @@ namespace Gama.Socios.Wpf.ViewModels
             VisibleFiltroSociosCommand = new DelegateCommand(OnVisibleFiltroSociosCommand);
             MostarFiltroContable = new DelegateCommand(OnMostarFiltroContable);
             MostrarFiltroFechas = new DelegateCommand(OnMostrarFiltroFechas);
+            EditarSocioCommand = new DelegateCommand<LookupItem>(OnEditarSocioCommand);
 
             InicializarGraficos();
+        }
+
+        private void OnEditarSocioCommand(LookupItem param)
+        {
+            var _socio = _SocioRepository.GetById(param.Id);
+            var o = new NuevoSocioView();
+            var vm = (NuevoSocioViewModel)o.DataContext;
+
+            vm.Load(_socio);
+            o.Title = "Editar Socio";
+            o.ShowDialog();
         }
 
         private void OnMostrarFiltroFechas()
@@ -209,6 +222,7 @@ namespace Gama.Socios.Wpf.ViewModels
         public ICommand VisibleFiltroSociosCommand { get; private set; }
         public ICommand MostarFiltroContable { get; set; }
         public ICommand MostrarFiltroFechas { get; set; }
+        public ICommand EditarSocioCommand { get; set; }
 
 
         public string[] SociosLabels =>
@@ -232,7 +246,7 @@ namespace Gama.Socios.Wpf.ViewModels
                 Imagen = socio.Imagen
             };
 
-            UltimosSocios.Insert(0, lookupItem);
+            ListaCompletaSocios.Insert(0, lookupItem);
 
             // Si es su cumpleaños, añadirllo
             if (socio.IsBirthday())
@@ -255,7 +269,7 @@ namespace Gama.Socios.Wpf.ViewModels
             var socio = socioActualizado;
             int id = socio.Id;
 
-            var socioDesactualizado = UltimosSocios.Where(x => x.Id == id).FirstOrDefault();
+            var socioDesactualizado = ListaCompletaSocios.Where(x => x.Id == id).FirstOrDefault();
             if (socioDesactualizado != null)
             {
                 socioDesactualizado.DisplayMember1 = socio.Nombre;

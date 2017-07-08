@@ -240,6 +240,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private void OnPersonaSeleccionadaEvent(int id)
         {
             NavegarAPersona(id);
+            _EventAggregator.GetEvent<PersonaSeleccionadaChangedEvent>().Publish(id);
         }
 
         private void OnPersonaCreadaEvent(int id)

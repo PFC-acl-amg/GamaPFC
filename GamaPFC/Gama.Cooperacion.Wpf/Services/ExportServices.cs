@@ -372,7 +372,7 @@ namespace Gama.Cooperacion.Wpf.Services
             OtrosDatos.Rows[7].Cells[0].Paragraphs.First().AppendLine("Localidad");
             OtrosDatos.Rows[7].Cells[1].Paragraphs.First().AppendLine(coop.Localidad);
             OtrosDatos.Rows[8].Cells[0].Paragraphs.First().AppendLine("Dirección");
-            OtrosDatos.Rows[8].Cells[1].Paragraphs.First().AppendLine(coop.Calle+" Número "+coop.Numero+" Portal "+coop.Portal+" piso "+coop.Piso+" Puerta "+coop.Puerta);
+            OtrosDatos.Rows[8].Cells[1].Paragraphs.First().AppendLine(coop.Calle+", Número "+coop.Numero+", Portal "+coop.Portal+", Piso "+coop.Piso+", Puerta "+coop.Puerta);
             document.InsertParagraph();
             // Save this document to disk.
             if (!FileInUse(destinyPath))
@@ -385,6 +385,82 @@ namespace Gama.Cooperacion.Wpf.Services
             }
             //document.Save();
             //Process.Start("WINWORD.EXE", destinyPath);        
+        }
+        public void ExportarTodosCooperantes(List<Cooperante> cooperantes)
+        {
+            var destinyPath = GeneratePath("ListaCooperantes");
+            DocX document = DocX.Create(destinyPath);
+
+            string curFile = destinyPath;
+            bool isFileInUse;
+
+            isFileInUse = FileInUse(destinyPath);
+
+            // Insertar Parrafo con el titulo de la tabla que se mostrará a continuación
+            Paragraph title = document.InsertParagraph().Append("Listado de Cooperantes").
+                FontSize(20).Font(new FontFamily("Times New Roman"));
+            title.Alignment = Alignment.center;
+
+            // Insert a Paragraph into this document.
+            Paragraph Parrafo_TablaInfoActividad = document.InsertParagraph();
+
+            Header(document);
+            
+            int TamFilas = cooperantes.Count();
+            if (TamFilas == 0) TamFilas = 1;
+            else TamFilas += 1;
+            Paragraph Parrafo_TablaCooperantes = document.InsertParagraph();
+            Table TablaCooperantes = document.AddTable(TamFilas, 6); // Calcular los valoes de fila y columnas
+            TablaCooperantes.Alignment = Alignment.center;
+            TablaCooperantes.Design = TableDesign.MediumList2;
+            Parrafo_TablaCooperantes.InsertTableBeforeSelf(TablaCooperantes);
+
+            TablaCooperantes.AutoFit = AutoFit.ColumnWidth;
+            TablaCooperantes.SetColumnWidth(0, 2000);
+            TablaCooperantes.SetColumnWidth(1, 3000);
+            TablaCooperantes.SetColumnWidth(2, 1500);
+            TablaCooperantes.SetColumnWidth(3, 1500);
+            TablaCooperantes.SetColumnWidth(4, 1500);
+            TablaCooperantes.SetColumnWidth(5, 1500);
+
+            //Insertando los valores en las celda de TablaInfoActividad
+            TablaCooperantes.Rows[0].Cells[0].Paragraphs.First().AppendLine("Nombre");
+            TablaCooperantes.Rows[0].Cells[1].Paragraphs.First().AppendLine("Apellidos");
+            TablaCooperantes.Rows[0].Cells[2].Paragraphs.First().AppendLine("DNI");
+            TablaCooperantes.Rows[0].Cells[3].Paragraphs.First().AppendLine("Tlf. Fijo");
+            TablaCooperantes.Rows[0].Cells[4].Paragraphs.First().AppendLine("Tlf. Móvil");
+            TablaCooperantes.Rows[0].Cells[5].Paragraphs.First().AppendLine("Coopera");
+
+            int pos = 1;
+            int tamTitulo = 0;
+            int NumCoordina = 0;
+            int NumCoopera = 0;
+            foreach (var coop in cooperantes)
+            {
+                NumCoordina = coop.ActividadesDeQueEsCoordinador.Count();
+                NumCoopera = coop.ActividadesEnQueParticipa.Count();
+                TablaCooperantes.Rows[pos].Cells[0].Paragraphs.First().AppendLine(coop.Nombre);
+                TablaCooperantes.Rows[pos].Cells[1].Paragraphs.First().AppendLine(coop.Apellido);
+                TablaCooperantes.Rows[pos].Cells[2].Paragraphs.First().AppendLine(coop.Dni);
+                TablaCooperantes.Rows[pos].Cells[3].Paragraphs.First().AppendLine(coop.telefono);
+                TablaCooperantes.Rows[pos].Cells[4].Paragraphs.First().AppendLine(coop.TelefonoMovil);
+                TablaCooperantes.Rows[pos].Cells[5].Paragraphs.First().AppendLine((NumCoordina+NumCoopera).ToString());
+                pos++;
+                NumCoopera = 0;
+                NumCoordina = 0;
+            }
+            document.InsertParagraph();
+            // Save this document to disk.
+            if (!FileInUse(destinyPath))
+            {
+                document.Save();
+            }
+            else
+            {
+                MessageBox.Show("El fichero está abierto. No se realizaron los cambios");
+            }
+            //document.Save();
+            //Process.Start("WINWORD.EXE", destinyPath);   
         }
 
 

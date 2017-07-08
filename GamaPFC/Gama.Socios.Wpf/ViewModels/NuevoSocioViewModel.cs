@@ -1,4 +1,5 @@
 ﻿using Core;
+using Gama.Socios.Business;
 using Gama.Socios.Wpf.Eventos;
 using Gama.Socios.Wpf.Services;
 using Gama.Socios.Wpf.Wrappers;
@@ -16,6 +17,7 @@ namespace Gama.Socios.Wpf.ViewModels
 {
     public class NuevoSocioViewModel : ViewModelBase
     {
+        private int _ModificarSocio=0;
         private IEventAggregator _EventAggregator;
         private ISocioRepository _SocioRepository;
         private SocioViewModel _SocioViewModel;
@@ -65,8 +67,22 @@ namespace Gama.Socios.Wpf.ViewModels
 
         private void OnAceptarCommand_Execute()
         {
-            _SocioRepository.Create(Socio.Model);
-            Cerrar = true;
+            if (_ModificarSocio == 0)
+            {
+                Socio.CreatedAt = DateTime.Now;
+                _SocioRepository.Create(Socio.Model);
+                _EventAggregator.GetEvent<SocioCreadoEvent>().Publish(Socio.Id);
+                Cerrar = true;
+            }
+            else //_ModificarSocio == 1
+            {
+                Socio.UpdatedAt = DateTime.Now;
+                _SocioRepository.Update(Socio.Model);
+                Socio.AcceptChanges();
+                _ModificarSocio = 0;
+                _EventAggregator.GetEvent<SocioActualizadoEvent>().Publish(Socio.Model);
+                Cerrar = true;
+            }
         }
 
         private bool OnAceptarCommand_CanExecute()
@@ -77,6 +93,14 @@ namespace Gama.Socios.Wpf.ViewModels
         private void OnCancelarCommand_Execute()
         {
             Cerrar = true;
+        }
+        public void Load(Socio socio)
+        {
+            var wrapper = new SocioWrapper(socio);
+            _ModificarSocio = 1;
+            _SocioViewModel.Load(wrapper);
+            wrapper.IsInEditionMode = true;
+            Socio.PropertyChanged += Socio_PropertyChanged;
         }
     }
 }

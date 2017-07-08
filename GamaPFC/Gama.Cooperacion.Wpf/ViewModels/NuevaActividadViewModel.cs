@@ -82,7 +82,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             if (_ModificarActividad == 0)   // Si es 0 se va a crear una nueva actividad
             {
                 // Eliminamos el cooperante dummy
-                Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == null).FirstOrDefault());
+                // El valor de Nombre del Dumy es "", no es c.Nombre == null
+                Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == "").FirstOrDefault());
                 // Creamos el evento de nueva actividad creada
                 var evento = new Evento()
                 {
