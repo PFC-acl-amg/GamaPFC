@@ -196,6 +196,10 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 }
                 else
                 {
+                    if (VistaCargada== "PersonasContentView")
+                    {
+                        _ExportService.ExportarInfoPersona(_Persona,_Persona.Nombre);
+                    }
                     //var ListaActividades = _ActividadRepository.GetAll();
                     //_ExportService.ExportarTodasActividades(ListaActividades);
                 }

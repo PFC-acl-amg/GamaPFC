@@ -463,6 +463,143 @@ namespace Gama.Atenciones.Wpf.Services
             //document.Save();
             //Process.Start("WINWORD.EXE", destinyPath);   
         }
+        public void ExportarInfoPersona(Persona pers,string fileName)
+        {
+            var destinyPath = GeneratePath(fileName);
+            DocX document = DocX.Create(destinyPath);
+
+            string curFile = destinyPath;
+            bool isFileInUse;
+
+            isFileInUse = _FileInUse(destinyPath);
+
+            // Insertar Parrafo con el titulo de la tabla que se mostrará a continuación
+            Paragraph title = document.InsertParagraph().Append("Información de la Persona").
+                FontSize(20).Font(new FontFamily("Times New Roman"));
+            title.Alignment = Alignment.center;
+
+            // Insert a Paragraph into this document.
+            Paragraph Parrafo_TablaAsistente = document.InsertParagraph();
+
+            //Header(document);
+
+            // Tablas de Datos
+            Table TablaAsistente = document.AddTable(5, 3);
+            TablaAsistente.Design = TableDesign.MediumList2;
+            Parrafo_TablaAsistente.InsertTableBeforeSelf(TablaAsistente);
+            Parrafo_TablaAsistente.AppendLine();
+
+            Paragraph title2 = document.InsertParagraph().Append("Citas").
+                FontSize(20).Font(new FontFamily("Times New Roman"));
+            title2.Alignment = Alignment.center;
+            // Calculo de número de citas pasadas.
+            _Now = DateTime.Now.Date;
+            int NumFilasCitas = pers.Citas.Count;
+            if (NumFilasCitas == 0) NumFilasCitas = 1;
+            else NumFilasCitas++;
+            Paragraph P_TablaProximasCitas = document.InsertParagraph();
+            Table TablaProximasCitas = document.AddTable(NumFilasCitas, 5); // Info Contenida en el DNI
+            TablaProximasCitas.Alignment = Alignment.center;
+            TablaProximasCitas.Design = TableDesign.MediumList2;
+            P_TablaProximasCitas.InsertTableBeforeSelf(TablaProximasCitas);
+
+            //Paragraph title3 = document.InsertParagraph().Append("Asistencias").
+            //   FontSize(20).Font(new FontFamily("Times New Roman"));
+            //title3.Alignment = Alignment.center;
+
+            //Paragraph P_TablaPasadas = document.InsertParagraph();
+            //Table TablaPasadas = document.AddTable(NumFilasPasadas, 4); // Info Contenida en el DNI
+            //TablaPasadas.Design = TableDesign.MediumList2;
+            //P_TablaPasadas.InsertTableBeforeSelf(TablaPasadas);
+
+            TablaAsistente.AutoFit = AutoFit.ColumnWidth;
+            TablaProximasCitas.AutoFit = AutoFit.ColumnWidth;
+            //TablaPasadas.AutoFit = AutoFit.ColumnWidth;
+            TablaAsistente.SetColumnWidth(0, 2500);
+            TablaAsistente.SetColumnWidth(1, 7000);
+            TablaProximasCitas.SetColumnWidth(0, 2000);
+            TablaProximasCitas.SetColumnWidth(1, 2000);
+            TablaProximasCitas.SetColumnWidth(2, 1000);
+            TablaProximasCitas.SetColumnWidth(3, 1000);
+            TablaProximasCitas.SetColumnWidth(4, 5000);
+            //TablaPasadas.SetColumnWidth(0, 3000);
+            //TablaPasadas.SetColumnWidth(1, 2000);
+            //TablaPasadas.SetColumnWidth(2, 2000);
+            //TablaPasadas.SetColumnWidth(3, 2000);
+
+            Picture NewPic = null;
+            if (pers.Imagen != null)
+            {
+                MemoryStream stream = new MemoryStream(pers.Imagen);
+                Novacode.Image img = document.AddImage(stream); // Create image.
+                Picture pic1 = img.CreatePicture();     // Create picture.
+                                                        //pic1.Height = 179;
+                                                        //pic1.Width = 152;
+                                                        // Redimensionamos la imagen para que cuadre en la tabla manteniendo sus proporciones
+                var ratioX = (double)152 / pic1.Width;
+                var ratioY = (double)179 / pic1.Height;
+                double ratio;
+                if (ratioX < ratioY) { ratio = Math.Min(ratioX, ratioY); }
+                else { ratio = Math.Max(ratioX, ratioY); }
+
+                var newWidth = (int)(pic1.Width * ratio);
+                var newHeight = (int)(pic1.Height * ratio);
+                NewPic = img.CreatePicture(newHeight, newWidth);
+            }
+            if (NewPic != null)
+            {
+                TablaAsistente.Rows[1].Cells[0].Paragraphs.First().AppendPicture(NewPic);
+            }
+
+            TablaAsistente.Rows[1].Cells[0].VerticalAlignment = Novacode.VerticalAlignment.Center;
+            TablaAsistente.MergeCellsInColumn(0, 1, 4);
+            TablaAsistente.Rows[1].Cells[1].Paragraphs.First().AppendLine(pers.Nombre);
+            TablaAsistente.Rows[2].Cells[1].Paragraphs.First().AppendLine(pers.Nif);
+            TablaAsistente.Rows[3].Cells[1].Paragraphs.First().AppendLine(pers.FechaDeNacimiento.ToString());
+            TablaAsistente.Rows[4].Cells[1].Paragraphs.First().AppendLine(pers.Telefono);
+
+            // Insertando en la tabla Citas Futuras
+            int pos = 1;
+            TablaProximasCitas.Rows[0].Cells[0].Paragraphs.First().AppendLine("Nombre");
+            TablaProximasCitas.Rows[0].Cells[1].Paragraphs.First().AppendLine("Fecha");
+            TablaProximasCitas.Rows[0].Cells[2].Paragraphs.First().AppendLine("Hora");
+            TablaProximasCitas.Rows[0].Cells[3].Paragraphs.First().AppendLine("Sala");
+            TablaProximasCitas.Rows[0].Cells[4].Paragraphs.First().AppendLine("Asistencia");
+            foreach (var cita in pers.Citas)
+            {
+                TablaProximasCitas.Rows[pos].Cells[0].Paragraphs.First().AppendLine(cita.Asistente.Nombre);
+                TablaProximasCitas.Rows[pos].Cells[1].Paragraphs.First().AppendLine((cita.Fecha.Date).ToString());
+                TablaProximasCitas.Rows[pos].Cells[2].Paragraphs.First().AppendLine(string.Concat(string.Concat(cita.Hora.ToString(), ':'), cita.Minutos.ToString()));
+                TablaProximasCitas.Rows[pos].Cells[3].Paragraphs.First().AppendLine(cita.Sala);
+                TablaProximasCitas.Rows[pos].Cells[4].Paragraphs.First().AppendLine(cita.Atencion.Seguimiento);
+                pos++;
+            }
+            pos = 1;
+            //TablaPasadas.Rows[0].Cells[0].Paragraphs.First().AppendLine("Nombre");
+            //TablaPasadas.Rows[0].Cells[1].Paragraphs.First().AppendLine("Fecha");
+            //TablaPasadas.Rows[0].Cells[2].Paragraphs.First().AppendLine("Hora");
+            //TablaPasadas.Rows[0].Cells[3].Paragraphs.First().AppendLine("Sala");
+            //foreach (var cit in CitasPasadas)
+            //{
+            //    TablaPasadas.Rows[pos].Cells[0].Paragraphs.First().AppendLine(cit.Persona.Nombre);
+            //    TablaPasadas.Rows[pos].Cells[1].Paragraphs.First().AppendLine((cit.Fecha.Date).ToString());
+            //    TablaPasadas.Rows[pos].Cells[2].Paragraphs.First().AppendLine(string.Concat(cit.Hora.ToString(), cit.Minutos.ToString()));
+            //    TablaPasadas.Rows[pos].Cells[3].Paragraphs.First().AppendLine(cit.Sala);
+            //    pos++;
+            //}
+            document.InsertParagraph();
+            // Save this document to disk.
+            if (!_FileInUse(destinyPath))
+            {
+                document.Save();
+            }
+            else
+            {
+                MessageBox.Show("El fichero está abierto. No se realizaron los cambios");
+            }
+            //document.Save();
+            //Process.Start("WINWORD.EXE", destinyPath);    
+        }
 
 
     }
