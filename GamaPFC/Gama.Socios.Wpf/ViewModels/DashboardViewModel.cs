@@ -23,6 +23,7 @@ namespace Gama.Socios.Wpf.ViewModels
     {
         private EventAggregator _EventAggregator;
         private PreferenciasDeSocios _Settings;
+        private IPeriodoDeAltaRepository _PriodosDeAltaRepository;
         private ISocioRepository _SocioRepository;
         private ObservableCollection<Socio> _Socios;
         private string[] _Labels;
@@ -30,18 +31,26 @@ namespace Gama.Socios.Wpf.ViewModels
         private bool _VisibleOpcionesFiltro;
         private bool _VisibleContableGeneral;
         private bool _VisibleFiltroFechas;
-        private int _CuotasPorPagar;
-        private int _CantidadTotalPorPagar;
-        private int _CuotasImpagadas;
-        private int _CantidadTotalImpagadas;
+        private double _CuotasPagadas;
+        private double _CantidadCuotasPagadas;
+        private double _CuotasPorPagar;
+        private double _CantidadTotalPorPagar;
+        private double _CuotasImpagadas;
+        private double _CantidadTotalImpagadas;
+        private DateTime? _FechaFinOpcion;
+        private DateTime? _FechaInicioOpcion;
+        private int _MesesParaMoroso = 0;
 
         public DashboardViewModel(ISocioRepository socioRepository,
+            IPeriodoDeAltaRepository periodosDeAltaRepository,
             EventAggregator eventAggregator, 
             PreferenciasDeSocios settings,
             ISession session)
         {
             _SocioRepository = socioRepository;
             _SocioRepository.Session = session;
+            _PriodosDeAltaRepository = periodosDeAltaRepository;
+            _PriodosDeAltaRepository.Session = session;
             _EventAggregator = eventAggregator;
             _Settings = settings;
             _VisibleOpcionesFiltro = false;
@@ -51,6 +60,8 @@ namespace Gama.Socios.Wpf.ViewModels
             _CantidadTotalPorPagar =1;
             _CuotasImpagadas = 1;
             _CantidadTotalImpagadas=1;
+            _CuotasPagadas = 1;
+            _CantidadCuotasPagadas = 1;
             _Socios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
             ListaCompletaSocios = new ObservableCollection<LookupItem>(
                     _Socios
@@ -65,6 +76,7 @@ namespace Gama.Socios.Wpf.ViewModels
 
             ListaParcialSocios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
             _Socios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
+            ActualizarDatosContables();
 
             UltimosSocios = new ObservableCollection<LookupItem>(
                     _Socios
@@ -115,6 +127,58 @@ namespace Gama.Socios.Wpf.ViewModels
             EditarSocioCommand = new DelegateCommand<LookupItem>(OnEditarSocioCommand);
 
             InicializarGraficos();
+        }
+        private void ActualizarDatosContables()
+        {
+            double TotalPagado = 0;
+            double TotalSinPagar = 0;
+            double TotalImpagos = 0;
+            int CPagado = 0;
+            int CPorPagar = 0;
+            int CImpagada = 0;
+            if ((FechaFinOpcion ==null)&&(FechaFinOpcion == null))  // No hay fecha seleccionada => se calcula todo
+            {
+                var altas = _PriodosDeAltaRepository.GetAll();
+                _MesesParaMoroso = _Settings.MesesParaSerConsideradoMoroso;
+                //Calculo contable---------------
+                
+                foreach (var Recibo in altas)
+                {
+                    foreach (var cuot in Recibo.Cuotas)
+                    {
+                        if (cuot.EstaPagado)
+                        {
+                            TotalPagado = TotalPagado + cuot.CantidadTotal;
+                            CPagado += 1;
+                        }
+                        else
+                        {
+                            //int SemanaFin = DateTime.Compare(_FechaTest, ActividadSeleccionada.FechaDeFin.AddDays(-7));
+                            int FueraPlazo = DateTime.Compare(cuot.Fecha.AddMonths(_MesesParaMoroso), DateTime.Now.Date);
+                            if (FueraPlazo == -1)
+                            {
+                                TotalImpagos = TotalImpagos + (cuot.CantidadTotal - cuot.CantidadPagada);
+                                CImpagada++;
+                            }
+                            else
+                            {
+                                TotalSinPagar = TotalSinPagar + (cuot.CantidadTotal - cuot.CantidadPagada);
+                                CPorPagar++;
+                            }
+                        }
+                        //else TotalSinPagar = TotalSinPagar + cuot.CantidadPagada;
+                    }
+                }
+                //Fin Calculo contable-----------
+            }
+            CuotasPagadas = CPagado;
+            CantidadCuotasPagadas = TotalPagado;
+            CuotasPorPagar = CPorPagar;
+            CantidadTotalPorPagar = TotalSinPagar;
+            CuotasImpagadas = CImpagada;
+            CantidadTotalImpagadas = TotalImpagos;
+
+
         }
 
         private void OnEditarSocioCommand(LookupItem param)
@@ -307,22 +371,43 @@ namespace Gama.Socios.Wpf.ViewModels
                 SociosMorosos.Remove(SociosMorosos.FirstOrDefault(x => x.Id == id));
             }
         }
-        public int CuotasPorPagar
+        public DateTime? FechaInicioOpcion
+        {
+            get { return _FechaInicioOpcion; }
+            set { SetProperty(ref _FechaInicioOpcion, value); }
+        }
+        public DateTime? FechaFinOpcion
+        {
+            get { return _FechaFinOpcion; }
+            set { SetProperty(ref _FechaFinOpcion, value); }
+        }
+        public double CuotasPagadas
+        {
+            get { return _CuotasPagadas; }
+            set { SetProperty(ref _CuotasPagadas, value); }
+        }
+        
+        public double CantidadCuotasPagadas
+        {
+            get { return _CantidadCuotasPagadas; }
+            set { SetProperty(ref _CantidadCuotasPagadas, value); }
+        }
+        public double CuotasPorPagar
         {
             get { return _CuotasPorPagar; }
             set { SetProperty(ref _CuotasPorPagar, value); }
         }
-        public int CantidadTotalPorPagar
+        public double CantidadTotalPorPagar
         {
             get { return _CantidadTotalPorPagar; }
             set { SetProperty(ref _CantidadTotalPorPagar, value); }
         }
-        public int CuotasImpagadas
+        public double CuotasImpagadas
         {
             get { return _CuotasImpagadas; }
             set { SetProperty(ref _CuotasImpagadas, value); }
         }
-        public int CantidadTotalImpagadas
+        public double CantidadTotalImpagadas
         {
             get { return _CantidadTotalImpagadas; }
             set { SetProperty(ref _CantidadTotalImpagadas, value); }
