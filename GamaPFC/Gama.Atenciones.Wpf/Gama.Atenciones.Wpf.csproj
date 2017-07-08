@@ -230,6 +230,7 @@
     <Compile Include="DesignTimeData\StatusBarViewModelDTD.cs" />
     <Compile Include="Eventos\AsistenteActualizadoEvent.cs" />
     <Compile Include="Eventos\AsistenteCreadoEvent.cs" />
+    <Compile Include="Eventos\AsistenteSeleccionadoChangedEvent.cs" />
     <Compile Include="Eventos\AtencionActualizadaEvent.cs" />
     <Compile Include="Eventos\AtencionCreadaEvent.cs" />
     <Compile Include="Eventos\AtencionEliminadaEvent.cs" />
