@@ -46,6 +46,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
             set { SetProperty(ref _Refresh, value); }
         }
 
+        private DateTime _CurrentDate = DateTime.Now;
+        public DateTime CurrentDate
+        {
+            get { return _CurrentDate; }
+            set { SetProperty(ref _CurrentDate, value); }
+        }
+
         public ISession Session
         {
             get { return _Session; }

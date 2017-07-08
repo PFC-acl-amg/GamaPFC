@@ -22,6 +22,7 @@ using System.Configuration;
 using Gama.Atenciones.Wpf.Converters;
 using System.Drawing;
 using System.Drawing.Imaging;
+using Gama.Atenciones.Wpf.Controls;
 
 namespace Gama.Atenciones.Wpf
 {
@@ -163,6 +164,7 @@ namespace Gama.Atenciones.Wpf
             Container.RegisterType<ICitaRepository, CitaRepository>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IAtencionRepository, AtencionRepository>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IAsistenteRepository, AsistenteRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<CustomCalendar>();
         }
 
         protected override void GenerateDatabaseConfiguration()

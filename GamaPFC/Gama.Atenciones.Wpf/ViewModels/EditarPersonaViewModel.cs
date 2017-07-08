@@ -171,7 +171,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
         }
 
-        public void OnNavigatedTo(int personaId, int? atencionId = null)
+        public void OnNavigatedTo(int personaId, int? atencionId = null, DateTime? fechaDecita = null)
         {
             try
             {
@@ -201,6 +201,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
                     AtencionesIsVisible = true;
                     CitasIsVisible = false;
+                }
+
+                if (fechaDecita.HasValue)
+                {
+                    _CitasVM.CurrentDate = fechaDecita.Value;
                 }
 
                 _PersonaVM.PropertyChanged += _PersonaVM_PropertyChanged;

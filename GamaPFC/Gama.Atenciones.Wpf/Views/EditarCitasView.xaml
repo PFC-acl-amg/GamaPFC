@@ -12,6 +12,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:prism="http://prismlibrary.com/"           
              xmlns:coreUtil="clr-namespace:Core.Util;assembly=Core"
+             prism:ViewModelLocator.AutoWireViewModel="False"
              mc:Ignorable="d"
              x:Name="_Root"
              d:DataContext="{d:DesignInstance Type=designData:EditarCitasViewModelDTD, IsDesignTimeCreatable=True}"  
@@ -717,6 +718,7 @@
       Style="{StaticResource _EditarCitasCalendarStyle}"
       Refresh="{Binding Refresh, Mode=TwoWay}"
       Grid.Row="1" 
+      CurrentDate="{Binding CurrentDate, Mode=TwoWay}"
       Appointments="{Binding Citas}">
     </CustomControls:CustomCalendar>
   </Grid>

@@ -30,22 +30,6 @@
             <ColumnDefinition Width="*"/>
           </Grid.ColumnDefinitions>
           <Rectangle Fill="#00C62C2C" Grid.ColumnSpan="2"/>
-          <!--<cc:CircleIconButton
-            Foreground="#0F1013"
-            Icon="{StaticResource appbar_arrow_left}"
-            IconHeight="8" IconWidth="8"
-            Height="30" Width="30"
-            VerticalAlignment="Top"
-            Margin="-3,4,0,0"
-            BorderBrush="#0F1013"
-            BorderThickness="1"/>-->
-          <!--<Ellipse x:Name="ellipsebg"
-                   Height="20"
-                   Width="20"
-                   VerticalAlignment="Top"
-                                 Fill="{DynamicResource BlackBrush}"
-                                 StrokeThickness="0"
-                                 Opacity="0" />-->
           <Ellipse 
                    Height="20"
                    Width="20"
@@ -62,25 +46,6 @@
               <VisualBrush Visual="{StaticResource appbar_arrow_left}"/>
             </Rectangle.Fill>
           </Rectangle>
-
-          <!--<Ellipse Name="Circle" Grid.Column="0" 
-                 Stroke="DarkGray" Width="20" Height="20"
-                 HorizontalAlignment="Center" VerticalAlignment="Center"/>
-          <Path x:Name="Sign"
-              Grid.Column="0"
-              Data="M 0,5 H 10 M 5,0 V 10 Z"
-              Stroke="#FF656565"
-              Width="10"
-              Height="10"
-              StrokeThickness="2"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Center"
-              RenderTransformOrigin="0.5,0.5"
-              >
-            <Path.RenderTransform>
-              <RotateTransform Angle="0"/>
-            </Path.RenderTransform>
-          </Path>-->
           <ContentPresenter x:Name="HeaderContent"
                           Grid.Column="1"
                           Margin="4,0,0,0"
@@ -92,16 +57,10 @@
         <Trigger Property="IsChecked" Value="True">
           <!--<Setter Property="Data" TargetName="Sign" Value="M 0,5 H 10 Z"/>-->
         </Trigger>
-
         <!-- MouseOver, Pressed behaviours-->
         <Trigger Property="IsMouseOver" Value="true">
-          <!--<Setter Property="Stroke" Value="#FF3C7FB1" TargetName="Circle"/>
-          <Setter Property="Stroke" Value="#222" TargetName="Sign"/>-->
         </Trigger>
         <Trigger Property="IsPressed" Value="true">
-          <!--<Setter Property="Stroke" Value="#FF526C7B" TargetName="Circle"/>
-          <Setter Property="StrokeThickness"  Value="1.5"  TargetName="Circle"/>
-          <Setter Property="Stroke"  Value="#FF003366"  TargetName="Sign"/>-->
         </Trigger>
       </ControlTemplate.Triggers>
     </ControlTemplate>

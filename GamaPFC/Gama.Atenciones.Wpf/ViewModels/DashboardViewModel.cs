@@ -191,7 +191,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             //    .Select(_AtencionToFullAtencion));
             Atenciones = new ObservableCollection<Atencion>(
                 _Atenciones
-                .Where(x => x.Fecha.IsBetween(FechaDeInicio, FechaDeFin))
+                .Where(x => x.Fecha.IsBetween(FechaDeInicio, FechaDeFin) || (x.UpdatedAt.HasValue ? x.UpdatedAt.IsBetween(fechaDeFin, fechaDeFin) : false))
                 .OrderBy(a => a.Fecha)
                 .Select(_AtencionToFullAtencion));
 
@@ -202,7 +202,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             //    .ToList());
             ProximasCitas = new ObservableCollection<Cita>(
                 _Citas
-                .Where(x => x.Fecha.IsBetween(FechaDeInicio, FechaDeFin))
+                .Where(x => x.Fecha.IsBetween(FechaDeInicio, FechaDeFin) || ( x.UpdatedAt.HasValue ? x.UpdatedAt.IsBetween(fechaDeFin, fechaDeFin) : false))
                 .OrderBy(c => c.Fecha)
                 .ToList());
 
@@ -286,7 +286,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnSelectCitaCommandExecute(Cita cita)
         {
-            _EventAggregator.GetEvent<CitaSeleccionadaEvent>().Publish(cita.Persona.Id);
+            _EventAggregator.GetEvent<CitaSeleccionadaEvent>().Publish(cita.Id);
         }
 
         ///
