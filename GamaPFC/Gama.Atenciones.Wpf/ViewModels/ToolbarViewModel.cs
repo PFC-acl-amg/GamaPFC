@@ -31,12 +31,14 @@ namespace Gama.Atenciones.Wpf.ViewModels
         private AsistenteWrapper _Asistente;
         private IPersonaRepository _PersonaRepository;
         //private IAsistenteRepository _AsistenteRepository;
+        private ICitaRepository _CitaRepository;
         private IEventAggregator _EventAggregator;
         private string VistaCargada;
         private ExportService _ExportService;
 
         public ToolbarViewModel(
             IPersonaRepository PersonaRepository,
+            ICitaRepository CitaRepository,
             ExportService exportService,
             IEventAggregator eventAggregator,
             ISession session)
@@ -44,6 +46,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Debug.StartWatch();
             _PersonaRepository = PersonaRepository;
             _PersonaRepository.Session = session;
+            _CitaRepository = CitaRepository;
+            _CitaRepository.Session = session;
             _ExportService = exportService;
             _EventAggregator = eventAggregator;
 
@@ -184,11 +188,11 @@ namespace Gama.Atenciones.Wpf.ViewModels
             }
             else
             {
-                if (VistaCargada == "CooperantesContentView")
+                if (VistaCargada == "CitasContentView")
                 {
                     // Exportar la lista completa de cooperantes
-                    //var ListaCooperantes = _CooperanteRepository.GetAll();
-                    //_ExportService.ExportarTodosCooperantes(ListaCooperantes);
+                    var ListaCitas = _CitaRepository.GetAll();
+                    _ExportService.ExportarTodasCitas(ListaCitas);
                 }
                 else
                 {
