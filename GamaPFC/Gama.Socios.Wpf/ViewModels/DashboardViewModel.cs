@@ -75,7 +75,10 @@ namespace Gama.Socios.Wpf.ViewModels
                         DisplayMember2 = a.Nif,
                         Imagen = a.Imagen
                     }));
-
+            Nacionalidades = new ObservableCollection<string>();
+            Edades = new ObservableCollection<string>();
+            EstadoAlta = new ObservableCollection<string>();
+            PrepararFiltro();
             ListaParcialSocios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
             _Socios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
             ActualizarDatosContables();
@@ -129,6 +132,79 @@ namespace Gama.Socios.Wpf.ViewModels
             EditarSocioCommand = new DelegateCommand<LookupItem>(OnEditarSocioCommand);
 
             InicializarGraficos();
+        }
+        private void PrepararFiltro()
+        {
+            ListaSociosFiltro = new ObservableCollection<LookupItemSocio>(
+                    _Socios
+                    .OrderBy(x => x.Id)
+                    .Select(a => new LookupItemSocio
+                    {
+                        Id = a.Id,
+                        Nombre = a.Nombre,
+                        FechaDeNacimiento = a.FechaDeNacimiento,
+                        NIF = a.Nif,
+                        Nacionalidad = a.Nacionalidad,
+                        DireccionPostal = a.DireccionPostal
+                    }));
+            foreach (var UnSocio in _Socios)
+            {
+                var Nacion = UnSocio.Nacionalidad;
+                if (!Nacionalidades.Contains(Nacion))
+                {
+                    Nacionalidades.Add(Nacion);
+                }
+            }
+            Edades.Add("Hasta 25");
+            Edades.Add("26-40");
+            Edades.Add("41-55");
+            Edades.Add("56-65");
+            Edades.Add("Más de 65");
+            EstadoAlta.Add("Alta");
+            EstadoAlta.Add("Baja");
+
+        }
+        private string _NacionEscogida;
+        public string NacionEscogida
+        {
+            get { return _NacionEscogida; }
+            set
+            {
+                if (_NacionEscogida != value)
+                {
+                    _NacionEscogida = value;
+                    OnPropertyChanged();
+                }
+
+            }
+        }
+        private string _EdadEscogida;
+        public string EdadEscogida
+        {
+            get { return _EdadEscogida; }
+            set
+            {
+                if (_EdadEscogida != value)
+                {
+                    _EdadEscogida = value;
+                    OnPropertyChanged();
+                }
+
+            }
+        }
+        private string _EstadoAltaEscogido;
+        public string EstadoAltaEscogido
+        {
+            get { return _EstadoAltaEscogido; }
+            set
+            {
+                if (_EstadoAltaEscogido != value)
+                {
+                    _EstadoAltaEscogido = value;
+                    OnPropertyChanged();
+                }
+
+            }
         }
         private void ActualizarDatosContables()
         {
@@ -283,6 +359,10 @@ namespace Gama.Socios.Wpf.ViewModels
         public ObservableCollection<Socio> ListaParcialSocios { get; private set; }
         public ObservableCollection<LookupItem> SociosCumpliendoBirthdays { get; private set; }
         public ObservableCollection<LookupItem> SociosMorosos { get; private set; }
+        public ObservableCollection<LookupItemSocio> ListaSociosFiltro { get; set; }
+        public ObservableCollection<string> Nacionalidades { get; set; }
+        public ObservableCollection<string> Edades { get; set; }
+        public ObservableCollection<string> EstadoAlta { get; set; }
         public ChartValues<int> SociosNuevosPorMes { get; set;}
         public ICommand SeleccionarSocioCommand { get; private set; }
         public ICommand VisibleFiltroSociosCommand { get; private set; }

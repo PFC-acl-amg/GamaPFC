@@ -10,6 +10,12 @@ namespace Gama.Common.CustomControls
 
     public class LookupItemSocio : BindableBase
     {
+        private DateTime? _FechaDeNacimiento;
+        public DateTime? FechaDeNacimiento
+        {
+            get { return _FechaDeNacimiento; }
+            set { SetProperty(ref _FechaDeNacimiento, value); }
+        }
         public int Id { get; set; }
 
         private string _Nombre;

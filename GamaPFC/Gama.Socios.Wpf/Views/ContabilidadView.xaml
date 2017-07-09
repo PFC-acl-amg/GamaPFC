@@ -25,7 +25,7 @@
                 <ColumnDefinition Width="200" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
+            <Border Grid.Column="1" BorderBrush="red" BorderThickness="3" Background="Beige" Padding="4"
                                             CornerRadius="3"
                                             Margin="10">
                 <Border.Effect>
@@ -113,7 +113,7 @@
                 </StackPanel>
             </Grid>
             </Border>
-            <Border  BorderBrush="Gray" BorderThickness="3" Background="Beige" Padding="4"
+            <Border  BorderBrush="Green" BorderThickness="3" Background="Beige" Padding="4"
                                             CornerRadius="3"
                                             Margin="{StaticResource MarginHalfNoHorizontal}">
                 <Border.Effect>
@@ -138,7 +138,7 @@
                             </Grid.RowDefinitions>
                             <Button Grid.Row="0" Content="Filtar Lista Socios" Command="{Binding BotonFiltrarCommand}"></Button>
                             <StackPanel Grid.Row="1" Visibility="{Binding FiltrosVisibles,
-                        Converter={StaticResource BooleanToVisibilityConverter}}">
+                                Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <Grid Height="200">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="100" />
