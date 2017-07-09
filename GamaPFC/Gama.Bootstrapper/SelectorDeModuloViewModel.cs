@@ -14,6 +14,12 @@ using System.Windows.Threading;
 
 namespace Gama.Bootstrapper
 {
+    public enum Modulos
+    {
+        Cooperacion,
+        GestionDeSocios,
+        ServicioDeAtenciones,
+    }
     public class SelectorDeModuloViewModel : ObservableObject
     {
         private LoginService _LoginService;

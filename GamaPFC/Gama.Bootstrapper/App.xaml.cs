@@ -45,8 +45,6 @@ namespace Gama.Bootstrapper
                 type => { return _container.Resolve(type);
             });
 
-            Bootstrapper bootstrapper;
-
             bool SALTAR_SELECCION_DE_MODULO = false; // Para hacer pruebas más rápido...
             if (SALTAR_SELECCION_DE_MODULO)
             {
