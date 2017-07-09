@@ -5,22 +5,46 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gama.Socios.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
+              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
+             xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
              prism:ViewModelLocator.AutoWireViewModel="False"
              mc:Ignorable="d" 
              d:DesignHeight="506.507" d:DesignWidth="1023.288">
     <UserControl.Resources>
+        <converters:BooleanToVisivilityConverter x:Key="_BooleanToVisivilityConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Style x:Key="DGCHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="BorderThickness" Value="1,1,1,2"/>
+            <Setter Property="BorderBrush" Value="#B6000000"/>
+            <Setter Property="Background" Value="#D12B3336" />
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+            <Setter Property="Padding" Value="3,0,3,3"/>
+        </Style>
+        <Style x:Key="DGHeaderStyle" TargetType="{x:Type DataGrid}">
+            <Setter Property="ColumnHeaderStyle" Value="{StaticResource DGCHeaderStyle}"/>
+            <Setter Property="RowHeaderWidth" Value="0"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="AlternatingRowBackground" Value="#B99BA5AB"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="Margin" Value="0"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MaxWidth="400" />
+            <!--<ColumnDefinition MaxWidth="400" />-->
+            <ColumnDefinition Width="auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <Expander ExpandDirection="Right" IsExpanded="True">
-            <Grid Grid.Column="0" Grid.Row="0">
+            <Grid Grid.Column="0" Grid.Row="0"  Width="400">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="Auto"/>
@@ -67,11 +91,15 @@
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
-
-            <Grid HorizontalAlignment="Stretch" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="15" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <Grid HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -90,14 +118,232 @@
                         <Rectangle Width="12" Height="12" 
                   Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                             <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_new}"/>
+                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_currency_euro}"/>
                             </Rectangle.OpacityMask>
                         </Rectangle>
                     </Button>
                 </StackPanel>
             </Grid>
+            <StackPanel Name="VerFiltroSocios" Grid.Column="1" Grid.RowSpan="2" Background="White" VerticalAlignment="Center"
+                    Orientation="Horizontal" Margin="2,0,1,0"
+                    ToolTip="Mostrar/Ocultar Ociones">
+                <Rectangle Width="2" Height="300" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="1" />
+                <Rectangle Width="2" Height="300" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="1" />
+                <Rectangle Width="2" Height="300" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="1"/>
 
-            <local:EditarPeriodosDeAltaView DataContext="{Binding EditarPeriodosDeAltaViewModel}" Grid.Row="1"/>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <prism:InvokeCommandAction Command="{Binding VisibleContabilidadSocioCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </StackPanel>
+            <Grid Grid.Column="2" Grid.RowSpan="2" Background="Beige" Visibility="{Binding VisibleEstadoPagosCliente, 
+                                                Converter={StaticResource _BooleanToVisivilityConverter}}" Width="320">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock FontSize="20" Margin="{StaticResource Margin}"
+                            Foreground="Gray" VerticalAlignment="Center"
+                            FontWeight="DemiBold" Text="Cuotas Por Pagar"/>
+                        <Label Margin="10,0,0,0" HorizontalAlignment="Center" Foreground="Gray" FontSize="20"
+                              Content="{Binding CuotasPorPagarSocio}" >
+                        </Label>
+                        <Label Margin="10,0,0,0" HorizontalAlignment="Center" Foreground="Gray" FontSize="20"
+                              Content="{Binding CantidadTotalPorPagar}" >
+                        </Label>
+                        <Label Margin="2,0,0,0" HorizontalAlignment="Center" Foreground="Gray" FontSize="20"
+                              Content="€" >
+                        </Label>
+                    </StackPanel>
+                    
+                    <DataGrid BorderThickness="1" Margin="{StaticResource Margin}"
+                              Grid.Row="1"
+                              CanUserResizeColumns="False"
+                              Style="{StaticResource DGHeaderStyle}"
+                              ItemsSource="{Binding ListaCuotasPorpagarSocio}">
+                        <DataGrid.Resources>
+                            <DataTemplate x:Key="_HeaderTemplate" >
+                                <TextBlock Text="{Binding}" Margin="{StaticResource Margin}"/>
+                            </DataTemplate>
+                        </DataGrid.Resources>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="Foreground" Value="Black" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="FontSize" Value="13"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#D95796BE"/>
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="Foreground" Value="Black"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                        <Setter Property="Background" Value="#D972BCE9"/>
+                                        <Setter Property="Foreground" Value="Black"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Fecha Pago" Width="*" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               Text="{Binding Fecha, StringFormat=d}"
+                                               Padding="{StaticResource Margin}"
+                                               Margin="{StaticResource Margin}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Total" Width="50" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{Binding CantidadTotal, UpdateSourceTrigger=PropertyChanged}"
+                                    Padding="{StaticResource Margin}"
+                                    Margin="{StaticResource Margin}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Pagado" Width="60" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="14"
+                                            Text="{Binding CantidadPagada, UpdateSourceTrigger=PropertyChanged}"
+                                            Padding="{StaticResource Margin}"
+                                            Margin="{StaticResource Margin}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock FontSize="20" Margin="{StaticResource Margin}"
+                            Foreground="Gray" VerticalAlignment="Center"
+                            FontWeight="DemiBold" Text="Cuotas Impagadas"/>
+                        <Label Margin="10,0,0,0" HorizontalAlignment="Center" Foreground="Gray" FontSize="20"
+                              Content="{Binding CuotasImpagadasSocio}" >
+                        </Label>
+                        <Label Margin="10,0,0,0" HorizontalAlignment="Center" Foreground="Gray" FontSize="20"
+                              Content="{Binding CantidadImpagada}" >
+                        </Label>
+                    </StackPanel>
+                    <DataGrid BorderThickness="1" Margin="{StaticResource Margin}"
+                            Grid.Row="1"
+                            AutoGenerateColumns="False"
+                            CanUserResizeColumns="False"
+                            Style="{StaticResource DGHeaderStyle}"
+                            ItemsSource="{Binding ListaCuotasImpagosSocios}">
+                        <DataGrid.Resources>
+                            <DataTemplate x:Key="_HeaderTemplate" >
+                                <TextBlock Text="{Binding}" Margin="{StaticResource Margin}"/>
+                            </DataTemplate>
+                        </DataGrid.Resources>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="Foreground" Value="Black" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="FontSize" Value="13"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#D95796BE"/>
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="Foreground" Value="Black"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                        <Setter Property="Background" Value="#D972BCE9"/>
+                                        <Setter Property="Foreground" Value="Black"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Fecha Pago" Width="*" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock HorizontalAlignment="Center"
+                                               Width="100"
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               Text="{Binding Fecha, StringFormat=d}"
+                                               Padding="{StaticResource Margin}"
+                                               Margin="{StaticResource Margin}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Total" Width="50" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{Binding CantidadTotal, UpdateSourceTrigger=PropertyChanged}"
+                                    Padding="{StaticResource Margin}"
+                                    Margin="{StaticResource Margin}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Pagado" Width="60" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="14"
+                                            Text="{Binding CantidadPagada, UpdateSourceTrigger=PropertyChanged}"
+                                            Padding="{StaticResource Margin}"
+                                            Margin="{StaticResource Margin}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                           
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Grid>
+            <local:EditarPeriodosDeAltaView DataContext="{Binding EditarPeriodosDeAltaViewModel}" Grid.Row="1" Grid.Column="0"/>
         </Grid>
     </Grid>
 </UserControl>

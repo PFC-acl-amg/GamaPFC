@@ -16,6 +16,7 @@ using System.ComponentModel;
 using Gama.Common.Views;
 using Gama.Socios.Business;
 using Prism;
+using System.Collections.ObjectModel;
 
 namespace Gama.Socios.Wpf.ViewModels
 {
@@ -26,6 +27,13 @@ namespace Gama.Socios.Wpf.ViewModels
         private EditarPeriodosDeAltaViewModel _EditarPeriodosDeAltaViewModel;
         private ISocioRepository _SocioRepository;
         private SocioViewModel _SocioVM;
+        private bool _VisibleEstadoPagosCliente;
+        private PreferenciasDeSocios _Settings;
+        private int _MesesParaMoroso = 0;
+        private int _CuotasPorPagarSocio;
+        private double _CantidadTotalPorPagar;
+        private int _CuotasImpagadasSocio;
+        private double _CantidadImpagada;
 
         public EditarSocioViewModel(
             IEventAggregator eventAggregator,
@@ -33,8 +41,10 @@ namespace Gama.Socios.Wpf.ViewModels
             SocioViewModel socioVM,
             EditarCuotasViewModel cuotasVM,
             EditarPeriodosDeAltaViewModel periodosDeAltaVM,
+            PreferenciasDeSocios settings,
             ISession session)
         {
+            _Settings = settings;
             _EventAggregator = eventAggregator;
             _SocioRepository = socioRepository;
             _SocioVM = socioVM;
@@ -45,6 +55,10 @@ namespace Gama.Socios.Wpf.ViewModels
             _CuotasVM.Session = session;
             _EditarPeriodosDeAltaViewModel.Session = session;
 
+            _VisibleEstadoPagosCliente = false;
+            
+            ListaCuotasPorpagarSocio = new ObservableCollection<Cuota>();
+            ListaCuotasImpagosSocios = new ObservableCollection<Cuota>();
             NuevoPeriodoDeAltaCommand = new DelegateCommand(OnNuevoPeriodoDeAltaCommandExecute);
 
             HabilitarEdicionCommand = new DelegateCommand(
@@ -61,8 +75,43 @@ namespace Gama.Socios.Wpf.ViewModels
                 () => _SocioVM.Socio.IsInEditionMode);
 
             DarDeAltaBajaCommand = new DelegateCommand(OnDarDeAltaBajaCommandExecute);
+            VisibleContabilidadSocioCommand = new DelegateCommand(OnVisibleContabilidadSocioCommand);
 
             _SocioVM.PropertyChanged += SocioVM_PropertyChanged;
+        }
+        public ObservableCollection<Cuota> ListaCuotasPorpagarSocio { get; private set; }
+        public ObservableCollection<Cuota> ListaCuotasImpagosSocios { get; private set; }
+
+        private void OnVisibleContabilidadSocioCommand()
+        {
+            if (VisibleEstadoPagosCliente == true) VisibleEstadoPagosCliente = false;
+            else VisibleEstadoPagosCliente = true;
+        }
+        public double CantidadImpagada
+        {
+            get { return _CantidadImpagada; }
+            set { SetProperty(ref _CantidadImpagada, value); }
+        }
+
+        public int CuotasImpagadasSocio
+        {
+            get { return _CuotasImpagadasSocio; }
+            set { SetProperty(ref _CuotasImpagadasSocio, value); }
+        }
+        public double CantidadTotalPorPagar
+        {
+            get { return _CantidadTotalPorPagar; }
+            set { SetProperty(ref _CantidadTotalPorPagar, value); }
+        }
+        public int CuotasPorPagarSocio
+        {
+            get { return _CuotasPorPagarSocio; }
+            set { SetProperty(ref _CuotasPorPagarSocio, value); }
+        }
+        public bool VisibleEstadoPagosCliente
+        {
+            get { return _VisibleEstadoPagosCliente; }
+            set { SetProperty(ref _VisibleEstadoPagosCliente, value); }
         }
 
         private string _TextoDeDarDeAltaBaja;
@@ -101,6 +150,7 @@ namespace Gama.Socios.Wpf.ViewModels
         public ICommand ActualizarCommand { get; private set; }
         public ICommand CancelarEdicionCommand { get; private set; }
         public ICommand DarDeAltaBajaCommand { get; private set; }
+        public ICommand VisibleContabilidadSocioCommand { get; set; }
 
         private bool _IsActive;
         public bool IsActive
@@ -193,6 +243,7 @@ namespace Gama.Socios.Wpf.ViewModels
                     // _CuotasVM.Load(_SocioVM.Socio);
                     _EditarPeriodosDeAltaViewModel.Load(_SocioVM.Socio);
                     RefrescarTitulo(Socio.Nombre);
+                    CalcularDebito(Socio);
                     TextoDeDarDeAltaBaja = Socio.EstaDadoDeAlta ? "Dar de baja" : "Dar de alta";
                 }
                 else return;
@@ -213,6 +264,45 @@ namespace Gama.Socios.Wpf.ViewModels
             {
                 Title = nombre;
             }
+        }
+        private void CalcularDebito(SocioWrapper socioSeleccionado)
+        {
+            double TotalSinPagar = 0;
+            double TotalImpagos = 0;
+            int CPorPagar = 0;
+            int CImpagada = 0;
+            ListaCuotasPorpagarSocio.Clear();
+            ListaCuotasImpagosSocios.Clear();
+            var altas = socioSeleccionado.PeriodosDeAlta;
+            _MesesParaMoroso = _Settings.MesesParaSerConsideradoMoroso;
+                //Calculo contable---------------
+            foreach (var Recibo in altas)
+            {
+                foreach (var cuot in Recibo.Cuotas)
+                {
+                    if (!cuot.EstaPagado)
+                    {
+                        int FueraPlazo = DateTime.Compare(cuot.Fecha.AddMonths(_MesesParaMoroso), DateTime.Now.Date);
+                        if (FueraPlazo == -1)
+                        {
+                            ListaCuotasImpagosSocios.Add(cuot.Model);
+                            TotalImpagos = TotalImpagos + (cuot.CantidadTotal - cuot.CantidadPagada);
+                            CImpagada++;
+                        }
+                        else
+                        {
+                            ListaCuotasPorpagarSocio.Add(cuot.Model);
+                            TotalSinPagar = TotalSinPagar + (cuot.CantidadTotal - cuot.CantidadPagada);
+                            CPorPagar++;
+                        }
+                    }
+                 }
+             }
+                //Fin Calculo contable-----------  
+            CuotasPorPagarSocio = CPorPagar;
+            CantidadTotalPorPagar = TotalSinPagar;
+            CuotasImpagadasSocio = CImpagada;
+            CantidadImpagada = TotalImpagos;
         }
 
         private void InvalidateCommands()
