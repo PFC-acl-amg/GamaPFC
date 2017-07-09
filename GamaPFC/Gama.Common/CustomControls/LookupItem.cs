@@ -48,7 +48,18 @@ namespace Gama.Common.CustomControls
             get { return _Imagen; }
             set { SetProperty(ref _Imagen, value); }
         }
-
+        private string _Telefono;
+        public string Telefono
+        {
+            get { return _Telefono; }
+            set { SetProperty(ref _Telefono, value); }
+        }
+        private string _Email;
+        public string Email
+        {
+            get { return _Email; }
+            set { SetProperty(ref _Email, value); }
+        }
         /// <summary>
         /// Selecciona los primeros n caracteres,  y añade "..." si la longitud del título 
         /// es mayor que n.

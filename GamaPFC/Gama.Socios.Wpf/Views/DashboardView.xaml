@@ -12,7 +12,7 @@
              xmlns:util="clr-namespace:Core.Util;assembly=Core"
              prism:ViewModelLocator.AutoWireViewModel="False"
              mc:Ignorable="d" 
-             d:DesignHeight="414.411" d:DesignWidth="751.603"
+             d:DesignHeight="414.411" d:DesignWidth="1051.603"
              x:Name="_Root">
   <d:DataContext>
     <designData:DashboardViewModelDTD/>
@@ -150,7 +150,7 @@
             <Ellipse Height="50" Width="50" 
                        Margin="{StaticResource Margin}" HorizontalAlignment="Center">
                 <Ellipse.Fill>
-                    <ImageBrush ImageSource="{Binding Socio.Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                    <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
                 </Ellipse.Fill>
             </Ellipse>
         </DataTemplate>
@@ -228,20 +228,6 @@
                     <DataGridTemplateColumn Header="Foto" 
                                   HeaderTemplate="{StaticResource _HeaderTemplate}" 
                                   CellTemplate="{StaticResource _FotoCellTemplate}"/>
-                    <!--<DataGridTemplateColumn Header="ID"
-                                        HeaderTemplate="{StaticResource _HeaderTemplate}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock HorizontalAlignment="Left"
-                                    Width="30"
-                                    VerticalAlignment="Center"
-                                    FontSize="14"
-                                    Text="{Binding Id}"
-                                    Padding="{StaticResource Margin}"
-                                    Margin="{StaticResource Margin}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>-->
                     <DataGridTemplateColumn Header="Nombre" Width="*" HeaderTemplate="{StaticResource _HeaderTemplate}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -268,7 +254,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <!--<DataGridTemplateColumn Header="Telefono" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                    <DataGridTemplateColumn Header="Telefono" HeaderTemplate="{StaticResource _HeaderTemplate}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock HorizontalAlignment="Left"
@@ -280,14 +266,23 @@
                                     Margin="{StaticResource Margin}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>-->
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Email" Width="*" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"
+                                    Padding="{StaticResource Margin}"
+                                    Margin="{StaticResource Margin}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
                     <DataGridTemplateColumn Header="Editar"
                                     HeaderTemplate="{StaticResource _HeaderTemplate}" 
                                     CellTemplate="{StaticResource _EditarButtonCellTemplate}"/>
-                    <DataGridTemplateColumn Header="Eliminar"
-                                    HeaderTemplate="{StaticResource _HeaderTemplate}" 
-                                    CellTemplate="{StaticResource _EliminarButtonCellTemplate}"/>
                     <DataGridTemplateColumn Header="Abrir"  
                                     HeaderTemplate="{StaticResource _HeaderTemplate}" 
                                     CellTemplate="{StaticResource _IrButtonCellTemplate}"/>

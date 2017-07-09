@@ -69,6 +69,8 @@ namespace Gama.Socios.Wpf.ViewModels
                     .Select(a => new LookupItem
                     {
                         Id = a.Id,
+                        Telefono = a.Telefono,
+                        Email = a.Email,
                         DisplayMember1 = a.Nombre,
                         DisplayMember2 = a.Nif,
                         Imagen = a.Imagen
