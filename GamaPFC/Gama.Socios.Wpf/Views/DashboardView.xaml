@@ -316,7 +316,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="auto" />
-                    <RowDefinition Height="160"/>
+                    <RowDefinition Height="140"/>
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
@@ -398,7 +398,6 @@
                                     SelectedDate="{Binding FechaFinOpcion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
                                 </Grid>
-
                             </StackPanel>
                             <Grid Grid.Column="1" Margin="0,10,0,0">
                                 <Grid.RowDefinitions>
@@ -455,13 +454,12 @@
                     </GroupBox>
                 </Grid>
                 <Grid Grid.Row="2" Margin="{StaticResource Margin}">
-                    <GroupBox Background="Black">
+                    <GroupBox Background="#DEDADA">
                         <GroupBox.Header>
-                            <Label Grid.Column="0" HorizontalAlignment="Center" Content="Detalles Contables" Foreground="White" Padding="0"></Label>
+                            <Label Grid.Column="0" Background="Black" HorizontalAlignment="Center" Content="Detalles Contables" Foreground="White" Padding="0"></Label>
                         </GroupBox.Header>
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition />
                                 <RowDefinition />
                                 <RowDefinition />
                                 <RowDefinition />
@@ -472,21 +470,30 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Cuotas Por Pagar:"
+                            <Label Grid.Row="0" Grid.Column="0" Foreground="Black">Pagadas: </Label>
+                            <Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Content="{Binding CuotasPagadas}"
                                    Foreground="Black" />
-                            <Label Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Cantidad Total:"
+                            <Label Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Content="Total €: "
                                    Foreground="Black" />
-                            <Label Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Cuotas Impagadas:"
+                            <Label Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" Content="{Binding CantidadCuotasPagadas}"
                                    Foreground="Black" />
-                            <Label Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Cantidad Impagada:"
+                            
+                            <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Content="Por Pagar:"
                                    Foreground="Black" />
-                            <Label Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="{Binding CuotasPorPagar}"
+                            <Label Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Content="{Binding CuotasPorPagar}"
                                    Foreground="Black" />
-                            <Label Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="{Binding CantidadTotalPorPagar}"
+                            <Label Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Content="Total €: "
                                    Foreground="Black" />
-                            <Label Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="{Binding CuotasImpagadas}"
+                            <Label Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="{Binding CantidadTotalPorPagar}"
                                    Foreground="Black" />
-                            <Label Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="{Binding CantidadTotalImpagadas}"
+
+                            <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" Content="Impagadas:"
+                                   Foreground="Black" />
+                            <Label Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Content="{Binding CuotasImpagadas}"
+                                   Foreground="Black" />
+                            <Label Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" Content="Total €: "
+                                   Foreground="Black" />
+                            <Label Grid.Row="2" Grid.Column="3"  HorizontalAlignment="Center" Content="{Binding CantidadTotalImpagadas}"
                                    Foreground="Black" />
                         </Grid>
                     </GroupBox>
