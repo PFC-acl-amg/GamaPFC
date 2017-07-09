@@ -128,10 +128,6 @@
       <Project>{0d5f2d35-032b-4f23-8794-f49f31870ed7}</Project>
       <Name>Gama.Cooperacion.Wpf</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Gama.Socios.BusinessTests\Gama.Socios.BusinessTests.csproj">
-      <Project>{80e41d8a-cd3a-407c-a722-a6190aea0e8f}</Project>
-      <Name>Gama.Socios.BusinessTests</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Gama.Socios.Business\Gama.Socios.Business.csproj">
       <Project>{ab653fbf-8bfb-4870-819e-dedb09fc39e1}</Project>
       <Name>Gama.Socios.Business</Name>
