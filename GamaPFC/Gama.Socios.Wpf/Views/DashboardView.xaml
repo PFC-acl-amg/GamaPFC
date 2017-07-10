@@ -187,23 +187,23 @@
                             <RowDefinition Height="40"/>
                         </Grid.RowDefinitions>
                         <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Content="{Binding NumSociosFiltrados}"
+                            <Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Content="{Binding NumeroTotalDeSociosFiltrados}"
                                    Foreground="Black" />
                             <Label Grid.Row="0" Grid.ColumnSpan="2">Socios Filtrados de</Label>
-                            <Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Content="{Binding NumTotalSocios}"
+                            <Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Content="{Binding NumeroTotalDeSocios}"
                                    Foreground="Black" />
                         </StackPanel>
                         <Label Margin="{DynamicResource Margin}" Grid.Row="1" Grid.Column="0">Edad</Label>
                         <Label Margin="{DynamicResource Margin}" Grid.Row="2" Grid.Column="0">Nacionalidad</Label>
                         <Label Margin="{DynamicResource Margin}" Grid.Row="3" Grid.Column="0">Estado de Alta</Label>
                         <ComboBox Grid.Row="1" Grid.Column="1" Margin="4,4,0,4" HorizontalAlignment="Left" Width="80" Height="20"
-                            	ItemsSource="{Binding Edades}"
+                            	ItemsSource="{Binding Edades}" SelectedIndex="0"
                                 SelectedItem="{Binding EdadEscogida, UpdateSourceTrigger=PropertyChanged}"/>
                         <ComboBox Grid.Row="2" Grid.Column="1" Margin="4,4,0,4" HorizontalAlignment="Left" Width="80" Height="20"
-                            	ItemsSource="{Binding Nacionalidades}"
+                            	ItemsSource="{Binding Nacionalidades}" SelectedIndex="0"
                             	SelectedItem="{Binding NacionEscogida, UpdateSourceTrigger=PropertyChanged}" />
                         <ComboBox Grid.Row="3" Grid.Column="1" Margin="4,4,0,4" HorizontalAlignment="Left" Width="80" Height="20"
-                            	ItemsSource="{Binding EstadoAlta}"
+                            	ItemsSource="{Binding EstadosDeAlta}" SelectedIndex="0"
                             	SelectedItem="{Binding EstadoAltaEscogido, UpdateSourceTrigger=PropertyChanged}" />
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.ColumnSpan="2" Grid.Row="5" Margin="{StaticResource Margin}">
                             <cc:CircleIconButton
@@ -212,7 +212,7 @@
                             Height="31"
                             IconWidth="12"
                             IconHeight="12"
-                            ToolTip="Resetear Fechas"
+                            ToolTip="Exportar lista filtrada"
                             Command="{Binding ExportarListaFiltrada}">
                                 <Button.Style>
                                     <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
@@ -232,7 +232,7 @@
                             Height="31"
                             IconWidth="12"
                             IconHeight="12"
-                            ToolTip="Resetear Fechas"
+                            ToolTip="Resetear filtro"
                             Command="{Binding ResetearFiltroCommand}">
                                 <Button.Style>
                                     <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
@@ -252,7 +252,7 @@
                                 Height="31"
                                 IconWidth="12"
                                 IconHeight="12"
-                                ToolTip="Aplicar Opciones Seleccionadas"
+                                ToolTip="Aplicar filtro"
                                 Command="{Binding DataContext.AplicarFiltroCommand, ElementName=_Root}">
                                 <Button.Style>
                                     <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
@@ -293,7 +293,7 @@
                   Margin="0,-2,6,2"
                   CanUserResizeColumns="False"
                   Style="{StaticResource DGHeaderStyle}"
-                  ItemsSource="{Binding ListaCompletaSocios}">
+                  ItemsSource="{Binding SociosFiltrados}">
                 <DataGrid.Resources>
                     <DataTemplate x:Key="_HeaderTemplate" >
                         <TextBlock Text="{Binding}" Margin="{StaticResource Margin}"/>
@@ -653,7 +653,7 @@
                                                 Command="{Binding RelativeSource =
                                                 {RelativeSource FindAncestor,
                                                  AncestorType={x:Type GroupBox}},
-                                                      Path=DataContext.SelectPersonaCommand}"
+                                                      Path=DataContext.SeleccionarSocioCommand}"
                                                       CommandParameter="{Binding}">
                                                         <Button.Style>
                                                             <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
