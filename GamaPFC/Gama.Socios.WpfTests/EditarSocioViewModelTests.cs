@@ -53,18 +53,18 @@ namespace Gama.Socios.WpfTests
 
             _SocioViewModelMock = new SocioViewModel();
             _EditarCuotasViewModelMock = new EditarCuotasViewModel();
-            _PeriodoDeAltaViewModelMock = new EditarPeriodosDeAltaViewModel(
-                _SocioRepositoryMock.Object,
-                _EventAggregatorMock.Object,
-                new PreferenciasDeSocios());
+            //_PeriodoDeAltaViewModelMock = new EditarPeriodosDeAltaViewModel(
+            //    _SocioRepositoryMock.Object,
+            //    _EventAggregatorMock.Object,
+            //    new PreferenciasDeSocios());
 
-            _Vm = new EditarSocioViewModel(
-                _EventAggregatorMock.Object,
-                _SocioRepositoryMock.Object,
-                _SocioViewModelMock,
-                _EditarCuotasViewModelMock,
-                _PeriodoDeAltaViewModelMock,
-                _SessionMock.Object);
+            //_Vm = new EditarSocioViewModel(
+            //    _EventAggregatorMock.Object,
+            //    _SocioRepositoryMock.Object,
+            //    _SocioViewModelMock,
+            //    _EditarCuotasViewModelMock,
+            //    _PeriodoDeAltaViewModelMock,
+            //    _SessionMock.Object);
 
             _Vm.OnNavigatedTo(_Socio.Id);
         }

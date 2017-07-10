@@ -65,12 +65,12 @@ namespace Gama.Cooperacion.WpfTests
             _cooperanteRepositoryMock.Setup(c => c.GetCooperantesNuevosPorMes(It.IsAny<int>())).
                 Returns(new List<int>(_settingsMock.Object.DashboardMesesAMostrarDeCooperantesNuevos));
 
-            _vm = new DashboardViewModel(
-                _actividadRepositoryMock.Object,
-                _cooperanteRepositoryMock.Object,
-                _eventAggregatorMock.Object,
-                _settingsMock.Object,
-                _sessionMock.Object);
+            //_vm = new DashboardViewModel(
+            //    _actividadRepositoryMock.Object,
+            //    _cooperanteRepositoryMock.Object,
+            //    _eventAggregatorMock.Object,
+            //    _settingsMock.Object,
+            //    _sessionMock.Object);
         }
 
         [Fact]
@@ -106,12 +106,12 @@ namespace Gama.Cooperacion.WpfTests
 
             // Necesitamos hacer un Publish real, así que le pasamos el EventAggregator
             // de PRISM, que se asume que está well tested
-            var vm = new DashboardViewModel(
-                _actividadRepositoryMock.Object,
-                _cooperanteRepositoryMock.Object,
-                eventAggregator,
-                _settingsMock.Object,
-                _sessionMock.Object);
+            //var vm = new DashboardViewModel(
+            //    _actividadRepositoryMock.Object,
+            //    _cooperanteRepositoryMock.Object,
+            //    eventAggregator,
+            //    _settingsMock.Object,
+            //    _sessionMock.Object);
 
             eventAggregator.GetEvent<NuevaActividadEvent>().Publish(actividad.Id);
 
@@ -129,12 +129,12 @@ namespace Gama.Cooperacion.WpfTests
 
             // Necesitamos hacer un Publish real, así que le pasamos el EventAggregator
             // de PRISM, que se asume que está well tested
-            var vm = new DashboardViewModel(
-                _actividadRepositoryMock.Object,
-                _cooperanteRepositoryMock.Object,
-                eventAggregator,
-                _settingsMock.Object,
-                _sessionMock.Object);
+            //var vm = new DashboardViewModel(
+            //    _actividadRepositoryMock.Object,
+            //    _cooperanteRepositoryMock.Object,
+            //    eventAggregator,
+            //    _settingsMock.Object,
+            //    _sessionMock.Object);
 
             actividad.Titulo = "Nuevo título";
 

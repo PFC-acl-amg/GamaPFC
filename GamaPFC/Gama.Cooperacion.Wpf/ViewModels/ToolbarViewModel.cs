@@ -107,7 +107,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             var _cooperante = _CooperanteRepository.GetById(id);
             Cooperante = _cooperante;
-            _ExportService.ExportarCooperante(Cooperante, Cooperante.Nombre);
         }
         private void OnActividadSeleccionadaEvent(int id)
         {
