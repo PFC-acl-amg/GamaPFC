@@ -65,39 +65,14 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
         private void OnExportarCommandExecute()
         {
-
             if (VistaCargada == "ActividadesContentView")
-            {
-                // Exportar datos de una solo Actividad Que ya se copio an Toolbar con el evento ActividadSeleccionadaEvent.
                 _ExportService.ExportarActividad(Actividad, Actividad.Titulo);
-            }
             else
             {
                 if (VistaCargada == "CooperantesContentView")
-                {
-                    // Exportar la lista completa de cooperantes
-                    var ListaCooperantes = _CooperanteRepository.GetAll();
-                    _ExportService.ExportarTodosCooperantes(ListaCooperantes);
-                }
-                else
-                {
-                    var ListaActividades = _ActividadRepository.GetAll();
-                    _ExportService.ExportarTodasActividades(ListaActividades);
-                }
+                    _ExportService.ExportarTodosCooperantes(_CooperanteRepository.GetAll());
+                else _ExportService.ExportarTodasActividades(_ActividadRepository.GetAll());
             }
-           
-            //if (VistaCargada == "DashboardView")
-            //{
-                
-            //}
-
-            //_ExportService.ExportarSocios(ListaSocios);
-            //if (VistaCargada != "SociosContentView")
-            //{
-            //    var ListaSocios = _CooperanteRepository.GetAll();
-            //    _ExportService.ExportarSocios(ListaSocios);
-            //}
-            //else _ExportService.ExportarSocio(Cooperante, Cooperante.Nombre);
         }
         private void OnContenidoVistaExportarEvent(string obj)
         {
@@ -107,18 +82,15 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             var _cooperante = _CooperanteRepository.GetById(id);
             Cooperante = _cooperante;
-            _ExportService.ExportarCooperante(Cooperante, Cooperante.Nombre);
         }
         private void OnActividadSeleccionadaEvent(int id)
         {
             var _ActSel = _ActividadRepository.GetById(id);
-
             Actividad = _ActSel;
         }
         public void LoadCooperante(int id)
         {
             var _cooperante = _CooperanteRepository.GetById(id);
-
             Cooperante = _cooperante;
         }
     }

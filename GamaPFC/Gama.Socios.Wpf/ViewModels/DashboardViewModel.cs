@@ -409,7 +409,7 @@ namespace Gama.Socios.Wpf.ViewModels
             }
             ListaCompletaSocios.Clear();
             int NumSocios = 0;
-            foreach (var UnSocio in ListaSociosAux)
+            foreach (var UnSocio in ListaSociosFiltro)
             {
                 ListaCompletaSocios.Add(UnSocio);
                 NumSocios++;

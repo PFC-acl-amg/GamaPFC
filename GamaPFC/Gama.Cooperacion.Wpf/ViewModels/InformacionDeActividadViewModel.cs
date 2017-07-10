@@ -112,8 +112,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             get { return _EdicionHabilitada; }
             set { SetProperty(ref _EdicionHabilitada, value); }
         }
-
-        // Se usa para abrir el Popup de la lista emergente de cooperantes
         public bool PopupEstaAbierto
         {
             get { return _PopupEstaAbierto; }

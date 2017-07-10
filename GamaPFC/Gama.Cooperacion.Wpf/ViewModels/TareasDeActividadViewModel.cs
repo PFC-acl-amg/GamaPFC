@@ -54,6 +54,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private bool _VisibleTareasFinalizadas;
         private bool _VisibleFiltroEventoTarea;
         private bool _VisibleEventosTarea;
+        private DateTime? _FechaInicioOpcion;
+        private DateTime? _FechaFinOpcion;
         private List<Evento> _Evento;
         public TareasDeActividadViewModel(
             IActividadRepository actividadRepository,
@@ -91,76 +93,31 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _EventAggregator.GetEvent<NuevaTareaCreadaEvent>().Subscribe(OnNuevaTareaCreadaEvent);
             _EventAggregator.GetEvent<PublicarEventosActividad>().Subscribe(OnPublicarEventosActividad);
             _EventAggregator.GetEvent<TareaModificadaEvent>().Subscribe(OnTareaModificadaEvent);
+
+            BorrarTareaCommand = new DelegateCommand<object>(OnBorrarTareaCommand, OnBorrarTareaCommand_CanExecute);
+            BotonFiltarEventosCommand = new DelegateCommand(OnBotonFiltarEventosCommandExecute);
+            CargarTareasDisponibles = new DelegateCommand(OnCargarTareasDisponibles);
+            CargarTareasFinalizadas = new DelegateCommand(OnCargarTareasFinalizadas);
             CrearForoCommand = new DelegateCommand(OnCrearForoCommand, OnCrearForoCommand_CanExecute);
             CrearTareaCommand = new DelegateCommand(OnCrearTareaCommand, OnCrearTareaCommand_CanExecute);
-            MensajesForoCommand = new DelegateCommand<object>(OnMensajeForoCommand, OnMensajeForoCommand_CanExecute);
-            InfoTareaCommand = new DelegateCommand<object>(OnInfoTareaCommand, OnInfoTareaCommand_CanExecute);
-            SeguimientoTareaCommand = new DelegateCommand<object>(OnSeguimientoTareaCommand, OnSeguimientoTareaCommand_CanExecute);
             EditarTareaCommand = new DelegateCommand<object>(OnEditarTareaCommand, OnEditarTareaCommand_CanExecute);
-            BorrarTareaCommand = new DelegateCommand<object>(OnBorrarTareaCommand, OnBorrarTareaCommand_CanExecute);
-            //AceptarCrearForoCommand = new DelegateCommand(OnAceptarCrearForoCommand, OnAceptarCrearForoCommand_CanExecute);
-            AceptarNuevoMensajeCommand = new DelegateCommand<object>(OnAceptarNuevoMensajeCommand, OnAceptarNuevoMensajeCommand_CanExecute);
-            AceptarIncidenciaTDCommand = new DelegateCommand<object>(OnAceptarIncidenciaTDCommand, OnAceptarIncidenciaTDCommand_CanExecute);
-            AceptarSeguimientoTDCommand = new DelegateCommand<object>(OnAceptarSeguimientoTDCommand, OnAceptarSeguimientoTDCommand_CanExecute);
             FinalizarTareaTDCommand = new DelegateCommand<TareaWrapper>(OnFinalizarTareaTDCommand, OnFinalizarTareaTDCommand_CanExecute);
-            AceptarCrearTareaCommand = new DelegateCommand(OnAceptarCrearTareaCommand, OnAceptarCrearTareaCommand_CanExecute);
-            AñadirCooperantesComboBox = new DelegateCommand (OnAñadirCooperantesComboBox, OnAñadirCooperantesComboBox_CanExecute);
-            CargarTareasFinalizadas = new DelegateCommand(OnCargarTareasFinalizadas);
-            CargarTareasDisponibles = new DelegateCommand(OnCargarTareasDisponibles);
-            RecuperarTareaCommand = new DelegateCommand<TareaWrapper>(OnRecuperarTareaCommand);
+            InfoTareaCommand = new DelegateCommand<object>(OnInfoTareaCommand, OnInfoTareaCommand_CanExecute);
+            MensajesForoCommand = new DelegateCommand<object>(OnMensajeForoCommand, OnMensajeForoCommand_CanExecute);
             MostarFiltroEventoTarea = new DelegateCommand(OnMostarFiltroEventoTarea);
-            VerEventosTareaCommand = new DelegateCommand(OnVerEventosTareaCommand);
-            BotonFiltarEventosCommand = new DelegateCommand(OnBotonFiltarEventosCommandExecute);
+            RecuperarTareaCommand = new DelegateCommand<TareaWrapper>(OnRecuperarTareaCommand);
             ResetearFechaEventosCommand = new DelegateCommand(OnResetearFechaEventosCommandExecute);
+            SeguimientoTareaCommand = new DelegateCommand<object>(OnSeguimientoTareaCommand, OnSeguimientoTareaCommand_CanExecute);
+            VerEventosTareaCommand = new DelegateCommand(OnVerEventosTareaCommand);
+            
+            AñadirCooperantesComboBox = new DelegateCommand (OnAñadirCooperantesComboBox, OnAñadirCooperantesComboBox_CanExecute);
+          
+            
             Gama.Common.Debug.Debug.StopWatch("TareasDeActividadViewModel");
         }
-
-        public ISession Session
-        {
-            get { return _Session; }
-            set
-            {
-                _Session = value;
-                _actividadRepository.Session = _Session;
-                _ForoRepository.Session = _Session;
-                _TareaRepository.Session = _Session;
-            }
-        }
-        public string TituloForo
-        {
-            get { return _tituloForo; }
-            set { SetProperty(ref _tituloForo, value); }
-        }
-        public string TituloForoMensaje
-        {
-            get { return _tituloForoMensaje; }
-            set { SetProperty(ref _tituloForoMensaje, value); }
-        }
-        public string NuevoMensajeForo
-        {
-            get { return _NuevoMensajeForo; }
-            set { SetProperty(ref _NuevoMensajeForo, value); }
-        }
-        public string DescripcionNuevaTarea
-        {
-            get { return _DescripcionNuevaTarea; }
-            set { SetProperty(ref _DescripcionNuevaTarea, value); }
-        }
-        public string NuevoIncidenciaTareasDisponibles
-        {
-            get { return _NuevoIncidenciaTareasDisponibles; }
-            set { SetProperty(ref _NuevoIncidenciaTareasDisponibles, value); }
-        }
-        public string NuevoSeguimientoTD
-        {
-            get { return _NuevoSeguimientoTD; }
-            set { SetProperty(ref _NuevoSeguimientoTD, value); }
-        }
-        public ICommand AceptarCrearForoCommand { get; private set; }
-        public ICommand AceptarCrearTareaCommand { get; set; }
-        public ICommand AceptarNuevoMensajeCommand { get; private set; }
-        public ICommand AceptarIncidenciaTDCommand { get; private set; }
-        public ICommand AceptarSeguimientoTDCommand { get; set; }
+        //--------------------------------
+        // ICommands
+        //--------------------------------
         public ICommand FinalizarTareaTDCommand { get; set; }
         public ICommand MensajesForoCommand { get; private set; }
         public ICommand InfoTareaCommand { get; private set; }
@@ -177,6 +134,34 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand VerEventosTareaCommand { get; set; }
         public ICommand BotonFiltarEventosCommand { get; set; }
         public ICommand ResetearFechaEventosCommand { get; set; }
+        public ISession Session
+        {
+            get { return _Session; }
+            set
+            {
+                _Session = value;
+                _actividadRepository.Session = _Session;
+                _ForoRepository.Session = _Session;
+                _TareaRepository.Session = _Session;
+            }
+        }
+
+        //-----------------------------------
+        // ICommands Implementaciones
+        //-----------------------------------
+        private void OnBorrarTareaCommand(object wrapper)
+        {
+            var tareaBorrada = Actividad.Tareas.Where(x => x.Id == ((TareaWrapper)wrapper).Id).First();
+            Actividad.Tareas.Remove(tareaBorrada);
+            _TareaRepository.Delete(tareaBorrada.Model);
+            Actividad.AcceptChanges();
+            var todasLasTareas = Actividad.Tareas.ToList();
+            todasLasTareas.Remove(tareaBorrada);
+            TareasDisponibles.Clear();
+            TareasDisponibles.AddRange(todasLasTareas);
+            OnPropertyChanged(nameof(TareasDisponibles)); // No se si hace falta
+        }
+
         private void OnResetearFechaEventosCommandExecute()
         {
             FechaInicioOpcion = null;
@@ -278,21 +263,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
 
         }
-        private void OnBorrarTareaCommand(object wrapper)
-        {
-            var tareaBorrada = Actividad.Tareas.Where(x => x.Id == ((TareaWrapper)wrapper).Id).First();
-            Actividad.Tareas.Remove(tareaBorrada);
-            _TareaRepository.Delete(tareaBorrada.Model);
-            //_actividadRepository.Update(Actividad.Model);
-            Actividad.AcceptChanges();
-
-            var todasLasTareas = Actividad.Tareas.ToList();
-            todasLasTareas.Remove(tareaBorrada);
-            TareasDisponibles.Clear();
-            TareasDisponibles.AddRange(todasLasTareas); 
-
-//            OnPropertyChanged(nameof(TareasDisponibles));
-        }
+       
         private void OnEditarTareaCommand(object wrapper)
         {
             var o = new CrearNuevaTareaView();  // Llama al constructor de CrearNuevaTareaVM y ejecuta la instruccion
@@ -344,74 +315,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         //    vm.Load(Actividad);
         //    o.ShowDialog();
         //}
-        private void OnAceptarCrearTareaCommand()
-        {
-            var nuevoSeguimiento = new SeguimientoWrapper(new Seguimiento()
-            {
-                Descripcion = "Historial del desarrollo de las tareas",
-                FechaDePublicacion = DateTime.Now,
-            });
-            var incidenciaTarea = (new IncidenciaWrapper(new Incidencia()
-            {
-                Descripcion = "Historial de incidencias durante desarrollo de la tarea",
-                FechaDePublicacion = DateTime.Now,
-            }));
-            var NuevaTarea = (new TareaWrapper(new Tarea()
-            {
-                Descripcion = DescripcionNuevaTarea,
-                FechaDeFinalizacion = FechaFinTarea,
-                Responsable = ResponsableTarea.Model,
-                HaFinalizado = false
-            })
-            { SeguimientoVisible = true });
-            NuevaTarea.Model.AddIncidencia(incidenciaTarea.Model);
-            NuevaTarea.Model.AddSeguimiento(nuevoSeguimiento.Model);
-            Actividad.Model.AddTarea(NuevaTarea.Model);
-            _actividadRepository.Update(Actividad.Model);
-            _EventAggregator.GetEvent<NuevaTareaCreadaEvent>().Publish(NuevaTarea);
-            AuxiliarOnPublicarEventosActividad(Ocurrencia.NUEVA_TAREA_PUBLICADA, ((TareaWrapper)NuevaTarea).Descripcion);
-            CrearTareaVisible = false;
-            
-        }
-        private void OnAceptarNuevoMensajeCommand(object wrapper)
-        {
-            var nuevoMensaje = new MensajeWrapper(new Mensaje()
-            {
-                Titulo = NuevoMensajeForo,
-                FechaDePublicacion = DateTime.Now,
-            });
-            ((ForoWrapper)wrapper).Mensajes.Insert(0,nuevoMensaje); // Inserta en la variable Mensajes del wrapper y en .Model en la posicion 0
-            ((ForoWrapper)wrapper).Model.AddMensaje(nuevoMensaje.Model); // Inserta en la variable Mensaje de wrapper.Model.Mensajes
-            _actividadRepository.Update(Actividad.Model);
-            AuxiliarOnPublicarEventosActividad(Ocurrencia.MENSAJE_PUBLICADO_EN_FORO,((ForoWrapper)wrapper).Titulo);
-            NuevoMensajeForo = null;
-        }
-        private void OnAceptarIncidenciaTDCommand(object wrapper)
-        {
-            var nuevaIncidencia = new IncidenciaWrapper(new Incidencia()
-            {
-                Descripcion = NuevoIncidenciaTareasDisponibles,
-                FechaDePublicacion = DateTime.Now,
-            });
-            //((TareaWrapper)wrapper).Incidencia.Insert(0, nuevaIncidencia);
-            ((TareaWrapper)wrapper).Model.AddIncidencia(nuevaIncidencia.Model);
-            _actividadRepository.Update(Actividad.Model);
-            AuxiliarOnPublicarEventosActividad(Ocurrencia.INCIDENCIA_EN_TAREA, ((TareaWrapper)wrapper).Descripcion);
-            NuevoIncidenciaTareasDisponibles = null;
-        }
-        private void OnAceptarSeguimientoTDCommand(object wrapper)
-        {
-            var nuevoSeguimiento = new SeguimientoWrapper(new Seguimiento()
-            {
-                Descripcion = NuevoSeguimientoTD,
-                FechaDePublicacion = DateTime.Now,
-            });
-            //((TareaWrapper)wrapper).Seguimiento.Insert(0, nuevoSeguimiento);
-            ((TareaWrapper)wrapper).Model.AddSeguimiento(nuevoSeguimiento.Model);
-            _actividadRepository.Update(Actividad.Model);
-            AuxiliarOnPublicarEventosActividad(Ocurrencia.SEGUIMIENGO_EN_TAREA, ((TareaWrapper)wrapper).Descripcion);
-            NuevoSeguimientoTD = null;
-        }
+       
         private void OnFinalizarTareaTDCommand(TareaWrapper wrapper)
         {
             //TareasFinalizadas.Add((TareaWrapper)wrapper);
@@ -442,18 +346,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             return true;
         }
-        private bool OnAceptarSeguimientoTDCommand_CanExecute(object wrapper)
-        {
-            return true;
-        }
-        private bool OnAceptarIncidenciaTDCommand_CanExecute(object wrapper)
-        {
-            return true;
-        }
-        private bool OnAceptarNuevoMensajeCommand_CanExecute(object wrapper)
-        {
-            return true;
-        }
         private bool OnMensajeForoCommand_CanExecute(object wrapper)
         {
             return true;
@@ -470,14 +362,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             return true;
         }
-        private bool OnAceptarCrearForoCommand_CanExecute()
-        {
-            return true;
-        }
-        private bool OnAceptarCrearTareaCommand_CanExecute()
-        {
-            return true;
-        }
         private bool OnBorrarTareaCommand_CanExecute(object wrapper)
         {
             return true;
@@ -490,29 +374,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             return true;
         }
-        public ActividadWrapper Actividad
-        {
-            get { return _Actividad; }
-            set { SetProperty(ref _Actividad, value); }
-        }
-        public CooperanteWrapper ResponsableTarea
-        {
-            get { return _ResponsableTarea; }
-            set {
-                ((DelegateCommand)AñadirCooperantesComboBox).RaiseCanExecuteChanged(); // Para que es
-                SetProperty(ref _ResponsableTarea, value); }
-        }
-        public DateTime FechaFinTarea
-        {
-            get { return _FechaFinTarea; }
-            set { SetProperty(ref _FechaFinTarea, value); }
-        }
         public void LoadActividad(ActividadWrapper wrapper)
         {
             Actividad = wrapper;
             Actividad.AcceptChanges();
-            OnCargarNuevaActividadEvent(Actividad.Id);
-            //_EventAggregator.GetEvent<CargarNuevaActividadEvent>().Publish(Actividad.Id);    
+            OnCargarNuevaActividadEvent(Actividad.Id);   
         }
         public ObservableCollection<ForoWrapper> ForosDisponibles { get; private set; }
         public ObservableCollection<Mensaje> MensajesDisponibleEnForo { get; private set; }
@@ -523,46 +389,32 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ObservableCollection<TareaWrapper> TareasFinalizadas { get; private set; }
         public ObservableCollection<CooperanteWrapper> CooperantesSeleccionados { get; private set; }
         public ForoWrapper ForoSelecionado { get; set; }
-        
-        public bool VisibleEventosTarea
-        {
-            get { return _VisibleEventosTarea; }
-            set { SetProperty(ref _VisibleEventosTarea, value); }
-        }
-        public bool CrearForoVisible
-        {
-            get { return _VisibleCrearForo; }
-            set { SetProperty(ref _VisibleCrearForo, value); }
-        }
-        public bool VisibleFiltroEventoTarea
-        {
-            get { return _VisibleFiltroEventoTarea; }
-            set { SetProperty(ref _VisibleFiltroEventoTarea, value); }
-        }
-        public bool VisibleTareasFinalizadas
-        {
-            get { return _VisibleTareasFinalizadas; }
-            set { SetProperty(ref _VisibleTareasFinalizadas, value); }
-        }
-        public bool CrearTareaVisible
-        {
-            get { return _VisibleCrearTarea; }
-            set { SetProperty(ref _VisibleCrearTarea, value); }
-        }
-        public bool MensajeForoVisible
-        {
-            get { return _VisibleMensajeForo; }
-            set { SetProperty(ref _VisibleMensajeForo, value); }
-        }
-        public bool OcultarForoVisible
-        {
-            get { return _OcultarCrearForo; }
-            set { SetProperty(ref _OcultarCrearForo, value); }
-        }
         private bool OnCrearForoCommand_CanExecute()
         {
             return true;
         }
+       
+       
+        private void OnCrearForoCommand()
+        {
+            var o = new CrearNuevoForo();
+            var vm = (CrearNuevoForoViewModel)o.DataContext;
+            vm.Session = _Session;
+            vm.Load(Actividad);
+            o.ShowDialog();
+        }
+
+        private void OnCrearTareaCommand()
+        {
+            var o = new CrearNuevaTareaView();
+            var vm = (CrearNuevaTareaViewModel)o.DataContext;
+            vm.Session = _Session;
+            vm.LoadActividad(Actividad);
+            o.ShowDialog();
+        }
+        //-----------------------------------
+        // Events
+        //-----------------------------------
         private void OnCargarNuevaActividadEvent(int id)
         {
             ForosDisponibles.Clear();
@@ -574,12 +426,14 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             foreach (var forito in actividad.Foros)
             {
                 ForosDisponibles.Add(new ForoWrapper(
-                    new Foro() {
+                    new Foro()
+                    {
                         Id = forito.Id,
                         Titulo = forito.Titulo,
                         FechaDePublicacion = forito.FechaDePublicacion,
-                        Mensajes = forito.Mensajes })
-                    { ForoVisible = false });
+                        Mensajes = forito.Mensajes
+                    })
+                { ForoVisible = false });
             }
             // Recorrido para obtener las Tareas creadas en esta actividad
             foreach (var tarea in actividad.Tareas)
@@ -628,7 +482,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     })
                     { SeguimientoVisible = false });
                 }
-                
+
             }
             // Recorrido para obtener los eventos publicados en la Actividad cargada
             foreach (var evento in actividad.Eventos)
@@ -636,12 +490,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 EventoActividad.Add(evento);
                 EventoActividadAux.Add(evento);
             }
-
         }
         private void OnNuevoForoCreadoEvent(ForoWrapper forito)
         {
             ForosDisponibles.Insert(0, (new ForoWrapper(new Foro()
-            { Id=forito.Id, Titulo = forito.Titulo, FechaDePublicacion = forito.FechaDePublicacion, Mensajes=forito.Model.Mensajes })
+            { Id = forito.Id, Titulo = forito.Titulo, FechaDePublicacion = forito.FechaDePublicacion, Mensajes = forito.Model.Mensajes })
             { ForoVisible = false }));
         }
         private void OnNuevaTareaCreadaEvent(TareaWrapper NuevaTarea)
@@ -671,13 +524,22 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             { SeguimientoVisible = false }
             ));
         }
+        private void AuxiliarOnPublicarEventosActividad(Ocurrencia tipoEvento, string tituloEvento)
+        {
+            var eventoDeActividad = new Evento()
+            {
+                FechaDePublicacion = DateTime.Now,
+                Titulo = tituloEvento,
+                Ocurrencia = tipoEvento,
+            };
+            _EventAggregator.GetEvent<PublicarEventosActividad>().Publish(eventoDeActividad);
+        }
         private void OnTareaModificadaEvent(int idTarea)
         {
             var tarea = _TareaRepository.GetById(idTarea);
             if (TareasDisponibles.Any(a => a.Id == idTarea))
             {
                 var indice = TareasDisponibles.IndexOf(TareasDisponibles.Single(a => a.Id == idTarea));
-                //var NuevaTarea = TareasDisponibles[indice];
                 TareasDisponibles.Insert(indice, (new TareaWrapper(new Tarea()
                 {
                     Id = tarea.Id,
@@ -691,99 +553,61 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 { SeguimientoVisible = false }
             ));
                 TareasDisponibles.RemoveAt(indice + 1);
-                //    //TareasDisponibles[indice].Responsable =  ResponsableTarea; // no funciona porque en tareawrapper el set es private
-                //    //TareasDisponibles[indice].Descripcion = tarea.Descripcion;
-                //    //TareasDisponibles[indice].FechaDeFinalizacion = tarea.FechaDeFinalizacion;
-                //    // Hare un apaño hasta consultarlo con Alberto.
-                //}
             }
-        }
-        private void AuxiliarOnPublicarEventosActividad(Ocurrencia tipoEvento,string tituloEvento)
-        {
-            var eventoDeActividad = new Evento()
-            {
-                FechaDePublicacion = DateTime.Now,
-                Titulo = tituloEvento,
-                Ocurrencia = tipoEvento,
-            };
-            _EventAggregator.GetEvent<PublicarEventosActividad>().Publish(eventoDeActividad);
         }
         private void OnPublicarEventosActividad(Evento GenerarEvento)
         {
             EventoActividad.Insert(0, GenerarEvento);
-            
-            // Falta código para BBDD
             Actividad.Model.AddEvento(GenerarEvento);
-            //_EventoRepository.Create(GenerarEvento);
             _actividadRepository.Update(Actividad.Model);
         }
-        public List<EventoWrapper> EventosDisponibles { get; private set; }
 
-        private void OnCrearForoCommand()
+        //-----------------------------------
+        // Bindings - Public
+        //-----------------------------------
+        public ActividadWrapper Actividad
         {
-            var o = new CrearNuevoForo();
-            var vm = (CrearNuevoForoViewModel)o.DataContext;
-            vm.Session = _Session;
-            vm.Load(Actividad);
-            o.ShowDialog();
+            get { return _Actividad; }
+            set { SetProperty(ref _Actividad, value); }
         }
-
-        private void OnCrearTareaCommand()
+        public CooperanteWrapper ResponsableTarea
         {
-            var o = new CrearNuevaTareaView();  // Llama al constructor de CrearNuevaTareaVM y ejecuta la instruccion
-                                                // Tarea = new TareaWrapper(new Tarea()); Para que en el TareaWrapper
-                                                // Responsable no puede ser nulo con lo que este llamada dara error porque
-                                                // El responsable es nulo
-            var vm = (CrearNuevaTareaViewModel)o.DataContext;
-            vm.Session = _Session;
-            vm.LoadActividad(Actividad);
-            o.ShowDialog();
-            //if (CrearTareaVisible == false)
-            //{
-            //    var actividad = _actividadRepository.GetById(Actividad.Id); // actividad contiene la información de la base de datos
-            //    CooperantesSeleccionados.Clear();
-            //    foreach (var cooper3 in actividad.Cooperantes)
-            //    {
-            //        CooperantesSeleccionados.Add(new CooperanteWrapper(
-            //            new Cooperante()
-            //            {
-            //                Id = cooper3.Id,
-            //                Dni = cooper3.Dni,
-            //                Nombre = cooper3.Nombre,
-            //                Apellido = cooper3.Apellido
-            //            }));
-            //    }
-            //    CooperantesSeleccionados.Add(new CooperanteWrapper(
-            //            new Cooperante()
-            //            {
-            //                Id = actividad.Coordinador.Id,
-            //                Dni = actividad.Coordinador.Dni,
-            //                Nombre = actividad.Coordinador.Nombre,
-            //                Apellido = actividad.Coordinador.Apellido
-            //            }));
-            //    CrearTareaVisible = true;
-
-            //    //_actividadRepository.Flush();
-            //}
-            //else
-            //{
-            //    CrearTareaVisible = false;
-            //}
-
+            get { return _ResponsableTarea; }
+            set
+            {
+                ((DelegateCommand)AñadirCooperantesComboBox).RaiseCanExecuteChanged(); // Para que es
+                SetProperty(ref _ResponsableTarea, value);
+            }
         }
-
-        private DateTime? _FechaInicioOpcion;
+        public DateTime? FechaFinOpcion
+        {
+            get { return _FechaFinOpcion; }
+            set { SetProperty(ref _FechaFinOpcion, value); }
+        }
         public DateTime? FechaInicioOpcion
         {
             get { return _FechaInicioOpcion; }
             set { SetProperty(ref _FechaInicioOpcion, value); }
         }
 
-        private DateTime? _FechaFinOpcion;
-        public DateTime? FechaFinOpcion
+        //------------------------------------
+        // Visibility
+        //------------------------------------
+        public bool VisibleEventosTarea
         {
-            get { return _FechaFinOpcion; }
-            set { SetProperty(ref _FechaFinOpcion, value); }
+            get { return _VisibleEventosTarea; }
+            set { SetProperty(ref _VisibleEventosTarea, value); }
         }
+        public bool VisibleFiltroEventoTarea
+        {
+            get { return _VisibleFiltroEventoTarea; }
+            set { SetProperty(ref _VisibleFiltroEventoTarea, value); }
+        }
+        public bool VisibleTareasFinalizadas
+        {
+            get { return _VisibleTareasFinalizadas; }
+            set { SetProperty(ref _VisibleTareasFinalizadas, value); }
+        }
+
     }   // Clase TareasDeActividadVM
 }       // Fin namespace
