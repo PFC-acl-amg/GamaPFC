@@ -127,7 +127,7 @@ namespace Gama.Socios.Wpf.ViewModels
 
             }
             wrapper.MesesAplicables.Clear();
-
+            wrapper.Cuotas.Clear();
             mesesAplicables.Select(x => new CuotaWrapper(x)).ToList().ForEach(c =>
              {
                  wrapper.MesesAplicables.Add(c);
@@ -141,6 +141,7 @@ namespace Gama.Socios.Wpf.ViewModels
             InvalidateCommands();
 
             _EventAggregator.GetEvent<PeriodoDeAltaActualizadoEvent>().Publish(wrapper.Id);
+            _EventAggregator.GetEvent<ContabilidadModificadaEvent>().Publish(wrapper.Id);
         }
 
         public void AddPeriodoDeAlta()

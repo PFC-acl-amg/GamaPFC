@@ -155,6 +155,7 @@
     <Compile Include="DesignTimeData\ListadoDeSociosViewModelDTD.cs" />
     <Compile Include="DesignTimeData\SocioViewModelDTD.cs" />
     <Compile Include="DesignTimeData\StatusBarViewModelDTD.cs" />
+    <Compile Include="Eventos\ContabilidadModificadaEvent.cs" />
     <Compile Include="Eventos\CuotaActualizadaEvent.cs" />
     <Compile Include="Eventos\CuotaCreadaEvent.cs" />
     <Compile Include="Eventos\PeriodoDeAltaActualizadoEvent.cs" />

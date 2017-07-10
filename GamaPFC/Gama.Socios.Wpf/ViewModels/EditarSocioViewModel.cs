@@ -77,6 +77,8 @@ namespace Gama.Socios.Wpf.ViewModels
             DarDeAltaBajaCommand = new DelegateCommand(OnDarDeAltaBajaCommandExecute);
             VisibleContabilidadSocioCommand = new DelegateCommand(OnVisibleContabilidadSocioCommand);
 
+            _EventAggregator.GetEvent<ContabilidadModificadaEvent>().Subscribe(OnContabilidadModificadaEvent);
+
             _SocioVM.PropertyChanged += SocioVM_PropertyChanged;
         }
         public ObservableCollection<Cuota> ListaCuotasPorpagarSocio { get; private set; }
@@ -176,6 +178,7 @@ namespace Gama.Socios.Wpf.ViewModels
             _SocioVM.Socio.IsInEditionMode = false;
             _SocioVM.Socio.IsInEditionMode = false;
             RefrescarTitulo(Socio.Nombre);
+           
         }
 
         private void OnHabilitarEdicionCommand()
@@ -265,6 +268,11 @@ namespace Gama.Socios.Wpf.ViewModels
                 Title = nombre;
             }
         }
+
+        private void OnContabilidadModificadaEvent(int Num)
+        {
+            CalcularDebito(Socio);
+        }
         private void CalcularDebito(SocioWrapper socioSeleccionado)
         {
             double TotalSinPagar = 0;
@@ -303,6 +311,8 @@ namespace Gama.Socios.Wpf.ViewModels
             CantidadTotalPorPagar = TotalSinPagar;
             CuotasImpagadasSocio = CImpagada;
             CantidadImpagada = TotalImpagos;
+            OnPropertyChanged("ListaCuotasPorpagarSocio");
+            OnPropertyChanged("ListaCuotasImpagosSocios");
         }
 
         private void InvalidateCommands()
