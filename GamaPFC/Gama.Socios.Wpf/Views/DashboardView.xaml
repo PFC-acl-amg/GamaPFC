@@ -164,8 +164,9 @@
             <ColumnDefinition Width="15" />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
-        <GroupBox Grid.Column="0" Header="Filtros" Width="200" Background="White" Visibility="{Binding VisibleOpcionesFiltro, 
+        <GroupBox Grid.Column="0" Header="Filtros" Width="220" Background="White" Visibility="{Binding VisibleOpcionesFiltro, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
+
             <Grid>
                 <StackPanel Grid.Row="1" Visibility="{Binding FiltrosVisibles,
                                 Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -194,8 +195,15 @@
                         <ComboBox Grid.Row="3" Grid.Column="1" Margin="4,4,0,4" HorizontalAlignment="Left" Width="80" Height="20"
                             	ItemsSource="{Binding EstadoAlta}"
                             	SelectedItem="{Binding EstadoAltaEscogido, UpdateSourceTrigger=PropertyChanged}" />
-                        <Button Grid.Column="1" Grid.Row="5" Margin="{StaticResource Margin}" HorizontalAlignment="Center" Width="60" Height="20"
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.ColumnSpan="2" Grid.Row="5" Margin="{StaticResource Margin}">
+                            <Button HorizontalAlignment="Center" Width="60" Height="20" Margin="{StaticResource Margin}"
+                                    Content="Exportar" Command="{Binding AplicarFiltroCommand}"></Button>
+                            <Button HorizontalAlignment="Center" Width="60" Height="20" Margin="{StaticResource Margin}"
+                                    Content="Reiniciar" Command="{Binding AplicarFiltroCommand}"></Button>
+                            <Button HorizontalAlignment="Center" Width="60" Height="20" Margin="{StaticResource Margin}"
                                     Content="Aplicar" Command="{Binding AplicarFiltroCommand}"></Button>
+                        </StackPanel>
+                        
                         <!--<Button Content="Aceptar" Command="{Binding AceptarCommand}"  Margin="{StaticResource Margin}"/>-->
                     </Grid>
                 </StackPanel>

@@ -12,6 +12,12 @@ namespace Gama.Common.CustomControls
     {
         public int Id { get; set; }
         public int Id_Coordinador { get; set; }
+        private DateTime? _FechaDeNacimiento;
+        public DateTime? FechaDeNacimiento
+        {
+            get { return _FechaDeNacimiento; }
+            set { SetProperty(ref _FechaDeNacimiento, value); }
+        }
         public DateTime FechaDeInicioActividad { get; set; } // Creo que no lo necesito
 
         private string _DisplayMember1;
@@ -34,13 +40,23 @@ namespace Gama.Common.CustomControls
             get { return _DisplayMember3; }
             set { SetProperty(ref _DisplayMember3, value); }
         }
-
-
+        private string _Nacionalidad;
+        public string Nacionalidad
+        {
+            get { return _Nacionalidad; }
+            set { SetProperty(ref _Nacionalidad, value); }
+        }
         private string _IconSource;
         public string IconSource
         {
             get { return _IconSource; }
             set { SetProperty(ref _IconSource, value); }
+        }
+        private bool _EstaDadoDeAlta;
+        public bool EstaDadoDeAlta
+        {
+            get { return _EstaDadoDeAlta; }
+            set { SetProperty(ref _EstaDadoDeAlta, value); }
         }
         private byte[] _Imagen;
         public byte[] Imagen

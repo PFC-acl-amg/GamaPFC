@@ -69,12 +69,31 @@ namespace Gama.Socios.Wpf.ViewModels
                     .Select(a => new LookupItem
                     {
                         Id = a.Id,
+                        FechaDeNacimiento = a.FechaDeNacimiento,
                         Telefono = a.Telefono,
                         Email = a.Email,
                         DisplayMember1 = a.Nombre,
                         DisplayMember2 = a.Nif,
-                        Imagen = a.Imagen
+                        Imagen = a.Imagen,
+                        Nacionalidad = a.Nacionalidad,
+                        EstaDadoDeAlta = a.EstaDadoDeAlta
                     }));
+            ListaSociosFiltro = new ObservableCollection<LookupItem>(
+                    _Socios
+                    .OrderBy(x => x.Id)
+                    .Select(a => new LookupItem
+                    {
+                        Id = a.Id,
+                        FechaDeNacimiento = a.FechaDeNacimiento,
+                        Telefono = a.Telefono,
+                        Email = a.Email,
+                        DisplayMember1 = a.Nombre,
+                        DisplayMember2 = a.Nif,
+                        Imagen = a.Imagen,
+                        Nacionalidad = a.Nacionalidad,
+                        EstaDadoDeAlta = a.EstaDadoDeAlta
+                    }));
+            ListaSociosAux = new ObservableCollection<LookupItem>();
             Nacionalidades = new ObservableCollection<string>();
             Edades = new ObservableCollection<string>();
             EstadoAlta = new ObservableCollection<string>();
@@ -130,22 +149,106 @@ namespace Gama.Socios.Wpf.ViewModels
             MostarFiltroContable = new DelegateCommand(OnMostarFiltroContable);
             MostrarFiltroFechas = new DelegateCommand(OnMostrarFiltroFechas);
             EditarSocioCommand = new DelegateCommand<LookupItem>(OnEditarSocioCommand);
+            AplicarFiltroCommand = new DelegateCommand(OnAplicarFiltroCommand_Execute);
 
-            InicializarGraficos();
+           InicializarGraficos();
+        }
+        private void OnAplicarFiltroCommand_Execute()
+        {
+            ListaSociosAux.Clear();
+            int rango = 0;
+            if (NacionEscogida != null)
+            {
+                foreach (var UnSocio in ListaSociosFiltro)
+                {
+                    if (UnSocio.Nacionalidad == NacionEscogida) ListaSociosAux.Add(UnSocio); // Miro quien no es
+                }
+                ListaSociosFiltro.Clear();
+                foreach (var UnSocio in ListaSociosAux) ListaSociosFiltro.Add(UnSocio);
+            }
+            ListaSociosAux.Clear();
+            if (EstadoAltaEscogido != null)
+            {
+                bool Alta;
+                if (EstadoAltaEscogido == "Alta") Alta = true;
+                else Alta = false;
+                foreach (var UnSocio in ListaSociosFiltro)
+                {
+                    if (UnSocio.EstaDadoDeAlta == Alta) ListaSociosAux.Add(UnSocio); // Miro quien no es
+                }
+                ListaSociosFiltro.Clear();
+                foreach (var UnSocio in ListaSociosAux) ListaSociosFiltro.Add(UnSocio);
+            }
+            ListaSociosAux.Clear();
+            if (EdadEscogida != null)
+            {
+                DateTime? Hoy = DateTime.Now;
+                if (EdadEscogida == "Hasta 25") rango = 0;
+                if (EdadEscogida == "26-40") rango = 1;
+                if (EdadEscogida == "41-55") rango = 2;
+                if (EdadEscogida == "56-65") rango = 3;
+                if (EdadEscogida == "Más de 65") rango = 4;
+                foreach (var UnSocio in ListaSociosFiltro)
+                {
+                    if (rango == 0)
+                    {
+                        if ((Hoy.Value.Year) - (UnSocio.FechaDeNacimiento.Value.Year) <= 25)
+                        {
+                            ListaSociosAux.Add(UnSocio);
+                        }
+                    }
+                    if (rango == 1)
+                    {
+                        if ( ((Hoy.Value.Year) - (UnSocio.FechaDeNacimiento.Value.Year) <= 40)&& ((Hoy.Value.Year) - (UnSocio.FechaDeNacimiento.Value.Year) >= 26))
+                        {
+                            ListaSociosAux.Add(UnSocio);
+                        }
+                    }
+                    if (rango == 2)
+                    {
+                        if (((Hoy.Value.Year) - (UnSocio.FechaDeNacimiento.Value.Year) <= 55) && ((Hoy.Value.Year) - (UnSocio.FechaDeNacimiento.Value.Year) >= 41))
+                        {
+                            ListaSociosAux.Add(UnSocio);
+                        }
+                    }
+                    if (rango == 3)
+                    {
+                        if (((Hoy.Value.Year) - (UnSocio.FechaDeNacimiento.Value.Year) <= 65) && ((Hoy.Value.Year) - (UnSocio.FechaDeNacimiento.Value.Year) >= 56))
+                        {
+                            ListaSociosAux.Add(UnSocio);
+                        }
+                    }
+                    if (rango == 4)
+                    {
+                        if ((Hoy.Value.Year) - (UnSocio.FechaDeNacimiento.Value.Year) >= 66)
+                        {
+                            ListaSociosAux.Add(UnSocio);
+                        }
+                    }
+                }
+                ListaSociosFiltro.Clear();
+                foreach (var UnSocio in ListaSociosAux) ListaSociosFiltro.Add(UnSocio);
+            }
+            ListaCompletaSocios.Clear();
+            foreach (var UnSocio in ListaSociosAux) ListaCompletaSocios.Add(UnSocio);
+            
         }
         private void PrepararFiltro()
         {
-            ListaSociosFiltro = new ObservableCollection<LookupItemSocio>(
+            ListaSociosFiltro = new ObservableCollection<LookupItem>(
                     _Socios
                     .OrderBy(x => x.Id)
-                    .Select(a => new LookupItemSocio
+                    .Select(a => new LookupItem
                     {
                         Id = a.Id,
-                        Nombre = a.Nombre,
                         FechaDeNacimiento = a.FechaDeNacimiento,
-                        NIF = a.Nif,
-                        Nacionalidad = a.Nacionalidad,
-                        DireccionPostal = a.DireccionPostal
+                        Telefono = a.Telefono,
+                        Email = a.Email,
+                        DisplayMember1 = a.Nombre,
+                        DisplayMember2 = a.Nif,
+                        Imagen = a.Imagen,
+                        Nacionalidad=a.Nacionalidad,
+                        EstaDadoDeAlta=a.EstaDadoDeAlta
                     }));
             foreach (var UnSocio in _Socios)
             {
@@ -359,7 +462,8 @@ namespace Gama.Socios.Wpf.ViewModels
         public ObservableCollection<Socio> ListaParcialSocios { get; private set; }
         public ObservableCollection<LookupItem> SociosCumpliendoBirthdays { get; private set; }
         public ObservableCollection<LookupItem> SociosMorosos { get; private set; }
-        public ObservableCollection<LookupItemSocio> ListaSociosFiltro { get; set; }
+        public ObservableCollection<LookupItem> ListaSociosFiltro { get; set; }
+        public ObservableCollection<LookupItem> ListaSociosAux { get; set; }
         public ObservableCollection<string> Nacionalidades { get; set; }
         public ObservableCollection<string> Edades { get; set; }
         public ObservableCollection<string> EstadoAlta { get; set; }
@@ -369,6 +473,7 @@ namespace Gama.Socios.Wpf.ViewModels
         public ICommand MostarFiltroContable { get; set; }
         public ICommand MostrarFiltroFechas { get; set; }
         public ICommand EditarSocioCommand { get; set; }
+        public ICommand AplicarFiltroCommand { get; set; }
 
 
         public string[] SociosLabels =>
@@ -389,7 +494,10 @@ namespace Gama.Socios.Wpf.ViewModels
                 Id = socio.Id,
                 DisplayMember1 = socio.Nombre,
                 DisplayMember2 = socio.Nif,
-                Imagen = socio.Imagen
+                Imagen = socio.Imagen,
+                Nacionalidad=socio.Nacionalidad,
+                FechaDeNacimiento=socio.FechaDeNacimiento,
+
             };
 
             ListaCompletaSocios.Insert(0, lookupItem);
