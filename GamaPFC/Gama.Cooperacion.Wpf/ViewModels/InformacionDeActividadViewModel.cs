@@ -20,7 +20,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 {
     public class InformacionDeActividadViewModel : ViewModelBase
     {
-        private bool _EdicionHabilitada;
         private ActividadWrapper _Actividad;
         public IActividadRepository _ActividadRepository { get; set; }
         private ICooperanteRepository _CooperanteRepository;
@@ -49,7 +48,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _cooperanteRepositoryNuevaTarea = cooperanteRepository;
             _EventAggregator = eventAggregator;
             _MensajeDeEspera = new List<string>() { "Espera por favor..." };
-            _EdicionHabilitada = true;
 
             _cooperanteRepositoryNuevaTarea.Session = sessionNuevaTarea;
             if (CooperantesDisponibles == null)
@@ -106,11 +104,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             get { return _FechaFinActividad; }
             set { SetProperty(ref _FechaFinActividad, value); }
-        }
-        public bool EdicionHabilitada
-        {
-            get { return _EdicionHabilitada; }
-            set { SetProperty(ref _EdicionHabilitada, value); }
         }
 
         // Se usa para abrir el Popup de la lista emergente de cooperantes
@@ -182,7 +175,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 }));
             }
 
-            EdicionHabilitada = false;
+            Actividad.IsInEditionMode = false;
             Actividad = wrapper;
             foreach (var cooperante in Actividad.Cooperantes)
             {
@@ -190,6 +183,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             }
             CooperantesDisponibles.Remove(CooperantesDisponibles.Where(c => c.Id == Actividad.Coordinador.Id).FirstOrDefault());
             Actividad.AcceptChanges();
+            OnPropertyChanged(nameof(Actividad));
         }
 
         private void OnAbrirPopupCommand(CooperanteWrapper cooperanteAnterior)

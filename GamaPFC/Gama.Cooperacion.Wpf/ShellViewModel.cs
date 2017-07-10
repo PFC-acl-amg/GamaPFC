@@ -32,6 +32,7 @@ namespace Gama.Cooperacion.Wpf
             CalendarioDeActividadesViewModel calendarioDeActividadesViewModel,
             CooperantesContentViewModel cooperantesContentViewModel,
             StatusBarViewModel statusBarViewModel,
+            RightCommandsViewModel rightCommandsViewModel,
             Preferencias preferencias,
             ISession session
             )
@@ -45,6 +46,7 @@ namespace Gama.Cooperacion.Wpf
             CalendarioDeActividadesViewModel = calendarioDeActividadesViewModel;
             CooperantesContentViewModel = cooperantesContentViewModel;
             ActividadesContentViewModel = actividadesContentVieWModel;
+            RightCommandsViewModel = rightCommandsViewModel;
 
             _EventAggregator.GetEvent<ActiveViewChanged>().Subscribe(OnActiveViewChangedEvent);
             _EventAggregator.GetEvent<ServidorActualizadoDesdeFueraEvent>().Subscribe(OnServidorActualizadoDesdeFueraEvent);
@@ -69,6 +71,7 @@ namespace Gama.Cooperacion.Wpf
         public CooperantesContentViewModel CooperantesContentViewModel { get; set; }
         public DashboardViewModel DashboardViewModel { get; set; }
         public ActividadesContentViewModel ActividadesContentViewModel { get; set; }
+        public RightCommandsViewModel RightCommandsViewModel { get; set; }
 
         private bool _DashboardViewIsVisible = true;
         public bool DashboardViewIsVisible

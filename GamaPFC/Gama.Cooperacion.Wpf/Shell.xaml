@@ -76,7 +76,7 @@
   
   <mahapps:MetroWindow.RightWindowCommands>
     <mahapps:WindowCommands>
-      <ContentControl prism:RegionManager.RegionName="{x:Static common:RegionNames.RightCommandsRegion}" />
+      <views:RightCommandsView DataContext="{Binding RightCommandsViewModel}"/>
     </mahapps:WindowCommands>
   </mahapps:MetroWindow.RightWindowCommands>
   

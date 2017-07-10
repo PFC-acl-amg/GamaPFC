@@ -68,6 +68,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             VerActividadInfoCommand = new DelegateCommand(OnVerActividadInfoCommand);
 
             _InformacionDeActividadViewModel.PropertyChanged += _InvalidateCommands_PropertyChanged;
+            Actividad.PropertyChanged += _InvalidateCommands_PropertyChanged;
         }
 
         public ICommand HabilitarEdicionCommand { get; private set; }
@@ -107,7 +108,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnHabilitarEdicionCommand()
         {
-            _InformacionDeActividadViewModel.EdicionHabilitada = true;
+            Actividad.IsInEditionMode = true;
             if (_InformacionDeActividadViewModel.CooperantesDisponibles.Count > 0
                 && Actividad.Cooperantes.Where(c => c.Nombre == null).ToList().Count == 0)
             {
@@ -128,7 +129,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _ActividadRepository.Update(Actividad.Model);
             _InformacionDeActividadViewModel.Actividad.AcceptChanges();
             //_ActividadVM.Actividad.Cooperantes.Add(cooperanteDummy);
-            _InformacionDeActividadViewModel.EdicionHabilitada = false;
+            Actividad.IsInEditionMode = false;
             _EventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(Actividad.Id);
         }
 
@@ -141,7 +142,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 Actividad.Cooperantes.Remove(cooperanteDummy.First());
             }
             Actividad.AcceptChanges();
-            _InformacionDeActividadViewModel.EdicionHabilitada = false;
+            Actividad.IsInEditionMode = false;
         }
 
         public bool IsNavigationTarget(int id)
@@ -167,9 +168,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     InvalidateCommands();
                 }
 
-              
                 _InformacionDeActividadViewModel.PropertyChanged += _InvalidateCommands_PropertyChanged;
                 Actividad.PropertyChanged += _InvalidateCommands_PropertyChanged;
+                OnPropertyChanged(nameof(InformacionDeActividadViewModel));
             }
             catch (Exception ex)
             {

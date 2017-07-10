@@ -6,6 +6,7 @@ using Gama.Cooperacion.Wpf.Services;
 using Microsoft.Practices.Unity;
 using NHibernate;
 using Prism;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
 using System;
@@ -14,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Gama.Cooperacion.Wpf.ViewModels
 {
@@ -43,11 +45,21 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             ViewModelSeleccionado = ViewModels.First();
             SelectedIndex = 0;
 
+            CloseTabCommand = new DelegateCommand<EditarActividadViewModel>(OnCloseTabCommandExecute);
+
             _EventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnActividadNuevaEvent);
             _EventAggregator.GetEvent<ActividadSeleccionadaEvent>().Subscribe(OnActividadSeleccionadaEvent);
         }
 
         public ObservableCollection<object> ViewModels { get; private set; }
+
+        public ICommand CloseTabCommand { get; private set; }
+
+        private void OnCloseTabCommandExecute(EditarActividadViewModel viewModelACerrar)
+        {
+            if (viewModelACerrar.ConfirmNavigationRequest())
+                ViewModels.Remove(viewModelACerrar);
+        }
 
         private int _SelectedIndex;
         public int SelectedIndex

@@ -12,6 +12,7 @@
              xmlns:viewModels="clr-namespace:Gama.Cooperacion.Wpf.ViewModels"
              prism:ViewModelLocator.AutoWireViewModel="False"
              mc:Ignorable="d" 
+             x:Name="_Root"
              d:DesignHeight="300" d:DesignWidth="300">
   <UserControl.Resources>
     <ResourceDictionary>
