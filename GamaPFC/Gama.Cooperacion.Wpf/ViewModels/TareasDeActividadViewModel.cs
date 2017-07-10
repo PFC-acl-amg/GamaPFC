@@ -27,30 +27,13 @@ namespace Gama.Cooperacion.Wpf.ViewModels
     public class TareasDeActividadViewModel : ViewModelBase
     {
         private IActividadRepository _actividadRepository;
-        private int _CantidadMensajes;
-        private string _tituloForo;
-        private string _tituloForoMensaje;
-        private bool _VisibleCrearForo;
-        private bool _OcultarCrearForo;
-        private bool _VisibleCrearTarea;
-        private bool _VisibleMensajeForo;
-        private bool _VisibleCrearSeguimiento;
-        private string _NuevoMensajeForo;
-        private string _DescripcionNuevaTarea;
-        private string _NuevoIncidenciaTareasDisponibles;
-        private string _NuevoSeguimientoTD;
+
         private ActividadWrapper _Actividad;
         private CooperanteWrapper _ResponsableTarea;
-        private DateTime _FechaFinTarea;
         private ISession _Session;
-        private IEventoRepository _EventoRepository;
-        private IIncidenciaRepository _IncidenciaRepository;
         private ITareaRepository _TareaRepository;
-        private ISeguimientoRepository _SeguimientoRepository;
         private IForoRepository _ForoRepository;
         private IEventAggregator _EventAggregator;
-        private bool _PopupEstaAbierto = false;
-        private ForoWrapper _ForoSeleccionado;
         private bool _VisibleTareasFinalizadas;
         private bool _VisibleFiltroEventoTarea;
         private bool _VisibleEventosTarea;
@@ -62,23 +45,17 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             ICooperanteRepository cooperabteRepository,
             IForoRepository foroRepository,
             ITareaRepository tareaRepository,
-            IEventAggregator eventAggregator)     // Constructor de la clase
+            IEventAggregator eventAggregator) 
         {
             Gama.Common.Debug.Debug.StartWatch();
-            _VisibleCrearForo = false;
-            _VisibleCrearTarea = false;
-            _OcultarCrearForo = true;
-            _VisibleMensajeForo = false;
             _VisibleTareasFinalizadas = false;
             _VisibleFiltroEventoTarea = false;
-            _VisibleEventosTarea = false;
+            _VisibleEventosTarea = true;
             _actividadRepository = actividadRepository;
             _ForoRepository = foroRepository;
             _TareaRepository = tareaRepository;
-            //_actividadRepository.Session = session;
             _EventAggregator = eventAggregator;
-
-            MensajesDisponibleEnForo = new ObservableCollection<Mensaje>();
+            
             ForosDisponibles = new ObservableCollection<ForoWrapper>();
             TareasDisponibles = new ObservableCollection<TareaWrapper>();
             TareasDisponiblesAux = new ObservableCollection<TareaWrapper>();
@@ -109,12 +86,21 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             ResetearFechaEventosCommand = new DelegateCommand(OnResetearFechaEventosCommandExecute);
             SeguimientoTareaCommand = new DelegateCommand<object>(OnSeguimientoTareaCommand, OnSeguimientoTareaCommand_CanExecute);
             VerEventosTareaCommand = new DelegateCommand(OnVerEventosTareaCommand);
-            
             AñadirCooperantesComboBox = new DelegateCommand (OnAñadirCooperantesComboBox, OnAñadirCooperantesComboBox_CanExecute);
           
             
             Gama.Common.Debug.Debug.StopWatch("TareasDeActividadViewModel");
         }
+        //--------------------------------
+        //Contenedores (ObservableCollections, lists,...
+        //--------------------------------
+        public ObservableCollection<ForoWrapper> ForosDisponibles { get; private set; }
+        public ObservableCollection<Evento> EventoActividad { get; private set; }
+        public ObservableCollection<Evento> EventoActividadAux { get; private set; }
+        public ObservableCollection<TareaWrapper> TareasDisponibles { get; private set; }
+        public ObservableCollection<TareaWrapper> TareasDisponiblesAux { get; private set; }
+        public ObservableCollection<TareaWrapper> TareasFinalizadas { get; private set; }
+        public ObservableCollection<CooperanteWrapper> CooperantesSeleccionados { get; private set; }
         //--------------------------------
         // ICommands
         //--------------------------------
@@ -134,17 +120,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ICommand VerEventosTareaCommand { get; set; }
         public ICommand BotonFiltarEventosCommand { get; set; }
         public ICommand ResetearFechaEventosCommand { get; set; }
-        public ISession Session
-        {
-            get { return _Session; }
-            set
-            {
-                _Session = value;
-                _actividadRepository.Session = _Session;
-                _ForoRepository.Session = _Session;
-                _TareaRepository.Session = _Session;
-            }
-        }
 
         //-----------------------------------
         // ICommands Implementaciones
@@ -161,7 +136,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             TareasDisponibles.AddRange(todasLasTareas);
             OnPropertyChanged(nameof(TareasDisponibles)); // No se si hace falta
         }
-
         private void OnResetearFechaEventosCommandExecute()
         {
             FechaInicioOpcion = null;
@@ -182,15 +156,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 foreach (var EventoSel in EventoActividad)
                 {
                     if (EventoSel.FechaDePublicacion.Date == Inicio)
-                    {
                         _Evento.Add(EventoSel);
-                    }
                 }
                 EventoActividad.Clear();
-                foreach (var EventoValido in _Evento)
-                {
-                    EventoActividad.Add(EventoValido);
-                }
+                EventoActividad.AddRange(_Evento);
             }
             else
             {
@@ -199,15 +168,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     foreach (var EventoSel in EventoActividad)
                     {
                         if ((EventoSel.FechaDePublicacion.Date >= Inicio) && (EventoSel.FechaDePublicacion.Date <= Final))
-                        {
                             _Evento.Add(EventoSel);
-                        }
                     }
                     EventoActividad.Clear();
-                    foreach (var EventoValido in _Evento)
-                    {
-                        EventoActividad.Add(EventoValido);
-                    }
+                    EventoActividad.AddRange(_Evento);
                 }
             }
         }
@@ -231,7 +195,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             if (VisibleTareasFinalizadas == false) VisibleTareasFinalizadas = true;
             else VisibleTareasFinalizadas = false;
         }
-
         private void OnAñadirCooperantesComboBox()
         {
             foreach (var cooperante in Actividad.Cooperantes)
@@ -252,18 +215,13 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
         private void OnMensajeForoCommand(object wrapper)
         {
-            // ((ForoWrapper)wrapper).ForoVisible = !((ForoWrapper)wrapper).ForoVisible;
-            // vamos a abrir una nueva ventana para los mensajes del foro
             var o = new MensajesForoView();
             var vm = (MensajesForoViewModel)o.DataContext;
-            vm.Session = _Session;          // Da error si en InformacionTareaViewModel no tenemos definido esta variable
-            vm.LoadActividad(Actividad);    //Da error si no tenemos implemetada esta funcion en InformacionTareaViewModel
-            vm.LoadForo(((ForoWrapper)wrapper));  // necesito los detalles de la tarea concreta seleccionada
+            vm.Session = _Session;         
+            vm.LoadActividad(Actividad);   
+            vm.LoadForo(((ForoWrapper)wrapper));
             o.ShowDialog();
-
-
         }
-       
         private void OnEditarTareaCommand(object wrapper)
         {
             var o = new CrearNuevaTareaView();  // Llama al constructor de CrearNuevaTareaVM y ejecuta la instruccion
@@ -300,25 +258,15 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
         private void OnSeguimientoTareaCommand(object wrapper)
         {
-            var o = new SeguimientoTareaView(); // Falta crear la vista
-            var vm = (SeguimientoTareaViewModel)o.DataContext; // hay que crear el ViewModel de la vista SeguimientoTareaView
-            vm.Session = _Session;          // Da error si en InformacionTareaViewModel no tenemos definido esta variable
-            vm.LoadActividad(Actividad);    //Da error si no tenemos implemetada esta funcion en InformacionTareaViewModel
-            vm.LoadTarea(((TareaWrapper)wrapper));  // necesito los detalles de la tarea concreta seleccionada
+            var o = new SeguimientoTareaView();
+            var vm = (SeguimientoTareaViewModel)o.DataContext;
+            vm.Session = _Session;
+            vm.LoadActividad(Actividad);
+            vm.LoadTarea(((TareaWrapper)wrapper)); 
             o.ShowDialog();
         }
-        //private void OnAceptarCrearForoCommand()   // Click => Boton aceptar para crear un nuevo FORO con su primer mensaje
-        //{
-        //    var o = new CrearNuevoForo();   // La vista para crear un Foro
-        //    var vm = (CrearNuevoForoViewModel)o.DataContext;
-        //    vm.Session = _Session;
-        //    vm.Load(Actividad);
-        //    o.ShowDialog();
-        //}
-       
         private void OnFinalizarTareaTDCommand(TareaWrapper wrapper)
         {
-            //TareasFinalizadas.Add((TareaWrapper)wrapper);
             TareasFinalizadas.Insert(0,wrapper);
             TareasDisponibles.Remove(wrapper);
             TareasDisponiblesAux.Remove(wrapper);
@@ -331,7 +279,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
         private void OnRecuperarTareaCommand(TareaWrapper wrapper)
         {
-            //TareasFinalizadas.Add((TareaWrapper)wrapper);
             TareasDisponibles.Insert(0, wrapper);
             TareasFinalizadas.Remove(wrapper);
             TareasDisponiblesAux.Add(wrapper);
@@ -342,6 +289,26 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _EventAggregator.GetEvent<TareaModificadaEvent>().Publish(wrapper.Id);
             AuxiliarOnPublicarEventosActividad(Ocurrencia.TAREA_RECUPERADA, ((TareaWrapper)wrapper).Descripcion);
         }
+        private void OnCrearForoCommand()
+        {
+            var o = new CrearNuevoForo();
+            var vm = (CrearNuevoForoViewModel)o.DataContext;
+            vm.Session = _Session;
+            vm.Load(Actividad);
+            o.ShowDialog();
+        }
+        private void OnCrearTareaCommand()
+        {
+            var o = new CrearNuevaTareaView();
+            var vm = (CrearNuevaTareaViewModel)o.DataContext;
+            vm.Session = _Session;
+            vm.LoadActividad(Actividad);
+            o.ShowDialog();
+        }
+
+        //-------------------------------
+        // ICommand_CanExecute
+        //-------------------------------
         private bool OnFinalizarTareaTDCommand_CanExecute(object wrapper)
         {
             return true;
@@ -374,43 +341,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             return true;
         }
-        public void LoadActividad(ActividadWrapper wrapper)
-        {
-            Actividad = wrapper;
-            Actividad.AcceptChanges();
-            OnCargarNuevaActividadEvent(Actividad.Id);   
-        }
-        public ObservableCollection<ForoWrapper> ForosDisponibles { get; private set; }
-        public ObservableCollection<Mensaje> MensajesDisponibleEnForo { get; private set; }
-        public ObservableCollection<Evento> EventoActividad { get; private set; }
-        public ObservableCollection<Evento> EventoActividadAux { get; private set; }
-        public ObservableCollection<TareaWrapper> TareasDisponibles { get; private set; }
-        public ObservableCollection<TareaWrapper> TareasDisponiblesAux { get; private set; }
-        public ObservableCollection<TareaWrapper> TareasFinalizadas { get; private set; }
-        public ObservableCollection<CooperanteWrapper> CooperantesSeleccionados { get; private set; }
-        public ForoWrapper ForoSelecionado { get; set; }
         private bool OnCrearForoCommand_CanExecute()
         {
             return true;
-        }
-       
-       
-        private void OnCrearForoCommand()
-        {
-            var o = new CrearNuevoForo();
-            var vm = (CrearNuevoForoViewModel)o.DataContext;
-            vm.Session = _Session;
-            vm.Load(Actividad);
-            o.ShowDialog();
-        }
-
-        private void OnCrearTareaCommand()
-        {
-            var o = new CrearNuevaTareaView();
-            var vm = (CrearNuevaTareaViewModel)o.DataContext;
-            vm.Session = _Session;
-            vm.LoadActividad(Actividad);
-            o.ShowDialog();
         }
         //-----------------------------------
         // Events
@@ -570,6 +503,17 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             get { return _Actividad; }
             set { SetProperty(ref _Actividad, value); }
         }
+        public ISession Session
+        {
+            get { return _Session; }
+            set
+            {
+                _Session = value;
+                _actividadRepository.Session = _Session;
+                _ForoRepository.Session = _Session;
+                _TareaRepository.Session = _Session;
+            }
+        }
         public CooperanteWrapper ResponsableTarea
         {
             get { return _ResponsableTarea; }
@@ -607,6 +551,16 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             get { return _VisibleTareasFinalizadas; }
             set { SetProperty(ref _VisibleTareasFinalizadas, value); }
+        }
+
+        //------------------------------------
+        // Procedimientos y Funciones Auxiliares
+        //------------------------------------
+        public void LoadActividad(ActividadWrapper wrapper)
+        {
+            Actividad = wrapper;
+            Actividad.AcceptChanges();
+            OnCargarNuevaActividadEvent(Actividad.Id);
         }
 
     }   // Clase TareasDeActividadVM
