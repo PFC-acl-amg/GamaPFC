@@ -18,14 +18,6 @@
   Height="600"
   BorderBrush="{StaticResource AccentColorBrush}"
   actions:DialogCloser.DialogResult="{Binding Cerrar}">
-  <metro:MetroWindow.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Mauve.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"/>
-      </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
-  </metro:MetroWindow.Resources>
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition />

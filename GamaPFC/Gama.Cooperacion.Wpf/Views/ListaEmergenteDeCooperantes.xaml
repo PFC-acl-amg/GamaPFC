@@ -29,7 +29,7 @@
     <Rectangle Height="45"  Grid.Column="1"
                VerticalAlignment="Top" 
                HorizontalAlignment="Stretch"
-               Margin="{StaticResource MarginNegativeOnlyLeft}">
+               Margin="{DynamicResource MarginNegativeOnlyLeft}">
       <Rectangle.Fill>
         <VisualBrush Visual="{StaticResource icon_right_arrow_popup}" />
       </Rectangle.Fill>

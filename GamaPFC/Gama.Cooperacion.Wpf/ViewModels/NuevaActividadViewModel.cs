@@ -73,7 +73,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             if (actividad.Cooperantes.Count == 0) wrapper.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
             _ModificarActividad = 1;
             _ActividadVM.Load(wrapper);
-            _ActividadVM.EdicionHabilitada = true;
+            _ActividadVM.Actividad.IsInEditionMode = true;
             Actividad.PropertyChanged += Actividad_PropertyChanged;
         }
 

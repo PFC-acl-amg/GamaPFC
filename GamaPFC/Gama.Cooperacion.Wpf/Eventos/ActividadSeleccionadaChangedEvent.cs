@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.Wpf.Eventos
 {
-    public class ActividadSeleccionadaChangedEvent : PubSubEvent<ActividadWrapper>
+    public class ActividadSeleccionadaChangedEvent : PubSubEvent<int>
     {
     }
 }

@@ -11,7 +11,7 @@
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Amber.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Gama.Cooperacion.Wpf;component/Themes/Generic.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Gama.Cooperacion.Wpf;component/Resources/Resources.xaml"/>
@@ -22,6 +22,26 @@
         <ResourceDictionary Source="pack://application:,,,/Gama.Common;component/Resources/Styles/ScrollViewer.xaml"/>
 
         <ResourceDictionary>
+          <!--ACCENT COLORS-->
+          <Color x:Key="HighlightColor">#FF275D6F</Color>
+
+          <!--80%-->
+          <Color x:Key="AccentColor">#CC275D6F</Color>
+          <!--60%-->
+          <Color x:Key="AccentColor2">#99275D6F</Color>
+          <!--40%-->
+          <Color x:Key="AccentColor3">#66275D6F</Color>
+          <!--20%-->
+          <Color x:Key="AccentColor4">#33275D6F</Color>
+
+          <!-- re-set brushes too -->
+          <SolidColorBrush x:Key="HighlightBrush" Color="{StaticResource HighlightColor}"  />
+          <SolidColorBrush x:Key="AccentBaseColorBrush" Color="{StaticResource AccentBaseColor}"  />
+          <SolidColorBrush x:Key="AccentColorBrush" Color="{StaticResource AccentColor}"  />
+          <SolidColorBrush x:Key="AccentColorBrush2" Color="{StaticResource AccentColor2}" />
+          <SolidColorBrush x:Key="AccentColorBrush3" Color="{StaticResource AccentColor3}" />
+          <SolidColorBrush x:Key="AccentColorBrush4" Color="{StaticResource AccentColor4}"  />
+          <SolidColorBrush x:Key="WindowTitleColorBrush" Color="{StaticResource AccentColor}" />
           <Style x:Key="CustomMetroWindowStyle" TargetType="{x:Type mahapps:MetroWindow}">
             <Setter Property="BorderBrush" Value="#FFB9B9B9" />
             <Setter Property="BorderThickness" Value="1,1,1,1" />

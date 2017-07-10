@@ -77,13 +77,13 @@ namespace Gama.Cooperacion.WpfTests
                 );
 
 
-            _vm = new EditarActividadViewModel(
-                _actividadRepositoryMock.Object,
-                _cooperanteRepositoryMock.Object,
-                _eventAggregatorMock.Object,
-                _informacionDeActividadViewModelMock,
-                _TareaDeActividadViewModelMock,
-                sessionMock.Object);
+            //_vm = new EditarActividadViewModel(
+            //    _actividadRepositoryMock.Object,
+            //    _cooperanteRepositoryMock.Object,
+            //    _eventAggregatorMock.Object,
+            //    _informacionDeActividadViewModelMock,
+            //    _TareaDeActividadViewModelMock,
+            //    sessionMock.Object);
 
             var navigationParameters = new NavigationParameters();
             navigationParameters.Add("Id", _actividad.Id);

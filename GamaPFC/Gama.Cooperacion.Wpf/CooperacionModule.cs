@@ -73,20 +73,21 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterType<object, ToolbarView>("ToolbarView");
             Container.RegisterType<object, TareasDeActividad>("TareasDeActividad");
         }
+
         private void RegisterViewModels()
         {
-            Container.RegisterType<ActividadesContentViewModel>();
-            Container.RegisterType<CooperantesContentViewModel>();
-            Container.RegisterType<CalendarioDeActividadesViewModel>();
-            Container.RegisterType<DashboardViewModel>();
+            Container.RegisterType<DashboardViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ActividadesContentViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<EditarActividadViewModel>();
             Container.RegisterType<InformacionDeActividadViewModel>();
-            Container.RegisterType<ListadoDeActividadesViewModel>();
-            Container.RegisterType<NuevaActividadViewModel>();
-            Container.RegisterType<PanelSwitcherViewModel>();
-            Container.RegisterType<StatusBarViewModel>();
-            Container.RegisterType<ToolbarViewModel>();
             Container.RegisterType<TareasDeActividadViewModel>();
+            Container.RegisterType<ListadoDeActividadesViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<CooperantesContentViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<CalendarioDeActividadesViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<NuevaActividadViewModel>();
+            Container.RegisterType<PanelSwitcherViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<StatusBarViewModel>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ToolbarViewModel>(new ContainerControlledLifetimeManager());
         }
 
         private void ActualizarEstadosActividades()
@@ -164,7 +165,7 @@ namespace Gama.Cooperacion.Wpf
             //RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<CooperantesContentView>());
             //RegionManager.AddToRegion(RegionNames.ContentRegion, Container.Resolve<ActividadesContentView>());
             //RegionManager.AddToRegion(RegionNames.ActividadesTabContentRegion, Container.Resolve<ListadoDeActividadesView>());
-            RegionManager.RegisterViewWithRegion(RegionNames.RightCommandsRegion, typeof(RightCommandsView));
+            //RegionManager.RegisterViewWithRegion(RegionNames.RightCommandsRegion, typeof(RightCommandsView));
 
         }
         public ObservableCollection<Actividad> ListaCompletaActividades { get; private set; }
