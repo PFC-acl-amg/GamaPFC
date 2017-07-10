@@ -26,6 +26,7 @@ namespace Gama.Socios.Wpf.ViewModels
         private ExportService _ExportService;
         private IPeriodoDeAltaRepository _PriodosDeAltaRepository;
         private ISocioRepository _SocioRepository;
+        private ICuotaRepository _CuotaRepository;
         private ObservableCollection<Socio> _Socios;
         private string[] _Labels;
         private int _MesInicialSocios;
@@ -46,6 +47,7 @@ namespace Gama.Socios.Wpf.ViewModels
 
         public DashboardViewModel(ISocioRepository socioRepository,
             ExportService exportService,
+            ICuotaRepository cuotaRepository,
             IPeriodoDeAltaRepository periodosDeAltaRepository,
             EventAggregator eventAggregator, 
             PreferenciasDeSocios settings,
@@ -53,6 +55,8 @@ namespace Gama.Socios.Wpf.ViewModels
         {
             _SocioRepository = socioRepository;
             _SocioRepository.Session = session;
+            _CuotaRepository = cuotaRepository;
+            _CuotaRepository.Session = session;
             _ExportService = exportService;
             _PriodosDeAltaRepository = periodosDeAltaRepository;
             _PriodosDeAltaRepository.Session = session;
@@ -146,6 +150,7 @@ namespace Gama.Socios.Wpf.ViewModels
             _EventAggregator.GetEvent<SocioCreadoEvent>().Subscribe(OnSocioCreadoEvent);
             _EventAggregator.GetEvent<SocioDadoDeBajaEvent>().Subscribe(OnSocioDadoDeBajaEvent);
             _EventAggregator.GetEvent<SocioActualizadoEvent>().Subscribe(OnSocioActualizadoEvent);
+            _EventAggregator.GetEvent<PeriodoDeAltaActualizadoEvent>().Subscribe(OnNuevasCuotasSinContar);
 
             _EventAggregator.GetEvent<PreferenciasActualizadasEvent>().Subscribe(OnPreferenciasActualizadasEvent);
 
@@ -157,8 +162,124 @@ namespace Gama.Socios.Wpf.ViewModels
             AplicarFiltroCommand = new DelegateCommand(OnAplicarFiltroCommand_Execute);
             ResetearFiltroCommand = new DelegateCommand(OnResetearFiltroCommand);
             ExportarListaFiltrada = new DelegateCommand(OnExportarListaFiltrada);
+            FiltroContableCommand = new DelegateCommand(OnFiltroContableCommand);
+            ResetearFechaContableCommand = new DelegateCommand(OnResetearFechaContableCommand);
 
            InicializarGraficos();
+        }
+
+        private void OnNuevasCuotasSinContar(int obj)
+        {
+            OnResetearFechaContableCommand();
+        }
+
+        private void OnResetearFechaContableCommand()
+        {
+            FechaInicioOpcion = null;
+            FechaFinOpcion = null;
+            CuotasPagadas = 0;
+            CantidadCuotasPagadas = 0;
+            CuotasPorPagar = 0;
+            CantidadTotalPorPagar = 0;
+            CuotasImpagadas = 0;
+            CantidadTotalImpagadas = 0;
+            ActualizarDatosContables();
+           
+        }
+
+        private void OnFiltroContableCommand()
+        {
+            DateTime? FInicio = FechaInicioOpcion;
+            DateTime? FFinal = FechaFinOpcion;
+            //SociosMorosos.Clear();
+            double TotalPagado = 0;
+            double TotalSinPagar = 0;
+            double TotalImpagos = 0;
+            CuotasPagadas = 0;
+            CantidadCuotasPagadas = 0;
+            CuotasPorPagar = 0;
+            CantidadTotalPorPagar = 0;
+            CuotasImpagadas = 0;
+            CantidadTotalImpagadas = 0;
+            int CPagado = 0;
+            int CPorPagar = 0;
+            int CImpagada = 0;
+            var altas = _PriodosDeAltaRepository.GetAll();
+            _MesesParaMoroso = _Settings.MesesParaSerConsideradoMoroso;
+            if ((FechaFinOpcion != null) && (FechaFinOpcion != null))  // No hay fecha seleccionada => se calcula todo
+            {
+                foreach (var Recibo in altas)
+                {
+                    foreach (var cuot in Recibo.Cuotas)
+                    {
+                        int Inicio = DateTime.Compare(cuot.Fecha, (DateTime)FInicio);
+                        int Final = DateTime.Compare(cuot.Fecha, (DateTime)FFinal);
+                        if ((Inicio == 1) && (Final == -1))
+                        {
+                            if (cuot.EstaPagado)
+                            {
+                                TotalPagado = TotalPagado + cuot.CantidadTotal;
+                                CPagado += 1;
+                            }
+                            else
+                            {
+                                TotalSinPagar = TotalSinPagar + (cuot.CantidadTotal - cuot.CantidadPagada);
+                                CPorPagar++;
+                            }
+                        }
+                        int FIImpago = DateTime.Compare(cuot.Fecha, (DateTime)FInicio.Value.AddMonths(-_MesesParaMoroso));
+                        int FFimpago = DateTime.Compare(cuot.Fecha, (DateTime)FFinal.Value.AddMonths(-_MesesParaMoroso));
+                        if ((FIImpago == -1) || (FFimpago == -1))
+                        {
+                            if (cuot.EstaPagado == false)
+                            {
+                                TotalImpagos = TotalImpagos + (cuot.CantidadTotal - cuot.CantidadPagada);
+                                CImpagada++;
+                            }
+                        }
+                       
+                    }
+                }
+                //Fin Calculo contable-----------
+            }
+            else
+            {
+                foreach (var Recibo in altas)
+                {
+                    foreach (var cuot in Recibo.Cuotas)
+                    {
+                        int Inicio = DateTime.Compare(cuot.Fecha, (DateTime)FInicio);
+                        int Final = DateTime.Compare(cuot.Fecha, DateTime.Now);
+                        if ((Inicio == 1) && (Final == -1))
+                        {
+                            if (cuot.EstaPagado)
+                            {
+                                TotalPagado = TotalPagado + cuot.CantidadTotal;
+                                CPagado += 1;
+                            }
+                            else
+                            {
+                                TotalSinPagar = TotalSinPagar + (cuot.CantidadTotal - cuot.CantidadPagada);
+                                CPorPagar++;
+                            }
+                        }
+                        int FIImpago = DateTime.Compare(cuot.Fecha, (DateTime)FInicio.Value.AddMonths(-_MesesParaMoroso));
+                        int FFimpago = DateTime.Compare(cuot.Fecha, (DateTime)FFinal.Value.AddMonths(-_MesesParaMoroso));
+                        if ((FIImpago == -1) || (FFimpago == -1))
+                        {
+                            TotalImpagos = TotalImpagos + (cuot.CantidadTotal - cuot.CantidadPagada);
+                            CImpagada++;
+                        }
+
+                    }
+                }
+            }
+            CuotasPagadas = CPagado;
+            CantidadCuotasPagadas = TotalPagado;
+            CuotasPorPagar = CPorPagar;
+            CantidadTotalPorPagar = TotalSinPagar;
+            CuotasImpagadas = CImpagada;
+            CantidadTotalImpagadas = TotalImpagos;
         }
 
         private void OnExportarListaFiltrada()
@@ -386,15 +507,14 @@ namespace Gama.Socios.Wpf.ViewModels
             int CPagado = 0;
             int CPorPagar = 0;
             int CImpagada = 0;
+            var altas = _PriodosDeAltaRepository.GetAll();
+            var AllCuotas = _CuotaRepository.GetAll();
+            _MesesParaMoroso = _Settings.MesesParaSerConsideradoMoroso;
             if ((FechaFinOpcion ==null)&&(FechaFinOpcion == null))  // No hay fecha seleccionada => se calcula todo
             {
-                var altas = _PriodosDeAltaRepository.GetAll();
-                _MesesParaMoroso = _Settings.MesesParaSerConsideradoMoroso;
-                //Calculo contable---------------
-                
-                foreach (var Recibo in altas)
-                {
-                    foreach (var cuot in Recibo.Cuotas)
+                //foreach (var Recibo in altas)
+                //{
+                    foreach (var cuot in AllCuotas)
                     {
                         if (cuot.EstaPagado)
                         {
@@ -418,7 +538,7 @@ namespace Gama.Socios.Wpf.ViewModels
                         }
                         //else TotalSinPagar = TotalSinPagar + cuot.CantidadPagada;
                     }
-                }
+                //}
                 //Fin Calculo contable-----------
             }
             CuotasPagadas = CPagado;
@@ -554,6 +674,8 @@ namespace Gama.Socios.Wpf.ViewModels
         public ICommand AplicarFiltroCommand { get; set; }
         public ICommand ResetearFiltroCommand { get; set; }
         public ICommand ExportarListaFiltrada { get; set; }
+        public ICommand FiltroContableCommand { get; set; }
+        public ICommand ResetearFechaContableCommand { get; set; }
 
 
         public string[] SociosLabels =>

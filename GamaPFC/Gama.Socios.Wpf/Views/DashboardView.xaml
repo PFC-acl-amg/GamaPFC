@@ -515,7 +515,7 @@
                                             IconWidth="12"
                                             IconHeight="12"
                                             ToolTip="Resetear Fechas"
-                                            Command="{Binding ResetearFechaEventosCommand}">
+                                            Command="{Binding ResetearFechaContableCommand}">
                                         <Button.Style>
                                             <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
                                                 <Setter Property="Opacity" Value="0.5"/>
@@ -535,7 +535,7 @@
                                             IconWidth="12"
                                             IconHeight="12"
                                             ToolTip="Aplicar Opciones Seleccionadas"
-                                            Command="{Binding DataContext.BotonFiltarEventosCommand, ElementName=_Root}">
+                                            Command="{Binding DataContext.FiltroContableCommand, ElementName=_Root}">
                                         <Button.Style>
                                             <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
                                                 <Setter Property="Opacity" Value="0.5"/>
@@ -570,14 +570,14 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" Foreground="Black">Pagadas: </Label>
+                            <Label Grid.Row="0" Grid.Column="0" Foreground="Black">Pagadas:</Label>
                             <Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Content="{Binding CuotasPagadas}"
                                    Foreground="Black" />
                             <Label Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Content="Total €: "
                                    Foreground="Black" />
                             <Label Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" Content="{Binding CantidadCuotasPagadas}"
                                    Foreground="Black" />
-                            
+
                             <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Content="Por Pagar:"
                                    Foreground="Black" />
                             <Label Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Content="{Binding CuotasPorPagar}"
@@ -597,7 +597,6 @@
                                    Foreground="Black" />
                         </Grid>
                     </GroupBox>
-                    
                 </Grid>
                 <GroupBox Grid.Row="3" Name="RetrasosImpagos" Margin="{StaticResource Margin}" Background="Black">
                     <GroupBox.Header>
