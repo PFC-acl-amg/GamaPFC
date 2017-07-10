@@ -23,6 +23,7 @@ namespace Gama.Socios.Wpf.ViewModels
     {
         private EventAggregator _EventAggregator;
         private PreferenciasDeSocios _Settings;
+        private ExportService _ExportService;
         private IPeriodoDeAltaRepository _PriodosDeAltaRepository;
         private ISocioRepository _SocioRepository;
         private ObservableCollection<Socio> _Socios;
@@ -40,8 +41,11 @@ namespace Gama.Socios.Wpf.ViewModels
         private DateTime? _FechaFinOpcion;
         private DateTime? _FechaInicioOpcion;
         private int _MesesParaMoroso = 0;
+        private int _NumSociosFiltrados = 0;
+        private int _NumTotalSocios = 0;
 
         public DashboardViewModel(ISocioRepository socioRepository,
+            ExportService exportService,
             IPeriodoDeAltaRepository periodosDeAltaRepository,
             EventAggregator eventAggregator, 
             PreferenciasDeSocios settings,
@@ -49,6 +53,7 @@ namespace Gama.Socios.Wpf.ViewModels
         {
             _SocioRepository = socioRepository;
             _SocioRepository.Session = session;
+            _ExportService = exportService;
             _PriodosDeAltaRepository = periodosDeAltaRepository;
             _PriodosDeAltaRepository.Session = session;
             _EventAggregator = eventAggregator;
@@ -97,7 +102,7 @@ namespace Gama.Socios.Wpf.ViewModels
             Nacionalidades = new ObservableCollection<string>();
             Edades = new ObservableCollection<string>();
             EstadoAlta = new ObservableCollection<string>();
-            PrepararFiltro();
+            //PrepararFiltro();
             ListaParcialSocios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
             _Socios = new ObservableCollection<Socio>(_SocioRepository.GetAll());
             ActualizarDatosContables();
@@ -150,8 +155,60 @@ namespace Gama.Socios.Wpf.ViewModels
             MostrarFiltroFechas = new DelegateCommand(OnMostrarFiltroFechas);
             EditarSocioCommand = new DelegateCommand<LookupItem>(OnEditarSocioCommand);
             AplicarFiltroCommand = new DelegateCommand(OnAplicarFiltroCommand_Execute);
+            ResetearFiltroCommand = new DelegateCommand(OnResetearFiltroCommand);
+            ExportarListaFiltrada = new DelegateCommand(OnExportarListaFiltrada);
 
            InicializarGraficos();
+        }
+
+        private void OnExportarListaFiltrada()
+        {
+           
+            List<LookupItem> ListaFiltrada;
+            ListaFiltrada = new List<LookupItem>();
+            foreach (var item in ListaCompletaSocios) ListaFiltrada.Add(item);
+            _ExportService.ExportarListaFiltrada(ListaFiltrada);
+        }
+
+        private void OnResetearFiltroCommand()
+        {
+            ListaCompletaSocios.Clear();
+            ListaCompletaSocios = new ObservableCollection<LookupItem>(
+                   _Socios
+                   .OrderBy(x => x.Id)
+                   .Select(a => new LookupItem
+                   {
+                       Id = a.Id,
+                       FechaDeNacimiento = a.FechaDeNacimiento,
+                       Telefono = a.Telefono,
+                       Email = a.Email,
+                       DisplayMember1 = a.Nombre,
+                       DisplayMember2 = a.Nif,
+                       Imagen = a.Imagen,
+                       Nacionalidad = a.Nacionalidad,
+                       EstaDadoDeAlta = a.EstaDadoDeAlta
+                   }));
+            ListaSociosFiltro = new ObservableCollection<LookupItem>(
+                   _Socios
+                   .OrderBy(x => x.Id)
+                   .Select(a => new LookupItem
+                   {
+                       Id = a.Id,
+                       FechaDeNacimiento = a.FechaDeNacimiento,
+                       Telefono = a.Telefono,
+                       Email = a.Email,
+                       DisplayMember1 = a.Nombre,
+                       DisplayMember2 = a.Nif,
+                       Imagen = a.Imagen,
+                       Nacionalidad = a.Nacionalidad,
+                       EstaDadoDeAlta = a.EstaDadoDeAlta
+                   }));
+            EdadEscogida = null;
+            NacionEscogida = null;
+            EstadoAltaEscogido = null;
+            NumSociosFiltrados = 0;
+            NumTotalSocios = 0;
+            OnPropertyChanged("ListaCompletaSocios");
         }
         private void OnAplicarFiltroCommand_Execute()
         {
@@ -230,11 +287,21 @@ namespace Gama.Socios.Wpf.ViewModels
                 foreach (var UnSocio in ListaSociosAux) ListaSociosFiltro.Add(UnSocio);
             }
             ListaCompletaSocios.Clear();
-            foreach (var UnSocio in ListaSociosAux) ListaCompletaSocios.Add(UnSocio);
-            
+            int NumSocios = 0;
+            foreach (var UnSocio in ListaSociosAux)
+            {
+                ListaCompletaSocios.Add(UnSocio);
+                NumSocios++;
+            }
+            NumSociosFiltrados = NumSocios;
+            NumTotalSocios = _Socios.Count;
+            OnPropertyChanged("ListaCompletaSocios");
+
         }
         private void PrepararFiltro()
         {
+
+
             ListaSociosFiltro = new ObservableCollection<LookupItem>(
                     _Socios
                     .OrderBy(x => x.Id)
@@ -258,6 +325,8 @@ namespace Gama.Socios.Wpf.ViewModels
                     Nacionalidades.Add(Nacion);
                 }
             }
+            Edades.Clear();
+            EstadoAlta.Clear();
             Edades.Add("Hasta 25");
             Edades.Add("26-40");
             Edades.Add("41-55");
@@ -381,14 +450,23 @@ namespace Gama.Socios.Wpf.ViewModels
 
         private void OnMostarFiltroContable()
         {
-            if (VisibleContableGeneral == false) VisibleContableGeneral = true;
+            if (VisibleContableGeneral == false)
+            {
+                VisibleContableGeneral = true;
+                
+            }
             else VisibleContableGeneral = false;
         }
 
         private void OnVisibleFiltroSociosCommand()
         {
-            if (VisibleOpcionesFiltro == true) VisibleOpcionesFiltro = false;
-            else VisibleOpcionesFiltro = true;
+            if (VisibleOpcionesFiltro == true)  VisibleOpcionesFiltro = false;
+            else 
+            {
+                PrepararFiltro();
+                VisibleOpcionesFiltro = true;
+            }
+
         }
 
         private void OnPreferenciasActualizadasEvent()
@@ -474,6 +552,8 @@ namespace Gama.Socios.Wpf.ViewModels
         public ICommand MostrarFiltroFechas { get; set; }
         public ICommand EditarSocioCommand { get; set; }
         public ICommand AplicarFiltroCommand { get; set; }
+        public ICommand ResetearFiltroCommand { get; set; }
+        public ICommand ExportarListaFiltrada { get; set; }
 
 
         public string[] SociosLabels =>
@@ -570,6 +650,16 @@ namespace Gama.Socios.Wpf.ViewModels
         {
             get { return _FechaFinOpcion; }
             set { SetProperty(ref _FechaFinOpcion, value); }
+        }
+        public int NumTotalSocios
+        {
+            get { return _NumTotalSocios; }
+            set { SetProperty(ref _NumTotalSocios, value); }
+        }
+        public int NumSociosFiltrados
+        {
+            get { return _NumSociosFiltrados; }
+            set { SetProperty(ref _NumSociosFiltrados, value); }
         }
         public double CuotasPagadas
         {

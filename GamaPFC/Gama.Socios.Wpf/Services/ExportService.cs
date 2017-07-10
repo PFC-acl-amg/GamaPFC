@@ -1,4 +1,5 @@
-﻿using Gama.Common.Eventos;
+﻿using Gama.Common.CustomControls;
+using Gama.Common.Eventos;
 using Gama.Socios.Business;
 using Novacode;
 using Prism.Events;
@@ -374,6 +375,81 @@ namespace Gama.Socios.Wpf.Services
             //document.Save();
             //Process.Start("WINWORD.EXE", destinyPath);  
 
+        }
+
+        public void ExportarListaFiltrada (List<LookupItem> socios)
+        {
+            var destinyPath = GeneratePath("FiltroSocios");
+            DocX document = DocX.Create(destinyPath);
+            string curFile = destinyPath;
+            bool isFileInUse;
+            isFileInUse = FileInUse(destinyPath);
+            // Insertar Parrafo con el titulo de la tabla que se mostrará a continuación
+            Paragraph title = document.InsertParagraph().Append("Listado Filtrado de Socios").
+                FontSize(20).Font(new FontFamily("Times New Roman"));
+            title.Alignment = Alignment.center;
+            // --------------- Llamda a Header ---------------
+            document.AddHeaders();
+            document.DifferentFirstPage = true;
+
+            Header header_first = document.Headers.first;
+            Header headers = document.Headers.odd; // El resto de headers
+
+            Paragraph p0 = header_first.InsertParagraph();
+            p0.Append("Gamá - Gestión de Socios").FontSize(20).Bold();
+            p0.Alignment = Alignment.center;
+            // Insert a Paragraph into this document.
+            Paragraph P_TablaDatosSocios = document.InsertParagraph();
+            P_TablaDatosSocios.Alignment = Alignment.center;
+            //-------------- Fin Llamada a Header-----------------
+            //-------------- Crear la Tabla-----------------------
+            // NumFilas = Socios.Cont + Titulos + Sumatoria
+            // NumColumnas = 6 (Nombre,Dni,Telefono,CantidadPagada,CuotasPorPagar,CuotasImpagadas)
+            // Tablas de Datos
+            int NumFilas = socios.Count + 1;
+            int NumColumnas = 4;
+            Table DatosSocios = document.AddTable(NumFilas, NumColumnas); // Info Contenida en el DNI
+            DatosSocios.Alignment = Alignment.center;
+            // Diseño de las Tablas
+            DatosSocios.Design = TableDesign.MediumShading1;
+
+            P_TablaDatosSocios.InsertTableBeforeSelf(DatosSocios);
+            P_TablaDatosSocios.AppendLine();
+
+            DatosSocios.AutoFit = AutoFit.ColumnWidth;
+            DatosSocios.SetColumnWidth(0, 2000);
+            DatosSocios.SetColumnWidth(1, 1700);
+            DatosSocios.SetColumnWidth(2, 1700);
+            DatosSocios.SetColumnWidth(3, 3000);
+
+            //Insertando los valores en las celda de DatosSocios
+            DatosSocios.Rows[0].Cells[0].Paragraphs.First().AppendLine("Nombre");
+            DatosSocios.Rows[0].Cells[1].Paragraphs.First().AppendLine("DNI");
+            DatosSocios.Rows[0].Cells[2].Paragraphs.First().AppendLine("Teléfono");
+            DatosSocios.Rows[0].Cells[3].Paragraphs.First().AppendLine("Email");
+
+            int i = 1;
+            foreach (var _socio in socios)
+            {
+                DatosSocios.Rows[i].Cells[0].Paragraphs.First().AppendLine(_socio.DisplayMember1);
+                DatosSocios.Rows[i].Cells[1].Paragraphs.First().AppendLine(_socio.DisplayMember2);
+                DatosSocios.Rows[i].Cells[2].Paragraphs.First().AppendLine(_socio.Telefono);
+                DatosSocios.Rows[i].Cells[3].Paragraphs.First().AppendLine(_socio.Email);
+                i++;
+            }
+            i = 0;
+            document.InsertParagraph();
+            // Save this document to disk.
+            if (!FileInUse(destinyPath))
+            {
+                document.Save();
+            }
+            else
+            {
+                MessageBox.Show("El fichero está abierto. No se realizaron los cambios");
+            }
+            //document.Save();
+            //Process.Start("WINWORD.EXE", destinyPath);  
         }
         static bool FileInUse(string path)
         {
