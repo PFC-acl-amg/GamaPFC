@@ -175,8 +175,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 }));
             }
 
-            Actividad.IsInEditionMode = false;
             Actividad = wrapper;
+            Actividad.PropertyChanged += (s, e) => {
+                if (e.PropertyName == "IsChanged")
+                    InvalidateCommands();
+            };
             foreach (var cooperante in Actividad.Cooperantes)
             {
                 CooperantesDisponibles.Remove(CooperantesDisponibles.Where(c => c.Id == cooperante.Id).FirstOrDefault());
@@ -239,6 +242,13 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 InsertarCooperante(CooperantePreviamenteSeleccionado, CooperanteEmergenteSeleccionado);
             }
+        }
+
+        private void InvalidateCommands()
+        {
+            ((DelegateCommand)QuitarCoordinadorCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)NuevoCooperanteCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand<CooperanteWrapper>)QuitarCooperanteCommand).RaiseCanExecuteChanged();
         }
 
         private void EstablecerCoordinador(CooperanteWrapper coordinadorSeleccionado)

@@ -401,7 +401,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             ValoresDeAtencionSolicitada = new ObservableCollection<ChartItem>();
 
             _Atenciones = new List<Atencion>();
-            var atenciones = _PersonasFiltradas.SelectMany(p => p.Citas).Select(c => c.Atencion).Where(a => a != null);
+            _Atenciones = _PersonasFiltradas.SelectMany(p => p.Citas).Select(c => c.Atencion).Where(a => a != null).ToList();
+            var atenciones = _Atenciones; 
 
             _Psicologica = atenciones.Count(x => x.EsPsicologica);
             _Juridica = atenciones.Count(x => x.EsJuridica);

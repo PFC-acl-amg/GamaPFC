@@ -15,13 +15,13 @@
   <UserControl.Resources>
     <ResourceDictionary>
       <Style x:Key="StatusBarStyle"  TargetType="{x:Type Grid}">
-        <Setter Property="Background" Value="Azure"/>
+        <Setter Property="Background" Value="#303F4F"/>
         <Style.Triggers>
           <DataTrigger Binding="{Binding ActivarFondo}" Value="True">
-            <Setter Property="Background" Value="Orange"/>
+            <Setter Property="Background" Value="#E79500"/>
           </DataTrigger>
           <DataTrigger Binding="{Binding ActivarFondo}" Value="False">
-            <Setter Property="Background" Value="Azure"/>
+            <Setter Property="Background" Value="#3C6262"/>
           </DataTrigger>
         </Style.Triggers>
       </Style>
@@ -32,7 +32,7 @@
     <Label VerticalAlignment="Center" 
            FontSize="11.5"
            FontWeight="Medium"
-           Foreground="Green"
+           Foreground="White"
            Content="{Binding Mensaje}">
     </Label>
   </Grid>

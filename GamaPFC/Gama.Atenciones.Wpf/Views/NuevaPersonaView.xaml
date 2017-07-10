@@ -10,34 +10,66 @@
   xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
                    mc:Ignorable="d"
                    Title="Nueva Persona"
-                   d:DesignWidth="550" d:DesignHeight="515.781"
+                   d:DesignWidth="512.577" d:DesignHeight="515.781"
                    prism:ViewModelLocator.AutoWireViewModel="True"
                    WindowStartupLocation="CenterScreen"
-                   MaxWidth="550"
+                   MaxWidth="570"
                    BorderThickness="2"
                    BorderBrush="{StaticResource AccentColorBrush}"
                    actions:DialogCloser.DialogResult="{Binding Cerrar}">
+  <Window.Resources>
+    <SolidColorBrush x:Key="_BackgroundColor">#88255C6F</SolidColorBrush>
+  </Window.Resources>
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition />
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <local:PersonaView DataContext="{Binding PersonaVM}"/>
-    <StackPanel Grid.Row="1" Orientation="Horizontal"
+    <local:PersonaView DataContext="{Binding PersonaVM}" Background="{StaticResource _BackgroundColor}"/>
+    <Grid Grid.Row="1" Background="#383838">
+      <StackPanel Grid.Row="1" Orientation="Horizontal" 
                 HorizontalAlignment="Right">
-      <!-- Actualizar Button -->
-      <cc:CircleIconButton 
-        Icon="{StaticResource appbar_save}"
-        Width="56" Height="56" IconHeight="20" IconWidth="20"
-        Margin="{StaticResource Margin}"
-        Command="{Binding AceptarCommand}"/>
+        <!-- Actualizar Button -->
+        <cc:CircleIconButton 
+          Icon="{StaticResource appbar_save}"
+          Width="56" Height="56" IconHeight="20" IconWidth="20"
+          Cursor="Hand"
+          BorderBrush="White"
+          Margin="{StaticResource MarginHalf}"
+          Command="{Binding AceptarCommand}">
+          <Button.Style>
+            <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+              <Setter Property="Foreground" Value="White"/>
+              <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                  <Setter Property="Foreground" Value="Wheat"/>
+                </Trigger>
+              </Style.Triggers>
+            </Style>
+          </Button.Style>
+        </cc:CircleIconButton>
 
-      <!-- Cancelar Button -->
-      <cc:CircleIconButton
-        Icon="{StaticResource appbar_close}"
-        Width="56" Height="56" IconHeight="20" IconWidth="20"
-        Margin="{StaticResource Margin}"
-        Command="{Binding CancelarCommand}"/>
-    </StackPanel>
+        <!-- Cancelar Button -->
+        <cc:CircleIconButton
+          Icon="{StaticResource appbar_close}"
+          Width="56" Height="56" IconHeight="20" IconWidth="20"
+          Cursor="Hand"
+          Foreground="White"
+          BorderBrush="White"
+          Margin="{StaticResource MarginHalf}"
+          Command="{Binding CancelarCommand}">
+          <Button.Style>
+            <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+              <Setter Property="Foreground" Value="White"/>
+              <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                  <Setter Property="Foreground" Value="Wheat"/>
+                </Trigger>
+              </Style.Triggers>
+            </Style>
+          </Button.Style>
+        </cc:CircleIconButton>
+      </StackPanel>
+    </Grid>
   </Grid>
 </metro:MetroWindow>

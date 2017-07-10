@@ -15,8 +15,12 @@ namespace Gama.Atenciones.Wpf.Services
     public class CitaRepository : NHibernateOneSessionRepository<Cita, int>, ICitaRepository
     {
         private List<Cita> _Citas;
+        private IAtencionRepository _AtencionRepository;
 
-        public CitaRepository(EventAggregator eventAggregator) : base(eventAggregator) { }
+        public CitaRepository(EventAggregator eventAggregator, IAtencionRepository atencionRepository) : base(eventAggregator)
+        {
+            _AtencionRepository = atencionRepository;
+        }
 
         public List<Cita> Citas
         {
@@ -53,7 +57,17 @@ namespace Gama.Atenciones.Wpf.Services
 
         public override void Create(Cita entity)
         {
+            entity.Atencion = new Atencion
+            {
+                Fecha = entity.Fecha,
+                CreatedAt = DateTime.Now,
+                Cita = entity
+            };
             base.Create(entity);
+            //{
+            //    _AtencionRepository.Session = Session;
+            //    _AtencionRepository.Create(entity.Atencion);
+            //}
             Citas.Add(entity);
             _EventAggregator.GetEvent<CitaCreadaEvent>().Publish(entity.Id);
             RaiseActualizarServidor();

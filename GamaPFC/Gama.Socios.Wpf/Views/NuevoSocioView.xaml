@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gama.Socios.Wpf.Views"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-  xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
+        xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
         mc:Ignorable="d"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:actions="clr-namespace:Core.Util;assembly=Core"
