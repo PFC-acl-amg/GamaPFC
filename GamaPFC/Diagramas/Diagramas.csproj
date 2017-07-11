@@ -74,6 +74,7 @@
     <None Include="Core\BaseClasses.cd" />
     <None Include="DummyDiagram.cd" />
     <None Include="packages.config" />
+    <None Include="Server\Server.cd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AdministrationTools\Gama.Extranet.csproj">
@@ -127,6 +128,10 @@
     <ProjectReference Include="..\Gama.Cooperacion.Wpf\Gama.Cooperacion.Wpf.csproj">
       <Project>{0d5f2d35-032b-4f23-8794-f49f31870ed7}</Project>
       <Name>Gama.Cooperacion.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gama.Server\Gama.Server.csproj">
+      <Project>{605f6586-4adc-4532-b827-a712172aba76}</Project>
+      <Name>Gama.Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gama.Socios.Business\Gama.Socios.Business.csproj">
       <Project>{ab653fbf-8bfb-4870-819e-dedb09fc39e1}</Project>
