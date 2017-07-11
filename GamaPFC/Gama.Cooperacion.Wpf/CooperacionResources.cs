@@ -9,13 +9,13 @@ namespace Gama.Cooperacion.Wpf
 {
     public static class CooperacionResources
     {
-        public static List<string> TodosLosNifDeAsistentes { get; set; }
+        public static List<string> TodosLosNifDeCooperantes { get; set; }
 
-        public static void AddNifAAsistente(string nif)
+        public static void AddNifCooperante(string nif)
         {
-            if (!TodosLosNifDeAsistentes.Contains(nif))
+            if (!TodosLosNifDeCooperantes.Contains(nif))
             {
-                TodosLosNifDeAsistentes.Add(nif);
+                TodosLosNifDeCooperantes.Add(nif);
             }
         }
         public static string Guid = new Guid().ToString();

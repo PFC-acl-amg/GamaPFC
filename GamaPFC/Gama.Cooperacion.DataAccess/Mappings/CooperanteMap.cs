@@ -21,6 +21,7 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             Map(x => x.Observaciones);
             Map(x => x.telefono);
             Map(x => x.Foto);
+            Map(x => x.FotoUpdatedAt);
             Map(x => x.CreatedAt);
             Map(x => x.UpdatedAt);
             // Campos nuevos

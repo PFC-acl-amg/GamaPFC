@@ -26,7 +26,7 @@ namespace Gama.Cooperacion.Wpf.Services
             DashboardMesesAMostrarDeAtencionesNuevas = 6;
             DashboardMesesAMostrarDePersonasNuevas = 6;
 
-            ListadoDePersonasItemsPerPage = 10;
+            ListadoDeActividadesItemsPerPage = 25;
             Dashboard_MostrarFiltroDeFechaPorDefecto = true;
             CitasContent_MostrarFiltroDeFechaPorDefecto = true;
 
@@ -56,7 +56,7 @@ namespace Gama.Cooperacion.Wpf.Services
         public int DashboardUltimasAtenciones { get; set; }
         public int DashboardMesesAMostrarDeAtencionesNuevas { get; set; }
         public int DashboardMesesAMostrarDePersonasNuevas { get; set; }
-        public int ListadoDePersonasItemsPerPage { get; set; }
+        public int ListadoDeActividadesItemsPerPage { get; set; }
 
         public void Serializar()
         {

@@ -21,11 +21,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private List<LookupItem> _actividades;
         private IActividadRepository _actividadRepository;
         private IEventAggregator _eventAggregator;
-        private ICooperacionSettings _userConfig;
+        private Preferencias _userConfig;
 
         public ListadoDeActividadesViewModel(IEventAggregator eventAggregator,
             IActividadRepository actividadRepository, 
-            ICooperacionSettings userConfig, ISession session)
+            Preferencias userConfig, ISession session)
         {
             Gama.Common.Debug.Debug.StartWatch();
             Title = "Todas";
@@ -43,7 +43,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     DisplayMember2 = a.Descripcion
                 }).ToList();
             Actividades = new PaginatedCollectionView(_actividades,
-                userConfig.ListadoDeActividadesItemsPerPage);
+                userConfig.DashboardUltimasPersonas); // TODO PONER EL QU ES
 
             _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
             _eventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);

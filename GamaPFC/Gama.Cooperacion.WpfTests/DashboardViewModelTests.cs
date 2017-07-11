@@ -21,7 +21,7 @@ namespace Gama.Cooperacion.WpfTests
         Mock<IEventAggregator> _eventAggregatorMock;
         Mock<IActividadRepository> _actividadRepositoryMock;
         Mock<ICooperanteRepository> _cooperanteRepositoryMock;
-        Mock<ICooperacionSettings> _settingsMock;
+        Mock<Preferencias> _settingsMock;
         Mock<ISession> _sessionMock;
         Mock<NuevaActividadEvent> _nuevaActividadEventMock;
         Mock<ActividadSeleccionadaEvent> _actividadSeleccionadaEventMock;
@@ -36,7 +36,7 @@ namespace Gama.Cooperacion.WpfTests
             _eventAggregatorMock = new Mock<IEventAggregator>();
             _actividadRepositoryMock = new Mock<IActividadRepository>();
             _cooperanteRepositoryMock = new Mock<ICooperanteRepository>();
-            _settingsMock = new Mock<ICooperacionSettings>();
+            _settingsMock = new Mock<Preferencias>();
             _sessionMock = new Mock<ISession>();
             _nuevaActividadEventMock = new Mock<NuevaActividadEvent>();
             _actividadSeleccionadaEventMock = new Mock<ActividadSeleccionadaEvent>();
@@ -49,21 +49,21 @@ namespace Gama.Cooperacion.WpfTests
             _eventAggregatorMock.Setup(ea => ea.GetEvent<ActividadActualizadaEvent>())
                 .Returns(_actividadActualizadaEventMock.Object);
 
-            _settingsMock.SetupGet(s => s.DashboardActividadesAMostrar).Returns(25);
-            _settingsMock.SetupGet(s => s.DashboardCooperantesAMostrar).Returns(30);
-            _settingsMock.SetupGet(s => s.DashboardActividadesLongitudDeTitulos).Returns(45);
-            _settingsMock.SetupGet(s => s.DashboardMesesAMostrarDeActividadesNuevas).Returns(6);
-            _settingsMock.SetupGet(s => s.DashboardMesesAMostrarDeCooperantesNuevos).Returns(6);
+            //_settingsMock.SetupGet(s => s.DashboardActividadesAMostrar).Returns(25);
+            //_settingsMock.SetupGet(s => s.DashboardCooperantesAMostrar).Returns(30);
+            //_settingsMock.SetupGet(s => s.DashboardActividadesLongitudDeTitulos).Returns(45);
+            //_settingsMock.SetupGet(s => s.DashboardMesesAMostrarDeActividadesNuevas).Returns(6);
+            //_settingsMock.SetupGet(s => s.DashboardMesesAMostrarDeCooperantesNuevos).Returns(6);
 
             _actividades = new FakeActividadRepository().GetAll();
             _cooperantes = new FakeCooperanteRepository().GetAll();
 
             _actividadRepositoryMock.Setup(a => a.GetAll()).Returns(_actividades);
-            _actividadRepositoryMock.Setup(a => a.GetActividadesNuevasPorMes(It.IsAny<int>())).
-                Returns(new List<int>(_settingsMock.Object.DashboardMesesAMostrarDeActividadesNuevas));
-            _cooperanteRepositoryMock.Setup(c => c.GetAll()).Returns(_cooperantes);
-            _cooperanteRepositoryMock.Setup(c => c.GetCooperantesNuevosPorMes(It.IsAny<int>())).
-                Returns(new List<int>(_settingsMock.Object.DashboardMesesAMostrarDeCooperantesNuevos));
+            //_actividadRepositoryMock.Setup(a => a.GetActividadesNuevasPorMes(It.IsAny<int>())).
+            //    Returns(new List<int>(_settingsMock.Object.DashboardMesesAMostrarDeActividadesNuevas));
+            //_cooperanteRepositoryMock.Setup(c => c.GetAll()).Returns(_cooperantes);
+            //_cooperanteRepositoryMock.Setup(c => c.GetCooperantesNuevosPorMes(It.IsAny<int>())).
+            //    Returns(new List<int>(_settingsMock.Object.DashboardMesesAMostrarDeCooperantesNuevos));
 
             //_vm = new DashboardViewModel(
             //    _actividadRepositoryMock.Object,

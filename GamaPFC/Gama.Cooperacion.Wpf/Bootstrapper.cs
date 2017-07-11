@@ -139,16 +139,16 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterInstance<INHibernateSessionFactory>(new NHibernateSessionFactory());
             Container.RegisterType<ISession>(
                 new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));
-            Container.RegisterType<IActividadRepository, ActividadRepository>();
-            Container.RegisterType<ICooperanteRepository, CooperanteRepository>();
-            Container.RegisterType<IForoRepository, ForoRepository>();
-            Container.RegisterType<ITareaRepository, TareaRepository>();
-            Container.RegisterType<IEventoRepository, EventoRepository>();
-            Container.RegisterType<IIncidenciaRepository, IncidenciaRepository>();
-            Container.RegisterType<ITareaRepository, TareaRepository>();
-            Container.RegisterType<ISeguimientoRepository, SeguimientoRepository>();
+            Container.RegisterType<IActividadRepository, ActividadRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ICooperanteRepository, CooperanteRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IForoRepository, ForoRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ITareaRepository, TareaRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IEventoRepository, EventoRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IIncidenciaRepository, IncidenciaRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ITareaRepository, TareaRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ISeguimientoRepository, SeguimientoRepository>(new ContainerControlledLifetimeManager());
 
-            Container.RegisterInstance<ICooperacionSettings>(new CooperacionSettings());
+            Container.RegisterInstance<Preferencias>(new Preferencias());
         }
 
         protected override void GenerateDatabaseConfiguration()

@@ -13,11 +13,11 @@ namespace Gama.Cooperacion.Business
         public virtual IList<Actividad> ActividadesEnQueParticipa { get; protected set; }
         public virtual string Apellido { get; set; } = "";
         public virtual string Dni { get; set; } = "";
-        public virtual IList<Email> Emails { get; set; }
         public virtual int Id { get; set; }
         public virtual string Nombre { get; set; } = "";
         public virtual string telefono { get; set; } = "";
         public virtual byte[] Foto { get; set; }
+        public virtual DateTime? FotoUpdatedAt { get; set; }
         public virtual string Observaciones { get; set; } = "";
         // Campos Nuevos añadidos 05.04.2017
         public virtual string Provincia { get; set; } = "";
@@ -35,14 +35,11 @@ namespace Gama.Cooperacion.Business
         public virtual string Email { get; set; } = "";
         public virtual string EmailAlternativo { get; set; } = "";
         // Fin Campos Nuevos
-        public virtual IList<Telefono> Telefonos { get; protected set; }
 
         public Cooperante()
         {
             ActividadesDeQueEsCoordinador = new List<Actividad>();
             ActividadesEnQueParticipa = new List<Actividad>();
-            Emails = new List<Email>();
-            Telefonos = new List<Telefono>();
         }
     }
 }

@@ -18,19 +18,6 @@ namespace Gama.Cooperacion.Wpf.Wrappers
 
         protected override void InitializeCollectionProperties(Cooperante model)
         {
-            if (model.Emails == null)
-                throw new ArgumentNullException("Emails");
-
-            this.Emails = new ChangeTrackingCollection<EmailWrapper>
-                (model.Emails.Select(e => new EmailWrapper(e)));
-            this.RegisterCollection(this.Emails, model.Emails.ToList());
-
-            if (model.Telefonos == null)
-                throw new ArgumentNullException("Telefonos");
-
-            this.Telefonos = new ChangeTrackingCollection<TelefonoWrapper>
-                (model.Telefonos.Select(t => new TelefonoWrapper(t)));
-            this.RegisterCollection(this.Telefonos, model.Telefonos.ToList());
         }
         public override bool IsChanged => base.IsChanged;
 
@@ -222,6 +209,15 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         public byte[] ImagenSocioOriginalValue => GetOriginalValue<byte[]>(nameof(Foto));
 
         public bool ImagenSocioIsChanded => GetIsChanged(nameof(Foto));
+        public DateTime? FotoUpdatedAt
+        {
+            get { return GetValue<DateTime?>(); }
+            set { SetValue(value); }
+        }
+
+        public DateTime? ImagenUpdatedAtOriginalValue => GetOriginalValue<DateTime?>(nameof(FotoUpdatedAt));
+
+        public bool ImagenUpdatedAtIsChanged => GetIsChanged(nameof(FotoUpdatedAt));
 
         public string ObservacionesOriginalValue => GetOriginalValue<string>(nameof(Observaciones));
 
@@ -234,9 +230,6 @@ namespace Gama.Cooperacion.Wpf.Wrappers
         {
             return NombreCompleto;
         }
-
-        public ChangeTrackingCollection<EmailWrapper> Emails { get; private set; }
-        public ChangeTrackingCollection<TelefonoWrapper> Telefonos { get; private set; }
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (string.IsNullOrWhiteSpace(Nombre))

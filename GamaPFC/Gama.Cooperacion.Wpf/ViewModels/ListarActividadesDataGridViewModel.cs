@@ -29,7 +29,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private IActividadRepository _actividadRepository;
         private IEventAggregator _eventAggregator;
         private ICooperanteRepository _cooperanteRepository;
-        private ICooperacionSettings _settings;
+        private Preferencias _settings;
         private CooperanteWrapper _NuevoCooperanteWrapper;
         private ActividadWrapper _NuevaActividadWrapper;
         private Actividad _Actividad;
@@ -38,7 +38,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             IActividadRepository actividadRepository,
             ICooperanteRepository cooperanteRepository,
             IEventAggregator eventAggregator,
-            ICooperacionSettings settings,
+            Preferencias settings,
             ISession session)
         {
             Gama.Common.Debug.Debug.StartWatch();

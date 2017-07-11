@@ -169,6 +169,7 @@
     <Compile Include="Eventos\ActividadActualizadaEvent.cs" />
     <Compile Include="Eventos\ActividadEliminadaEvent.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaChangedEvent.cs" />
+    <Compile Include="Eventos\CooperanteModificadoEvent.cs" />
     <Compile Include="Eventos\CooperanteSeleccionadoEvent.cs" />
     <Compile Include="Eventos\Modificar.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaEvent.cs" />
@@ -182,7 +183,6 @@
     <Compile Include="Eventos\PublicarNuevaActividad.cs" />
     <Compile Include="Eventos\TareaModificadaEvent.cs" />
     <Compile Include="Services\ActividadRepository.cs" />
-    <Compile Include="Services\CooperacionSettings.cs" />
     <Compile Include="Services\CooperanteRepository.cs" />
     <Compile Include="Services\EventoRepository.cs" />
     <Compile Include="Services\ExportServices.cs" />
@@ -196,7 +196,6 @@
     <Compile Include="Services\FakeTareaRepository.cs" />
     <Compile Include="Services\ForoRepository.cs" />
     <Compile Include="Services\IActividadRepository.cs" />
-    <Compile Include="Services\ICooperacionSettings.cs" />
     <Compile Include="Services\ICooperanteRepository.cs" />
     <Compile Include="Services\IEventoRepository.cs" />
     <Compile Include="Services\IForoRepository.cs" />
@@ -318,14 +317,12 @@
     </Compile>
     <Compile Include="Wrappers\ActividadWrapper.cs" />
     <Compile Include="Wrappers\CooperanteWrapper.cs" />
-    <Compile Include="Wrappers\EmailWrapper.cs" />
     <Compile Include="Wrappers\EventoWrapper.cs" />
     <Compile Include="Wrappers\ForoWrapper.cs" />
     <Compile Include="Wrappers\IncidenciaWrapper.cs" />
     <Compile Include="Wrappers\MensajeWrapper.cs" />
     <Compile Include="Wrappers\SeguimientoWrapper.cs" />
     <Compile Include="Wrappers\TareaWrapper.cs" />
-    <Compile Include="Wrappers\TelefonoWrapper.cs" />
     <Page Include="Resources\Resources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

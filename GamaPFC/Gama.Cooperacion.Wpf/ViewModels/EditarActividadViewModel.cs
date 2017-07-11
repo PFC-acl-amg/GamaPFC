@@ -125,12 +125,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 Actividad.Cooperantes.Remove(cooperanteDummy);
             }
-            Actividad.UpdatedAt = DateTime.Now;
+            //Actividad.UpdatedAt = DateTime.Now;
             _ActividadRepository.Update(Actividad.Model);
             _InformacionDeActividadViewModel.Actividad.AcceptChanges();
             //_ActividadVM.Actividad.Cooperantes.Add(cooperanteDummy);
             Actividad.IsInEditionMode = false;
-            _EventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(Actividad.Id);
+           // _EventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(Actividad.Id);
         }
 
         private void OnCancelarEdicionCommand()

@@ -21,7 +21,7 @@ namespace Gama.Cooperacion.WpfTests
         private List<Actividad> _actividades;
         private int _itemsPerPage = 30;
         private Mock<ISession> _sessionMock;
-        private Mock<ICooperacionSettings> _userConfigMock;
+       // private Mock<ICooperacionSettings> _userConfigMock;
         private Mock<IActividadRepository> _activdadRepositoryMock;
         private EventAggregator _eventAggregatorMock;
 
@@ -31,19 +31,19 @@ namespace Gama.Cooperacion.WpfTests
 
             _eventAggregatorMock = new EventAggregator();
             _activdadRepositoryMock = new Mock<IActividadRepository>();
-            _userConfigMock = new Mock<ICooperacionSettings>();
+            //_userConfigMock = new Mock<ICooperacionSettings>();
             _sessionMock = new Mock<ISession>();
 
-            _userConfigMock.SetupProperty(uc => uc.ListadoDeActividadesItemsPerPage, _itemsPerPage);
+            //_userConfigMock.SetupProperty(uc => uc.ListadoDeActividadesItemsPerPage, _itemsPerPage);
 
             _activdadRepositoryMock.Setup(pr => pr.GetAll())
                 .Returns(_actividades);
 
-            _vm = new ListadoDeActividadesViewModel(
-                _eventAggregatorMock,
-                _activdadRepositoryMock.Object,
-                _userConfigMock.Object,
-                _sessionMock.Object);
+            //_vm = new ListadoDeActividadesViewModel(
+            //    _eventAggregatorMock,
+            //    _activdadRepositoryMock.Object,
+            //    _userConfigMock.Object,
+            //    _sessionMock.Object);
         }
 
         [Fact]

@@ -35,7 +35,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private IActividadRepository _actividadRepository;
         private IEventAggregator _eventAggregator;
         private ICooperanteRepository _cooperanteRepository;
-        private ICooperacionSettings _settings;
+        private Preferencias _settings;
         private CooperanteWrapper _NuevoCooperante;
         private Cooperante _CooperanteSeleccionado;
         private int _mesInicialActividades;
@@ -96,7 +96,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             ICooperanteRepository cooperanteRepository,
             IEventoRepository eventoRepository,
             IEventAggregator eventAggregator, 
-            ICooperacionSettings settings,
+            Preferencias settings,
             ISession session)
         {
             Gama.Common.Debug.Debug.StartWatch();
@@ -157,7 +157,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 _actividadRepository.GetAll()
                     .Where(a=> a.Estado == Estado.Comenzado)
                     .OrderBy(a => a.FechaDeFin)
-                    .Take(_settings.DashboardActividadesAMostrar)
+                    //.Take(_settings.DashboardActividadesAMostrar)
                 .Select(a => new LookupItem
                 {
                     Id = a.Id,
@@ -192,7 +192,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 .Take(4)
                 .ToArray());
             _CooperantesMostrados = _CooperantesMostrados + 4;
-            InicializarGraficos();
             
             _eventAggregator.GetEvent<ActividadEliminadaEvent>().Subscribe(OnActividadEliminadaEvent);
             _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
@@ -365,12 +364,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public ChartValues<int> IncidenciasNuevasPorMes { get; private set; }
 
         public string[] ActividadesLabels =>
-            _Labels.Skip(_mesInicialActividades)
-                .Take(_settings.DashboardMesesAMostrarDeActividadesNuevas).ToArray();
+            _Labels.Skip(_mesInicialActividades).ToArray();
 
         public string[] CooperantesLabels =>
-            _Labels.Skip(_mesInicialCooperantes)
-                .Take(_settings.DashboardMesesAMostrarDeCooperantesNuevos).ToArray();
+            _Labels.Skip(_mesInicialCooperantes).ToArray();
 
         public ICommand SelectActividadCommand { get; set; }
         public ICommand SelectCooperanteCommand { get; set; }
@@ -722,24 +719,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private void OnPaginaAnteriorCommandExecute()
         {
             OpcionYear = OpcionYear - 1;
-        }
-        private void InicializarGraficos()
-        {
-            _Labels = new[] {
-                "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago","Sep","Oct", "Nov", "Dic",
-                "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic", };
-
-            _mesInicialActividades = 12 + (DateTime.Now.Month - 1) - _settings.DashboardMesesAMostrarDeActividadesNuevas + 1;
-            _mesInicialCooperantes = 12 + (DateTime.Now.Month - 1) - _settings.DashboardMesesAMostrarDeActividadesNuevas + 1;
-
-            ActividadesNuevasPorMes = new ChartValues<int>(_actividadRepository.GetActividadesNuevasPorMes(
-                       _settings.DashboardMesesAMostrarDeActividadesNuevas));
-
-            CooperantesNuevosPorMes = new ChartValues<int>(_cooperanteRepository.GetCooperantesNuevosPorMes(
-                       _settings.DashboardMesesAMostrarDeActividadesNuevas));
-
-            // TODO
-            IncidenciasNuevasPorMes = new ChartValues<int> { 1, 3, 5, 2, 3 };
         }
 
         private void OnSelectCooperanteCommand(Cooperante obj)

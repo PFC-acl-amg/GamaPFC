@@ -21,7 +21,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
     {
         private ICooperanteRepository _CooperanteRepository;
         private IActividadRepository _ActividadRepository;
-        private IEventAggregator _EventAggregator;
+        private EventAggregator _EventAggregator;
         private ISession _Session;
         private DateTime _Now;
         private bool _VisibleListaCooperantes;
@@ -29,7 +29,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private CooperanteWrapper _CooperanteSeleccionado;
 
         public CooperantesContentViewModel(
-            IEventAggregator eventAggregator,
+            EventAggregator eventAggregator,
             IActividadRepository actividadRepository,
             ICooperanteRepository cooperanteRepository,
             CooperanteViewModel CooperanteViewModel,
