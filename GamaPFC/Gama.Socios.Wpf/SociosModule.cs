@@ -36,7 +36,6 @@ namespace Gama.Socios.Wpf
 
         private void RegisterViews()
         {
-            Container.RegisterType<object, ContabilidadView>("ContabilidadView");
             Container.RegisterType<object, DashboardView>("DashboardView");
             Container.RegisterType<object, EditarCuotasView>("EditarCuotasView");
             Container.RegisterType<object, EditarPeriodosDeAltaView>("EditarPeriodosDeAltaView");
@@ -52,7 +51,6 @@ namespace Gama.Socios.Wpf
 
         private void RegisterViewModels()
         {
-            Container.RegisterType<ContabilidadViewModel>();
             Container.RegisterType<DashboardViewModel>(new ContainerControlledLifetimeManager());
             Container.RegisterType<EditarCuotasViewModel>();
             Container.RegisterType<EditarPeriodosDeAltaViewModel>();

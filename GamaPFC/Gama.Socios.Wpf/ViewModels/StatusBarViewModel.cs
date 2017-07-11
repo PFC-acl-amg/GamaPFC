@@ -25,14 +25,14 @@ namespace Gama.Socios.Wpf.ViewModels
             Debug.StartWatch();
             _EventAggregator = eventAggregator;
 
-            //_EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe(
-            //    (id) => MostrarMensaje("La persona se ha actualizado con éxito."));
+            _EventAggregator.GetEvent<SocioCreadoEvent>().Subscribe(
+                (id) => MostrarMensaje("Socio creado con éxito."));
 
-            //_EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe(
-            //    (id) => MostrarMensaje("La persona y todos sus registros han sido eliminados con éxito."));
+            _EventAggregator.GetEvent<SocioDadoDeBajaEvent>().Subscribe(
+                (id) => MostrarMensaje("Socio dado de baja."));
 
-            //_EventAggregator.GetEvent<AtencionActualizadaEvent>().Subscribe(
-            //    (id) => MostrarMensaje("La atención se ha actualizado con éxito"));
+            _EventAggregator.GetEvent<SocioActualizadoEvent>().Subscribe(
+                (id) => MostrarMensaje("Socio actualizado con éxito"));
 
             //_EventAggregator.GetEvent<AsistenteCreadoEvent>().Subscribe(
             //    (id) => MostrarMensaje("El asistente se ha creado con éxito"));
@@ -58,19 +58,6 @@ namespace Gama.Socios.Wpf.ViewModels
             _Timer.Interval = new TimeSpan(0, 0, 4);
             Debug.StopWatch("StatusBar");
         }
-        //public StatusBarViewModel(
-        //    IEventAggregator eventAggregator)
-        //{
-        //    _EventAggregator = eventAggregator;
-
-        //    _EventAggregator.GetEvent<SocioActualizadoEvent>().Subscribe(OnSocioActualizadoEvent);
-
-        //    Mensaje = DefaultMensaje;
-        //    _Timer = new DispatcherTimer();
-        //    _Timer.Tick += _timer_Tick;
-        //    _Timer.Interval = new TimeSpan(0, 0, 2);
-        //}
-
         public string Mensaje
         {
             get { return _Mensaje; }

@@ -118,11 +118,8 @@
                              Visibility="{Binding DataContext.DashboardViewIsVisible,
                               ElementName=_Root, 
                               Converter={StaticResource _BooleanToVisibilityConverter}}"/>
-        <!-- Contabilidad -->
-        <views:ContabilidadView DataContext="{Binding ContabilidadViewModel}" 
-                             Visibility="{Binding DataContext.ContabilidadViewIsVisible,
-                              ElementName=_Root, 
-                              Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+
+        
         <!-- Socios -->
         <views:SociosContentView DataContext="{Binding SociosContentViewModel}" 
                              Visibility="{Binding DataContext.SociosContentViewIsVisible,

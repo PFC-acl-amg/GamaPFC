@@ -559,8 +559,8 @@ namespace Gama.Socios.Wpf.ViewModels
 
             };
 
-            Socios.Insert(0, lookupItem);
-            OnPropertyChanged("Socios");
+            SociosFiltrados.Insert(0, lookupItem);
+            OnPropertyChanged("SociosFiltrados");
         }
 
         private void OnSocioDadoDeBajaEvent(int id)

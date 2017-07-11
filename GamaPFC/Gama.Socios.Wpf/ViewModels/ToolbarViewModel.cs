@@ -111,7 +111,6 @@ namespace Gama.Socios.Wpf.ViewModels
         {
             VistaCargada = obj;
         }
-
         private void OnSocioSeleccionadoEvent(int id)
         {
             var socio = _SocioRepository.GetById(id);
