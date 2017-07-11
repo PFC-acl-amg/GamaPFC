@@ -36,10 +36,11 @@ namespace Gama.Atenciones.Wpf.FakeServices
 
         public FakePersonaRepository()
         {
+            string path = @"C:\Users\Alberto\Documents\Profile Photos\Para la demo\";
             List<byte[]> imagenes = new List<byte[]>();
 
 
-            Personas = new List<Persona>();
+             Personas = new List<Persona>();
             int createdAt = 0;
             for (int i = 0; i < 20; i++)
             {
@@ -65,10 +66,8 @@ namespace Gama.Atenciones.Wpf.FakeServices
                     Twitter = Faker.InternetFaker.Domain(),
                     ViaDeAccesoAGama = ViaDeAccesoAGama.Personal.ToString(),
                     CreatedAt = DateTime.Now.AddMonths(createdAt),
-                    Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
-                         new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/2.jpg")),
+                    Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(new Uri($"{path}{i+3}.jpg")),
                     ImagenUpdatedAt = DateTime.Now
-
                 };
 
                 Personas.Add(persona);

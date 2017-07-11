@@ -1,199 +1,64 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Gama.Atenciones.Wpf.ViewModels.EditarPersonaViewModel" BaseTypeListCollapsed="true">
-    <Position X="2.75" Y="5.75" Width="2.25" />
-    <Members>
-      <Method Name="ConfirmNavigationRequest" Hidden="true" />
-      <Method Name="EditarPersonaViewModel" Hidden="true" />
-      <Property Name="IsActive" Hidden="true" />
-      <Method Name="IsNavigationTarget" Hidden="true" />
-    </Members>
-    <AssociationLine Name="PersonaVM" Type="Gama.Atenciones.Wpf.ViewModels.PersonaViewModel" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="5" Y="7.25" />
-        <Point X="5.375" Y="7.25" />
-        <Point X="5.375" Y="7.592" />
-        <Point X="5.75" Y="7.592" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
-        <Position X="0.009" Y="0.07" Height="0.182" Width="0.99" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <AssociationLine Name="AtencionesVM" Type="Gama.Atenciones.Wpf.ViewModels.EditarAtencionesViewModel" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="5" Y="6.437" />
-        <Point X="5.375" Y="6.437" />
-        <Point X="5.375" Y="4.563" />
-        <Point X="5.75" Y="4.563" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="CitasVM" Type="Gama.Atenciones.Wpf.ViewModels.EditarCitasViewModel" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="5" Y="8.188" />
-        <Point X="5.375" Y="8.188" />
-        <Point X="5.375" Y="10.222" />
-        <Point X="5.75" Y="10.222" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.366" Y="-0.186" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <TypeIdentifier />
-    <ShowAsAssociation>
-      <Property Name="PersonaVM" />
-      <Property Name="AtencionesVM" />
-      <Property Name="CitasVM" />
-    </ShowAsAssociation>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="Gama.Atenciones.Wpf.Views.EditarPersonaView">
-    <Position X="0.5" Y="6.5" Width="1.75" />
-    <Members>
-      <Method Name="EditarPersonaView" Hidden="true" />
-    </Members>
-    <TypeIdentifier />
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="Gama.Atenciones.Wpf.ViewModels.PersonaViewModel">
-    <Position X="5.75" Y="6.75" Width="2" />
-    <Members>
-      <Method Name="PersonaViewModel" Hidden="true" />
-    </Members>
-    <AssociationLine Name="Persona" Type="Gama.Atenciones.Wpf.Wrappers.PersonaWrapper" FixedFromPoint="true">
-      <Path>
-        <Point X="7.75" Y="7.813" />
-        <Point X="8.75" Y="7.813" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
-        <Position X="0.22" Y="-0.059" Height="0.182" Width="0.786" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <TypeIdentifier />
-    <ShowAsAssociation>
-      <Property Name="Persona" />
-    </ShowAsAssociation>
-  </Class>
-  <Class Name="Gama.Atenciones.Wpf.ViewModels.EditarCitasViewModel">
-    <Position X="5.75" Y="8.75" Width="2" />
-    <Members>
-      <Method Name="ActualizarCita" Hidden="true" />
-      <Method Name="EditarCitasViewModel" Hidden="true" />
-      <Property Name="IsActive" Hidden="true" />
-      <Property Name="Refresh" Hidden="true" />
-      <Property Name="Session" Hidden="true" />
-    </Members>
-    <AssociationLine Name="Citas" Type="Gama.Atenciones.Wpf.Wrappers.CitaWrapper">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.381" Y="0.081" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <AssociationLine Name="Persona" Type="Gama.Atenciones.Wpf.Wrappers.PersonaWrapper" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="7.75" Y="9" />
-        <Point X="8.377" Y="9" />
-        <Point X="8.377" Y="8.062" />
-        <Point X="8.75" Y="8.062" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.121" Y="-0.498" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <TypeIdentifier />
-    <ShowAsAssociation>
-      <Property Name="Persona" />
-    </ShowAsAssociation>
-    <ShowAsCollectionAssociation>
-      <Property Name="Citas" />
-    </ShowAsCollectionAssociation>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="Gama.Atenciones.Wpf.ViewModels.EditarAtencionesViewModel">
-    <Position X="5.75" Y="3.25" Width="2.25" />
-    <Members>
-      <Property Name="EdicionHabilitada" Hidden="true" />
-      <Method Name="EditarAtencionesViewModel" Hidden="true" />
-      <Property Name="IsActive" Hidden="true" />
-      <Property Name="Session" Hidden="true" />
-      <Property Name="VerAtenciones" Hidden="true" />
-    </Members>
-    <AssociationLine Name="Atenciones" Type="Gama.Atenciones.Wpf.Wrappers.AtencionWrapper" FixedFromPoint="true">
-      <Path>
-        <Point X="8" Y="5.125" />
-        <Point X="8.75" Y="5.125" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
-        <Position X="0.025" Y="0.06" Height="0.182" Width="0.947" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <AssociationLine Name="Persona" Type="Gama.Atenciones.Wpf.Wrappers.PersonaWrapper" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="8" Y="5.562" />
-        <Point X="8.375" Y="5.562" />
-        <Point X="8.375" Y="7.642" />
-        <Point X="8.75" Y="7.642" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.119" Y="0.401" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <TypeIdentifier />
-    <ShowAsAssociation>
-      <Property Name="Persona" />
-    </ShowAsAssociation>
-    <ShowAsCollectionAssociation>
-      <Property Name="Atenciones" />
-    </ShowAsCollectionAssociation>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="Gama.Atenciones.Wpf.Wrappers.PersonaWrapper" Collapsed="true">
-    <Position X="8.75" Y="7.5" Width="1.5" />
+  <Class Name="Gama.Atenciones.Wpf.Eventos.AsistenteActualizadoEvent" Collapsed="true">
+    <Position X="5.25" Y="3.75" Width="2" />
     <TypeIdentifier />
   </Class>
-  <Class Name="Gama.Atenciones.Wpf.Wrappers.AtencionWrapper" Collapsed="true">
-    <Position X="8.75" Y="5" Width="1.5" />
+  <Class Name="Gama.Atenciones.Wpf.Eventos.AsistenteCreadoEvent" Collapsed="true">
+    <Position X="5.25" Y="2.75" Width="2" />
     <TypeIdentifier />
   </Class>
-  <Class Name="Gama.Atenciones.Wpf.Wrappers.CitaWrapper" Collapsed="true">
-    <Position X="8.75" Y="9" Width="1.5" />
+  <Class Name="Gama.Atenciones.Wpf.Eventos.AsistenteSeleccionadoChangedEvent" Collapsed="true">
+    <Position X="3.75" Y="5.75" Width="2.75" />
     <TypeIdentifier />
   </Class>
-  <Class Name="Gama.Atenciones.Business.Persona" Collapsed="true">
-    <Position X="12.75" Y="7.5" Width="1.5" />
+  <Class Name="Gama.Atenciones.Wpf.Eventos.AtencionSeleccionadaEvent" Collapsed="true">
+    <Position X="11.75" Y="4.75" Width="2.75" />
     <TypeIdentifier />
   </Class>
-  <Class Name="Gama.Atenciones.Business.Atencion" Collapsed="true">
-    <Position X="12.75" Y="5" Width="1.5" />
+  <Class Name="Gama.Atenciones.Wpf.Eventos.BackupFinalizadoEvent" Collapsed="true">
+    <Position X="3" Y="2.75" Width="2" />
     <TypeIdentifier />
   </Class>
-  <Class Name="Gama.Atenciones.Business.Cita" Collapsed="true">
-    <Position X="12.75" Y="9" Width="1.5" />
+  <Class Name="Gama.Atenciones.Wpf.Eventos.CitaActualizadaEvent" Collapsed="true">
+    <Position X="9.75" Y="3.75" Width="1.75" />
     <TypeIdentifier />
   </Class>
-  <Class Name="Gama.Atenciones.Wpf.Services.PersonaRepository" Collapsed="true">
-    <Position X="10.5" Y="6.25" Width="1.75" />
-    <Members>
-      <Method Name="GetAllForLookup" Hidden="true" />
-      <Method Name="GetPersonasNuevasPorMes" Hidden="true" />
-      <Method Name="Initialize" Hidden="true" />
-      <Method Name="PersonaRepository" Hidden="true" />
-    </Members>
+  <Class Name="Gama.Atenciones.Wpf.Eventos.CitaCreadaEvent" Collapsed="true">
+    <Position X="9.75" Y="2.75" Width="1.75" />
     <TypeIdentifier />
-    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Gama.Atenciones.Wpf.Services.AtencionRepository" Collapsed="true">
-    <Position X="10.5" Y="3.25" Width="1.75" />
+  <Class Name="Gama.Atenciones.Wpf.Eventos.CitaSeleccionadaEvent" Collapsed="true">
+    <Position X="9.75" Y="4.75" Width="1.75" />
     <TypeIdentifier />
-    <Lollipop Position="0.1" />
   </Class>
-  <Class Name="Gama.Atenciones.Wpf.Services.AsistenteRepository" Collapsed="true">
-    <Position X="10.5" Y="9.75" Width="1.75" />
+  <Class Name="Gama.Atenciones.Wpf.Eventos.IdentificadorDeModelosPayload">
+    <Position X="7.25" Y="0.5" Width="2.5" />
     <TypeIdentifier />
-    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Gama.Atenciones.Wpf.Services.CitaRepository" Collapsed="true">
-    <Position X="10.5" Y="10.75" Width="1.75" />
+  <Class Name="Gama.Atenciones.Wpf.Eventos.NuevaAtencionEvent" Collapsed="true">
+    <Position X="11.75" Y="2.75" Width="2" />
     <TypeIdentifier />
-    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Gama.Atenciones.Wpf.Eventos.PersonaActualizadaEvent" Collapsed="true">
+    <Position X="7.5" Y="3.75" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Gama.Atenciones.Wpf.Eventos.PersonaCreadaEvent" Collapsed="true">
+    <Position X="7.5" Y="2.75" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Gama.Atenciones.Wpf.Eventos.PersonaEliminadaEvent" Collapsed="true">
+    <Position X="7.5" Y="6.75" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Gama.Atenciones.Wpf.Eventos.PersonaSeleccionadaChangedEvent" Collapsed="true">
+    <Position X="6.75" Y="5.75" Width="2.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Gama.Atenciones.Wpf.Eventos.PersonaSeleccionadaEvent" Collapsed="true">
+    <Position X="7.5" Y="4.75" Width="2" />
+    <TypeIdentifier />
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
