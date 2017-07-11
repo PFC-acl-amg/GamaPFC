@@ -43,7 +43,6 @@ namespace Gama.Socios.Wpf
             IPeriodoDeAltaRepository periodoDeAltaRepository,
             ICuotaRepository cuotaRepository,
             DashboardViewModel dashboardViewModel,
-            ContabilidadViewModel contabilidadViewModel,
             SociosContentViewModel sociosContentViewModel,
             SearchBoxViewModel searchBoxViewModel,
             PanelSwitcherViewModel panelSwitcherViewModel,
@@ -55,7 +54,6 @@ namespace Gama.Socios.Wpf
            )
         {
             DashboardViewModel = dashboardViewModel;
-            ContabilidadViewModel = contabilidadViewModel;
             SociosContentViewModel = sociosContentViewModel;
             SearchBoxViewModel = searchBoxViewModel;
             PanelSwitcherViewModel = panelSwitcherViewModel;
@@ -86,7 +84,6 @@ namespace Gama.Socios.Wpf
         }
 
         public DashboardViewModel DashboardViewModel { get; private set; }
-        public ContabilidadViewModel ContabilidadViewModel { get; private set; }
         public SociosContentViewModel SociosContentViewModel { get; private set; }
         public SearchBoxViewModel SearchBoxViewModel { get; private set; }
         public PanelSwitcherViewModel PanelSwitcherViewModel { get; private set; }
@@ -137,7 +134,6 @@ namespace Gama.Socios.Wpf
             _Panels[panel] = true;
 
             DashboardViewIsVisible = _Panels["DashboardView"];
-            ContabilidadViewIsVisible = _Panels["ContabilidadView"];
             SociosContentViewIsVisible = _Panels["SociosContentView"];
             //CitasContentViewIsVisible = _Panels["CitasContentView"];
             //AsistentesContentViewIsVisible = _Panels["AsistentesContentView"];
@@ -156,7 +152,6 @@ namespace Gama.Socios.Wpf
                 _SocioRepository.UpdateClient();
                 
                 DashboardViewModel.OnActualizarServidor();
-                ContabilidadViewModel.OnActualizarServidor();
                 SociosContentViewModel.OnActualizarServidor();
                 SearchBoxViewModel.OnActualizarServidor();
                 ToolbarViewModel.OnActualizarServidor();

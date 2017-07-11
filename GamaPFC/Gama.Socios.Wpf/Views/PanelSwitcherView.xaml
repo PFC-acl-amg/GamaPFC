@@ -22,7 +22,7 @@
             <Setter Property="Margin" Value="0,0,0,0"/>
         </Style>
     </UserControl.Resources>
-    <Grid Background="#EE959595">
+    <Grid Background="#EE959595" Margin="4,4,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -52,34 +52,6 @@
                     <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding ActivePanel}" Value="SociosContentView">
-                                <Setter Property="Foreground" Value="#275B6D"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </controls:Tile.Style>
-            </controls:Tile>
-            <controls:Tile 
-                Title="Cumpleaños"
-                Command="{Binding NavigateCommand}"
-                CommandParameter="X">
-                <controls:Tile.Style>
-                    <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ActivePanel}" Value="BirthdaysView">
-                                <Setter Property="Foreground" Value="#275B6D"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </controls:Tile.Style>
-            </controls:Tile>
-            <controls:Tile 
-                Title="Contabilidad"
-                Command="{Binding NavigateCommand}"
-                CommandParameter="ContabilidadView">
-                <controls:Tile.Style>
-                    <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ActivePanel}" Value="ContabilidadView">
                                 <Setter Property="Foreground" Value="#275B6D"/>
                             </DataTrigger>
                         </Style.Triggers>

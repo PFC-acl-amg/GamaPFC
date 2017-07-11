@@ -71,16 +71,14 @@ namespace Gama.Socios.Wpf.ViewModels
             {
                 Socio.CreatedAt = DateTime.Now;
                 _SocioRepository.Create(Socio.Model);
-                //_EventAggregator.GetEvent<SocioCreadoEvent>().Publish(Socio.Id);
                 Cerrar = true;
             }
-            else //_ModificarSocio == 1
+            else
             {
                 Socio.UpdatedAt = DateTime.Now;
                 _SocioRepository.Update(Socio.Model);
                 Socio.AcceptChanges();
                 _ModificarSocio = 0;
-                _EventAggregator.GetEvent<SocioActualizadoEvent>().Publish(Socio.Model);
                 Cerrar = true;
             }
         }

@@ -5,26 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
         xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
-                   
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:actions="clr-namespace:Core.Util;assembly=Core"
         xmlns:designData="clr-namespace:Gama.Cooperacion.Wpf.DesignTimeData"
-        
         prism:ViewModelLocator.AutoWireViewModel="True"
         WindowStartupLocation="CenterScreen"
-        
         BorderThickness="2"
         BorderBrush="{StaticResource AccentColorBrush}"
         mc:Ignorable="d"
         Title="Desarrollo de la Tarea"  Width="600" Height="570"
-        
         actions:DialogCloser.DialogResult="{Binding Cerrar}" >
-    <!--d:DesignHeight="173" Indica que cuando estas sideñando mide de alto 173 pero al compilar ignara las etiquetas que empiezan
-    con d: y le da el tamaño que nosotros implementementemos-->
-    <d:DataContext>
-        <designData:InformacionTareaViewModel_DTD/>
-    </d:DataContext>
+
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -51,28 +43,7 @@
                                         <ColumnDefinition Width="auto"></ColumnDefinition>
                                         <ColumnDefinition Width="auto"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" HorizontalAlignment="Left" Content="Incidencias Activas" Foreground="White" Padding="0"></Label>
-                                    <Button Width="40" Height="40" Grid.Column="1" Style="{DynamicResource MetroCircleButtonStyle}" Margin="0,-7,0,-7" Command="{Binding CrearForoCommand}" HorizontalAlignment="Right">
-                                        <Rectangle Width="18" Height="18" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_section_expand_all}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </Button>
-                                    <Button Width="40" Height="40" Grid.Column="2" Style="{DynamicResource MetroCircleButtonStyle}" Margin="0,-7,0,-7" Command="{Binding CrearForoCommand}" HorizontalAlignment="Right">
-                                        <Rectangle Width="18" Height="18" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_section_expand_all}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </Button>
-                                    <Button Width="40" Height="40" Grid.Column="3" Style="{DynamicResource MetroCircleButtonStyle}" Margin="0,-7,0,-7" Command="{Binding CrearForoCommand}" HorizontalAlignment="Right">
-                                        <Rectangle Width="18" Height="18" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_magnify}" />
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
-                                    </Button>
+                                    <Label Grid.Column="0" HorizontalAlignment="Left" Content="Incidencias en el Desarrollo de la Tarea" Foreground="White" Padding="0"></Label>
                                 </Grid>
                             </GroupBox.Header>
                             <ListBox x:Name="IncidenciasPublicadas"  Grid.Row="0"
@@ -140,17 +111,15 @@
                                              TextWrapping="Wrap"
                                              MinLines="5"
                                              AcceptsReturn="True"
-                                             Text="{Binding NuevaIncidencia}"/>                               
+                                             Text="{Binding NuevaIncidencia}"/>
                                 </Border>
                                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
                                     <Button Width="90" Height="40" Command="{Binding AceptarIncidenciaCommand}"
                                             Content="Publicar" FontSize="16">
-                                    </Button>                                   
+                                    </Button>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
-
-
                     </GroupBox>
                 </StackPanel>
             </Grid>

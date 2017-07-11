@@ -43,6 +43,14 @@ namespace Gama.Socios.Wpf.ViewModels
 
             _EventAggregator.GetEvent<SocioCreadoEvent>().Subscribe(OnSocioCreadoEvent);
         }
+        //----------------------------------------
+        // ICommands - Declaraciones
+        //----------------------------------------
+
+
+        //----------------------------------------
+        // ICommands - Implementaciones
+        //----------------------------------------
 
         public string TextoDeBusqueda
         {

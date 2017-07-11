@@ -236,19 +236,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
         private void OnInfoTareaCommand(object wrapper)
         {
-            //((TareaWrapper)wrapper).SeguimientoVisible = !((TareaWrapper)wrapper).SeguimientoVisible;
-
-            //var o = new CrearNuevaTareaView();  // Llama al constructor de CrearNuevaTareaVM y ejecuta la instruccion
-            //                                    // Tarea = new TareaWrapper(new Tarea()); Para que en el TareaWrapper
-            //                                    // Responsable no puede ser nulo con lo que este llamada dara error porque
-            //                                    // El responsable es nulo
-            //var vm = (CrearNuevaTareaViewModel)o.DataContext;
-            //vm.Session = _Session;
-            //vm.LoadActividad(Actividad);
-            //vm.LoadTarea(((TareaWrapper)wrapper));
-            //o.ShowDialog();
-
-
             var o = new InformacionTareaView();
             var vm = (InformacionTareaViewModel)o.DataContext;
             vm.Session = _Session;          // Da error si en InformacionTareaViewModel no tenemos definido esta variable

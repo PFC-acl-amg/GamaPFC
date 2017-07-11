@@ -6,25 +6,48 @@
              xmlns:local="clr-namespace:Gama.Socios.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" d:DesignHeight="76.452" d:DesignWidth="377.055">
-  <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-    <Button Background="Transparent" BorderThickness="0"
-              Margin="{StaticResource Margin}"
-            Command="{Binding NuevoSocioCommand}">
-      <StackPanel>
-        <Image Source="{StaticResource IconoNuevoSocio}" Height="{StaticResource NavigationIconSize}"/>
-        <!--<TextBlock MaxWidth="60" TextWrapping="Wrap" TextAlignment="Center"
-                   FontWeight="Light">
-          Nueva Persona
-        </TextBlock>-->
-      </StackPanel>
-    </Button>
-    <Button Background="Transparent" BorderThickness="0"
-              Margin="{StaticResource Margin}"
-            Command="{Binding ExportarCommand}">
-      <StackPanel>
-        <Image Source="{StaticResource IconoExportar}" Height="{StaticResource NavigationIconSize}"/>
-      </StackPanel>
-    </Button>
-  </StackPanel>
+
+    <UserControl.Resources>
+        <sys:Double x:Key="_NavigationIconSize">11</sys:Double>
+        <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+            <Setter Property="Opacity" Value="0.8"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Background" Value="#E7EBFF"/>
+            <Setter Property="Width" Value="38"/>
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="IconWidth" Value="{StaticResource _NavigationIconSize}"/>
+            <Setter Property="IconHeight" Value="{StaticResource _NavigationIconSize}"/>
+            <Setter Property="Margin" Value="4,0,4,0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Background="#EE959595" Margin="0,4,4,0">
+        <cc:CircleIconButton 
+            Command="{Binding NuevoSocioCommand}"
+            Icon="{StaticResource appbar_user_add}" 
+            ToolTip="Nuevo Cooperante"/>
+        <cc:CircleIconButton 
+            Command="{Binding ExportarCommand}"
+            Icon="{StaticResource appbar_office_word}" 
+            ToolTip="Exportar..."/>
+        <cc:CircleIconButton 
+            Command="{Binding HacerBackupCommand}"
+            Icon="{StaticResource appbar_database_sql}" 
+            ToolTip="Hacer copia de seguridad"/>
+        <cc:CircleIconButton 
+            Command="{Binding HacerRestoreCommand}"
+            Icon="{StaticResource appbar_reset}" 
+            ToolTip="Restaurar copia de seguridad..."/>
+    </StackPanel>
+
+
 </UserControl>

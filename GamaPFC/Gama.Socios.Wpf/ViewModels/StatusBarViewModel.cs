@@ -1,4 +1,5 @@
 ﻿using Core;
+using Gama.Common.Debug;
 using Gama.Socios.Business;
 using Gama.Socios.Wpf.Eventos;
 using Prism.Events;
@@ -18,26 +19,47 @@ namespace Gama.Socios.Wpf.ViewModels
         private string _Mensaje;
         private bool _ActivarFondo;
         private DispatcherTimer _Timer;
-
         public StatusBarViewModel(
-            IEventAggregator eventAggregator)
+           IEventAggregator eventAggregator)
         {
+            Debug.StartWatch();
             _EventAggregator = eventAggregator;
 
-            _EventAggregator.GetEvent<SocioActualizadoEvent>().Subscribe(OnSocioActualizadoEvent);
+            _EventAggregator.GetEvent<SocioCreadoEvent>().Subscribe(
+                (id) => MostrarMensaje("Socio creado con éxito."));
+
+            _EventAggregator.GetEvent<SocioDadoDeBajaEvent>().Subscribe(
+                (id) => MostrarMensaje("Socio dado de baja."));
+
+            _EventAggregator.GetEvent<SocioActualizadoEvent>().Subscribe(
+                (id) => MostrarMensaje("Socio actualizado con éxito"));
+
+            _EventAggregator.GetEvent<PeriodoDeAltaCreadoEvent>().Subscribe(
+                (id) => MostrarMensaje("Periodo de Alta creado con éxito"));
+
+            _EventAggregator.GetEvent<PeriodoDeAltaActualizadoEvent>().Subscribe(
+                (id) => MostrarMensaje("Periodo de Alta actualizado con éxito"));
+            
+            _EventAggregator.GetEvent<BackupFinalizadoEvent>().Subscribe(
+                () => MostrarMensaje("La copia de seguridad se ha realizado con éxito."));
 
             Mensaje = DefaultMensaje;
             _Timer = new DispatcherTimer();
             _Timer.Tick += _timer_Tick;
-            _Timer.Interval = new TimeSpan(0, 0, 2);
+            _Timer.Interval = new TimeSpan(0, 0, 4);
+            Debug.StopWatch("StatusBar");
         }
-
         public string Mensaje
         {
             get { return _Mensaje; }
             set { SetProperty(ref _Mensaje, value); }
         }
-
+        private void MostrarMensaje(string mensaje)
+        {
+            Mensaje = mensaje;
+            ActivarFondo = true;
+            _Timer.Start();
+        }
         public bool ActivarFondo
         {
             get { return _ActivarFondo; }
