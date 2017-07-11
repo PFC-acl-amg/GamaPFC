@@ -38,6 +38,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _ActividadRepository = actividadRepository;
             _ActividadRepository.Session = session;
             _ActividadVM._ActividadRepository = _ActividadRepository;
+            Actividad.IsInEditionMode = true;
             Actividad.PropertyChanged += Actividad_PropertyChanged;
             _ModificarActividad = 0;
 

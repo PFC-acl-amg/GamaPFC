@@ -168,7 +168,7 @@
         Margin="{StaticResource _MargenBotones}" 
         MinWidth="150"
         Checked="_CooperacionButton_Checked"
-        IsChecked="True"
+        IsChecked="False"
         MaxWidth="150" 
         Command="{Binding SeleccionarModuloCommand}" 
         CommandParameter="cooperacion">
@@ -235,6 +235,7 @@
       <TextBlock 
         Visibility="{Binding HayErrores, Converter={StaticResource _BooleanToVisibilityConverter}}"
         Foreground="Red" 
+        Margin="4,0,4,4"
         Grid.Row="0" 
         Grid.ColumnSpan="2" 
         TextWrapping="Wrap" 

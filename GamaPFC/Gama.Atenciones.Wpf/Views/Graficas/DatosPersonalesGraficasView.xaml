@@ -37,20 +37,19 @@
         </charts:PieChart.Series>
       </charts:PieChart>
 
-      <!-- Rangos de Edad -->
+      <!-- Orientación afectivo-sexual  -->
       <charts:PieChart
-                Grid.Column="1"
                 Margin="{StaticResource Margin}"
+                Grid.Column="1"
                 Palette="{StaticResource MyColorPalette}"
-                ChartTitle="Rangos de Edad"
+                ChartTitle="Orientación Afectivo-Sexual"
                 ChartSubTitle="" >
         <charts:PieChart.Series>
           <charts:ChartSeries
-                            SeriesTitle="Rangos de Edad"
+                            SeriesTitle="Orientación Afectivo-Sexual"
                             DisplayMember="Title"
                             ValueMember="Value"
-                            ItemsSource="{Binding Path=ValoresDeEdad}">
-          </charts:ChartSeries>
+                            ItemsSource="{Binding Path=ValoresDeOrientacionSexual}" />
         </charts:PieChart.Series>
       </charts:PieChart>
 
@@ -71,19 +70,20 @@
         </charts:PieChart.Series>
       </charts:PieChart>
 
-      <!-- Orientación afectivo-sexual  -->
+      <!-- Rangos de Edad -->
       <charts:PieChart
-                Margin="{StaticResource Margin}"
                 Grid.Column="1"
+                Margin="{StaticResource Margin}"
                 Palette="{StaticResource MyColorPalette}"
-                ChartTitle="Orientación Afectivo-Sexual"
+                ChartTitle="Rangos de Edad"
                 ChartSubTitle="" >
         <charts:PieChart.Series>
           <charts:ChartSeries
-                            SeriesTitle="Orientación Afectivo-Sexual"
+                            SeriesTitle="Rangos de Edad"
                             DisplayMember="Title"
                             ValueMember="Value"
-                            ItemsSource="{Binding Path=ValoresDeOrientacionSexual}" />
+                            ItemsSource="{Binding Path=ValoresDeEdad}">
+          </charts:ChartSeries>
         </charts:PieChart.Series>
       </charts:PieChart>
 

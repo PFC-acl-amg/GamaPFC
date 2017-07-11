@@ -176,23 +176,26 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnNuevaAtencionEvent(CitaWrapper cita)
         {
-            if (cita.Atencion == null) // atención nueva a crear
-            {
-                var atencion = new AtencionWrapper(new Atencion()
-                {
-                    Cita = cita.Model,
-                    Fecha = DateTime.Now,
-                    CreatedAt = DateTime.Now
-                });
+            //if (cita.Atencion == null) // atención nueva a crear
+            //{
+            //    var atencion = new AtencionWrapper(new Atencion()
+            //    {
+            //        Cita = cita.Model,
+            //        Fecha = DateTime.Now,
+            //        CreatedAt = DateTime.Now
+            //    });
 
-                cita.Atencion = atencion;
-                _AtencionRepository.Create(atencion.Model);
-                Atenciones.Add(atencion);
-            }
-            else // ya existe
-            {
-                AtencionSeleccionada = cita.Atencion;
-            }
+            //    cita.Atencion = atencion;
+            //    _AtencionRepository.Create(atencion.Model);
+            //    Atenciones.Add(atencion);
+            //}
+            //else // ya existe
+            //{
+            if (Atenciones.Where(x => x.Id == cita.Atencion.Id).ToList().Count == 0)
+                Atenciones.Add(cita.Atencion);
+
+            AtencionSeleccionada = cita.Atencion;
+            //}
 
             // Navegamos a la pestaña de atenciones
             VerAtenciones = true;

@@ -13,35 +13,36 @@ namespace Gama.Common.Communication
     public class ClientService
     {
         public const string INICIO_DE_CONEXION = "INICIO DE CONEXION";
-        TcpClient _ClientSocket;
-        NetworkStream _ServerStream;
-        string _ReadData;
-        string _ClientName;
-        Thread _ClientThread;
+        public const string FIN_DE_CONEXION = "<EOC>";
+        public TcpClient ClientSocket;
+        public NetworkStream ServerStream;
+        public string ReadData;
+        public string ClientName;
+        public Thread ClientThread;
         EventAggregator _EventAggregator;
 
         public ClientService(EventAggregator eventAggregator, string clientName)
         {
-            _ClientSocket = new TcpClient();
-            _ServerStream = default(NetworkStream);
-            _ReadData = null;
-            _ClientName = clientName;
+            ClientSocket = new TcpClient();
+            ServerStream = default(NetworkStream);
+            ReadData = null;
+            ClientName = clientName;
 
             _EventAggregator = eventAggregator;
-            _ConectarAlServidor();
+            Conectar();
         }
 
         public bool IsConnected()
         {
-            return (_ClientSocket != null && _ClientSocket.Client != null && _ClientSocket.Connected);
+            return (ClientSocket != null && ClientSocket.Client != null && ClientSocket.Connected);
         }
 
         public void TryConnect()
         {
-            _ConectarAlServidor();
+            Conectar();
         }
 
-        private void _ConectarAlServidor()
+        public void Conectar()
         {
             try
             {
@@ -51,16 +52,16 @@ namespace Gama.Common.Communication
                     return;
                 }
 
-                _ClientSocket.Close();
-                _ClientSocket = new TcpClient();
-                _ServerStream = default(NetworkStream);
-                _ClientSocket.Connect("localhost", 8888); //"80.59.101.181"
-                _ServerStream = _ClientSocket.GetStream();
+                ClientSocket.Close();
+                ClientSocket = new TcpClient();
+                ServerStream = default(NetworkStream);
+                ClientSocket.Connect("localhost", 8888); //"80.59.101.181"
+                ServerStream = ClientSocket.GetStream();
                 
-                EnviarMensaje($"{INICIO_DE_CONEXION}{_ClientName}");
+                EnviarMensaje($"{INICIO_DE_CONEXION}{ClientName}");
 
-                _ClientThread = new Thread(_RecibirMensaje);
-                _ClientThread.Start();
+                ClientThread = new Thread(RecibirMensaje);
+                ClientThread.Start();
 
                 _EventAggregator.GetEvent<LaConexionConElServidorHaCambiadoEvent>().Publish(MensajeDeConexion.Conectado);
             }
@@ -71,20 +72,20 @@ namespace Gama.Common.Communication
             }
         }
 
-        private void _RecibirMensaje()
+        public void RecibirMensaje()
         {
             try
             {
                 while (true)
                 {
-                    _ServerStream = _ClientSocket.GetStream();
+                    ServerStream = ClientSocket.GetStream();
 
                     int bufferSize = 0;
                     byte[] inStream = new byte[10025];
-                    bufferSize = _ClientSocket.ReceiveBufferSize;
+                    bufferSize = ClientSocket.ReceiveBufferSize;
                     bufferSize = 8196;
 
-                    _ServerStream.Read(inStream, 0, bufferSize);
+                    ServerStream.Read(inStream, 0, bufferSize);
 
                     string dataFromServer = Encoding.ASCII.GetString(inStream);
                     dataFromServer = dataFromServer.Substring(0, dataFromServer.IndexOf("$"));
@@ -105,8 +106,8 @@ namespace Gama.Common.Communication
             try
             {
                 byte[] message = Encoding.ASCII.GetBytes(mensaje + "$");
-                _ServerStream.Write(message, 0, message.Length);
-                _ServerStream.Flush();
+                ServerStream.Write(message, 0, message.Length);
+                ServerStream.Flush();
             }
             catch (Exception ex)
             {
@@ -116,11 +117,11 @@ namespace Gama.Common.Communication
 
         public void Desconectar()
         {
-            if (_ClientSocket.Connected)
+            if (ClientSocket.Connected)
             {
-                EnviarMensaje($"<EOC>Cliente {_ClientName} ha hecho un broadcast @@{Guid.NewGuid()}%%");
-                _ClientSocket.Close();
-                _ClientThread.Abort();
+                EnviarMensaje($"<EOC>Cliente {ClientName} ha hecho un broadcast @@{Guid.NewGuid()}%%");
+                ClientSocket.Close();
+                ClientThread.Abort();
             }
         }
     }
