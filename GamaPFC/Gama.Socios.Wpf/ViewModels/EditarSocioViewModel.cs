@@ -234,16 +234,11 @@ namespace Gama.Socios.Wpf.ViewModels
         {
             try
             {
-
-                //if (this.Socio.Nombre != "")
-                //    return;
                 if (string.IsNullOrEmpty(this.Socio.Nombre))
                 {
                     var Socio = new SocioWrapper(
                    _SocioRepository.GetById(id));
-
                     _SocioVM.Load(Socio);
-                    // _CuotasVM.Load(_SocioVM.Socio);
                     _EditarPeriodosDeAltaViewModel.Load(_SocioVM.Socio);
                     RefrescarTitulo(Socio.Nombre);
                     CalcularDebito(Socio);

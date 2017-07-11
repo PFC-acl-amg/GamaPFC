@@ -34,21 +34,12 @@ namespace Gama.Socios.Wpf.ViewModels
             _EventAggregator.GetEvent<SocioActualizadoEvent>().Subscribe(
                 (id) => MostrarMensaje("Socio actualizado con éxito"));
 
-            //_EventAggregator.GetEvent<AsistenteCreadoEvent>().Subscribe(
-            //    (id) => MostrarMensaje("El asistente se ha creado con éxito"));
+            _EventAggregator.GetEvent<PeriodoDeAltaCreadoEvent>().Subscribe(
+                (id) => MostrarMensaje("Periodo de Alta creado con éxito"));
 
-            //_EventAggregator.GetEvent<AsistenteActualizadoEvent>().Subscribe(
-            //    (id) => MostrarMensaje("El asistente se ha actualizado con éxito"));
-
-            //_EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(
-            //    (id) => MostrarMensaje("La cita se ha añadido con éxito."));
-
-            //_EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(
-            //    (id) => MostrarMensaje("La cita se ha actualizado con éxito."));
-
-            //_EventAggregator.GetEvent<CitaEliminadaEvent>().Subscribe(
-            //    (id) => MostrarMensaje("La cita se ha eliminado con éxito."));
-
+            _EventAggregator.GetEvent<PeriodoDeAltaActualizadoEvent>().Subscribe(
+                (id) => MostrarMensaje("Periodo de Alta actualizado con éxito"));
+            
             _EventAggregator.GetEvent<BackupFinalizadoEvent>().Subscribe(
                 () => MostrarMensaje("La copia de seguridad se ha realizado con éxito."));
 

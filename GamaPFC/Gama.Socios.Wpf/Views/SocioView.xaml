@@ -93,10 +93,6 @@
           <Label Margin="{DynamicResource Margin}">Nacionalidad</Label>
           <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Nacionalidad, UpdateSourceTrigger=PropertyChanged}"
                    TextWrapping="Wrap"/>
-
-          <!--<Label Margin="{DynamicResource Margin}">Ocupación</Label>
-          <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Ocupacion, UpdateSourceTrigger=PropertyChanged}"/>-->
-
           <Label Margin="{DynamicResource Margin}">Facebook</Label>
           <TextBox Margin="{DynamicResource Margin}" Text="{Binding Socio.Facebook, UpdateSourceTrigger=PropertyChanged}"
                    TextWrapping="Wrap"/>

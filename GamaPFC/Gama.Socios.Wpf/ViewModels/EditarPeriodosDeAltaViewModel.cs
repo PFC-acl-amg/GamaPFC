@@ -20,7 +20,9 @@ namespace Gama.Socios.Wpf.ViewModels
         private IEventAggregator _EventAggregator;
         private ISocioRepository _SocioRepository;
         private ISession _Session;
-
+        private PreferenciasDeSocios _Settings;
+        private IPeriodoDeAltaRepository _PeriodoDeAltaRepository;
+        private ICuotaRepository _CuotaRepository;
         public EditarPeriodosDeAltaViewModel(
             ISocioRepository socioRepository,
             IPeriodoDeAltaRepository periodoDeAltaRepository,
@@ -40,29 +42,21 @@ namespace Gama.Socios.Wpf.ViewModels
             ActualizarCommand = new DelegateCommand<PeriodoDeAltaWrapper>(OnActualizarCommandExecute,
                 OnActualizarCommandCanExecute);
         }
-
-        private void InvalidateCommands()
+        //---------------------------
+        // Publics principales
+        //---------------------------
+        public ISession Session
         {
-            ((DelegateCommand<PeriodoDeAltaWrapper>)ActualizarCommand).RaiseCanExecuteChanged();
-        }
-
-        public void Load(SocioWrapper socio)
-        {
-            Socio = socio;
-            if (socio.PeriodosDeAlta.FirstOrDefault() != null)
-                PeriodoDeAltaSeleccionado = socio.PeriodosDeAlta.FirstOrDefault();
-
-            foreach (var periodoDeAlta in Socio.PeriodosDeAlta)
+            get { return _Session; }
+            set
             {
-                periodoDeAlta.PropertyChanged += (s, e) => { InvalidateCommands(); };
+                _Session = value;
+                _SocioRepository.Session = value;
+                _CuotaRepository.Session = value;
+                _PeriodoDeAltaRepository.Session = value;
             }
         }
-
         public PeriodoDeAltaWrapper _PeriodoDeAltaSeleccionado;
-        private PreferenciasDeSocios _Settings;
-        private IPeriodoDeAltaRepository _PeriodoDeAltaRepository;
-        private ICuotaRepository _CuotaRepository;
-
         public PeriodoDeAltaWrapper PeriodoDeAltaSeleccionado
         {
             get { return _PeriodoDeAltaSeleccionado; }
@@ -71,9 +65,10 @@ namespace Gama.Socios.Wpf.ViewModels
                 _PeriodoDeAltaSeleccionado = value;
             }
         }
-
         public SocioWrapper Socio { get; set; }
-
+        //---------------------------
+        // ICommands
+        //---------------------------
         public ICommand ActualizarCommand { get; private set; }
 
         private bool OnActualizarCommandCanExecute(PeriodoDeAltaWrapper wrapper)
@@ -90,9 +85,6 @@ namespace Gama.Socios.Wpf.ViewModels
             // Guardamos las cuotas efectivas, esto es, donde se haya introducido algún
             // cambio alguna vez en alguno de sus campos
             var cuotasPreexistentes = new List<Cuota>(wrapper.Cuotas.Select(x => x.Model));
-
-            //wrapper.Cuotas.Clear();
-            //wrapper.MesesAplicables.Clear();
             // Los meses aplicables serán en forma de Cuota, desde el mes de alta hasta
             // el mes de baja o la fecha actual, en caso de no haber mes de baja establecido.
             var mesesAplicables = wrapper.GetMesesAplicables();
@@ -101,41 +93,15 @@ namespace Gama.Socios.Wpf.ViewModels
             foreach (var mesAplicable in mesesAplicables)
             {
                 wrapper.Cuotas.Add(new CuotaWrapper(mesAplicable));
-                //var cuota = cuotasPreexistentes.Where(x => x.Id == mesAplicable.Id).FirstOrDefault();
-
-                //// Si la cuota ya existe, la tomamos, actualizamos sus campos en caso de modificación
-                //// y la añadimos a la lista de cuotas.
-                //// Si no existe, es que es nueva o no tenía cambio, por lo que añadimos
-                //// una predeterminada, que es una Cuota con sólo el campo de "CantidadTotal" especificado,
-                //// que viene de los Settings según la Cuota Mensual Predeterminada
-                //if (cuota == null || cuota.PeriodoDeAlta == null)
-                //{
-                //    mesAplicable.CantidadTotal = _Settings.CuotaMensualPredeterminada;
-                //    wrapper.AddCuota(mesAplicable);
-                //    wrapper.MesesAplicables.Add(new CuotaWrapper(mesAplicable));
-                //    //_CuotaRepository.Create(cuota);
-                //}
-                //else // Se ha modificado una cuota existente
-                //{
-                //    cuota.CopyValuesFrom(mesAplicable);
-                //    cuota.PeriodoDeAlta = wrapper.Model;
-                //    wrapper.MesesAplicables.Add(new CuotaWrapper(cuota));
-                //    //_CuotaRepository.Update(cuota);
-                //    //wrapper.AddCuota(cuota);
-                //}
-
-
             }
             wrapper.MesesAplicables.Clear();
             wrapper.Cuotas.Clear();
             mesesAplicables.Select(x => new CuotaWrapper(x)).ToList().ForEach(c =>
-             {
-                 wrapper.MesesAplicables.Add(c);
-                 wrapper.Cuotas.Add(c);
-             }
+            {
+                wrapper.MesesAplicables.Add(c);
+                wrapper.Cuotas.Add(c);
+            }
             );
-
-            //_PeriodoDeAltaRepository.Update(wrapper.Model);
             _SocioRepository.Update(Socio.Model);
             wrapper.AcceptChanges();
             InvalidateCommands();
@@ -143,7 +109,21 @@ namespace Gama.Socios.Wpf.ViewModels
             _EventAggregator.GetEvent<PeriodoDeAltaActualizadoEvent>().Publish(wrapper.Id);
             _EventAggregator.GetEvent<ContabilidadModificadaEvent>().Publish(wrapper.Id);
         }
+       
+        //------------------------------
+        // Funciones/Procedimientos auxiliares
+        //-----------------------------
+        public void Load(SocioWrapper socio)
+        {
+            Socio = socio;
+            if (socio.PeriodosDeAlta.FirstOrDefault() != null)
+                PeriodoDeAltaSeleccionado = socio.PeriodosDeAlta.FirstOrDefault();
 
+            foreach (var periodoDeAlta in Socio.PeriodosDeAlta)
+            {
+                periodoDeAlta.PropertyChanged += (s, e) => { InvalidateCommands(); };
+            }
+        }
         public void AddPeriodoDeAlta()
         {
             var nuevoPeriodoDeAlta = new PeriodoDeAltaWrapper(new PeriodoDeAlta()
@@ -169,20 +149,17 @@ namespace Gama.Socios.Wpf.ViewModels
             _SocioRepository.Update(Socio.Model);
             Socio.AcceptChanges();
             InvalidateCommands();
-
-            _EventAggregator.GetEvent<SocioActualizadoEvent>().Publish(Socio.Model);
+            
+            //_EventAggregator.GetEvent<SocioActualizadoEvent>().Publish(Socio.Model);
+            _EventAggregator.GetEvent<PeriodoDeAltaActualizadoEvent>().Publish(Socio.Id);
+            _EventAggregator.GetEvent<ContabilidadModificadaEvent>().Publish(Socio.Id);
         }
-
-        public ISession Session
+        //------------------------------
+        // InvalidateCommands
+        //-----------------------------
+        private void InvalidateCommands()
         {
-            get { return _Session; }
-            set
-            {
-                _Session = value;
-                _SocioRepository.Session = value;
-                _CuotaRepository.Session = value;
-                _PeriodoDeAltaRepository.Session = value;
-            }
+            ((DelegateCommand<PeriodoDeAltaWrapper>)ActualizarCommand).RaiseCanExecuteChanged();
         }
     }
 }
