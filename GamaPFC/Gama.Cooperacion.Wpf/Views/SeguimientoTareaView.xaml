@@ -85,7 +85,7 @@
 
                 </StackPanel>
                 <StackPanel Height="220"  Grid.Row="1" Grid.ColumnSpan="2">
-                    <GroupBox Header="Nuevo Seguimiento">
+                    <GroupBox Header="Trabajo Realizado">
                         <StackPanel>
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -96,9 +96,9 @@
                                         BorderThickness="1.5" 
                                         CornerRadius="3"
                                         Margin="{StaticResource MarginHalfNoHorizontal}">
-                                    
+
                                     <TextBox   Grid.Row="0"
-                                             metro:TextBoxHelper.Watermark="Seguimiento"
+                                             metro:TextBoxHelper.Watermark="Trabajo Realizado"
                                              VerticalScrollBarVisibility="Auto"
                                              TextWrapping="Wrap"
                                              MinLines="5"
@@ -112,8 +112,6 @@
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
-
-
                     </GroupBox>
                 </StackPanel>
             </Grid>

@@ -38,12 +38,10 @@
             Command="{Binding NuevoActividadCommand}"
             Icon="{StaticResource appbar_text_size_plus}" 
             ToolTip="Nueva Actividad"/>
-
         <cc:CircleIconButton 
             Command="{Binding NuevoCooperanteCommand}"
             Icon="{StaticResource appbar_user_add}" 
             ToolTip="Nuevo Cooperante"/>
-
         <cc:CircleIconButton 
             Command="{Binding ExportarCommand}"
             Icon="{StaticResource appbar_archive}" 

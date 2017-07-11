@@ -233,7 +233,6 @@
     <Compile Include="ViewModels\SeguimientoTareaViewModel.cs" />
     <Compile Include="ViewModels\StatusBarViewModel.cs" />
     <Compile Include="ViewModels\TareasDeActividadViewModel.cs" />
-    <Compile Include="ViewModels\ToolbarTareaViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="Views\AgregarCooperanteView.xaml.cs">
       <DependentUpon>AgregarCooperanteView.xaml</DependentUpon>
@@ -309,9 +308,6 @@
     </Compile>
     <Compile Include="Views\PanelSwitcherView.xaml.cs">
       <DependentUpon>PanelSwitcherView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ToolbarTareaView.xaml.cs">
-      <DependentUpon>ToolbarTareaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ToolbarView.xaml.cs">
       <DependentUpon>ToolbarView.xaml</DependentUpon>
@@ -439,10 +435,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PanelSwitcherView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ToolbarTareaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
