@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Gama.Common.Eventos.ActiveViewChanged">
+    <Position X="0.5" Y="2.25" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Gama.Common.Eventos.LaConexionConElServidorHaCambiadoEvent">
+    <Position X="0.5" Y="5.25" Width="5.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Gama.Common.Eventos.PreferenciasActualizadasEvent">
+    <Position X="0.5" Y="3.75" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Gama.Common.Eventos.ServidorActualizadoDesdeFueraEvent">
+    <Position X="3" Y="3.75" Width="2.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Gama.Common.Eventos.VolverASeleccionDeModuloEvent">
+    <Position X="3" Y="2.25" Width="2.75" />
+    <TypeIdentifier />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -43,7 +43,7 @@ namespace Gama.Atenciones.Wpf
         {
             NHibernateSessionFactory._EXECUTE_DDL = false;
             _CLEAR_DATABASE = false;
-            _SEED_DATABASE = false;
+            _SEED_DATABASE = true;
         }
 
         protected override DependencyObject CreateShell()
