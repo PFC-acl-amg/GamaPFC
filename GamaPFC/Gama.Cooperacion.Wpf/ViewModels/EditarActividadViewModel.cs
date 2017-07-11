@@ -120,7 +120,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private void OnActualizarCommand()
         {
             UIServices.SetBusyState();
-            var cooperanteDummy = Actividad.Cooperantes.Where(c => c.Nombre == null).FirstOrDefault();
+            var cooperanteDummy = Actividad.Cooperantes.Where(c => c.Nombre == "").FirstOrDefault();
             if (cooperanteDummy != null)
             {
                 Actividad.Cooperantes.Remove(cooperanteDummy);
@@ -136,7 +136,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private void OnCancelarEdicionCommand()
         {
             Actividad.RejectChanges();
-            var cooperanteDummy = Actividad.Cooperantes.Where(c => c.Nombre == null).ToList();
+            var cooperanteDummy = Actividad.Cooperantes.Where(c => c.Nombre == "").ToList();
             if (cooperanteDummy.Count > 0)
             {
                 Actividad.Cooperantes.Remove(cooperanteDummy.First());

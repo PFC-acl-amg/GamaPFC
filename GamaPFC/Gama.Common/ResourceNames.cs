@@ -12,6 +12,7 @@ namespace Gama.Common
         public static string PersonasFolder = AppDataFolder + @"\Personas\";
         public static string AsistentesFolder = AppDataFolder + @"\Asistentes\";
         public static string SociosFolder = AppDataFolder + @"\Socios\";
+        public static string CooperanteFolder = AppDataFolder + @"\Cooperantes\";
         public static string IconsAndImagesFolder = AppDataFolder + @"\IconsAndImages\";
         public static string DefaultSearchIconPath = IconsAndImagesFolder + @"default_search_icon.png";
         public static string DefaultUserIconPath = IconsAndImagesFolder + @"default_user_icon.png";
@@ -30,6 +31,11 @@ namespace Gama.Common
         public static string GetSocioImagePath(int id)
         {
             return $"{SociosFolder}Socio-{id.ToString()}.png";
+        }
+
+        public static string GetCooperanteImagePath(int id)
+        {
+            return $"{CooperanteFolder}Cooperante-{id.ToString()}.png";
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Gama.Cooperacion.Business
         public virtual string Dni { get; set; } = "";
         public virtual int Id { get; set; }
         public virtual string Nombre { get; set; } = "";
-        public virtual string telefono { get; set; } = "";
+        public virtual string Telefono { get; set; } = "";
         public virtual byte[] Foto { get; set; }
         public virtual DateTime? FotoUpdatedAt { get; set; }
         public virtual string Observaciones { get; set; } = "";

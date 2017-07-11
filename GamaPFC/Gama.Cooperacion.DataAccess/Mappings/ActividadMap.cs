@@ -44,7 +44,7 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             HasManyToMany(x => x.Cooperantes)
                 .Table("CooperanteParticipaEnActividad")
                 .Not.LazyLoad()
-                .Cascade.None();
+                .Cascade.SaveUpdate();
                 
         }
     }
