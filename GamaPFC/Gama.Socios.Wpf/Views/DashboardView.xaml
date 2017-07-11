@@ -286,7 +286,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </StackPanel>
-        <Grid Grid.Column="2" Margin="4,4,4,0">
+        <Grid Grid.Column="2" Margin="4,4,0,0">
             <DataGrid
                   BorderThickness="1"
                   Grid.Row="1"
@@ -407,10 +407,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </StackPanel>
-        <!--<GroupBox Grid.Column="4" Header="Detalles Contables" Width="200" Background="Black">
-
-        </GroupBox>-->
-        <Grid  Width="350" Grid.Column="4" Grid.RowSpan="2" Background="#DEDADA" Margin="4,4,4,4"  Visibility="{Binding VisibleContableGeneral, 
+        <Grid  Width="360" Grid.Column="4" Grid.RowSpan="2" Background="#DEDADA" Margin="4,4,4,4"  Visibility="{Binding VisibleContableGeneral, 
                                                 Converter={StaticResource BooleanToVisivilityConverter}}">
             <Grid Grid.Row="0">
                 <Grid.RowDefinitions>
@@ -554,11 +551,11 @@
                     </GroupBox>
                 </Grid>
                 <Grid Grid.Row="2" Margin="{StaticResource Margin}">
-                    <GroupBox Background="#DEDADA">
+                    <GroupBox  Background="Black">
                         <GroupBox.Header>
-                            <Label Grid.Column="0" Background="Black" HorizontalAlignment="Center" Content="Detalles Contables" Foreground="White" Padding="0"></Label>
+                            <Label Grid.Column="0" HorizontalAlignment="Center" Content="Detalles Contables" Foreground="White" Padding="0"></Label>
                         </GroupBox.Header>
-                        <Grid>
+                        <Grid Background="White">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
@@ -621,7 +618,7 @@
                                             Margin="{StaticResource MarginHalfNoHorizontal}">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="60" />
+                                                    <ColumnDefinition Width="65" />
                                                     <ColumnDefinition Width="Auto" MinWidth="180"/>
                                                     <ColumnDefinition/>
                                                 </Grid.ColumnDefinitions>

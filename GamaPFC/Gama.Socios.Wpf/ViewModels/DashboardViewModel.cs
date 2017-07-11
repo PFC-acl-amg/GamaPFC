@@ -560,12 +560,7 @@ namespace Gama.Socios.Wpf.ViewModels
             };
 
             Socios.Insert(0, lookupItem);
-
-            // Si es su cumpleaños, añadirllo
-            if (socio.IsBirthday())
-            {
-                //SociosCumpliendoBirthdays.Insert(0, lookupItem);
-            }
+            OnPropertyChanged("Socios");
         }
 
         private void OnSocioDadoDeBajaEvent(int id)
