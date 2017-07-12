@@ -6,10 +6,11 @@
              xmlns:local="clr-namespace:Gama.Cooperacion.Wpf.Views"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              xmlns:designData="clr-namespace:Gama.Cooperacion.Wpf.DesignTimeData"
              prism:ViewModelLocator.AutoWireViewModel="False"
              mc:Ignorable="d" 
-             d:DesignHeight="338.71" d:DesignWidth="1058.785">
+             d:DesignHeight="535.21" d:DesignWidth="1058.785">
   <d:DataContext>
     <designData:ListadoDeActividadesVM_DTD/>
   </d:DataContext>
@@ -28,27 +29,22 @@
     </Grid.RowDefinitions>
 
     <StackPanel Orientation="Horizontal">
-      <Button Margin="{StaticResource Margin}" Command="{Binding PaginaAnteriorCommand}">
-        <Rectangle Width="15" Height="15">
-          <Rectangle.Fill>
-            <VisualBrush  Visual="{StaticResource appbar_arrow_left}"/>
-          </Rectangle.Fill>
-        </Rectangle>
-      </Button>
-      <TextBlock VerticalAlignment="Center">
+      <cc:CircleIconButton 
+          Margin="{StaticResource Margin}" 
+          Command="{Binding PaginaAnteriorCommand}"
+          Icon="{StaticResource appbar_arrow_left}"/>
+
+      <TextBlock VerticalAlignment="Center" FontStyle="Italic">
         <Run Text="Página"/>
-        <Run Text="{Binding Actividades.CurrentPage, Mode=OneWay}"/>
-        <Run Text="de"/>
-        <Run Text="{Binding Actividades.PageCount, Mode=OneWay}"/>
+        <Run Text="{Binding Actividades.CurrentPage, Mode=OneWay}" FontWeight="Bold"/>
+        <Run Text="/"/>
+        <Run Text="{Binding Actividades.PageCount, Mode=OneWay}" FontWeight="Bold"/>
       </TextBlock>
-      <Button Margin="{StaticResource Margin}" Command="{Binding PaginaSiguienteCommand}">
-        <Rectangle Width="15" Height="15">
-          <Rectangle.Fill>
-            <VisualBrush  Visual="{StaticResource appbar_arrow_right}"/>
-          </Rectangle.Fill>
-        </Rectangle>
-      </Button>
+
+      <cc:CircleIconButton Margin="{StaticResource Margin}" Command="{Binding PaginaSiguienteCommand}"
+                           Icon="{StaticResource appbar_arrow_right}"/>
     </StackPanel>
+
 
     <ItemsControl ItemsSource="{Binding Actividades}" Grid.Row="1">
       <ItemsControl.Template>
@@ -60,23 +56,52 @@
       </ItemsControl.Template>
       <ItemsControl.ItemTemplate>
         <DataTemplate>
-          <GroupBox Header="{Binding DisplayMember1}" MaxWidth="250">
-            <StackPanel Orientation="Vertical">
-              <TextBlock Text="{Binding DisplayMember2}" TextWrapping="Wrap" 
-                         Margin="{StaticResource Margin}"/>
-              <!--<TextBlock Text="{Binding DescripcionResumen}" TextWrapping="Wrap"
-                         Margin="{StaticResource Margin}"/>-->
-            </StackPanel>
-            <i:Interaction.Triggers>
-              <i:EventTrigger EventName="MouseDoubleClick">
-                <prism:InvokeCommandAction 
-                  Command="{Binding RelativeSource =
-                      {RelativeSource FindAncestor,
-                          AncestorType={x:Type Grid}},
-                          Path=DataContext.SeleccionarActividadCommand}"
-                  CommandParameter="{Binding Id}"/>
-              </i:EventTrigger>
-            </i:Interaction.Triggers>
+          <GroupBox Width="Auto" HorizontalAlignment="Left">
+            <!--<Border BorderThickness="1" CornerRadius="0" BorderBrush="#414749" Margin="2" Background="#D9D4CCBF">-->
+            <Grid>
+              <Grid.Style>
+                <Style TargetType="Grid">
+                  <Setter Property="Background" Value="Transparent"/>
+                  <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                      <Setter Property="Background" Value="#D94D7BA0"/>
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+              </Grid.Style>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="170" />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="125"/>
+                <RowDefinition  Height="Auto"/>
+              </Grid.RowDefinitions>
+
+              <Ellipse Height="105" Width="105" Margin="4,12,4,4" >
+                <Ellipse.Fill>
+                  <ImageBrush ImageSource="{StaticResource IconoModuloCooperacion}" Stretch="Uniform"/>
+                </Ellipse.Fill>
+              </Ellipse>
+
+              <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center"
+                           FontSize="14"
+                           FontStyle="Normal"
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
+                <!--<TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center"
+                           FontSize="13"
+                           TextWrapping="Wrap" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>-->
+              </StackPanel>
+            </Grid>
+            <GroupBox.InputBindings>
+              <MouseBinding MouseAction="LeftDoubleClick"
+                  Command="{Binding RelativeSource = 
+                    {RelativeSource FindAncestor,AncestorType={x:Type Grid}},
+                    Path=DataContext.SeleccionarActividadCommand}"
+                    CommandParameter="{Binding Id}"/>
+            </GroupBox.InputBindings>
+            <!--</Border>-->
           </GroupBox>
         </DataTemplate>
       </ItemsControl.ItemTemplate>

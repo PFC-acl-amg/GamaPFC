@@ -199,7 +199,7 @@ namespace Gama.Cooperacion.Wpf
                 cooperanteRepository.Session = session;
                 actividadRepository.Session = session;
 
-                var cooperantesFake = new FakeCooperanteRepository().GetAll().Take(10).ToList();
+                var cooperantesFake = new FakeCooperanteRepository().GetAll().Take(30).ToList();
                 var actividadesFake = new FakeActividadRepository().GetAll();
 
                 foreach (var cooperante in cooperantesFake)
@@ -207,7 +207,7 @@ namespace Gama.Cooperacion.Wpf
 
                 var coordinador = cooperanteRepository.GetAll().First();
 
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 30; i++)
                 {
                     var actividad = actividadesFake[i];
                     var eventosFake = new FakeEventoRepository().GetAll();

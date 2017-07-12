@@ -135,6 +135,8 @@ namespace Gama.Cooperacion.Wpf.Wrappers
 
         public bool TituloIsChanged => GetIsChanged(nameof(Titulo));
 
+        public string TituloCorto => Titulo.Length > 15 ? Titulo.Substring(0, 15) : Titulo;
+
         private CooperanteWrapper _Coordinador;
         
         public CooperanteWrapper Coordinador
