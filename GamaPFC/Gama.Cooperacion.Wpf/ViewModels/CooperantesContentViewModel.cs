@@ -67,7 +67,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _EventAggregator.GetEvent<CooperanteCreadoEvent>().Subscribe(OnCooperanteCreadoEvent);
             _EventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
             _EventAggregator.GetEvent<ActividadEliminadaEvent>().Subscribe(OnActividadEliminadaEvent);
-            _EventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnActividadNuevaEvent);
+            _EventAggregator.GetEvent<ActividadCreadaEvent>().Subscribe(OnActividadNuevaEvent);
 
             BorrarActividadCommand = new DelegateCommand<object>(OnBorrarActividadCommandExecute);
             EditarActividadCommand = new DelegateCommand<object>(OnEditarActividadCommandExecute);

@@ -1,5 +1,6 @@
 ﻿using Core.DataAccess;
 using Gama.Cooperacion.Business;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,46 @@ namespace Gama.Cooperacion.Wpf.Services
 {
     public class IncidenciaRepository : NHibernateOneSessionRepository<Incidencia, int>, IIncidenciaRepository
     {
-        public IncidenciaRepository()
+        private List<Incidencia> _Incidencias;
+
+        public IncidenciaRepository(EventAggregator eventAggregator) : base(eventAggregator)
         {
+
+        }
+
+        public List<Incidencia> Incidencias
+        {
+            get
+            {
+                if (_Incidencias == null)
+                    _Incidencias = base.GetAll();
+
+                return _Incidencias;
+            }
+            set
+            {
+                _Incidencias = value;
+            }
+        }
+
+        private void RaiseActualizarServidor()
+        {
+            if (CooperacionResources.ClientService != null && CooperacionResources.ClientService.IsConnected())
+                CooperacionResources.ClientService.EnviarMensaje($"Cliente {CooperacionResources.ClientId} ha hecho un broadcast @@{Guid.NewGuid()}%%COOPERACION");
+        }
+
+        public override Incidencia GetById(int id)
+        {
+            return Incidencias.Find(x => x.Id == id);
+        }
+
+        public override List<Incidencia> GetAll()
+        {
+            return Incidencias;
         }
 
         /// <summary>
-        /// Número de actividades creadas por mes en los últimos meses
+        /// Número de Incidencias creadas por mes en los últimos meses
         /// </summary>
         /// <param name="numeroDeMeses">Número de meses en total a devolver, incluyendo
         /// el mes actual.</param>

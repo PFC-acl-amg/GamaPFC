@@ -41,9 +41,9 @@ namespace Gama.Atenciones.Wpf
 
         public Bootstrapper(string title = "SERVICIO DE ATENCIONES") : base(title)
         {
-            NHibernateSessionFactory._EXECUTE_DDL = true;
+            NHibernateSessionFactory._EXECUTE_DDL = false;
             _CLEAR_DATABASE = false;
-            _SEED_DATABASE = true;
+            _SEED_DATABASE = false;
         }
 
         protected override DependencyObject CreateShell()
@@ -175,7 +175,6 @@ namespace Gama.Atenciones.Wpf
             #region Seeding
             if (_CLEAR_DATABASE || _SEED_DATABASE)
             {
-
                 // NOTA: No utilizamos los servicios directamente porque añaden código que afecta al resto de la aplicación
                 //, a través del EventAggregator por ejemplo. Sólo requerimos la funcionalidad de base de datos.
                 var personaRepository = new NHibernateOneSessionRepository<Persona, int>();// Container.Resolve<IPersonaRepository>();

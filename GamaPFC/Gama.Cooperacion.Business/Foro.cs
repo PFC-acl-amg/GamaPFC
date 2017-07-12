@@ -24,6 +24,12 @@ namespace Gama.Cooperacion.Business
             mensaje.Foro = this;
             Mensajes.Add(mensaje);
         }
+
+        public virtual void AddMensajes(List<Mensaje> mensajes)
+        {
+            foreach (var mensaje in mensajes)
+                AddMensaje(mensaje);
+        }
     }
 
 }

@@ -18,7 +18,7 @@ using Core.Util;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
-    public class EditarPersonaViewModel : ViewModelBase, IConfirmNavigationRequest, IActiveAware
+    public class EditarPersonaViewModel : ViewModelBase, IConfirmarPeticionDeNavegacion, IActiveAware
     {
         private IEventAggregator _EventAggregator;
         private IPersonaRepository _PersonaRepository;
@@ -242,7 +242,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
             InvalidateCommands();
         }
 
-        public bool ConfirmNavigationRequest()
+        public bool ConfirmarPeticionDeNavegacion()
         {
             if (_PersonaVM.Persona.IsChanged)
             {

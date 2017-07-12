@@ -12,6 +12,7 @@ namespace Gama.Cooperacion.Wpf.Services
     {
         ISession Session { get; set; }
         Seguimiento GetById(int id);
+        List<Seguimiento> Seguimientos { get; set; }
 
         List<Seguimiento> GetAll();
 

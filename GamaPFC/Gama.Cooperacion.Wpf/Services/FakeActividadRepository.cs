@@ -15,6 +15,19 @@ namespace Gama.Cooperacion.Wpf.Services
 
         public ISession Session { get; set; }
 
+        public List<Actividad> Actividades
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public void Create(Actividad entity)
         {
             _actividades.Add(entity);
@@ -79,6 +92,11 @@ namespace Gama.Cooperacion.Wpf.Services
                 resultado.Add(i + 2);
 
             return resultado;
+        }
+
+        public void DeleteAll()
+        {
+            throw new NotImplementedException();
         }
     }
 }

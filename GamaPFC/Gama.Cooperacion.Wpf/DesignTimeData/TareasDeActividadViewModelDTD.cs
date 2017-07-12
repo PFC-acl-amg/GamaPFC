@@ -26,9 +26,9 @@ namespace Gama.Cooperacion.Wpf.DesignTimeData
             MensajesDisponible.Add(new Mensaje() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Mensaje => Y Mvvm", });
             MensajesDisponible.Add(new Mensaje() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Mensaje => Aplicacionpara Gama" });
             var eventosDisponibles = new List<Evento>();
-            eventosDisponibles.Add(new Evento() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Crear las vistas Tarea", Ocurrencia = Ocurrencia.Mensaje_Publicado });
-            eventosDisponibles.Add(new Evento() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Hola a todos bienvenidos", Ocurrencia = Ocurrencia.Mensaje_Publicado });
-            eventosDisponibles.Add(new Evento() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Crear los ViewModels", Ocurrencia = Ocurrencia.Mensaje_Publicado });
+            eventosDisponibles.Add(new Evento() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Crear las vistas Tarea", Ocurrencia = Ocurrencia.Mensaje_Publicado.ToString() });
+            eventosDisponibles.Add(new Evento() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Hola a todos bienvenidos", Ocurrencia = Ocurrencia.Mensaje_Publicado.ToString() });
+            eventosDisponibles.Add(new Evento() { FechaDePublicacion = new DateTime(2008, 8, 29, 19, 27, 15), Titulo = "Crear los ViewModels", Ocurrencia = Ocurrencia.Mensaje_Publicado.ToString() });
             IsVisibleMensaje = false;
 
             EventoActividad = new List<EventoWrapper>(eventosDisponibles.Select(e => new EventoWrapper(e)));

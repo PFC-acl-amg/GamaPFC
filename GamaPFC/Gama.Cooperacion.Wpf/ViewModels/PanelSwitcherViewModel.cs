@@ -30,7 +30,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             this.NavigateCommand = new DelegateCommand<string>(Navigate);
 
             _EventAggregator.GetEvent<ActividadSeleccionadaEvent>().Subscribe(OnActividadSeleccionadaEvent);
-            _EventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
+            _EventAggregator.GetEvent<ActividadCreadaEvent>().Subscribe(OnNuevaActividadEvent);
 
             _EventAggregator.GetEvent<ActiveViewChanged>().Subscribe(OnActiveViewChangedEvent);
 

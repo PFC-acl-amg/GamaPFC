@@ -23,7 +23,7 @@ namespace Gama.Cooperacion.WpfTests
         Mock<ICooperanteRepository> _cooperanteRepositoryMock;
         Mock<Preferencias> _settingsMock;
         Mock<ISession> _sessionMock;
-        Mock<NuevaActividadEvent> _nuevaActividadEventMock;
+        Mock<ActividadCreadaEvent> _nuevaActividadEventMock;
         Mock<ActividadSeleccionadaEvent> _actividadSeleccionadaEventMock;
         Mock<ActividadActualizadaEvent> _actividadActualizadaEventMock;
 
@@ -38,13 +38,13 @@ namespace Gama.Cooperacion.WpfTests
             _cooperanteRepositoryMock = new Mock<ICooperanteRepository>();
             _settingsMock = new Mock<Preferencias>();
             _sessionMock = new Mock<ISession>();
-            _nuevaActividadEventMock = new Mock<NuevaActividadEvent>();
+            _nuevaActividadEventMock = new Mock<ActividadCreadaEvent>();
             _actividadSeleccionadaEventMock = new Mock<ActividadSeleccionadaEvent>();
             _actividadActualizadaEventMock = new Mock<ActividadActualizadaEvent>();
 
             _eventAggregatorMock.Setup(ea => ea.GetEvent<ActividadSeleccionadaEvent>())
                 .Returns(_actividadSeleccionadaEventMock.Object);
-            _eventAggregatorMock.Setup(ea => ea.GetEvent<NuevaActividadEvent>())
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<ActividadCreadaEvent>())
                 .Returns(_nuevaActividadEventMock.Object);
             _eventAggregatorMock.Setup(ea => ea.GetEvent<ActividadActualizadaEvent>())
                 .Returns(_actividadActualizadaEventMock.Object);
@@ -113,7 +113,7 @@ namespace Gama.Cooperacion.WpfTests
             //    _settingsMock.Object,
             //    _sessionMock.Object);
 
-            eventAggregator.GetEvent<NuevaActividadEvent>().Publish(actividad.Id);
+            eventAggregator.GetEvent<ActividadCreadaEvent>().Publish(actividad.Id);
 
             //Assert.Equal(actividad.Id, vm.UltimasActividades.First().Id);
         }

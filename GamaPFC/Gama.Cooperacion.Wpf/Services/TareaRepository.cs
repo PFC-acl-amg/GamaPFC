@@ -1,5 +1,6 @@
 ﻿using Core.DataAccess;
 using Gama.Cooperacion.Business;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,46 @@ namespace Gama.Cooperacion.Wpf.Services
 {
     public class TareaRepository : NHibernateOneSessionRepository<Tarea, int>, ITareaRepository
     {
-        public TareaRepository()
+        private List<Tarea> _Tareas;
+
+        public TareaRepository(EventAggregator eventAggregator) : base(eventAggregator)
         {
+
+        }
+
+        public List<Tarea> Tareas
+        {
+            get
+            {
+                if (_Tareas == null)
+                    _Tareas = base.GetAll();
+
+                return _Tareas;
+            }
+            set
+            {
+                _Tareas = value;
+            }
+        }
+
+        private void RaiseActualizarServidor()
+        {
+            if (CooperacionResources.ClientService != null && CooperacionResources.ClientService.IsConnected())
+                CooperacionResources.ClientService.EnviarMensaje($"Cliente {CooperacionResources.ClientId} ha hecho un broadcast @@{Guid.NewGuid()}%%COOPERACION");
+        }
+
+        public override Tarea GetById(int id)
+        {
+            return Tareas.Find(x => x.Id == id);
+        }
+
+        public override List<Tarea> GetAll()
+        {
+            return Tareas;
         }
 
         /// <summary>
-        /// Número de actividades creadas por mes en los últimos meses
+        /// Número de Tareas creadas por mes en los últimos meses
         /// </summary>
         /// <param name="numeroDeMeses">Número de meses en total a devolver, incluyendo
         /// el mes actual.</param>

@@ -20,7 +20,7 @@ using Gama.Common.Views;
 
 namespace Gama.Cooperacion.Wpf.ViewModels
 {
-    public class EditarActividadViewModel : ViewModelBase, IConfirmNavigationRequest, IActiveAware
+    public class EditarActividadViewModel : ViewModelBase, IActiveAware, IConfirmarPeticionDeNavegacion
     {
         private IEventAggregator _EventAggregator;
         private ICooperanteRepository _CooperanteRepository;
@@ -202,7 +202,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             ((DelegateCommand)CancelarEdicionCommand).RaiseCanExecuteChanged();
         }
 
-        public bool ConfirmNavigationRequest()
+        public bool ConfirmarPeticionDeNavegacion()
         {
             if (Actividad.IsChanged)
             {

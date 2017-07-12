@@ -1,4 +1,5 @@
 ﻿using Gama.Common.CustomControls;
+using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,13 @@ namespace Gama.Atenciones.Wpf.Views
             {
                 runtimeConstructor();
             }
+
+            Loaded += ActividadesContentView_Loaded;
+        }
+
+        private void ActividadesContentView_Loaded(object sender, RoutedEventArgs e)
+        {
+            ((MetroTabItem)_TabControl.Items[0]).IsSelected = true;
         }
 
         private void runtimeConstructor()

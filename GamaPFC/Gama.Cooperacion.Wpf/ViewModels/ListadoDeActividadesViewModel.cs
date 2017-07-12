@@ -45,7 +45,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             Actividades = new PaginatedCollectionView(_actividades,
                 userConfig.DashboardUltimasPersonas); // TODO PONER EL QU ES
 
-            _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
+            _eventAggregator.GetEvent<ActividadCreadaEvent>().Subscribe(OnNuevaActividadEvent);
             _eventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
 
             PaginaAnteriorCommand = new DelegateCommand(OnPaginaAnterior);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,13 @@ namespace Gama.Cooperacion.Wpf.Views
         public ActividadesContentView()
         {
             InitializeComponent();
+
+            Loaded += ActividadesContentView_Loaded;
+        }
+
+        private void ActividadesContentView_Loaded(object sender, RoutedEventArgs e)
+        {
+            ((MetroTabItem)_TabControl.Items[0]).IsSelected = true;
         }
     }
 }

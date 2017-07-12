@@ -102,7 +102,7 @@
             <Setter Property="Margin" Value="0"/>
         </Style>
     </UserControl.Resources>
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#5824636D" Margin="{StaticResource Margin}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="15"/>
@@ -181,7 +181,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </StackPanel>
-        <Grid Grid.Column="2" Background="Beige" Margin="4,4,0,4">
+        <Grid Grid.Column="2"  Margin="4,4,0,4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
@@ -290,7 +290,7 @@
                 </Grid>
             </ScrollViewer>
         </Grid>
-        <Grid Grid.Column="3" Background="Beige" Margin="0,4,4,4">
+        <Grid Grid.Column="3"  Margin="0,4,4,4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>

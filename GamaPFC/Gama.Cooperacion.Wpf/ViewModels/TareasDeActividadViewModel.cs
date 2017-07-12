@@ -450,7 +450,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 FechaDePublicacion = DateTime.Now,
                 Titulo = tituloEvento,
-                Ocurrencia = tipoEvento,
+                Ocurrencia = tipoEvento.ToString(),
             };
             _EventAggregator.GetEvent<PublicarEventosActividad>().Publish(eventoDeActividad);
         }

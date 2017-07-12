@@ -74,7 +74,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 FechaDePublicacion = DateTime.Now,
                 Titulo = TareaSeleccionada.Descripcion,
-                Ocurrencia = Ocurrencia.SEGUIMIENGO_EN_TAREA,
+                Ocurrencia = Ocurrencia.SEGUIMIENGO_EN_TAREA.ToString(),
             };
             _EventAggregator.GetEvent<PublicarEventosActividad>().Publish(eventoDeActividad);
             NuevoSeguimiento = null;

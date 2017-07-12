@@ -12,6 +12,7 @@ namespace Gama.Cooperacion.Wpf.Services
     {
         ISession Session { get; set; }
         Incidencia GetById(int id);
+        List<Incidencia> Incidencias { get; set; }
 
         List<Incidencia> GetAll();
 
