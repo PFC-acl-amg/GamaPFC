@@ -43,10 +43,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             _ActividadRepository.Session = session;
 
-            ListadoDeActividadesViewModel = listadoDeActividadesViewModel;
-
             Views = new ObservableCollection<MetroTabItem>();
-            AddView(container.Resolve<ListadoDeActividadesView>(), ListadoDeActividadesViewModel);
+            AddView(container.Resolve<ListadoDeActividadesView>(), listadoDeActividadesViewModel);
 
             CloseTabCommand = new DelegateCommand<MetroTabItem>(OnCloseTabCommandExecute);
 
@@ -87,8 +85,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 OnPropertyChanged("Views");
             }
         }
-        
-        public ListadoDeActividadesViewModel ListadoDeActividadesViewModel { get; private set; }
 
         public ICommand CloseTabCommand { get; private set; }
 
