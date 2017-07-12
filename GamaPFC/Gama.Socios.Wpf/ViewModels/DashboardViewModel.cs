@@ -44,6 +44,9 @@ namespace Gama.Socios.Wpf.ViewModels
         private int _MesesParaMoroso = 0;
         private int _NumSociosFiltrados = 0;
         private int _NumTotalSocios = 0;
+        private string _NacionEscogida;
+        private string _EdadEscogida;
+        private string _EstadoAltaEscogido;
 
         public DashboardViewModel(ISocioRepository socioRepository,
             ExportService exportService,
@@ -115,26 +118,33 @@ namespace Gama.Socios.Wpf.ViewModels
             _EventAggregator.GetEvent<SocioDadoDeBajaEvent>().Subscribe(OnSocioDadoDeBajaEvent);
             _EventAggregator.GetEvent<SocioActualizadoEvent>().Subscribe(OnSocioActualizadoEvent);
             _EventAggregator.GetEvent<PeriodoDeAltaActualizadoEvent>().Subscribe(OnNuevasCuotasSinContar);
-
             _EventAggregator.GetEvent<PreferenciasActualizadasEvent>().Subscribe(OnPreferenciasActualizadasEvent);
 
             SeleccionarSocioCommand = new DelegateCommand<LookupItem>(OnSeleccionarSocioCommandExecute);
             VisibleFiltroSociosCommand = new DelegateCommand(OnVisibleFiltroSociosCommand);
-
             MostrarFiltroFechas = new DelegateCommand(OnMostrarFiltroFechas);
             EditarSocioCommand = new DelegateCommand<LookupItem>(OnEditarSocioCommand);
             AplicarFiltroCommand = new DelegateCommand(OnAplicarFiltroCommand_Execute);
             ResetearFiltroCommand = new DelegateCommand(OnResetearFiltroCommand);
-
             MostarFiltroContable = new DelegateCommand(OnMostarFiltroContable);
             ExportarListaFiltrada = new DelegateCommand(OnExportarListaFiltrada);
             FiltroContableCommand = new DelegateCommand(OnFiltroContableCommand);
             ResetearFechaContableCommand = new DelegateCommand(OnResetearFechaContableCommand);
 
-            InicializarGraficos();
             PrepararFiltro();
             OnAplicarFiltroCommand_Execute();
         }
+
+        //----------------------------------------
+        // Contenedores, Listas, Entidades, Views, ViewModels, ...
+        //----------------------------------------
+        public ObservableCollection<LookupItem> Socios { get; private set; }
+        public ObservableCollection<LookupItem> SociosMorosos { get; private set; }
+        public ObservableCollection<LookupItem> SociosFiltrados { get; set; }
+        public ObservableCollection<string> Nacionalidades { get; set; }
+        public ObservableCollection<string> Edades { get; set; }
+        public ObservableCollection<string> EstadosDeAlta { get; set; }
+        public ChartValues<int> SociosNuevosPorMes { get; set; }
         //----------------------------------------
         // ICommands - Declaraciones
         //----------------------------------------
@@ -230,7 +240,7 @@ namespace Gama.Socios.Wpf.ViewModels
             SociosFiltrados.AddRange(listadoAuxiliar);
 
             NumeroTotalDeSociosFiltrados = SociosFiltrados.Count;
-            NumeroTotalDeSocios = _Socios.Count;
+            NumeroTotalDeSocios = Socios.Count;
             OnPropertyChanged(nameof(SociosFiltrados));
         }
         private void OnResetearFiltroCommand()
@@ -363,157 +373,14 @@ namespace Gama.Socios.Wpf.ViewModels
             ActualizarDatosContables();
 
         }
-
-
-        public ObservableCollection<LookupItem> Socios { get; private set; }
-        public ObservableCollection<LookupItem> SociosMorosos { get; private set; }
-        public ObservableCollection<LookupItem> SociosFiltrados { get; set; }
-        public ObservableCollection<string> Nacionalidades { get; set; }
-        public ObservableCollection<string> Edades { get; set; }
-        public ObservableCollection<string> EstadosDeAlta { get; set; }
-        public ChartValues<int> SociosNuevosPorMes { get; set; }
-       
-
+        
+        //--------------------------------------------------
+        // Eventos - 
+        //--------------------------------------------------
         private void OnNuevasCuotasSinContar(int obj)
         {
             OnResetearFechaContableCommand();
         }
-        private void PrepararFiltro()
-        {
-            SociosFiltrados = new ObservableCollection<LookupItem>(
-                    _Socios
-                    .OrderBy(x => x.Id)
-                    .Select(a => new LookupItem
-                    {
-                        Id = a.Id,
-                        FechaDeNacimiento = a.FechaDeNacimiento,
-                        Telefono = a.Telefono,
-                        Email = a.Email,
-                        DisplayMember1 = a.Nombre,
-                        DisplayMember2 = a.Nif,
-                        Imagen = a.Imagen,
-                        Nacionalidad = a.Nacionalidad,
-                        EstaDadoDeAlta = a.EstaDadoDeAlta
-                    }));
-
-            Nacionalidades.Clear();
-            Nacionalidades.Add("Todas");
-            Nacionalidades.AddRange(_Socios.Select(x => x.Nacionalidad).Distinct());
-            NacionEscogida = "Todas";
-
-            Edades.Clear();
-            Edades.AddRange(new string[] { "Todas", "Hasta 25", "26-40", "41-55", "56-65", "Más de 65" });
-            EdadEscogida = "Todas";
-
-            EstadosDeAlta.Clear();
-            EstadosDeAlta.AddRange(new string[] { "Todos", "Alta", "Baja" });
-            EstadoAltaEscogido = "Todos";
-        }
-
-
-      
-        private string _NacionEscogida;
-        public string NacionEscogida
-        {
-            get { return _NacionEscogida; }
-            set
-            {
-                if (_NacionEscogida != value)
-                {
-                    _NacionEscogida = value;
-                    OnPropertyChanged();
-                }
-
-            }
-        }
-        private string _EdadEscogida;
-        public string EdadEscogida
-        {
-            get { return _EdadEscogida; }
-            set
-            {
-                if (_EdadEscogida != value)
-                {
-                    _EdadEscogida = value;
-                    OnPropertyChanged();
-                }
-
-            }
-        }
-        private string _EstadoAltaEscogido;
-        public string EstadoAltaEscogido
-        {
-            get { return _EstadoAltaEscogido; }
-            set
-            {
-                if (_EstadoAltaEscogido != value)
-                {
-                    _EstadoAltaEscogido = value;
-                    OnPropertyChanged();
-                }
-
-            }
-        }
-        private void ActualizarDatosContables()
-        {
-            double TotalPagado = 0;
-            double TotalSinPagar = 0;
-            double TotalImpagos = 0;
-            int CPagado = 0;
-            int CPorPagar = 0;
-            int CImpagada = 0;
-            var altas = _PriodosDeAltaRepository.GetAll();
-            var AllCuotas = _CuotaRepository.GetAll();
-            _MesesParaMoroso = _Preferencias.MesesParaSerConsideradoMoroso;
-            if ((FechaFinOpcion == null) && (FechaFinOpcion == null))  // No hay fecha seleccionada => se calcula todo
-            {
-                //foreach (var Recibo in altas)
-                //{
-                foreach (var cuot in AllCuotas)
-                {
-                    if (cuot.EstaPagado)
-                    {
-                        TotalPagado = TotalPagado + cuot.CantidadTotal;
-                        CPagado += 1;
-                    }
-                    else
-                    {
-                        //int SemanaFin = DateTime.Compare(_FechaTest, ActividadSeleccionada.FechaDeFin.AddDays(-7));
-                        int FueraPlazo = DateTime.Compare(cuot.Fecha.AddMonths(_MesesParaMoroso), DateTime.Now.Date);
-                        if (FueraPlazo == -1)
-                        {
-                            TotalImpagos = TotalImpagos + (cuot.CantidadTotal - cuot.CantidadPagada);
-                            CImpagada++;
-                        }
-                        else
-                        {
-                            TotalSinPagar = TotalSinPagar + (cuot.CantidadTotal - cuot.CantidadPagada);
-                            CPorPagar++;
-                        }
-                    }
-                    //else TotalSinPagar = TotalSinPagar + cuot.CantidadPagada;
-                }
-                //}
-                //Fin Calculo contable-----------
-            }
-            CuotasPagadas = CPagado;
-            CantidadCuotasPagadas = TotalPagado;
-            CuotasPorPagar = CPorPagar;
-            CantidadTotalPorPagar = TotalSinPagar;
-            CuotasImpagadas = CImpagada;
-            CantidadTotalImpagadas = TotalImpagos;
-
-
-        }
-
-      
-
-       
-
-       
-
-        
-
         private void OnPreferenciasActualizadasEvent()
         {
             if (SociosMorosos.Count != _Preferencias.DashboardSociosMorosos)
@@ -533,30 +400,9 @@ namespace Gama.Socios.Wpf.ViewModels
                 OnPropertyChanged(nameof(SociosMorosos));
             }
         }
-
-        private void InicializarGraficos()
-        {
-            _Labels = new[] {
-                "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago","Sep","Oct", "Nov", "Dic",
-                "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic", };
-
-            _MesInicialSocios = 12 + (DateTime.Now.Month - 1) - _Preferencias.DashboardMesesAMostrarDeSociosNuevos + 1;
-
-            SociosNuevosPorMes = new ChartValues<int>(_SocioRepository.GetSociosNuevosPorMes(
-                       _Preferencias.DashboardMesesAMostrarDeSociosNuevos));
-        }
-
-
-        public string[] SociosLabels =>
-            _Labels.Skip(_MesInicialSocios)
-                .Take(_Preferencias.DashboardMesesAMostrarDeSociosNuevos).ToArray();
-
-       
-
         private void OnSocioCreadoEvent(int id)
         {
             var socio = _SocioRepository.GetById(id);
-
             var lookupItem = new LookupItem
             {
                 Id = socio.Id,
@@ -565,22 +411,17 @@ namespace Gama.Socios.Wpf.ViewModels
                 Imagen = socio.Imagen,
                 Nacionalidad = socio.Nacionalidad,
                 FechaDeNacimiento = socio.FechaDeNacimiento,
-
+                Email = socio.Email,
             };
-
             SociosFiltrados.Insert(0, lookupItem);
+            Socios.Add(lookupItem);
+            PrepararFiltro();
             OnPropertyChanged("SociosFiltrados");
         }
-
         private void OnSocioDadoDeBajaEvent(int id)
         {
-            //UltimosSocios.Remove(UltimosSocios.First(x => x.Id == id));
-            //SociosCumpliendoBirthdays.Remove(SociosCumpliendoBirthdays.First(x => x.Id == id));
-
-            // No lo quitamos de la lista de morosos ya que aunque esté dado de baja, queremos
-            // que se visualice
+            // Se pone a Dado de baja pero no se elimina de la base de datos.
         }
-
         private void OnSocioActualizadoEvent(Socio socioActualizado)
         {
             var socio = socioActualizado;
@@ -589,27 +430,17 @@ namespace Gama.Socios.Wpf.ViewModels
             var socioDesactualizado = Socios.Where(x => x.Id == id).FirstOrDefault();
             if (socioDesactualizado != null)
             {
+                SociosFiltrados.Remove(socioDesactualizado);
+                Socios.Remove(socioDesactualizado);
                 socioDesactualizado.DisplayMember1 = socio.Nombre;
                 socioDesactualizado.DisplayMember2 = socio.Nif;
                 socioDesactualizado.Imagen = socio.Imagen;
+                socioDesactualizado.Nacionalidad = socio.Nacionalidad;
+                socioDesactualizado.FechaDeNacimiento = socio.FechaDeNacimiento;
+                socioDesactualizado.Email = socio.Email;
             }
-
-            // Actualizar a cumpleañeros o lista de morosos. Tal vez hay que quitarlo o ponerlo.
-
-            // Si es cumpleañeros y no está en la lista, añadirlo
-            //if (socioActualizado.IsBirthday() &&
-            //    SociosCumpliendoBirthdays.FirstOrDefault(x => x.Id == id) == null)
-            //{
-            //    SociosCumpliendoBirthdays.Insert(0, socioDesactualizado);
-            //}
-
-            //// Si ahora no es cumpleañero y está en la lista, quitarlo
-            //if (!socioActualizado.IsBirthday() &&
-            //    SociosCumpliendoBirthdays.FirstOrDefault(x => x.Id == id) != null)
-            //{
-            //    SociosCumpliendoBirthdays.Remove(SociosCumpliendoBirthdays.FirstOrDefault(x => x.Id == id));
-            //}
-
+            SociosFiltrados.Add(socioDesactualizado);
+            Socios.Add(socioDesactualizado);
             // Si es moroso y no está en la lista, añadirlo
             if (socioActualizado.EsMoroso() &&
                 SociosMorosos.FirstOrDefault(x => x.Id == id) == null)
@@ -622,6 +453,49 @@ namespace Gama.Socios.Wpf.ViewModels
                 SociosMorosos.FirstOrDefault(x => x.Id == id) != null)
             {
                 SociosMorosos.Remove(SociosMorosos.FirstOrDefault(x => x.Id == id));
+            }
+        }
+
+        //--------------------------------------------------
+        // Bindings - 
+        //--------------------------------------------------
+        public string NacionEscogida
+        {
+            get { return _NacionEscogida; }
+            set
+            {
+                if (_NacionEscogida != value)
+                {
+                    _NacionEscogida = value;
+                    OnPropertyChanged();
+                }
+
+            }
+        }
+        public string EdadEscogida
+        {
+            get { return _EdadEscogida; }
+            set
+            {
+                if (_EdadEscogida != value)
+                {
+                    _EdadEscogida = value;
+                    OnPropertyChanged();
+                }
+
+            }
+        }
+        public string EstadoAltaEscogido
+        {
+            get { return _EstadoAltaEscogido; }
+            set
+            {
+                if (_EstadoAltaEscogido != value)
+                {
+                    _EstadoAltaEscogido = value;
+                    OnPropertyChanged();
+                }
+
             }
         }
         public DateTime? FechaInicioOpcion
@@ -639,19 +513,16 @@ namespace Gama.Socios.Wpf.ViewModels
             get { return _NumTotalSocios; }
             set { SetProperty(ref _NumTotalSocios, value); }
         }
-
         public int NumeroTotalDeSociosFiltrados
         {
             get { return _NumSociosFiltrados; }
             set { SetProperty(ref _NumSociosFiltrados, value); }
         }
-
         public double CuotasPagadas
         {
             get { return _CuotasPagadas; }
             set { SetProperty(ref _CuotasPagadas, value); }
         }
-
         public double CantidadCuotasPagadas
         {
             get { return _CantidadCuotasPagadas; }
@@ -691,6 +562,84 @@ namespace Gama.Socios.Wpf.ViewModels
         {
             get { return _VisibleOpcionesFiltro; }
             set { SetProperty(ref _VisibleOpcionesFiltro, value); }
+        }
+
+        //--------------------------------------------------
+        // Procedimiento y Finciones Auxiliares - 
+        //--------------------------------------------------
+        private void PrepararFiltro()
+        {
+            SociosFiltrados = new ObservableCollection<LookupItem>(
+                    Socios
+                    .OrderBy(x => x.Id)
+                    .Select(a => new LookupItem
+                    {
+                        Id = a.Id,
+                        FechaDeNacimiento = a.FechaDeNacimiento,
+                        Telefono = a.Telefono,
+                        Email = a.Email,
+                        DisplayMember1 = a.DisplayMember1,
+                        DisplayMember2 = a.DisplayMember2,
+                        Imagen = a.Imagen,
+                        Nacionalidad = a.Nacionalidad,
+                        EstaDadoDeAlta = a.EstaDadoDeAlta
+                    }));
+
+            Nacionalidades.Clear();
+            Nacionalidades.Add("Todas");
+            Nacionalidades.AddRange(Socios.Select(x => x.Nacionalidad).Distinct());
+            NacionEscogida = "Todas";
+
+            Edades.Clear();
+            Edades.AddRange(new string[] { "Todas", "Hasta 25", "26-40", "41-55", "56-65", "Más de 65" });
+            EdadEscogida = "Todas";
+
+            EstadosDeAlta.Clear();
+            EstadosDeAlta.AddRange(new string[] { "Todos", "Alta", "Baja" });
+            EstadoAltaEscogido = "Todos";
+        }
+        private void ActualizarDatosContables()
+        {
+            double TotalPagado = 0;
+            double TotalSinPagar = 0;
+            double TotalImpagos = 0;
+            int CPagado = 0;
+            int CPorPagar = 0;
+            int CImpagada = 0;
+            var altas = _PriodosDeAltaRepository.GetAll();
+            var AllCuotas = _CuotaRepository.GetAll();
+            _MesesParaMoroso = _Preferencias.MesesParaSerConsideradoMoroso;
+            if ((FechaFinOpcion == null) && (FechaFinOpcion == null))  // No hay fecha seleccionada => se calcula todo
+            {
+                foreach (var cuot in AllCuotas)
+                {
+                    if (cuot.EstaPagado)
+                    {
+                        TotalPagado = TotalPagado + cuot.CantidadTotal;
+                        CPagado += 1;
+                    }
+                    else
+                    {
+                        int FueraPlazo = DateTime.Compare(cuot.Fecha.AddMonths(_MesesParaMoroso), DateTime.Now.Date);
+                        if (FueraPlazo == -1)
+                        {
+                            TotalImpagos = TotalImpagos + (cuot.CantidadTotal - cuot.CantidadPagada);
+                            CImpagada++;
+                        }
+                        else
+                        {
+                            TotalSinPagar = TotalSinPagar + (cuot.CantidadTotal - cuot.CantidadPagada);
+                            CPorPagar++;
+                        }
+                    }
+                }
+            }
+            CuotasPagadas = CPagado;
+            CantidadCuotasPagadas = TotalPagado;
+            CuotasPorPagar = CPorPagar;
+            CantidadTotalPorPagar = TotalSinPagar;
+            CuotasImpagadas = CImpagada;
+            CantidadTotalImpagadas = TotalImpagos;
         }
     }
 }
