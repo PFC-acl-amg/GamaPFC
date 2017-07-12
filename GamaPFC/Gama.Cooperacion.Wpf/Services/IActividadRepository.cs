@@ -27,7 +27,6 @@ namespace Gama.Cooperacion.Wpf.Services
         void Delete(Actividad entity);
 
         void Flush();
-
-        List<int> GetActividadesNuevasPorMes(int numeroDeMeses);
+        
     }
 }
