@@ -108,6 +108,10 @@ namespace Gama.Socios.Wpf.ViewModels
                 Id = socio.Id,
                 DisplayMember1 = socio.Nombre,
                 DisplayMember2 = socio.Nif,
+                Imagen = socio.Imagen,
+                Nacionalidad = socio.Nacionalidad,
+                FechaDeNacimiento = socio.FechaDeNacimiento,
+                Email = socio.Email,
             });
             OnPreferenciasActualizadasEvent();
         }
@@ -122,6 +126,10 @@ namespace Gama.Socios.Wpf.ViewModels
                 socioEncontrado.DisplayMember1 = socio.Nombre;
                 socioEncontrado.DisplayMember2 = socio.Nif;
                 socioEncontrado.Id = socio.Id;
+                socioEncontrado.Imagen = socio.Imagen;
+                socioEncontrado.Nacionalidad = socio.Nacionalidad;
+                socioEncontrado.FechaDeNacimiento = socio.FechaDeNacimiento;
+                socioEncontrado.Email = socio.Email;
             }
         }
 
