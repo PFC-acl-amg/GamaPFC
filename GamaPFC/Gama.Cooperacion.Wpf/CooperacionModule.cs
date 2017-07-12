@@ -61,17 +61,17 @@ namespace Gama.Cooperacion.Wpf
 
         private void RegisterViews()
         {
-            //Container.RegisterType<object, ActividadesContentView>("ActividadesContentView");
-            //Container.RegisterType<object, CooperanteView>("CooperantesContentView");
-            //Container.RegisterType<object, DashboardView>("DashboardView");
-            //Container.RegisterType<object, EditarActividadView>("EditarActividadView");
-            //Container.RegisterType<object, InformacionDeActividadView>("InformacionDeActividadView");
-            //Container.RegisterType<object, ListadoDeActividadesView>("ListadoDeActividadesView");
-            //Container.RegisterType<object, NuevaActividadView>("NuevaActividadView");
-            //Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
-            //Container.RegisterType<object, StatusBarView>("StatusBarView");
-            //Container.RegisterType<object, ToolbarView>("ToolbarView");
-            //Container.RegisterType<object, TareasDeActividad>("TareasDeActividad");
+            Container.RegisterType<object, ActividadesContentView>("ActividadesContentView");
+            Container.RegisterType<object, CooperanteView>("CooperantesContentView");
+            Container.RegisterType<object, DashboardView>("DashboardView");
+            Container.RegisterType<object, EditarActividadView>("EditarActividadView");
+            Container.RegisterType<object, InformacionDeActividadView>("InformacionDeActividadView");
+            Container.RegisterType<object, ListadoDeActividadesView>("ListadoDeActividadesView");
+            Container.RegisterType<object, NuevaActividadView>("NuevaActividadView");
+            Container.RegisterType<object, PanelSwitcherView>("PanelSwitcherView");
+            Container.RegisterType<object, StatusBarView>("StatusBarView");
+            Container.RegisterType<object, ToolbarView>("ToolbarView");
+            Container.RegisterType<object, TareasDeActividad>("TareasDeActividad");
         }
 
         private void RegisterViewModels()

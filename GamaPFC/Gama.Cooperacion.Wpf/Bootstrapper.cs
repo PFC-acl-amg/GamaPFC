@@ -45,8 +45,8 @@ namespace Gama.Cooperacion.Wpf
         public Bootstrapper(string title = "COOPERACIÓN") : base(title)
         {
             NHibernateSessionFactory._EXECUTE_DDL = false;
-            _CLEAR_DATABASE = true;
-            _SEED_DATABASE = true;
+            _CLEAR_DATABASE = false;
+            _SEED_DATABASE = false;
         }
 
         protected override DependencyObject CreateShell()
@@ -81,8 +81,8 @@ namespace Gama.Cooperacion.Wpf
             if (!Directory.Exists(ResourceNames.AppDataFolder))
                 Directory.CreateDirectory(ResourceNames.AppDataFolder);
 
-            if (!Directory.Exists(ResourceNames.PersonasFolder))
-                Directory.CreateDirectory(ResourceNames.SociosFolder);
+            if (!Directory.Exists(ResourceNames.CooperanteFolder))
+                Directory.CreateDirectory(ResourceNames.CooperanteFolder);
 
             if (!Directory.Exists(ResourceNames.IconsAndImagesFolder))
                 Directory.CreateDirectory(ResourceNames.IconsAndImagesFolder);

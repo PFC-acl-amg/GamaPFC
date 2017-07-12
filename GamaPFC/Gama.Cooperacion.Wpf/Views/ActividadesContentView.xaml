@@ -66,7 +66,7 @@
                     VerticalAlignment="Center"
                     Foreground="White"
                     Command="{Binding ElementName=_Root, Path=DataContext.CloseTabCommand}"
-                    CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}">
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=metro:MetroTabItem}}">
                     <Button.Style>
                       <Style TargetType="Button">
                         <Setter Property="Width" Value="20"/>
@@ -113,6 +113,8 @@
   </UserControl.Resources>
 
   <metro:MetroAnimatedSingleRowTabControl
-    ItemsSource="{Binding ViewModels}"
-    SelectedItem="{Binding ViewModelSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+    ItemsSource="{Binding Views}"
+    SelectionChanged="MetroAnimatedSingleRowTabControl_SelectionChanged"
+    SelectedItem="{Binding ViewSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+  </metro:MetroAnimatedSingleRowTabControl>
 </UserControl>

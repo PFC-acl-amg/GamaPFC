@@ -3,6 +3,8 @@ using Gama.Common;
 using Gama.Common.Eventos;
 using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Services;
+using Gama.Cooperacion.Wpf.Views;
+using MahApps.Metro.Controls;
 using Microsoft.Practices.Unity;
 using NHibernate;
 using Prism;
@@ -15,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Gama.Cooperacion.Wpf.ViewModels
@@ -37,28 +40,64 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _EventAggregator = eventAggregator;
             _Container = container;
             _Session = session;
-            
+
             _ActividadRepository.Session = session;
 
-            ViewModels = new ObservableCollection<object>();
-            ViewModels.Add(listadoDeActividadesViewModel);
-            ViewModelSeleccionado = ViewModels.First();
-            SelectedIndex = 0;
+            ListadoDeActividadesViewModel = listadoDeActividadesViewModel;
 
-            CloseTabCommand = new DelegateCommand<EditarActividadViewModel>(OnCloseTabCommandExecute);
+            Views = new ObservableCollection<MetroTabItem>();
+            AddView(container.Resolve<ListadoDeActividadesView>(), ListadoDeActividadesViewModel);
+
+            CloseTabCommand = new DelegateCommand<MetroTabItem>(OnCloseTabCommandExecute);
 
             _EventAggregator.GetEvent<ActividadCreadaEvent>().Subscribe(OnActividadNuevaEvent);
             _EventAggregator.GetEvent<ActividadSeleccionadaEvent>().Subscribe(OnActividadSeleccionadaEvent);
         }
 
-        public ObservableCollection<object> ViewModels { get; private set; }
+        private MetroTabItem AddView(EditarActividadView view, EditarActividadViewModel viewModel)
+        {
+            var tabItem = new MetroTabItem();
+            tabItem.DataContext = viewModel;
+            tabItem.Content = view;
+            Views.Add(tabItem);
+            return tabItem;
+        }
+
+        private MetroTabItem AddView(ListadoDeActividadesView view, ListadoDeActividadesViewModel viewModel)
+        {
+            var tabItem = new MetroTabItem();
+            tabItem.DataContext = viewModel;
+            tabItem.Content = view;
+            Views.Add(tabItem);
+            return tabItem;
+        }
+
+        private ObservableCollection<MetroTabItem> _Views;
+        public ObservableCollection<MetroTabItem> Views
+        {
+            get { return _Views; }
+            set
+            {
+                _Views = value;
+                value.CollectionChanged += delegate
+                {
+                    OnPropertyChanged("Views");
+                };
+
+                OnPropertyChanged("Views");
+            }
+        }
+        
+        public ListadoDeActividadesViewModel ListadoDeActividadesViewModel { get; private set; }
 
         public ICommand CloseTabCommand { get; private set; }
 
-        private void OnCloseTabCommandExecute(EditarActividadViewModel viewModelACerrar)
+        private void OnCloseTabCommandExecute(MetroTabItem tabItemACerrar)
         {
-            if (viewModelACerrar.ConfirmNavigationRequest())
-                ViewModels.Remove(viewModelACerrar);
+            var viewModel = tabItemACerrar.DataContext as IConfirmarPeticionDeNavegacion;
+
+            if (viewModel.ConfirmarPeticionDeNavegacion())
+                Views.Remove(tabItemACerrar);
         }
 
         private int _SelectedIndex;
@@ -68,29 +107,28 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             set { SetProperty(ref _SelectedIndex, value); }
         }
 
-        private object _ViewModelSeleccionado;
-        public object ViewModelSeleccionado
+        private object _ViewSeleccionada;
+        public object ViewSeleccionada
         {
-            get { return _ViewModelSeleccionado; }
+            get { return _ViewSeleccionada; }
             set
             {
-                SetProperty(ref _ViewModelSeleccionado, value);
+                SetProperty(ref _ViewSeleccionada, value);
                 SetActiveTab();
             }
         }
 
         private void SetActiveTab()
         {
-            foreach (var viewModel in ViewModels)
+            foreach (var view in Views)
             {
-                var activeAwareViewModel = viewModel as IActiveAware;
-                if (activeAwareViewModel != null)
-                {
-                    if (activeAwareViewModel == ViewModelSeleccionado)
-                        activeAwareViewModel.IsActive = true;
-                    else
-                        activeAwareViewModel.IsActive = false;
-                }
+                if (view.Content as ListadoDeActividadesView != null)
+                    continue;
+
+                if (view == ViewSeleccionada)
+                    ((IActiveAware)view.DataContext).IsActive = true;
+                else
+                    ((IActiveAware)view.DataContext).IsActive = false;
             }
         }
 
@@ -110,12 +148,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             if (!ActividadEstaAbierta(id))
             {
                 var newViewModel = _Container.Resolve<EditarActividadViewModel>();
-
-                ViewModels.Add(newViewModel);
+                var newView = _Container.Resolve<EditarActividadView>();
+                newView.DataContext = newViewModel;
 
                 newViewModel.OnNavigatedTo(id);
-
-                ViewModelSeleccionado = newViewModel;
+                
+                ViewSeleccionada = AddView(newView, newViewModel);
             }
 
             _EventAggregator.GetEvent<ActiveViewChanged>().Publish("ActividadesContentView");
@@ -125,15 +163,15 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             try
             {
-                foreach (var viewModel in ViewModels)
+                foreach (var view in Views)
                 {
-                    var editarActividadViewModel = viewModel as EditarActividadViewModel;
-                    if (editarActividadViewModel != null)
+                    var editarActividadView = view.Content as EditarActividadView;
+                    if (editarActividadView != null)
                     {
-                        if (editarActividadViewModel.InformacionDeActividadViewModel.Actividad.Id == actividadId)
+                        if (((EditarActividadViewModel)editarActividadView.DataContext).InformacionDeActividadViewModel.Actividad.Id == actividadId)
                         {
-                            editarActividadViewModel.OnNavigatedTo(actividadId);
-                            ViewModelSeleccionado = editarActividadViewModel;
+                            ((EditarActividadViewModel)editarActividadView.DataContext).OnNavigatedTo(actividadId);
+                            ViewSeleccionada = view;
                             return true;
                         }
                     }

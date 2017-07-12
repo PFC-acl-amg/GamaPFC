@@ -24,5 +24,10 @@ namespace Gama.Cooperacion.Wpf.Views
         {
             InitializeComponent();
         }
+
+        private void MetroAnimatedSingleRowTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int a = 2;
+        }
     }
 }

@@ -222,6 +222,7 @@
     <Compile Include="ViewModels\CrearNuevoForoViewModel.cs" />
     <Compile Include="ViewModels\EditarActividadViewModel.cs" />
     <Compile Include="ViewModels\ActividadesContentViewModel.cs" />
+    <Compile Include="ViewModels\IConfirmarPeticionDeNavegacion.cs" />
     <Compile Include="ViewModels\InformacionDeActividadViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\InformacionTareaViewModel.cs" />
