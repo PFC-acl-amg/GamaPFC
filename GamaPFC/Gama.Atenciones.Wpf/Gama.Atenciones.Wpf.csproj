@@ -277,6 +277,7 @@
     <Compile Include="ViewModels\EditarAtencionesViewModel.cs" />
     <Compile Include="ViewModels\EditarCitasViewModel.cs" />
     <Compile Include="ViewModels\EditarPersonaViewModel.cs" />
+    <Compile Include="ViewModels\IConfirmarPeticionDeNavegacion.cs" />
     <Compile Include="ViewModels\NuevoAsistenteViewModel.cs" />
     <Compile Include="ViewModels\PreferenciasViewModel.cs" />
     <Compile Include="ViewModels\GraficasContentViewModel.cs" />

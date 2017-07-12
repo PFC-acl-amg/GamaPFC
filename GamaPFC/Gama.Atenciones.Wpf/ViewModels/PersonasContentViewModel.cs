@@ -20,6 +20,7 @@ using Gama.Atenciones.Wpf.Services;
 using NHibernate;
 using Gama.Common.Eventos;
 using Gama.Common.Debug;
+using MahApps.Metro.Controls;
 
 namespace Gama.Atenciones.Wpf.ViewModels
 {
@@ -30,6 +31,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public PersonasContentViewModel(
             ICitaRepository citaRepository,
+            IPersonaRepository personaRepository,
             EventAggregator eventAggregator,     
             ListadoDePersonasViewModel listadoDePersonasViewModel,
             IUnityContainer container,
@@ -37,16 +39,16 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             Debug.StartWatch();
             _CitaRepository = citaRepository;
+            _PersonaRepository = personaRepository;
+            _PersonaRepository.Session = session;
             _CitaRepository.Session = session;
             _EventAggregator = eventAggregator;
             _Container = container;
 
-            ViewModels = new ObservableCollection<object>();
-            ViewModels.Add(listadoDePersonasViewModel);
-            ViewModelSeleccionado = ViewModels.First();
-            SelectedIndex = 0;
+            Views = new ObservableCollection<MetroTabItem>();
+            AddView(container.Resolve<ListadoDePersonasView>(), listadoDePersonasViewModel);
 
-            CloseTabCommand = new DelegateCommand<EditarPersonaViewModel>(OnCloseTabCommandExecute);
+            CloseTabCommand = new DelegateCommand<MetroTabItem>(OnCloseTabCommandExecute);
 
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe(OnPersonaCreadaEvent);
             _EventAggregator.GetEvent<PersonaSeleccionadaEvent>().Subscribe(OnPersonaSeleccionadaEvent);
@@ -59,48 +61,85 @@ namespace Gama.Atenciones.Wpf.ViewModels
             Debug.StopWatch("PersonasContentView");
         }
 
-        private void OnCloseTabCommandExecute(EditarPersonaViewModel viewModelACerrar)
+        private MetroTabItem AddView(EditarPersonaView view, EditarPersonaViewModel viewModel)
         {
-            if (viewModelACerrar.ConfirmNavigationRequest())
-                ViewModels.Remove(viewModelACerrar);
+            var tabItem = new MetroTabItem();
+            tabItem.DataContext = viewModel;
+            tabItem.Content = view;
+            Views.Add(tabItem);
+            return tabItem;
+        }
+
+        private MetroTabItem AddView(ListadoDePersonasView view, ListadoDePersonasViewModel viewModel)
+        {
+            var tabItem = new MetroTabItem();
+            tabItem.DataContext = viewModel;
+            tabItem.Content = view;
+            Views.Add(tabItem);
+            return tabItem;
+        }
+
+        private ObservableCollection<MetroTabItem> _Views;
+        public ObservableCollection<MetroTabItem> Views
+        {
+            get { return _Views; }
+            set
+            {
+                _Views = value;
+                value.CollectionChanged += delegate
+                {
+                    OnPropertyChanged("Views");
+                };
+
+                OnPropertyChanged("Views");
+            }
+        }
+
+        private void OnCloseTabCommandExecute(MetroTabItem tabItemACerrar)
+        {
+            var viewModel = tabItemACerrar.DataContext as IConfirmarPeticionDeNavegacion;
+
+            if (viewModel.ConfirmarPeticionDeNavegacion())
+                Views.Remove(tabItemACerrar);
         }
 
         public ICommand CloseTabCommand { get; private set; }
 
-        private object _ViewModelSeleccionado;
-        public object ViewModelSeleccionado
+
+
+        private object _ViewSeleccionada;
+        public object ViewSeleccionada
         {
-            get { return _ViewModelSeleccionado; }
+            get { return _ViewSeleccionada; }
             set
             {
-                SetProperty(ref _ViewModelSeleccionado, value);
+                SetProperty(ref _ViewSeleccionada, value);
                 SetActiveTab();
             }
         }
 
-        public override void OnActualizarServidor()
-        {
-            foreach (var viewModel in ViewModels)
-                ((ViewModelBase)viewModel).OnActualizarServidor();
-        }
-
         private void SetActiveTab()
         {
-            foreach (var viewModel in ViewModels)
+            foreach (var view in Views)
             {
-                var activeAwareViewModel = viewModel as IActiveAware;
-                if (activeAwareViewModel != null)
-                {
-                    if (activeAwareViewModel == ViewModelSeleccionado)
-                        activeAwareViewModel.IsActive = true;
-                    else
-                        activeAwareViewModel.IsActive = false;
-                }
+                if (view.Content as ListadoDePersonasView != null)
+                    continue;
+
+                if (view == ViewSeleccionada)
+                    ((IActiveAware)view.DataContext).IsActive = true;
+                else
+                    ((IActiveAware)view.DataContext).IsActive = false;
             }
+        }
+        public override void OnActualizarServidor()
+        {
+            foreach (var view in Views)
+                ((ViewModelBase)(view.DataContext)).OnActualizarServidor();
         }
 
         private int _SelectedIndex;
         private ICitaRepository _CitaRepository;
+        private IPersonaRepository _PersonaRepository;
 
         public int SelectedIndex
         {
@@ -108,19 +147,20 @@ namespace Gama.Atenciones.Wpf.ViewModels
             set { SetProperty(ref _SelectedIndex, value); }
         }
 
-        public ObservableCollection<object> ViewModels { get; private set; }
+        //public ObservableCollection<object> ViewModels { get; private set; }
 
         private void NavegarAPersona(int personaId, int? atencionId = null, DateTime? fechaDeCita = null)
         {
             if (!PersonaEstaAbierta(personaId, atencionId, fechaDeCita))
             {
                 var newViewModel = _Container.Resolve<EditarPersonaViewModel>();
-
-                ViewModels.Add(newViewModel);
+                var newView = _Container.Resolve<EditarPersonaView>();
+                newView.DataContext = newViewModel;
+                //ViewModels.Add(newViewModel);
 
                 newViewModel.OnNavigatedTo(personaId, atencionId, fechaDeCita);
 
-                ViewModelSeleccionado = newViewModel;
+                ViewSeleccionada = AddView(newView, newViewModel);
             }
 
             _EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
@@ -130,15 +170,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             try
             {
-                foreach (var viewModel in ViewModels)
+                foreach (var view in Views)
                 {
-                    var editarPersonaViewModel = viewModel as EditarPersonaViewModel;
-                    if (editarPersonaViewModel != null)
+                    var editarPersonaView = view.Content as EditarPersonaView;
+                    if (editarPersonaView != null)
                     {
-                        if (editarPersonaViewModel.PersonaVM.Persona.Id == personaId)
+                        if (((EditarPersonaViewModel)editarPersonaView.DataContext).PersonaVM.Persona.Id == personaId)
                         {
-                            editarPersonaViewModel.OnNavigatedTo(personaId, atencionId, fechaDeCita);
-                            ViewModelSeleccionado = editarPersonaViewModel;
+                            ((EditarPersonaViewModel)editarPersonaView.DataContext).OnNavigatedTo(personaId, atencionId, fechaDeCita);
+                            ViewSeleccionada = view;
                             return true;
                         }
                     }
@@ -161,15 +201,17 @@ namespace Gama.Atenciones.Wpf.ViewModels
                 if (wrapper.Atencion != null)
                     atencionId = wrapper.Atencion.Id;
 
-                if (!PersonaEstaAbierta(personaId, atencionId))
-                {
-                    var newViewModel = _Container.Resolve<EditarPersonaViewModel>();
-                    ViewModels.Add(newViewModel);
-                    newViewModel.OnNavigatedTo(personaId, atencionId);
-                    ViewModelSeleccionado = newViewModel;
-                }
+                NavegarAPersona(personaId, atencionId);
 
-                _EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
+                //if (!PersonaEstaAbierta(personaId, atencionId))
+                //{
+                //    var newViewModel = _Container.Resolve<EditarPersonaViewModel>();
+                //    ViewModels.Add(newViewModel);
+                //    newViewModel.OnNavigatedTo(personaId, atencionId);
+                //    ViewModelSeleccionado = newViewModel;
+                //}
+
+                //_EventAggregator.GetEvent<ActiveViewChanged>().Publish("PersonasContentView");
             }
             catch (Exception ex)
             {
@@ -182,14 +224,13 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var cita = _CitaRepository.GetById(citaId);
             int personaId = cita.Persona.Id;
 
-            foreach (var viewModel in ViewModels)
+            foreach (var view in Views)
             {
-                var editarPersonaViewModel = viewModel as EditarPersonaViewModel;
+                var editarPersonaViewModel = view.DataContext as EditarPersonaViewModel;
                 if (editarPersonaViewModel != null)
                 {
                     if (editarPersonaViewModel.PersonaVM.Persona.Id == personaId)
                     {
-                        //editarPersonaViewModel.PersonaVM.Persona.Citas.Add(new CitaWrapper(cita));
                         editarPersonaViewModel.PersonaVM.Persona.AcceptChanges();
                         editarPersonaViewModel.CitasVM.Refresh++;
                         break;
@@ -203,14 +244,15 @@ namespace Gama.Atenciones.Wpf.ViewModels
             var cita = _CitaRepository.GetById(citaId);
             int personaId = cita.Persona.Id;
 
-            foreach (var viewModel in ViewModels)
+            foreach (var view in Views)
             {
-                var editarPersonaViewModel = viewModel as EditarPersonaViewModel;
+                var editarPersonaViewModel = view.DataContext as EditarPersonaViewModel;
                 if (editarPersonaViewModel != null)
                 {
                     if (editarPersonaViewModel.PersonaVM.Persona.Id == personaId)
                     {
                         editarPersonaViewModel.CitasVM.ActualizarCita(cita);
+                        break;
                     }
                 }
             }
@@ -218,12 +260,25 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         private void OnPersonaEliminadaEvent(int id)
         {
-            var editarPersonaViewModel = ViewModelSeleccionado as EditarPersonaViewModel;
-            if (editarPersonaViewModel != null)
+            var persona = _PersonaRepository.GetById(id);
+            int personaId = persona.Id;
+
+            MetroTabItem tabToRemove = null;
+            foreach (var view in Views)
             {
-                ViewModels.Remove(editarPersonaViewModel);
-                // Ver qué hacemos con las citas y demás
+                var editarPersonaViewModel = view.DataContext as EditarPersonaViewModel;
+                if (editarPersonaViewModel != null)
+                {
+                    if (editarPersonaViewModel.PersonaVM.Persona.Id == personaId)
+                    {
+                        tabToRemove = view;
+                        break;
+                    }
+                }
             }
+
+            if (tabToRemove != null)
+                Views.Remove(tabToRemove);
         }
 
         private void OnAtencionSeleccionadaEvent(IdentificadorDeModelosPayload payload)
