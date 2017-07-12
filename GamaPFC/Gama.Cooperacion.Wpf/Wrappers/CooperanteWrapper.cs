@@ -194,13 +194,13 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             set { SetValue(value); }
         }
         // Añadiendo Campos Faltantes en la clase Cooperante
-        public string telefono
+        public string Telefono
         {
             get { return GetValue<string>(); }
             set { SetValue(value); }
         }
-        public string telefonoOriginalValue => GetOriginalValue<string>(nameof(telefono));
-        public bool telefonoIsChanged => GetIsChanged(nameof(telefono));
+        public string TelefonoOriginalValue => GetOriginalValue<string>(nameof(Telefono));
+        public bool TelefonoIsChanged => GetIsChanged(nameof(Telefono));
         public byte[] Foto
         {
             get { return GetValue<byte[]>(); }
