@@ -12,6 +12,19 @@ namespace Gama.Cooperacion.Wpf.Services
     {
         List<Cooperante> _cooperantes;
 
+        public List<Cooperante> Cooperantes
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public ISession Session { get; set; }
 
         public void Create(Cooperante entity)

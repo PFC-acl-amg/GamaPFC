@@ -1,5 +1,6 @@
 ﻿using Core.DataAccess;
 using Gama.Cooperacion.Business;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,42 @@ namespace Gama.Cooperacion.Wpf.Services
     //}
     public class EventoRepository : NHibernateOneSessionRepository<Evento, int>, IEventoRepository
     {
-        public EventoRepository()
+        private List<Evento> _Eventos;
+
+        public EventoRepository(EventAggregator eventAggregator) : base(eventAggregator)
         {
+
+        }
+
+        public List<Evento> Eventos
+        {
+            get
+            {
+                if (_Eventos == null)
+                    _Eventos = base.GetAll();
+
+                return _Eventos;
+            }
+            set
+            {
+                _Eventos = value;
+            }
+        }
+
+        private void RaiseActualizarServidor()
+        {
+            if (CooperacionResources.ClientService != null && CooperacionResources.ClientService.IsConnected())
+                CooperacionResources.ClientService.EnviarMensaje($"Cliente {CooperacionResources.ClientId} ha hecho un broadcast @@{Guid.NewGuid()}%%COOPERACION");
+        }
+
+        public override Evento GetById(int id)
+        {
+            return Eventos.Find(x => x.Id == id);
+        }
+
+        public override List<Evento> GetAll()
+        {
+            return Eventos;
         }
 
         /// <summary>

@@ -25,7 +25,7 @@ namespace Gama.Cooperacion.Business
         public virtual int Id { get; set; }
         public virtual string Titulo { get; set; }
         public virtual DateTime FechaDePublicacion { get; set; }
-        public virtual Ocurrencia Ocurrencia { get; set; }
+        public virtual string Ocurrencia { get; set; }
         public virtual Actividad Actividad { get; set;}
     }
 }

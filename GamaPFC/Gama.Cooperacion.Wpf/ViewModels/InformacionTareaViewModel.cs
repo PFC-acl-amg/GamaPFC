@@ -82,7 +82,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 FechaDePublicacion = DateTime.Now,
                 Titulo = TareaSeleccionada.Descripcion,
-                Ocurrencia = Ocurrencia.INCIDENCIA_EN_TAREA,
+                Ocurrencia = Ocurrencia.INCIDENCIA_EN_TAREA.ToString(),
             };
             _EventAggregator.GetEvent<PublicarEventosActividad>().Publish(eventoDeActividad);
             NuevaIncidencia = null;

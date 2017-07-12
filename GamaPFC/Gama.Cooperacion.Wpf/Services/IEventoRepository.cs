@@ -12,6 +12,7 @@ namespace Gama.Cooperacion.Wpf.Services
     {
         ISession Session { get; set; }
         Evento GetById(int id);
+        List<Evento> Eventos { get; set; }
 
         List<Evento> GetAll();
 

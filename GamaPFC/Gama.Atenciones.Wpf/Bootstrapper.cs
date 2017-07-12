@@ -175,7 +175,6 @@ namespace Gama.Atenciones.Wpf
             #region Seeding
             if (_CLEAR_DATABASE || _SEED_DATABASE)
             {
-
                 // NOTA: No utilizamos los servicios directamente porque añaden código que afecta al resto de la aplicación
                 //, a través del EventAggregator por ejemplo. Sólo requerimos la funcionalidad de base de datos.
                 var personaRepository = new NHibernateOneSessionRepository<Persona, int>();// Container.Resolve<IPersonaRepository>();

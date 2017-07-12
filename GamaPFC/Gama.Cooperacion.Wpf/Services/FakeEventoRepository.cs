@@ -34,7 +34,7 @@ namespace Gama.Cooperacion.Wpf.Services
                 {
                     Titulo = Faker.TextFaker.Sentence(),
                     FechaDePublicacion = Faker.DateTimeFaker.DateTime(),
-                    Ocurrencia = Ocurrencia.Mensaje_Publicado,
+                    Ocurrencia = Ocurrencia.Mensaje_Publicado.ToString(),
                 };
 
                 _evento.Add(evento);

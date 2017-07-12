@@ -194,7 +194,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _CooperantesMostrados = _CooperantesMostrados + 4;
             
             _eventAggregator.GetEvent<ActividadEliminadaEvent>().Subscribe(OnActividadEliminadaEvent);
-            _eventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnNuevaActividadEvent);
+            _eventAggregator.GetEvent<ActividadCreadaEvent>().Subscribe(OnNuevaActividadEvent);
             _eventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
             _eventAggregator.GetEvent<CooperanteCreadoEvent>().Subscribe(PublicarCooperante);
             _eventAggregator.GetEvent<PublicarNuevaActividad>().Subscribe(OnPublicarEventosActividad);

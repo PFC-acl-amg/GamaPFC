@@ -36,6 +36,18 @@ namespace Gama.Cooperacion.Business
             historial.Tarea = this;
             Seguimiento.Add(historial);
         }
+
+        public virtual void AddIncidencias(List<Incidencia> incidencias)
+        {
+            foreach (var incidencia in incidencias)
+                AddIncidencia(incidencia);
+        }
+
+        public virtual void AddSeguimientos(List<Seguimiento> seguimientos)
+        {
+            foreach (var seguimiento in seguimientos)
+                AddSeguimiento(seguimiento);
+        }
     }
 
 }

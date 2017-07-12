@@ -141,7 +141,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 FechaDePublicacion = DateTime.Now,
                 Titulo = ForoSeleccionado.Titulo,
-                Ocurrencia = Ocurrencia.MENSAJE_PUBLICADO_EN_FORO,
+                Ocurrencia = Ocurrencia.MENSAJE_PUBLICADO_EN_FORO.ToString(),
             };
             _EventAggregator.GetEvent<PublicarEventosActividad>().Publish(eventoDeActividad);
             NuevoMensaje = null;

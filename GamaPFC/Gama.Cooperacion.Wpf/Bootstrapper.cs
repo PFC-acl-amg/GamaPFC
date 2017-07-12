@@ -44,8 +44,8 @@ namespace Gama.Cooperacion.Wpf
 
         public Bootstrapper(string title = "COOPERACIÓN") : base(title)
         {
-            NHibernateSessionFactory._EXECUTE_DDL = true;
-            _CLEAR_DATABASE = false;
+            NHibernateSessionFactory._EXECUTE_DDL = false;
+            _CLEAR_DATABASE = true;
             _SEED_DATABASE = true;
         }
 
@@ -63,14 +63,15 @@ namespace Gama.Cooperacion.Wpf
             ((ShellViewModel)((FrameworkElement)Shell).DataContext).Title = "COOPERACIÓN";
             ((ShellViewModel)((FrameworkElement)Shell).DataContext).IconSource = icon;
 
-            Application.Current.MainWindow = Shell as Window;
-            Application.Current.MainWindow.Show();
             ColeccionEstadosActividades.EstadosActividades = new System.Collections.Generic.Dictionary<string, int>();
             ColeccionEstadosActividades.EstadosActividades.Add("Comenzado", 0);
             ColeccionEstadosActividades.EstadosActividades.Add("NoComenzado", 0);
             ColeccionEstadosActividades.EstadosActividades.Add("FueraPlazo", 0);
             ColeccionEstadosActividades.EstadosActividades.Add("ProximasFinalizaciones", 0);
             ColeccionEstadosActividades.EstadosActividades.Add("Finalizado", 0);
+
+            Application.Current.MainWindow = Shell as Window;
+            Application.Current.MainWindow.Show();
 
             TerminarPreload();
         }
@@ -174,6 +175,7 @@ namespace Gama.Cooperacion.Wpf
             Container.RegisterType<IIncidenciaRepository, IncidenciaRepository>(new ContainerControlledLifetimeManager());
             Container.RegisterType<ITareaRepository, TareaRepository>(new ContainerControlledLifetimeManager());
             Container.RegisterType<ISeguimientoRepository, SeguimientoRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IMensajeRepository, MensajeRepository>(new ContainerControlledLifetimeManager());
 
             Container.RegisterInstance<Preferencias>(new Preferencias());
         }
@@ -183,13 +185,10 @@ namespace Gama.Cooperacion.Wpf
             if (_CLEAR_DATABASE)
             {
                 var session = Container.Resolve<ISession>();
-                var cooperanteRepository = new NHibernateOneSessionRepository<Cooperante, int>();
-                var actividadRepository = new NHibernateOneSessionRepository<Actividad, int>();
-                cooperanteRepository.Session = session;
+                var actividadRepository = Container.Resolve<IActividadRepository>();
                 actividadRepository.Session = session;
 
                 actividadRepository.DeleteAll();
-                cooperanteRepository.DeleteAll();
             }
 
             if (_SEED_DATABASE)
@@ -217,15 +216,23 @@ namespace Gama.Cooperacion.Wpf
                     var tareaFake = new FakeTareaRepository().GetAll();
                     var seguimientoFake = new FakeSeguimientoRepository().GetAll();
                     var incidenciaFake = new FakeIncidenciaRepository().GetAll();
+
                     actividad.Coordinador = cooperantesFake[i];
                     actividad.AddCooperantes(cooperantesFake.Where(x => x.Id != actividad.Coordinador.Id));
+
+                    tareaFake.ForEach(x => actividad.AddTarea(x));
+                    foroFake.ForEach(x => actividad.AddForo(x));
+                    eventosFake.ForEach(x => actividad.AddEvento(x));
+                    foroFake.ForEach(x => x.AddMensajes(mensajeForoFake));
+                    tareaFake.ForEach(x => x.AddIncidencias(incidenciaFake));
+                    tareaFake.ForEach(x => x.AddSeguimientos(seguimientoFake));
+                    tareaFake.ForEach(x => x.Responsable = cooperantesFake[0]);
+
                     actividadRepository.Create(actividad);
                 }
             }
 
-
             DoThings();
-
         }
 
         private void DoThings()
@@ -236,7 +243,7 @@ namespace Gama.Cooperacion.Wpf
             _EventoRepository = Container.Resolve<IEventoRepository>();
             _ForoRepository = Container.Resolve<IForoRepository>();
             _IncidenciaRepository = Container.Resolve<IIncidenciaRepository>();
-            //_MensajeRepository = Container.Resolve<IMensajeRepository>();
+            _MensajeRepository = Container.Resolve<IMensajeRepository>();
             _TareaRepository = Container.Resolve<ITareaRepository>();
 
             DoRawThings();
@@ -300,6 +307,8 @@ namespace Gama.Cooperacion.Wpf
                                 _Cooperantes.Add(cooperante);
                             }
                         }
+
+                        CooperacionResources.TodosLosNifDeCooperantes = _Cooperantes.Select(x => x.Dni).ToList();
 
                         foreach (var cooperanteSinImagen in _Cooperantes)
                         {
@@ -406,171 +415,166 @@ namespace Gama.Cooperacion.Wpf
                                         cooperante => cooperanteParticipaEnActividad.Where(
                                             cpea => cpea.Actividad_id == actividad.Id && cpea.Cooperante_id == cooperante.Id)
                                             .ToList().Count > 0).ToList();
+                                actividad.Coordinador.ActividadesDeQueEsCoordinador.Add(actividad);
+
+                                foreach (var cooperante in actividad.Cooperantes)
+                                {
+                                    cooperante.ActividadesEnQueParticipa.Add(actividad);
+                                }
 
                                 _Actividades.Add(actividad);
                             }
                         }
 
-                        //AtencionesResources.TodosLosNifDeAsistentes = _Asistentes.Select(x => x.Nif).ToList();
+                        sqlCommand.CommandText = "SELECT Id, Titulo, FechaDePublicacion, Ocurrencia, " +
+                            "CreatedAt, UpdatedAt, Actividad_id FROM eventos;";
 
-                        //foreach (var asistenteSinImagen in _Asistentes)
-                        //{
-                        //    string path = ResourceNames.GetAsistenteImagePath(asistenteSinImagen.Id);
-                        //    if (!File.Exists(path) && asistenteSinImagen.ImagenUpdatedAt != null)
-                        //    {
-                        //        sqlCommand.CommandText = $"SELECT Imagen FROM asistentes WHERE Id = {asistenteSinImagen.Id}";
-                        //        using (reader = sqlCommand.ExecuteReader())
-                        //        {
-                        //            if (reader.Read())
-                        //            {
-                        //                asistenteSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
-                        //                using (Image image = Image.FromStream(new MemoryStream(asistenteSinImagen.Imagen)))
-                        //                {
-                        //                    using (MemoryStream memory = new MemoryStream())
-                        //                    {
-                        //                        using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
-                        //                        {
-                        //                            image.Save(memory, ImageFormat.Jpeg);
-                        //                            byte[] bytes = memory.ToArray();
-                        //                            fs.Write(bytes, 0, bytes.Length);
-                        //                        }
-                        //                    }
-                        //                }
-                        //            }
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        // Si se ha actualizado la imagen de la persona
-                        //        DateTime lastWriteTime = File.GetLastWriteTime(path);
-                        //        DateTime updatedTime = (asistenteSinImagen.ImagenUpdatedAt ?? DateTime.Now.AddYears(-100));
-                        //        if (DateTime.Compare(lastWriteTime, updatedTime) < 0)
-                        //        {
-                        //            sqlCommand.CommandText = $"SELECT Imagen FROM asistentes WHERE Id = {asistenteSinImagen.Id}";
-                        //            using (reader = sqlCommand.ExecuteReader())
-                        //            {
-                        //                if (reader.Read())
-                        //                {
-                        //                    asistenteSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
-                        //                    using (Image image = Image.FromStream(new MemoryStream(asistenteSinImagen.Imagen)))
-                        //                    {
-                        //                        // image.Save(path, ImageFormat.Png);  // Or Png
-                        //                        using (MemoryStream memory = new MemoryStream())
-                        //                        {
-                        //                            using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
-                        //                            {
-                        //                                image.Save(memory, ImageFormat.Jpeg);
-                        //                                byte[] bytes = memory.ToArray();
-                        //                                fs.Write(bytes, 0, bytes.Length);
-                        //                            }
-                        //                        }
-                        //                    }
-                        //                }
-                        //            }
-                        //        }
+                        using (reader = sqlCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var evento = new Evento()
+                                {
+                                    Id = (int)reader["Id"],
+                                    Ocurrencia = (string)reader["Ocurrencia"],
+                                    FechaDePublicacion = (DateTime)reader["FechaDePublicacion"],
+                                    Titulo = (string)reader["Titulo"],
+                                    CreatedAt = (DateTime)reader["CreatedAt"],
+                                    UpdatedAt = reader["UpdatedAt"] as DateTime?,
+                                };
 
-                        //        asistenteSinImagen.Imagen = ImageToByteArray(new Bitmap(ResourceNames.GetAsistenteImagePath(asistenteSinImagen.Id)));
-                        //    }
-                        //}
-                        ////Debug.StopWatch("-----ASISTENTES----");
-                        ////Debug.StartWatch();
+                                evento.Decrypt();
+                                actividad = _Actividades.Find(x => x.Id == (int)reader["Actividad_id"]);
+                                evento.Actividad = actividad;
+                                actividad.Eventos.Add(evento);
+                               
+                                _Eventos.Add(evento);
+                            }
+                        }
 
-                        //sqlCommand.CommandText = "SELECT * FROM citas";
-                        //using (reader = sqlCommand.ExecuteReader())
-                        //{
-                        //    while (reader.Read())
-                        //    {
-                        //        var cita = new Cita()
-                        //        {
-                        //            Id = (int)reader["Id"],
-                        //            Fecha = (DateTime)reader["Fecha"],
-                        //            Hora = (int)reader["Hora"],
-                        //            Minutos = (int)reader["Minutos"],
-                        //            Sala = reader["Sala"].ToString(),
-                        //            CreatedAt = (DateTime)reader["CreatedAt"],
-                        //            UpdatedAt = reader["UpdatedAt"] as DateTime?,
-                        //        };
+                        sqlCommand.CommandText = "SELECT Id, Titulo, FechaDePublicacion, " +
+                            "CreatedAt, UpdatedAt, Actividad_id FROM foros;";
 
-                        //        cita.Decrypt();
-                        //        _Citas.Add(cita);
+                        using (reader = sqlCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var foro = new Foro()
+                                {
+                                    Id = (int)reader["Id"],
+                                    FechaDePublicacion = (DateTime)reader["FechaDePublicacion"],
+                                    Titulo = (string)reader["Titulo"],
+                                    CreatedAt = (DateTime)reader["CreatedAt"],
+                                    UpdatedAt = reader["UpdatedAt"] as DateTime?,
+                                };
 
-                        //        persona = _Personas.Where(p => p.Id == (int)reader["Persona_id"]).Single();
-                        //        var asistente = _Asistentes.Where(a => a.Id == (int)reader["Asistente_id"]).Single();
-                        //        asistente.Citas.Add(cita);
-                        //        cita.Asistente = asistente;
-                        //        persona.AddCita(cita);
-                        //    }
-                        //}
-                        ////Debug.StopWatch("-----CITAS----");
-                        ////Debug.StartWatch();
+                                foro.Decrypt();
+                                actividad = _Actividades.Find(x => x.Id == (int)reader["Actividad_id"]);
+                                foro.Actividad = actividad;
+                                actividad.Foros.Add(foro);
 
-                        //sqlCommand.CommandText = "SELECT * FROM atenciones";
-                        //using (reader = sqlCommand.ExecuteReader())
-                        //{
-                        //    while (reader.Read())
-                        //    {
-                        //        var atencion = new Atencion()
-                        //        {
-                        //            Id = (int)reader["Id"],
-                        //            Fecha = (DateTime)reader["Fecha"],
-                        //            Seguimiento = (string)reader["Seguimiento"],
-                        //            EsSocial = (bool)reader["EsSocial"],
-                        //            EsJuridica = (bool)reader["EsJuridica"],
-                        //            EsPsicologica = (bool)reader["EsPsicologica"],
-                        //            EsDeAcogida = (bool)reader["EsDeAcogida"],
-                        //            EsDeOrientacionLaboral = (bool)reader["EsDeOrientacionLaboral"],
-                        //            EsDePrevencionParaLaSalud = (bool)reader["EsDePrevencionParaLaSalud"],
-                        //            EsDeFormacion = (bool)reader["EsDeFormacion"],
-                        //            EsDeParticipacion = (bool)reader["EsDeParticipacion"],
-                        //            EsOtra = (bool)reader["EsOtra"],
-                        //            Otra = (string)reader["Otra"],
-                        //        };
+                                _Foros.Add(foro);
+                            }
+                        }
 
-                        //        atencion.Decrypt();
-                        //        _Atenciones.Add(atencion);
+                        sqlCommand.CommandText = "SELECT Id, Descripcion, FechaDeFinalizacion, HaFinalizado, " +
+                            "CreatedAt, UpdatedAt, Actividad_id, Responsable_id FROM tareas;";
 
-                        //        var cita = _Citas.Where(c => c.Id == (int)reader["Cita_id"]).Single();
-                        //        cita.Atencion = atencion;
-                        //        atencion.Cita = cita;
-                        //    }
-                        //}
-                        ////Debug.StopWatch("-----ATENCIONES----");
-                        ////Debug.StartWatch();
+                        using (reader = sqlCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var tarea = new Tarea()
+                                {
+                                    Id = (int)reader["Id"],
+                                    FechaDeFinalizacion = reader["FechaDeFinalizacion"] as DateTime?,
+                                    Descripcion = (string)reader["Descripcion"],
+                                    HaFinalizado = (bool)reader["HaFinalizado"],
+                                    CreatedAt = (DateTime)reader["CreatedAt"],
+                                    UpdatedAt = reader["UpdatedAt"] as DateTime?,
+                                };
 
-                        //sqlCommand.CommandText = "SELECT * FROM derivaciones";
-                        //using (reader = sqlCommand.ExecuteReader())
-                        //{
-                        //    while (reader.Read())
-                        //    {
-                        //        var derivacion = new Derivacion()
-                        //        {
-                        //            Id = (int)reader["Id"],
-                        //            EsSocial = (bool)reader["EsSocial"],
-                        //            EsJuridica = (bool)reader["EsJuridica"],
-                        //            EsPsicologica = (bool)reader["EsPsicologica"],
-                        //            EsDeFormacion = (bool)reader["EsDeFormacion"],
-                        //            EsDeOrientacionLaboral = (bool)reader["EsDeOrientacionLaboral"],
-                        //            EsExterna = (bool)reader["EsExterna"],
-                        //            Externa = (string)reader["Externa"],
+                                tarea.Decrypt();
+                                actividad = _Actividades.Find(x => x.Id == (int)reader["Actividad_id"]);
+                                var responsable = _Cooperantes.Find(x => x.Id == (int)reader["Responsable_id"]);
+                                tarea.Actividad = actividad;
+                                tarea.Responsable = responsable;
+                                actividad.Tareas.Add(tarea);
 
-                        //            EsSocial_Realizada = (bool)reader["EsSocial_Realizada"],
-                        //            EsJuridica_Realizada = (bool)reader["EsJuridica_Realizada"],
-                        //            EsPsicologica_Realizada = (bool)reader["EsPsicologica_Realizada"],
-                        //            EsDeFormacion_Realizada = (bool)reader["EsDeFormacion_Realizada"],
-                        //            EsDeOrientacionLaboral_Realizada = (bool)reader["EsDeOrientacionLaboral_Realizada"],
-                        //            EsExterna_Realizada = (bool)reader["EsExterna_Realizada"],
-                        //            Externa_Realizada = (string)reader["Externa_Realizada"],
+                                _Tareas.Add(tarea);
+                            }
+                        }
 
-                        //        };
+                        sqlCommand.CommandText = "SELECT Id, Descripcion, FechaDePublicacion, " +
+                            "CreatedAt, UpdatedAt, Tarea_id FROM seguimientos;";
 
-                        //        _Derivaciones.Add(derivacion);
-                        //        var atencion = _Atenciones.Where(a => a.Id == (int)reader["Atencion_id"]).Single();
-                        //        derivacion.Atencion = atencion;
-                        //        atencion.Derivacion = derivacion;
-                        //    }
-                        //}
-                        ////Debug.StopWatch("-----DERIVACIONES----");
-                        ////Debug.StartWatch();
+                        using (reader = sqlCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var seguimiento = new Seguimiento()
+                                {
+                                    Id = (int)reader["Id"],
+                                    FechaDePublicacion = (DateTime)reader["FechaDePublicacion"],
+                                    Descripcion = (string)reader["Descripcion"],
+                                    CreatedAt = (DateTime)reader["CreatedAt"],
+                                    UpdatedAt = reader["UpdatedAt"] as DateTime?,
+                                };
+
+                                var tarea = _Tareas.Find(x => x.Id == (int)reader["Tarea_id"]);
+                                tarea.AddSeguimiento(seguimiento);
+
+                                _Seguimientos.Add(seguimiento);
+                            }
+                        }
+
+                        sqlCommand.CommandText = "SELECT Id, Descripcion, FechaDePublicacion, Solucionada, " +
+                            "CreatedAt, UpdatedAt, Tarea_id FROM incidenciastarea;";
+
+                        using (reader = sqlCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var incidencia = new Incidencia()
+                                {
+                                    Id = (int)reader["Id"],
+                                    FechaDePublicacion = (DateTime)reader["FechaDePublicacion"],
+                                    Descripcion = (string)reader["Descripcion"],
+                                    Solucionada = (int)reader["Solucionada"],
+                                    CreatedAt = (DateTime)reader["CreatedAt"],
+                                    UpdatedAt = reader["UpdatedAt"] as DateTime?,
+                                };
+
+                                var tarea = _Tareas.Find(x => x.Id == (int)reader["Tarea_id"]);
+                                tarea.AddIncidencia(incidencia);
+
+                                _Incidencias.Add(incidencia);
+                            }
+                        }
+
+                        sqlCommand.CommandText = "SELECT Id, Titulo, FechaDePublicacion, " +
+                            "CreatedAt, UpdatedAt, Foro_id FROM mensajes;";
+
+                        using (reader = sqlCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var mensaje = new Mensaje()
+                                {
+                                    Id = (int)reader["Id"],
+                                    FechaDePublicacion = (DateTime)reader["FechaDePublicacion"],
+                                    Titulo = (string)reader["Titulo"],
+                                    CreatedAt = (DateTime)reader["CreatedAt"],
+                                    UpdatedAt = reader["UpdatedAt"] as DateTime?,
+                                };
+
+                                var foro = _Foros.Find(x => x.Id == (int)reader["Foro_id"]);
+                                foro.AddMensaje(mensaje);
+
+                                _Mensajes.Add(mensaje);
+                            }
+                        }
+
 
                         mysqlConnection.Close();
                     }
@@ -582,10 +586,13 @@ namespace Gama.Cooperacion.Wpf
                 throw;
             }
 
-            //_PersonaRepository.Personas = _Personas;
-            //_CitaRepository.Citas = _Citas;
-            //_AtencionRepository.Atenciones = _Atenciones;
-            //_AsistenteRepository.Asistentes = _Asistentes;
+            _ActividadRepository.Actividades = _Actividades;
+            _CooperanteRepository.Cooperantes = _Cooperantes;
+            _EventoRepository.Eventos = _Eventos;
+            _ForoRepository.Foros = _Foros;
+            _TareaRepository.Tareas = _Tareas;
+            _IncidenciaRepository.Incidencias = _Incidencias;
+            _MensajeRepository.Mensajes = _Mensajes;
         }
 
 

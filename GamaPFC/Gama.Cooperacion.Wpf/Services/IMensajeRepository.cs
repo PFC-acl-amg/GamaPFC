@@ -12,6 +12,7 @@ namespace Gama.Cooperacion.Wpf.Services
     {
         ISession Session { get; set; }
         Mensaje GetById(int id);
+        List<Mensaje> Mensajes { get; set; }
 
         List<Mensaje> GetAll();
 

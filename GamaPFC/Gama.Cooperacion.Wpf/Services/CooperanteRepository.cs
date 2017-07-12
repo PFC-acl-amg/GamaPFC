@@ -18,7 +18,12 @@ namespace Gama.Cooperacion.Wpf.Services
         ICooperanteRepository
     {
         private List<Cooperante> _Cooperantes;
-        public CooperanteRepository(EventAggregator eventAggregator) : base(eventAggregator) { }
+
+        public CooperanteRepository(EventAggregator eventAggregator) : base(eventAggregator)
+        {
+
+        }
+
         public List<Cooperante> Cooperantes
         {
             get
@@ -33,11 +38,13 @@ namespace Gama.Cooperacion.Wpf.Services
                 _Cooperantes = value;
             }
         }
+
         private void RaiseActualizarServidor()
         {
             if (CooperacionResources.ClientService != null && CooperacionResources.ClientService.IsConnected())
                 CooperacionResources.ClientService.EnviarMensaje($"Cliente {CooperacionResources.ClientId} ha hecho un broadcast @@{Guid.NewGuid()}%%COOPERACION");
         }
+
         public override void UpdateClient()
         {
             CooperacionResources.TodosLosNifDeCooperantes.Clear();
@@ -48,10 +55,12 @@ namespace Gama.Cooperacion.Wpf.Services
         {
             return Cooperantes;
         }
+
         public override Cooperante GetById(int id)
         {
             return _Cooperantes.Find(x => x.Id == id);
         }
+
         public override void Create(Cooperante entity)
         {
             if (entity.Foto != null)
@@ -64,6 +73,7 @@ namespace Gama.Cooperacion.Wpf.Services
             _EventAggregator.GetEvent<NuevoCooperanteCreadoEvent>().Publish(entity.Id);
             RaiseActualizarServidor();
         }
+
         public override bool Update(Cooperante entity)
         {
             if (base.Update(entity))
@@ -77,31 +87,33 @@ namespace Gama.Cooperacion.Wpf.Services
 
             return false;
         }
+
         public List<string> GetNifs()
         {
-            List<string> temp;
-            List<string> resultado = new List<string>();
+            return _Cooperantes.Select(X => X.Dni).ToList();
+            //List<string> temp;
+            //List<string> resultado = new List<string>();
 
-            try
-            {
-                temp = Session.QueryOver<Cooperante>()
-                    .Select(x => x.Dni)
-                    .List<string>()
-                    .ToList();
+            //try
+            //{
+            //    temp = Session.QueryOver<Cooperante>()
+            //        .Select(x => x.Dni)
+            //        .List<string>()
+            //        .ToList();
 
-                foreach (var nif in temp)
-                {
-                    resultado.Add(EncryptionService.Decrypt(nif));
-                }
+            //    foreach (var nif in temp)
+            //    {
+            //        resultado.Add(EncryptionService.Decrypt(nif));
+            //    }
 
-                Session.Clear();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            //    Session.Clear();
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw ex;
+            //}
 
-            return resultado;
+            //return resultado;
         }
     }
 }

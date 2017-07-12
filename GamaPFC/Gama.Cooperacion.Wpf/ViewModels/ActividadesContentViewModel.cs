@@ -47,7 +47,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             CloseTabCommand = new DelegateCommand<EditarActividadViewModel>(OnCloseTabCommandExecute);
 
-            _EventAggregator.GetEvent<NuevaActividadEvent>().Subscribe(OnActividadNuevaEvent);
+            _EventAggregator.GetEvent<ActividadCreadaEvent>().Subscribe(OnActividadNuevaEvent);
             _EventAggregator.GetEvent<ActividadSeleccionadaEvent>().Subscribe(OnActividadSeleccionadaEvent);
         }
 

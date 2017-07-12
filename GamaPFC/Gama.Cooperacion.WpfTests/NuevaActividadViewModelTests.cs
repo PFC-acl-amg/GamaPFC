@@ -25,17 +25,17 @@ namespace Gama.Cooperacion.WpfTests
         private Mock<ICooperanteRepository> _cooperanteRepositoryMock;
         private Mock<IEventAggregator> _eventAggregatorMock;
         private InformacionDeActividadViewModel _informacionDeActividadViewModelMock;
-        private Mock<NuevaActividadEvent> _nuevaActividadEventMock;
+        private Mock<ActividadCreadaEvent> _nuevaActividadEventMock;
 
         public NuevaActividadViewModelTests()
         {
             _actividadRepositoryMock = new Mock<IActividadRepository>();
             _cooperanteRepositoryMock = new Mock<ICooperanteRepository>();
             _eventAggregatorMock = new Mock<IEventAggregator>();
-            _nuevaActividadEventMock = new Mock<NuevaActividadEvent>();
+            _nuevaActividadEventMock = new Mock<ActividadCreadaEvent>();
             var sessionMock = new Mock<ISession>();
 
-            _eventAggregatorMock.Setup(ea => ea.GetEvent<NuevaActividadEvent>())
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<ActividadCreadaEvent>())
                 .Returns(_nuevaActividadEventMock.Object);
 
             _cooperantes = new FakeCooperanteRepository().GetAll();

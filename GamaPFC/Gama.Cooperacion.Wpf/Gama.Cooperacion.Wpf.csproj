@@ -174,7 +174,7 @@
     <Compile Include="Eventos\Modificar.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaEvent.cs" />
     <Compile Include="Eventos\CooperanteCreadoEvent.cs" />
-    <Compile Include="Eventos\NuevaActividadEvent.cs" />
+    <Compile Include="Eventos\ActividadCreadaEvent.cs" />
     <Compile Include="Eventos\NuevaTareaCreadaEvent.cs" />
     <Compile Include="Eventos\NuevoCooperanteCreadoEvent.cs" />
     <Compile Include="Eventos\NuevoForoCreadoEvent.cs" />
@@ -204,6 +204,7 @@
     <Compile Include="Services\IncidenciaRepository.cs" />
     <Compile Include="Services\ISeguimientoRepository.cs" />
     <Compile Include="Services\ITareaRepository.cs" />
+    <Compile Include="Services\MensajeRepository.cs" />
     <Compile Include="Services\Preferencias.cs" />
     <Compile Include="Services\RightCommandsViewModel.cs" />
     <Compile Include="Services\SeguimientoRepository.cs" />
