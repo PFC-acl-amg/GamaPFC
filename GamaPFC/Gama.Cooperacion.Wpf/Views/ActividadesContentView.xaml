@@ -113,8 +113,8 @@
   </UserControl.Resources>
 
   <metro:MetroAnimatedSingleRowTabControl
+    x:Name="_TabControl"
     ItemsSource="{Binding Views}"
-    SelectionChanged="MetroAnimatedSingleRowTabControl_SelectionChanged"
     SelectedItem="{Binding ViewSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
   </metro:MetroAnimatedSingleRowTabControl>
 </UserControl>

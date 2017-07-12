@@ -25,7 +25,16 @@ namespace Gama.Atenciones.Wpf
         {
             InitializeComponent();
 
+            Loaded += Shell_Loaded;
             Closed += Shell_Closed;
+        }
+
+        private void Shell_Loaded(object sender, RoutedEventArgs e)
+        {
+            _PersonasContentView.Visibility = Visibility.Collapsed;
+            _CitasContentView.Visibility = Visibility.Collapsed;
+            _AsistentesContentView.Visibility = Visibility.Collapsed;
+            _GraficasContentView.Visibility = Visibility.Collapsed;
         }
 
         private void Shell_Closed(object sender, EventArgs e)

@@ -105,8 +105,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
 
         public ICommand CloseTabCommand { get; private set; }
 
-
-
         private object _ViewSeleccionada;
         public object ViewSeleccionada
         {
@@ -122,9 +120,6 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             foreach (var view in Views)
             {
-                if (view.Content as ListadoDePersonasView != null)
-                    continue;
-
                 if (view == ViewSeleccionada)
                     ((IActiveAware)view.DataContext).IsActive = true;
                 else

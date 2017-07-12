@@ -115,32 +115,37 @@
     <ContentControl Grid.Row="1" Grid.ColumnSpan="3" Margin="0">
       <Grid>
         <!-- Dashboard -->
-        <views:DashboardView DataContext="{Binding DashboardViewModel}" 
+        <views:DashboardView x:Name="_DashboardView" DataContext="{Binding DashboardViewModel}" 
                              Visibility="{Binding DataContext.DashboardViewIsVisible,
+          Mode=TwoWay,
                               ElementName=_Root, 
                               Converter={StaticResource _BooleanToVisibilityConverter}}"/>
 
         <!-- Personas -->
-        <views:PersonasContentView DataContext="{Binding PersonasContentViewModel}"
+        <views:PersonasContentView x:Name="_PersonasContentView" DataContext="{Binding PersonasContentViewModel}"
                                    Visibility="{Binding DataContext.PersonasContentViewIsVisible,
+          Mode=TwoWay,
                                     ElementName=_Root,
                                     Converter={StaticResource _BooleanToVisibilityConverter}}"/>
 
         <!-- Citas -->
-        <views:CitasContentView DataContext="{Binding CitasContentViewModel}"
+        <views:CitasContentView x:Name="_CitasContentView" DataContext="{Binding CitasContentViewModel}"
                                 Visibility="{Binding DataContext.CitasContentViewIsVisible,
+          Mode=TwoWay,
                                   ElementName=_Root,
                                   Converter={StaticResource _BooleanToVisibilityConverter}}"/>
 
         <!-- Asistentes -->
-        <views:AsistentesContentView DataContext="{Binding AsistentesContentViewModel}"
+        <views:AsistentesContentView x:Name="_AsistentesContentView" DataContext="{Binding AsistentesContentViewModel}"
                                 Visibility="{Binding DataContext.AsistentesContentViewIsVisible,
+          Mode=TwoWay,
                                   ElementName=_Root,
                                   Converter={StaticResource _BooleanToVisibilityConverter}}"/>
 
         <!-- Graficas -->
-        <views:GraficasContentView DataContext="{Binding GraficasContentViewModel}"
+        <views:GraficasContentView x:Name="_GraficasContentView" DataContext="{Binding GraficasContentViewModel}"
                                 Visibility="{Binding DataContext.GraficasContentViewIsVisible,
+          Mode=TwoWay,
                                   ElementName=_Root,
                                   Converter={StaticResource _BooleanToVisibilityConverter}}"/>
       </Grid>

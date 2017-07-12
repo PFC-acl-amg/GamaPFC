@@ -103,15 +103,9 @@
         </Setter.Value>
       </Setter>
     </Style>
-    <DataTemplate DataType="{x:Type viewModels:EditarPersonaViewModel}">
-      <local:EditarPersonaView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type viewModels:ListadoDePersonasViewModel}">
-      <local:ListadoDePersonasView />
-    </DataTemplate>
   </UserControl.Resources>
 
-  <metro:MetroAnimatedSingleRowTabControl 
+  <metro:MetroAnimatedSingleRowTabControl x:Name="_TabControl"
     ItemsSource="{Binding Views}"
     SelectedItem="{Binding ViewSeleccionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 </UserControl>

@@ -83,7 +83,7 @@ namespace Gama.Atenciones.Wpf
             _Panels.Add("AsistentesContentView", false);
             _Panels.Add("GraficasContentView", false);
 
-            SetVisiblePanel("DashboardView");
+            //SetVisiblePanel("DashboardView");
 
             _PreloadThread = new Thread(ConectarConServidor);
             _PreloadThread.SetApartmentState(ApartmentState.STA);
@@ -107,28 +107,28 @@ namespace Gama.Atenciones.Wpf
             set { SetProperty(ref _DashboardViewIsVisible, value); }
         }
 
-        private bool _PersonasContentViewIsVisible = false;
+        private bool _PersonasContentViewIsVisible = true;
         public bool PersonasContentViewIsVisible
         {
             get { return _PersonasContentViewIsVisible; }
             set { SetProperty(ref _PersonasContentViewIsVisible, value); }
         }
 
-        private bool _CitasContentViewIsVisible = false;
+        private bool _CitasContentViewIsVisible = true;
         public bool CitasContentViewIsVisible
         {
             get { return _CitasContentViewIsVisible; }
             set { SetProperty(ref _CitasContentViewIsVisible, value); }
         }
 
-        private bool _AsistentesContentViewIsVisible = false;
+        private bool _AsistentesContentViewIsVisible = true;
         public bool AsistentesContentViewIsVisible
         {
             get { return _AsistentesContentViewIsVisible; }
             set { SetProperty(ref _AsistentesContentViewIsVisible, value); }
         }
 
-        private bool _GraficasViewIsVisible = false;
+        private bool _GraficasViewIsVisible = true;
         public bool GraficasContentViewIsVisible
         {
             get { return _GraficasViewIsVisible; }
