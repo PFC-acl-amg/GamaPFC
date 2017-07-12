@@ -41,7 +41,7 @@ namespace Gama.Atenciones.Wpf
 
         public Bootstrapper(string title = "SERVICIO DE ATENCIONES") : base(title)
         {
-            NHibernateSessionFactory._EXECUTE_DDL = false;
+            NHibernateSessionFactory._EXECUTE_DDL = true;
             _CLEAR_DATABASE = false;
             _SEED_DATABASE = true;
         }
@@ -193,7 +193,11 @@ namespace Gama.Atenciones.Wpf
                 try
                 {
                     if (_CLEAR_DATABASE)
-                        personaRepository.DeleteAll();
+                    {
+                        var deletePersonaRepository = Container.Resolve<IPersonaRepository>();
+                        deletePersonaRepository.Session = session;
+                        deletePersonaRepository.DeleteAll();
+                    }
                         
                     if (_SEED_DATABASE)
                     {
@@ -479,7 +483,7 @@ namespace Gama.Atenciones.Wpf
                                 DateTime updatedTime = (asistenteSinImagen.ImagenUpdatedAt ?? DateTime.Now.AddYears(-100));
                                 if (DateTime.Compare(lastWriteTime, updatedTime) < 0)
                                 {
-                                    sqlCommand.CommandText = $"SELECT Imagen FROM personas WHERE Id = {asistenteSinImagen.Id}";
+                                    sqlCommand.CommandText = $"SELECT Imagen FROM asistentes WHERE Id = {asistenteSinImagen.Id}";
                                     using (reader = sqlCommand.ExecuteReader())
                                     {
                                         if (reader.Read())

@@ -41,7 +41,7 @@ namespace Core.DataAccess
                 using (MySqlCommand sqlCommand = new MySqlCommand())
                 {
                     sqlCommand.Connection = mysqlConnection;
-                    sqlCommand.CommandText = "SET GLOBAL max_allowed_packet = 1677721656";
+                    sqlCommand.CommandText = "SET GLOBAL max_allowed_packet = 1677721656;";
                     mysqlConnection.Open();
                     sqlCommand.ExecuteNonQuery();
 

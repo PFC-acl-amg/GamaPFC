@@ -19,7 +19,7 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             Map(x => x.Dni).Unique();
             Map(x => x.Nombre);
             Map(x => x.Observaciones);
-            Map(x => x.telefono);
+            Map(x => x.Telefono);
             Map(x => x.Foto);
             Map(x => x.FotoUpdatedAt);
             Map(x => x.CreatedAt);
@@ -39,6 +39,7 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             Map(x => x.TelefonoAlternativo);
             Map(x => x.Email);
             Map(x => x.EmailAlternativo);
+            
             // Fin campos nuevos
 
 

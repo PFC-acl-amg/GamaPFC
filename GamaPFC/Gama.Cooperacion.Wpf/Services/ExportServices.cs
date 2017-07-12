@@ -358,7 +358,7 @@ namespace Gama.Cooperacion.Wpf.Services
 
             // Insertando en la tabla de otros datos
             OtrosDatos.Rows[1].Cells[0].Paragraphs.First().AppendLine("Teléfono Fijo");
-            OtrosDatos.Rows[1].Cells[1].Paragraphs.First().AppendLine(coop.telefono);
+            OtrosDatos.Rows[1].Cells[1].Paragraphs.First().AppendLine(coop.Telefono);
             OtrosDatos.Rows[2].Cells[0].Paragraphs.First().AppendLine("Teléfono Alternativo");
             OtrosDatos.Rows[2].Cells[1].Paragraphs.First().AppendLine(coop.TelefonoAlternativo);
             OtrosDatos.Rows[3].Cells[0].Paragraphs.First().AppendLine("Email");
@@ -442,7 +442,7 @@ namespace Gama.Cooperacion.Wpf.Services
                 TablaCooperantes.Rows[pos].Cells[0].Paragraphs.First().AppendLine(coop.Nombre);
                 TablaCooperantes.Rows[pos].Cells[1].Paragraphs.First().AppendLine(coop.Apellido);
                 TablaCooperantes.Rows[pos].Cells[2].Paragraphs.First().AppendLine(coop.Dni);
-                TablaCooperantes.Rows[pos].Cells[3].Paragraphs.First().AppendLine(coop.telefono);
+                TablaCooperantes.Rows[pos].Cells[3].Paragraphs.First().AppendLine(coop.Telefono);
                 TablaCooperantes.Rows[pos].Cells[4].Paragraphs.First().AppendLine(coop.TelefonoMovil);
                 TablaCooperantes.Rows[pos].Cells[5].Paragraphs.First().AppendLine((NumCoordina+NumCoopera).ToString());
                 pos++;

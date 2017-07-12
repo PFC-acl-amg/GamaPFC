@@ -16,6 +16,7 @@ namespace Gama.Cooperacion.DataAccess
 {
     public class NHibernateSessionFactory : INHibernateSessionFactory
     {
+        public static bool _EXECUTE_DDL = false;
         private static string _connectionString = ConfigurationManager.ConnectionStrings["GamaCooperacionMySql"].ConnectionString;
 
         private ISessionFactory _SessionFactory = null;
@@ -84,7 +85,7 @@ namespace Gama.Cooperacion.DataAccess
                         c.SetProperty("current_session_context_class", "thread_static");
                         schema.Execute(
                             useStdOut: false,
-                            execute: false,// A true trunca las tablas cada vez ejecutas el programa
+                            execute: _EXECUTE_DDL,// A true trunca las tablas cada vez ejecutas el programa
                             justDrop: false);
                     })
                 .BuildConfiguration();
