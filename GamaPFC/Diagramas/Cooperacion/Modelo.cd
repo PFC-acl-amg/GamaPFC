@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Gama.Cooperacion.Business.Actividad">
+    <Position X="0.5" Y="2.5" Width="1.75" />
+    <AssociationLine Name="Foros" Type="Gama.Cooperacion.Business.Foro" ManuallyRouted="true">
+      <Path>
+        <Point X="2.25" Y="3.253" />
+        <Point X="4.5" Y="3.253" />
+        <Point X="4.5" Y="0.771" />
+        <Point X="8.375" Y="0.771" />
+        <Point X="8.375" Y="1.25" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Tareas" Type="Gama.Cooperacion.Business.Tarea" ManuallyRouted="true">
+      <Path>
+        <Point X="2.25" Y="6.375" />
+        <Point X="2.969" Y="6.375" />
+        <Point X="2.969" Y="8.55" />
+        <Point X="8.375" Y="8.55" />
+        <Point X="8.375" Y="7.723" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="Coordinador" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Cooperantes" />
+      <Property Name="Foros" />
+      <Property Name="Eventos" />
+      <Property Name="Tareas" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Gama.Cooperacion.Business.Cooperante">
+    <Position X="4.75" Y="2.25" Width="2" />
+    <TypeIdentifier />
+    <ShowAsCollectionAssociation>
+      <Property Name="ActividadesEnQueParticipa" />
+      <Property Name="ActividadesDeQueEsCoordinador" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Gama.Cooperacion.Business.Foro">
+    <Position X="7.5" Y="1.25" Width="1.75" />
+    <TypeIdentifier />
+    <ShowAsCollectionAssociation>
+      <Property Name="Mensajes" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Gama.Cooperacion.Business.Mensaje">
+    <Position X="10" Y="1.25" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Gama.Cooperacion.Business.Evento">
+    <Position X="0.5" Y="7.25" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Gama.Cooperacion.Business.Tarea">
+    <Position X="7.5" Y="4.5" Width="1.75" />
+    <AssociationLine Name="Responsable" Type="Gama.Cooperacion.Business.Cooperante">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.177" Y="0.06" Height="0.182" Width="0.999" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Seguimiento" Type="Gama.Cooperacion.Business.Seguimiento">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.038" Y="0.06" Height="0.182" Width="0.923" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Incidencias" Type="Gama.Cooperacion.Business.Incidencia">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.072" Y="0.11" Height="0.182" Width="0.917" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="Responsable" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Seguimiento" />
+      <Property Name="Incidencias" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Gama.Cooperacion.Business.Seguimiento">
+    <Position X="10" Y="4.5" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Gama.Cooperacion.Business.Incidencia">
+    <Position X="10" Y="7" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Enum Name="Gama.Cooperacion.Business.Estado">
+    <Position X="0.5" Y="0.75" Width="1.75" />
+    <Members>
+      <Field Name="EstadoTest" Hidden="true" />
+    </Members>
+    <TypeIdentifier />
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

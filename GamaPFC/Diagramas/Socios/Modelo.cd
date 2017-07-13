@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Gama.Socios.Business.Socio">
+    <Position X="0.75" Y="3.5" Width="2.5" />
+    <Members>
+      <Method Name="IsBirthday" Hidden="true" />
+    </Members>
+    <TypeIdentifier />
+    <ShowAsCollectionAssociation>
+      <Property Name="PeriodosDeAlta" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Gama.Socios.Business.PeriodoDeAlta">
+    <Position X="4.75" Y="3.5" Width="2" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="Socio" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Cuotas" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Gama.Socios.Business.Cuota">
+    <Position X="8" Y="3.5" Width="2.5" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="PeriodoDeAlta" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Core.TimestampedModel">
+    <Position X="5.25" Y="0.75" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.ModelBase">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Orientation="Left" Position="1.216" />
+  </Class>
+  <Interface Name="Core.IEncryptable">
+    <Position X="0.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

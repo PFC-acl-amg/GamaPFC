@@ -74,10 +74,17 @@
     <None Include="Common\Common.cd" />
     <None Include="Common\Eventos.cd" />
     <None Include="Common\Custom Calendar.cd" />
+    <None Include="Cooperacion\Modelo.cd" />
+    <None Include="Cooperacion\Eventos.cd" />
+    <None Include="Cooperacion\DataAccess.cd" />
     <None Include="Core\BaseClasses.cd" />
+    <None Include="Core\More base classes.cd" />
     <None Include="DummyDiagram.cd" />
     <None Include="packages.config" />
     <None Include="Server\Server.cd" />
+    <None Include="Socios\DataAccess.cd" />
+    <None Include="Socios\Eventos.cd" />
+    <None Include="Socios\Modelo.cd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AdministrationTools\Gama.Extranet.csproj">
