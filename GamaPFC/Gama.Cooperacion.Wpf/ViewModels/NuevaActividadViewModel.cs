@@ -45,7 +45,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             AceptarCommand = new DelegateCommand(OnAceptarCommand, OnAceptarCommand_CanExecute);
             CancelarCommand = new DelegateCommand(OnCancelarCommand);
         }
-
+        //----------------------------------------------
+        // Contenedores, listas, va
         private void Actividad_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             ((DelegateCommand)AceptarCommand).RaiseCanExecuteChanged();

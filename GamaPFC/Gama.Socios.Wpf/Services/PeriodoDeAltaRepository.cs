@@ -14,7 +14,10 @@ namespace Gama.Socios.Wpf.Services
     {
         public List<PeriodoDeAlta> _PeriodoDeAltas;
 
-        public PeriodoDeAltaRepository(EventAggregator eventAggregator) : base(eventAggregator) { }
+        public PeriodoDeAltaRepository(EventAggregator eventAggregator) : base(eventAggregator)
+        {
+            eventAggregator.GetEvent<PeriodoDeAltaActualizadoEvent>().Subscribe(OnActualizarPeriodosDeAlta);
+        }
 
         public List<PeriodoDeAlta> PeriodosDeAlta
         {
@@ -27,7 +30,10 @@ namespace Gama.Socios.Wpf.Services
             }
             set { _PeriodoDeAltas = value; }
         }
-
+        private void OnActualizarPeriodosDeAlta(int id)
+        {
+            _PeriodoDeAltas = base.GetAll();
+        }
         private void RaiseActualizarServidor()
         {
             if (SociosResources.ClientService != null && SociosResources.ClientService.IsConnected())

@@ -24,7 +24,7 @@ namespace Gama.Socios.Wpf.ViewModels
         private EventAggregator _EventAggregator;
         private PreferenciasDeSocios _Preferencias;
         private ExportService _ExportService;
-        private IPeriodoDeAltaRepository _PriodosDeAltaRepository;
+        private IPeriodoDeAltaRepository _PeriodosDeAltaRepository;
         private ISocioRepository _SocioRepository;
         private ICuotaRepository _CuotaRepository;
         private ObservableCollection<Socio> _Socios;
@@ -59,13 +59,13 @@ namespace Gama.Socios.Wpf.ViewModels
             _SocioRepository = socioRepository;
             _CuotaRepository = cuotaRepository;
             _ExportService = exportService;
-            _PriodosDeAltaRepository = periodosDeAltaRepository;
-            _PriodosDeAltaRepository.Session = session;
+            _PeriodosDeAltaRepository = periodosDeAltaRepository;
             _EventAggregator = eventAggregator;
             _Preferencias = preferencias;
 
             _CuotaRepository.Session = session;
             _SocioRepository.Session = session;
+            _PeriodosDeAltaRepository.Session = session;
 
             _VisibleOpcionesFiltro = false;
             _VisibleContableGeneral = false;
@@ -119,6 +119,7 @@ namespace Gama.Socios.Wpf.ViewModels
             _EventAggregator.GetEvent<SocioActualizadoEvent>().Subscribe(OnSocioActualizadoEvent);
             _EventAggregator.GetEvent<PeriodoDeAltaActualizadoEvent>().Subscribe(OnNuevasCuotasSinContar);
             _EventAggregator.GetEvent<PreferenciasActualizadasEvent>().Subscribe(OnPreferenciasActualizadasEvent);
+            _EventAggregator.GetEvent<ContabilidadModificadaEvent>().Subscribe(OnContabilidadModificadaEvent);
 
             SeleccionarSocioCommand = new DelegateCommand<LookupItem>(OnSeleccionarSocioCommandExecute);
             VisibleFiltroSociosCommand = new DelegateCommand(OnVisibleFiltroSociosCommand);
@@ -283,7 +284,7 @@ namespace Gama.Socios.Wpf.ViewModels
             int CPagado = 0;
             int CPorPagar = 0;
             int CImpagada = 0;
-            var altas = _PriodosDeAltaRepository.GetAll();
+            var altas = _PeriodosDeAltaRepository.GetAll();
             _MesesParaMoroso = _Preferencias.MesesParaSerConsideradoMoroso;
             if ((FechaFinOpcion != null) && (FechaFinOpcion != null))  // No hay fecha seleccionada => se calcula todo
             {
@@ -406,12 +407,14 @@ namespace Gama.Socios.Wpf.ViewModels
             var lookupItem = new LookupItem
             {
                 Id = socio.Id,
+                FechaDeNacimiento = socio.FechaDeNacimiento,
+                Telefono = socio.Telefono,
+                Email = socio.Email,
                 DisplayMember1 = socio.Nombre,
                 DisplayMember2 = socio.Nif,
                 Imagen = socio.Imagen,
                 Nacionalidad = socio.Nacionalidad,
-                FechaDeNacimiento = socio.FechaDeNacimiento,
-                Email = socio.Email,
+                EstaDadoDeAlta = socio.EstaDadoDeAlta
             };
             SociosFiltrados.Insert(0, lookupItem);
             Socios.Add(lookupItem);
@@ -424,23 +427,35 @@ namespace Gama.Socios.Wpf.ViewModels
         }
         private void OnSocioActualizadoEvent(Socio socioActualizado)
         {
-            var socio = socioActualizado;
-            int id = socio.Id;
+            //var socio = socioActualizado;
+            int id = socioActualizado.Id;
 
-            var socioDesactualizado = Socios.Where(x => x.Id == id).FirstOrDefault();
+            var socioDesactualizado = SociosFiltrados.Where(x => x.Id == id).FirstOrDefault();
             if (socioDesactualizado != null)
             {
-                SociosFiltrados.Remove(socioDesactualizado);
-                Socios.Remove(socioDesactualizado);
-                socioDesactualizado.DisplayMember1 = socio.Nombre;
-                socioDesactualizado.DisplayMember2 = socio.Nif;
-                socioDesactualizado.Imagen = socio.Imagen;
-                socioDesactualizado.Nacionalidad = socio.Nacionalidad;
-                socioDesactualizado.FechaDeNacimiento = socio.FechaDeNacimiento;
-                socioDesactualizado.Email = socio.Email;
+                socioDesactualizado.Id = socioActualizado.Id;
+                socioDesactualizado.FechaDeNacimiento = socioActualizado.FechaDeNacimiento;
+                socioDesactualizado.Telefono = socioActualizado.Telefono;
+                socioDesactualizado.Email = socioActualizado.Email;
+                socioDesactualizado.DisplayMember1 = socioActualizado.Nombre;
+                socioDesactualizado.DisplayMember2 = socioActualizado.Nif;
+                socioDesactualizado.Imagen = socioActualizado.Imagen;
+                socioDesactualizado.Nacionalidad = socioActualizado.Nacionalidad;
+                socioDesactualizado.EstaDadoDeAlta = socioActualizado.EstaDadoDeAlta;
             }
-            SociosFiltrados.Add(socioDesactualizado);
-            Socios.Add(socioDesactualizado);
+            var socioDesactualizado1 = Socios.Where(x => x.Id == id).FirstOrDefault();
+            if (socioDesactualizado != null)
+            {
+                socioDesactualizado1.Id = socioActualizado.Id;
+                socioDesactualizado1.FechaDeNacimiento = socioActualizado.FechaDeNacimiento;
+                socioDesactualizado1.Telefono = socioActualizado.Telefono;
+                socioDesactualizado1.Email = socioActualizado.Email;
+                socioDesactualizado1.DisplayMember1 = socioActualizado.Nombre;
+                socioDesactualizado1.DisplayMember2 = socioActualizado.Nif;
+                socioDesactualizado1.Imagen = socioActualizado.Imagen;
+                socioDesactualizado1.Nacionalidad = socioActualizado.Nacionalidad;
+                socioDesactualizado1.EstaDadoDeAlta = socioActualizado.EstaDadoDeAlta;
+            }
             // Si es moroso y no está en la lista, añadirlo
             if (socioActualizado.EsMoroso() &&
                 SociosMorosos.FirstOrDefault(x => x.Id == id) == null)
@@ -455,7 +470,10 @@ namespace Gama.Socios.Wpf.ViewModels
                 SociosMorosos.Remove(SociosMorosos.FirstOrDefault(x => x.Id == id));
             }
         }
-
+        private void OnContabilidadModificadaEvent(int Num)
+        {
+            ActualizarDatosContables();
+        }
         //--------------------------------------------------
         // Bindings - 
         //--------------------------------------------------
@@ -606,7 +624,7 @@ namespace Gama.Socios.Wpf.ViewModels
             int CPagado = 0;
             int CPorPagar = 0;
             int CImpagada = 0;
-            var altas = _PriodosDeAltaRepository.GetAll();
+            var altas = _PeriodosDeAltaRepository.GetAll();
             var AllCuotas = _CuotaRepository.GetAll();
             _MesesParaMoroso = _Preferencias.MesesParaSerConsideradoMoroso;
             if ((FechaFinOpcion == null) && (FechaFinOpcion == null))  // No hay fecha seleccionada => se calcula todo
@@ -641,5 +659,6 @@ namespace Gama.Socios.Wpf.ViewModels
             CuotasImpagadas = CImpagada;
             CantidadTotalImpagadas = TotalImpagos;
         }
+        
     }
 }

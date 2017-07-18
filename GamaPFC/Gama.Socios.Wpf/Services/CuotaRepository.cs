@@ -14,7 +14,10 @@ namespace Gama.Socios.Wpf.Services
     {
         public List<Cuota> _Cuotas;
 
-        public CuotaRepository(EventAggregator eventAggregator) : base(eventAggregator) { }
+        public CuotaRepository(EventAggregator eventAggregator) : base(eventAggregator)
+        {
+            eventAggregator.GetEvent<PeriodoDeAltaActualizadoEvent>().Subscribe(OnActualizarCuotas);
+        }
 
         public List<Cuota> Cuotas
         {
@@ -27,7 +30,10 @@ namespace Gama.Socios.Wpf.Services
             }
             set { _Cuotas = value; }
         }
-
+        private void OnActualizarCuotas(int id)
+        {
+            _Cuotas = base.GetAll();
+        }
         private void RaiseActualizarServidor()
         {
             if (SociosResources.ClientService != null && SociosResources.ClientService.IsConnected())

@@ -7,19 +7,24 @@ using System;
 using Microsoft.Win32;
 using System.IO;
 using System.Windows.Media.Imaging;
+using Gama.Socios.Wpf.Eventos;
+using Prism.Events;
 
 namespace Gama.Socios.Wpf.ViewModels
 {
     public class SocioViewModel : ViewModelBase
     {
         private SocioWrapper _Socio;
+        private EventAggregator _EventAggregator;
 
-        public SocioViewModel()
+        public SocioViewModel(EventAggregator eventAggregator)
         {
+            _EventAggregator = eventAggregator;
             Socio = new SocioWrapper(new Socio())
             {
                 IsInEditionMode = true
             };
+            _EventAggregator.GetEvent<SocioActualizadoEvent>().Subscribe(OnSocioActualizadoEvent);
 
             ExaminarAvatarCommand = new DelegateCommand(OnExaminarAvatarCommandExecute);
         }
@@ -60,6 +65,14 @@ namespace Gama.Socios.Wpf.ViewModels
             Socio = wrapper;
             Socio.IsInEditionMode = false;
             
+        }
+        private void OnSocioActualizadoEvent(Socio socioActualizado)
+        {
+            //var Socio = new SocioWrapper(
+            //         _SocioRepository.GetById(socioActualizado.id));
+            var socioAct = new SocioWrapper(socioActualizado);
+            Socio = socioAct;
+            Socio.IsInEditionMode = false;
         }
     }
 }
