@@ -11,13 +11,12 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
             xmlns:actions="clr-namespace:Core.Util;assembly=Core"
             actions:DialogCloser.DialogResult="{Binding Cerrar}" 
-        ResizeMode="NoResize"
              mc:Ignorable="d" 
         Title="PREFERENCIAS" Height="414.927" Width="907.891" >
   <Grid>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="450"/>
-      <ColumnDefinition Width="450"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>

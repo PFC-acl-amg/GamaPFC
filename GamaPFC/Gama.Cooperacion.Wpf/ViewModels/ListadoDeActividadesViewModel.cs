@@ -42,8 +42,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     DisplayMember1 = a.Titulo,
                     DisplayMember2 = a.Descripcion
                 }).ToList();
-            Actividades = new PaginatedCollectionView(_actividades,
-                userConfig.DashboardUltimasPersonas); // TODO PONER EL QU ES
+            Actividades = new PaginatedCollectionView(_actividades, 28); // TODO PONER EL QU ES
 
             _eventAggregator.GetEvent<ActividadCreadaEvent>().Subscribe(OnNuevaActividadEvent);
             _eventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);

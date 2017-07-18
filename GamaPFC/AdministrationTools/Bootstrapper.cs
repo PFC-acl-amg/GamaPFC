@@ -1,6 +1,7 @@
 ﻿using Core.DataAccess;
 using Gama.Atenciones.DataAccess;
 using Gama.Atenciones.Wpf.Services;
+using Gama.Socios.Wpf.Services;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Mvc;
 using NHibernate;
@@ -42,6 +43,12 @@ namespace AdministrationTools
             container.RegisterType<ICitaRepository, CitaRepository>();
             container.RegisterType<IAtencionRepository, AtencionRepository>();
             container.RegisterType<IAsistenteRepository, AsistenteRepository>();
+            container.RegisterType<Gama.Socios.DataAccess.NHibernateSessionFactoryWeb>();
+            var sociosSessionFactory = new Gama.Socios.DataAccess.NHibernateSessionFactoryWeb();
+            var session = sociosSessionFactory.SessionFactory.OpenSession();
+            //var socioRepository = new SocioRepository();
+
+            container.RegisterType<ISocioRepository, SocioRepository>();
         }
     }
 }

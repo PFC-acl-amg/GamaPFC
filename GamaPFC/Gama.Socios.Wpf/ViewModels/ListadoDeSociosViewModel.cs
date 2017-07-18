@@ -47,7 +47,7 @@ namespace Gama.Socios.Wpf.ViewModels
                     Imagen = p.Imagen
                 }).ToList();
 
-            Socios = new PaginatedCollectionView(_Socios, _Preferencias.ListadoDeSociosItemsPerPage);
+            Socios = new PaginatedCollectionView(_Socios, 32);
 
             SeleccionarSocioCommand = new DelegateCommand<object>(OnSeleccionarSocioCommandExecute);
             PaginaSiguienteCommand = new DelegateCommand(OnPaginaSiguienteCommandExecute);

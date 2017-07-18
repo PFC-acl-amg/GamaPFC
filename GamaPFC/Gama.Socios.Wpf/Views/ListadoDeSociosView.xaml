@@ -15,8 +15,8 @@
         <designData:ListadoDeSociosViewModelDTD/>
     </d:DataContext>
     <UserControl.Resources>
-        <converters:BinaryImageConverter x:Key="imgConverter" />
-    </UserControl.Resources>
+    <converters:BinaryImageConverter x:Key="_BinaryImageConverter"/>
+  </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -48,53 +48,57 @@
                     </ScrollViewer>
                 </ControlTemplate>
             </ItemsControl.Template>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <GroupBox>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80" />
-                                <ColumnDefinition Width="80"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="80"/>
-                                <RowDefinition  Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Image Source="{Binding Imagen, 
-                                    Converter={StaticResource imgConverter}}" 
-                                    Stretch="Fill"
-                                       MinHeight="60"
-                                   Grid.ColumnSpan="2"
-                                    StretchDirection="Both">
-                                <Image.BitmapEffect>
-                                    <DropShadowBitmapEffect Color="Black" />
-                                </Image.BitmapEffect>
-                            </Image>
-                            <!--<Image Margin="{StaticResource Margin}"  
-                                Grid.ColumnSpan="2"
-                                MaxHeight="80"
-                                Source="{Binding IconSource, Converter={StaticResource _PathToFullPathConverter}}"/>-->
-                            <StackPanel Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center">
-                                <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center"
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <GroupBox Width="Auto" HorizontalAlignment="Left">
+            <!--<Border BorderThickness="1" CornerRadius="0" BorderBrush="#414749" Margin="2" Background="#D9D4CCBF">-->
+            <Grid>
+              <Grid.Style>
+                <Style TargetType="Grid">
+                  <Setter Property="Background" Value="Transparent"/>
+                  <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                      <Setter Property="Background" Value="#D94D7BA0"/>
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+              </Grid.Style>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="170" />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="125"/>
+                <RowDefinition  Height="Auto"/>
+              </Grid.RowDefinitions>
+
+              <Ellipse Height="105" Width="105" Margin="4,12,4,4">
+                <Ellipse.Fill>
+                  <ImageBrush ImageSource="{Binding Imagen, Converter={StaticResource _BinaryImageConverter}}" Stretch="Uniform"/>
+                </Ellipse.Fill>
+              </Ellipse>
+
+              <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                <TextBlock Text="{Binding DisplayMember1}" VerticalAlignment="Center"
+                           FontSize="14"
+                           FontStyle="Normal"
                            TextWrapping="Wrap"
                            HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
-                                <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center"
+                <TextBlock Text="{Binding DisplayMember2}" VerticalAlignment="Center"
+                           FontSize="13"
                            TextWrapping="Wrap" HorizontalAlignment="Center" Margin="{StaticResource Margin}"/>
-                            </StackPanel>
-                        </Grid>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseDoubleClick">
-                                <prism:InvokeCommandAction 
-                                      Command="{Binding RelativeSource =
-                                          {RelativeSource FindAncestor,
-                                              AncestorType={x:Type Grid}},
-                                              Path=DataContext.SeleccionarSocioCommand}"
-                                      CommandParameter="{Binding Id}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </GroupBox>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
+              </StackPanel>
+            </Grid>
+            <GroupBox.InputBindings>
+              <MouseBinding MouseAction="LeftDoubleClick"
+                  Command="{Binding RelativeSource = 
+                    {RelativeSource FindAncestor,AncestorType={x:Type Grid}},
+                    Path=DataContext.SeleccionarSocioCommand}"
+                    CommandParameter="{Binding Id}"/>
+            </GroupBox.InputBindings>
+            <!--</Border>-->
+          </GroupBox>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
         </ItemsControl>
     </Grid>
     <!--

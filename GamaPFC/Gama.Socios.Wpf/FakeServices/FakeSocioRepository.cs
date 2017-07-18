@@ -18,13 +18,15 @@ namespace Gama.Socios.Wpf.FakeServices
         public List<Socio> Socios { get; set; }
 
         private List<Socio> _Socios;
-        public static int SEED_COUNT = 2;
+        public static int SEED_COUNT = 50;
 
         public FakeSocioRepository()
         {
+            string path = @"C:\Users\Alberto\Documents\Profile Photos\Para la demo\";
             _Socios = new List<Socio>();
 
             int createdAt = 0;
+            int imageIndex = 1;
             for (int i = 0; i < SEED_COUNT; i++)
             {
                 var socio = new Socio()
@@ -36,17 +38,19 @@ namespace Gama.Socios.Wpf.FakeServices
                     EstaDadoDeAlta = true,
                     Facebook = Faker.InternetFaker.Domain(),
                     FechaDeNacimiento = DateTime.Now.AddYears(-25),
-                    Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(
-                         new Uri("pack://application:,,,/Gama.Atenciones.Wpf;component/Resources/Images/2.jpg")),
                     ImagenUpdatedAt = DateTime.Now,
                     LinkedIn = Faker.InternetFaker.Domain(),
                     Nacionalidad = Faker.LocationFaker.Country(),
                     Nif = i.ToString() + Faker.StringFaker.AlphaNumeric(8) + i.ToString(),
                     Nombre = Faker.NameFaker.Name(),
+                    Imagen = BinaryImageConverter.GetBitmapImageFromUriSource(new Uri($"{path}{imageIndex}.jpg")),
                     Telefono = Faker.PhoneFaker.Phone(),
                     Twitter = Faker.InternetFaker.Domain(),
                 };
 
+                imageIndex++;
+                if (imageIndex > 28)
+                    imageIndex = 1;
                 if (i != 0 && i % 5 == 0)
                 {
                     createdAt--;

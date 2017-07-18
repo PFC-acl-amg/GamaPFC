@@ -96,6 +96,7 @@
     <Compile Include="Mappings\PeriodoDeAltaMap.cs" />
     <Compile Include="Mappings\SocioMap.cs" />
     <Compile Include="NHibernateSessionFactory.cs" />
+    <Compile Include="NHibernateSessionFactoryWeb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

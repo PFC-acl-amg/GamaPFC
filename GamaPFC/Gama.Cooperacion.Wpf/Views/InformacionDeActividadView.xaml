@@ -12,7 +12,7 @@
   xmlns:selector="clr-namespace:Gama.Common.Resources.DataTemplateSelectors;assembly=Gama.Common"
   xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
   mc:Ignorable="d" 
-  MaxWidth="390"
+  MaxWidth="410"
   d:DesignHeight="557.5" d:DesignWidth="400.26">
   <UserControl.Resources>
     <!-- Colleción de personas buscables. Se corresponde al total
