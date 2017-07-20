@@ -108,7 +108,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 Actividad.Model.AddForo(foro);      // El foro se añade a la actividad
                 Actividad.CreatedAt = DateTime.Now;
                 _ActividadRepository.Create(Actividad.Model);   // Se crea la actividad
-                _EventAggregator.GetEvent<ActividadCreadaEvent>().Publish(Actividad.Id);
+                //_EventAggregator.GetEvent<ActividadCreadaEvent>().Publish(Actividad.Id);
                 _EventAggregator.GetEvent<PublicarNuevaActividad>().Publish(evento);
                 Cerrar = true;
             }
