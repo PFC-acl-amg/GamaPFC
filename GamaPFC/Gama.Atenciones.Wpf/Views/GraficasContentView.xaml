@@ -10,7 +10,7 @@
              xmlns:graficasViews="clr-namespace:Gama.Atenciones.Wpf.Views.Graficas"
              xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
-                    xmlns:behaviors="clr-namespace:Gama.Common.Resources.Behaviors;assembly=Gama.Common"
+             xmlns:behaviors="clr-namespace:Gama.Common.Resources.Behaviors;assembly=Gama.Common"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="837.457" d:DesignWidth="882.692">
@@ -365,7 +365,7 @@
         </Grid>
       </StackPanel>
 
-      <graficasViews:DatosPersonalesGraficasView x:Name="_DatosPersonalesGrafivasView" Grid.Row="2" Visibility="Visible"/>
+      <graficasViews:DatosPersonalesGraficasView x:Name="_DatosPersonalesGraficasView" Grid.Row="2" Visibility="Visible"/>
       <graficasViews:AtencionesGraficasView x:Name="_AtencionesGraficasView" Visibility="Hidden" Grid.Row="2"/>
     </Grid>
   </Grid>

@@ -125,6 +125,12 @@
                              Visibility="{Binding DataContext.SociosContentViewIsVisible,
                               ElementName=_Root, 
                               Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+
+        <views:GraficasContentView DataContext="{Binding GraficasContentViewModel}"
+                             Visibility="{Binding DataContext.GraficasContentViewIsVisible,
+                              ElementName=_Root, 
+                              Converter={StaticResource _BooleanToVisibilityConverter}}"/>
+
       </Grid>
     </ContentControl>
 

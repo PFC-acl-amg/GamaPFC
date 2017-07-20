@@ -14,10 +14,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Gama.Atenciones.Wpf.Views
+namespace Gama.Socios.Wpf.Views
 {
     /// <summary>
-    /// Interaction logic for GraficasView.xaml
+    /// Interaction logic for GraficasContentView.xaml
     /// </summary>
     public partial class GraficasContentView : UserControl
     {
@@ -56,19 +56,14 @@ namespace Gama.Atenciones.Wpf.Views
 
         private void DatosPersonalesListBoxItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            _DatosPersonalesGraficasView.Visibility = Visibility.Visible;
-            _AtencionesGraficasView.Visibility = Visibility.Hidden;
+            _GraficasDeCuotasView.Visibility = Visibility.Visible;
+            //_AtencionesGraficasView.Visibility = Visibility.Hidden;
         }
 
         private void AtencionesListBoxItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            _DatosPersonalesGraficasView.Visibility = Visibility.Hidden;
-            _AtencionesGraficasView.Visibility = Visibility.Visible;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            _FiltroGrid.Visibility = _FiltroGrid.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+            _GraficasDeCuotasView.Visibility = Visibility.Hidden;
+            //_AtencionesGraficasView.Visibility = Visibility.Visible;
         }
     }
 }

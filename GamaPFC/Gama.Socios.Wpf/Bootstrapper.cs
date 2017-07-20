@@ -155,9 +155,7 @@ namespace Gama.Socios.Wpf
                 new InjectionFactory(c => Container.Resolve<INHibernateSessionFactory>().OpenSession()));// Desde preferencias de socios llega aqui y boora la BBDD
             Container.RegisterType<ISocioRepository, SocioRepository>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IPeriodoDeAltaRepository, PeriodoDeAltaRepository>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<ICuotaRepository, CuotaRepository>(new ContainerControlledLifetimeManager());
-
-           
+            Container.RegisterType<ICuotaRepository, CuotaRepository>(new ContainerControlledLifetimeManager());    
         }
 
         protected override void GenerateDatabaseConfiguration()
