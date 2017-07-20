@@ -65,6 +65,7 @@ namespace Gama.Socios.Wpf
             Container.RegisterType<ToolbarViewModel>();
             Container.RegisterType<PreferenciasViewModel>();
             Container.RegisterType<RightCommandsViewModel>();
+            Container.RegisterType<GraficasContentViewModel>(new ContainerControlledLifetimeManager());
         }
 
         private void InitializeNavigation()

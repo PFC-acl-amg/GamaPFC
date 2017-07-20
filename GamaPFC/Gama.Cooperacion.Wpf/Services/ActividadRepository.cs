@@ -56,20 +56,40 @@ namespace Gama.Cooperacion.Wpf.Services
 
         public override void Create(Actividad entity)
         {
+            foreach (var cooperante in entity.Cooperantes)
+                cooperante.Encrypt();
+
+            entity.Coordinador.Encrypt();
+
             base.Create(entity);
             Actividades.Add(entity);
             _EventAggregator.GetEvent<ActividadCreadaEvent>().Publish(entity.Id);
             RaiseActualizarServidor();
+
+            foreach (var cooperante in entity.Cooperantes)
+                cooperante.Decrypt();
+
+            entity.Coordinador.Decrypt();
         }
 
         public override bool Update(Actividad entity)
         {
+            foreach (var cooperante in entity.Cooperantes)
+                cooperante.Encrypt();
+
+            entity.Coordinador.Encrypt();
+
             if (base.Update(entity))
             {
                 Actividades.Remove(Actividades.Find(x => x.Id == entity.Id));
                 Actividades.Add(entity);
                 _EventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(entity.Id);
                 RaiseActualizarServidor();
+
+                foreach (var cooperante in entity.Cooperantes)
+                    cooperante.Decrypt();
+
+                entity.Coordinador.Decrypt();
 
                 return true;
             }

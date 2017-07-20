@@ -112,6 +112,59 @@ namespace Gama.Socios.Business
             PeriodosDeAlta.Add(periodoDeAlta);
         }
 
-       
+        public virtual string Edad
+        {
+            get
+            {
+                string result;
+
+                if (FechaDeNacimiento != null)
+                {
+                    var difference = new DateTime(DateTime.Now.Ticks - FechaDeNacimiento.Value.Ticks);
+                    result = difference.Year.ToString() + " años";
+                }
+                else
+                {
+                    result = "Edad no proporcionada";
+                }
+
+                return result;
+            }
+        }
+
+        public virtual int? EdadNumerica
+        {
+            get
+            {
+                int? result;
+
+                if (FechaDeNacimiento != null)
+                {
+                    try
+                    {
+                        var difference = new DateTime(DateTime.Now.Ticks - FechaDeNacimiento.Value.Ticks);
+
+                        // Así prevenimos que se lance una excepción. Nadie debería tener una fecha de
+                        // nacimiento mayor a la fecha actual, pero si el usuario lo introduce por error
+                        // se controlorá
+                        if (FechaDeNacimiento > DateTime.Now)
+                            result = null;
+                        else
+                            result = difference.Year;
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        throw;
+                    }
+                }
+                else
+                {
+                    result = null;
+                }
+
+                return result;
+            }
+        }
+
     }
 }

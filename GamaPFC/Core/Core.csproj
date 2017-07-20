@@ -118,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangeTrackingCollection.cs" />
+    <Compile Include="Controls\ChartItem.cs" />
     <Compile Include="Controls\EllipseImage.cs" />
     <Compile Include="DataAccess\DBHelper.cs" />
     <Compile Include="DataAccess\INHibernateSessionFactory.cs" />

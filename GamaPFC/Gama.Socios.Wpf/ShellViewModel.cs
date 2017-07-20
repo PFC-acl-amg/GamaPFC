@@ -49,6 +49,7 @@ namespace Gama.Socios.Wpf
             ToolbarViewModel toolbarViewModel,
             StatusBarViewModel statusBarViewModel,
             RightCommandsViewModel rightCommandsViewModel,
+            GraficasContentViewModel graficasContentViewModel,
             Preferencias preferencias,
             ISession session
            )
@@ -60,6 +61,7 @@ namespace Gama.Socios.Wpf
             ToolbarViewModel = toolbarViewModel;
             StatusBarViewModel = statusBarViewModel;
             RightCommandsViewModel = rightCommandsViewModel;
+            GraficasContentViewModel = graficasContentViewModel;
             _Preferencias = preferencias;
 
             _SocioRepository = socioRepository;
@@ -73,8 +75,7 @@ namespace Gama.Socios.Wpf
             _Panels.Add("DashboardView", false);
             _Panels.Add("ContabilidadView", false);
             _Panels.Add("SociosContentView", false);
-            //_Panels.Add("AsistentesContentView", false);
-            //_Panels.Add("GraficasContentView", false);
+            _Panels.Add("GraficasContentView", false);
 
             SetVisiblePanel("DashboardView");
 
@@ -90,6 +91,7 @@ namespace Gama.Socios.Wpf
         public ToolbarViewModel ToolbarViewModel { get; private set; }
         public StatusBarViewModel StatusBarViewModel { get; private set; }
         public RightCommandsViewModel RightCommandsViewModel { get; private set; }
+        public GraficasContentViewModel GraficasContentViewModel { get; private set; }
 
         private bool _DashboardViewIsVisible = true;
         public bool DashboardViewIsVisible
@@ -112,6 +114,13 @@ namespace Gama.Socios.Wpf
             set { SetProperty(ref _SociosContentViewIsVisible, value); }
         }
 
+        private bool _GraficasContentViewIsVisible = false;
+        public bool GraficasContentViewIsVisible
+        {
+            get { return _GraficasContentViewIsVisible; }
+            set { SetProperty(ref _GraficasContentViewIsVisible, value); }
+        }
+
         public ImageSource IconSource
         {
             get { return _IconSource; }
@@ -128,16 +137,13 @@ namespace Gama.Socios.Wpf
             _Panels["DashboardView"] = false;
             _Panels["ContabilidadView"] = false;
             _Panels["SociosContentView"] = false;
-            //_Panels["AsistentesContentView"] = false;
-            //_Panels["GraficasContentView"] = false;
+            _Panels["GraficasContentView"] = false;
 
             _Panels[panel] = true;
 
             DashboardViewIsVisible = _Panels["DashboardView"];
             SociosContentViewIsVisible = _Panels["SociosContentView"];
-            //CitasContentViewIsVisible = _Panels["CitasContentView"];
-            //AsistentesContentViewIsVisible = _Panels["AsistentesContentView"];
-            //GraficasContentViewIsVisible = _Panels["GraficasContentView"];
+            GraficasContentViewIsVisible = _Panels["GraficasContentView"];
         }
 
         private void OnServidorActualizadoDesdeFueraEvent(string code)

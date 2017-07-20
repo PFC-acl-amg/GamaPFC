@@ -62,11 +62,11 @@
                 x:Name="_Title3"
                 Title="Gráficas"
                 Command="{Binding NavigateCommand}"
-                CommandParameter="GraficasView">
+                CommandParameter="GraficasContentView">
                 <controls:Tile.Style>
                     <Style TargetType="controls:Tile" BasedOn="{StaticResource _EstiloDeTitulosStyle}">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ActivePanel}" Value="GraficasView">
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="GraficasContentView">
                                 <Setter Property="Foreground" Value="#275B6D"/>
                             </DataTrigger>
                         </Style.Triggers>
