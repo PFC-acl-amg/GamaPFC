@@ -44,9 +44,9 @@ namespace Gama.Cooperacion.Wpf
 
         public Bootstrapper(string title = "COOPERACIÓN") : base(title)
         {
-            NHibernateSessionFactory._EXECUTE_DDL = true;
+            NHibernateSessionFactory._EXECUTE_DDL = false;
             _CLEAR_DATABASE = false;
-            _SEED_DATABASE = true;
+            _SEED_DATABASE = false;
         }
 
         protected override DependencyObject CreateShell()

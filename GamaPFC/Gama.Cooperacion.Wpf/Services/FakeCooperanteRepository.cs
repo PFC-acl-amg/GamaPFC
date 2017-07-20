@@ -16,16 +16,21 @@ namespace Gama.Cooperacion.Wpf.Services
         {
             get
             {
-                throw new NotImplementedException();
+                return _cooperantes;
             }
 
             set
             {
-                throw new NotImplementedException();
+                _cooperantes = value;
             }
         }
 
         public ISession Session { get; set; }
+
+        public FakeCooperanteRepository()
+        {
+            GetAll();
+        }
 
         public void Create(Cooperante entity)
         {

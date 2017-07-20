@@ -8,12 +8,16 @@
   xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
   xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:designData="clr-namespace:Gama.Cooperacion.Wpf.DesignTimeData"
   xmlns:prism="http://prismlibrary.com/"
   xmlns:selector="clr-namespace:Gama.Common.Resources.DataTemplateSelectors;assembly=Gama.Common"
   xmlns:converters="clr-namespace:Gama.Cooperacion.Wpf.Converters"
   mc:Ignorable="d" 
-  MaxWidth="410"
-  d:DesignHeight="557.5" d:DesignWidth="400.26">
+  MaxWidth="999"
+  d:DesignHeight="756.5" d:DesignWidth="400.26">
+  <d:DataContext>
+    <designData:InformacionTareaViewModel_DTD/>
+  </d:DataContext>
   <UserControl.Resources>
     <!-- Colleción de personas buscables. Se corresponde al total
              de personas activas en la base de datos. -->
@@ -34,8 +38,7 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="*" MaxHeight="320"/>
+      <RowDefinition Height="*" />
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="*"/>
@@ -89,22 +92,24 @@
     </GroupBox>
 
     <GroupBox Grid.Row="1" Header="Fechas">
-      <StackPanel>
+      <Grid>
+        <StackPanel>
 
-        <StackPanel Orientation="Horizontal">
-          <Label Margin="5,5,0,0">Inicio</Label>
-          <DatePicker Margin="5,5,0,0" 
+          <StackPanel Orientation="Horizontal">
+            <Label Margin="5,5,0,0">Inicio</Label>
+            <DatePicker Margin="5,5,0,0" 
                                     metro:TextBoxHelper.Watermark="Fecha de Inicio"
                                     SelectedDate="{Binding Actividad.FechaDeInicio, 
                                     UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
 
-          </DatePicker>
-          <Label Margin="5,5,0,0">Final</Label>
-          <DatePicker Margin="5,5,0,0" SelectedDate="{Binding Actividad.FechaDeFin, 
+            </DatePicker>
+            <Label Margin="5,5,0,0">Final</Label>
+            <DatePicker Margin="5,5,0,0" SelectedDate="{Binding Actividad.FechaDeFin, 
                                     UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                             metro:TextBoxHelper.Watermark="Fecha Finalización"/>
+          </StackPanel>
         </StackPanel>
-      </StackPanel>
+      </Grid>
     </GroupBox>
 
 
@@ -147,19 +152,24 @@
     </GroupBox>
 
     <GroupBox Grid.Row="4" Header="Cooperantes" >
-      <ListBox x:Name="cooperantesListBox"
-                       ScrollViewer.CanContentScroll="True"
-               ScrollViewer.VerticalScrollBarVisibility="Auto"
+      <Grid ScrollViewer.VerticalScrollBarVisibility="Hidden" IsHitTestVisible="{Binding Actividad.IsInEditionMode}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="cooperantesListBox"
+                    HorizontalContentAlignment="Stretch"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
                         ItemsSource="{Binding Actividad.Cooperantes}">
-        <ListBox.ItemTemplate>
-          <DataTemplate>
-            <Grid x:Name="grid">
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto"/>
-              </Grid.ColumnDefinitions>
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Grid x:Name="grid">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition />
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-              <cc:SearchBox 
+                <cc:SearchBox 
                 x:Name="searchBox"
                 Grid.Column="0"
                 VerticalContentAlignment="Center"
@@ -173,36 +183,37 @@
                 ItemTemplateSelector="{StaticResource BuscadorTemplateSelector}"
                 Text="{Binding NombreCompleto, Mode=OneWay}"
                 Margin="{StaticResource Margin}">
-                <i:Interaction.Triggers>
-                  <i:EventTrigger EventName="Search">
-                    <prism:InvokeCommandAction 
+                  <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Search">
+                      <prism:InvokeCommandAction 
                       Command="{Binding DataContext.SearchCommand, ElementName=cooperantesListBox}"
                       CommandParameter="{Binding ElementName=searchBox, Path=Text}"/>
-                  </i:EventTrigger>
-                  <i:EventTrigger EventName="SelectResult">
-                    <prism:InvokeCommandAction 
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="SelectResult">
+                      <prism:InvokeCommandAction 
                       Command="{Binding DataContext.SelectCooperanteEventCommand, ElementName=cooperantesListBox}"
                       CommandParameter="{Binding}"/>
-                  </i:EventTrigger>
-                </i:Interaction.Triggers>
-              </cc:SearchBox>
+                    </i:EventTrigger>
+                  </i:Interaction.Triggers>
+                </cc:SearchBox>
 
-              <StackPanel Grid.Column="1" Orientation="Horizontal">
-                <Button Content="Buscar" 
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                  <Button Content="Buscar" 
                         Margin="{StaticResource Margin}"
                         Command="{Binding DataContext.AbrirPopupCommand, 
                           RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
                         CommandParameter="{Binding}"/>
-                <Button Content="X" 
+                  <Button Content="X" 
                         Margin="{StaticResource Margin}"
                         Command="{Binding DataContext.QuitarCooperanteCommand,
                           RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
                         CommandParameter="{Binding}"/>
-              </StackPanel>
-            </Grid>
-          </DataTemplate>
-        </ListBox.ItemTemplate>
-      </ListBox>
+                </StackPanel>
+              </Grid>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </Grid>
     </GroupBox>
   </Grid>
 
