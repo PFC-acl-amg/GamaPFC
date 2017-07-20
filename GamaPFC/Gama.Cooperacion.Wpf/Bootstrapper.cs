@@ -44,9 +44,9 @@ namespace Gama.Cooperacion.Wpf
 
         public Bootstrapper(string title = "COOPERACIÓN") : base(title)
         {
-            NHibernateSessionFactory._EXECUTE_DDL = false;
+            NHibernateSessionFactory._EXECUTE_DDL = true;
             _CLEAR_DATABASE = false;
-            _SEED_DATABASE = false;
+            _SEED_DATABASE = true;
         }
 
         protected override DependencyObject CreateShell()
@@ -232,7 +232,23 @@ namespace Gama.Cooperacion.Wpf
                 }
             }
 
+            SetMaxPacketSize();
+
             DoThings();
+        }
+
+        private void SetMaxPacketSize()
+        {
+            using (MySqlConnection mysqlConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["GamaCooperacionMySql"].ToString()))
+            {
+                using (MySqlCommand sqlCommand = new MySqlCommand())
+                {
+                    sqlCommand.Connection = mysqlConnection;
+                    sqlCommand.CommandText = "SET GLOBAL max_allowed_packet = 1677721656;";
+                    mysqlConnection.Open();
+                    sqlCommand.ExecuteNonQuery();
+                }
+            }
         }
 
         private void DoThings()
@@ -320,7 +336,7 @@ namespace Gama.Cooperacion.Wpf
                                 {
                                     if (reader.Read())
                                     {
-                                        cooperanteSinImagen.Foto = reader["Foto"] as byte[];
+                                        cooperanteSinImagen.Foto = Core.Encryption.Cipher.Decrypt((reader["Foto"] as byte[]));
                                         if (cooperanteSinImagen.Foto != null)
                                         {
                                             using (Image image = Image.FromStream(new MemoryStream(cooperanteSinImagen.Foto)))
@@ -351,7 +367,7 @@ namespace Gama.Cooperacion.Wpf
                                     {
                                         if (reader.Read())
                                         {
-                                            cooperanteSinImagen.Foto = reader["Foto"] as byte[];
+                                            cooperanteSinImagen.Foto = Core.Encryption.Cipher.Decrypt((reader["Foto"] as byte[]));
                                             if (cooperanteSinImagen.Foto != null)
                                             {
                                                 using (Image image = Image.FromStream(new MemoryStream(cooperanteSinImagen.Foto)))

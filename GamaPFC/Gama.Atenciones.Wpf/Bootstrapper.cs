@@ -253,7 +253,23 @@ namespace Gama.Atenciones.Wpf
             }
             #endregion
 
+            SetMaxPacketSize();
+
             DoThings();
+        }
+
+        private void SetMaxPacketSize()
+        {
+            using (MySqlConnection mysqlConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["GamaAtencionesMySql"].ToString()))
+            {
+                using (MySqlCommand sqlCommand = new MySqlCommand())
+                {
+                    sqlCommand.Connection = mysqlConnection;
+                    sqlCommand.CommandText = "SET GLOBAL max_allowed_packet = 1677721656;";
+                    mysqlConnection.Open();
+                    sqlCommand.ExecuteNonQuery();
+                }
+            }
         }
 
         public byte[] ImageToByteArray(System.Drawing.Image imageIn)
