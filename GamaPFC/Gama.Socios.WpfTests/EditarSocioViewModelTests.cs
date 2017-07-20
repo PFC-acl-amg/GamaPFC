@@ -51,7 +51,7 @@ namespace Gama.Socios.WpfTests
             _SocioRepositoryMock.Setup(ar => ar.GetById(It.IsAny<int>()))
                 .Returns(_Socio.Model);
 
-            _SocioViewModelMock = new SocioViewModel();
+            //_SocioViewModelMock = new SocioViewModel();
             _EditarCuotasViewModelMock = new EditarCuotasViewModel();
             //_PeriodoDeAltaViewModelMock = new EditarPeriodosDeAltaViewModel(
             //    _SocioRepositoryMock.Object,

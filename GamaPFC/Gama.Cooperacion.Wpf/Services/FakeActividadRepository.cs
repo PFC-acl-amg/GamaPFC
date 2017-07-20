@@ -19,13 +19,18 @@ namespace Gama.Cooperacion.Wpf.Services
         {
             get
             {
-                throw new NotImplementedException();
+                return _actividades;
             }
 
             set
             {
-                throw new NotImplementedException();
+                _actividades = value;
             }
+        }
+
+        public FakeActividadRepository()
+        {
+            GetAll();
         }
 
         public void Create(Actividad entity)

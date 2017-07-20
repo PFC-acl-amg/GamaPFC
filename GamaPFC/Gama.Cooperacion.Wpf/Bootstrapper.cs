@@ -44,9 +44,9 @@ namespace Gama.Cooperacion.Wpf
 
         public Bootstrapper(string title = "COOPERACIÓN") : base(title)
         {
-            NHibernateSessionFactory._EXECUTE_DDL = true;
-            _CLEAR_DATABASE = true;
-            _SEED_DATABASE = true;
+            NHibernateSessionFactory._EXECUTE_DDL = false;
+            _CLEAR_DATABASE = false;
+            _SEED_DATABASE = false;
         }
 
         protected override DependencyObject CreateShell()
@@ -232,7 +232,23 @@ namespace Gama.Cooperacion.Wpf
                 }
             }
 
+            SetMaxPacketSize();
+
             DoThings();
+        }
+
+        private void SetMaxPacketSize()
+        {
+            using (MySqlConnection mysqlConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["GamaCooperacionMySql"].ToString()))
+            {
+                using (MySqlCommand sqlCommand = new MySqlCommand())
+                {
+                    sqlCommand.Connection = mysqlConnection;
+                    sqlCommand.CommandText = "SET GLOBAL max_allowed_packet = 1677721656;";
+                    mysqlConnection.Open();
+                    sqlCommand.ExecuteNonQuery();
+                }
+            }
         }
 
         private void DoThings()
@@ -320,7 +336,6 @@ namespace Gama.Cooperacion.Wpf
                                 {
                                     if (reader.Read())
                                     {
-                                        //personaSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
                                         cooperanteSinImagen.Foto = Core.Encryption.Cipher.Decrypt((reader["Foto"] as byte[]));
                                         if (cooperanteSinImagen.Foto != null)
                                         {
@@ -547,7 +562,7 @@ namespace Gama.Cooperacion.Wpf
                                     UpdatedAt = reader["UpdatedAt"] as DateTime?,
                                 };
 
-                                var tarea = _Tareas.Find(x => x.Id == (int)reader["Id"]);
+                                var tarea = _Tareas.Find(x => x.Id == (int)reader["Tarea_id"]);
                                 tarea.AddIncidencia(incidencia);
 
                                 _Incidencias.Add(incidencia);

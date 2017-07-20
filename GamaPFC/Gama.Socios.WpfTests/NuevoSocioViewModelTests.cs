@@ -35,7 +35,7 @@ namespace Gama.Socios.WpfTests
             _EventAggregatorMock.Setup(e => e.GetEvent<SocioCreadoEvent>()
                 .Publish(It.IsAny<int>())).Verifiable();
 
-            _SocioViewModelMock = new SocioViewModel();
+            _SocioViewModelMock = new SocioViewModel(new EventAggregator());
 
             _Vm = new NuevoSocioViewModel(
                 _SocioRepositoryMock.Object,

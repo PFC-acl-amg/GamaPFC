@@ -92,7 +92,7 @@ namespace Gama.Cooperacion.Wpf
 
         private void ActualizarEstadosActividades()
         {
-            var actividadRepository = Container.Resolve<IActividadRepository>();
+            var actividadRepository = new NHibernateOneSessionRepository<Actividad, int>();// Container.Resolve<IActividadRepository>();
             var session = Container.Resolve<ISession>();
             actividadRepository.Session = session;
             ListaCompletaActividades = new ObservableCollection<Actividad>(actividadRepository.GetAll());
