@@ -44,9 +44,9 @@ namespace Gama.Cooperacion.Wpf
 
         public Bootstrapper(string title = "COOPERACIÓN") : base(title)
         {
-            NHibernateSessionFactory._EXECUTE_DDL = false;
-            _CLEAR_DATABASE = false;
-            _SEED_DATABASE = false;
+            NHibernateSessionFactory._EXECUTE_DDL = true;
+            _CLEAR_DATABASE = true;
+            _SEED_DATABASE = true;
         }
 
         protected override DependencyObject CreateShell()
@@ -320,7 +320,8 @@ namespace Gama.Cooperacion.Wpf
                                 {
                                     if (reader.Read())
                                     {
-                                        cooperanteSinImagen.Foto = reader["Foto"] as byte[];
+                                        //personaSinImagen.Imagen = Core.Encryption.Cipher.Decrypt((reader["Imagen"] as byte[]));
+                                        cooperanteSinImagen.Foto = Core.Encryption.Cipher.Decrypt((reader["Foto"] as byte[]));
                                         if (cooperanteSinImagen.Foto != null)
                                         {
                                             using (Image image = Image.FromStream(new MemoryStream(cooperanteSinImagen.Foto)))
@@ -351,7 +352,7 @@ namespace Gama.Cooperacion.Wpf
                                     {
                                         if (reader.Read())
                                         {
-                                            cooperanteSinImagen.Foto = reader["Foto"] as byte[];
+                                            cooperanteSinImagen.Foto = Core.Encryption.Cipher.Decrypt((reader["Foto"] as byte[]));
                                             if (cooperanteSinImagen.Foto != null)
                                             {
                                                 using (Image image = Image.FromStream(new MemoryStream(cooperanteSinImagen.Foto)))
@@ -546,7 +547,7 @@ namespace Gama.Cooperacion.Wpf
                                     UpdatedAt = reader["UpdatedAt"] as DateTime?,
                                 };
 
-                                var tarea = _Tareas.Find(x => x.Id == (int)reader["Tarea_id"]);
+                                var tarea = _Tareas.Find(x => x.Id == (int)reader["Id"]);
                                 tarea.AddIncidencia(incidencia);
 
                                 _Incidencias.Add(incidencia);
