@@ -56,28 +56,28 @@ namespace Gama.Cooperacion.Wpf.Services
 
         public override void Create(Actividad entity)
         {
-            foreach (var cooperante in entity.Cooperantes)
-                cooperante.Encrypt();
+            //foreach (var cooperante in entity.Cooperantes)
+            //    cooperante.Encrypt();
 
-            entity.Coordinador.Encrypt();
+            //entity.Coordinador.Encrypt();
 
             base.Create(entity);
             Actividades.Add(entity);
             _EventAggregator.GetEvent<ActividadCreadaEvent>().Publish(entity.Id);
             RaiseActualizarServidor();
 
-            foreach (var cooperante in entity.Cooperantes)
-                cooperante.Decrypt();
+            //foreach (var cooperante in entity.Cooperantes)
+            //    cooperante.Decrypt();
 
-            entity.Coordinador.Decrypt();
+            //entity.Coordinador.Decrypt();
         }
 
         public override bool Update(Actividad entity)
         {
-            foreach (var cooperante in entity.Cooperantes)
-                cooperante.Encrypt();
+            //foreach (var cooperante in entity.Cooperantes)
+            //    cooperante.Encrypt();
 
-            entity.Coordinador.Encrypt();
+            //entity.Coordinador.Encrypt();
 
             if (base.Update(entity))
             {
@@ -86,10 +86,10 @@ namespace Gama.Cooperacion.Wpf.Services
                 _EventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(entity.Id);
                 RaiseActualizarServidor();
 
-                foreach (var cooperante in entity.Cooperantes)
-                    cooperante.Decrypt();
+                //foreach (var cooperante in entity.Cooperantes)
+                //    cooperante.Decrypt();
 
-                entity.Coordinador.Decrypt();
+                //entity.Coordinador.Decrypt();
 
                 return true;
             }

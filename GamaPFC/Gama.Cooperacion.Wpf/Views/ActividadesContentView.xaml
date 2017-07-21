@@ -48,7 +48,7 @@
                         <Setter Property="Foreground" Value="Wheat"/>
                         <Style.Triggers>
                           <DataTrigger Binding="{Binding}" Value="Todas">
-
+                      
                           </DataTrigger>
                           <DataTrigger Binding="{Binding}" Value="CITAS">
                             <Setter Property="Foreground" Value="Black"/>

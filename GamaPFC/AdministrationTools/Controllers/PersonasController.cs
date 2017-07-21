@@ -24,9 +24,17 @@ namespace AdministrationTools.Controllers
         // GET: Personas
         public ActionResult Index()
         {
-            var personas = _Personas.GetAll().OrderBy(p => p.Nombre);
+            if (Global.IsLogged)
+            {
+                var personas = _Personas.GetAll().OrderBy(p => p.Nombre);
 
-            return View(personas);
+                return View(personas);
+            }
+            else
+            {
+                return View("~/Views/Account/Login.cshtml");
+            }
+
         }
 
         // GET: Personas/Details/5

@@ -39,6 +39,10 @@ namespace Gama.Cooperacion.Business
             Tareas = new List<Tarea>();
             Foros = new List<Foro>();
             Eventos = new List<Evento>();
+            EncryptedFields = new List<string>();
+            EncryptedFields.AddRange(new[] {
+                nameof(Cooperantes),
+            });
         }
 
         public virtual string TituloCorto => Titulo.Length > 10 ? Titulo.Substring(0, 10) : Titulo;

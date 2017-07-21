@@ -50,6 +50,17 @@ namespace Core
                                 propertyInfo.SetValue(this, Cipher.Encrypt(enumValue));
                             }
                         }
+                        else if (propertyValue is IEnumerable)
+                        {
+                            var list = propertyValue as IEnumerable;
+                            foreach (var item in list)
+                            {
+                                if (item is IEncryptable)
+                                    ((IEncryptable)item).Encrypt();
+                                else
+                                    break;
+                            }
+                        }
                         else if (propertyValue is IEncryptable)
                         {
                             var encryptableValue = propertyValue as IEncryptable;

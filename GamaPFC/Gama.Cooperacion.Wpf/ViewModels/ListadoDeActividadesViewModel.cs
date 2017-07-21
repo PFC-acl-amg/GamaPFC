@@ -4,6 +4,7 @@ using Gama.Cooperacion.Business;
 using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Services;
 using NHibernate;
+using Prism;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -16,11 +17,11 @@ using System.Windows.Input;
 
 namespace Gama.Cooperacion.Wpf.ViewModels
 {
-    public class ListadoDeActividadesViewModel : ViewModelBase
+    public class ListadoDeActividadesViewModel : ViewModelBase, IActiveAware
     {
         private List<LookupItem> _actividades;
         private IActividadRepository _actividadRepository;
-        private IEventAggregator _eventAggregator;
+        private IEventAggregator _EventAggregator;
         private Preferencias _userConfig;
 
         public ListadoDeActividadesViewModel(IEventAggregator eventAggregator,
@@ -30,7 +31,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             Gama.Common.Debug.Debug.StartWatch();
             Title = "Todas";
 
-            _eventAggregator = eventAggregator;
+            _EventAggregator = eventAggregator;
             _actividadRepository = actividadRepository;
             _actividadRepository.Session = session;
             _userConfig = userConfig;
@@ -44,8 +45,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 }).ToList();
             Actividades = new PaginatedCollectionView(_actividades, 28); // TODO PONER EL QU ES
 
-            _eventAggregator.GetEvent<ActividadCreadaEvent>().Subscribe(OnNuevaActividadEvent);
-            _eventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
+            _EventAggregator.GetEvent<ActividadCreadaEvent>().Subscribe(OnNuevaActividadEvent);
+            _EventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
 
             PaginaAnteriorCommand = new DelegateCommand(OnPaginaAnterior);
             PaginaSiguienteCommand = new DelegateCommand(OnPaginaSiguiente);
@@ -90,7 +91,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnSeleccionarActividad(object id)
         {
-            _eventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish((int)id);
+            _EventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish((int)id);
         }
 
         private void OnNuevaActividadEvent(int id)
@@ -115,6 +116,23 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 var index = _actividades.IndexOf(actividad);
                 _actividades[index].DisplayMember1 = actividadActualizada.Titulo;
                 _actividades[index].DisplayMember2 = actividadActualizada.Descripcion;
+            }
+        }
+
+        private bool _IsActive;
+        public bool IsActive
+        {
+            get { return _IsActive; }
+
+            set
+            {
+                SetProperty(ref _IsActive, value);
+                if (_IsActive)
+                {
+                    // NOTA: Se está usando un 0 (cero) para indicar que ya no hay
+                    // persona seleccionada. Se ha convenido así.
+                    _EventAggregator.GetEvent<ActividadSeleccionadaChangedEvent>().Publish(0);
+                }
             }
         }
     }

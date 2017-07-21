@@ -21,9 +21,16 @@ namespace AdministrationTools.Controllers
         // GET: Citas
         public ActionResult Index()
         {
-            var citas = _Citas.GetAll();
+            if (Global.IsLogged)
+            {
+                var citas = _Citas.GetAll();
 
-            return View(citas);
+                return View(citas);
+            }
+            else
+            {
+                return View("~/Views/Account/Login.cshtml");
+            }
         }
     }
 }
