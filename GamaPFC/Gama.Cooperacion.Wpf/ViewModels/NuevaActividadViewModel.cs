@@ -72,7 +72,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             var wrapper = new ActividadWrapper(actividad);
             // Si la actividad no tenia cooperantes colocamos el dumy para poder añadir cooperantes a la actividad
-            if (actividad.Cooperantes.Count == 0) wrapper.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
+            // El dumy hay que colocarlo siempre para poder añadir nuevos cooperantes
+            /*if (actividad.Cooperantes.Count == 0)*/
+            wrapper.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
             _ModificarActividad = 1;
             _ActividadVM.Load(wrapper);
             _ActividadVM.Actividad.IsInEditionMode = true;
@@ -96,19 +98,18 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 Actividad.Model.AddEvento(evento);   // Evento creado se añade a la actidivad
                 var foro = new Foro()               // Crear Foro
                 {
-                    Titulo = "Primer Foro",
+                    Titulo = "Saludos",
                     FechaDePublicacion = DateTime.Now,
                 };
                 var mensajeForo = new Mensaje()     // Primer Mensaje para el foro
                 {
-                    Titulo = "Primer mensaje del foro",
+                    Titulo = "Bienvenidos a todos. Gracias por vuestra colaboracion ",
                     FechaDePublicacion = DateTime.Now,
                 };
                 foro.AddMensaje(mensajeForo);       // El mensaje se añade al foro  
                 Actividad.Model.AddForo(foro);      // El foro se añade a la actividad
                 Actividad.CreatedAt = DateTime.Now;
                 _ActividadRepository.Create(Actividad.Model);   // Se crea la actividad
-                //_EventAggregator.GetEvent<ActividadCreadaEvent>().Publish(Actividad.Id);
                 _EventAggregator.GetEvent<PublicarNuevaActividad>().Publish(evento);
                 Cerrar = true;
             }
@@ -116,7 +117,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 if(_ModificarActividad== 1) // Si es 1 se va a modificar una actividad ya existente en la base de datos
                 {
-                    Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == null).FirstOrDefault()); // Si se deja el cooperanre dumy falla insercion BBDD
+                    Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == "").FirstOrDefault()); // Si se deja el cooperanre dumy falla insercion BBDD
                     Actividad.UpdatedAt = DateTime.Now;
                     _ActividadRepository.Update(Actividad.Model);
                     Actividad.AcceptChanges();

@@ -39,7 +39,8 @@ namespace Gama.Cooperacion.DataAccess.Mappings
 
             HasMany(x => x.Tareas)
                 .Not.LazyLoad()
-                .Cascade.All();
+                .Cascade.All()
+                .Inverse();
 
             HasManyToMany(x => x.Cooperantes)
                 .Table("CooperanteParticipaEnActividad")

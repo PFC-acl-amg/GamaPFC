@@ -40,12 +40,18 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _ModificarTarea = 0;
             _TareaID = 0;
 
+            _EventAggregator.GetEvent<CooperanteCreadoEvent>().Subscribe(PublicarCooperante);
+
             CooperantesSeleccionados = new ObservableCollection<CooperanteWrapper>();
             AceptarCommand = new DelegateCommand(OnAceptarCommand_Execute,
                 OnAceptarCommand_CanExecute);
             CancelarCommand = new DelegateCommand(OnCancelarCommand_Execute);
             AñadirCooperantesComboBox = new DelegateCommand(OnAñadirCooperantesComboBox, OnAñadirCooperantesComboBox_CanExecute);
             Gama.Common.Debug.Debug.StopWatch("CrearNuevaTareaViewModel");
+        }
+        private void PublicarCooperante(CooperanteWrapper CooperanteInsertado)
+        {
+            OnAñadirCooperantesComboBox();
         }
         //public TareaWrapper NuevaTarea
         //{
@@ -154,16 +160,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             if (_ModificarTarea == 0)
             {
-                var nuevoSeguimiento = new SeguimientoWrapper(new Seguimiento()
-                {
-                    Descripcion = "Historial de Seguimiento de la Tarea",
-                    FechaDePublicacion = DateTime.Now,
-                });
-                var incidenciaTarea = (new IncidenciaWrapper(new Incidencia()
-                {
-                    Descripcion = "Historial de incidencias durante desarrollo de la tarea",
-                    FechaDePublicacion = DateTime.Now,
-                }));
                 var NuevaTarea = (new TareaWrapper(new Tarea()
                 {
                     Descripcion = DescripcionNuevaTarea,
@@ -173,21 +169,26 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     Actividad = Actividad.Model
                 })
                 { SeguimientoVisible = false });
-                NuevaTarea.Responsable = ResponsableTarea;
-                NuevaTarea.Descripcion = DescripcionNuevaTarea;
-                NuevaTarea.FechaDeFinalizacion = FechaFinTarea;
-                NuevaTarea.Responsable = ResponsableTarea;
-                NuevaTarea.HaFinalizado = false;
-                NuevaTarea.Actividad = Actividad;
+                var nuevoSeguimiento = new SeguimientoWrapper(new Seguimiento()
+                {
+                    Descripcion = "Trabajos realizados en la Tarea",
+                    FechaDePublicacion = DateTime.Now,
+                    Tarea = NuevaTarea.Model
+                });
+                var incidenciaTarea = (new IncidenciaWrapper(new Incidencia()
+                {
+                    Descripcion = "Problemas surgidos durante el desarrollo de la tarea",
+                    FechaDePublicacion = DateTime.Now,
+                    Tarea = NuevaTarea.Model
+                }));
                 NuevaTarea.Incidencias.Add(incidenciaTarea);
                 NuevaTarea.Seguimiento.Add(nuevoSeguimiento);
-                Actividad.Tareas.Add(NuevaTarea); // Como Tareas es un Changetrakincolection cuando modificas tareas tambien modificael .model
-                //Por lo que no tengo que hacer Actividad.Model.AddTarea(NuevaTarea.Model);
+                Actividad.Tareas.Add(NuevaTarea); 
 
-                _TareaRepository.Create(NuevaTarea.Model);
-                //_ActividadRepository.Update(Actividad.Model);
-
-                _EventAggregator.GetEvent<NuevaTareaCreadaEvent>().Publish(NuevaTarea);
+                // Antes de nada comprobamos que no está el Cooperante Dumy en la Lista de cooperantes de la Actividad para que no intente añadirlo a BBDD
+                Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == "").FirstOrDefault());
+                _ActividadRepository.Update(Actividad.Model);
+                
                 var eventoDeActividad = new Evento()
                 {
                     FechaDePublicacion = DateTime.Now,

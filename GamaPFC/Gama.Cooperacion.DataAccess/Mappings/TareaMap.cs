@@ -29,26 +29,17 @@ namespace Gama.Cooperacion.DataAccess.Mappings
             References(x => x.Responsable)
                 .Not.LazyLoad()
                 .Cascade.None();
-            //.Not.LazyLoad();
-            //.Fetch.Join();
 
             HasMany(x => x.Seguimiento)
-                //.Cascade.SaveUpdate()
                 .Not.LazyLoad()
                 .Cascade.All()
-               .Inverse();
+                .Inverse();
 
             HasMany(x => x.Incidencias)
-                //.Cascade.SaveUpdate()
                 .Not.LazyLoad()
                 .Cascade.All()
-               .Inverse();
+                .Inverse();
 
-            //HasMany(x => x.Historial)
-            //    .Inverse();
-
-            //HasMany(x => x.Mensajes)
-            //    .Inverse();
         }
     }
 }

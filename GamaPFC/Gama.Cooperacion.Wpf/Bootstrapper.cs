@@ -199,37 +199,97 @@ namespace Gama.Cooperacion.Wpf
                 cooperanteRepository.Session = session;
                 actividadRepository.Session = session;
 
-                var cooperantesFake = new FakeCooperanteRepository().GetAll().Take(30).ToList();
-                var actividadesFake = new FakeActividadRepository().GetAll();
+                string[] Nombres = new string[] { "Jose", "Antonio", "Alberto", "Paco"};
+                string[] Apellidos = new string[] { "Martin", "Garcia", "Cardona", "Carreras" };
+                string[] DNIS = new string[] { "78200200-A", "78100100-B", "78300300-C", "78400400-D" };
+                string[] TA = new string[] { "Actividad 1", "Actividad 2", "Actividad 3", "Actividad 4" };
+                string[] DA = new string[] { "Descripcion 1", "Descripcion 2", "Descripcion 3", "Descripcion 4" };
+                string[] TF = new string[] { "Foro 1", "Foro 2", "Foro 3", "Foro 4" };
+                string[] TT = new string[] { "Tarea 1", "Tarea 2", "Tarea 3", "Tarea 4" };
+                string[] MF = new string[] { "MensajeForo 1", "MensajeForo 2", "MensajeForo 3", "MensajeForo 4" };
+                string[] MI = new string[] { "MensajeIncidencia 1", "MensajeIncidencia 2", "MensajeIncidencia 3", "MensajeIncidencia 4" };
+                string[] MS = new string[] { "MensajeSeguimiento 1", "MensajeSeguimiento 2", "MensajeSeguimiento 3", "MensajeSeguimiento 4" };
 
-                foreach (var cooperante in cooperantesFake)
-                    cooperanteRepository.Create(cooperante);
-
-                var coordinador = cooperanteRepository.GetAll().First();
-
-                for (int i = 0; i < 30; i++)
+                
+                var coop = new Cooperante();
+                for (int i = 0; i < 4; i++)
                 {
-                    var actividad = actividadesFake[i];
-                    var eventosFake = new FakeEventoRepository().GetAll();
-                    var foroFake = new FakeForoRepository().GetAll();
-                    var mensajeForoFake = new FakeMensajeRepository().GetAll();
-                    var tareaFake = new FakeTareaRepository().GetAll();
-                    var seguimientoFake = new FakeSeguimientoRepository().GetAll();
-                    var incidenciaFake = new FakeIncidenciaRepository().GetAll();
-
-                    actividad.Coordinador = cooperantesFake[i];
-                    actividad.AddCooperantes(cooperantesFake.Where(x => x.Id != actividad.Coordinador.Id));
-
-                    tareaFake.ForEach(x => actividad.AddTarea(x));
-                    foroFake.ForEach(x => actividad.AddForo(x));
-                    eventosFake.ForEach(x => actividad.AddEvento(x));
-                    foroFake.ForEach(x => x.AddMensajes(mensajeForoFake));
-                    tareaFake.ForEach(x => x.AddIncidencias(incidenciaFake));
-                    tareaFake.ForEach(x => x.AddSeguimientos(seguimientoFake));
-                    tareaFake.ForEach(x => x.Responsable = cooperantesFake[0]);
-
-                    actividadRepository.Create(actividad);
+                    coop.Nombre = Nombres[i];
+                    coop.Apellido = Apellidos[i];
+                    coop.Dni = DNIS[i];
+                    cooperanteRepository.Create(coop);
                 }
+                var cooperantes = cooperanteRepository.GetAll();
+                int k = 3;
+                for (int i = 0; i < 4; i++)
+                {
+                    var act = new Actividad();
+                    var tarea = new Tarea();
+                    var foro = new Foro();
+                    var mf = new Mensaje();
+                    var mi = new Incidencia();
+                    var ms = new Seguimiento();
+                    tarea.Descripcion= TT[i];
+                    tarea.Responsable = cooperantes[i];
+                    tarea.FechaDeFinalizacion = new DateTime(2017, 07, 21);
+                    foro.Titulo = TF[i];
+                    mf.Titulo = MF[i];
+                    mi.Descripcion = MI[i];
+                    ms.Descripcion = MS[i];
+                    foro.AddMensaje(mf);
+                    tarea.AddIncidencia(mi);
+                    tarea.AddSeguimiento(ms);
+                    act.Titulo = TA[i];
+                    act.Descripcion = DA[i];
+                    act.FechaDeInicio = new DateTime(2017, 07, 21);
+                    act.FechaDeFin = new DateTime(2017, 07, 21).AddDays(7);
+                    act.AddForo(foro);
+                    act.AddTarea(tarea);
+                    act.Coordinador = cooperantes[i];
+                    act.Cooperantes.Add(cooperantes[k]);
+                    k--;
+                    actividadRepository.Create(act);
+                    act = null;
+                    tarea = null;
+                    foro = null;
+                    mf = null;
+                    mi = null;
+                    ms = null;
+                }
+                
+                
+
+                //var cooperantesFake = new FakeCooperanteRepository().GetAll().Take(30).ToList();
+                //var actividadesFake = new FakeActividadRepository().GetAll();
+
+                //foreach (var cooperante in cooperantesFake)
+                //    cooperanteRepository.Create(cooperante);
+
+                //var coordinador = cooperanteRepository.GetAll().First();
+
+                //for (int i = 0; i < 30; i++)
+                //{
+                //    var actividad = actividadesFake[i];
+                //    var eventosFake = new FakeEventoRepository().GetAll();
+                //    var foroFake = new FakeForoRepository().GetAll();
+                //    var mensajeForoFake = new FakeMensajeRepository().GetAll();
+                //    var tareaFake = new FakeTareaRepository().GetAll();
+                //    var seguimientoFake = new FakeSeguimientoRepository().GetAll();
+                //    var incidenciaFake = new FakeIncidenciaRepository().GetAll();
+
+                //    actividad.Coordinador = cooperantesFake[i];
+                //    actividad.AddCooperantes(cooperantesFake.Where(x => x.Id != actividad.Coordinador.Id));
+
+                //    tareaFake.ForEach(x => actividad.AddTarea(x));
+                //    foroFake.ForEach(x => actividad.AddForo(x));
+                //    eventosFake.ForEach(x => actividad.AddEvento(x));
+                //    foroFake.ForEach(x => x.AddMensajes(mensajeForoFake));
+                //    tareaFake.ForEach(x => x.AddIncidencias(incidenciaFake));
+                //    tareaFake.ForEach(x => x.AddSeguimientos(seguimientoFake));
+                //    tareaFake.ForEach(x => x.Responsable = cooperantesFake[0]);
+
+                //    actividadRepository.Create(actividad);
+                //}
             }
 
             SetMaxPacketSize();

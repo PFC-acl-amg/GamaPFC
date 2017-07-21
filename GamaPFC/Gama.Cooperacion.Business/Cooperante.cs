@@ -40,30 +40,30 @@ namespace Gama.Cooperacion.Business
         {
             ActividadesDeQueEsCoordinador = new List<Actividad>();
             ActividadesEnQueParticipa = new List<Actividad>();
-            EncryptedFields = new List<string>();
-            EncryptedFields.AddRange(new[] {
-                nameof(Dni),
-                nameof(Nombre),
-                nameof(Apellido),
-                nameof(Foto),
-                nameof(Email),
-                nameof(EmailAlternativo),
-                nameof(Provincia),
-                nameof(Municipio),
-                nameof(Localidad),
-                nameof(CP),
-                nameof(Numero),
-                nameof(Piso),
-                nameof(Portal),
-                nameof(Puerta),
-                nameof(Telefono),
-                nameof(TelefonoMovil),
-                nameof(TelefonoAlternativo),
-                nameof(Email),
-                nameof(EmailAlternativo),
-                nameof(Observaciones)
-            });
-            IsEncrypted = true;
+            //EncryptedFields = new List<string>();
+            //EncryptedFields.AddRange(new[] {
+            //    nameof(Dni),
+            //    nameof(Nombre),
+            //    nameof(Apellido),
+            //    nameof(Foto),
+            //    nameof(Email),
+            //    nameof(EmailAlternativo),
+            //    nameof(Provincia),
+            //    nameof(Municipio),
+            //    nameof(Localidad),
+            //    nameof(CP),
+            //    nameof(Numero),
+            //    nameof(Piso),
+            //    nameof(Portal),
+            //    nameof(Puerta),
+            //    nameof(Telefono),
+            //    nameof(TelefonoMovil),
+            //    nameof(TelefonoAlternativo),
+            //    nameof(Email),
+            //    nameof(EmailAlternativo),
+            //    nameof(Observaciones)
+            //});
+            //IsEncrypted = true;
         }
     }
 }
