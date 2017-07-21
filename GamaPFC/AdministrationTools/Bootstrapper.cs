@@ -1,4 +1,5 @@
-﻿using Core.DataAccess;
+﻿using AdministrationTools.Controllers;
+using Core.DataAccess;
 using Gama.Atenciones.DataAccess;
 using Gama.Atenciones.Wpf.Services;
 using Gama.Socios.Wpf.Services;
@@ -49,6 +50,12 @@ namespace AdministrationTools
             //var socioRepository = new SocioRepository();
 
             container.RegisterType<ISocioRepository, SocioRepository>();
+
+
+            container.RegisterType<AccountController>(new InjectionConstructor());
+            //container.RegisterType<RolesAdminController>(new InjectionConstructor());
+            container.RegisterType<ManageController>(new InjectionConstructor());
+            //container.RegisterType<UsersAdminController>(new InjectionConstructor());
         }
     }
 }
