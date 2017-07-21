@@ -27,22 +27,26 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _EventAggregator = eventAggregator;
 
             _EventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(
-                (id) => MostrarMensaje("La persona se ha actualizado con éxito."));
+                (id) => MostrarMensaje("Actividad actualizada con éxito."));
+
+            _EventAggregator.GetEvent<ActividadCreadaEvent>().Subscribe(
+                (id) => MostrarMensaje("Actividad creado con éxito"));
+            
+            _EventAggregator.GetEvent<ActividadEliminadaEvent>().Subscribe(
+                (id) => MostrarMensaje("Actividad eliminada con éxito"));
+
+            _EventAggregator.GetEvent<CargarNuevaActividadEvent>().Subscribe(
+                (id) => MostrarMensaje("Cargando Actividad Seleccionada"));
 
             _EventAggregator.GetEvent<NuevoCooperanteCreadoEvent>().Subscribe(
-                (id) => MostrarMensaje("Nuevo Cooperante creado con éxito"));
+                (id) => MostrarMensaje("Cooperante creado con éxito"));
 
             _EventAggregator.GetEvent<CooperanteModificadoEvent>().Subscribe(
-                (id) => MostrarMensaje("Cooperante modificado con éxito"));
+                (id) => MostrarMensaje("Cooperante actualizado con éxito"));
 
-            //_EventAggregator.GetEvent<AsistenteCreadoEvent>().Subscribe(
-            //    (id) => MostrarMensaje("El asistente se ha creado con éxito"));
+            
 
-            //_EventAggregator.GetEvent<AsistenteActualizadoEvent>().Subscribe(
-            //    (id) => MostrarMensaje("El asistente se ha actualizado con éxito"));
-
-            //_EventAggregator.GetEvent<CitaCreadaEvent>().Subscribe(
-            //    (id) => MostrarMensaje("La cita se ha añadido con éxito."));
+           
 
             //_EventAggregator.GetEvent<CitaActualizadaEvent>().Subscribe(
             //    (id) => MostrarMensaje("La cita se ha actualizado con éxito."));

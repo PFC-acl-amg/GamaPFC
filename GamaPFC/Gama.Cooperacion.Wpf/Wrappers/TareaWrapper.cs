@@ -26,10 +26,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             {
                 throw new ArgumentNullException("Mensajes");
             }
-
-            //this.Incidencia = new ChangeTrackingCollection<IncidenciaWrapper>
-            //    (model.Incidencias.Select(t => new IncidenciaWrapper(t)));
-            //this.RegisterCollection(this.Incidencia, model.Incidencias);
+            
             this.Incidencias = new ChangeTrackingCollection<IncidenciaWrapper>
                 (model.Incidencias.Select(t => new IncidenciaWrapper(t)));
             this.RegisterCollection(this.Incidencias, model.Incidencias);
@@ -44,8 +41,6 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             {
                 throw new ArgumentNullException("Resposable");
             }
-
-            // this.Responsable = new CooperanteWrapper(model.Responsable);
             _Responsable = new CooperanteWrapper(model.Responsable);
             _ResponsableOriginalValue = new CooperanteWrapper(model.Responsable);
             this.ResponsableIsChanged = false;
