@@ -44,9 +44,9 @@ namespace Gama.Cooperacion.Wpf
 
         public Bootstrapper(string title = "COOPERACIÓN") : base(title)
         {
-            NHibernateSessionFactory._EXECUTE_DDL = true;
-            _CLEAR_DATABASE = true;
-            _SEED_DATABASE = true;
+            NHibernateSessionFactory._EXECUTE_DDL = false;
+            _CLEAR_DATABASE = false;
+            _SEED_DATABASE = false;
         }
 
         protected override DependencyObject CreateShell()
@@ -199,7 +199,7 @@ namespace Gama.Cooperacion.Wpf
                 cooperanteRepository.Session = session;
                 actividadRepository.Session = session;
 
-                string[] Nombres = new string[] { "Jose", "Antonio", "Alberto", "Paco"};
+                string[] Nombres = new string[] { "Jose", "Antonio", "Alberto", "Paco","Luis"};
                 string[] Apellidos = new string[] { "Martin", "Garcia", "Cardona", "Carreras" };
                 string[] DNIS = new string[] { "78200200-A", "78100100-B", "78300300-C", "78400400-D" };
                 string[] TA = new string[] { "Actividad 1", "Actividad 2", "Actividad 3", "Actividad 4" };

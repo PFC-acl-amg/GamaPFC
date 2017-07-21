@@ -40,7 +40,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _ModificarTarea = 0;
             _TareaID = 0;
 
-            _EventAggregator.GetEvent<CooperanteCreadoEvent>().Subscribe(PublicarCooperante);
+            _EventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(PublicarCooperante);
 
             CooperantesSeleccionados = new ObservableCollection<CooperanteWrapper>();
             AceptarCommand = new DelegateCommand(OnAceptarCommand_Execute,
@@ -49,7 +49,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             AñadirCooperantesComboBox = new DelegateCommand(OnAñadirCooperantesComboBox, OnAñadirCooperantesComboBox_CanExecute);
             Gama.Common.Debug.Debug.StopWatch("CrearNuevaTareaViewModel");
         }
-        private void PublicarCooperante(CooperanteWrapper CooperanteInsertado)
+        private void PublicarCooperante(int Id)
         {
             OnAñadirCooperantesComboBox();
         }
@@ -60,6 +60,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         //}
         private void OnAñadirCooperantesComboBox()
         {
+            Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == "").FirstOrDefault());
             foreach (var cooperante in Actividad.Cooperantes)
             {
                 var cooperNuevo = CooperantesSeleccionados.Where(c => c.Id == cooperante.Id).First();
