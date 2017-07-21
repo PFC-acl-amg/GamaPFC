@@ -118,9 +118,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             foreach (var view in Views)
             {
-                if (view.Content as ListadoDeActividadesView != null)
-                    continue;
-
                 if (view == ViewSeleccionada)
                     ((IActiveAware)view.DataContext).IsActive = true;
                 else
