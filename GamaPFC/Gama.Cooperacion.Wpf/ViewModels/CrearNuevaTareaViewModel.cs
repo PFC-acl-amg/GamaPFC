@@ -63,8 +63,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == "").FirstOrDefault());
             foreach (var cooperante in Actividad.Cooperantes)
             {
-                var cooperNuevo = CooperantesSeleccionados.Where(c => c.Id == cooperante.Id).First();
-                if (cooperNuevo.Nombre != null)
+                var cooperNuevo = CooperantesSeleccionados.Where(c => c.Id == cooperante.Id).FirstOrDefault();
+                if ((cooperNuevo.Nombre != null)||(cooperNuevo!=null))
                 {
                     CooperantesSeleccionados.Add(new CooperanteWrapper(
                     new Cooperante()

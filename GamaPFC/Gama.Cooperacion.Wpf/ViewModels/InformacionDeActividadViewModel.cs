@@ -256,7 +256,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             // Es nulo cuando es el cooperante Dummy. Si no lo es,
             // añadimos el que ya estaba en la lista de los disponibles, ya
             // que se va a quitar
-            if (Actividad.Coordinador.Nombre != null)
+            if (Actividad.Coordinador.Nombre != "")
             {
                 CooperantesDisponibles.Add(Actividad.Coordinador);
             }
@@ -290,7 +290,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             Actividad.Cooperantes.RemoveAt(indiceAReemplazar + 1);
 
             // El nombre será nulo sólo en el caso del Cooperante Dummy
-            if (cooperanteAnterior.Nombre != null)
+            if (cooperanteAnterior.Nombre != "")
             {
                 CooperantesDisponibles.Add(cooperanteAnterior);
             }
