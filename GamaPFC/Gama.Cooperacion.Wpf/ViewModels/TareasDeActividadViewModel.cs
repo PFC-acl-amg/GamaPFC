@@ -69,8 +69,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _EventAggregator.GetEvent<NuevoForoCreadoEvent>().Subscribe(OnNuevoForoCreadoEvent);
             _EventAggregator.GetEvent<NuevaTareaCreadaEvent>().Subscribe(OnNuevaTareaCreadaEvent);
             _EventAggregator.GetEvent<PublicarEventosActividad>().Subscribe(OnPublicarEventosActividad);
+            //_EventAggregator.GetEvent<NuevaTareaCreadaEvent>().Subscribe(OnNuevaTareaCreadaEvent);
             _EventAggregator.GetEvent<TareaModificadaEvent>().Subscribe(OnTareaModificadaEvent);
 
+            BorrarForoCommand = new DelegateCommand<object>(OnBorrarForoCommand);
             BorrarTareaCommand = new DelegateCommand<object>(OnBorrarTareaCommand, OnBorrarTareaCommand_CanExecute);
             BotonFiltarEventosCommand = new DelegateCommand(OnBotonFiltarEventosCommandExecute);
             CargarTareasDisponibles = new DelegateCommand(OnCargarTareasDisponibles);
@@ -104,6 +106,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         //--------------------------------
         // ICommands
         //--------------------------------
+        public ICommand BorrarForoCommand { get; set; }
         public ICommand FinalizarTareaTDCommand { get; set; }
         public ICommand MensajesForoCommand { get; private set; }
         public ICommand InfoTareaCommand { get; private set; }
@@ -124,6 +127,18 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         //-----------------------------------
         // ICommands Implementaciones
         //-----------------------------------
+        private void OnBorrarForoCommand(object wrapper)
+        {
+            var foroBorrado = Actividad.Foros.Where(x => x.Id == ((ForoWrapper)wrapper).Id).First();
+            Actividad.Foros.Remove(foroBorrado);
+            _ForoRepository.Delete(foroBorrado.Model);
+            Actividad.AcceptChanges();
+            var todasLosForos = Actividad.Foros.ToList();
+            todasLosForos.Remove(foroBorrado);
+            ForosDisponibles.Clear();
+            ForosDisponibles.AddRange(todasLosForos);
+            OnPropertyChanged(nameof(ForosDisponibles)); // No se si hace falta
+        }
         private void OnBorrarTareaCommand(object wrapper)
         {
             var tareaBorrada = Actividad.Tareas.Where(x => x.Id == ((TareaWrapper)wrapper).Id).First();

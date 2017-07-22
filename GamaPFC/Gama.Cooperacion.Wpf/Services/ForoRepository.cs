@@ -1,5 +1,7 @@
 ﻿using Core.DataAccess;
 using Gama.Cooperacion.Business;
+using Gama.Cooperacion.Wpf.Eventos;
+using Gama.Cooperacion.Wpf.Wrappers;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -15,9 +17,12 @@ namespace Gama.Cooperacion.Wpf.Services
 
         public ForoRepository(EventAggregator eventAggregator) : base(eventAggregator)
         {
-
+            _EventAggregator.GetEvent<NuevoForoCreadoEvent>().Subscribe(OnActualizarForosDisponibles);
         }
-
+        private void OnActualizarForosDisponibles(ForoWrapper wrapper)
+        {
+            _Foros = base.GetAll();
+        }
         public List<Foro> Foros
         {
             get

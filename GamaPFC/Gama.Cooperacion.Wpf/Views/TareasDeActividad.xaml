@@ -113,6 +113,30 @@
                 </Button.Style>
             </cc:CircleIconButton>
         </DataTemplate>
+        <DataTemplate x:Key="_EliminarButtonForoCellTemplate">
+            <cc:CircleIconButton
+                      HorizontalAlignment="Center"
+                      Icon="{StaticResource appbar_delete}"
+                      Width="36"
+                      Height="36"
+                      IconWidth="13"
+                      IconHeight="13"
+                      Margin="{StaticResource Margin}"
+                      Command="{Binding ElementName=_Root, Path=DataContext.BorrarForoCommand}"
+                      CommandParameter="{Binding}">
+                <Button.Style>
+                    <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+                        <Setter Property="Opacity" Value="0.5"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </cc:CircleIconButton>
+        </DataTemplate>
         <DataTemplate x:Key="_IrButtonCellTemplate">
             <cc:CircleIconButton
                       HorizontalAlignment="Left"
@@ -628,7 +652,7 @@
                 </DataGrid>
             </Grid>
         </Grid>
-        <!--Tareas Finalizadas en la actividad Oculta-->
+        <!--Tareas Finalizadas en la actividad => Oculta-->
         <Grid Grid.Row="0" Grid.Column="0" Background="#DEDADA" Margin="4,4,4,0" Visibility="{Binding VisibleTareasFinalizadas, 
                                                 Converter={StaticResource _BooleanToVisivilityConverter}}">
             <Grid Grid.Row="0">
@@ -893,7 +917,7 @@
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Eliminar"
                                     HeaderTemplate="{StaticResource _HeaderTemplate}" 
-                                    CellTemplate="{StaticResource _EliminarButtonCellTemplate}"/>
+                                    CellTemplate="{StaticResource _EliminarButtonForoCellTemplate}"/>
                         <DataGridTemplateColumn Header="Abrir"  
                                     HeaderTemplate="{StaticResource _HeaderTemplate}" 
                                     CellTemplate="{StaticResource _IrForoButtonCellTemplate}"/>

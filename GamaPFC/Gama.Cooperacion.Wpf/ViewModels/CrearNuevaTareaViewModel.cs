@@ -189,7 +189,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 // Antes de nada comprobamos que no está el Cooperante Dumy en la Lista de cooperantes de la Actividad para que no intente añadirlo a BBDD
                 Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == "").FirstOrDefault());
                 _ActividadRepository.Update(Actividad.Model);
-                
+                // Se ha añadido a la base de datos la nueva tarea => Informar a las vistas muestren las tareas para actualizar la lista que muestran.
+                _EventAggregator.GetEvent<NuevaTareaCreadaEvent>().Publish(NuevaTarea);
+
+                // Generar el evento asocioado a la creacion de la nueva tarea.
                 var eventoDeActividad = new Evento()
                 {
                     FechaDePublicacion = DateTime.Now,

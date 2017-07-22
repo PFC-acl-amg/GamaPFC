@@ -1,5 +1,7 @@
 ﻿using Core.DataAccess;
 using Gama.Cooperacion.Business;
+using Gama.Cooperacion.Wpf.Eventos;
+using Gama.Cooperacion.Wpf.Wrappers;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -15,9 +17,12 @@ namespace Gama.Cooperacion.Wpf.Services
 
         public TareaRepository(EventAggregator eventAggregator) : base(eventAggregator)
         {
-
+            eventAggregator.GetEvent<NuevaTareaCreadaEvent>().Subscribe(OnActualizarTareasDisponibles);
         }
-
+        private void OnActualizarTareasDisponibles(TareaWrapper wrapper)
+        {
+            _Tareas = base.GetAll();
+        }
         public List<Tarea> Tareas
         {
             get
