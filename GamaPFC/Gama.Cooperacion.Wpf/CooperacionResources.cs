@@ -18,9 +18,8 @@ namespace Gama.Cooperacion.Wpf
                 TodosLosNifDeCooperantes.Add(nif);
             }
         }
-        public static string Guid = new Guid().ToString();
 
         public static ClientService ClientService { get; set; }
-        public static string ClientId { get; set; }
+        public static string ClientId { get; set; } = Guid.NewGuid().ToString();
     }
 }

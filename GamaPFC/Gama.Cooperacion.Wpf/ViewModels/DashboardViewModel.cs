@@ -785,6 +785,91 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 
             }
         }
+
+        public override void OnActualizarServidor()
+        {
+            _VisibleOpcionesListar = false;
+            _VisibleInfoAct = false;
+            _VisibleListaActividades = true;
+            _VisibleListaCooperantes = false;
+            _VisibleDatosDNI = false;
+            _VisibleListaActividadesCooperante = false;
+            _VisibleContacto = false;
+            _VisibleDireccion = false;
+            _VisibleCooperanteSeleccionado = false;
+            _VisibleListaTodosCooperantes = false;
+            _VisibleImagenSeleccionCooperante = true;
+            _VisibleDatosCooperanteSeleccionado = false;
+            _VisibleOpcionesActividades = false;
+            _EnCursoSeleccionado = true;
+            _PorComenzarSeleccionado = true;
+            _ProximasFechasSeleccionado = true;
+            _FueraPlazoSeleccionado = true;
+            _FinalizadasSeleccionadas = true;
+
+            ActividadesOpciones.CheckBoxSeleccionados = new List<bool>();
+            ActividadesOpciones.CheckBoxMeses = new List<bool>();
+            _Evento = new List<Evento>();
+            _IdActividad = 100;
+            _OpcionYear = DateTime.Today.Year;
+            //_EnCursoCount = ColeccionEstadosActividades.EstadosActividades["Comenzado"];
+            //_NoComenzado = ColeccionEstadosActividades.EstadosActividades["NoComenzado"];
+            //_FueraPlazo = ColeccionEstadosActividades.EstadosActividades["FueraPlazo"];
+            //_ProximasFinalizaciones = ColeccionEstadosActividades.EstadosActividades["ProximasFinalizaciones"];
+            //_Finalizado = ColeccionEstadosActividades.EstadosActividades["Finalizado"];
+            _FechaInicioActividad = new DateTime(2017, 01, 01);
+            this.Items = new ObservableCollection<Item>();
+
+            for (var i = 0; i < this.itemCount; i++)
+            {
+                this.Items.Add(new Item("Thi is item number " + i));
+            }
+            EventoActividad = new ObservableCollection<Evento>(_EventoRepository.GetAll());
+            EventosFiltrados = new ObservableCollection<Evento>(_EventoRepository.GetAll());
+            //Where(x => x.Id == obj.Id).FirstOrDefault();
+            ListaCompletaActividades = new ObservableCollection<Actividad>(_actividadRepository.GetAll());
+            ListaParcialActividades = new ObservableCollection<Actividad>(_actividadRepository.GetAll());
+            ListaDeActividades = new ObservableCollection<LookupItem>(
+                _actividadRepository.GetAll()
+                    .Where(a => a.Estado == Estado.Comenzado)
+                    .OrderBy(a => a.FechaDeFin)
+                //.Take(_settings.DashboardActividadesAMostrar)
+                .Select(a => new LookupItem
+                {
+                    Id = a.Id,
+                    //DisplayMember1 = LookupItem.ShortenStringForDisplay(a.Titulo,
+                    //    _settings.DashboardActividadesLongitudDeTitulos),
+                    DisplayMember1 = a.Titulo,
+                    Id_Coordinador = a.Coordinador.Id,
+                    FechaDeInicioActividad = a.FechaDeInicio,
+                }));
+            ListaDeActividadesCooperante = new ObservableCollection<LookupItem>();
+            ListaDeActividadesCoordina = new ObservableCollection<LookupItem>();
+            //ListaDeActividadesCooperante = new ObservableCollection<LookupItem>(
+            //    ListaCompletaActividades
+            //        .OrderBy(a => a.FechaDeFin)
+            //        .Take(_settings.DashboardActividadesAMostrar)
+            //    .Select(a => new LookupItem
+            //    {
+            //        Id = a.Id,
+            //        //DisplayMember1 = LookupItem.ShortenStringForDisplay(a.Titulo,
+            //        //    _settings.DashboardActividadesLongitudDeTitulos),
+            //        DisplayMember1 = a.Titulo,
+            //        Id_Coordinador = a.Coordinador.Id,
+            //    }));
+            ListaCooperantes = new ObservableCollection<Cooperante>(
+                _cooperanteRepository.GetAll()
+                .OrderBy(c => c.Id)
+                .ToArray());
+            ListaParcialCooperantes = new ObservableCollection<Cooperante>(
+                _cooperanteRepository.GetAll()
+                //.GetRange(_CooperantesMostrados, _CooperantesMostrados + 4)
+                //.OrderBy(c => c.Id)
+                .Take(4)
+                .ToArray());
+            _CooperantesMostrados = _CooperantesMostrados + 4;
+        }
+
         public bool VisibleInfoAct
         {
             get { return _VisibleInfoAct; }
