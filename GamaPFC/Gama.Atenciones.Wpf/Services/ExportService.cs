@@ -96,6 +96,10 @@ namespace Gama.Atenciones.Wpf.Services
             {
                 return true;
             }
+            catch (Exception ex2)
+            {
+                return false;
+            }
         }
         private List<Cita> CitasFuturas { get; set; }
         private List<Cita> CitasPasadas { get; set; }
@@ -233,7 +237,7 @@ namespace Gama.Atenciones.Wpf.Services
         }
         public void ExportarAsistente(Asistente ats,string fileName)
         {
-            var destinyPath = GeneratePath(fileName);
+            var destinyPath = fileName;// GeneratePath(fileName);
             DocX document = DocX.Create(destinyPath);
 
             string curFile = destinyPath;
@@ -371,9 +375,9 @@ namespace Gama.Atenciones.Wpf.Services
             //document.Save();
             //Process.Start("WINWORD.EXE", destinyPath);      
         }
-        public void ExportarTodasCitas(List<Cita> citas)
+        public void ExportarTodasCitas(List<Cita> citas, string fileName)
         {
-            var destinyPath = GeneratePath("ListaCitas");
+            var destinyPath = fileName;// GeneratePath(fileName);
             DocX document = DocX.Create(destinyPath);
 
             string curFile = destinyPath;
@@ -465,7 +469,7 @@ namespace Gama.Atenciones.Wpf.Services
         }
         public void ExportarInfoPersona(Persona pers,string fileName)
         {
-            var destinyPath = GeneratePath(fileName);
+            var destinyPath = fileName;// GeneratePath(fileName);
             DocX document = DocX.Create(destinyPath);
 
             string curFile = destinyPath;
