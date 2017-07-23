@@ -278,7 +278,7 @@ namespace Gama.Socios.Wpf.ViewModels
             ListaCuotasImpagosSocios.Clear();
             var altas = socioSeleccionado.PeriodosDeAlta;
             _MesesParaMoroso = _Settings.MesesParaSerConsideradoMoroso;
-                //Calculo contable---------------
+                //Calculo contable------------
             foreach (var Recibo in altas)
             {
                 foreach (var cuot in Recibo.Cuotas)
