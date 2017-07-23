@@ -148,13 +148,13 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 this.Items.Add(new Item("Thi is item number " + i));
             }
-            EventoActividad = new ObservableCollection<Evento>(_EventoRepository.GetAll());
-            EventosFiltrados = new ObservableCollection<Evento>(_EventoRepository.GetAll());
+            EventoActividad = new ObservableCollection<Evento>(_EventoRepository.GetAll().ToList());
+            EventosFiltrados = new ObservableCollection<Evento>(_EventoRepository.GetAll().ToList());
             //Where(x => x.Id == obj.Id).FirstOrDefault();
-            ListaCompletaActividades = new ObservableCollection<Actividad>(_actividadRepository.GetAll());
-            ListaParcialActividades = new ObservableCollection<Actividad>(_actividadRepository.GetAll());
+            ListaCompletaActividades = new ObservableCollection<Actividad>(_actividadRepository.GetAll().ToList());
+            ListaParcialActividades = new ObservableCollection<Actividad>(_actividadRepository.GetAll().ToList());
             ListaDeActividades = new ObservableCollection<LookupItem>(
-                _actividadRepository.GetAll()
+                _actividadRepository.GetAll().ToList()
                     .Where(a=> a.Estado == Estado.Comenzado)
                     .OrderBy(a => a.FechaDeFin)
                     //.Take(_settings.DashboardActividadesAMostrar)
@@ -182,11 +182,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             //        Id_Coordinador = a.Coordinador.Id,
             //    }));
             ListaCooperantes = new ObservableCollection<Cooperante>(
-                _cooperanteRepository.GetAll()
+                _cooperanteRepository.GetAll().ToList()
                 .OrderBy(c => c.Id)
                 .ToArray());
             ListaParcialCooperantes = new ObservableCollection<Cooperante>(
-                _cooperanteRepository.GetAll()
+                _cooperanteRepository.GetAll().ToList()
                 //.GetRange(_CooperantesMostrados, _CooperantesMostrados + 4)
                 //.OrderBy(c => c.Id)
                 .Take(4)
@@ -782,7 +782,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 var indice = ListaParcialActividades.IndexOf(ListaParcialActividades.Single(a => a.Id == act.Id));
                 ListaParcialActividades.RemoveAt(indice);
                 ListaParcialActividades.Insert(0,actividadActualizada);
-                
             }
         }
 
@@ -824,13 +823,13 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 this.Items.Add(new Item("Thi is item number " + i));
             }
-            EventoActividad = new ObservableCollection<Evento>(_EventoRepository.GetAll());
-            EventosFiltrados = new ObservableCollection<Evento>(_EventoRepository.GetAll());
+            EventoActividad = new ObservableCollection<Evento>(_EventoRepository.GetAll().ToList());
+            EventosFiltrados = new ObservableCollection<Evento>(_EventoRepository.GetAll().ToList());
             //Where(x => x.Id == obj.Id).FirstOrDefault();
-            ListaCompletaActividades = new ObservableCollection<Actividad>(_actividadRepository.GetAll());
-            ListaParcialActividades = new ObservableCollection<Actividad>(_actividadRepository.GetAll());
+            ListaCompletaActividades = new ObservableCollection<Actividad>(_actividadRepository.GetAll().ToList());
+            ListaParcialActividades = new ObservableCollection<Actividad>(_actividadRepository.GetAll().ToList());
             ListaDeActividades = new ObservableCollection<LookupItem>(
-                _actividadRepository.GetAll()
+                _actividadRepository.GetAll().ToList()
                     .Where(a => a.Estado == Estado.Comenzado)
                     .OrderBy(a => a.FechaDeFin)
                 //.Take(_settings.DashboardActividadesAMostrar)
@@ -858,16 +857,26 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             //        Id_Coordinador = a.Coordinador.Id,
             //    }));
             ListaCooperantes = new ObservableCollection<Cooperante>(
-                _cooperanteRepository.GetAll()
+                _cooperanteRepository.GetAll().ToList()
                 .OrderBy(c => c.Id)
                 .ToArray());
             ListaParcialCooperantes = new ObservableCollection<Cooperante>(
-                _cooperanteRepository.GetAll()
+                _cooperanteRepository.GetAll().ToList()
                 //.GetRange(_CooperantesMostrados, _CooperantesMostrados + 4)
                 //.OrderBy(c => c.Id)
                 .Take(4)
                 .ToArray());
             _CooperantesMostrados = _CooperantesMostrados + 4;
+
+            OnPropertyChanged(nameof(EventoActividad));
+            OnPropertyChanged(nameof(EventosFiltrados));
+            OnPropertyChanged(nameof(ListaCompletaActividades));
+            OnPropertyChanged(nameof(ListaParcialActividades));
+            OnPropertyChanged(nameof(ListaDeActividades));
+            OnPropertyChanged(nameof(ListaDeActividadesCooperante));
+            OnPropertyChanged(nameof(ListaDeActividadesCoordina));
+            OnPropertyChanged(nameof(ListaCooperantes));
+            OnPropertyChanged(nameof(ListaParcialCooperantes));
         }
 
         public bool VisibleInfoAct

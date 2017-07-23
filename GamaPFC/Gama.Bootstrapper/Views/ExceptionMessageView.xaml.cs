@@ -23,5 +23,10 @@ namespace Gama.Bootstrapper.Views
         {
             InitializeComponent();
         }
+
+        private void _CerrarButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

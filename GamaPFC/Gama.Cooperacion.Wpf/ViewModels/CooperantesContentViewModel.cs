@@ -94,14 +94,14 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             var actividadActualizada = _ActividadRepository.GetById(act.Id);
             if (ActividadesCoordina.Any(a => a.Id == act.Id))
             {
-                var indice = ActividadesCoordina.IndexOf(ActividadesCoordina.Single(a => a.Id == act.Id));
+                var indice = ActividadesCoordina.IndexOf(ActividadesCoordina.First(a => a.Id == act.Id));
                 ActividadesCoordina.RemoveAt(indice);
                 ActividadesCoordina.Insert(0, actividadActualizada);
 
             }
             if (ActividadesCoopera.Any(a => a.Id == act.Id))
             {
-                var indice = ActividadesCoopera.IndexOf(ActividadesCoopera.Single(a => a.Id == act.Id));
+                var indice = ActividadesCoopera.IndexOf(ActividadesCoopera.First(a => a.Id == act.Id));
                 ActividadesCoopera.RemoveAt(indice);
                 ActividadesCoopera.Insert(0, actividadActualizada);
 

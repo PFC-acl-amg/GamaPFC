@@ -125,6 +125,21 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             }
         }
 
+        public override void OnActualizarServidor()
+        {
+            try
+            {
+                foreach (var view in Views)
+                {
+                    view.Dispatcher.Invoke((Action)delegate { ((ViewModelBase)(view.DataContext)).OnActualizarServidor(); });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         private void OnActividadNuevaEvent(int id)
         {
             NavegarAActividad(id);

@@ -171,6 +171,7 @@ namespace Gama.Cooperacion.Wpf
 
                 _CooperanteRepository.UpdateClient();
 
+                ActividadesContentViewModel.OnActualizarServidor();
                 DashboardViewModel.OnActualizarServidor();
                 PanelSwitcherViewModel.OnActualizarServidor();
                 ToolbarViewModel.OnActualizarServidor();
@@ -207,6 +208,15 @@ namespace Gama.Cooperacion.Wpf
 
         private void DoRawThings()
         {
+            _Actividades.Clear();
+            _Cooperantes.Clear();
+            _Eventos.Clear();
+            _Foros.Clear();
+            _Incidencias.Clear();
+            _Mensajes.Clear();
+            _Seguimientos.Clear();
+            _Tareas.Clear();
+
             Debug.StartWatch();
             Actividad actividad;
             MySqlDataReader reader;

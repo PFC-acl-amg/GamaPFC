@@ -69,13 +69,16 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             var foroW = (new ForoWrapper(new Foro()
                 { Titulo = TituloForo, FechaDePublicacion = DateTime.Now, Actividad = Actividad.Model })
                 { ForoVisible = false });
-            var mensajeForo = new MensajeWrapper(new Mensaje()
+            if (!string.IsNullOrEmpty(TituloForoMensaje))
             {
-                Titulo = TituloForoMensaje,
-                FechaDePublicacion = DateTime.Now,
-                Foro = foroW.Model
-            });
-            foroW.Mensajes.Add(mensajeForo);
+                var mensajeForo = new MensajeWrapper(new Mensaje()
+                {
+                    Titulo = TituloForoMensaje,
+                    FechaDePublicacion = DateTime.Now,
+                    Foro = foroW.Model
+                });
+                foroW.Mensajes.Add(mensajeForo);
+            }
             Actividad.Foros.Add(foroW);
             _ActividadRepository.Update(Actividad.Model);
             

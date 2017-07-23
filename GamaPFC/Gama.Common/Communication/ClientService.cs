@@ -107,7 +107,7 @@ namespace Gama.Common.Communication
             {
                 byte[] message = Encoding.ASCII.GetBytes(mensaje + "$");
                 ServerStream.Write(message, 0, message.Length);
-                ServerStream.Flush();
+                ServerStream.Flush(); 
             }
             catch (Exception ex)
             {

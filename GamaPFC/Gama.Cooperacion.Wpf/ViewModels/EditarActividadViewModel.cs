@@ -186,6 +186,26 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             return (Actividad.Id == id);
         }
 
+        public override void OnActualizarServidor()
+        {
+
+            ActividadWrapper wrapper = new ActividadWrapper(
+                        _ActividadRepository.GetById(Actividad.Id));
+
+            _InformacionDeActividadViewModel.Load(wrapper); // Va a informaciondeActividadVM y cargo los datos de la activdadseleccionada
+            _InformacionDeActividadViewModel.Actividad.IsInEditionMode =
+                _Preferencias.General_EdicionHabilitadaPorDefecto;
+            _TareasDeActividadViewModel.LoadActividad(wrapper);
+
+            RefrescarTitulo(Actividad.Titulo);
+            InvalidateCommands();
+
+            _InformacionDeActividadViewModel.PropertyChanged += _InvalidateCommands_PropertyChanged;
+            Actividad.PropertyChanged += _InvalidateCommands_PropertyChanged;
+            OnPropertyChanged(nameof(InformacionDeActividadViewModel));
+
+        }
+
         public void OnNavigatedTo(int actividadId) // Se carga la informacion de la actividad con los Load de informaciondeactividadVW y tareasde activdadVM
         {
             try

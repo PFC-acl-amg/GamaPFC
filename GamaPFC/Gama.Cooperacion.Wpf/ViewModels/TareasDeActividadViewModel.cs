@@ -494,7 +494,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             EventoActividad.Insert(0, GenerarEvento);
             Actividad.Model.AddEvento(GenerarEvento);
-            _actividadRepository.Update(Actividad.Model);
+            //_actividadRepository.Update(Actividad.Model);
         }
 
         //-----------------------------------

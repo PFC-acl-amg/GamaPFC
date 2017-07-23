@@ -135,7 +135,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             //tareaSeleccionada.Model.AddIncidencia(nuevaIncidencia.Model);
             // TareaSeleccionada.Model.AddIncidencia(nuevaIncidencia.Model);
 
-            _ActividadRepository.Update(Actividad.Model);
             ForoSeleccionado.Mensajes.Insert(0, nuevoMensaje);
             var eventoDeActividad = new Evento()
             {
@@ -143,6 +142,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 Titulo = ForoSeleccionado.Titulo,
                 Ocurrencia = Ocurrencia.MENSAJE_PUBLICADO_EN_FORO.ToString(),
             };
+            Actividad.Model.AddEvento(eventoDeActividad);
+            _ActividadRepository.Update(Actividad.Model);
             _EventAggregator.GetEvent<PublicarEventosActividad>().Publish(eventoDeActividad);
             NuevoMensaje = null;
 

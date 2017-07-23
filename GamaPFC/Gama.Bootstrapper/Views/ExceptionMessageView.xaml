@@ -28,7 +28,7 @@
       </TreeView.Items>
     </TreeView>
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2">
-      <Button x:Name="_CerrarButton" Margin="4" Padding="4">Cerrar</Button>
+      <Button x:Name="_CerrarButton" Margin="4" Padding="4" Click="_CerrarButton_Click">Cerrar</Button>
     </StackPanel>
   </Grid>
 </Window>
