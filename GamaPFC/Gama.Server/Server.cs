@@ -27,7 +27,7 @@ namespace Gama.Server
 
             serverSocket.Start();
 
-            Console.WriteLine("Chat Server Started ....");
+            Console.WriteLine("Gama Server Started ....");
 
             string dataFromClient = null;
 
