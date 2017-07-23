@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.Wpf.Services
 {
-    public class TareaRepository : NHibernateOneSessionRepository<Tarea, int>, ITareaRepository
+    public class TareaRepository : NHibernateOneSessionRepository<Business.Tarea, int>, ITareaRepository
     {
-        private List<Tarea> _Tareas;
+        private List<Business.Tarea> _Tareas;
 
         public TareaRepository(EventAggregator eventAggregator) : base(eventAggregator)
         {
@@ -23,7 +23,7 @@ namespace Gama.Cooperacion.Wpf.Services
         {
             _Tareas = base.GetAll();
         }
-        public List<Tarea> Tareas
+        public List<Business.Tarea> Tareas
         {
             get
             {
@@ -49,7 +49,7 @@ namespace Gama.Cooperacion.Wpf.Services
             return Tareas.Find(x => x.Id == id);
         }
 
-        public override List<Tarea> GetAll()
+        public override List<Business.Tarea> GetAll()
         {
             return Tareas;
         }

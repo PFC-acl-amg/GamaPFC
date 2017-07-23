@@ -40,7 +40,7 @@ namespace Gama.Cooperacion.Wpf
         private List<Incidencia> _Incidencias = new List<Incidencia>();
         private List<Mensaje> _Mensajes = new List<Mensaje>();
         private List<Seguimiento> _Seguimientos = new List<Seguimiento>();
-        private List<Tarea> _Tareas = new List<Tarea>();
+        private List<Business.Tarea> _Tareas = new List<Business.Tarea>();
 
         public Bootstrapper(string title = "COOPERACIÓN") : base(title)
         {
@@ -224,7 +224,7 @@ namespace Gama.Cooperacion.Wpf
                 for (int i = 0; i < 4; i++)
                 {
                     var act = new Actividad();
-                    var tarea = new Tarea();
+                    var tarea = new Business.Tarea();
                     var foro = new Foro();
                     var mf = new Mensaje();
                     var mi = new Incidencia();
@@ -561,7 +561,7 @@ namespace Gama.Cooperacion.Wpf
                         {
                             while (reader.Read())
                             {
-                                var tarea = new Tarea()
+                                var tarea = new Business.Tarea()
                                 {
                                     Id = (int)reader["Id"],
                                     FechaDeFinalizacion = reader["FechaDeFinalizacion"] as DateTime?,

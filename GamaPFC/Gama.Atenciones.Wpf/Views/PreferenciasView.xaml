@@ -11,6 +11,7 @@
   xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
   prism:ViewModelLocator.AutoWireViewModel="True"
   mc:Ignorable="d" 
+                   Icon="pack://application:,,,/Gama.Common;component/Resources/Images/icono_gama_small.png"
   Title="Preferencias"
   BorderThickness="0" 
   GlowBrush="Black"

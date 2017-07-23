@@ -6,12 +6,9 @@ using Gama.Cooperacion.Wpf.Wrappers;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
-using Remotion.Linq.Collections;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Gama.Cooperacion.Wpf.ViewModels
@@ -39,6 +36,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _EventAggregator = EventAggregator;
             _ModificarTarea = 0;
             _TareaID = 0;
+
+            _NuevaTarea = new TareaWrapper(new Tarea());
 
             _EventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(PublicarCooperante);
 
@@ -161,7 +160,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             if (_ModificarTarea == 0)
             {
-                var NuevaTarea = (new TareaWrapper(new Tarea()
+                var NuevaTarea = (new TareaWrapper(new Business.Tarea()
                 {
                     Descripcion = DescripcionNuevaTarea,
                     FechaDeFinalizacion = FechaFinTarea,

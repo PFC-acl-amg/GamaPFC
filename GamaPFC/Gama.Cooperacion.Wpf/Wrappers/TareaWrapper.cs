@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.Wpf.Wrappers
 {
-    public class TareaWrapper : ModelWrapper<Tarea>
+    public class TareaWrapper : ModelWrapper<Business.Tarea>
     {
-        public TareaWrapper(Tarea model) : base(model)
+        public TareaWrapper(Business.Tarea model) : base(model)
         {
             InitializeComplexProperties(model);
             InitializeCollectionProperties(model);
         }
-        protected override void InitializeCollectionProperties(Tarea model)
+        protected override void InitializeCollectionProperties(Business.Tarea model)
         {
             if (model.Seguimiento == null)
             {
@@ -35,7 +35,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
                 (model.Seguimiento.Select(t => new SeguimientoWrapper(t)));
             this.RegisterCollection(this.Seguimiento, model.Seguimiento);
         }
-        protected override void InitializeComplexProperties(Tarea model)
+        protected override void InitializeComplexProperties(Business.Tarea model)
         {
             if (model.Responsable == null)
             {

@@ -138,7 +138,7 @@ namespace Gama.Cooperacion.WpfTests
 
             actividad.Titulo = "Nuevo título";
 
-            eventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(actividad.Id);
+            eventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(actividad);
 
             //string str = vm.UltimasActividades.Single(a => a.Id == actividad.Id).DisplayMember1;
             //if (str.EndsWith("..."))

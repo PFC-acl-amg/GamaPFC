@@ -14,6 +14,7 @@
         WindowStartupLocation="CenterScreen"
                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
         BorderThickness="2"
+                   Icon="pack://application:,,,/Gama.Common;component/Resources/Images/icono_gama_small.png"
                    xmlns:converters="clr-namespace:Gama.Atenciones.Wpf.Converters"
         BorderBrush="{StaticResource AccentColorBrush}"
         mc:Ignorable="d"

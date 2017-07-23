@@ -204,7 +204,7 @@ namespace Gama.Cooperacion.Wpf
         private List<Incidencia> _Incidencias = new List<Incidencia>();
         private List<Mensaje> _Mensajes = new List<Mensaje>();
         private List<Seguimiento> _Seguimientos = new List<Seguimiento>();
-        private List<Tarea> _Tareas = new List<Tarea>();
+        private List<Business.Tarea> _Tareas = new List<Business.Tarea>();
 
         private void DoRawThings()
         {
@@ -449,7 +449,7 @@ namespace Gama.Cooperacion.Wpf
                         {
                             while (reader.Read())
                             {
-                                var tarea = new Tarea()
+                                var tarea = new Business.Tarea()
                                 {
                                     Id = (int)reader["Id"],
                                     FechaDeFinalizacion = reader["FechaDeFinalizacion"] as DateTime?,

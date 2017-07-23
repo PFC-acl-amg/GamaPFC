@@ -28,7 +28,7 @@ namespace Gama.Server
             serverSocket.Start();
 
             Console.WriteLine("Gama Server Started ....");
-
+            
             string dataFromClient = null;
 
             try

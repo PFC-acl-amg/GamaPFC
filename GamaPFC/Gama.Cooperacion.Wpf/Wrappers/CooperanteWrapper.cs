@@ -97,7 +97,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             get { return GetValue<string>(); }
             set { SetValue(value); }
         }
-        public string PisolOriginalValue => GetOriginalValue<string>(nameof(Piso));
+        public string PisoOriginalValue => GetOriginalValue<string>(nameof(Piso));
         public bool PisoIsChanged => GetIsChanged(nameof(Piso));
 
         public string Puerta
@@ -145,7 +145,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             get { return GetValue<string>(); }
             set { SetValue(value); }
         }
-        public string OriginalValue => GetOriginalValue<string>(nameof(EmailAlternativo));
+        public string EmailAlternativoOriginalValue => GetOriginalValue<string>(nameof(EmailAlternativo));
         public bool EmailAlternativoIsChanged => GetIsChanged(nameof(EmailAlternativo));
         // Fin nuevos campos
         public string Apellido
