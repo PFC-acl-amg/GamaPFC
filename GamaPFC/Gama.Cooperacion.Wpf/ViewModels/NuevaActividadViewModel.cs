@@ -77,7 +77,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             wrapper.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
             _ModificarActividad = 1;
             _ActividadVM.Load(wrapper);
-            _ActividadVM.Actividad.IsInEditionMode = true;
+            _ActividadVM.Actividad.IsInEditionMode = true;  // Edicion a tru para poder modificar
             Actividad.PropertyChanged += Actividad_PropertyChanged;
         }
 
@@ -117,12 +117,31 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             {
                 if(_ModificarActividad== 1) // Si es 1 se va a modificar una actividad ya existente en la base de datos
                 {
-                    Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == "").FirstOrDefault()); // Si se deja el cooperanre dumy falla insercion BBDD
+                    CooperanteWrapper[] posDelete = new CooperanteWrapper[Actividad.Cooperantes.Count];
+                    int index = 0;
+                    foreach (var Coop in Actividad.Cooperantes)
+                    {
+                        if (Coop.Nombre == "")
+                        {
+                            posDelete[index] = Coop;
+                            index++;
+                        }
+                        else
+                        {
+                            posDelete[index] = Coop;
+                            index++;
+                        }
+                    }
+                    for(int i = 0; i < index; i++)
+                    {
+                        if (posDelete[i].Nombre == "") Actividad.Cooperantes.Remove(posDelete[i]);
+                    }
+                    //Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == "").FirstOrDefault());
+                    //Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == "").FirstOrDefault()); // Si se deja el cooperanre dumy falla insercion BBDD
                     Actividad.UpdatedAt = DateTime.Now;
                     _ActividadRepository.Update(Actividad.Model);
                     Actividad.AcceptChanges();
                     _ModificarActividad = 0;
-                    _EventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(Actividad.Id);
                     Cerrar = true;
                 }
             }

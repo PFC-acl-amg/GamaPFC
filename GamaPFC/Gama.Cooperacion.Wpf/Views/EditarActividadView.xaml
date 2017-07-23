@@ -53,13 +53,13 @@
             <!-- Actualizar Button -->
             <cc:CircleIconButton 
               Icon="{StaticResource appbar_save}"
-              Visibility="{Binding Actividad.IsInEditionMode, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}"
+              Visibility="{Binding InformacionDeActividadViewModel.Actividad.IsInEditionMode, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}"
               Command="{Binding ActualizarCommand}"/>
 
             <!-- Cancelar Button -->
             <cc:CircleIconButton
               Icon="{StaticResource appbar_close}"
-              Visibility="{Binding Actividad.IsInEditionMode, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}"
+              Visibility="{Binding InformacionDeActividadViewModel.Actividad.IsInEditionMode, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}"
               Command="{Binding CancelarEdicionCommand}"/>
 
             <!-- Habilitar Edición Button -->

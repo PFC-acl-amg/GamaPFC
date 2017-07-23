@@ -107,12 +107,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             Actividades.Refresh();
         }
 
-        private void OnActividadActualizadaEvent(int id)
+        private void OnActividadActualizadaEvent(Actividad act)
         {
-            var actividadActualizada = _actividadRepository.GetById(id);
-            if (_actividades.Any(a => a.Id == id))
+            var actividadActualizada = _actividadRepository.GetById(act.Id);
+            if (_actividades.Any(a => a.Id == act.Id))
             {
-                var actividad = _actividades.Where(a => a.Id == id).Single();
+                var actividad = _actividades.Where(a => a.Id == act.Id).Single();
                 var index = _actividades.IndexOf(actividad);
                 _actividades[index].DisplayMember1 = actividadActualizada.Titulo;
                 _actividades[index].DisplayMember2 = actividadActualizada.Descripcion;

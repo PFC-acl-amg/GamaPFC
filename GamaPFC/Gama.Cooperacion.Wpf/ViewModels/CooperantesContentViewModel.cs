@@ -89,19 +89,19 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         //--------------------------
         // Events
         //--------------------------
-        private void OnActividadActualizadaEvent(int id)
+        private void OnActividadActualizadaEvent(Actividad  act)
         {
-            var actividadActualizada = _ActividadRepository.GetById(id);
-            if (ActividadesCoordina.Any(a => a.Id == id))
+            var actividadActualizada = _ActividadRepository.GetById(act.Id);
+            if (ActividadesCoordina.Any(a => a.Id == act.Id))
             {
-                var indice = ActividadesCoordina.IndexOf(ActividadesCoordina.Single(a => a.Id == id));
+                var indice = ActividadesCoordina.IndexOf(ActividadesCoordina.Single(a => a.Id == act.Id));
                 ActividadesCoordina.RemoveAt(indice);
                 ActividadesCoordina.Insert(0, actividadActualizada);
 
             }
-            if (ActividadesCoopera.Any(a => a.Id == id))
+            if (ActividadesCoopera.Any(a => a.Id == act.Id))
             {
-                var indice = ActividadesCoopera.IndexOf(ActividadesCoopera.Single(a => a.Id == id));
+                var indice = ActividadesCoopera.IndexOf(ActividadesCoopera.Single(a => a.Id == act.Id));
                 ActividadesCoopera.RemoveAt(indice);
                 ActividadesCoopera.Insert(0, actividadActualizada);
 

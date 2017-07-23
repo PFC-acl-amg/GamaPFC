@@ -774,12 +774,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
         
 
-        private void OnActividadActualizadaEvent(int id)
+        private void OnActividadActualizadaEvent(Actividad act)
         {
-            var actividadActualizada = _actividadRepository.GetById(id);
-            if (ListaParcialActividades.Any(a => a.Id == id))
+            var actividadActualizada = _actividadRepository.GetById(act.Id);
+            if (ListaParcialActividades.Any(a => a.Id == act.Id))
             {
-                var indice = ListaParcialActividades.IndexOf(ListaParcialActividades.Single(a => a.Id == id));
+                var indice = ListaParcialActividades.IndexOf(ListaParcialActividades.Single(a => a.Id == act.Id));
                 ListaParcialActividades.RemoveAt(indice);
                 ListaParcialActividades.Insert(0,actividadActualizada);
                 

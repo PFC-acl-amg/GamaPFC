@@ -132,7 +132,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnActividadSeleccionadaEvent(int id)
         {
-            NavegarAActividad(id);
+            NavegarAActividad(id); 
             _EventAggregator.GetEvent<ActividadSeleccionadaChangedEvent>().Publish(id);
         }
 
@@ -140,12 +140,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             if (!ActividadEstaAbierta(id))
             {
-                var newViewModel = _Container.Resolve<EditarActividadViewModel>();
-                var newView = _Container.Resolve<EditarActividadView>();
+                var newViewModel = _Container.Resolve<EditarActividadViewModel>(); // LLama a los constructores de InformacionDeActividadViewModel y TareasDeActividadViewModel
+                var newView = _Container.Resolve<EditarActividadView>(); // LLama constructor de EditarActividadViewModel
                 newView.DataContext = newViewModel;
 
-                newViewModel.OnNavigatedTo(id);
-                
+                newViewModel.OnNavigatedTo(id);// Seencarga de pasar la informacion a infodeActividadvm y tareasde actividadvm
+
                 ViewSeleccionada = AddView(newView, newViewModel);
             }
 

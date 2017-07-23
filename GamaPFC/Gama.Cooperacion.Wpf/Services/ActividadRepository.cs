@@ -83,7 +83,7 @@ namespace Gama.Cooperacion.Wpf.Services
             {
                 Actividades.Remove(Actividades.Find(x => x.Id == entity.Id));
                 Actividades.Add(entity);
-                _EventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(entity.Id);
+                _EventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(entity);
                 RaiseActualizarServidor();
 
                 //foreach (var cooperante in entity.Cooperantes)

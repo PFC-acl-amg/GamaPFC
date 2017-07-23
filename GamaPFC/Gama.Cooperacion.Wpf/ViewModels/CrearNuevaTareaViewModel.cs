@@ -49,7 +49,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             AñadirCooperantesComboBox = new DelegateCommand(OnAñadirCooperantesComboBox, OnAñadirCooperantesComboBox_CanExecute);
             Gama.Common.Debug.Debug.StopWatch("CrearNuevaTareaViewModel");
         }
-        private void PublicarCooperante(int Id)
+        private void PublicarCooperante(Actividad ActividadSeleccionada)
         {
             OnAñadirCooperantesComboBox();
         }

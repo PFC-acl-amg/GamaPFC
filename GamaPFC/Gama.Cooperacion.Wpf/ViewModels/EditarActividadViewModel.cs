@@ -67,8 +67,24 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 () => _InformacionDeActividadViewModel.Actividad.IsInEditionMode);
             VerActividadInfoCommand = new DelegateCommand(OnVerActividadInfoCommand);
 
+            _EventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
+
             _InformacionDeActividadViewModel.PropertyChanged += _InvalidateCommands_PropertyChanged;
             Actividad.PropertyChanged += _InvalidateCommands_PropertyChanged;
+        }
+        private void OnActividadActualizadaEvent(Actividad wrapper)
+        {
+            ActividadWrapper act = new ActividadWrapper(wrapper);
+
+            //_InformacionDeActividadViewModel.Load(act); // Va a informaciondeActividadVM y cargo los datos de la activdadseleccionada
+            //_InformacionDeActividadViewModel.Actividad.IsInEditionMode =
+            //    _Preferencias.General_EdicionHabilitadaPorDefecto;
+            Actividad.IsInEditionMode = false;
+            RefrescarTitulo(Actividad.Titulo);
+            InvalidateCommands();
+            //_InformacionDeActividadViewModel.PropertyChanged += _InvalidateCommands_PropertyChanged;
+            Actividad.PropertyChanged += _InvalidateCommands_PropertyChanged;
+            OnPropertyChanged(nameof(InformacionDeActividadViewModel));
         }
 
         public ICommand HabilitarEdicionCommand { get; private set; }
@@ -98,7 +114,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         public InformacionDeActividadViewModel InformacionDeActividadViewModel => _InformacionDeActividadViewModel;
         public TareasDeActividadViewModel TareasDeActividadViewModel => _TareasDeActividadViewModel;
-        public ActividadWrapper Actividad => _InformacionDeActividadViewModel.Actividad;
+        public ActividadWrapper Actividad
+        {
+            get { return _InformacionDeActividadViewModel.Actividad; }
+        }
 
         private void OnVerActividadInfoCommand()
         {
@@ -108,9 +127,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnHabilitarEdicionCommand()
         {
-            Actividad.IsInEditionMode = true;
+            //Actividad.IsInEditionMode = true;
+            _InformacionDeActividadViewModel.Actividad.IsInEditionMode = true;
             if (_InformacionDeActividadViewModel.CooperantesDisponibles.Count > 0
-                && Actividad.Cooperantes.Where(c => c.Nombre == null).ToList().Count == 0)
+                && Actividad.Cooperantes.Where(c => c.Nombre == "").ToList().Count == 0)
             {
                 Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
             }
@@ -119,18 +139,34 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnActualizarCommand()
         {
-            UIServices.SetBusyState();
-            var cooperanteDummy = Actividad.Cooperantes.Where(c => c.Nombre == "").FirstOrDefault();
-            if (cooperanteDummy != null)
+            //UIServices.SetBusyState();
+            CooperanteWrapper[] posDelete = new CooperanteWrapper[Actividad.Cooperantes.Count];
+            int index = 0;
+            foreach (var Coop in Actividad.Cooperantes)
             {
-                Actividad.Cooperantes.Remove(cooperanteDummy);
+                if (Coop.Nombre == "")
+                {
+                    posDelete[index] = Coop;
+                    index++;
+                }
+                else
+                {
+                    posDelete[index] = Coop;
+                    index++;
+                }
+            }
+            for (int i = 0; i < index; i++)
+            {
+                if (posDelete[i].Nombre == "") Actividad.Cooperantes.Remove(posDelete[i]);
             }
             //Actividad.UpdatedAt = DateTime.Now;
             _ActividadRepository.Update(Actividad.Model);
             _InformacionDeActividadViewModel.Actividad.AcceptChanges();
+            _InformacionDeActividadViewModel.Actividad.IsInEditionMode = false;
             //_ActividadVM.Actividad.Cooperantes.Add(cooperanteDummy);
-            Actividad.IsInEditionMode = false;
-           // _EventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(Actividad.Id);
+            _InformacionDeActividadViewModel.Actividad.IsInEditionMode = false;
+            RefrescarTitulo(Actividad.Titulo);
+            // _EventAggregator.GetEvent<ActividadActualizadaEvent>().Publish(Actividad.Id);
         }
 
         private void OnCancelarEdicionCommand()
@@ -142,7 +178,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 Actividad.Cooperantes.Remove(cooperanteDummy.First());
             }
             Actividad.AcceptChanges();
-            Actividad.IsInEditionMode = false;
+            _InformacionDeActividadViewModel.Actividad.IsInEditionMode = false;
         }
 
         public bool IsNavigationTarget(int id)
@@ -150,16 +186,16 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             return (Actividad.Id == id);
         }
 
-        public void OnNavigatedTo(int actividadId)
+        public void OnNavigatedTo(int actividadId) // Se carga la informacion de la actividad con los Load de informaciondeactividadVW y tareasde activdadVM
         {
             try
             {
-                if (string.IsNullOrEmpty(Actividad.Titulo))
+                if (string.IsNullOrEmpty(Actividad.Titulo)) //Cuando ya esta abierta aqui no entra yno la recarga
                 {
                     ActividadWrapper wrapper = new ActividadWrapper(
                         _ActividadRepository.GetById(actividadId));
 
-                    _InformacionDeActividadViewModel.Load(wrapper);
+                    _InformacionDeActividadViewModel.Load(wrapper); // Va a informaciondeActividadVM y cargo los datos de la activdadseleccionada
                     _InformacionDeActividadViewModel.Actividad.IsInEditionMode =
                         _Preferencias.General_EdicionHabilitadaPorDefecto;
                     _TareasDeActividadViewModel.LoadActividad(wrapper);
@@ -180,7 +216,20 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void _InvalidateCommands_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            InvalidateCommands();
+            if (e.PropertyName == nameof(_InformacionDeActividadViewModel.Actividad.IsInEditionMode))
+            {
+                InvalidateCommands();
+            }
+            else if (e.PropertyName == nameof(Actividad))
+            {
+                Actividad.PropertyChanged += (s, ea) => {
+                    if (ea.PropertyName == nameof(Actividad.IsChanged)
+                        || ea.PropertyName == nameof(Actividad.IsValid))
+                    {
+                        InvalidateCommands();
+                    }
+                };
+            }
         }
 
         private void RefrescarTitulo(string nombre)

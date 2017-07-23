@@ -1,6 +1,7 @@
 ﻿using Core;
 using Gama.Common.CustomControls;
 using Gama.Cooperacion.Business;
+using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Services;
 using Gama.Cooperacion.Wpf.Wrappers;
 using NHibernate;
@@ -77,6 +78,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             Actividad.FechaDeFin = DateTime.Today;
             Actividad.FechaDeInicio = DateTime.Today;
 
+            _EventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(OnActividadActualizadaEvent);
+
             AbrirPopupCommand = new DelegateCommand<CooperanteWrapper>(OnAbrirPopupCommand);
             NuevoCooperanteCommand = new DelegateCommand(OnNuevoCooperanteCommand, OnNuevoCooperanteCommand_CanExecute);
             QuitarCoordinadorCommand = new DelegateCommand(OnQuitarCoordinadorCommand, OnQuitarCoordinadorCommand_CanExecute);
@@ -84,6 +87,12 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             SearchCommand = new DelegateCommand<string>(OnSearchEventCommand);
             SelectCooperanteEventCommand = new DelegateCommand<CooperanteWrapper>(OnSelectCooperanteEventCommand);
             SelectCoordinadorCommand = new DelegateCommand(OnSelectCoordinadorEventCommand);
+        }
+        private void OnActividadActualizadaEvent(Actividad ActividadActualizada)
+        {
+            var Act = new ActividadWrapper(ActividadActualizada);
+            Actividad = Act;
+            Actividad.IsInEditionMode = false;
         }
         public string EstadoEscogido
         {
@@ -180,6 +189,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 if (e.PropertyName == "IsChanged")
                     InvalidateCommands();
             };
+            // Se prepara la lista de CooperantesDisponibles recorriendo los cooperantes de la actividad.
+            // Cuando lea el dumy no hara nada porque este varlo no tiene porque estar en los cooperantes disponibles
             foreach (var cooperante in Actividad.Cooperantes)
             {
                 CooperantesDisponibles.Remove(CooperantesDisponibles.Where(c => c.Id == cooperante.Id).FirstOrDefault());
@@ -316,14 +327,14 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
             }
 
-            CooperantesDisponibles.Add(Actividad.Coordinador);
-            Actividad.Coordinador = new CooperanteWrapper(new Cooperante());
+            CooperantesDisponibles.Add(Actividad.Coordinador);  // Añade al cooerdinador saliente a cooperantees disponibles
+            Actividad.Coordinador = new CooperanteWrapper(new Cooperante()); // El nuevo coordinador es el dumy
             ((DelegateCommand)QuitarCoordinadorCommand).RaiseCanExecuteChanged();
         }
 
         private bool OnQuitarCoordinadorCommand_CanExecute()
         {
-            return (Actividad.Coordinador.Nombre != null && !string.IsNullOrEmpty(Actividad.Coordinador.Nombre));
+           return (Actividad.Coordinador.Nombre != null && !string.IsNullOrEmpty(Actividad.Coordinador.Nombre));
         }
 
         private void OnQuitarCooperanteCommand(CooperanteWrapper cooperante)
@@ -347,7 +358,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private bool OnQuitarCooperanteCommand_CanExecute(CooperanteWrapper cooperante)
         {
-            return (cooperante.Nombre != null);
+            return (cooperante.Nombre != "");
         }
     }
 }
