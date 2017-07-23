@@ -24,7 +24,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private string _tituloForoMensaje;
         public CrearNuevoForoViewModel(IActividadRepository ActividadRepository, IEventAggregator EventAggregator)
         {
-            Foro = new ForoWrapper(new Foro());
+            NuevoForo = new ForoWrapper(new Foro());
+            NuevoMensaje = new MensajeWrapper(new Mensaje());
             _ActividadRepository = ActividadRepository;
             _EventAggregator = EventAggregator;
 
@@ -47,7 +48,20 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             get { return _tituloForoMensaje; }
             set { SetProperty(ref _tituloForoMensaje, value); }
         }
-        public ForoWrapper Foro { get; private set; }
+        private ForoWrapper _NuevoForo;
+        public ForoWrapper NuevoForo
+        {
+            get { return _NuevoForo; }
+            set { SetProperty(ref _NuevoForo, value); }
+        }
+
+        private MensajeWrapper _NuevoMensaje;
+        public MensajeWrapper NuevoMensaje
+        {
+            get { return _NuevoMensaje; }
+            set { SetProperty(ref _NuevoMensaje, value); }
+        }
+
         public ActividadWrapper Actividad { get; private set; }
         public ICommand AceptarCommand { get; private set; }
         public ICommand CancelarCommand { get; private set; }
@@ -66,23 +80,37 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
         private void OnAceptarCommand_Execute()
         {
-            var foroW = (new ForoWrapper(new Foro()
-                { Titulo = TituloForo, FechaDePublicacion = DateTime.Now, Actividad = Actividad.Model })
-                { ForoVisible = false });
-            if (!string.IsNullOrEmpty(TituloForoMensaje))
+            NuevoForo.FechaDePublicacion = DateTime.Now;
+            NuevoForo.Model.Actividad = Actividad.Model;
+            NuevoForo.ForoVisible = false;
+
+            if (!string.IsNullOrEmpty(NuevoMensaje.Titulo))
             {
-                var mensajeForo = new MensajeWrapper(new Mensaje()
-                {
-                    Titulo = TituloForoMensaje,
-                    FechaDePublicacion = DateTime.Now,
-                    Foro = foroW.Model
-                });
-                foroW.Mensajes.Add(mensajeForo);
+                NuevoMensaje.FechaDePublicacion = DateTime.Now;
+                NuevoMensaje.Model.Foro = NuevoForo.Model;
+                NuevoForo.Mensajes.Add(NuevoMensaje);
             }
-            Actividad.Foros.Add(foroW);
+
+            //var foroW = (new ForoWrapper(new Foro()
+            //    { Titulo = TituloForo, FechaDePublicacion = DateTime.Now, Actividad = Actividad.Model })
+            //    { ForoVisible = false });
+
+            //if (!string.IsNullOrEmpty(TituloForoMensaje))
+            //{
+            //    var mensajeForo = new MensajeWrapper(new Mensaje()
+            //    {
+            //        Titulo = TituloForoMensaje,
+            //        FechaDePublicacion = DateTime.Now,
+            //        Foro = foroW.Model
+            //    });
+            //    foroW.Mensajes.Add(mensajeForo);
+            //}
+
+
+            Actividad.Foros.Add(NuevoForo);
             _ActividadRepository.Update(Actividad.Model);
             
-            _EventAggregator.GetEvent<NuevoForoCreadoEvent>().Publish(foroW);
+            _EventAggregator.GetEvent<NuevoForoCreadoEvent>().Publish(NuevoForo);
             var eventoDeActividad = new Evento()
             {
                 FechaDePublicacion = DateTime.Now,
