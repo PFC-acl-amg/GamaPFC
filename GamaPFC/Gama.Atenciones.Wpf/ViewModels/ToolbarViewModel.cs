@@ -17,6 +17,7 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -184,24 +185,43 @@ namespace Gama.Atenciones.Wpf.ViewModels
             if (VistaCargada == "AsistentesContentView")
             {
                 // Exportar datos de una solo Actividad Que ya se copio an Toolbar con el evento ActividadSeleccionadaEvent.
-                _ExportService.ExportarAsistente(_Asistente.Model, _Asistente.Nombre);
+
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                saveFileDialog.FileName = Path.Combine(DateTime.Now.ToShortDateString().Replace('/', '-') + " - "+ _Asistente.Nombre + ".docx");
+                saveFileDialog.Filter = "Microsoft Word (*.docx)|*.docx";
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    _ExportService.ExportarAsistente(_Asistente.Model, saveFileDialog.FileName);
+                }
             }
             else
             {
                 if (VistaCargada == "CitasContentView")
                 {
                     // Exportar la lista completa de cooperantes
-                    var ListaCitas = _CitaRepository.GetAll();
-                    _ExportService.ExportarTodasCitas(ListaCitas);
-                }
-                else
-                {
-                    if (VistaCargada== "PersonasContentView")
+                    var ListaCitas = _CitaRepository.GetAll(); SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                    saveFileDialog.FileName = DateTime.Now.ToShortDateString().Replace('/', '-') + " - " + "Lisado de citas" + ".docx";
+                    saveFileDialog.Filter = "Microsoft Word (*.docx)|*.docx";
+
+                    if (saveFileDialog.ShowDialog() == true)
                     {
-                        _ExportService.ExportarInfoPersona(_Persona,_Persona.Nombre);
+                        _ExportService.ExportarTodasCitas(ListaCitas, saveFileDialog.FileName);
                     }
-                    //var ListaActividades = _ActividadRepository.GetAll();
-                    //_ExportService.ExportarTodasActividades(ListaActividades);
+                }
+                else if (VistaCargada== "PersonasContentView")
+                {// Exportar persona seleccionada
+                    var ListaCitas = _CitaRepository.GetAll(); SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                    saveFileDialog.FileName = DateTime.Now.ToShortDateString().Replace('/', '-') + " - " + _Persona.Nombre + ".docx";
+                    saveFileDialog.Filter = "Microsoft Word (*.docx)|*.docx";
+
+                    if (saveFileDialog.ShowDialog() == true)
+                    {
+                        _ExportService.ExportarInfoPersona(_Persona, saveFileDialog.FileName);
+                    }
                 }
             }
         }

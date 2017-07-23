@@ -11,6 +11,7 @@
         xmlns:prism="http://prismlibrary.com/"
         xmlns:actions="clr-namespace:Core.Util;assembly=Core"
         prism:ViewModelLocator.AutoWireViewModel="True"
+                   xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
         xmlns:util="clr-namespace:Core.Util;assembly=Core"
         WindowStartupLocation="CenterScreen"
         BorderThickness="2"
@@ -33,7 +34,7 @@
             <RowDefinition Height="170" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="40" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="3" Background="#9999AB" Padding="4" 
                                             CornerRadius="3"
@@ -214,7 +215,7 @@
                                       metro:TextBoxHelper.Watermark="Telefono Fijo..."
                                       TextWrapping="Wrap"
                                       Margin="{StaticResource Margin}"
-                                      Text="{Binding NuevoCooperante.telefono}"/>
+                                      Text="{Binding NuevoCooperante.Telefono}"/>
                     <TextBox  Name="XamlTlfMovil"
                                       Grid.Row="1" Grid.Column="0"
                                       BorderThickness="1"
@@ -253,10 +254,50 @@
                 </Grid>
             </StackPanel>       <!--fin datos contacto-->
         </Border>
-        <StackPanel Grid.Row="3" Orientation="Horizontal"
-                    HorizontalAlignment="Right">
-            <Button Content="Aceptar" Command="{Binding AceptarCommand}"  Margin="{StaticResource Margin}"/>
-            <Button Content="Cancelar" Command="{Binding CancelarCommand}"  Margin="{StaticResource Margin}"/>
-        </StackPanel>
+    <Grid Grid.Row="3" Background="#383838">
+      <StackPanel Grid.Row="1" Orientation="Horizontal" 
+                HorizontalAlignment="Right">
+        <!-- Actualizar Button -->
+        <cc:CircleIconButton 
+          Icon="{StaticResource appbar_save}"
+          Width="56" Height="56" IconHeight="20" IconWidth="20"
+          Cursor="Hand"
+          BorderBrush="White"
+          Margin="{StaticResource MarginHalf}"
+          Command="{Binding AceptarCommand}">
+          <Button.Style>
+            <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+              <Setter Property="Foreground" Value="White"/>
+              <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                  <Setter Property="Foreground" Value="Wheat"/>
+                </Trigger>
+              </Style.Triggers>
+            </Style>
+          </Button.Style>
+        </cc:CircleIconButton>
+
+        <!-- Cancelar Button -->
+        <cc:CircleIconButton
+          Icon="{StaticResource appbar_close}"
+          Width="56" Height="56" IconHeight="20" IconWidth="20"
+          Cursor="Hand"
+          Foreground="White"
+          BorderBrush="White"
+          Margin="{StaticResource MarginHalf}"
+          Command="{Binding CancelarCommand}">
+          <Button.Style>
+            <Style TargetType="cc:CircleIconButton" BasedOn="{StaticResource {x:Type cc:CircleIconButton}}">
+              <Setter Property="Foreground" Value="White"/>
+              <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                  <Setter Property="Foreground" Value="Wheat"/>
+                </Trigger>
+              </Style.Triggers>
+            </Style>
+          </Button.Style>
+        </cc:CircleIconButton>
+      </StackPanel>
     </Grid>
+  </Grid>
 </metro:MetroWindow>

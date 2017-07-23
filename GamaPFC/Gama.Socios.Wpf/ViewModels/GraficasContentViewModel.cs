@@ -39,6 +39,8 @@ namespace Gama.Socios.Wpf.ViewModels
             _Socios = _SocioRepository.Socios;
 
             _EventAggregator.GetEvent<SocioCreadoEvent>().Subscribe((id) => EstadoSinActualizar());
+            _EventAggregator.GetEvent<SocioActualizadoEvent>().Subscribe((id) => EstadoSinActualizar());
+            _EventAggregator.GetEvent<SocioEliminadoEvent>().Subscribe((id) => EstadoSinActualizar());
 
             RefrescarCommand = new DelegateCommand(() => Refresh(), () => HayCambios);
 
@@ -142,24 +144,33 @@ namespace Gama.Socios.Wpf.ViewModels
             cuotas.ForEach(c => valor += (int)c.CantidadPagada);
             ValoresDeCuotas.Add(NewChartItem("25", "0 a 25", valor));
 
-            tempSocios = _Socios.Where(x => x.EdadNumerica.HasValue && x.EdadNumerica.Value >= 26 && x.EdadNumerica.Value <= 55).ToList();
+            valor = 0;
+            tempSocios = _Socios.Where(x => x.EdadNumerica.HasValue && x.EdadNumerica.Value >= 26 && x.EdadNumerica.Value <= 40).ToList();
             periodosDeAlta = tempSocios.SelectMany(x => x.PeriodosDeAlta);
             cuotas = periodosDeAlta.SelectMany(x => x.Cuotas).ToList();
             cuotas.ForEach(c => valor += (int)c.CantidadPagada);
             ValoresDeCuotas.Add(NewChartItem("40", "26 a 40", valor));
 
-            // tempSocios = _Socios.Where(x => x.EdadNumerica.HasValue && x.EdadNumerica >= 26 && x.EdadNumerica.Value <= 40).ToList();
+            valor = 0;
+            tempSocios = _Socios.Where(x => x.EdadNumerica.HasValue && x.EdadNumerica.Value >= 41 && x.EdadNumerica.Value <= 55).ToList();
+            periodosDeAlta = tempSocios.SelectMany(x => x.PeriodosDeAlta);
+            cuotas = periodosDeAlta.SelectMany(x => x.Cuotas).ToList();
+            cuotas.ForEach(c => valor += (int)c.CantidadPagada);
+            ValoresDeCuotas.Add(NewChartItem("55", "41 a 55", valor));
 
-            // tempSocios = _Socios.Where(x => x.EdadNumerica.HasValue && x.EdadNumerica >= 41 && x.EdadNumerica.Value <= 55).ToList();
+            valor = 0;
+            tempSocios = _Socios.Where(x => x.EdadNumerica.HasValue && x.EdadNumerica.Value >= 56 && x.EdadNumerica.Value <= 65).ToList();
+            periodosDeAlta = tempSocios.SelectMany(x => x.PeriodosDeAlta);
+            cuotas = periodosDeAlta.SelectMany(x => x.Cuotas).ToList();
+            cuotas.ForEach(c => valor += (int)c.CantidadPagada);
+            ValoresDeCuotas.Add(NewChartItem("65", "56 a 65", valor));
 
-            // tempSocios = _Socios.Where(x => x.EdadNumerica.HasValue && x.EdadNumerica >= 56 && x.EdadNumerica.Value <= 65).ToList();
-
-            // tempSocios = _Socios.Where(x => x.EdadNumerica.HasValue && x.EdadNumerica.Value >= 66).ToList();
-
-            //ValoresDeCuotas.Add(NewChartItem("40", "26 a 40", _From26To40Cuotas));
-            //ValoresDeCuotas.Add(NewChartItem("55", "41 a 55", _From41To55Cuotas));
-            //ValoresDeCuotas.Add(NewChartItem("65", "56 a 65", _From56To65Cuotas));
-            //ValoresDeCuotas.Add(NewChartItem("66", "66 o más", _From66Cuotas));
+            valor = 0;
+            tempSocios = _Socios.Where(x => x.EdadNumerica.HasValue && x.EdadNumerica.Value >= 66).ToList();
+            periodosDeAlta = tempSocios.SelectMany(x => x.PeriodosDeAlta);
+            cuotas = periodosDeAlta.SelectMany(x => x.Cuotas).ToList();
+            cuotas.ForEach(c => valor += (int)c.CantidadPagada);
+            ValoresDeCuotas.Add(NewChartItem("66", "66 o más", valor));
 
             OnPropertyChanged(nameof(ValoresDeCuotas));
         }

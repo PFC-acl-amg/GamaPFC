@@ -101,7 +101,7 @@ namespace Gama.Cooperacion.WpfTests
             _activdadRepositoryMock.Setup(ar => ar.GetById(actividad.Id))
                  .Returns(actividad);
 
-            _eventAggregatorMock.GetEvent<ActividadActualizadaEvent>().Publish(actividad.Id);
+            _eventAggregatorMock.GetEvent<ActividadActualizadaEvent>().Publish(actividad);
 
             Assert.True(((List<LookupItem>)_vm.Actividades.SourceCollection)
                 .Single(a => a.Id == actividad.Id).DisplayMember1 == actividad.Titulo);

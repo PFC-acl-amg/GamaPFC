@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Gama.Cooperacion.DataAccess.Mappings
 {
-    public class TareaMap : ClassMap<Tarea>
+    public class TareaMap : ClassMap<Business.Tarea>
     {
         public TareaMap()
         {

@@ -87,5 +87,10 @@ namespace Gama.Cooperacion.Wpf.Services
         {
             return true;
         }
+
+        public void UpdateClient()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

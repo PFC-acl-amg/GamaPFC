@@ -62,7 +62,9 @@ namespace Gama.Atenciones.Wpf.ViewModels
                                 DisplayMember1 = LookupItem.ShortenStringForDisplay(p.Nombre, 25),
                                 DisplayMember2 = p.Nif,
                                 Imagen = p.Imagen
-                            }).ToList();
+                            })
+                .OrderBy(p => p.DisplayMember1)
+                .ToList();
 
             Personas = new PaginatedCollectionView(_Personas,
                 _Settings.ListadoDePersonasItemsPerPage);

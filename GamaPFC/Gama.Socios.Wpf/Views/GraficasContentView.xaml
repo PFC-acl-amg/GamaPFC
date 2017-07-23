@@ -186,7 +186,7 @@
                    FontSize="14" 
                    Margin="{StaticResource Margin}" 
                    Cursor="Hand"
-                   MouseLeftButtonUp="DatosPersonalesListBoxItem_MouseLeftButtonDown">SOCIOS</ListBoxItem>
+                   MouseLeftButtonUp="AtencionesListBoxItem_MouseLeftButtonDown">SOCIOS</ListBoxItem>
           </ListBox.Items>
         </ListBox>
       </Grid>
@@ -207,6 +207,7 @@
         Visibility="{Binding HayCambios, Converter={StaticResource _BooleanToVisibilityConverter}}"/>
 
         <graficasViews:GraficasDeCuotasView x:Name="_GraficasDeCuotasView" Grid.Row="2" Visibility="Visible"/>
+        <graficasViews:GraficasDeSociosView x:Name="_GraficasDeSociosView" Grid.Row="2" Visibility="Hidden"/>
       </Grid>
   </Grid>
   </Grid>

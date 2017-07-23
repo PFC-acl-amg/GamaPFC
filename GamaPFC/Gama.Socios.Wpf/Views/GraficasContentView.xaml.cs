@@ -57,13 +57,13 @@ namespace Gama.Socios.Wpf.Views
         private void DatosPersonalesListBoxItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _GraficasDeCuotasView.Visibility = Visibility.Visible;
-            //_AtencionesGraficasView.Visibility = Visibility.Hidden;
+            _GraficasDeSociosView.Visibility = Visibility.Hidden;
         }
 
         private void AtencionesListBoxItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _GraficasDeCuotasView.Visibility = Visibility.Hidden;
-            //_AtencionesGraficasView.Visibility = Visibility.Visible;
+            _GraficasDeSociosView.Visibility = Visibility.Visible;
         }
     }
 }

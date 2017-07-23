@@ -224,6 +224,9 @@
     <Compile Include="Views\Graficas\GraficasDeCuotasView.xaml.cs">
       <DependentUpon>GraficasDeCuotasView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Graficas\GraficasDeSociosView.xaml.cs">
+      <DependentUpon>GraficasDeSociosView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ListadoDeSociosView.xaml.cs">
       <DependentUpon>ListadoDeSociosView.xaml</DependentUpon>
     </Compile>
@@ -295,6 +298,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Graficas\GraficasDeCuotasView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Graficas\GraficasDeSociosView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

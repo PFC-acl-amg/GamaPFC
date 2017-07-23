@@ -12,17 +12,17 @@ namespace Gama.Cooperacion.Wpf.Services
     {
         ISession Session { get; set; }
         Tarea GetById(int id);
-        List<Tarea> Tareas { get; set; }
+        List<Business.Tarea> Tareas { get; set; }
 
-        List<Tarea> GetAll();
+        List<Business.Tarea> GetAll();
 
         //List<LookupItem> GetAllForLookup();
 
-        void Create(Tarea entity);
+        void Create(Business.Tarea entity);
 
-        bool Update(Tarea entity);
+        bool Update(Business.Tarea entity);
 
-        void Delete(Tarea entity);
+        void Delete(Business.Tarea entity);
     }
 
 }

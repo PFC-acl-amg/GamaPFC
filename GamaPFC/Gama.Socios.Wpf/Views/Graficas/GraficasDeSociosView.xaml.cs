@@ -10,23 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Gama.Bootstrapper.Views
+namespace Gama.Socios.Wpf.Views.Graficas
 {
     /// <summary>
-    /// Interaction logic for ExcepctionMessageView.xaml
+    /// Interaction logic for GraficasDeSociosView.xaml
     /// </summary>
-    public partial class ExceptionMessageView : Window
+    public partial class GraficasDeSociosView : UserControl
     {
-        public ExceptionMessageView()
+        public GraficasDeSociosView()
         {
             InitializeComponent();
-        }
-
-        private void _CerrarButton_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
         }
     }
 }

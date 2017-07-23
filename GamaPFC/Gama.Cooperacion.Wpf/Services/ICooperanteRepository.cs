@@ -23,6 +23,8 @@ namespace Gama.Cooperacion.Wpf.Services
         bool Update(Cooperante entity);
 
         void Delete(Cooperante entity);
+
+        void UpdateClient();
         
     }
 }

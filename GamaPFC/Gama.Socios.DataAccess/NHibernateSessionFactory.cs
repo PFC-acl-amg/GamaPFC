@@ -41,7 +41,7 @@ namespace Gama.Socios.DataAccess
 
                         var path = directoryPath + @"\nh_socios.cfg";
 
-                        if (File.Exists(path)) { File.Delete(path); }
+                        //if (File.Exists(path)) { File.Delete(path); }
 
                         if (File.Exists(path))
                         {

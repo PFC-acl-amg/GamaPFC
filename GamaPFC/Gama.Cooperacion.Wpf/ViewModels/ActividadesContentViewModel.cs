@@ -45,6 +45,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             Views = new ObservableCollection<MetroTabItem>();
             AddView(container.Resolve<ListadoDeActividadesView>(), listadoDeActividadesViewModel);
+            ViewSeleccionada = Views[0];
 
             CloseTabCommand = new DelegateCommand<MetroTabItem>(OnCloseTabCommandExecute);
 
@@ -122,6 +123,21 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     ((IActiveAware)view.DataContext).IsActive = true;
                 else
                     ((IActiveAware)view.DataContext).IsActive = false;
+            }
+        }
+
+        public override void OnActualizarServidor()
+        {
+            try
+            {
+                foreach (var view in Views)
+                {
+                    view.Dispatcher.Invoke((Action)delegate { ((ViewModelBase)(view.DataContext)).OnActualizarServidor(); });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
 

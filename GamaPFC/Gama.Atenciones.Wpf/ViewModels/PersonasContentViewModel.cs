@@ -128,8 +128,17 @@ namespace Gama.Atenciones.Wpf.ViewModels
         }
         public override void OnActualizarServidor()
         {
-            foreach (var view in Views)
-                ((ViewModelBase)(view.DataContext)).OnActualizarServidor();
+            try
+            {
+                foreach (var view in Views)
+                {
+                    view.Dispatcher.Invoke((Action)delegate { ((ViewModelBase)(view.DataContext)).OnActualizarServidor(); });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         private int _SelectedIndex;

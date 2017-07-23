@@ -9,6 +9,7 @@
                    xmlns:actions="clr-namespace:Core.Util;assembly=Core"
   xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
                    mc:Ignorable="d"
+                   Icon="pack://application:,,,/Gama.Common;component/Resources/Images/icono_gama_small.png"
                    Title="Nueva Persona"
                    d:DesignWidth="512.577" d:DesignHeight="515.781"
                    prism:ViewModelLocator.AutoWireViewModel="True"

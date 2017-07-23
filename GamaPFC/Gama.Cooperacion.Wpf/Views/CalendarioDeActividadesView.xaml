@@ -373,7 +373,7 @@
                                               Background="#FF3078A5"
                                               Foreground="White"
                                               FontWeight="Bold"
-                                              Command="{Binding DataContext.NuevaAtencionCommand, 
+                                              Command="{Binding DataContext.SeleccionarActividadCommand, 
                                                 RelativeSource={RelativeSource FindAncestor, 
 					                                          AncestorType={x:Type UserControl}}}"
                                               CommandParameter="{Binding}"

@@ -222,7 +222,7 @@ namespace Gama.Cooperacion.WpfTests
             _vm.Actividad.Titulo = "Otro título";
 
             _vm.ActualizarCommand.Execute(null);
-            _actividadActualizadaEvent.Verify(e => e.Publish(1), Times.Once);
+            _actividadActualizadaEvent.Verify(e => e.Publish(new Actividad()), Times.Once);
         }
     }
 }

@@ -6,12 +6,9 @@ using Gama.Cooperacion.Wpf.Wrappers;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
-using Remotion.Linq.Collections;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Gama.Cooperacion.Wpf.ViewModels
@@ -39,6 +36,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _EventAggregator = EventAggregator;
             _ModificarTarea = 0;
             _TareaID = 0;
+
+            _NuevaTarea = new TareaWrapper(new Tarea());
 
             _EventAggregator.GetEvent<ActividadActualizadaEvent>().Subscribe(PublicarCooperante);
 
@@ -91,6 +90,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             get { return _DescripcionNuevaTarea; }
             set { SetProperty(ref _DescripcionNuevaTarea, value); }
         }
+
         public CooperanteWrapper ResponsableTarea
         {
             get { return _ResponsableTarea; }
@@ -120,6 +120,17 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 _TareaRepository.Session = value;
             }
         }
+
+        public TareaWrapper NuevaTarea
+        {
+            get { return _NuevaTarea; }
+            set
+            {
+                SetProperty(ref _NuevaTarea, value);
+            }
+        }
+
+
         public void LoadActividad(ActividadWrapper actividad)
         {
             Actividad = actividad;
@@ -151,6 +162,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
         public void LoadTarea(TareaWrapper tarea) // Esto es necesario para cuando edito una tarea que tengo que pasar la informacion de la tarea
         {
+            NuevaTarea = tarea;
             DescripcionNuevaTarea = tarea.Descripcion;
             ResponsableTarea = tarea.Responsable;
             FechaFinTarea = tarea.FechaDeFinalizacion;
@@ -161,36 +173,39 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             if (_ModificarTarea == 0)
             {
-                var NuevaTarea = (new TareaWrapper(new Tarea()
-                {
-                    Descripcion = DescripcionNuevaTarea,
-                    FechaDeFinalizacion = FechaFinTarea,
-                    Responsable = ResponsableTarea.Model,
-                    HaFinalizado = false,
-                    Actividad = Actividad.Model
-                })
-                { SeguimientoVisible = false });
+                //var nuevaTarea = (new TareaWrapper(new Business.Tarea()
+                //{
+                //    Descripcion = DescripcionNuevaTarea,
+                //    FechaDeFinalizacion = FechaFinTarea,
+                //    Responsable = ResponsableTarea.Model,
+                //    HaFinalizado = false,
+                //    Actividad = Actividad.Model
+                //})
+                //{ SeguimientoVisible = false });
+                var nuevaTarea = NuevaTarea;
+                nuevaTarea.Model.Actividad = Actividad.Model;
+                nuevaTarea.HaFinalizado = false;
                 var nuevoSeguimiento = new SeguimientoWrapper(new Seguimiento()
                 {
                     Descripcion = "Trabajos realizados en la Tarea",
                     FechaDePublicacion = DateTime.Now,
-                    Tarea = NuevaTarea.Model
+                    Tarea = nuevaTarea.Model
                 });
                 var incidenciaTarea = (new IncidenciaWrapper(new Incidencia()
                 {
                     Descripcion = "Problemas surgidos durante el desarrollo de la tarea",
                     FechaDePublicacion = DateTime.Now,
-                    Tarea = NuevaTarea.Model
+                    Tarea = nuevaTarea.Model
                 }));
-                NuevaTarea.Incidencias.Add(incidenciaTarea);
-                NuevaTarea.Seguimiento.Add(nuevoSeguimiento);
-                Actividad.Tareas.Add(NuevaTarea); 
+                nuevaTarea.Incidencias.Add(incidenciaTarea);
+                nuevaTarea.Seguimiento.Add(nuevoSeguimiento);
+                Actividad.Tareas.Add(nuevaTarea); 
 
                 // Antes de nada comprobamos que no está el Cooperante Dumy en la Lista de cooperantes de la Actividad para que no intente añadirlo a BBDD
                 Actividad.Cooperantes.Remove(Actividad.Cooperantes.Where(c => c.Nombre == "").FirstOrDefault());
                 _ActividadRepository.Update(Actividad.Model);
                 // Se ha añadido a la base de datos la nueva tarea => Informar a las vistas muestren las tareas para actualizar la lista que muestran.
-                _EventAggregator.GetEvent<NuevaTareaCreadaEvent>().Publish(NuevaTarea);
+                _EventAggregator.GetEvent<NuevaTareaCreadaEvent>().Publish(nuevaTarea);
 
                 // Generar el evento asocioado a la creacion de la nueva tarea.
                 var eventoDeActividad = new Evento()

@@ -342,18 +342,21 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             // Si antes de quitarlo no había más cooperantes disponibles, ahora
             // sí lo habrá así que incluímos el Dummy para poder añadirlo
 
+            Actividad.Cooperantes.Remove(cooperante);
+            CooperantesDisponibles.Add(cooperante);
             // Cuando se esta modificando no esta disponible el dumy.
             // => si quitas el último cooperante no podras meter ninguno nuevo
             // Cuando estas modicicando.
             // Controlamos si se va a quitar el ultimo cooperante para añadir el dumy.
-            if (Actividad.Cooperantes.Count==1) Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
+            if (Actividad.Cooperantes.Count==1)
+                if (Actividad.Cooperantes.All(c => c.Id != 0))
+                    Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
+            //Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
             if (CooperantesDisponibles.Count == 0)
             {
-                Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
+                //Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
             }
 
-            Actividad.Cooperantes.Remove(cooperante);
-            CooperantesDisponibles.Add(cooperante);
         }
 
         private bool OnQuitarCooperanteCommand_CanExecute(CooperanteWrapper cooperante)

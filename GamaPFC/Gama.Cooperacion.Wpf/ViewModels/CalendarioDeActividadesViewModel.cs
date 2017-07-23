@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System;
 using System.Collections.Generic;
+using Gama.Cooperacion.Wpf.Eventos;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             _ActividadRepository = actividadRepository;
             _ActividadRepository.Session = session;
+            _EventAggregator = eventAggregator;
 
             _Actividades = new List<ActividadWrapper>(
                 _ActividadRepository.GetAll().
@@ -39,6 +41,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 counter += 18;
             }
             Actividades = new ObservableCollection<ActividadWrapper>(_Actividades);
+            SeleccionarActividadCommand = new DelegateCommand<ActividadWrapper>(OnSeleccionarActividadCommandExecute);
             ResetearFechasCommand = new DelegateCommand(() =>
             {
                 FechaDeInicio = null;
@@ -48,7 +51,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         public ObservableCollection<ActividadWrapper> Actividades { get; private set; }
         public ICommand ResetearFechasCommand { get; private set; }
-
+        public ICommand SeleccionarActividadCommand { get; private set; }
         public bool _AplicarFiltroDeFecha;
 
         private DateTime? _FechaDeInicio;
@@ -66,10 +69,17 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
 
         private int _Refresh;
+        private EventAggregator _EventAggregator;
+
         public int Refresh
         {
             get { return _Refresh; }
             set { SetProperty(ref _Refresh, value); }
+        }
+
+        private void OnSeleccionarActividadCommandExecute(ActividadWrapper wrapper)
+        {
+            _EventAggregator.GetEvent<ActividadSeleccionadaEvent>().Publish(wrapper.Id);
         }
 
         // Si no, carga todos los elementos. Cada vez que hay algún cambio
@@ -93,6 +103,20 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     .OrderBy(c => c.FechaDeFin));
 
             OnPropertyChanged(nameof(Actividades));
+        }
+
+        public override void OnActualizarServidor()
+        {
+            _Actividades = new List<ActividadWrapper>(
+               _ActividadRepository.GetAll().
+               Select(x => new ActividadWrapper(x)));
+            int counter = 18;
+            foreach (var actividad in _Actividades)
+            {
+                actividad.FechaDeFin = DateTime.Now.AddHours(counter);
+                counter += 18;
+            }
+            Actividades = new ObservableCollection<ActividadWrapper>(_Actividades);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _actividadRepository.Session = session;
             _userConfig = userConfig;
 
-            _actividades = _actividadRepository.GetAll()
+            _actividades = _actividadRepository.GetAll().ToList()
                 .Select(a => new LookupItem
                 {
                     Id = a.Id,
@@ -119,7 +119,20 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             }
         }
 
-        private bool _IsActive;
+        public override void OnActualizarServidor()
+        {
+            _actividades = _actividadRepository.GetAll()
+                  .Select(a => new LookupItem
+                  {
+                      Id = a.Id,
+                      DisplayMember1 = a.Titulo,
+                      DisplayMember2 = a.Descripcion
+                  }).ToList();
+            Actividades = new PaginatedCollectionView(_actividades, 28); // TODO PONER EL QU ES
+            OnPropertyChanged(nameof(Actividades));
+        }
+
+        private bool _IsActive = true;
         public bool IsActive
         {
             get { return _IsActive; }

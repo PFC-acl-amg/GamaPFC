@@ -1,24 +1,17 @@
 ﻿using Core;
-using FluentNHibernate.Infrastructure; // Añadido prueba foro
 using Gama.Common.CustomControls;
 using Gama.Cooperacion.Business;
 using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Services;
 using Gama.Cooperacion.Wpf.Views;
 using Gama.Cooperacion.Wpf.Wrappers;
-using Microsoft.Practices.Unity;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Regions;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 
@@ -376,7 +369,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 if (tarea.HaFinalizado == false)
                 {
                     TareasDisponibles.Add(new TareaWrapper(
-                    new Tarea()
+                    new Business.Tarea()
                     {
                         Id = tarea.Id,
                         Descripcion = LookupItem.ShortenStringForDisplay(tarea.Descripcion, 100),
@@ -389,7 +382,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                     })
                     { SeguimientoVisible = false });
                     TareasDisponiblesAux.Add(new TareaWrapper(
-                    new Tarea()
+                    new Business.Tarea()
                     {
                         Id = tarea.Id,
                         Descripcion = LookupItem.ShortenStringForDisplay(tarea.Descripcion, 100),
@@ -405,7 +398,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 else
                 {
                     TareasFinalizadas.Add(new TareaWrapper(
-                    new Tarea()
+                    new Business.Tarea()
                     {
                         Id = tarea.Id,
                         Descripcion = LookupItem.ShortenStringForDisplay(tarea.Descripcion, 100),
@@ -434,7 +427,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
         private void OnNuevaTareaCreadaEvent(TareaWrapper NuevaTarea)
         {
-            TareasDisponibles.Insert(0, (new TareaWrapper(new Tarea()
+            TareasDisponibles.Insert(0, (new TareaWrapper(new Business.Tarea()
             {
                 Id = NuevaTarea.Id,
                 Descripcion = NuevaTarea.Descripcion,
@@ -446,7 +439,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             })
             { SeguimientoVisible = false }
             ));
-            TareasDisponiblesAux.Insert(0, (new TareaWrapper(new Tarea()
+            TareasDisponiblesAux.Insert(0, (new TareaWrapper(new Business.Tarea()
             {
                 Id = NuevaTarea.Id,
                 Descripcion = NuevaTarea.Descripcion,
@@ -475,7 +468,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             if (TareasDisponibles.Any(a => a.Id == idTarea))
             {
                 var indice = TareasDisponibles.IndexOf(TareasDisponibles.Single(a => a.Id == idTarea));
-                TareasDisponibles.Insert(indice, (new TareaWrapper(new Tarea()
+                TareasDisponibles.Insert(indice, (new TareaWrapper(new Business.Tarea()
                 {
                     Id = tarea.Id,
                     Descripcion = tarea.Descripcion,
@@ -494,7 +487,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         {
             EventoActividad.Insert(0, GenerarEvento);
             Actividad.Model.AddEvento(GenerarEvento);
-            _actividadRepository.Update(Actividad.Model);
+            //_actividadRepository.Update(Actividad.Model);
         }
 
         //-----------------------------------

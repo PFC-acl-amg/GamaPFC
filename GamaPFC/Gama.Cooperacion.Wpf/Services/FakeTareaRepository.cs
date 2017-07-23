@@ -11,26 +11,26 @@ namespace Gama.Cooperacion.Wpf.Services
     public class FakeTareaRepository
     {
         public ISessionFactory _session { get; set; }
-        private List<Tarea> _tarea;
+        private List<Business.Tarea> _tarea;
 
-        public void Create(Tarea entity)
+        public void Create(Business.Tarea entity)
         {
             _tarea.Add(entity);
         }
-        public void Delete(Tarea entity)
+        public void Delete(Business.Tarea entity)
         {
         }
 
-        public List<Tarea> GetAll()
+        public List<Business.Tarea> GetAll()
         {
             if (_tarea != null)
                 return _tarea;
 
-            _tarea = new List<Tarea>();
+            _tarea = new List<Business.Tarea>();
 
             for (int i = 0; i < 5; i++)
             {
-                var tarea = new Tarea()
+                var tarea = new Business.Tarea()
                 {
                     Descripcion = Faker.TextFaker.Sentence(),
                     FechaDeFinalizacion = Faker.DateTimeFaker.DateTime(),

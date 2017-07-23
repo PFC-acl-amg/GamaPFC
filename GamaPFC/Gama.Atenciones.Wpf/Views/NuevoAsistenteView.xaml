@@ -12,6 +12,7 @@
   mc:Ignorable="d"
   Title="Nuevo Asistente"
   d:DesignWidth="550"
+                   Icon="pack://application:,,,/Gama.Common;component/Resources/Images/icono_gama_small.png"
   prism:ViewModelLocator.AutoWireViewModel="True"
   WindowStartupLocation="CenterScreen"
   MaxWidth="550"
