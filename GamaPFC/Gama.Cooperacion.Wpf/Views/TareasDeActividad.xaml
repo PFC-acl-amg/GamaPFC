@@ -274,7 +274,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </StackPanel>
-        <Grid  Width="320" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Background="#DEDADA" Margin="4,4,4,0"  Visibility="{Binding VisibleEventosTarea, 
+        <Grid  Width="330" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Background="#DEDADA" Margin="4,4,4,0"  Visibility="{Binding VisibleEventosTarea, 
                                                 Converter={StaticResource _BooleanToVisivilityConverter}}">
             <Grid Grid.Row="0">
                 <Grid.RowDefinitions>
@@ -310,7 +310,7 @@
                 </Grid>
                 <Grid Grid.Row="1" Visibility="{Binding VisibleFiltroEventoTarea, 
                                                 Converter={StaticResource _BooleanToVisivilityConverter}}">
-                    <GroupBox Grid.Row="1" Grid.Column="1"  Width="320" Height="140"  Header="Opciones">
+                    <GroupBox Grid.Row="1" Grid.Column="1"  Width="320" Height="140" Margin="4"  Header="Opciones">
                         <GroupBox.Style>
                             <Style TargetType="GroupBox"></Style>
                         </GroupBox.Style>
@@ -395,6 +395,7 @@
                     </GroupBox>
                 </Grid>
                 <DataGrid
+                  
                     Margin="{StaticResource Margin}"
                     BorderThickness="1"
                     Grid.Row="2"
@@ -437,7 +438,7 @@
                         </Style>
                     </DataGrid.RowStyle>
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Fecha" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                        <DataGridTemplateColumn Header="Fecha" MinWidth="80" HeaderTemplate="{StaticResource _HeaderTemplate}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Grid.Column="0">
