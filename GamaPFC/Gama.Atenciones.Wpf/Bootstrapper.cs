@@ -41,8 +41,8 @@ namespace Gama.Atenciones.Wpf
 
         public Bootstrapper(string title = "SERVICIO DE ATENCIONES") : base(title)
         {
-            NHibernateSessionFactory._EXECUTE_DDL = true;
-            _CLEAR_DATABASE = true;
+            NHibernateSessionFactory._EXECUTE_DDL = false;
+            _CLEAR_DATABASE = false;
             _SEED_DATABASE = true;
         }
 

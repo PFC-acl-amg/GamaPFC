@@ -1,14 +1,18 @@
 ﻿using Core;
+using Core.DataAccess;
+using Core.Util;
 using Gama.Common.Eventos;
 using Gama.Cooperacion.Business;
 using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Services;
 using Gama.Cooperacion.Wpf.Views;
+using Microsoft.Win32;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,11 +51,16 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             NuevoActividadCommand = new DelegateCommand(OnNuevoActividad);
             NuevoCooperanteCommand = new DelegateCommand(OnNuevoCooperante);
             ExportarCommand = new DelegateCommand(OnExportarCommandExecute);
+
+            HacerBackupCommand = new DelegateCommand(OnMakeBackupCommandExecute);
+            HacerRestoreCommand = new DelegateCommand(OnRestoreBackupCommandExecute);
         }
 
         public ICommand NuevoCooperanteCommand { get; private set; }
         public ICommand NuevoActividadCommand { get; private set; }
         public ICommand ExportarCommand { get; set; }
+        public ICommand HacerBackupCommand { get; private set; }
+        public ICommand HacerRestoreCommand { get; private set; }
 
         private void OnNuevoCooperante()
         {
@@ -88,10 +97,42 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             var _ActSel = _ActividadRepository.GetById(id);
             Actividad = _ActSel;
         }
+
         public void LoadCooperante(int id)
         {
             var _cooperante = _CooperanteRepository.GetById(id);
             Cooperante = _cooperante;
+        }
+
+        private void OnMakeBackupCommandExecute()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            saveFileDialog.FileName = DateTime.Now.ToShortDateString().Replace('/', '-') + " - cooperacion backup.sql";
+            saveFileDialog.Filter = "Sql file (*.sql)|*.sql";
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string connectionString =
+                    ConfigurationManager.ConnectionStrings["GamaCooperacionMySql"].ConnectionString;
+                DBHelper.Backup(connectionString, saveFileDialog.FileName);
+                _EventAggregator.GetEvent<BackupFinalizadoEvent>().Publish();
+            }
+        }
+
+        private void OnRestoreBackupCommandExecute()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            openFileDialog.Filter = "Sql file (*.sql)|*.sql";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string connectionString =
+                    ConfigurationManager.ConnectionStrings["GamaCooperacionMySql"].ConnectionString;
+                DBHelper.Restore(connectionString, openFileDialog.FileName);
+                UIServices.RestartApplication();
+            }
         }
     }
 }

@@ -170,6 +170,7 @@
     <Compile Include="Eventos\ActividadActualizadaEvent.cs" />
     <Compile Include="Eventos\ActividadEliminadaEvent.cs" />
     <Compile Include="Eventos\ActividadSeleccionadaChangedEvent.cs" />
+    <Compile Include="Eventos\BackupFinalizadoEvent.cs" />
     <Compile Include="Eventos\CooperanteModificadoEvent.cs" />
     <Compile Include="Eventos\CooperanteSeleccionadoEvent.cs" />
     <Compile Include="Eventos\Modificar.cs" />
