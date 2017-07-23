@@ -45,6 +45,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
             Views = new ObservableCollection<MetroTabItem>();
             AddView(container.Resolve<ListadoDeActividadesView>(), listadoDeActividadesViewModel);
+            ViewSeleccionada = Views[0];
 
             CloseTabCommand = new DelegateCommand<MetroTabItem>(OnCloseTabCommandExecute);
 
