@@ -141,9 +141,21 @@
         </Grid.ColumnDefinitions>
         <StackPanel Name="VerOpcionesActividades" Grid.Row="0" Grid.ColumnSpan="2" Background="White" HorizontalAlignment="Center" 
                     ToolTip="Mostrar/Ocultar Ociones">
-            <Rectangle Width="300" Height="2" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="2" />
-            <Rectangle Width="300" Height="2" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="2" />
-            <Rectangle Width="300" Height="2" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="2"/>
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <Rectangle Width="300" Height="2" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="0,4,0,0" />
+            <Rectangle Width="300" Height="2" Fill="White" Stroke="White" StrokeThickness="1" Margin="0" />
+            <Rectangle Width="300" Height="2" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="0" />
+            <Rectangle Width="300" Height="2" Fill="White" Stroke="White" StrokeThickness="1" Margin="0" />
+            <Rectangle Width="300" Height="2" Fill="Black" Stroke="Black" StrokeThickness="1" Margin="0"/>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseLeftButtonDown">
                     <prism:InvokeCommandAction Command="{Binding VerFiltroCommand}"/>
