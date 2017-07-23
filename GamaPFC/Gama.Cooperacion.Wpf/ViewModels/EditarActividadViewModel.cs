@@ -132,7 +132,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             if (_InformacionDeActividadViewModel.CooperantesDisponibles.Count > 0
                 && Actividad.Cooperantes.Where(c => c.Nombre == "").ToList().Count == 0)
             {
-                Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
+                if (Actividad.Cooperantes.All(c => c.Id != 0))
+                    Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
+                //Actividad.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
             }
             _InformacionDeActividadViewModel.Actividad.AcceptChanges();
         }

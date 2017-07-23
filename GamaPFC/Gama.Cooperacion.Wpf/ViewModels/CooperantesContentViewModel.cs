@@ -106,6 +106,8 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 ActividadesCoopera.Insert(0, actividadActualizada);
 
             }
+
+            RefrescarVista();
         }
         private void OnActividadEliminadaEvent(Actividad obj)
         {
@@ -121,7 +123,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
         private void OnCooperanteCreadoEvent(CooperanteWrapper param)
         {
+            param.AcceptChanges();
             Cooperantes.Insert(0, param);
+            CooperanteSeleccionado = param;
         }
 
         //--------------------------------

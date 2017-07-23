@@ -396,7 +396,7 @@ namespace Gama.Cooperacion.Wpf
                                 {
                                     if (reader.Read())
                                     {
-                                        cooperanteSinImagen.Foto = Core.Encryption.Cipher.Decrypt((reader["Foto"] as byte[]));
+                                        cooperanteSinImagen.Foto = (reader["Foto"] as byte[]);
                                         if (cooperanteSinImagen.Foto != null)
                                         {
                                             using (Image image = Image.FromStream(new MemoryStream(cooperanteSinImagen.Foto)))
@@ -427,7 +427,7 @@ namespace Gama.Cooperacion.Wpf
                                     {
                                         if (reader.Read())
                                         {
-                                            cooperanteSinImagen.Foto = Core.Encryption.Cipher.Decrypt((reader["Foto"] as byte[]));
+                                            cooperanteSinImagen.Foto = (reader["Foto"] as byte[]);
                                             if (cooperanteSinImagen.Foto != null)
                                             {
                                                 using (Image image = Image.FromStream(new MemoryStream(cooperanteSinImagen.Foto)))

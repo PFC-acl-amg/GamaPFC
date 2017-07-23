@@ -74,7 +74,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             // Si la actividad no tenia cooperantes colocamos el dumy para poder añadir cooperantes a la actividad
             // El dumy hay que colocarlo siempre para poder añadir nuevos cooperantes
             /*if (actividad.Cooperantes.Count == 0)*/
-            wrapper.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
+
+            if (wrapper.Cooperantes.All(c => c.Id != 0))
+                wrapper.Cooperantes.Add(new CooperanteWrapper(new Cooperante()));
+
             _ModificarActividad = 1;
             _ActividadVM.Load(wrapper);
             _ActividadVM.Actividad.IsInEditionMode = true;  // Edicion a tru para poder modificar
@@ -159,6 +162,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnCancelarCommand()
         {
+            Actividad.RejectChanges();
             Cerrar = true;
         }
     }
