@@ -100,6 +100,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
             _EventAggregator.GetEvent<PersonaCreadaEvent>().Subscribe((id) => EstadoSinActualizar());
             _EventAggregator.GetEvent<PersonaActualizadaEvent>().Subscribe((id) => EstadoSinActualizar());
             _EventAggregator.GetEvent<PersonaEliminadaEvent>().Subscribe((id) => EstadoSinActualizar());
+            _EventAggregator.GetEvent<AtencionCreadaEvent>().Subscribe((id) => EstadoSinActualizar());
+            _EventAggregator.GetEvent<AtencionActualizadaEvent>().Subscribe((id) => EstadoSinActualizar());
 
             RefrescarCommand = new DelegateCommand(() => Refresh(), () => HayCambios);
             FiltrarCommand = new DelegateCommand(() => Filtrar());
