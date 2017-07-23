@@ -11,7 +11,7 @@
              xmlns:coreControls="clr-namespace:Core.Controls;assembly=Core"
              xmlns:cc="clr-namespace:Gama.Common.CustomControls;assembly=Gama.Common"
              xmlns:behaviors="clr-namespace:Gama.Common.Resources.Behaviors;assembly=Gama.Common"
-             prism:ViewModelLocator.AutoWireViewModel="True"
+             prism:ViewModelLocator.AutoWireViewModel="False"
              mc:Ignorable="d" 
              d:DesignHeight="837.457" d:DesignWidth="882.692">
   <d:DataContext>

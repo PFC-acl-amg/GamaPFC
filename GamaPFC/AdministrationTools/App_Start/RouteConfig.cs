@@ -18,6 +18,12 @@ namespace AdministrationTools
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Personas", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                "Home",
+                "",
+                new { action = "Index", controller = "Personas", id = UrlParameter.Optional }
+            );
         }
     }
 }

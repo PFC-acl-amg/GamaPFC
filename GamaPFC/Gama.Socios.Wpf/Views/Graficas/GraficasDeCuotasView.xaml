@@ -10,9 +10,10 @@
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition />
+      <RowDefinition />
     </Grid.RowDefinitions>
   
-    <charts:ClusteredColumnChart Grid.Row="1"
+    <charts:ClusteredColumnChart Grid.Row="0"
                 Margin="{StaticResource Margin}"
                 Grid.Column="1"
                 ChartTitle="Cuotas por rango de edad"
@@ -63,6 +64,60 @@
             DisplayMember="Title"
             ValueMember="Value"
             ItemsSource="{Binding Path=ValoresDeCuotas}" />
+      </charts:ClusteredColumnChart.Series>
+    </charts:ClusteredColumnChart>
+    
+    <charts:ClusteredColumnChart Grid.Row="1"
+                Margin="{StaticResource Margin}"
+                Grid.Column="1"
+                ChartTitle="Cuotas por mes"
+                ChartSubTitle="€ en cuotas pagadas por mes del presente año" >
+      <charts:ClusteredColumnChart.Palette>
+        <charts:ResourceDictionaryCollection>
+          <ResourceDictionary>
+            <SolidColorBrush x:Key="Brush1" Color="#FFFF2900" />
+          </ResourceDictionary>
+          <ResourceDictionary>
+            <SolidColorBrush x:Key="Brush2" Color="#FF901700" />
+          </ResourceDictionary>
+          <ResourceDictionary>
+            <SolidColorBrush x:Key="Brush3" Color="#FF1D97E3" />
+          </ResourceDictionary>
+          <ResourceDictionary>
+            <SolidColorBrush x:Key="Brush4" Color="#FF025D95" />
+          </ResourceDictionary>
+          <ResourceDictionary>
+            <SolidColorBrush x:Key="Brush5" Color="#FF66D149" />
+          </ResourceDictionary>
+          <ResourceDictionary>
+            <SolidColorBrush x:Key="Brush6" Color="#FF209500" />
+          </ResourceDictionary>
+          <ResourceDictionary>
+            <SolidColorBrush x:Key="Brush7" Color="#FF8E39F1" />
+          </ResourceDictionary>
+          <ResourceDictionary>
+            <SolidColorBrush x:Key="Brush8" Color="#FF360075" />
+          </ResourceDictionary>
+          <ResourceDictionary>
+            <SolidColorBrush x:Key="Brush9" Color="#FFF76E00" />
+          </ResourceDictionary>
+          <ResourceDictionary>
+            <SolidColorBrush x:Key="Brush10" Color="#FFC34B00" />
+          </ResourceDictionary>
+          <ResourceDictionary>
+            <SolidColorBrush x:Key="Brush11" Color="#FFEF3DDC" />
+          </ResourceDictionary>
+          <ResourceDictionary>
+            <SolidColorBrush x:Key="Brush12" Color="#FF88007A" />
+          </ResourceDictionary>
+        </charts:ResourceDictionaryCollection>
+      </charts:ClusteredColumnChart.Palette>
+      <charts:ClusteredColumnChart.Series>
+        <charts:ChartSeries
+            SeriesTitle="Meses"
+            DisplayMember="Title"
+            ValueMember="Value"
+            ItemsSource="{Binding Path=ValoresDeMeses}" />
       </charts:ClusteredColumnChart.Series>
     </charts:ClusteredColumnChart>
   </Grid>
