@@ -198,6 +198,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             _InformacionDeActividadViewModel.Actividad.IsInEditionMode =
                 _Preferencias.General_EdicionHabilitadaPorDefecto;
             _TareasDeActividadViewModel.LoadActividad(wrapper);
+            _TareasDeActividadViewModel.OnActualizarServidor();
 
             RefrescarTitulo(Actividad.Titulo);
             InvalidateCommands();

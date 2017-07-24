@@ -221,14 +221,27 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 }
             }
         }
+
+        public override void OnActualizarServidor()
+        {
+            if (_MensajeForoView != null)
+            {
+                var vm = (MensajesForoViewModel)_MensajeForoView.DataContext;
+                vm.OnActualizarServidor();
+            }
+        }
+
+        MensajesForoView _MensajeForoView; 
+
         private void OnMensajeForoCommand(object wrapper)
         {
-            var o = new MensajesForoView();
-            var vm = (MensajesForoViewModel)o.DataContext;
+            _MensajeForoView = new MensajesForoView();
+            var vm = (MensajesForoViewModel)_MensajeForoView.DataContext;
             vm.Session = _Session;         
             vm.LoadActividad(Actividad);   
             vm.LoadForo(((ForoWrapper)wrapper));
-            o.ShowDialog();
+            _MensajeForoView.ShowDialog();
+            _MensajeForoView = null;
         }
         private void OnEditarTareaCommand(object wrapper)
         {

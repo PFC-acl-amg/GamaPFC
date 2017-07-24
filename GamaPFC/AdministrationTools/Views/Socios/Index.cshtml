@@ -12,16 +12,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.IsEncrypted)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model._SavedNif)
+            @Html.DisplayNameFor(model => model.Nombre)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DireccionPostal)
@@ -45,9 +36,6 @@
             @Html.DisplayNameFor(model => model.Nif)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Telefono)
         </th>
         <th>
@@ -57,24 +45,17 @@
             @Html.DisplayNameFor(model => model.EstaDadoDeAlta)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ImagenUpdatedAt)
+            @Html.DisplayNameFor(model => model.CreatedAt)
         </th>
-        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedAt)
+        </th>
     </tr> 
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.IsEncrypted)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedAt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UpdatedAt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item._SavedNif)
+            @Html.DisplayFor(modelItem => item.Nombre)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DireccionPostal)
@@ -98,9 +79,6 @@
             @Html.DisplayFor(modelItem => item.Nif)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Telefono)
         </td>
         <td>
@@ -110,12 +88,10 @@
             @Html.DisplayFor(modelItem => item.EstaDadoDeAlta)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ImagenUpdatedAt)
+            @Html.DisplayFor(modelItem => item.CreatedAt)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.DisplayFor(modelItem => item.UpdatedAt)
         </td>
     </tr>
 }

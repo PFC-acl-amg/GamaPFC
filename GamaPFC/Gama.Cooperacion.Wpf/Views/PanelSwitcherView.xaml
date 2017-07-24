@@ -116,7 +116,7 @@
                 </controls:Tile.Style>
             </controls:Tile>
             <!-- Gráficas -->
-            <controls:Tile 
+            <!--<controls:Tile 
                 Title="Gráficas"
                 Command="{Binding NavigateCommand}"
                 CommandParameter="GraficasContentView">
@@ -133,7 +133,7 @@
                         </Style.Triggers>
                     </Style>
                 </controls:Tile.Style>
-            </controls:Tile>
+            </controls:Tile>-->
         </StackPanel>
     </Grid>
 </UserControl>

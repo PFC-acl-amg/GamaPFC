@@ -13,7 +13,7 @@
 <table class="table">
     <tr>
         <th> @Html.DisplayNameFor(model => model.Id) </th>
-        <th> @Html.DisplayNameFor(model => model.Imagen) </th>
+        @*<th> @Html.DisplayNameFor(model => model.Imagen) </th>*@
         <th> @Html.DisplayNameFor(model => model.Nombre) </th>
         <th> @Html.DisplayNameFor(model => model.Nif) </th>
         <th> @Html.DisplayNameFor(model => model.Email)</th>
@@ -41,13 +41,13 @@
         <tr>
             <td>@Html.DisplayFor(modelItem => item.Id)</td>
 
-            <td>
+            @*<td>
                 @{
                     var base64 = Convert.ToBase64String(item.Imagen);
                     var imgSrc = String.Format("data:image;base64,{0}", base64);
                 }
                 <img src="@imgSrc" width="80" height="80" />
-            </td>
+            </td>*@
 
             <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
             <td>@Html.DisplayFor(modelItem => item.Nif)</td>

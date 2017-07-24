@@ -46,6 +46,7 @@ namespace Gama.Socios.Wpf.ViewModels
 
             InicializarSocios();
             InicializarCuotas();
+            InicializarMeses();
         }
 
         public ICommand RefrescarCommand { get; private set; }
@@ -90,6 +91,7 @@ namespace Gama.Socios.Wpf.ViewModels
         {
             InicializarSocios();
             InicializarCuotas();
+            InicializarMeses();
 
             HayCambios = false;
             ((DelegateCommand)RefrescarCommand).RaiseCanExecuteChanged();
@@ -97,6 +99,7 @@ namespace Gama.Socios.Wpf.ViewModels
 
         public ObservableCollection<ChartItem> ValoresDeSocios { get; private set; }
         public ObservableCollection<ChartItem> ValoresDeCuotas { get; private set; }
+        public ObservableCollection<ChartItem> ValoresDeMeses { get; private set; }
 
         private int _From0To25;
         private int _From26To40;
@@ -173,6 +176,39 @@ namespace Gama.Socios.Wpf.ViewModels
             ValoresDeCuotas.Add(NewChartItem("66", "66 o más", valor));
 
             OnPropertyChanged(nameof(ValoresDeCuotas));
+        }
+
+        private void InicializarMeses()
+        {
+            ValoresDeMeses = new ObservableCollection<ChartItem>();
+
+            var socios = new List<Socio>(_Socios);
+            int valor = 0;
+
+            string[] meses = new string[12]
+            {
+                "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre",
+                "Octubre", "Noviembre", "Diciembre"
+            };
+
+            var periodosDeAlta = _Socios.SelectMany(x => x.PeriodosDeAlta);
+            var cuotas = periodosDeAlta.SelectMany(x => x.Cuotas)
+                .Where(c => c.Fecha.Year == DateTime.Now.Year && c.Fecha.Month == 1)
+                .ToList();
+            cuotas.ForEach(c => valor += (int)c.CantidadPagada);
+            ValoresDeMeses.Add(NewChartItem("Enero", "Enero", valor));
+
+            for (int i = 1; i <= 11; i++)
+            {
+                valor = 0;
+                cuotas = periodosDeAlta.SelectMany(x => x.Cuotas)
+                    .Where(c => c.Fecha.Year == DateTime.Now.Year && c.Fecha.Month == i + 1)
+                    .ToList();
+                cuotas.ForEach(c => valor += (int)c.CantidadPagada);
+                ValoresDeMeses.Add(NewChartItem(meses[i], meses[i], valor));
+            }
+
+            OnPropertyChanged(nameof(ValoresDeMeses));
         }
     }
 }

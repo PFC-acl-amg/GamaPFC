@@ -114,7 +114,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             var eventoDeActividad = new Evento()
             {
                 FechaDePublicacion = DateTime.Now,
-                Titulo = TituloForo,
+                Titulo = NuevoForo.Titulo,
                 Ocurrencia = Ocurrencia.FORO_CREADO.ToString(),
             };
             _EventAggregator.GetEvent<PublicarEventosActividad>().Publish(eventoDeActividad);
