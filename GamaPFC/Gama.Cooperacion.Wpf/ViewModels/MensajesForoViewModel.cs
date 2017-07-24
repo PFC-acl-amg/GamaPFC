@@ -1,4 +1,5 @@
 ﻿using Core;
+using Gama.Common.Eventos;
 using Gama.Cooperacion.Business;
 using Gama.Cooperacion.Wpf.Eventos;
 using Gama.Cooperacion.Wpf.Services;
@@ -42,11 +43,21 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             TareasDisponibles = new ObservableCollection<TareaWrapper>();
             TareasFinalizadas = new ObservableCollection<TareaWrapper>();
 
+
             AceptarMensajeCommand = new DelegateCommand(OnAceptarMensajeCommand_Execute,
                 OnAceptarMensajeCommand_CanExecute);
             CancelarIncidenciaCommand = new DelegateCommand(OnCancelarIncidenciaCommand_Execute);
             //AceptarSeguimientoCommand = new DelegateCommand(OnAceptarSeguimientoCommand_Execute,OnAceptarSeguimientoCommand_CanExecute);
         }
+
+        public override void OnActualizarServidor()
+        {
+            var actividadActualizada = _ActividadRepository.GetById(Actividad.Id);
+            int idSeleccionado = ForoSeleccionado.Id;
+            var foro = actividadActualizada.Foros.Where(x => x.Id == idSeleccionado).First();
+            ForoSeleccionado = new ForoWrapper(foro);
+        }
+
         /// <summary>
         /// Zona Entidades y Contenedores
         /// </summary>

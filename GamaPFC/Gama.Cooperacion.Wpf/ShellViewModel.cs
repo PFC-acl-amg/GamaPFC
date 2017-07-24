@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.DataAccess;
 using Gama.Common;
 using Gama.Common.Communication;
 using Gama.Common.Debug;
@@ -571,7 +572,33 @@ namespace Gama.Cooperacion.Wpf
 
         public void OnCloseApplication()
         {
-            //throw new NotImplementedException();
+            try
+            {
+                if (CooperacionResources.ClientService != null)
+                    CooperacionResources.ClientService.Desconectar();
+
+                var preferencias = _Preferencias;
+                if (preferencias.DoBackupOnClose)
+                {
+                    string connectionString =
+                        ConfigurationManager.ConnectionStrings["GamaCooperacionMySql"].ConnectionString;
+                    DBHelper.Backup(
+                        connectionString: connectionString,
+                        fileName: preferencias.AutomaticBackupPath + DateTime.Now.ToString().Replace('/', '-').Replace(':', '-') + " - cooperación backup.sql");
+
+                    DirectoryInfo directory = new DirectoryInfo(preferencias.AutomaticBackupPath);
+
+                    if (preferencias.BackupDeleteDateLimit.HasValue)
+                        foreach (FileInfo fileInfo in directory.GetFiles())
+                            if (fileInfo.CreationTime < preferencias.BackupDeleteDateLimit.Value
+                                && fileInfo.CreationTime < DateTime.Now.Date) // Para no borrar el que acabamos de poner
+                                fileInfo.Delete();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         private void OnActiveViewChangedEvent(string viewName)
