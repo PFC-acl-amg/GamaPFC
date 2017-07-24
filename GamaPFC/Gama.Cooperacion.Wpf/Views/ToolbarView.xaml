@@ -44,7 +44,7 @@
             ToolTip="Nuevo Cooperante"/>
         <cc:CircleIconButton 
             Command="{Binding ExportarCommand}"
-            Icon="{StaticResource appbar_archive}" 
+            Icon="{StaticResource appbar_office_word}" 
             ToolTip="Exportar..."/>
         <cc:CircleIconButton 
             Command="{Binding HacerBackupCommand}"
