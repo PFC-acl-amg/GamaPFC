@@ -18,8 +18,6 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         private bool? _Cerrar; // Debe ser nulo al inicializarse el VM o hay excepciones por DialogCloser
         private IActividadRepository _ActividadRepository;
         private IEventAggregator _EventAggregator;
-        private string _DescripcionNuevaTarea;
-        private CooperanteWrapper _ResponsableTarea;
         private TareaWrapper _NuevaTarea;
         private DateTime? _FechaFinTarea;
         private int _ModificarTarea;
@@ -85,21 +83,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             get { return _Cerrar; }
             set { SetProperty(ref _Cerrar, value); }
         }
-        public string DescripcionNuevaTarea
-        {
-            get { return _DescripcionNuevaTarea; }
-            set { SetProperty(ref _DescripcionNuevaTarea, value); }
-        }
 
-        public CooperanteWrapper ResponsableTarea
-        {
-            get { return _ResponsableTarea; }
-            set
-            {
-                ((DelegateCommand)AñadirCooperantesComboBox).RaiseCanExecuteChanged();
-                SetProperty(ref _ResponsableTarea, value);
-            }
-        }
         public DateTime? FechaFinTarea
         {
             get { return _FechaFinTarea; }
@@ -163,9 +147,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         public void LoadTarea(TareaWrapper tarea) // Esto es necesario para cuando edito una tarea que tengo que pasar la informacion de la tarea
         {
             NuevaTarea = tarea;
-            DescripcionNuevaTarea = tarea.Descripcion;
-            ResponsableTarea = tarea.Responsable;
-            FechaFinTarea = tarea.FechaDeFinalizacion;
+            //DescripcionNuevaTarea = tarea.Descripcion;
+            //ResponsableTarea = tarea.Responsable;
+            //FechaFinTarea = tarea.FechaDeFinalizacion;
             _ModificarTarea = 1;
             _TareaID = tarea.Id;
         }
@@ -211,7 +195,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 var eventoDeActividad = new Evento()
                 {
                     FechaDePublicacion = DateTime.Now,
-                    Titulo = DescripcionNuevaTarea,
+                    Titulo = nuevaTarea.Descripcion,
                     Ocurrencia = Ocurrencia.NUEVA_TAREA_PUBLICADA.ToString(),
                 };
                 _EventAggregator.GetEvent<PublicarEventosActividad>().Publish(eventoDeActividad);
@@ -219,10 +203,10 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             }
             else
             {
-                Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().Descripcion = DescripcionNuevaTarea;
-                Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().FechaDeFinalizacion = FechaFinTarea;
+                Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().Descripcion = NuevaTarea.Descripcion;
+                Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().FechaDeFinalizacion = NuevaTarea.FechaDeFinalizacion;
                 Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().Responsable = new CooperanteWrapper(new Cooperante());
-                Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().Responsable = ResponsableTarea;
+                Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().Responsable =  NuevaTarea.Responsable;
 
                 Actividad.UpdatedAt = DateTime.Now;
                 _ActividadRepository.Update(Actividad.Model);
@@ -240,6 +224,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
         private void OnCancelarCommand_Execute()
         {
+            NuevaTarea.RejectChanges();
             Actividad.RejectChanges();
             Cerrar = true;
         }

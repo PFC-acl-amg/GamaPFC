@@ -188,7 +188,7 @@ namespace Gama.Atenciones.Wpf.ViewModels
         {
             Cita cita = _CitaRepository.GetById(citaId);
 
-            Cita citaDesactualizada = Citas.Select(x => x.Model).First(x => x.Id == citaId);
+            Cita citaDesactualizada = _Citas.Select(x => x.Model).First(x => x.Id == citaId);
             citaDesactualizada.CopyValuesFrom(cita);
             OnPropertyChanged(nameof(Citas));
             Refresh++;

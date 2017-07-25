@@ -43,7 +43,7 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
           </Grid.ColumnDefinitions>
-          <Label VerticalAlignment="Center" Margin="{StaticResource Margin}">
+          <Label VerticalAlignment="Center" Margin="{StaticResource Margin}" Visibility="Collapsed">
             <Hyperlink 
             Command="{Binding EliminarActividadCommand}"
             Foreground="DarkRed">Eliminar actividad</Hyperlink>

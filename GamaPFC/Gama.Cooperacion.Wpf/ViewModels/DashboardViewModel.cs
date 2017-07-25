@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Util;
 using Gama.Common;
 using Gama.Common.CustomControls;
 using Gama.Cooperacion.Business;
@@ -238,8 +239,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
 
         private void OnBorrarActividadCommandExecute(Actividad actividad)
         {
+            UIServices.SetBusyState();
             _actividadRepository.Delete(actividad);
-            _eventAggregator.GetEvent<ActividadEliminadaEvent>().Publish(actividad);
+            //_eventAggregator.GetEvent<ActividadEliminadaEvent>().Publish(actividad);
 
         }
 

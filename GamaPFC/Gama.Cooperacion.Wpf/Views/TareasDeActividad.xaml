@@ -777,7 +777,7 @@
                                        Width="80"
                                        VerticalAlignment="Center"
                                        FontSize="14"
-                                       Text="{Binding FechaDeFinalizacion, StringFormat=d}"
+                                       Text="{Binding FechaDeFinalizacion, StringFormat=d, UpdateSourceTrigger=PropertyChanged}"
                                        Padding="{StaticResource Margin}"
                                        Margin="{StaticResource Margin}"/>
                                 </DataTemplate>
@@ -915,7 +915,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Creado" HeaderTemplate="{StaticResource _HeaderTemplate}">
+                        <DataGridTemplateColumn MinWidth="80" Header="Creado" HeaderTemplate="{StaticResource _HeaderTemplate}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock HorizontalAlignment="Center"

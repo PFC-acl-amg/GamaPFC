@@ -106,7 +106,7 @@ namespace Gama.Atenciones.Business
                             result = difference.Year;
                     } catch (ArgumentOutOfRangeException)
                     {
-                        throw;
+                        result = null;
                     }
                 }
                 else
