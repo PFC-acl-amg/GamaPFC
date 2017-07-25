@@ -60,7 +60,7 @@ namespace Gama.Socios.Wpf.Services
                 }
             }
             //Fin Calculo contable-----------
-            var destinyPath = GeneratePath(fileName);
+            var destinyPath = fileName; //GeneratePath(fileName);
             DocX document = DocX.Create(destinyPath);
 
             string curFile = destinyPath;
@@ -260,9 +260,9 @@ namespace Gama.Socios.Wpf.Services
                 return _DesktopPath + String.Format(@"\{0}", fileName);
         }
 
-        public void ExportarSocios(List<Socio> socios)
+        public void ExportarSocios(List<Socio> socios, string fileName)
         {
-            var destinyPath = GeneratePath("ListaSocios");
+            var destinyPath = fileName; //GeneratePath(fileName);
             DocX document = DocX.Create(destinyPath);
             string curFile = destinyPath;
             bool isFileInUse;

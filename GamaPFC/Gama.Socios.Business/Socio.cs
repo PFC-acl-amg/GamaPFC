@@ -154,7 +154,7 @@ namespace Gama.Socios.Business
                     }
                     catch (ArgumentOutOfRangeException)
                     {
-                        throw;
+                        result = null;
                     }
                 }
                 else

@@ -18,9 +18,9 @@
       <Button Content="Cambiar de Módulo" Cursor="Hand"
               Margin="{StaticResource Margin}"
             Command="{Binding VolverASeleccionDeModuloCommand}"/>
-      <Button Content="Preferencias" Cursor="Hand"
+      <!--<Button Content="Preferencias" Cursor="Hand"
               Margin="{StaticResource Margin}"
-            Command="{Binding AbrirPreferenciasCommand}"/>
+            Command="{Binding AbrirPreferenciasCommand}"/>-->
     </StackPanel>
   </Grid>
 </UserControl>

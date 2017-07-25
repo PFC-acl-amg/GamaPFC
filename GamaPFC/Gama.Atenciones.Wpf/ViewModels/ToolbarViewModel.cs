@@ -196,10 +196,8 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     _ExportService.ExportarAsistente(_Asistente.Model, saveFileDialog.FileName);
                 }
             }
-            else
+            else if (VistaCargada == "CitasContentView")
             {
-                if (VistaCargada == "CitasContentView")
-                {
                     // Exportar la lista completa de cooperantes
                     var ListaCitas = _CitaRepository.GetAll(); SaveFileDialog saveFileDialog = new SaveFileDialog();
                     saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -210,18 +208,17 @@ namespace Gama.Atenciones.Wpf.ViewModels
                     {
                         _ExportService.ExportarTodasCitas(ListaCitas, saveFileDialog.FileName);
                     }
-                }
-                else if (VistaCargada== "PersonasContentView")
-                {// Exportar persona seleccionada
-                    var ListaCitas = _CitaRepository.GetAll(); SaveFileDialog saveFileDialog = new SaveFileDialog();
-                    saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                    saveFileDialog.FileName = DateTime.Now.ToShortDateString().Replace('/', '-') + " - " + _Persona.Nombre + ".docx";
-                    saveFileDialog.Filter = "Microsoft Word (*.docx)|*.docx";
+             }
+            else if (VistaCargada== "PersonasContentView")
+            {// Exportar persona seleccionada
+                var ListaCitas = _CitaRepository.GetAll(); SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                saveFileDialog.FileName = DateTime.Now.ToShortDateString().Replace('/', '-') + " - " + _Persona.Nombre + ".docx";
+                saveFileDialog.Filter = "Microsoft Word (*.docx)|*.docx";
 
-                    if (saveFileDialog.ShowDialog() == true)
-                    {
-                        _ExportService.ExportarInfoPersona(_Persona, saveFileDialog.FileName);
-                    }
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    _ExportService.ExportarInfoPersona(_Persona, saveFileDialog.FileName);
                 }
             }
         }

@@ -13,6 +13,7 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,10 +69,43 @@ namespace Gama.Socios.Wpf.ViewModels
         {
             if (VistaCargada != "SociosContentView")
             {
-                var ListaSocios = _SocioRepository.GetAll();
-                _ExportService.ExportarSocios(ListaSocios);
+                var ListaSocios = _SocioRepository.GetAll(); SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                saveFileDialog.FileName = Path.Combine(DateTime.Now.ToShortDateString().Replace('/', '-') + " - " + "Listado de socios"+ ".docx");
+                saveFileDialog.Filter = "Microsoft Word (*.docx)|*.docx";
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    _ExportService.ExportarSocios(ListaSocios, saveFileDialog.FileName);
+                }
             }
-            else _ExportService.ExportarSocio(Socio, Socio.Nombre);
+
+            else
+            {
+                if (Socio == null)
+                {
+                    var ListaSocios = _SocioRepository.GetAll();
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                    sfd.FileName = Path.Combine(DateTime.Now.ToShortDateString().Replace('/', '-') + " - " + "Listado de socios" + ".docx");
+                    sfd.Filter = "Microsoft Word (*.docx)|*.docx";
+
+                    if (sfd.ShowDialog() == true)
+                    {
+                        _ExportService.ExportarSocios(ListaSocios, sfd.FileName);
+                    }
+                }
+
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                saveFileDialog.FileName = Path.Combine(DateTime.Now.ToShortDateString().Replace('/', '-') + " - " + Socio.Nombre + ".docx");
+                saveFileDialog.Filter = "Microsoft Word (*.docx)|*.docx";
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    _ExportService.ExportarSocio(Socio, saveFileDialog.FileName);
+                }
+            }
         }
         private void OnHacerBackupCommand()
         {
