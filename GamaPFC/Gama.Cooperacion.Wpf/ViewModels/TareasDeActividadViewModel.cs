@@ -477,24 +477,24 @@ namespace Gama.Cooperacion.Wpf.ViewModels
         }
         private void OnTareaModificadaEvent(int idTarea)
         {
-            var tarea = _TareaRepository.GetById(idTarea);
-            if (TareasDisponibles.Any(a => a.Id == idTarea))
-            {
-                var indice = TareasDisponibles.IndexOf(TareasDisponibles.Single(a => a.Id == idTarea));
-                TareasDisponibles.Insert(indice, (new TareaWrapper(new Business.Tarea()
-                {
-                    Id = tarea.Id,
-                    Descripcion = tarea.Descripcion,
-                    FechaDeFinalizacion = tarea.FechaDeFinalizacion,
-                    HaFinalizado = tarea.HaFinalizado,
-                    Responsable = tarea.Responsable,
-                    Seguimiento = tarea.Seguimiento,
-                    Incidencias = tarea.Incidencias
-                })
-                { SeguimientoVisible = false }
-            ));
-                TareasDisponibles.RemoveAt(indice + 1);
-            }
+            //var tarea = _TareaRepository.GetById(idTarea);
+            //if (TareasDisponibles.Any(a => a.Id == idTarea))
+            //{
+            //    var indice = TareasDisponibles.IndexOf(TareasDisponibles.Single(a => a.Id == idTarea));
+            //    TareasDisponibles.Insert(indice, (new TareaWrapper(new Business.Tarea()
+            //    {
+            //        Id = tarea.Id,
+            //        Descripcion = tarea.Descripcion,
+            //        FechaDeFinalizacion = tarea.FechaDeFinalizacion,
+            //        HaFinalizado = tarea.HaFinalizado,
+            //        Responsable = tarea.Responsable,
+            //        Seguimiento = tarea.Seguimiento,
+            //        Incidencias = tarea.Incidencias
+            //    })
+            //    { SeguimientoVisible = false }
+            //));
+            //    TareasDisponibles.RemoveAt(indice + 1);
+            //}
         }
         private void OnPublicarEventosActividad(Evento GenerarEvento)
         {

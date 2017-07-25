@@ -116,19 +116,26 @@ namespace Gama.Socios.Business
         {
             get
             {
-                string result;
-
-                if (FechaDeNacimiento != null)
+                try
                 {
-                    var difference = new DateTime(DateTime.Now.Ticks - FechaDeNacimiento.Value.Ticks);
-                    result = difference.Year.ToString() + " años";
-                }
-                else
-                {
-                    result = "Edad no proporcionada";
-                }
+                    string result;
 
-                return result;
+                    if (FechaDeNacimiento != null)
+                    {
+                        var difference = new DateTime(DateTime.Now.Ticks - FechaDeNacimiento.Value.Ticks);
+                        result = difference.Year.ToString() + " años";
+                    }
+                    else
+                    {
+                        result = "Edad no proporcionada";
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    return "0";
+                }
             }
         }
 
@@ -152,7 +159,7 @@ namespace Gama.Socios.Business
                         else
                             result = difference.Year;
                     }
-                    catch (ArgumentOutOfRangeException)
+                    catch (Exception)
                     {
                         result = null;
                     }

@@ -6,6 +6,7 @@ using Gama.Socios.Wpf.Eventos;
 using Gama.Socios.Wpf.Services;
 using Gama.Socios.Wpf.Views;
 using LiveCharts;
+using Microsoft.Win32;
 using NHibernate;
 using Prism.Commands;
 using Prism.Events;
@@ -266,7 +267,16 @@ namespace Gama.Socios.Wpf.ViewModels
             List<LookupItem> ListaFiltrada;
             ListaFiltrada = new List<LookupItem>();
             foreach (var item in Socios) ListaFiltrada.Add(item);
-            _ExportService.ExportarListaFiltrada(ListaFiltrada);
+            // Exportar la lista completa de cooperantes
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            saveFileDialog.FileName = DateTime.Now.ToShortDateString().Replace('/', '-') + " - " + "Lisado filtrado de socios" + ".docx";
+            saveFileDialog.Filter = "Microsoft Word (*.docx)|*.docx";
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                _ExportService.ExportarListaFiltrada(ListaFiltrada, saveFileDialog.FileName);
+            }
         }
         private void OnFiltroContableCommand()
         {

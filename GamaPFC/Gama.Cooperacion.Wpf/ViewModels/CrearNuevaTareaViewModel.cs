@@ -203,11 +203,11 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             }
             else
             {
-                Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().Descripcion = NuevaTarea.Descripcion;
-                Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().FechaDeFinalizacion = NuevaTarea.FechaDeFinalizacion;
-                Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().Responsable = new CooperanteWrapper(new Cooperante());
-                Actividad.Tareas.Where(ident => ident.Id == _TareaID).First().Responsable =  NuevaTarea.Responsable;
-
+                var tarea = Actividad.Tareas.Where(ident => ident.Id == _TareaID).First();
+                tarea.Descripcion = NuevaTarea.Descripcion;
+                tarea.FechaDeFinalizacion = NuevaTarea.FechaDeFinalizacion;
+                tarea.Responsable =  NuevaTarea.Responsable;
+                tarea.AcceptChanges();
                 Actividad.UpdatedAt = DateTime.Now;
                 _ActividadRepository.Update(Actividad.Model);
                 Actividad.AcceptChanges();

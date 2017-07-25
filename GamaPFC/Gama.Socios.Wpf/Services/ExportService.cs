@@ -377,9 +377,9 @@ namespace Gama.Socios.Wpf.Services
 
         }
 
-        public void ExportarListaFiltrada (List<LookupItem> socios)
+        public void ExportarListaFiltrada (List<LookupItem> socios, string fileName)
         {
-            var destinyPath = GeneratePath("FiltroSocios");
+            var destinyPath = fileName;// GeneratePath("FiltroSocios");
             DocX document = DocX.Create(destinyPath);
             string curFile = destinyPath;
             bool isFileInUse;
