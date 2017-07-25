@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Core.ObservableObject" Collapsed="true">
+    <Position X="1.5" Y="4.25" Width="1.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Core.ModelWrapper&lt;T&gt;" Collapsed="true">
+    <Position X="6" Y="5" Width="2" />
+    <InheritanceLine Type="Core.NotifyDataErrorInfoBase" FixedFromPoint="true">
+      <Path>
+        <Point X="5.75" Y="5.246" />
+        <Point X="6" Y="5.246" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Core.NotifyDataErrorInfoBase" Collapsed="true">
+    <Position X="3.75" Y="5" Width="2" />
+    <InheritanceLine Type="Core.ObservableObject" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.25" Y="4.497" />
+        <Point X="3.5" Y="4.497" />
+        <Point X="3.5" Y="5.205" />
+        <Point X="3.75" Y="5.205" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Core.TimestampedModelWrapper&lt;T&gt;" Collapsed="true">
+    <Position X="5.75" Y="6" Width="2.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.ModelBase" Collapsed="true">
+    <Position X="1.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Core.TimestampedModel" Collapsed="true">
+    <Position X="3" Y="6" Width="1.75" />
+    <InheritanceLine Type="Core.ModelBase" FixedToPoint="true">
+      <Path>
+        <Point X="2.25" Y="5.812" />
+        <Point X="2.25" Y="6.312" />
+        <Point X="3" Y="6.312" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier />
+  </Class>
+  <Interface Name="System.ComponentModel.DataAnnotations.IValidatableObject" Collapsed="true">
+    <Position X="6.25" Y="1.5" Width="2" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="System.ComponentModel.IChangeTracking" Collapsed="true">
+    <Position X="1.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Core.IValidatableTrackingObject" Collapsed="true">
+    <Position X="4.5" Y="3" Width="2.25" />
+    <InheritanceLine Type="System.ComponentModel.IChangeTracking" FixedToPoint="true">
+      <Path>
+        <Point X="2.25" Y="2.812" />
+        <Point X="2.25" Y="3.039" />
+        <Point X="4.5" Y="3.039" />
+      </Path>
+    </InheritanceLine>
+    <InheritanceLine Type="System.ComponentModel.IRevertibleChangeTracking" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.75" Y="3.688" />
+        <Point X="4.5" Y="3.677" />
+      </Path>
+    </InheritanceLine>
+    <InheritanceLine Type="System.ComponentModel.INotifyPropertyChanged" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.562" Y="2.812" />
+        <Point X="5.562" Y="3" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="System.ComponentModel.IRevertibleChangeTracking" Collapsed="true">
+    <Position X="1.5" Y="3.25" Width="2.25" />
+    <InheritanceLine Type="System.ComponentModel.IChangeTracking" FixedToPoint="true">
+      <Path>
+        <Point X="2.25" Y="2.812" />
+        <Point X="2.25" Y="3.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="System.ComponentModel.INotifyPropertyChanged" Collapsed="true">
+    <Position X="4.5" Y="2.25" Width="2.25" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="System.ComponentModel.INotifyDataErrorInfo" Collapsed="true">
+    <Position X="4" Y="1.5" Width="2" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

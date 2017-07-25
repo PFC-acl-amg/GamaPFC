@@ -67,7 +67,7 @@
     <TypeIdentifier />
   </Enum>
   <Enum Name="Gama.Common.Eventos.MensajeDeConexion">
-    <Position X="3.5" Y="6.25" Width="2" />
+    <Position X="5.75" Y="2.25" Width="2" />
     <TypeIdentifier />
   </Enum>
   <Font Name="Segoe UI" Size="9" />

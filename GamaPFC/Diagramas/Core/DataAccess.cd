@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Core.DataAccess.NHibernateOneSessionRepository&lt;TEntity, TKey&gt;" Collapsed="true">
+    <Position X="2" Y="1" Width="3.5" />
+    <Members>
+      <Method Name="Initialize" Hidden="true" />
+      <Method Name="NHibernateOneSessionRepository" Hidden="true" />
+    </Members>
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Core.DataAccess.DBHelper">
+    <Position X="6.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Gama.Atenciones.Wpf.Services.PersonaRepository" Collapsed="true">
+    <Position X="0.75" Y="2.5" Width="1.75" />
+    <InheritanceLine Type="Core.DataAccess.NHibernateOneSessionRepository&lt;TEntity, TKey&gt;" ManuallyRouted="true">
+      <Path>
+        <Point X="3.75" Y="1.562" />
+        <Point X="3.75" Y="2.917" />
+        <Point X="1.625" Y="2.917" />
+        <Point X="1.625" Y="2.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Gama.Atenciones.Wpf.Services.CitaRepository" Collapsed="true">
+    <Position X="0.75" Y="3.5" Width="1.75" />
+    <InheritanceLine Type="Core.DataAccess.NHibernateOneSessionRepository&lt;TEntity, TKey&gt;" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.75" Y="1.562" />
+        <Point X="3.75" Y="1.937" />
+        <Point X="0.375" Y="1.937" />
+        <Point X="0.375" Y="3.812" />
+        <Point X="0.75" Y="3.812" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Gama.Atenciones.Wpf.Services.AsistenteRepository" Collapsed="true">
+    <Position X="0.75" Y="4.5" Width="1.75" />
+    <InheritanceLine Type="Core.DataAccess.NHibernateOneSessionRepository&lt;TEntity, TKey&gt;" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.75" Y="1.562" />
+        <Point X="3.75" Y="1.937" />
+        <Point X="0.375" Y="1.937" />
+        <Point X="0.375" Y="4.875" />
+        <Point X="0.75" Y="4.875" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Gama.Cooperacion.Wpf.Services.ActividadRepository" Collapsed="true">
+    <Position X="5" Y="2.5" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Gama.Cooperacion.Wpf.Services.CooperanteRepository" Collapsed="true">
+    <Position X="5" Y="3.5" Width="2" />
+    <InheritanceLine Type="Core.DataAccess.NHibernateOneSessionRepository&lt;TEntity, TKey&gt;" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.75" Y="1.562" />
+        <Point X="3.75" Y="1.937" />
+        <Point X="4.877" Y="1.937" />
+        <Point X="4.877" Y="3.812" />
+        <Point X="5" Y="3.812" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Gama.Socios.Wpf.Services.SocioRepository" Collapsed="true">
+    <Position X="2.75" Y="2.5" Width="2" />
+    <InheritanceLine Type="Core.DataAccess.NHibernateOneSessionRepository&lt;TEntity, TKey&gt;" ManuallyRouted="true">
+      <Path>
+        <Point X="3.75" Y="1.562" />
+        <Point X="3.75" Y="3.031" />
+        <Point X="3.75" Y="3.031" />
+        <Point X="3.75" Y="2.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Gama.Socios.Wpf.Services.PeriodoDeAltaRepository" Collapsed="true">
+    <Position X="2.75" Y="3.5" Width="2" />
+    <InheritanceLine Type="Core.DataAccess.NHibernateOneSessionRepository&lt;TEntity, TKey&gt;" ManuallyRouted="true">
+      <Path>
+        <Point X="3.75" Y="1.562" />
+        <Point X="3.75" Y="2.9" />
+        <Point X="4.366" Y="2.9" />
+        <Point X="4.366" Y="4.346" />
+        <Point X="3.75" Y="4.346" />
+        <Point X="3.75" Y="3.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Gama.Atenciones.DataAccess.NHibernateSessionFactory" Collapsed="true">
+    <Position X="3.25" Y="6.25" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Gama.Cooperacion.DataAccess.NHibernateSessionFactory" Collapsed="true">
+    <Position X="3.25" Y="7.25" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Gama.Socios.DataAccess.NHibernateSessionFactory" Collapsed="true">
+    <Position X="3.25" Y="8.25" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Core.DataAccess.INHibernateSessionFactory" Collapsed="true">
+    <Position X="3.25" Y="5.25" Width="3.25" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

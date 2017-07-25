@@ -46,7 +46,7 @@
 
 
     <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Margin="10" >
-      <Label x:Name="_Label1" Style="{StaticResource _LabelStyle}" Content="Modify this text in the code behind..." Visibility="Visible"/>
+      <Label x:Name="_Label1" Style="{StaticResource _LabelStyle}" Content="Se modifica automáticamente a medida que avanza..." Visibility="Visible"/>
       <Label x:Name="_Label2" Style="{StaticResource _LabelStyle}" Content="Modify this text in the code behind..." Visibility="Hidden"/>
       <Label x:Name="_Label3" Style="{StaticResource _LabelStyle}" Content="Modify this text in the code behind..." Visibility="Hidden"/>
       <Label x:Name="_Label4" Style="{StaticResource _LabelStyle}" Content="Modify this text in the code behind..." Visibility="Hidden"/>

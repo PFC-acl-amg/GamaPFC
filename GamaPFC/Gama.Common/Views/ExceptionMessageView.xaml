@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Gama.Common.Views"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Excepción No Manejada" Width="764.613" d:DesignHeight="157.319">
+        Title="Excepción No Manejada" Width="450.836" d:DesignHeight="190.019">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>

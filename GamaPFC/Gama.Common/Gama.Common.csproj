@@ -127,6 +127,7 @@
     <Compile Include="BaseClasses\UnityBootstrapperBase.cs" />
     <Compile Include="Communication\ClientService.cs" />
     <Compile Include="CustomControls\CircleIconButton.cs" />
+    <Compile Include="CustomControls\CircleIconImage.cs" />
     <Compile Include="CustomControls\LimitedCollectionView.cs" />
     <Compile Include="CustomControls\LimitedListCollectionView.cs" />
     <Compile Include="CustomControls\ListBoxItemBehaviour.cs" />
