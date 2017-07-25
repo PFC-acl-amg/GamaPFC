@@ -50,7 +50,7 @@ namespace Gama.Socios.Wpf
         {
             base.InitializeShell();
 
-            BitmapImage icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/icono_modulo_cooperacion.png"));
+            BitmapImage icon = new BitmapImage(new Uri("pack://application:,,,/Gama.Common;component/Resources/Images/icono_modulo_socios.png"));
 
             ((ShellViewModel)((FrameworkElement)Shell).DataContext).Title = "GESTIÓN DE SOCIOS";
             ((ShellViewModel)((FrameworkElement)Shell).DataContext).IconSource = icon;
