@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Util;
 using Gama.Common.CustomControls;
 using Gama.Common.Eventos;
 using Gama.Socios.Business;
@@ -275,6 +276,7 @@ namespace Gama.Socios.Wpf.ViewModels
 
             if (saveFileDialog.ShowDialog() == true)
             {
+                UIServices.SetBusyState();
                 _ExportService.ExportarListaFiltrada(ListaFiltrada, saveFileDialog.FileName);
             }
         }
