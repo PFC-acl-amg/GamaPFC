@@ -131,6 +131,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             ForosDisponibles.Clear();
             ForosDisponibles.AddRange(todasLosForos);
             OnPropertyChanged(nameof(ForosDisponibles)); // No se si hace falta
+            _actividadRepository.RaiseActualizarServidor();
         }
         private void OnBorrarTareaCommand(object wrapper)
         {
@@ -143,7 +144,9 @@ namespace Gama.Cooperacion.Wpf.ViewModels
             TareasDisponibles.Clear();
             TareasDisponibles.AddRange(todasLasTareas);
             OnPropertyChanged(nameof(TareasDisponibles)); // No se si hace falta
+            _actividadRepository.RaiseActualizarServidor();
         }
+
         private void OnResetearFechaEventosCommandExecute()
         {
             FechaInicioOpcion = null;

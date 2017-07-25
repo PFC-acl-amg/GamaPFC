@@ -38,7 +38,7 @@ namespace Gama.Cooperacion.Wpf.Services
             }
         }
 
-        private void RaiseActualizarServidor()
+        public void RaiseActualizarServidor()
         {
             if (CooperacionResources.ClientService != null && CooperacionResources.ClientService.IsConnected())
                 CooperacionResources.ClientService.EnviarMensaje($"Cliente {CooperacionResources.ClientId} ha hecho un broadcast @@{Guid.NewGuid()}%%COOPERACION");

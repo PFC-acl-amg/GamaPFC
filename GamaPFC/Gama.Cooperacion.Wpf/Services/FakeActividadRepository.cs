@@ -103,5 +103,10 @@ namespace Gama.Cooperacion.Wpf.Services
         {
             throw new NotImplementedException();
         }
+
+        public void RaiseActualizarServidor()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

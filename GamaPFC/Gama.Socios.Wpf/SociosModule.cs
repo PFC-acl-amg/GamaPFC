@@ -61,7 +61,7 @@ namespace Gama.Socios.Wpf
             Container.RegisterType<NuevoSocioViewModel>();
             Container.RegisterType<PanelSwitcherViewModel>();
             Container.RegisterType<SociosContentViewModel>(new ContainerControlledLifetimeManager());
-            //Container.RegisterType<SocioViewModel>();
+            Container.RegisterType<SocioViewModel>();
             Container.RegisterType<ToolbarViewModel>();
             Container.RegisterType<PreferenciasViewModel>();
             Container.RegisterType<RightCommandsViewModel>();
@@ -74,7 +74,7 @@ namespace Gama.Socios.Wpf
             //RegionManager.RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(ToolbarView));
             //RegionManager.RegisterViewWithRegion(RegionNames.SearchBoxRegion, typeof(SearchBoxView));
             //RegionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
-            RegionManager.RegisterViewWithRegion(RegionNames.RightCommandsRegion, typeof(RightCommandsView));
+            //RegionManager.RegisterViewWithRegion(RegionNames.RightCommandsRegion, typeof(RightCommandsView));
             //RegionManager.RegisterViewWithRegion(RegionNames.PreferenciasRegion, typeof(PreferenciasView));
             //RegionManager.RequestNavigate(RegionNames.ContentRegion, "DashboardView");
 

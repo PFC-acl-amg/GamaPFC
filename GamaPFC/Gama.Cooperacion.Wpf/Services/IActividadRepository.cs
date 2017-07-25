@@ -32,5 +32,6 @@ namespace Gama.Cooperacion.Wpf.Services
         List<int> GetActividadesNuevasPorMes(int numeroDeMeses);
 
         void DeleteAll();
+         void RaiseActualizarServidor();
     }
 }
