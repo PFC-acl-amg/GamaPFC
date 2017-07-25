@@ -137,7 +137,7 @@ namespace Gama.Cooperacion.Wpf.ViewModels
                 FechaDePublicacion = DateTime.Now,
                 Foro = foroSeleccionado.Model
             });
-            foroSeleccionado.Mensajes.Add(nuevoMensaje);//Con esta instruccion se añade la incidencia al wrapper
+            foroSeleccionado.Mensajes.Insert(0, nuevoMensaje);//Con esta instruccion se añade la incidencia al wrapper
                                                         // y se anade la informacion al .Model menos a que tarea pertenece la incidencia
                                                         // con lo que el mapeo en la bade de datos falla porque a la incidenia deja a nulo
                                                         // la tarea-id a la que petenece => para que tome el id del foro al que pertenece al crear 

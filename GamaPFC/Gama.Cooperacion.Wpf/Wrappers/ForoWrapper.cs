@@ -23,7 +23,7 @@ namespace Gama.Cooperacion.Wpf.Wrappers
             }
 
             this.Mensajes = new ChangeTrackingCollection<MensajeWrapper>
-                (model.Mensajes.Select(c => new MensajeWrapper(c)));
+                (model.Mensajes.Select(c => new MensajeWrapper(c)).OrderByDescending(c => c.FechaDePublicacion));
             this.RegisterCollection(this.Mensajes, model.Mensajes);
         }
         public ChangeTrackingCollection<MensajeWrapper> Mensajes { get; private set; }

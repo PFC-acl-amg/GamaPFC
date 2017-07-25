@@ -67,8 +67,8 @@ namespace Gama.Socios.Wpf.ViewModels
             _SocioRepository.Session = session;
             _PeriodosDeAltaRepository.Session = session;
 
-            _VisibleOpcionesFiltro = false;
-            _VisibleContableGeneral = false;
+            _VisibleOpcionesFiltro = true;
+            _VisibleContableGeneral = true;
             _VisibleFiltroFechas = false;
 
             _CuotasPorPagar = 1;
